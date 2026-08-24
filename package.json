@@ -1,0 +1,11 @@
+{
+  "name": "l3vlup-open-data",
+  "private": true,
+  "type": "module",
+  "description": "Collectors for the open finance data published by L3VLUP.",
+  "scripts": {
+    "calendar": "node scripts/sync-calendar.mjs",
+    "deals": "node scripts/sync-deals.mjs",
+    "macro": "node scripts/sync-macro.mjs"
+  }
+}

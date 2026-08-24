@@ -1,0 +1,60 @@
+name: Collect open data
+
+# This runs on a PUBLIC repo, where GitHub Actions minutes are unlimited and
+# free. The L3VLUP site reads the JSON committed here via its DATA_BASE_URL.
+#
+# Every source is a public government feed or press wire, so there are no
+# secrets and a fork can run this unchanged.
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # daily: calendar and deal tape
+    - cron: '0 7 * * 1' # Mondays: the above plus the macro chartbook
+  workflow_dispatch:
+    inputs:
+      full_history:
+        description: 'Rebuild all 26 years of Treasury history (slow, ~9 min)'
+        type: boolean
+        default: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Economic calendar
+        continue-on-error: true
+        run: node scripts/sync-calendar.mjs
+
+      - name: Deal tape
+        continue-on-error: true
+        run: node scripts/sync-deals.mjs
+
+      # Weekly only, or whenever the workflow is run by hand.
+      - name: Macro chartbook
+        if: github.event.schedule != '0 6 * * *'
+        continue-on-error: true
+        env:
+          FULL_HISTORY: ${{ inputs.full_history && '1' || '0' }}
+        run: node scripts/sync-macro.mjs
+
+      - name: Commit
+        run: |
+          git config user.name "l3vlup-bot"
+          git config user.email "68951812+Surojitc@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No changes."
+          else
+            git commit -m "chore(data): scheduled collection"
+            for i in 1 2 3; do
+              git push && break
+              git pull --rebase origin main
+            done
+          fi
