@@ -6,25 +6,22 @@ look professional" is not a spec and cannot be checked.
 
 ## The bar we are building to
 
-Two products define the standard for AI-produced finance work, and they define it in
-different directions:
+An output has to survive three different readers, and they fail it for different
+reasons.
 
-**[Rogo](https://rogo.com/rogo-home)** is the format bar. It sits inside the bank's
-own workflow and returns Excel models, PowerPoint pages and Word memos already in the
-firm's template, with source footnotes, because a deliverable that needs reformatting
-before it can be shown has not saved anybody any time. Its own framing is that every
-output has to meet the auditability and citation standards institutional clients
-demand.
+**The person who has to use it.** They open the file in a meeting. If the colours
+drift from convention, the gridlines are on, the numbers are unformatted or it does
+not fit a page, they reformat it before showing it — and nothing was saved. A
+deliverable that needs work before it can be shown is not a deliverable.
 
-**[Hudson Labs](https://www.hudson-labs.com/)** is the sourcing bar. It works off SEC
-filings and nothing else, cites the filing behind every claim, and scores forensic
-risk against ten years of enforcement actions. Analysts trust it because the output is
-citeable, not because it sounds confident.
+**The person who has to question it.** They pick one number and ask where it came
+from. If the answer is a shrug, an aggregator or "the model produced it", everything
+above and below that number is now suspect too. Every figure has to resolve to a
+filing, a period and an accession number, or it should not be in the file.
 
-L3VLUP is a teaching product rather than a terminal, so we take the format discipline
-from the first and the sourcing discipline from the second, and we add the thing
-neither has to do: **the output has to teach the person holding it why it is built
-this way.** A student who receives a comps sheet should finish the day able to build
+**The person who is learning from it.** This is the one that makes us different from
+a terminal. L3VLUP is a teaching product, so the output has to teach the convention it
+is built in. Someone who receives a comps sheet should finish the day able to build
 one without us.
 
 That gives three tests every output must pass.
@@ -140,7 +137,7 @@ than leaving the reader to notice.
 
 ## Teaching layer
 
-The thing Rogo and Hudson Labs do not need to do, and we do.
+The part a data terminal does not have to do, and we do.
 
 - **Notes on the face of the sheet.** Grey, 8pt, under the block they explain. What
   blue means. What an em dash means. What a red balance check means.
