@@ -52,8 +52,13 @@ def build(target: str, peers: list[str], out_dir: Path, years: int = 3) -> Path:
 
     cols = [(t, False) for t in loaded]
     n = len(cols)
-    book = Book(f"{target.upper()} comparable companies",
-                period_caption="Comparable companies")
+    book = Book(
+        f"{target.upper()} comparable companies",
+        period_caption="Comparable companies",
+        doc_title=f"Trading Comparables \u2014 {target.upper()}",
+        skill="Comps Set Builder",
+        skill_url="l3vlup.com/skills/comps-set-builder",
+    )
 
     # ------------------------------------------------------------------ Comps
     s = book.sheet("Comps", title="Trading comparables",
@@ -228,8 +233,25 @@ def build(target: str, peers: list[str], out_dir: Path, years: int = 3) -> Path:
 
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{target.upper()}_comps.xlsx"
-    book.save(path, unsourced_note="Share price and forward consensus are user inputs and "
-                                   "carry no filing provenance by design.")
+    book.save(
+        path,
+        unsourced_note=("Share price and forward consensus are user inputs and carry no "
+                        "filing provenance by design."),
+        what_this_is=(
+            f"A trading-comparables sheet for {target.upper()} against "
+            f"{len(loaded) - 1} peers. Fundamentals come from each filer\u2019s own filings; "
+            "every multiple, median and mean is a live formula, so changing one price moves "
+            "the whole sheet. The Inclusion tab is the part that matters: fill in why each "
+            "name belongs, which names you rejected, and every adjustment you made, before "
+            "showing this to anyone."),
+        source_note=(
+            "Revenue, EBITDA inputs, debt, cash and share counts come from each company\u2019s "
+            "SEC filings. Share price and forward consensus are NOT filing data: they are "
+            "shaded input cells for you to fill from your own licensed feed. The workbook "
+            "will not guess a price and then print a multiple off it. EBITDA is built in the "
+            "sheet from operating income plus D&A, because EBITDA is not a GAAP tag and any "
+            "figure claiming to be one is somebody\u2019s adjustment."),
+    )
     return path
 
 

@@ -56,17 +56,36 @@ p = profile_build("FIXA", 5, out)
 print("company-profile ->", p.relative_to(ROOT))
 
 import openpyxl  # noqa: E402
+from lib.banker_xlsx import BAND_FILL, FIRST_BODY_ROW  # noqa: E402
+
 wb = openpyxl.load_workbook(p)
 print("  sheets:", wb.sheetnames)
+assert wb.sheetnames[0] == "Cover", "the notices must open with the file"
 src = wb["Sources"]
-n = sum(1 for r in range(8, src.max_row + 1) if src.cell(r, 3).value)
+n = sum(1 for r in range(FIRST_BODY_ROW, src.max_row + 1) if src.cell(r, 3).value)
 print("  sourced figures indexed:", n)
 assert n > 0, "no provenance recorded — the audit trail is empty"
-assert "Sources" in wb.sheetnames
 ws = wb["Income Statement"]
-assert ws.freeze_panes == "D7"
+assert ws.freeze_panes == f"D{FIRST_BODY_ROW}"
 assert ws.sheet_view.showGridLines is False
-print("  chrome ok (freeze D7, gridlines off)")
+print(f"  chrome ok (freeze D{FIRST_BODY_ROW}, gridlines off)")
+
+# --- masthead and notices ---------------------------------------------------
+for name in wb.sheetnames:
+    sh = wb[name]
+    band = [sh.cell(r, 2).fill.fgColor.rgb for r in (1, 2, 3)]
+    assert all(b == BAND_FILL.fgColor.rgb for b in band), f"{name} has no masthead band"
+    assert len(sh._images) >= 1 or sh.cell(2, 2).value == "L3VLUP", \
+        f"{name} masthead carries no wordmark"
+print("  masthead band + wordmark on all", len(wb.sheetnames), "tabs")
+
+cover = wb["Cover"]
+text = " ".join(str(cover.cell(r, 2).value or "") for r in range(1, cover.max_row + 1))
+for phrase in ("EDUCATIONAL USE ONLY", "NOT INVESTMENT", "NO RELIANCE", "NO WARRANTY",
+               "LIMITATION OF LIABILITY", "THIRD-PARTY DATA", "All rights reserved",
+               "How to read it", "Where the numbers come from"):
+    assert phrase in text, f"cover is missing: {phrase}"
+print("  cover carries all notices, colour key and copyright")
 
 from skills.comps_shim import build as comps_build  # noqa: E402
 

@@ -104,9 +104,14 @@ Negatives sit in parentheses everywhere. Not a minus sign, not red text.
 - Column **B** holds labels, 38 wide.
 - Column **C** is a 1.7-wide spacer.
 - Data starts at **D**, 13 wide per period.
-- Rows 2–5 are the header block: entity, sheet title, source line, units line.
-- Row 6 is the period row, right-aligned, navy, `yyyy"A"` or `yyyy"E"`.
-- Body starts at row 7. **Freeze panes at D7.**
+- **Rows 1–3 are the masthead band**: navy fill across the full width, with the
+  wordmark anchored at B2. It is on *every* sheet, not just the cover, because a
+  single tab is what actually gets printed, pasted into a deck or emailed on its
+  own — the identification has to travel with the page.
+- Rows 4–7 are the header block: entity, sheet title, source line, units line.
+- Row 8 is the period row, right-aligned, navy, `yyyy"A"` or `yyyy"E"`.
+- Body starts at row 9. **Freeze panes at D9.**
+- The footer carries `L3VLUP` left and `Page n of m — see Cover for notices` right.
 - Gridlines off. Landscape. Fit to one page wide. Print area set.
 - Section headers carry a thin navy bottom border. Subtotals are bold.
 - `% margin` and `% growth` are grey italic indented sub-rows, and they are **always
@@ -117,6 +122,41 @@ Negatives sit in parentheses everywhere. Not a minus sign, not red text.
 Any statement that can be checked, is. The balance sheet carries an
 assets-less-liabilities-and-equity row with conditional red formatting on non-zero.
 A workbook that does not tie should announce that itself rather than wait to be caught.
+
+## The cover page
+
+Every workbook opens on a **Cover** tab, inserted at position 0 so the notices are
+seen before the numbers are used rather than found afterwards by someone looking for
+them. It carries, in order:
+
+1. **Masthead** — the taller version of the band.
+2. **Document title, skill and generated timestamp** — so a file found on a shared
+   drive in six months can be dated and traced back to what produced it.
+3. **What this is** — one paragraph, written per skill. Also says what it is *not*:
+   the company profile states plainly that it is the base layer a thesis gets built
+   on, not a thesis.
+4. **How to read it** — the colour key, spelled out. Blue, black, green, red fill and
+   the em dash each get a line. This is the teaching test made concrete: the reader
+   learns the convention from the file rather than being expected to arrive knowing it.
+5. **Where the numbers come from** — the source policy, stated for this specific
+   document with the CIK in it.
+6. **Important notices** — educational use only; not investment, legal, tax or
+   accounting advice; no reliance; no warranty; limitation of liability; third-party
+   data attribution. Headed in red, body in near-black rather than grey, because
+   grey 8pt legal text is how you signal that you do not want it read.
+7. **Copyright** — `© <year> L3VLUP. All rights reserved.`, the licence grant to the
+   named recipient, the prohibition on resale, redistribution and competing-product
+   or dataset training, and an explicit carve-out that the underlying filing data is
+   public domain and is not claimed as L3VLUP property.
+
+The notices are not boilerplate to be pasted and forgotten. Two of them are doing
+real work:
+
+- **No reliance** points the reader at the filing links and tells them to verify —
+  which is only a credible instruction because the Sources tab makes it a click.
+- **Third-party data** makes clear the SEC does not endorse the workbook, and that
+  any consensus or price the user types in is governed by whichever feed licence
+  they hold, not by ours.
 
 ## The Sources tab
 
@@ -158,6 +198,8 @@ The part a data terminal does not have to do, and we do.
 - [ ] Actuals and estimates are visually separated and separately labelled
 - [ ] Trailing **and** forward multiples present in any valuation output
 - [ ] Tie-out rows present and passing
+- [ ] Masthead band on every sheet, cover tab first in the workbook
+- [ ] Notices and copyright present and current-year
 - [ ] Gridlines off, freeze panes set, print area set, landscape fit-to-width
 - [ ] Notes explain the conventions to a reader who has never seen the file
 - [ ] Rationale fields present wherever judgement was exercised

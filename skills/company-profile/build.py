@@ -44,7 +44,13 @@ def build(ticker: str, years: int, out_dir: Path) -> Path:
     if n == 0:
         raise SystemExit(f"No annual filing data found for {ticker} on EDGAR.")
 
-    book = Book(f"{st.name} ({st.ticker})", period_caption="For Fiscal Year Ending")
+    book = Book(
+        f"{st.name} ({st.ticker})",
+        period_caption="For Fiscal Year Ending",
+        doc_title=f"Company Profile \u2014 {st.name} ({st.ticker})",
+        skill="Company Profile",
+        skill_url="l3vlup.com/skills/company-profile",
+    )
     periods = st.period_labels
 
     # ---------------------------------------------------------------- Profile
@@ -163,9 +169,23 @@ def build(ticker: str, years: int, out_dir: Path) -> Path:
 
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{st.ticker}_company_profile.xlsx"
-    unsourced = ("Some lines are blank because the filer did not tag them — see the Profile tab note."
-                 if st.missing else "")
-    book.save(path, unsourced_note=unsourced)
+    unsourced = ("Some lines are blank because the filer did not tag them \u2014 see the "
+                 "Profile tab note." if st.missing else "")
+    book.save(
+        path,
+        unsourced_note=unsourced,
+        what_this_is=(
+            f"A banker one-pager on {st.name}: {len(st.years)} fiscal years of income "
+            "statement, balance sheet and cash flow exactly as filed, with growth, margins "
+            "and free cash flow computed live in the workbook so every derived figure can "
+            "be traced by clicking it. It is the base layer a thesis gets built on, not a "
+            "thesis."),
+        source_note=(
+            f"Every historic figure is taken from {st.ticker}\u2019s own XBRL tags in its SEC "
+            f"filings (CIK {st.cik}), preferring the original annual report for each year "
+            "over a later filing\u2019s restated comparative. Where the filer did not tag a "
+            "line, the workbook shows an em dash rather than a zero or an estimate."),
+    )
     return path
 
 

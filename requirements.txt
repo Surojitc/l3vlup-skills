@@ -1,2 +1,5 @@
 # Skill workbook builders. The data collectors are Node and have no dependencies.
 openpyxl>=3.1
+
+# Skill workbooks need Pillow for the masthead wordmark
+Pillow>=10.0

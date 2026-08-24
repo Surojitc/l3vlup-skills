@@ -34,6 +34,8 @@ Conventions (do not drift from these — they are the calibration contract):
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Iterable, Sequence
 
 import openpyxl
@@ -53,6 +55,16 @@ CURRENCY_SYMBOL = {
     "USD": "$", "EUR": "€", "GBP": "£", "JPY": "¥",
     "CNY": "¥", "CHF": "CHF", "CAD": "C$", "AUD": "A$", "INR": "₹",
 }
+
+#: Masthead band. Every sheet opens with it so a page torn out of the workbook
+#: still says where it came from.
+BAND_FILL = PatternFill("solid", fgColor="FF0F172A")   # navy, the brand ground
+BAND_ROWS = (1, 2, 3)
+BAND_HEIGHTS = {1: 6, 2: 26, 3: 6}
+#: Rows 1-3 are the band, 4-7 the header block, 8 the period row, 9 the first body row.
+FIRST_BODY_ROW = 9
+PERIOD_ROW = 8
+ASSETS = Path(__file__).parent / "assets"
 
 _THIN_BOTTOM = Border(bottom=Side(style="thin", color=NAVY))
 _TOP_RULE = Border(top=Side(style="thin", color="FFBFBFBF"))
@@ -129,7 +141,7 @@ class Sheet:
         self.units = units if units is not None else book.units
         self.link_to_summary = link_to_summary
         self._rows: list[_Row] = []
-        self._r = 7  # first body row, header occupies 2-6
+        self._r = FIRST_BODY_ROW  # band 1-3, header 4-7, period row 8
 
     # ---- content -------------------------------------------------------
 
@@ -234,26 +246,31 @@ class Sheet:
 
     def finish(self) -> "Sheet":
         ws, n = self.ws, len(self.periods)
+        last_col_idx = DATA0 + max(n, 1) + 1
+
+        _masthead(ws, last_col_idx)
 
         if self.link_to_summary and self.book.has_summary and self.title != self.book.summary_name:
-            ws.cell(2, LBL, f"=+'{self.book.summary_name}'!B2").font = Font(bold=True, color=GREEN, size=11)
+            ws.cell(4, LBL, f"=+'{self.book.summary_name}'!B4").font = Font(
+                bold=True, color=GREEN, size=11)
         else:
-            ws.cell(2, LBL, self.book.company).font = Font(bold=True, color=NAVY, size=11)
-        ws.cell(3, LBL, self.title).font = Font(bold=True, color=NAVY, size=12)
+            ws.cell(4, LBL, self.book.company).font = Font(bold=True, color=NAVY, size=11)
+        ws.cell(5, LBL, self.title).font = Font(bold=True, color=NAVY, size=12)
         if self.subtitle:
-            ws.cell(4, LBL, self.subtitle).font = Font(italic=True, color=GREY, size=9)
+            ws.cell(6, LBL, self.subtitle).font = Font(italic=True, color=GREY, size=9)
         if self.units:
-            ws.cell(5, LBL, self.units).font = Font(italic=True, color=GREY, size=9)
+            ws.cell(7, LBL, self.units).font = Font(italic=True, color=GREY, size=9)
 
         if self.periods:
-            ws.cell(5, DATA0, self.book.period_caption).font = Font(bold=True, color=NAVY, size=9)
-            for k, (label, is_est) in enumerate(self.periods):
-                c = ws.cell(6, DATA0 + k, label)
+            ws.cell(7, DATA0, self.book.period_caption).font = Font(
+                bold=True, color=NAVY, size=9)
+            for k, (label, _is_est) in enumerate(self.periods):
+                c = ws.cell(PERIOD_ROW, DATA0 + k, label)
                 c.font = Font(bold=True, color=NAVY, size=10)
                 c.alignment = Alignment(horizontal="right")
                 c.border = _THIN_BOTTOM
             if self.book.sources:
-                sc = ws.cell(6, DATA0 + n + 1, "Src")
+                sc = ws.cell(PERIOD_ROW, DATA0 + n + 1, "Src")
                 sc.font = Font(bold=True, color=GREY, size=8)
 
         ws.sheet_view.showGridLines = False
@@ -269,10 +286,54 @@ class Sheet:
         ws.column_dimensions[get_column_letter(DATA0 + n)].width = 1.7
         ws.column_dimensions[get_column_letter(DATA0 + n + 1)].width = 10
 
-        last_col = get_column_letter(DATA0 + max(n, 1) + 1)
-        ws.print_area = f"B2:{last_col}{max(self._r, 8)}"
-        ws.freeze_panes = "D7"
+        last_col = get_column_letter(last_col_idx)
+        ws.print_area = f"A1:{last_col}{max(self._r, FIRST_BODY_ROW)}"
+        ws.freeze_panes = f"D{FIRST_BODY_ROW}"
+        ws.oddHeaderFooter = ws.oddFooter
+        ws.oddFooter.left.text = "L3VLUP"
+        ws.oddFooter.left.size = 8
+        ws.oddFooter.left.color = "808080"
+        ws.oddFooter.right.text = "Page &P of &N — see Cover for notices"
+        ws.oddFooter.right.size = 8
+        ws.oddFooter.right.color = "808080"
         return self
+
+
+def _masthead(ws, last_col_idx: int, *, tall: bool = False) -> None:
+    """
+    The navy band with the wordmark, at the top of every sheet.
+
+    A single tab is what actually gets printed, pasted into a deck or emailed on
+    its own, so the identification has to live on the sheet rather than only on a
+    cover page nobody exports.
+    """
+    heights = {1: 10, 2: 46, 3: 10} if tall else dict(BAND_HEIGHTS)
+    for r in BAND_ROWS:
+        ws.row_dimensions[r].height = heights[r]
+        for c in range(1, last_col_idx + 1):
+            ws.cell(r, c).fill = BAND_FILL
+
+    logo = ASSETS / "l3vlup-logo-white.png"
+    if logo.exists():
+        try:
+            from openpyxl.drawing.image import Image as XLImage
+
+            img = XLImage(str(logo))
+            # Read the aspect off the asset rather than hard-coding it, so the
+            # band stays correct if the wordmark is ever redrawn.
+            aspect = (img.width / img.height) if img.height else 5.36
+            img.height = 32 if tall else 19
+            img.width = round(img.height * aspect)
+            img.anchor = "B2"
+            ws.add_image(img)
+            return
+        except Exception:
+            pass  # fall through to the text wordmark
+
+    # Fallback when the raster is unavailable: the wordmark as styled text.
+    c = ws.cell(2, LBL, "L3VLUP")
+    c.font = Font(bold=True, color="FFFFFFFF", size=16 if tall else 12)
+    c.alignment = Alignment(vertical="center")
 
 
 class Book:
@@ -281,7 +342,12 @@ class Book:
     def __init__(self, company: str, *, currency: str = "USD",
                  units: str = "($ in millions, except per share)",
                  period_caption: str = "For Fiscal Year Ending",
-                 summary_name: str = "Summary"):
+                 summary_name: str = "Summary",
+                 doc_title: str = "", skill: str = "", skill_url: str = ""):
+        self.doc_title = doc_title or company
+        self.skill = skill
+        self.skill_url = skill_url
+        self.generated = datetime.now(timezone.utc)
         self.company = company
         self.currency = currency
         self.symbol = CURRENCY_SYMBOL.get(currency, currency + " ")
@@ -313,41 +379,154 @@ class Book:
         self._sheets.append(sh)
         return sh
 
+    def write_cover_sheet(self, *, what_this_is: str = "",
+                          source_note: str = "") -> None:
+        """
+        The front page: what the file is, how to read it, and the notices.
+
+        It goes first in the tab order because the notices have to be seen before
+        the numbers are used, not found afterwards by someone looking for them.
+        """
+        ws = self.wb.create_sheet("Cover", 0)
+        LAST = 8
+        _masthead(ws, LAST, tall=True)
+
+        r = 5
+        ws.cell(r, LBL, self.doc_title).font = Font(bold=True, color=NAVY, size=18)
+        r += 1
+        if self.skill:
+            ws.cell(r, LBL, f"Produced by the L3VLUP {self.skill} skill").font = Font(
+                italic=True, color=GREY, size=10)
+            r += 1
+        ws.cell(r, LBL, "Generated " + self.generated.strftime("%d %B %Y at %H:%M UTC")
+                ).font = Font(italic=True, color=GREY, size=10)
+        r += 2
+
+        def block(title: str, lines: list[str], *, colour: str = NAVY,
+                  body_colour: str | None = None, size: int = 9) -> None:
+            nonlocal r
+            c = ws.cell(r, LBL, title)
+            c.font = Font(bold=True, color=colour, size=10)
+            c.border = _THIN_BOTTOM
+            for k in range(1, LAST):
+                ws.cell(r, LBL + k).border = _THIN_BOTTOM
+            r += 1
+            for line in lines:
+                cell = ws.cell(r, LBL, line)
+                cell.font = Font(color=body_colour or GREY, size=size)
+                cell.alignment = Alignment(wrap_text=True, vertical="top")
+                ws.merge_cells(start_row=r, start_column=LBL, end_row=r, end_column=LAST)
+                ws.row_dimensions[r].height = max(14, 13 * (len(line) // 110 + 1))
+                r += 1
+            r += 1
+
+        if what_this_is:
+            block("What this is", [what_this_is])
+
+        block("How to read it", [
+            "BLUE  \u2014  a hard input, or a value pulled straight from a filing. Something a human can change.",
+            "BLACK  \u2014  a formula computed inside this workbook. Do not overtype it.",
+            "GREEN  \u2014  a link to another sheet in this workbook.",
+            "RED FILL  \u2014  a tie-out that failed. Investigate before using the workbook.",
+            "AN EM DASH  \u2014  the filer did not tag that line. It does not mean zero.",
+            "Every [n] marker beside a row resolves on the Sources tab to a tag, a period, a form and an accession number.",
+        ])
+
+        block("Where the numbers come from", [
+            source_note or
+            "Historic financials are taken from SEC EDGAR XBRL company facts \u2014 the filer\u2019s own tagged "
+            "figures as submitted. Not an aggregator, not a screener, not a language model\u2019s recollection. "
+            "Share price and forward consensus are not filing data and are left as marked input cells rather "
+            "than guessed.",
+        ])
+
+        block("Important notices", [
+            "EDUCATIONAL USE ONLY. This workbook is produced by L3VLUP as a training and learning aid. It is "
+            "not investment research, not a recommendation, and not an offer or solicitation to buy or sell any "
+            "security or financial instrument.",
+
+            "NOT INVESTMENT, LEGAL, TAX OR ACCOUNTING ADVICE. Nothing in this file constitutes advice of any "
+            "kind and it takes no account of the objectives, financial situation or needs of any person. Obtain "
+            "advice from a suitably qualified and regulated professional before acting on anything here.",
+
+            "NO RELIANCE. The figures are assembled automatically from third-party filings and may be "
+            "incomplete, mis-tagged at source, superseded by a later restatement, or wrong. Independently "
+            "verify every figure against the underlying filing \u2014 which is why each one is linked \u2014 before "
+            "relying on it for any purpose. Past performance is not a guide to future performance.",
+
+            "NO WARRANTY. This workbook is provided \u201cas is\u201d and \u201cas available\u201d, without warranty of any "
+            "kind, express or implied, including any warranty of accuracy, completeness, merchantability or "
+            "fitness for a particular purpose.",
+
+            "LIMITATION OF LIABILITY. To the fullest extent permitted by law, L3VLUP and its officers, employees "
+            "and contributors accept no liability for any loss or damage \u2014 including any direct, indirect, "
+            "incidental, consequential or economic loss, loss of profit, or loss of data \u2014 arising out of or in "
+            "connection with the use of, or reliance on, this workbook or anything in it. Nothing in this notice "
+            "limits or excludes any liability that cannot lawfully be limited or excluded.",
+
+            "THIRD-PARTY DATA. Filing data originates from the U.S. Securities and Exchange Commission\u2019s EDGAR "
+            "system and is in the public domain. The SEC does not endorse, sponsor or verify this workbook. "
+            "Any figures you enter yourself remain governed by the terms of whichever data provider supplied "
+            "them, and it is your responsibility to hold the necessary licence for them.",
+        ], colour=RED, body_colour="FF333333")
+
+        block("Copyright", [
+            f"\u00a9 {self.generated.year} L3VLUP. All rights reserved.",
+            "The structure, layout, formulas, wording and conventions of this workbook are the property of "
+            "L3VLUP. It is licensed to the named recipient for their own personal study and professional work. "
+            "You may not resell it, redistribute it, publish it, or use it to build or train a competing product "
+            "or dataset, in whole or in part, without prior written permission.",
+            "Underlying filing data is public domain and is not claimed as L3VLUP property.",
+            "l3vlup.com" + (f"  \u00b7  {self.skill_url}" if self.skill_url else ""),
+        ])
+
+        ws.sheet_view.showGridLines = False
+        ws.page_setup.orientation = "portrait"
+        ws.page_setup.fitToWidth = 1
+        ws.page_setup.fitToHeight = 0
+        ws.sheet_properties.pageSetUpPr = PageSetupProperties(fitToPage=True)
+        ws.column_dimensions["A"].width = 3
+        ws.column_dimensions["B"].width = 22
+        for k in range(3, LAST + 1):
+            ws.column_dimensions[get_column_letter(k)].width = 14
+        ws.print_area = f"A1:{get_column_letter(LAST)}{r}"
+
     def write_sources_sheet(self, *, unsourced_note: str = "") -> None:
         """
         The audit trail. Emitted last so it sees every figure written above it.
         This is the tab that separates a workbook you can defend from one you cannot.
         """
         ws = self.wb.create_sheet("Sources")
-        ws.cell(2, LBL, self.company).font = Font(bold=True, color=NAVY, size=11)
-        ws.cell(3, LBL, "Sources and audit trail").font = Font(bold=True, color=NAVY, size=12)
-        ws.cell(4, LBL, "Every marker in the [n] column of any tab resolves here. "
+        _masthead(ws, 6)
+        ws.cell(4, LBL, self.company).font = Font(bold=True, color=NAVY, size=11)
+        ws.cell(5, LBL, "Sources and audit trail").font = Font(bold=True, color=NAVY, size=12)
+        ws.cell(6, LBL, "Every marker in the [n] column of any tab resolves here. "
                         "Historic financials come from filings, never from an aggregator."
                 ).font = Font(italic=True, color=GREY, size=9)
         if unsourced_note:
-            ws.cell(5, LBL, unsourced_note).font = Font(italic=True, color=RED, size=9)
+            ws.cell(7, LBL, unsourced_note).font = Font(italic=True, color=RED, size=9)
 
         heads = ["#", "Source", "Detail", "Accession", "Link"]
         for k, h in enumerate(heads):
-            c = ws.cell(7, LBL + k, h)
+            c = ws.cell(PERIOD_ROW, LBL + k, h)
             c.font = Font(bold=True, color=NAVY, size=10)
             c.border = _THIN_BOTTOM
 
-        r = 8
-        for _, (i, s) in sorted(self.sources.items(), key=lambda kv: kv[1][0]):
+        r = FIRST_BODY_ROW
+        for _, (i, src) in sorted(self.sources.items(), key=lambda kv: kv[1][0]):
             ws.cell(r, LBL, i).font = Font(color=GREY, size=9)
-            ws.cell(r, LBL + 1, s.label).font = Font(size=10)
-            ws.cell(r, LBL + 2, s.detail).font = Font(color=GREY, size=9)
-            ws.cell(r, LBL + 3, s.accession).font = Font(color=GREY, size=9)
-            if s.url:
-                c = ws.cell(r, LBL + 4, s.url)
-                c.hyperlink = s.url
+            ws.cell(r, LBL + 1, src.label).font = Font(size=10)
+            ws.cell(r, LBL + 2, src.detail).font = Font(color=GREY, size=9)
+            ws.cell(r, LBL + 3, src.accession).font = Font(color=GREY, size=9)
+            if src.url:
+                c = ws.cell(r, LBL + 4, src.url)
+                c.hyperlink = src.url
                 c.font = Font(color="FF0563C1", underline="single", size=9)
             r += 1
 
         if not self.sources:
-            ws.cell(8, LBL + 1, "No sourced figures in this workbook.").font = Font(
-                italic=True, color=RED, size=10)
+            ws.cell(FIRST_BODY_ROW, LBL + 1, "No sourced figures in this workbook."
+                    ).font = Font(italic=True, color=RED, size=10)
 
         ws.sheet_view.showGridLines = False
         ws.column_dimensions["A"].width = 3
@@ -356,8 +535,14 @@ class Book:
         ws.column_dimensions["D"].width = 56
         ws.column_dimensions["E"].width = 24
         ws.column_dimensions["F"].width = 70
-        ws.freeze_panes = "C8"
+        ws.freeze_panes = f"C{FIRST_BODY_ROW}"
 
-    def save(self, path, *, unsourced_note: str = "") -> None:
+    def save(self, path, *, unsourced_note: str = "", what_this_is: str = "",
+             source_note: str = "") -> None:
+        """
+        Sources first so it sees every figure written above it, then the cover,
+        which is inserted at position 0 so the notices open with the file.
+        """
         self.write_sources_sheet(unsourced_note=unsourced_note)
+        self.write_cover_sheet(what_this_is=what_this_is, source_note=source_note)
         self.wb.save(path)
