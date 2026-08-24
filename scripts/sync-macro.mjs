@@ -271,7 +271,11 @@ for (const s of SERIES) {
   process.stdout.write(`Fetching ${s.name} (${s.country})… `);
   try {
     const points = await s.fetch();
-    if (points.length < 24) throw new Error(`only ${points.length} points`);
+    // An incremental run legitimately returns only the recent window (~20
+    // monthly points), which the merge below extends onto the committed
+    // history. Only a genuinely empty fetch is a failure; the length floor
+    // belongs after the merge, not here.
+    if (points.length === 0) throw new Error('no points returned');
     const { fetch: _f, ...meta } = s;
     out.series.push({ ...meta, points });
     console.log(`${points.length} pts (${points[0].d} → ${points[points.length - 1].d}, latest ${points[points.length - 1].v})`);
@@ -302,6 +306,12 @@ try {
     fresh.points = Array.from(byDate.values()).sort((a, b) => (a.d < b.d ? -1 : 1));
   }
 } catch { /* first run */ }
+
+// Now that history is merged in, drop anything too thin to chart honestly.
+const MIN_POINTS = 12;
+const thin = out.series.filter((s) => s.points.length < MIN_POINTS);
+for (const s of thin) console.log(`  ${s.id}: only ${s.points.length} points after merge, dropped`);
+out.series = out.series.filter((s) => s.points.length >= MIN_POINTS);
 
 for (const s of out.series) {
   console.log(`  ${s.id}: ${s.points.length} points after merge (through ${s.points[s.points.length - 1]?.d})`);
