@@ -19,14 +19,17 @@ class Statements:
     ticker: str
     cik: str
     name: str
-    years: list[int]
+    #: Period END DATES, oldest first. The axis is dates because dates are facts.
+    ends: list[str]
+    #: The filer's own name for each period, e.g. "FY2025". Same order as `ends`.
+    labels: list[str]
     rows: dict[str, list[Fact]] = field(default_factory=dict)
     quarters: list[str] = field(default_factory=list)
     q_rows: dict[str, list[Fact]] = field(default_factory=dict)
     missing: list[str] = field(default_factory=list)
 
     def annual(self, key: str) -> list[Fact]:
-        return self.rows.get(key, [Fact(None) for _ in self.years])
+        return self.rows.get(key, [Fact(None) for _ in self.ends])
 
     def quarterly(self, key: str) -> list[Fact]:
         return self.q_rows.get(key, [Fact(None) for _ in self.quarters])
@@ -37,7 +40,20 @@ class Statements:
 
     @property
     def period_labels(self) -> list[tuple[str, bool]]:
-        return [(f"FY{y}", False) for y in self.years]
+        return [(lbl, False) for lbl in self.labels]
+
+    @property
+    def years(self) -> list[str]:
+        """Backwards-compatible alias: the period axis."""
+        return self.ends
+
+    @property
+    def fiscal_year_ends(self) -> str:
+        """Month the fiscal year ends, for calendarisation notes on comps."""
+        if not self.ends:
+            return ""
+        from datetime import date
+        return date.fromisoformat(self.ends[-1]).strftime("%b")
 
 
 ALL_KEYS = {**L.INCOME, **L.BALANCE, **L.CASHFLOW}
@@ -66,19 +82,21 @@ def load(ticker: str, *, years: int = 5, quarters: int = 0,
             facts, tags, unit_kind=L.unit_kind_for(key), flow=L.is_flow(key), years=years,
         )
 
-    # The year axis is whatever revenue reports; revenue is the one line every
-    # operating filer tags. Fall back to the union if a filer is exotic.
+    # The axis is whatever revenue reports; revenue is the one line every operating
+    # filer tags. Fall back to the union of all series if a filer is exotic.
     axis = sorted(annual.get("revenue", {}))
     if not axis:
-        seen: set[int] = set()
+        seen: set[str] = set()
         for s in annual.values():
             seen |= set(s)
-        axis = sorted(seen)[-years:]
+        axis = sorted(seen)
     axis = axis[-years:]
 
-    st = Statements(ticker=ticker.upper(), cik=cik, name=name, years=axis)
+    labels_map = edgar.fiscal_labels(facts, axis) if axis else {}
+    st = Statements(ticker=ticker.upper(), cik=cik, name=name, ends=axis,
+                    labels=[labels_map.get(e, e) for e in axis])
     for key, series in annual.items():
-        st.rows[key] = edgar.to_facts(st.ticker, cik, series, axis)
+        st.rows[key] = edgar.to_facts(st.ticker, cik, series, axis, labels_map)
         if not series:
             st.missing.append(key)
 
@@ -122,7 +140,7 @@ def quarter_labels(st: Statements) -> list[tuple[str, bool]]:
 def net_debt(st: Statements) -> list[Fact]:
     """Short-term debt + long-term debt − cash − short-term investments, per year."""
     out = []
-    for i, _ in enumerate(st.years):
+    for i, _ in enumerate(st.ends):
         parts = [
             (st.annual("short_term_debt")[i], 1),
             (st.annual("long_term_debt")[i], 1),

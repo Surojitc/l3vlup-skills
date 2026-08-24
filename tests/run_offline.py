@@ -24,6 +24,22 @@ edgar.latest_filings = lambda cik, **k: [  # type: ignore[assignment]
      "url": edgar.filing_url(cik, "0000000000-26-000001"), "primary": "form10k.htm"},
 ]
 
+from lib import financials  # noqa: E402
+
+# --- regression: comparatives must not shift the axis -----------------------
+st = financials.load("FIXA", years=5)
+assert st.labels == ["FY2021", "FY2022", "FY2023", "FY2024", "FY2025"], \
+    f"fiscal labels wrong: {st.labels}"
+rev = [f.value for f in st.annual("revenue")]
+assert rev == sorted(rev), f"revenue not monotonic — axis is shuffled: {rev}"
+assert abs(rev[-1] - 100e9) < 1, f"latest year is not the latest filing: {rev[-1]:,.0f}"
+assert all(f.source for f in st.annual("revenue")), "a revenue year lost its source"
+srcs = {f.source.label for f in st.annual("revenue")}
+assert srcs == {f"FIXA {l} 10-K" for l in st.labels}, f"source labels drifted: {srcs}"
+assert st.annual("d_and_a")[-1].value is not None, "D&A dropped off the axis"
+print("axis regression: labels", st.labels, "· latest revenue",
+      f"{rev[-1] / 1e9:.1f}bn · all sourced")
+
 from skills.company_profile_shim import build as profile_build  # noqa: E402
 
 out = ROOT / "out" / "fixture"

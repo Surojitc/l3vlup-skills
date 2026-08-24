@@ -128,9 +128,9 @@ class Observation:
             return f"{self.fp}{str(self.fy)[2:]}"
         return self.end
 
-    def source(self, ticker: str, cik: str) -> Source:
+    def source(self, ticker: str, cik: str, label: str | None = None) -> Source:
         return Source(
-            label=f"{ticker} {self.period_label} {self.form}",
+            label=f"{ticker} {label or self.period_label} {self.form}",
             detail=f"{self.taxonomy}:{self.tag} · period ending {self.end} · "
                    f"{self.unit} · filed {self.filed}",
             url=filing_url(cik, self.accession),
@@ -180,17 +180,54 @@ def _duration_days(o: Observation) -> int | None:
     return (b - a).days
 
 
-def annual_series(facts: dict, tags: list[str], *, unit_kind: str = "USD",
-                  flow: bool = True, years: int = 6) -> dict[int, Observation]:
+def _fy_label(obs_at_end: list[Observation], end: str) -> str:
     """
-    Fiscal-year observations keyed by fiscal year, using the first tag in `tags`
-    that the filer actually uses. Flow items (revenue, cash flow) must span a full
+    The filer's own name for this fiscal year.
+
+    XBRL `fy`/`fp` describe the FILING's fiscal year, not the period's. A FY2025
+    10-K carries FY2023, FY2024 and FY2025 all tagged fy=2025 — keying on `fy`
+    shifts every comparative forward and silently mislabels the whole sheet.
+
+    So: take `fy` only from an observation filed shortly AFTER the period it
+    covers, which is the original annual report for that year rather than a later
+    filing's comparative. Where no such observation exists, fall back to the
+    calendar year of the period end, which is right for every fiscal year ending
+    after March.
+    """
+    from datetime import date
+
+    e = date.fromisoformat(end)
+    best: tuple[int, int] | None = None
+    for o in obs_at_end:
+        if o.fp != "FY" or not o.fy or not o.filed:
+            continue
+        try:
+            gap = (date.fromisoformat(o.filed) - e).days
+        except ValueError:
+            continue
+        if 0 <= gap <= 150 and (best is None or gap < best[0]):
+            best = (gap, o.fy)
+    if best:
+        return f"FY{best[1]}"
+    # A fiscal year ending in January or February is named for the prior calendar
+    # year by most filers who do it; anything later takes the end year.
+    return f"FY{e.year - 1 if e.month <= 2 else e.year}"
+
+
+def annual_series(facts: dict, tags: list[str], *, unit_kind: str = "USD",
+                  flow: bool = True, years: int = 6) -> dict[str, Observation]:
+    """
+    Fiscal-year observations keyed by PERIOD END DATE, using the first tag in
+    `tags` that the filer actually uses.
+
+    Keyed by end date rather than fiscal year because the end date is a fact and
+    the fiscal year is a label. Flow items (revenue, cash flow) must span a full
     year; stock items (balance sheet) are point-in-time.
 
-    Where the same period appears in several filings, the ORIGINAL filing wins over
-    a later restatement's comparative — an analyst reading a FY2023 number wants the
-    number as reported for FY2023. Restatements are visible because the accession on
-    the Sources tab names the filing.
+    Where the same period appears in several filings, the ORIGINAL filing wins
+    over a later restatement's comparative — an analyst reading a FY2023 number
+    wants the number as reported for FY2023. Restatements stay visible because the
+    accession on the Sources tab names the filing.
     """
     for tag in tags:
         obs = [o for o in observations(facts, tag, unit_kind=unit_kind)
@@ -201,15 +238,25 @@ def annual_series(facts: dict, tags: list[str], *, unit_kind: str = "USD",
             obs = [o for o in obs if o.start is None or (_duration_days(o) or 0) <= 1]
         if not obs:
             continue
-        by_year: dict[int, Observation] = {}
+        by_end: dict[str, Observation] = {}
         for o in obs:
-            fy = o.fy if (o.fy and o.fp == "FY") else int(o.end[:4])
-            keep = by_year.get(fy)
-            if keep is None or o.filed < keep.filed:
-                by_year[fy] = o
-        if by_year:
-            return dict(sorted(by_year.items())[-years:])
+            keep = by_end.get(o.end)
+            if keep is None or (o.filed or "9999") < (keep.filed or "9999"):
+                by_end[o.end] = o
+        if by_end:
+            return dict(sorted(by_end.items())[-years:])
     return {}
+
+
+def fiscal_labels(facts: dict, ends: list[str]) -> dict[str, str]:
+    """Resolve each period end to the filer's own fiscal-year name."""
+    pool: dict[str, list[Observation]] = {e: [] for e in ends}
+    for tag in ("Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "Assets", "NetIncomeLoss", "StockholdersEquity"):
+        for o in observations(facts, tag):
+            if o.end in pool:
+                pool[o.end].append(o)
+    return {e: _fy_label(pool[e], e) for e in ends}
 
 
 def quarterly_series(facts: dict, tags: list[str], *, unit_kind: str = "USD",
@@ -233,13 +280,14 @@ def quarterly_series(facts: dict, tags: list[str], *, unit_kind: str = "USD",
     return []
 
 
-def to_facts(ticker: str, cik: str, series: dict[int, Observation],
-             years: list[int]) -> list[Fact]:
-    """Align a fiscal-year series onto a year axis, carrying provenance."""
+def to_facts(ticker: str, cik: str, series: dict[str, Observation],
+             ends: list[str], labels: dict[str, str] | None = None) -> list[Fact]:
+    """Align a series onto the period-end axis, carrying provenance."""
     out = []
-    for y in years:
-        o = series.get(y)
-        out.append(Fact(o.value, o.source(ticker, cik)) if o else Fact(None))
+    for e in ends:
+        o = series.get(e)
+        out.append(Fact(o.value, o.source(ticker, cik, (labels or {}).get(e)))
+                   if o else Fact(None))
     return out
 
 

@@ -102,6 +102,10 @@ def build(target: str, peers: list[str], out_dir: Path, years: int = 3) -> Path:
     s.blank()
 
     s.section("Operating (latest fiscal year as filed)")
+    s.row("Fiscal year end", [loaded[t].fiscal_year_ends for t in loaded], "General",
+          italic=True, formula=True)
+    s.row("Period covered", [loaded[t].labels[-1] if loaded[t].labels else "—"
+                             for t in loaded], "General", italic=True, formula=True)
     s.row("Revenue", [loaded[t].latest("revenue") for t in loaded])
     rev = s.at()
     s.row("Gross profit", [loaded[t].latest("gross_profit") for t in loaded])
@@ -175,6 +179,12 @@ def build(target: str, peers: list[str], out_dir: Path, years: int = 3) -> Path:
     s.note("Shaded blue cells are yours to fill: price and consensus are not filing data, "
            "so this workbook will not guess them.")
     s.note("Multiples recompute from the cells above. Never hard-code a multiple.")
+    fyes = {loaded[t].fiscal_year_ends for t in loaded if loaded[t].fiscal_year_ends}
+    if len(fyes) > 1:
+        s.note("CALENDARISATION REQUIRED: these filers do not share a fiscal year end "
+               f"({', '.join(sorted(fyes))}). The multiples above compare different "
+               "twelve-month windows. Calendarise to a common year end before using "
+               "them, and say in the footnote which filers were adjusted and how.")
     if failed:
         s.note("Not resolved on EDGAR: " + "; ".join(f"{t} ({why})" for t, why in failed))
     s.finish()
@@ -198,6 +208,15 @@ def build(target: str, peers: list[str], out_dir: Path, years: int = 3) -> Path:
         inc.row(f"{t}", [f"Not resolved on EDGAR — {why}"], "General")
     for i in range(6):
         inc.row("[rejected ticker]", ["[reason for rejection]"], "General")
+    inc.blank()
+    inc.section("Calendarisation")
+    for t, stx in loaded.items():
+        inc.row(f"{t}", [f"Fiscal year ends {stx.fiscal_year_ends or '—'} · latest period "
+                         f"{stx.labels[-1] if stx.labels else '—'}"], "General")
+    if len({loaded[t].fiscal_year_ends for t in loaded}) > 1:
+        inc.note("Year ends differ across the set. State the common year end you "
+                 "calendarised to and which filers were stubbed, or the comparison is "
+                 "not a comparison.")
     inc.blank()
     inc.section("Adjustments made")
     inc.note("Note every adjustment here: stock-based compensation treatment, operating "

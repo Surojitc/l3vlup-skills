@@ -45,17 +45,30 @@ YEARS = [2021, 2022, 2023, 2024, 2025]
 
 
 def _rows(base, unit, flow, growth=1.09):
+    """
+    Emit rows the way EDGAR actually does: each 10-K carries THREE fiscal years,
+    and all three are tagged with the FILING's fiscal year, not the period's.
+
+    This is the shape that mislabels a whole sheet if you key on `fy` — the FY2023
+    10-K reports FY2021, FY2022 and FY2023 all as fy=2023. The builders must key
+    on the period end date and resolve the label from the original filing.
+    """
     out = []
     for i, y in enumerate(YEARS):
-        v = base * (growth ** (i - len(YEARS) + 1))
-        row = {
-            "end": f"{y}-12-31", "val": round(v, 2), "fy": y, "fp": "FY",
-            "form": "10-K", "filed": f"{y + 1}-02-14",
-            "accn": f"0000000000-{str(y + 1)[2:]}-00000{i}",
-        }
-        if flow:
-            row["start"] = f"{y}-01-01"
-        out.append(row)
+        v = round(base * (growth ** (i - len(YEARS) + 1)), 2)
+        # the original 10-K for year y, filed the following February
+        for filing_year in (y, y + 1, y + 2):
+            if filing_year not in YEARS:
+                continue
+            row = {
+                "end": f"{y}-12-31", "val": v,
+                "fy": filing_year, "fp": "FY", "form": "10-K",
+                "filed": f"{filing_year + 1}-02-14",
+                "accn": f"0000000000-{str(filing_year + 1)[2:]}-000001",
+            }
+            if flow:
+                row["start"] = f"{y}-01-01"
+            out.append(row)
     return {unit: out}
 
 
