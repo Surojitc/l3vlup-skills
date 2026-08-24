@@ -72,10 +72,23 @@ def _rows(base, unit, flow, growth=1.09):
     return {unit: out}
 
 
+#: A tag the filer abandoned three years ago. It is FIRST in the revenue
+#: preference list, so a naive first-match returns stale history and the whole
+#: sheet silently shows the company as it was in 2022.
+STALE_TAG = "RevenueFromContractWithCustomerExcludingAssessedTax"
+LIVE_TAG = "Revenues"
+
+
 def companyfacts(name="Fixture Industries Inc"):
     us = {}
     for tag, base in TAGS_FLOW.items():
         us[tag] = {"units": _rows(base, "USD", True)}
+
+    # Model a real tag switch: revenue moves from STALE_TAG to LIVE_TAG in 2023.
+    rev_base = TAGS_FLOW[STALE_TAG]
+    all_rows = _rows(rev_base, "USD", True)["USD"]
+    us[STALE_TAG] = {"units": {"USD": [r for r in all_rows if r["end"][:4] <= "2022"]}}
+    us[LIVE_TAG] = {"units": {"USD": all_rows}}
     for tag, base in TAGS_STOCK.items():
         us[tag] = {"units": _rows(base, "USD", False, growth=1.06)}
     for tag, base in TAGS_PS.items():

@@ -214,38 +214,52 @@ def _fy_label(obs_at_end: list[Observation], end: str) -> str:
     return f"FY{e.year - 1 if e.month <= 2 else e.year}"
 
 
+def _by_end(obs: list[Observation], flow: bool) -> dict[str, Observation]:
+    if flow:
+        obs = [o for o in obs if (d := _duration_days(o)) and 340 <= d <= 400]
+    else:
+        obs = [o for o in obs if o.start is None or (_duration_days(o) or 0) <= 1]
+    out: dict[str, Observation] = {}
+    for o in obs:
+        keep = out.get(o.end)
+        if keep is None or (o.filed or "9999") < (keep.filed or "9999"):
+            out[o.end] = o
+    return out
+
+
 def annual_series(facts: dict, tags: list[str], *, unit_kind: str = "USD",
                   flow: bool = True, years: int = 6) -> dict[str, Observation]:
     """
-    Fiscal-year observations keyed by PERIOD END DATE, using the first tag in
-    `tags` that the filer actually uses.
+    Fiscal-year observations keyed by PERIOD END DATE.
 
     Keyed by end date rather than fiscal year because the end date is a fact and
     the fiscal year is a label. Flow items (revenue, cash flow) must span a full
     year; stock items (balance sheet) are point-in-time.
+
+    **Tag choice is by coverage, not by order.** Filers switch tags: NVIDIA
+    reported revenue under one concept for years and then moved to another, and a
+    naive first-match returns the abandoned tag with its stale history — the sheet
+    then quietly shows a company as it was four years ago. So every tag in the
+    preference list is evaluated, and the one reaching the most recent period
+    wins, with the number of periods and then list order as tie-breaks.
 
     Where the same period appears in several filings, the ORIGINAL filing wins
     over a later restatement's comparative — an analyst reading a FY2023 number
     wants the number as reported for FY2023. Restatements stay visible because the
     accession on the Sources tab names the filing.
     """
-    for tag in tags:
+    best: tuple[str, int, int] | None = None
+    best_map: dict[str, Observation] = {}
+    for rank, tag in enumerate(tags):
         obs = [o for o in observations(facts, tag, unit_kind=unit_kind)
                if o.form in ANNUAL_FORMS]
-        if flow:
-            obs = [o for o in obs if (d := _duration_days(o)) and 340 <= d <= 400]
-        else:
-            obs = [o for o in obs if o.start is None or (_duration_days(o) or 0) <= 1]
-        if not obs:
+        by_end = _by_end(obs, flow)
+        if not by_end:
             continue
-        by_end: dict[str, Observation] = {}
-        for o in obs:
-            keep = by_end.get(o.end)
-            if keep is None or (o.filed or "9999") < (keep.filed or "9999"):
-                by_end[o.end] = o
-        if by_end:
-            return dict(sorted(by_end.items())[-years:])
-    return {}
+        score = (max(by_end), len(by_end), -rank)
+        if best is None or score > best:
+            best, best_map = score, by_end
+    return dict(sorted(best_map.items())[-years:]) if best_map else {}
 
 
 def fiscal_labels(facts: dict, ends: list[str]) -> dict[str, str]:
@@ -261,23 +275,27 @@ def fiscal_labels(facts: dict, ends: list[str]) -> dict[str, str]:
 
 def quarterly_series(facts: dict, tags: list[str], *, unit_kind: str = "USD",
                      flow: bool = True, quarters: int = 8) -> list[Observation]:
-    """Most recent N quarterly observations, oldest first."""
-    for tag in tags:
+    """Most recent N quarterly observations, oldest first. Tag chosen by coverage."""
+    best: tuple[str, int, int] | None = None
+    best_map: dict[str, Observation] = {}
+    for rank, tag in enumerate(tags):
         obs = [o for o in observations(facts, tag, unit_kind=unit_kind)
                if o.form in QUARTERLY_FORMS or o.form in ANNUAL_FORMS]
         if flow:
             obs = [o for o in obs if (d := _duration_days(o)) and 80 <= d <= 100]
         else:
             obs = [o for o in obs if o.start is None or (_duration_days(o) or 0) <= 1]
-        if not obs:
-            continue
-        seen: dict[str, Observation] = {}
+        by_end: dict[str, Observation] = {}
         for o in obs:
-            keep = seen.get(o.end)
-            if keep is None or o.filed < keep.filed:
-                seen[o.end] = o
-        return sorted(seen.values(), key=lambda o: o.end)[-quarters:]
-    return []
+            keep = by_end.get(o.end)
+            if keep is None or (o.filed or "9999") < (keep.filed or "9999"):
+                by_end[o.end] = o
+        if not by_end:
+            continue
+        score = (max(by_end), len(by_end), -rank)
+        if best is None or score > best:
+            best, best_map = score, by_end
+    return sorted(best_map.values(), key=lambda o: o.end)[-quarters:]
 
 
 def to_facts(ticker: str, cik: str, series: dict[str, Observation],

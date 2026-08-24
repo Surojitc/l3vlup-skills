@@ -37,6 +37,15 @@ assert all(f.source for f in st.annual("revenue")), "a revenue year lost its sou
 srcs = {f.source.label for f in st.annual("revenue")}
 assert srcs == {f"FIXA {l} 10-K" for l in st.labels}, f"source labels drifted: {srcs}"
 assert st.annual("d_and_a")[-1].value is not None, "D&A dropped off the axis"
+from tests.make_fixture import STALE_TAG, LIVE_TAG  # noqa: E402
+
+# --- regression: an abandoned tag must not win on preference order ----------
+tags_used = {f.source.detail.split(":")[1].split(" ")[0]
+             for f in st.annual("revenue") if f.source}
+assert tags_used == {LIVE_TAG}, \
+    f"stale tag {STALE_TAG} won on order instead of coverage: {tags_used}"
+print("tag-switch regression: revenue resolved to", LIVE_TAG, "not", STALE_TAG)
+
 print("axis regression: labels", st.labels, "· latest revenue",
       f"{rev[-1] / 1e9:.1f}bn · all sourced")
 

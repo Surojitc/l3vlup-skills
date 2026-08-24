@@ -54,8 +54,12 @@ INCOME = {
     "shares_basic": ["WeightedAverageNumberOfSharesOutstandingBasic"],
     "d_and_a": [
         "DepreciationDepletionAndAmortization",
-        "DepreciationAmortizationAndAccretionNet",
         "DepreciationAndAmortization",
+        "DepreciationAmortizationAndAccretionNet",
+        "DepreciationDepletionAndAmortizationPeriodIncreaseDecrease",
+        "Depreciation",
+        "AmortizationOfIntangibleAssets",
+        "CostOfGoodsAndServicesSoldDepreciationAndAmortization",
     ],
     "sbc": ["ShareBasedCompensation", "AllocatedShareBasedCompensationExpense"],
 }
