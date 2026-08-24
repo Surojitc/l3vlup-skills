@@ -110,7 +110,11 @@ async function blsSeries(seriesId) {
     if (data.status !== 'REQUEST_SUCCEEDED') throw new Error(`BLS: ${data.message?.join('; ')}`);
     for (const item of data.Results.series[0].data) {
       if (!/^M\d\d$/.test(item.period) || item.period === 'M13') continue;
-      points.push({ d: `${item.year}-${item.period.slice(1)}-01`, v: parseFloat(item.value) });
+      // BLS publishes gaps (October 2025, for one) as a non-numeric value.
+      // A NaN here serialises to null and crashes anything calling toFixed.
+      const v = parseFloat(item.value);
+      if (!Number.isFinite(v)) continue;
+      points.push({ d: `${item.year}-${item.period.slice(1)}-01`, v });
     }
     await new Promise((r) => setTimeout(r, 800));
   }
@@ -306,6 +310,15 @@ try {
     fresh.points = Array.from(byDate.values()).sort((a, b) => (a.d < b.d ? -1 : 1));
   }
 } catch { /* first run */ }
+
+// No series leaves here carrying a non-finite value, whatever the source did.
+for (const s of out.series) {
+  const before = s.points.length;
+  s.points = s.points.filter((p) => Number.isFinite(p.v));
+  if (s.points.length !== before) {
+    console.log(`  ${s.id}: dropped ${before - s.points.length} non-numeric point(s)`);
+  }
+}
 
 // Now that history is merged in, drop anything too thin to chart honestly.
 const MIN_POINTS = 12;
