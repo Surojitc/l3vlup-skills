@@ -1,0 +1,72 @@
+"""Synthetic companyfacts payload so the builders can be tested without EDGAR."""
+from __future__ import annotations
+
+TAGS_FLOW = {
+    "RevenueFromContractWithCustomerExcludingAssessedTax": 100e9,
+    "CostOfGoodsAndServicesSold": 55e9,
+    "GrossProfit": 45e9,
+    "ResearchAndDevelopmentExpense": 12e9,
+    "SellingGeneralAndAdministrativeExpense": 9e9,
+    "OperatingIncomeLoss": 24e9,
+    "InterestExpense": 1.1e9,
+    "IncomeTaxExpenseBenefit": 3.4e9,
+    "NetIncomeLoss": 19.5e9,
+    "NetCashProvidedByUsedInOperatingActivities": 26e9,
+    "PaymentsToAcquirePropertyPlantAndEquipment": 6.2e9,
+    "NetCashProvidedByUsedInInvestingActivities": -8e9,
+    "NetCashProvidedByUsedInFinancingActivities": -14e9,
+    "PaymentsForRepurchaseOfCommonStock": 11e9,
+    "PaymentsOfDividendsCommonStock": 3.1e9,
+    "ShareBasedCompensation": 2.4e9,
+    "DepreciationDepletionAndAmortization": 4.8e9,
+}
+TAGS_STOCK = {
+    "CashAndCashEquivalentsAtCarryingValue": 21e9,
+    "ShortTermInvestments": 14e9,
+    "AccountsReceivableNetCurrent": 18e9,
+    "InventoryNet": 6e9,
+    "AssetsCurrent": 62e9,
+    "PropertyPlantAndEquipmentNet": 34e9,
+    "Goodwill": 9e9,
+    "Assets": 160e9,
+    "AccountsPayableCurrent": 21e9,
+    "LiabilitiesCurrent": 44e9,
+    "LongTermDebtCurrent": 5e9,
+    "LongTermDebtNoncurrent": 48e9,
+    "Liabilities": 104e9,
+    "StockholdersEquity": 56e9,
+    "LiabilitiesAndStockholdersEquity": 160e9,
+}
+TAGS_PS = {"EarningsPerShareDiluted": 4.12}
+TAGS_SH = {"WeightedAverageNumberOfDilutedSharesOutstanding": 4.7e9,
+           "CommonStockSharesOutstanding": 4.65e9}
+
+YEARS = [2021, 2022, 2023, 2024, 2025]
+
+
+def _rows(base, unit, flow, growth=1.09):
+    out = []
+    for i, y in enumerate(YEARS):
+        v = base * (growth ** (i - len(YEARS) + 1))
+        row = {
+            "end": f"{y}-12-31", "val": round(v, 2), "fy": y, "fp": "FY",
+            "form": "10-K", "filed": f"{y + 1}-02-14",
+            "accn": f"0000000000-{str(y + 1)[2:]}-00000{i}",
+        }
+        if flow:
+            row["start"] = f"{y}-01-01"
+        out.append(row)
+    return {unit: out}
+
+
+def companyfacts(name="Fixture Industries Inc"):
+    us = {}
+    for tag, base in TAGS_FLOW.items():
+        us[tag] = {"units": _rows(base, "USD", True)}
+    for tag, base in TAGS_STOCK.items():
+        us[tag] = {"units": _rows(base, "USD", False, growth=1.06)}
+    for tag, base in TAGS_PS.items():
+        us[tag] = {"units": _rows(base, "USD/shares", True, growth=1.11)}
+    for tag, base in TAGS_SH.items():
+        us[tag] = {"units": _rows(base, "shares", tag.startswith("Weighted"), growth=0.985)}
+    return {"cik": 1, "entityName": name, "facts": {"us-gaap": us}}

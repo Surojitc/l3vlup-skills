@@ -179,14 +179,39 @@ changed. Each step is independent, so one failing source never stops the others.
 
 ## Free skills
 
-The free tier of the L3VLUP skills library: structured workflows for the jobs
-early-career finance professionals are actually handed, each split into what AI can do,
-what a professional must verify, and what stays human judgement.
+The free tier of the L3VLUP skills library: the workflows early-career finance
+professionals are actually handed, each producing a real deliverable rather than a
+description of one. Browse the full library at
+**[l3vlup.com/skills](https://www.l3vlup.com/skills)**.
 
-Browse them at **[l3vlup.com/skills](https://www.l3vlup.com/skills)**. The packaged
-versions land here next.
+| Skill | Output | Run it |
+|---|---|---|
+| [Company Profile](skills/company-profile/) | Banker one-pager: five years of income statement, balance sheet and cash flow, margins as live formulas, every figure sourced | `python3 skills/company-profile/build.py AAPL` |
+| [Comps Set Builder](skills/comps-set-builder/) | Trading comparables with live multiple formulas, set statistics and a prompted inclusion-and-rejection rationale | `python3 skills/comps-set-builder/build.py NVDA --peers AMD,AVGO` |
 
----
+```bash
+pip install openpyxl
+python3 skills/company-profile/build.py AAPL --years 5 --out out/
+```
+
+Built workbooks land in [`samples/`](samples/), rebuilt weekly from live filings.
+
+### The two rules these outputs obey
+
+**Historic financials come from filings.** Every number traces to a filer's own XBRL
+tag, carrying the period, the form, the filing date and the accession number, resolved
+on a Sources tab at the back of every workbook. Not a screener, not an aggregator, not
+a model's recollection. If the filer did not tag a line, the workbook prints an em dash
+and says so — blank means "not tagged", never zero.
+
+**Format is meaning.** Blue is an input or a pulled value, black is a formula computed
+in the workbook, green is a cross-sheet link, a red cell is a tie-out that failed.
+Gridlines off, freeze panes at D7, landscape fit-to-width, negatives in parentheses.
+A reader who has never seen the file can tell an assumption from a calculation in two
+seconds, which is the only reason conventions exist.
+
+Both rules, and the reasoning behind them, are written down in
+**[docs/output-standard.md](docs/output-standard.md)**.
 
 ## Contributing
 

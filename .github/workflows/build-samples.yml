@@ -1,0 +1,100 @@
+name: Build sample workbooks
+
+# Produces the reference outputs linked from the README, straight from live SEC
+# filings. Also serves as the integration test for the EDGAR client: if a tag list
+# goes stale or EDGAR changes shape, this job goes red before anyone downloads a
+# broken workbook.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: 'Company-profile tickers (comma separated)'
+        required: false
+        default: 'AAPL,NVDA'
+      comps_target:
+        description: 'Comps target ticker'
+        required: false
+        default: 'NVDA'
+      comps_peers:
+        description: 'Comps peers (comma separated)'
+        required: false
+        default: 'AMD,AVGO,MRVL,INTC'
+  schedule:
+    # Mondays, after the macro sync. Filings do not change hourly.
+    - cron: '30 6 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-samples
+  cancel-in-progress: false
+
+jobs:
+  samples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install --quiet openpyxl
+
+      - name: Offline checks
+        run: python3 tests/run_offline.py
+
+      - name: Build company profiles
+        continue-on-error: true
+        env:
+          SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT || 'L3VLUP open skills contact@l3vlup.com' }}
+        run: |
+          set +e
+          IFS=',' read -ra T <<< "${{ github.event.inputs.tickers || 'AAPL,NVDA' }}"
+          for t in "${T[@]}"; do
+            echo "::group::company-profile $t"
+            python3 skills/company-profile/build.py "${t// /}" --years 5 --out samples/
+            echo "::endgroup::"
+          done
+
+      - name: Build comps set
+        continue-on-error: true
+        env:
+          SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT || 'L3VLUP open skills contact@l3vlup.com' }}
+        run: |
+          python3 skills/comps-set-builder/build.py \
+            "${{ github.event.inputs.comps_target || 'NVDA' }}" \
+            --peers "${{ github.event.inputs.comps_peers || 'AMD,AVGO,MRVL,INTC' }}" \
+            --out samples/
+
+      - name: Verify something was produced
+        run: |
+          ls -la samples/ || true
+          count=$(ls samples/*.xlsx 2>/dev/null | wc -l)
+          echo "workbooks built: $count"
+          if [ "$count" -eq 0 ]; then
+            echo "::error::no workbooks produced — EDGAR fetch or build failed"
+            exit 1
+          fi
+
+      - name: Commit samples
+        run: |
+          git config user.name  "l3vlup-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add samples/ || true
+          if git diff --cached --quiet; then
+            echo "no sample changes"
+            exit 0
+          fi
+          git commit -m "Rebuild sample workbooks from live SEC filings"
+          for i in 1 2 3 4 5; do
+            git push && exit 0
+            echo "push failed, rebasing (attempt $i)"
+            git pull --rebase origin main || true
+            sleep $((2 ** i))
+          done
+          echo "::error::could not push samples"
+          exit 1

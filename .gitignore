@@ -141,3 +141,12 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Calibration source documents never leave the machine — see calibration/README.md
+calibration/examples/*
+!calibration/examples/.gitkeep
+
+# Generated workbooks
+out/
+__pycache__/
+*.pyc

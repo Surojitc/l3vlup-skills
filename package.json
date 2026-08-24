@@ -2,10 +2,13 @@
   "name": "l3vlup-open-data",
   "private": true,
   "type": "module",
-  "description": "Collectors for the open finance data published by L3VLUP.",
+  "description": "Open finance data and the free-tier L3VLUP skills that build on it.",
   "scripts": {
     "calendar": "node scripts/sync-calendar.mjs",
     "deals": "node scripts/sync-deals.mjs",
-    "macro": "node scripts/sync-macro.mjs"
+    "macro": "node scripts/sync-macro.mjs",
+    "profile": "python3 skills/company-profile/build.py",
+    "comps": "python3 skills/comps-set-builder/build.py",
+    "test": "python3 tests/run_offline.py"
   }
 }
