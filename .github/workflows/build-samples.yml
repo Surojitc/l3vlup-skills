@@ -65,6 +65,10 @@ jobs:
         # collated nothing is worse than a red run.
         run: node scripts/sync-ats.mjs
 
+      - name: Sync the economic backdrop
+        continue-on-error: true
+        run: python3 scripts/sync_econ.py
+
       - name: Sync equity and country risk premiums
         continue-on-error: true
         run: python3 scripts/sync_erp.py
@@ -103,6 +107,12 @@ jobs:
           print(f"tracker: {roles} roles, generated {trk.get('generatedAt')}")
           if roles < 20:
               fails.append(f"tracker collapsed to {roles} roles")
+          with open('data/econ.auto.json') as f:
+              econ = json.load(f)
+          print(f"econ: SOFR {econ['sofr']['rate']}% as at {econ['sofr']['asOf']}, "
+                f"{len(econ.get('countries') or [])} countries")
+          if not econ.get('sofr', {}).get('rate'):
+              fails.append('SOFR missing')
           with open('data/erp.auto.json') as f:
               erp = json.load(f)
           print(f"erp: {len(erp.get('countries') or [])} countries, "
