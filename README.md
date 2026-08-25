@@ -213,6 +213,20 @@ seconds, which is the only reason conventions exist.
 Both rules, and the reasoning behind them, are written down in
 **[docs/output-standard.md](docs/output-standard.md)**.
 
+### How the output gets checked
+
+**[docs/review-protocol.md](docs/review-protocol.md)** adapts the audit protocol
+from [wildcat-finance/skills](https://github.com/wildcat-finance/skills/tree/main/plugins/hexaemeron)
+to financial analysis. The idea it borrows is that reasoning has to leave a trace,
+because otherwise "I checked it" and "it looked fine" are indistinguishable: three
+tools with trigger conditions, a hard split between a FINDING (carries a figure and
+its source) and a LEAD (does not), and an explicit list of what does not count as a
+finding at all.
+
+Each skill also keeps an `EVOLUTION.md` ledger recording what changed and *why*,
+including the option that was rejected — see
+**[docs/skill-evolution.md](docs/skill-evolution.md)**.
+
 ## Contributing
 
 Corrections are welcome, particularly a source URL that has moved or a parse that has

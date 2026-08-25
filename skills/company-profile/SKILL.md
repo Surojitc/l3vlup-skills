@@ -73,3 +73,21 @@ hard-coded margin is a bug, not a shortcut.
 
 [`comps-set-builder`](../comps-set-builder/) — once you know the company's shape, find
 out what the market is paying for it relative to peers.
+
+## Before you send it to anyone
+
+Run the [review protocol](../../docs/review-protocol.md) over the output. Three
+markers, and they are cheap:
+
+- `[Feynman: <line>]` — explain the biggest line in plain English, no finance
+  vocabulary. Where the explanation goes fuzzy is where the assumption is hiding.
+- `[Socratic: <line> — why?]` — for any figure whose size or direction is not
+  obvious, one question that drills past restating the number.
+- `[Inversion: <claim>]` — for anything that looks clean, three concrete ways it
+  could be wrong.
+
+Anything you conclude is a **FINDING** only if it carries a figure and the filing
+it came from. Without that it is a **LEAD** — which is a fine thing to hand over,
+and an honest one.
+
+Change history for this skill: [EVOLUTION.md](EVOLUTION.md).
