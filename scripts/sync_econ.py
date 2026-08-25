@@ -54,7 +54,7 @@ def _norm(name: str) -> str:
     return " ".join(t.split())
 
 
-def match_tax(name: str, table: dict[str, float]) -> float | None:
+def match_tax(name: str, table: dict[str, float]) -> tuple[float | None, str | None]:
     """
     Damodaran's country spellings do not match the IMF's.
 
@@ -64,13 +64,14 @@ def match_tax(name: str, table: dict[str, float]) -> float | None:
     match, so a spelling we have not seen resolves instead of silently blanking.
     """
     if name in table:
-        return table[name]
+        return table[name], name
     target = _norm(name)
-    normalised = {_norm(k): v for k, v in table.items()}
+    normalised = {_norm(k): (v, k) for k, v in table.items()}
     if target in normalised:
         return normalised[target]
-    hits = [v for k, v in normalised.items() if target in k or k in target]
-    return hits[0] if len(hits) == 1 else None
+    hits = [(v, k) for nk, (v, k) in normalised.items() if target in nk or nk in target]
+    # Ambiguous is the same as unknown. One hit is a match; two is a guess.
+    return hits[0] if len(hits) == 1 else (None, None)
 
 
 def get(url: str, *, retries: int = 3) -> bytes:
@@ -196,9 +197,11 @@ def main() -> None:
         g, p = growth.get(iso, {}), infl.get(iso, {})
         if not g and not p:
             continue
-        tax = match_tax(name, taxes)
+        tax, tax_row = match_tax(name, taxes)
         if tax is None:
             print(f"  no tax rate matched for {name}")
+        elif tax_row != name:
+            print(f"  {name} -> tax row '{tax_row}' ({tax}%)")
         countries.append({
             "iso": iso,
             "country": name,
@@ -212,6 +215,10 @@ def main() -> None:
                 if next_year in g and next_year in p else None
             ),
             "marginalTaxRate": tax,
+            # The row the rate actually came from, so a wrong containment match is
+            # visible on inspection rather than passing as fact. The UK figure in
+            # particular has looked like a stale headline rate.
+            "marginalTaxSourceRow": tax_row,
             "growthHistory": dict(sorted(g.items())[-12:]),
             "inflationHistory": dict(sorted(p.items())[-12:]),
         })
