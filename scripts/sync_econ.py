@@ -45,8 +45,32 @@ COUNTRIES = {
     "BRA": "Brazil", "CAN": "Canada", "AUS": "Australia", "EA": "Euro Area",
 }
 
-#: Damodaran spells countries out; map the ones that differ from our labels.
-TAX_ALIASES = {"United States": "United States", "United Kingdom": "United Kingdom"}
+def _norm(name: str) -> str:
+    """Lowercase, drop punctuation and the filler words country lists disagree on."""
+    t = name.lower()
+    for junk in (" of great britain and northern ireland", " of america", " (the)",
+                 ", the", "the ", "&", ".", ",", "'"):
+        t = t.replace(junk, " ")
+    return " ".join(t.split())
+
+
+def match_tax(name: str, table: dict[str, float]) -> float | None:
+    """
+    Damodaran's country spellings do not match the IMF's.
+
+    The first live run returned None for both the United States and the United
+    Kingdom, which is exactly the pair whose long-form names differ. Rather than
+    guess an alias list, normalise both sides and fall back to a containment
+    match, so a spelling we have not seen resolves instead of silently blanking.
+    """
+    if name in table:
+        return table[name]
+    target = _norm(name)
+    normalised = {_norm(k): v for k, v in table.items()}
+    if target in normalised:
+        return normalised[target]
+    hits = [v for k, v in normalised.items() if target in k or k in target]
+    return hits[0] if len(hits) == 1 else None
 
 
 def get(url: str, *, retries: int = 3) -> bytes:
@@ -172,8 +196,9 @@ def main() -> None:
         g, p = growth.get(iso, {}), infl.get(iso, {})
         if not g and not p:
             continue
-        # Damodaran's table is keyed on the spelled-out country name.
-        tax = taxes.get(TAX_ALIASES.get(name, name))
+        tax = match_tax(name, taxes)
+        if tax is None:
+            print(f"  no tax rate matched for {name}")
         countries.append({
             "iso": iso,
             "country": name,
