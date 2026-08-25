@@ -1,9 +1,16 @@
-name: Build sample workbooks
+name: Collect and build
 
-# Produces the reference outputs linked from the README, straight from live SEC
-# filings. Also serves as the integration test for the EDGAR client: if a tag list
-# goes stale or EDGAR changes shape, this job goes red before anyone downloads a
-# broken workbook.
+# One job for everything that collects: the opportunity tracker from public ATS
+# boards, equity and country risk premiums from Damodaran, and the reference
+# workbooks built from live SEC filings.
+#
+# It lives in the public repo because Actions minutes are unlimited here. Nothing
+# in it needs a secret, which is the reason it can live here at all — anything
+# that touches Supabase, Resend, Firecrawl or a social token stays private.
+#
+# It doubles as the integration test for the EDGAR client: if a tag list goes
+# stale or EDGAR changes shape, this goes red before anyone downloads a broken
+# workbook.
 
 on:
   workflow_dispatch:
@@ -21,8 +28,8 @@ on:
         required: false
         default: 'AMD,AVGO,MRVL,INTC'
   schedule:
-    # Mondays, after the macro sync. Filings do not change hourly.
-    - cron: '30 6 * * 1'
+    # Daily for the tracker, which is the one that actually moves day to day.
+    - cron: '30 6 * * *'
 
 permissions:
   contents: write
@@ -37,6 +44,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -46,6 +57,10 @@ jobs:
 
       - name: Offline checks
         run: python3 tests/run_offline.py
+
+      - name: Sync the opportunity tracker from public ATS boards
+        continue-on-error: true
+        run: node scripts/sync-ats.mjs
 
       - name: Sync equity and country risk premiums
         continue-on-error: true
@@ -93,7 +108,7 @@ jobs:
             echo "no sample changes"
             exit 0
           fi
-          git commit -m "Rebuild sample workbooks from live SEC filings"
+          git commit -m "chore(data): daily collection [skip ci]"
           for i in 1 2 3 4 5; do
             git push && exit 0
             echo "push failed, rebasing (attempt $i)"
