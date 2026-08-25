@@ -59,7 +59,10 @@ jobs:
         run: python3 tests/run_offline.py
 
       - name: Sync the opportunity tracker from public ATS boards
-        continue-on-error: true
+        # No continue-on-error: the script has its own collapse guard and exits
+        # non-zero rather than publishing a shrunken list over good data. Letting
+        # that failure be visible is the whole point — a silent 'success' that
+        # collated nothing is worse than a red run.
         run: node scripts/sync-ats.mjs
 
       - name: Sync equity and country risk premiums
@@ -88,6 +91,27 @@ jobs:
             "${{ github.event.inputs.comps_target || 'NVDA' }}" \
             --peers "${{ github.event.inputs.comps_peers || 'AMD,AVGO,MRVL,INTC' }}" \
             --out samples/
+
+      - name: Verify the collected data is intact
+        run: |
+          python3 - <<'PY'
+          import json, sys, datetime
+          fails = []
+          with open('data/opportunities.auto.json') as f:
+              trk = json.load(f)
+          roles = len(trk.get('opportunities') or [])
+          print(f"tracker: {roles} roles, generated {trk.get('generatedAt')}")
+          if roles < 20:
+              fails.append(f"tracker collapsed to {roles} roles")
+          with open('data/erp.auto.json') as f:
+              erp = json.load(f)
+          print(f"erp: {len(erp.get('countries') or [])} countries, "
+                f"S&P500 implied {erp.get('sp500ImpliedErp')}%")
+          if len(erp.get('countries') or []) < 100:
+              fails.append('country premium table looks truncated')
+          if fails:
+              sys.exit('::error::' + '; '.join(fails))
+          PY
 
       - name: Verify something was produced
         run: |

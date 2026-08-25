@@ -78,6 +78,44 @@ function prepSlugFor(vertical) {
   return undefined;
 }
 
+/**
+ * Workday reports "Posted 3 Days Ago" / "Posted Today" / "Posted 30+ Days Ago"
+ * rather than a date. Converts to an ISO date so the row can carry a real
+ * datePosted. "30+" is deliberately dropped: it is a floor, not a date, and
+ * guessing would put a wrong value into JobPosting markup.
+ */
+function relativePostedToIso(text) {
+  if (!text || typeof text !== 'string') return undefined;
+  const t = text.toLowerCase();
+  if (/30\+/.test(t)) return undefined;
+  let daysAgo = null;
+  if (/today|just posted/.test(t)) daysAgo = 0;
+  else if (/yesterday/.test(t)) daysAgo = 1;
+  else {
+    const m = t.match(/(\d+)\s*\+?\s*day/);
+    if (m) daysAgo = Number(m[1]);
+    const w = t.match(/(\d+)\s*\+?\s*week/);
+    if (w) daysAgo = Number(w[1]) * 7;
+    const mo = t.match(/(\d+)\s*\+?\s*month/);
+    if (mo) daysAgo = Number(mo[1]) * 30;
+  }
+  if (daysAgo === null || !Number.isFinite(daysAgo)) return undefined;
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() - daysAgo);
+  return d.toISOString().slice(0, 10);
+}
+
+/** Normalise whatever an ATS gave us to a plain YYYY-MM-DD, or nothing. */
+function toIsoDate(value) {
+  if (!value) return undefined;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return undefined;
+  // A posting date in the future is bad data, and would make JobPosting
+  // markup invalid. Drop it rather than publish it.
+  if (d.getTime() > Date.now()) return undefined;
+  return d.toISOString().slice(0, 10);
+}
+
 function toOpportunity(job, firm) {
   if (!job.title || !isEarlyCareer(job.title)) return null;
   const vertical = inferVertical(job.title);
@@ -96,6 +134,10 @@ function toOpportunity(job, firm) {
     region: inferRegion(job.location),
     level,
     closingDate: job.deadline || undefined,
+    // Real posting date from the ATS. Drives JobPosting datePosted, which
+    // Google requires — without it the markup is invalid and the row is
+    // ineligible for job rich results.
+    openingDate: toIsoDate(job.postedAt),
     status: 'Open',
     applicationUrl: job.url,
     recommendedPrepSlug: prepSlugFor(vertical),
@@ -122,6 +164,7 @@ async function fetchGreenhouse(f) {
     location: j.location?.name || '',
     url: j.absolute_url,
     deadline: j.application_deadline || undefined,
+    postedAt: j.first_published || j.updated_at || undefined,
   }));
 }
 
@@ -135,6 +178,7 @@ async function fetchAshby(f) {
       location: j.location || '',
       url: j.jobUrl || j.applyUrl,
       department: j.department || undefined,
+      postedAt: j.publishedAt || j.updatedAt || undefined,
     }));
 }
 
@@ -146,6 +190,8 @@ async function fetchLever(f) {
     location: j.categories?.location || '',
     url: j.hostedUrl,
     department: j.categories?.team || undefined,
+    // Lever returns epoch milliseconds, not an ISO string.
+    postedAt: j.createdAt ? new Date(j.createdAt).toISOString() : undefined,
   }));
 }
 
@@ -176,6 +222,8 @@ async function fetchWorkday(f) {
           title: jp.title ?? '',
           location: jp.locationsText ?? '',
           url: `https://${f.host}/${f.site}${path}`,
+          // Workday gives relative text ("Posted 3 Days Ago"), not a date.
+          postedAt: relativePostedToIso(jp.postedOn),
         });
       }
     }
@@ -213,6 +261,35 @@ async function main() {
         failed++;
       }
     }
+  }
+
+  // ---------------------------------------------------------------------
+  // Refuse to publish a collapsed result.
+  //
+  // Every fetch is independently fallible — an ATS outage, rate limiting, a
+  // network blip in CI — and `Promise.allSettled` swallows all of it. Without
+  // this guard a bad run writes an empty tracker, commits it, and the live
+  // site loses every role until someone notices. Discovered the hard way: a
+  // local run with restricted egress failed 45 of 48 boards and produced 0.
+  //
+  // A real drop happens gradually; a collapse is infrastructure. Bail loudly
+  // and leave yesterday's data in place, which is stale but correct.
+  // ---------------------------------------------------------------------
+  let previousCount = 0;
+  try {
+    previousCount = JSON.parse(await readFile(OUT, 'utf8')).opportunities?.length ?? 0;
+  } catch {
+    /* first run — nothing to protect */
+  }
+  const MIN_RETAINED_SHARE = 0.5;
+  if (previousCount > 0 && all.length < previousCount * MIN_RETAINED_SHARE) {
+    console.error(
+      `\nABORT: collated ${all.length} roles vs ${previousCount} previously ` +
+        `(${ok}/${firms.length} boards ok, ${failed} failed).\n` +
+        `That is below ${MIN_RETAINED_SHARE * 100}% of the last good run, which means a ` +
+        `source outage rather than roles genuinely closing. Existing data left untouched.`,
+    );
+    process.exit(1);
   }
 
   await mkdir(dirname(OUT), { recursive: true });
