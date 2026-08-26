@@ -3,8 +3,15 @@ name: Collect open data
 # This runs on a PUBLIC repo, where GitHub Actions minutes are unlimited and
 # free. The L3VLUP site reads the JSON committed here via its DATA_BASE_URL.
 #
-# Every source is a public government feed or press wire, so there are no
-# secrets and a fork can run this unchanged.
+# Every source is a public government feed, press wire or public careers page.
+# One optional secret is used: FIRECRAWL_API_KEY renders the JS-heavy careers
+# pages. It is optional by design — without it that step falls back to a plain
+# fetch and simply misses the SPA-rendered firms — so a fork still runs this
+# unchanged, and a fork's pull request never receives the secret anyway.
+#
+# Nothing here may ever move to pull_request_target. That is the one trigger
+# that hands repository secrets to code from a fork, and on a public repo it is
+# the difference between a scraper and a credential giveaway.
 
 on:
   schedule:
@@ -35,6 +42,15 @@ jobs:
       - name: Deal tape
         continue-on-error: true
         run: node scripts/sync-deals.mjs
+
+      # Diffs public graduate careers pages against the last snapshot. Both the
+      # target list and the output are public web data, which is what makes this
+      # safe to run — and to publish the results of — on a public repository.
+      - name: Careers page diff
+        continue-on-error: true
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: node scripts/detect-career-changes.mjs
 
       # Weekly only, or whenever the workflow is run by hand.
       - name: Macro chartbook

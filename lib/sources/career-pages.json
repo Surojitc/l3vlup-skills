@@ -1,0 +1,40 @@
+{
+  "_comment": "Firms NOT on a public ATS JSON board. The career-change detector (scripts/detect-career-changes.mjs) fetches each url, extracts early-career postings, and diffs against the last snapshot — exactly how a deadline tracker detects new openings. JS-heavy SPA career pages need a rendered fetch: set FIRECRAWL_API_KEY to enable it. tier must match TIER_ORDER in the tracker UI.",
+  "pages": [
+    {
+      "firm": "Goldman Sachs",
+      "url": "https://www.goldmansachs.com/careers/students/programs",
+      "region": "US",
+      "tier": "Bulge Bracket",
+      "rendered": true
+    },
+    {
+      "firm": "Morgan Stanley",
+      "url": "https://www.morganstanley.com/people/careers/careers-early.html",
+      "region": "US",
+      "tier": "Bulge Bracket",
+      "rendered": true
+    },
+    {
+      "firm": "Jane Street",
+      "url": "https://www.janestreet.com/join-jane-street/open-roles/",
+      "region": "US",
+      "tier": "Trading Tech",
+      "rendered": false
+    },
+    {
+      "firm": "Rothschild & Co",
+      "url": "https://www.rothschildandco.com/en/careers/early-careers/",
+      "region": "UK",
+      "tier": "Elite Boutique",
+      "rendered": true
+    },
+    {
+      "firm": "Point72",
+      "url": "https://careers.point72.com/",
+      "region": "US",
+      "tier": "Multi-Manager",
+      "rendered": true
+    }
+  ]
+}
