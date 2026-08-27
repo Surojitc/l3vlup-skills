@@ -54,6 +54,29 @@ def _norm(name: str) -> str:
     return " ".join(t.split())
 
 
+# ── Known-stale entries in the upstream tax table ────────────────────────────
+#
+# Damodaran republishes the Tax Foundation's country table, and that table lags
+# statutory changes by a year or more. Where the published figure is provably
+# wrong we override it, keep the original alongside so the substitution is
+# auditable rather than invisible, and cite the authority.
+#
+# Delete an entry once the upstream figure catches up. Anything left here that
+# now matches the source is dead weight and the run says so.
+TAX_OVERRIDES: dict[str, tuple[float, str, str]] = {
+    # The source carries 19%, which is the UK SMALL PROFITS rate for profits
+    # under £50k, not the main rate. Since 1 April 2023 the main rate is 25% on
+    # profits above £250k, with marginal relief between the two thresholds
+    # producing an effective marginal rate of 26.5% inside the band. A WACC tax
+    # shield on any company worth valuing uses the main rate.
+    "United Kingdom": (
+        25.0,
+        "Main rate from 1 April 2023, profits above GBP 250,000",
+        "https://www.gov.uk/corporation-tax-rates",
+    ),
+}
+
+
 def match_tax(name: str, table: dict[str, float]) -> tuple[float | None, str | None]:
     """
     Damodaran's country spellings do not match the IMF's.
@@ -202,6 +225,20 @@ def main() -> None:
             print(f"  no tax rate matched for {name}")
         elif tax_row != name:
             print(f"  {name} -> tax row '{tax_row}' ({tax}%)")
+
+        override = TAX_OVERRIDES.get(name)
+        tax_note = tax_source = None
+        tax_published = None
+        if override:
+            corrected, why, cite = override
+            if tax is not None and abs(tax - corrected) < 0.005:
+                # The upstream table has caught up. Say so loudly: the entry is
+                # now doing nothing and should be deleted.
+                print(f"  {name}: override is redundant, source now reads {tax}% — remove it")
+            else:
+                print(f"  {name}: overriding source {tax}% -> {corrected}% ({why})")
+                tax_published, tax = tax, corrected
+                tax_note, tax_source = why, cite
         countries.append({
             "iso": iso,
             "country": name,
@@ -216,9 +253,14 @@ def main() -> None:
             ),
             "marginalTaxRate": tax,
             # The row the rate actually came from, so a wrong containment match is
-            # visible on inspection rather than passing as fact. The UK figure in
-            # particular has looked like a stale headline rate.
+            # visible on inspection rather than passing as fact.
             "marginalTaxSourceRow": tax_row,
+            # Present only where the published figure was overridden. Carrying the
+            # original means the substitution can be checked, and reversed, without
+            # reading the script.
+            "marginalTaxPublished": tax_published,
+            "marginalTaxNote": tax_note,
+            "marginalTaxAuthority": tax_source,
             "growthHistory": dict(sorted(g.items())[-12:]),
             "inflationHistory": dict(sorted(p.items())[-12:]),
         })
