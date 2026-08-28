@@ -33,7 +33,7 @@ const TIMEOUT_MS = 12000;
 /* ----------------------------- classification ---------------------------- */
 // Word-boundaried so "Internal"/"International" do NOT match "intern".
 const EARLY_CAREER =
-  /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?career|placement|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|analyst\s+programme?|off[\s-]?cycle|spring\s+(week|insight))\b/i;
+  /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?career|placement|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|summer\s+associate|analyst\s+programme?|off[\s-]?cycle|spring\s+(week|insight))\b/i;
 const SENIOR = /\b(senior|staff|principal|director|distinguished|vp|head\s+of|lead)\b/i;
 
 export function isEarlyCareer(title) {
@@ -134,10 +134,31 @@ function inferRegion(location) {
   return 'US';
 }
 
+// Vertical -> the career track page a candidate should read next.
+//
+// This was three tech branches and nothing else, so every finance role the
+// tracker collected pointed nowhere: 24 investment banking rows, 12 sales &
+// trading, and an equity research row, all with a written prep page sitting
+// unlinked. The pages already existed; only this map was missing.
+const PREP_SLUG = {
+  'Investment Banking': 'investment-banking-interview-prep',
+  'Private Equity': 'private-equity-interview-prep',
+  'Hedge Fund': 'hedge-fund-interview-prep',
+  'Equity Research': 'equity-research-interview-prep',
+  'Sales & Trading': 'sales-and-trading-interview-prep',
+  'Venture Capital': 'venture-capital-interview-prep',
+  'Corporate Development': 'corporate-development-ma-interview-prep',
+  'Operations': 'bizops-strategy-operations-interview-prep',
+  'Product Management': 'product-management-interview-prep',
+  'Software Engineering': 'software-engineering-interview-prep',
+  // Data & ML has no track of its own yet and borrows the engineering one. It
+  // is a proxy, not a path: the loops differ substantially, and docs/content-gaps.md
+  // carries this as the second-largest content gap on the site.
+  'Data & ML': 'software-engineering-interview-prep',
+};
+
 function prepSlugFor(vertical) {
-  if (vertical === 'Software Engineering' || vertical === 'Data & ML') return 'software-engineering-interview-prep';
-  if (vertical === 'Product Management') return 'product-management-interview-prep';
-  return undefined;
+  return PREP_SLUG[vertical];
 }
 
 /**

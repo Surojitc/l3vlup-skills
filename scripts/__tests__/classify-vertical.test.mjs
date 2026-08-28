@@ -112,5 +112,35 @@ eq(
   null
 );
 
+// 'Summer Associate' is the standard title for MBA-level banking and private
+// equity internships. EARLY_CAREER knew 'summer analyst' and not this, so those
+// roles were rejected before classification ever saw them — found by the prep
+// wiring test below returning undefined for a role that should have matched.
+eq(
+  'a Summer Associate role is early-career',
+  toOpportunity({ id: 'sa', title: 'Private Equity Summer Associate', location: 'NY', url: 'u' }, firm)?.vertical,
+  'Private Equity'
+);
+
+// --- every collected role should reach a prep page where one exists --------
+// prepSlugFor was three tech branches, so 24 investment banking rows and 12
+// sales & trading rows pointed nowhere while their prep pages sat written and
+// unlinked. These assert the wiring, not the pages.
+const prep = (title, want) => {
+  const o = toOpportunity({ id: 'p', title, location: 'London', url: 'u' }, firm);
+  eq(`prep: ${title.slice(0, 44).padEnd(46)} → ${want ?? 'none'}`, o?.recommendedPrepSlug, want);
+};
+prep('Investment Banking Summer Analyst', 'investment-banking-interview-prep');
+prep('Sales and Trading Summer Analyst', 'sales-and-trading-interview-prep');
+prep('Equity Research Summer Analyst', 'equity-research-interview-prep');
+prep('Venture Capital Summer Analyst', 'venture-capital-interview-prep');
+prep('Private Equity Summer Associate', 'private-equity-interview-prep');
+prep('Software Engineer Intern', 'software-engineering-interview-prep');
+// No track written yet: undefined is correct, and is what docs/content-gaps.md
+// tracks. It must stay undefined rather than silently borrow an unrelated page.
+prep('Quantitative Researcher Intern', undefined);
+prep('Wealth Management Internship', undefined);
+prep('Summer Analyst Programme 2027', undefined);
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);
