@@ -1,0 +1,123 @@
+name: Discover ATS boards
+
+# Resolves lib/sources/careers-seed.json into boards the tracker can poll.
+#
+# MANUAL ONLY, deliberately. It fetches ~160 firms' own careers pages, which is
+# a different kind of request from the daily sync: that one asks a handful of
+# ATS APIs for JSON they exist to serve, this one crawls corporate sites that
+# have not invited us. Once a firm resolves it moves into the registry and the
+# daily sync polls its board instead, so this should run when the seed list
+# grows, not on a clock.
+#
+# Why it exists: the registry is Greenhouse and Ashby, which is what tech
+# companies and prop shops use, so the tracker came out 59 software engineering
+# roles against 6 investment banking. Banks and funds sit on Workday, Oracle and
+# bespoke sites, and have to be found on purpose.
+
+on:
+  workflow_dispatch:
+    inputs:
+      vertical:
+        description: 'Restrict to one vertical, e.g. Investment Bank (blank = all)'
+        required: false
+        default: 'Investment Bank'
+      limit:
+        description: 'Max firms to attempt (blank = no cap)'
+        required: false
+        default: '25'
+      write:
+        description: 'Merge validated boards into the registry and commit'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: discover-ats
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      # Detection decides what goes into the registry, and a wrong tenant does
+      # not error — it returns an empty board that looks like a firm with no
+      # early-career roles. Gate the run on the tests.
+      - name: Test board detection
+        run: node scripts/__tests__/ats-discover.test.mjs
+
+      - name: Resolve careers pages to boards
+        # Inputs go through the environment and into a bash array, never into
+        # the command line by interpolation. "Investment Bank" contains a space,
+        # so an unquoted expansion would hand the script --vertical=Investment
+        # and a stray Bank, and it would silently resolve every vertical.
+        env:
+          VERTICAL: ${{ inputs.vertical }}
+          LIMIT: ${{ inputs.limit }}
+          WRITE: ${{ inputs.write }}
+        run: |
+          # if-blocks rather than `[ ... ] && ...`: the runner uses `bash -e`,
+          # and a false test on the last line is a non-zero exit for the step.
+          ARGS=()
+          if [ -n "$VERTICAL" ]; then ARGS+=("--vertical=$VERTICAL"); fi
+          if [ -n "$LIMIT" ]; then ARGS+=("--limit=$LIMIT"); fi
+          if [ "$WRITE" = "true" ]; then ARGS+=("--write"); fi
+          printf 'running: node scripts/discover-ats.mjs %s\n' "${ARGS[*]}"
+          node scripts/discover-ats.mjs "${ARGS[@]}"
+
+      # Always, including on a dry run and including when the step above fails,
+      # because the report is the deliverable: it names which firms are on an
+      # ATS we cannot poll, which is the work someone picks up next.
+      - name: Upload the discovery report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ats-discovery
+          path: data/ats-discovery.json
+          if-no-files-found: warn
+
+      - name: Summarise
+        if: always()
+        run: |
+          [ -f data/ats-discovery.json ] || exit 0
+          node -e '
+            const r = JSON.parse(require("fs").readFileSync("data/ats-discovery.json", "utf8")).results || [];
+            const by = {};
+            for (const x of r) by[x.status] = (by[x.status] || 0) + 1;
+            const L = ["| Outcome | Firms |", "|---|---|"];
+            for (const [k, v] of Object.entries(by).sort((a, b) => b[1] - a[1])) L.push(`| ${k} | ${v} |`);
+            const ok = r.filter((x) => x.status === "validated");
+            if (ok.length) {
+              L.push("", "### Validated", "| Firm | Board | Postings |", "|---|---|---|");
+              for (const x of ok) L.push(`| ${x.firm} | ${x.board.ats}:${x.board.tenant ?? x.board.token} | ${x.postings} |`);
+            }
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, L.join("\n") + "\n");
+          '
+
+      - name: Commit the registry
+        if: inputs.write
+        run: |
+          git config user.name  "l3vlup-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add lib/sources/ats-registry.json data/ats-discovery.json
+          if git diff --cached --quiet; then
+            echo "nothing new resolved"
+            exit 0
+          fi
+          git commit -m "chore(tracker): add boards resolved by discovery [skip ci]"
+          for i in 1 2 3 4 5; do
+            git push && exit 0
+            echo "push failed, rebasing (attempt $i)"
+            git pull --rebase origin main || true
+            sleep $((2 ** i))
+          done
+          echo "::error::could not push the registry"
+          exit 1
