@@ -1,25 +1,7 @@
 {
-  "generatedAt": "2026-08-27T17:52:07.922Z",
-  "count": 123,
+  "generatedAt": "2026-08-28T09:21:16.598Z",
+  "count": 124,
   "opportunities": [
-    {
-      "id": "greenhouse-stripe-8031833",
-      "firm": "Stripe",
-      "role": "Software Engineer, Intern",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "Bengaluru",
-      "region": "Asia",
-      "level": "Internship",
-      "openingDate": "2026-07-10",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8031833",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
     {
       "id": "greenhouse-stripe-8097801",
       "firm": "Stripe",
@@ -33,6 +15,24 @@
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8097801",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-stripe-8031833",
+      "firm": "Stripe",
+      "role": "Software Engineer, Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "Bengaluru",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-07-10",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8031833",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -148,6 +148,24 @@
       ]
     },
     {
+      "id": "greenhouse-cloudflare-8089400",
+      "firm": "Cloudflare",
+      "role": "Research Engineer Intern (Fall 2026)",
+      "vertical": "Data & ML",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "In-Office",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-28",
+      "status": "Open",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089400?gh_jid=8089400",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-cloudflare-8089379",
       "firm": "Cloudflare",
       "role": "Research Engineer Intern (Fall 2026)",
@@ -184,24 +202,6 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8089400",
-      "firm": "Cloudflare",
-      "role": "Research Engineer Intern (Fall 2026)",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "In-Office",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-07-28",
-      "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089400?gh_jid=8089400",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-cloudflare-8118845",
       "firm": "Cloudflare",
       "role": "Software Engineer Intern (Fall 2026)",
@@ -216,7 +216,8 @@
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced"
+        "Auto-sourced",
+        "Rolling"
       ]
     },
     {
@@ -234,7 +235,8 @@
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118855?gh_jid=8118855",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced"
+        "Auto-sourced",
+        "Rolling"
       ]
     },
     {
@@ -252,7 +254,8 @@
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8052785?gh_jid=8052785",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced"
+        "Auto-sourced",
+        "Rolling"
       ]
     },
     {
@@ -360,7 +363,8 @@
       "applicationUrl": "https://www.samsara.com/company/careers/roles/8082093?gh_jid=8082093",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced"
+        "Auto-sourced",
+        "Rolling"
       ]
     },
     {
@@ -378,7 +382,8 @@
       "applicationUrl": "https://www.samsara.com/company/careers/roles/8082091?gh_jid=8082091",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced"
+        "Auto-sourced",
+        "Rolling"
       ]
     },
     {
@@ -588,6 +593,24 @@
       ]
     },
     {
+      "id": "greenhouse-imc-4823836101",
+      "firm": "IMC Trading",
+      "role": "Graduate Performance Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4823836101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-imc-4907368101",
       "firm": "IMC Trading",
       "role": "Graduate Quantitative Researcher (BS/MS)",
@@ -656,24 +679,6 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4917773101",
-      "firm": "IMC Trading",
-      "role": "Graduate Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Aarhus, Central Denmark Region, Denmark",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-07-31",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4917773101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-imc-4818790101",
       "firm": "IMC Trading",
       "role": "Graduate Software Engineer",
@@ -686,6 +691,24 @@
       "openingDate": "2026-07-01",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4818790101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4917773101",
+      "firm": "IMC Trading",
+      "role": "Graduate Software Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Aarhus, Central Denmark Region, Denmark",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-07-31",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4917773101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -854,6 +877,24 @@
       ]
     },
     {
+      "id": "greenhouse-imc-4842595101",
+      "firm": "IMC Trading",
+      "role": "Performance Engineer Intern - Summer 2027",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4842595101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-imc-4941208101",
       "firm": "IMC Trading",
       "role": "Quantitative Research Intern 2027",
@@ -934,41 +975,6 @@
       "openingDate": "2026-08-12",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4941205101",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
-      "id": "greenhouse-imc-4823923101",
-      "firm": "IMC Trading",
-      "role": "Quantitative Trader Intern - Summer 2027",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Chicago, United States",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-07-01",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4823923101",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
-      "id": "greenhouse-imc-4577504101",
-      "firm": "IMC Trading",
-      "role": "Software Engineer, Early Career",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Chicago, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2025-04-17",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4577504101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -1646,6 +1652,24 @@
       ]
     },
     {
+      "id": "workday-nvidia-JR2024408",
+      "firm": "NVIDIA",
+      "role": "Android Software Engineer (RDSS Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "Taiwan, Taipei",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-28",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/Android-Software-Engineer--RDSS-Intern-_JR2024408",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "workday-nvidia-JR2012398",
       "firm": "NVIDIA",
       "role": "Applied Deep Learning PhD Research Intern, Reinforcement Learning for LLMs - Fall 2026",
@@ -1931,24 +1955,6 @@
       ]
     },
     {
-      "id": "workday-nvidia-JR2023646",
-      "firm": "NVIDIA",
-      "role": "Artificial Intelligence Research Intern - Deep Learning",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Big Tech",
-      "location": "Taiwan, Taipei",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-08-19",
-      "status": "Open",
-      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/Artificial-Intelligence-Research-Intern---Deep-Learning_JR2023646",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "workday-nvidia-JR2008771",
       "firm": "NVIDIA",
       "role": "Formal Verification Engineer - New College Graduate",
@@ -2113,6 +2119,7 @@
       "location": "Taipei Taipei City Taiwan",
       "region": "US",
       "level": "Graduate",
+      "closingDate": "2026-11-27",
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taipei-Taipei-City-Taiwan/Banking---Investment-Banking--Summer-Analyst--Taiwan---APAC--2027_26985504",
@@ -2130,6 +2137,7 @@
       "location": "Tampa Florida United States",
       "region": "US",
       "level": "Graduate",
+      "closingDate": "2026-09-09",
       "openingDate": "2026-08-27",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Tampa-Florida-United-States/Functions---Quantitative-Risk-Management--Summer-Analyst--Tampa---USA--2027_26990051",
@@ -2147,6 +2155,7 @@
       "location": "Irving Texas United States",
       "region": "US",
       "level": "Graduate",
+      "closingDate": "2026-09-09",
       "openingDate": "2026-08-27",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Irving-Texas-United-States/Functions---Quantitative-Risk-Management--Summer-Analyst--Irving---USA--2027_26990048",
@@ -2164,9 +2173,28 @@
       "location": "Getzville New York United States",
       "region": "US",
       "level": "Graduate",
+      "closingDate": "2026-09-09",
       "openingDate": "2026-08-27",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Getzville-New-York-United-States/Functions---Quantitative-Risk-Management--Summer-Analyst--Buffalo---USA--2027_26990039",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26990264",
+      "firm": "Citi",
+      "role": "Banking - Investment Banking, Summer Analyst, Korea, Republic of – APAC, 2027",
+      "vertical": "Investment Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Seoul  Korea, Republic Of",
+      "region": "Asia",
+      "level": "Graduate",
+      "closingDate": "2026-10-30",
+      "openingDate": "2026-08-28",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Seoul--Korea-Republic-Of/Banking---Investment-Banking--Summer-Analyst--Korea--Republic-of---APAC--2027_26990264",
       "tags": [
         "Auto-sourced"
       ]
