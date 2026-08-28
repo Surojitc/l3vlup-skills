@@ -76,6 +76,11 @@ jobs:
       # Always, including on a dry run and including when the step above fails,
       # because the report is the deliverable: it names which firms are on an
       # ATS we cannot poll, which is the work someone picks up next.
+      #
+      # Still on the v4 major while the rest of the file is on the ones that
+      # moved to Node 24. Left deliberately: an action tag that does not resolve
+      # fails the step outright, which is worse than the deprecation notice it
+      # would avoid. If the first run logs the Node 20 notice here, bump it.
       - name: Upload the discovery report
         if: always()
         uses: actions/upload-artifact@v4
