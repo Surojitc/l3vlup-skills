@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-28T12:40:53.935Z",
-  "count": 207,
+  "generatedAt": "2026-08-28T18:57:36.808Z",
+  "count": 206,
   "opportunities": [
     {
       "id": "greenhouse-stripe-7544547",
@@ -15,24 +15,7 @@
       "openingDate": "2026-01-28",
       "status": "Open",
       "applicationUrl": "https://stripe.com/jobs/search?gh_jid=7544547",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
-      "id": "greenhouse-stripe-8097801",
-      "firm": "Stripe",
-      "role": "Software Engineer, Intern",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "Dublin",
-      "region": "Europe",
-      "level": "Internship",
-      "openingDate": "2026-08-17",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8097801",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -56,6 +39,24 @@
       ]
     },
     {
+      "id": "greenhouse-stripe-8097801",
+      "firm": "Stripe",
+      "role": "Software Engineer, Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "Dublin",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-08-17",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8097801",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-stripe-7718947",
       "firm": "Stripe",
       "role": "Tech Operations Associate, New Grad (Mexico)",
@@ -68,6 +69,7 @@
       "openingDate": "2026-04-17",
       "status": "Open",
       "applicationUrl": "https://stripe.com/jobs/search?gh_jid=7718947",
+      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -281,6 +283,7 @@
       "openingDate": "2026-07-17",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8068479?gh_jid=8068479",
+      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -303,24 +306,6 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8089407",
-      "firm": "Cloudflare",
-      "role": "Research Engineer Intern (Fall 2026)",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "In-Office",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-07-29",
-      "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-cloudflare-8089400",
       "firm": "Cloudflare",
       "role": "Research Engineer Intern (Fall 2026)",
@@ -333,6 +318,24 @@
       "openingDate": "2026-07-28",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089400?gh_jid=8089400",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-cloudflare-8089407",
+      "firm": "Cloudflare",
+      "role": "Research Engineer Intern (Fall 2026)",
+      "vertical": "Data & ML",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "In-Office",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-29",
+      "status": "Open",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -357,25 +360,6 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8118845",
-      "firm": "Cloudflare",
-      "role": "Software Engineer Intern (Fall 2026)",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "In-Office",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-08-11",
-      "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Rolling"
-      ]
-    },
-    {
       "id": "greenhouse-cloudflare-8118855",
       "firm": "Cloudflare",
       "role": "Software Engineer Intern (Fall 2026)",
@@ -388,6 +372,25 @@
       "openingDate": "2026-08-20",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118855?gh_jid=8118855",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Rolling"
+      ]
+    },
+    {
+      "id": "greenhouse-cloudflare-8118845",
+      "firm": "Cloudflare",
+      "role": "Software Engineer Intern (Fall 2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "In-Office",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-11",
+      "status": "Open",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced",
@@ -661,23 +664,6 @@
       ]
     },
     {
-      "id": "greenhouse-flexport-8128438",
-      "firm": "Flexport",
-      "role": "Area Manager - New Grad",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Enterprise Tech",
-      "location": "Dallas Warehouse",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-08-21",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128438",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-flexport-8070269",
       "firm": "Flexport",
       "role": "Area Manager - New Grad",
@@ -690,6 +676,23 @@
       "openingDate": "2026-07-16",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8070269",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-flexport-8128438",
+      "firm": "Flexport",
+      "role": "Area Manager - New Grad",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Enterprise Tech",
+      "location": "Dallas Warehouse",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128438",
       "tags": [
         "Auto-sourced"
       ]
@@ -1146,24 +1149,6 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4818790101",
-      "firm": "IMC Trading",
-      "role": "Graduate Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Chicago, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-07-01",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4818790101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-imc-4917773101",
       "firm": "IMC Trading",
       "role": "Graduate Software Engineer",
@@ -1182,18 +1167,18 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4564480101",
+      "id": "greenhouse-imc-4818790101",
       "firm": "IMC Trading",
-      "role": "Graduate Software Engineer (2026)",
+      "role": "Graduate Software Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Trading Tech",
-      "location": "Amsterdam, Netherlands",
-      "region": "Europe",
+      "location": "Chicago, United States",
+      "region": "US",
       "level": "Graduate",
-      "openingDate": "2025-08-27",
+      "openingDate": "2026-07-01",
       "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4818790101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1212,6 +1197,24 @@
       "openingDate": "2025-08-27",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4635938101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4564480101",
+      "firm": "IMC Trading",
+      "role": "Graduate Software Engineer (2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Amsterdam, Netherlands",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2025-08-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1266,6 +1269,7 @@
       "openingDate": "2026-07-31",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4667815101",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -1912,6 +1916,23 @@
       ]
     },
     {
+      "id": "greenhouse-jumptrading-8027900",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong; Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-jumptrading-8010307",
       "firm": "Jump Trading",
       "role": "Campus Quantitative Researcher (Intern)",
@@ -1941,23 +1962,6 @@
       "openingDate": "2026-08-03",
       "status": "Open",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027939",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
-      "id": "greenhouse-jumptrading-8027900",
-      "firm": "Jump Trading",
-      "role": "Campus Quantitative Researcher (Intern)",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Hong Kong; Shanghai",
-      "region": "Asia",
-      "level": "Internship",
-      "openingDate": "2026-08-24",
-      "status": "Open",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
       "tags": [
         "Auto-sourced"
       ]
@@ -2014,23 +2018,6 @@
       ]
     },
     {
-      "id": "greenhouse-flowtraders-4782837",
-      "firm": "Flow Traders",
-      "role": "Graduate Trader",
-      "vertical": "Sales & Trading",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Hong Kong",
-      "region": "Asia",
-      "level": "Graduate",
-      "openingDate": "2023-01-04",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/4782837",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-flowtraders-7507482",
       "firm": "Flow Traders",
       "role": "Graduate Trader",
@@ -2043,6 +2030,25 @@
       "openingDate": "2026-01-30",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/7507482",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-flowtraders-4782837",
+      "firm": "Flow Traders",
+      "role": "Graduate Trader",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2023-01-04",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/4782837",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2077,6 +2083,7 @@
       "openingDate": "2026-08-04",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/8102618",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2534,6 +2541,7 @@
       "openingDate": "2026-08-26",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Chiyoda-ku-Tokyo-Japan/Banking---Investment-Banking--Part-time-Intern--Tokyo-JPN--2027_26973462",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2550,6 +2558,7 @@
       "level": "Internship",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Bogota--Colombia/XMLNAME-2025-Markets-Internship-Colombia_25836348",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2583,6 +2592,7 @@
       "level": "Internship",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Bogota--Colombia/Markets---Sales-and-Trading--Internship--Bogot---Colombia--2026_25907844",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2599,6 +2609,7 @@
       "level": "Internship",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Bogota--Colombia/Banking---Corporate-Baking--Internship--Bogot---Colombia--2026_25909660",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2762,6 +2773,7 @@
       "level": "Graduate",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Job-Requisition--25843173-Citi-India-Apprenticeship-Program---SS-Ops_25843180",
+      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2829,6 +2841,7 @@
       "openingDate": "2026-08-05",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Singapore--Singapore/Banking---Investment-Banking--Summer-Analyst--Singapore---APAC--2027_26984373",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2846,6 +2859,7 @@
       "openingDate": "2026-08-06",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Investment-Banking--Summer-Analyst--Hong-Kong---APAC--2027_26984799",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -2928,6 +2942,7 @@
       "openingDate": "2026-08-11",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Sao-Paulo-Sao-Paulo-Brazil/Markets---Business-Management--Internship--So-Paulo---Brazil--2026_26985536",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3017,6 +3032,7 @@
       "openingDate": "2026-08-25",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Madrid-Calle-de-Jose-Abascal/Banking-Off-Cycle-Internship-Programme-2027-Madrid_JR-0000124446",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3034,6 +3050,7 @@
       "openingDate": "2026-08-25",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Frankfurt-Taunus-Turm/Capital-Markets-Off-Cycle-Internship-Programme-2027-Frankfurt_JR-0000124472-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3051,6 +3068,7 @@
       "openingDate": "2026-08-25",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Dubai-International-Financial-Centre-Dubai/Banking-Off-Cycle-Internship-Programme-2027-Dubai_JR-0000124444",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3068,6 +3086,7 @@
       "openingDate": "2026-08-21",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Capital-Markets-Summer-Internship-Programme-2027-London_JR-0000123983",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3085,6 +3104,7 @@
       "openingDate": "2026-08-21",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Banking-Summer-Internship-Programme-2027-London_JR-0000123942-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3102,6 +3122,7 @@
       "openingDate": "2026-08-20",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Houston-609-Main-Street/Banking-Analyst-Summer-Internship-Program-2027-Houston_JR-0000083839",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3119,23 +3140,7 @@
       "openingDate": "2026-08-19",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/San-Francisco-Four-Embarcadero-Center/Banking-Associate-Graduate-Program-2027-San-Francisco_JR-0000123462-1",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
-      "id": "workday-barclays-JR-0000123463-1",
-      "firm": "Barclays",
-      "role": "Banking Analyst Graduate Program 2027 San Francisco",
-      "vertical": "Investment Banking",
-      "programmeType": "Graduate Programme",
-      "tier": "Tracked",
-      "location": "San Francisco, Four Embarcadero Center",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-08-18",
-      "status": "Open",
-      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/San-Francisco-Four-Embarcadero-Center/Banking-Analyst-Graduate-Program-2027-San-Francisco_JR-0000123463-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3154,6 +3159,7 @@
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Investment-Banking-Graduate-Programme-2027-Singapore_JR-0000128135",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3190,6 +3196,7 @@
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Graduate-Programme-2027-Hong-Kong_JR-0000128133",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3208,6 +3215,7 @@
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Sales--Trading-and-Structuring-Graduate-Programme-2027-Singapore_JR-0000128131",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3225,6 +3233,7 @@
       "closingDate": "2026-12-01",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Electronic-Trading-Associate-Summer-Internship-Programme-2027-Hong-Kong_JR-0000117566",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3242,6 +3251,7 @@
       "openingDate": "2026-08-03",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Toronto-Bay-Wellington-Tower-L47/Banking-Analyst-Summer-Internship-Program-2027-Toronto_JR-0000083842",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3259,6 +3269,7 @@
       "closingDate": "2026-11-01",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/XMLNAME-2027-Operations-Analyst-Summer-Internship-Programme-Singapore_JR-0000121768",
+      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3345,6 +3356,7 @@
       "closingDate": "2026-11-01",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Research-Analyst-Summer-Internship-Programme-2027-Singapore_JR-0000119610",
+      "recommendedPrepSlug": "equity-research-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3362,6 +3374,7 @@
       "closingDate": "2026-10-01",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Investment-Banking-Summer-Internship-Programme-2027-Hong-Kong_JR-0000117558",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3379,6 +3392,7 @@
       "closingDate": "2026-10-01",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Investment-Banking-Summer-Internship-Programme-2027-Singapore_JR-0000117560",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3396,6 +3410,7 @@
       "closingDate": "2026-10-01",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Summer-Internship-Programme-2027-Hong-Kong_JR-0000117559",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3413,6 +3428,7 @@
       "closingDate": "2026-10-01",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Sales--Trading-and-Structuring-Summer-Internship-Programme-2027-Singapore_JR-0000117562",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3445,6 +3461,7 @@
       "level": "Internship",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Los-Angeles-CA-USA/Corporate-Development-Intern--Summer-2027-_R3354",
+      "recommendedPrepSlug": "corporate-development-ma-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3462,6 +3479,7 @@
       "openingDate": "2026-08-26",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Paris-France/XMLNAME-6-month-Internship----Sovereign-Advisory--Financial-Restructuring-Group_R3217-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3479,6 +3497,7 @@
       "openingDate": "2026-08-25",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Frankfurt-Germany/XMLNAME-3-Month-Internship----Financial-Restructuring--Q2-Q3--2026-_R2889",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3496,6 +3515,7 @@
       "openingDate": "2026-08-19",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Singapore-Singapore/Off-Cycle-Intern--Financial-Restructuring----Singapore--Jan---Jun-2027-_R3484-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3513,6 +3533,7 @@
       "openingDate": "2026-08-10",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Sao-Paulo-Brazil/Intern---M-A-Financial-Restructuring---So-Paulo_R3447-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3547,6 +3568,7 @@
       "openingDate": "2026-08-06",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Frankfurt-Germany/Off-Cycle-Intern---Capital-Solutions--Debt-Advisory--Q1--2027-_R3443",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3563,6 +3585,7 @@
       "level": "Graduate",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Zurich-Switzerland/XMLNAME-2026-Graduate-Financial-Analyst---Corporate-Finance--Consumer-Group-_R3432",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3579,6 +3602,7 @@
       "level": "Internship",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Hong-Kong-China/Off-Cycle-Intern--Financial-and-Valuation-Advisory--Hong-Kong-_R3096",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3595,6 +3619,7 @@
       "level": "Graduate",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/London-UK/Financial-Analyst--Portfolio-Valuation-and-Fund-Advisory-Services--Structured-Products---2026-Graduate---London_R3390",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
