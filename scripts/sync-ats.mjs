@@ -52,7 +52,7 @@ export function inferVertical(title) {
 
   if (/\b(quant|quantitative)\b/.test(t)) return 'Quant';
   if (
-    /machine learning|deep learning|\bml\b|\bai\b|data scien(ce|tist)|data engineer|research (engineer|scientist)|applied scientist|research residency|\bdata analytics\b/.test(t)
+    /machine learning|deep learning|\bml\b|\bai\b|data scien(ce|tist)|data engineer|research (engineer|scientist)|applied scientist|research residency|\bdata analytics\b|applied research|\bnlp\b|\bllm\b|computer vision/.test(t)
   )
     return 'Data & ML';
 
@@ -61,7 +61,17 @@ export function inferVertical(title) {
   if (/venture capital|\bvc\b\s|growth equity/.test(t)) return 'Venture Capital';
   if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';
   if (/hedge fund|long[\s\/-]?short|multi[\s-]?strategy|portfolio management/.test(t)) return 'Hedge Fund';
-  if (/investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory|capital markets|restructuring|corporate finance/.test(t))
+  // Both of these sit above the generic 'banking' rule, which would otherwise
+  // swallow them. "Private Banking" is wealth management, not a deal team —
+  // caught by a test the moment the generic rule was added. And Citi files
+  // corporate lending as "Banking - Corporate Banking", which is not the same
+  // job as advising on deals.
+  if (/wealth management|private bank|private wealth|\bpwm\b/.test(t)) return 'Wealth Management';
+  if (/corporate banking|commercial banking|transaction banking|\btrade finance\b/.test(t))
+    return 'Corporate Banking';
+  if (
+    /investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory|capital markets|restructuring|corporate finance|valuation|debt advisory|capital solutions|\bbanking\b/.test(t)
+  )
     return 'Investment Banking';
 
   if (
@@ -69,12 +79,11 @@ export function inferVertical(title) {
   )
     return 'Sales & Trading';
   if (/asset management|investment management|fund management|\bmulti[\s-]?asset\b/.test(t)) return 'Asset Management';
-  if (/wealth management|private bank|private wealth|\bpwm\b/.test(t)) return 'Wealth Management';
   if (/corporate development/.test(t)) return 'Corporate Development';
 
   if (/product manager|product management|\bapm\b|\brpm\b|associate product/.test(t)) return 'Product Management';
   if (
-    /software engineer|\bswe\b|developer|frontend|front-end|backend|back-end|full[ -]?stack|infrastructure engineer|systems engineer|\btechnology\b|\bengineering\b|engineer/.test(t)
+    /software engineer|\bswe\b|developer|frontend|front-end|backend|back-end|full[ -]?stack|infrastructure engineer|systems engineer|\btechnology\b|\bengineering\b|engineer|\basic\b|silicon|\bvlsi\b|firmware|circuit design|physical design|hardware|verification|system design|solution architect/.test(t)
   )
     return 'Software Engineering';
 
@@ -83,7 +92,10 @@ export function inferVertical(title) {
   if (/\baudit\b|\btax\b|accounting|\bfinance\b|treasury|controller/.test(t)) return 'Finance & Accounting';
   if (/operations|\bops\b|middle office|back office|business management/.test(t)) return 'Operations';
 
-  if (/fintech sales|account executive|business development|\bsales\b/.test(t)) return 'FinTech Sales';
+  if (
+    /fintech sales|account executive|account development|sales development|\bsdr\b|\bbdr\b|business development|\bsales\b/.test(t)
+  )
+    return 'FinTech Sales';
 
   // Kept, not dropped. Returning null here used to discard the role outright,
   // which is how every Markets, Wealth Management and Operations graduate

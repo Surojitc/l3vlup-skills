@@ -63,6 +63,31 @@ vert('Technology Investment Banking Summer Analyst', 'Investment Banking');
 vert('Quantitative Risk Graduate Programme', 'Quant');
 vert('Markets Operations Summer Analyst', 'Sales & Trading');
 
+// --- rules added after reading the first live 'Other' bucket -------------
+// 31% of roles fell back on the first run. These are the titles that caused it,
+// taken verbatim from that report — the fallback count exists to produce
+// exactly this list.
+vert('Banking Summer Internship Programme 2027 London', 'Investment Banking');
+vert('Banking Analyst Graduate Program 2027 San Francisco', 'Investment Banking');
+vert('Off-Cycle Intern - Capital Solutions, Debt Advisory', 'Investment Banking');
+vert('Off-Cycle Intern, Financial and Valuation Advisory', 'Investment Banking');
+vert('Banking - Corporate Banking, Summer Analyst, Singapore', 'Corporate Banking');
+vert('Banking - Commercial Banking - Natural Resources, Summer Analyst', 'Corporate Banking');
+vert('ASIC Physical Design Intern - 2027', 'Software Engineering');
+vert('NVIDIA 2027 Internships: Hardware Verification', 'Software Engineering');
+vert('System Design Validation Intern - 2027', 'Software Engineering');
+vert('Account Development Representative Intern - Atlanta', 'FinTech Sales');
+vert('Applied Research Intern, NLP - Fall 2026', 'Data & ML');
+// Still correctly Other: no function is named at all.
+vert('Internship, Kuala Lumpur, Malaysia - APAC, 2026', 'Other');
+vert('Internship Program, Americas, 2027 - Mexico City', 'Other');
+
+// 'Private Banking' is wealth management, not a deal team. This broke the
+// moment the generic 'banking' rule landed, which is the whole argument for
+// pinning order with tests.
+vert('Private Banking Summer Analyst', 'Wealth Management');
+vert('Corporate Banking Graduate Programme', 'Corporate Banking');
+
 // --- the regression that matters: no role is ever dropped ----------------
 const firm = { ats: 'workday', tenant: 'firm', tier: 'Tracked', firm: 'Test Bank' };
 const unclassifiable = toOpportunity(
