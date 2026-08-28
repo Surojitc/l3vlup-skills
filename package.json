@@ -12,6 +12,8 @@
     "test": "python3 tests/run_offline.py",
     "ats": "node scripts/sync-ats.mjs",
     "test:deadlines": "node scripts/__tests__/deadline-extract.test.mjs",
-    "test:classify": "node scripts/__tests__/classify-programme.test.mjs"
+    "test:classify": "node scripts/__tests__/classify-programme.test.mjs",
+    "discover:ats": "node scripts/discover-ats.mjs",
+    "test:discover": "node scripts/__tests__/ats-discover.test.mjs"
   }
 }

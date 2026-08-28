@@ -1,0 +1,1686 @@
+{
+  "_comment": [
+    "Seed list of firm careers pages, for deriving ATS boards the tracker can poll.",
+    "",
+    "Why it exists: the live registry is 34 Greenhouse + 11 Ashby + 3 Workday, and",
+    "Greenhouse and Ashby are what tech companies and prop shops use. That is why a",
+    "finance careers tracker came back 72% software engineering. Banks and funds sit",
+    "on Workday, Oracle and bespoke sites, so they have to be found deliberately.",
+    "",
+    "Most rows carry no tenant yet: 'Derive and validate' means the careers URL is",
+    "confirmed but the board behind it has not been resolved. scripts/discover-ats.mjs",
+    "does that resolution in CI, where there is network. Nothing here is guessed \u2014",
+    "a tenant is only written once a board has answered with real postings."
+  ],
+  "firms": [
+    {
+      "firm": "Goldman Sachs",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.goldmansachs.com/careers/students",
+      "studentsUrl": "https://www.goldmansachs.com/careers/students",
+      "atsFamily": "Other / wrapper",
+      "validation": "Live-open verified",
+      "batch": 1,
+      "notes": "Open roles route to higher.gs.com; do not assume Workday"
+    },
+    {
+      "firm": "JPMorganChase",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates",
+      "studentsUrl": "https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates",
+      "atsFamily": "Oracle Cloud",
+      "validation": "Live-open verified",
+      "batch": 1,
+      "notes": "Official page links to jpmc.fa.oraclecloud.com"
+    },
+    {
+      "firm": "Morgan Stanley",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.morganstanley.com/people-opportunities/students-graduates",
+      "studentsUrl": "https://www.morganstanley.com/people-opportunities/students-graduates",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Bank of America",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.bankofamerica.com/en-us/students",
+      "studentsUrl": "https://careers.bankofamerica.com/en-us/students",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Citi",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.citi.com/early-career-programs",
+      "studentsUrl": "https://jobs.citi.com/early-career-programs",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1,
+      "notes": "Canonical page redirected from /students-graduates"
+    },
+    {
+      "firm": "Barclays",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://search.jobs.barclays/graduates",
+      "studentsUrl": "https://search.jobs.barclays/graduates",
+      "atsFamily": "Other / wrapper",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "UBS",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.ubs.com/global/en/careers/early-careers.html",
+      "studentsUrl": "https://www.ubs.com/global/en/careers/early-careers.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Deutsche Bank",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.db.com/students-graduates/",
+      "studentsUrl": "https://careers.db.com/students-graduates/",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Lazard",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.lazard.com/careers/students/",
+      "studentsUrl": "https://www.lazard.com/careers/students/",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Evercore",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.evercore.com/careers/",
+      "studentsUrl": "https://www.evercore.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Blackstone",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.blackstone.com/careers/careers-blackstone/",
+      "studentsUrl": "https://www.blackstone.com/careers/students/",
+      "atsFamily": "Workday",
+      "validation": "Tenant validated",
+      "batch": 1,
+      "notes": "Official careers page links directly to validated Workday site",
+      "workday": {
+        "shard": "wd1",
+        "tenant": "blackstone",
+        "site": "Blackstone_Careers"
+      }
+    },
+    {
+      "firm": "KKR",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.kkr.com/careers",
+      "studentsUrl": "https://www.kkr.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Apollo",
+      "vertical": "Private Credit",
+      "region": "Global / UK",
+      "careersUrl": "https://www.apollo.com/careers",
+      "studentsUrl": "https://www.apollo.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Ares Management",
+      "vertical": "Private Credit",
+      "region": "Global / UK",
+      "careersUrl": "https://www.ares.com/us/careers",
+      "studentsUrl": "https://www.ares.com/us/careers/early-careers",
+      "atsFamily": "Workday",
+      "validation": "Tenant validated",
+      "batch": 1,
+      "notes": "Official careers page links directly to validated Workday site",
+      "workday": {
+        "shard": "wd1",
+        "tenant": "aresmgmt",
+        "site": "External"
+      }
+    },
+    {
+      "firm": "Citadel",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.citadel.com/careers/",
+      "studentsUrl": "https://www.citadel.com/careers/open-opportunities/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Point72",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.point72.com/",
+      "studentsUrl": "https://careers.point72.com/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Jane Street",
+      "vertical": "Quant Trading",
+      "region": "Global / UK",
+      "careersUrl": "https://www.janestreet.com/join-jane-street/overview/",
+      "studentsUrl": "https://www.janestreet.com/join-jane-street/overview/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Google",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.google.com/about/careers/applications/",
+      "studentsUrl": "https://www.google.com/about/careers/applications/students/",
+      "atsFamily": "Proprietary",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Microsoft",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.microsoft.com/v2/global/en/home.html",
+      "studentsUrl": "https://careers.microsoft.com/v2/global/en/students",
+      "atsFamily": "Proprietary",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "Amazon",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.amazon.jobs/",
+      "studentsUrl": "https://www.amazon.jobs/content/en/career-programs/university",
+      "atsFamily": "Proprietary",
+      "validation": "Live-open verified",
+      "batch": 1
+    },
+    {
+      "firm": "HSBC",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.hsbc.com/careers",
+      "studentsUrl": "https://www.hsbc.com/careers/students-and-graduates",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2,
+      "notes": "UK priority"
+    },
+    {
+      "firm": "BNP Paribas",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://group.bnpparibas/en/careers",
+      "studentsUrl": "https://group.bnpparibas/en/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Societe Generale",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.societegenerale.com/en",
+      "studentsUrl": "https://careers.societegenerale.com/en",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Rothschild & Co",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.rothschildandco.com/en/careers/",
+      "studentsUrl": "https://www.rothschildandco.com/en/careers/students-and-graduates/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "PJT Partners",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.pjtpartners.com/careers",
+      "studentsUrl": "https://www.pjtpartners.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Moelis",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.moelis.com/careers/",
+      "studentsUrl": "https://www.moelis.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Houlihan Lokey",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://hl.com/careers/",
+      "studentsUrl": "https://hl.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Jefferies",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.jefferies.com/careers/",
+      "studentsUrl": "https://www.jefferies.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Centerview Partners",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "careersUrl": "https://www.centerviewpartners.com/careers/",
+      "studentsUrl": "https://www.centerviewpartners.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "William Blair",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "careersUrl": "https://www.williamblair.com/careers",
+      "studentsUrl": "https://www.williamblair.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Baird",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "careersUrl": "https://www.rwbaird.com/careers/",
+      "studentsUrl": "https://www.rwbaird.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "RBC",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.rbc.com/ca/en/",
+      "studentsUrl": "https://jobs.rbc.com/ca/en/students-graduates",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Nomura",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.nomura.com/careers/",
+      "studentsUrl": "https://www.nomura.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Macquarie",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.macquarie.com/uk/en/careers.html",
+      "studentsUrl": "https://www.macquarie.com/uk/en/careers/early-careers.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Guggenheim Securities",
+      "vertical": "Investment Bank",
+      "region": "US",
+      "careersUrl": "https://www.guggenheimpartners.com/careers",
+      "studentsUrl": "https://www.guggenheimpartners.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Piper Sandler",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "careersUrl": "https://www.pipersandler.com/careers",
+      "studentsUrl": "https://www.pipersandler.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Lincoln International",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.lincolninternational.com/careers/",
+      "studentsUrl": "https://www.lincolninternational.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Wells Fargo",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "careersUrl": "https://www.wellsfargojobs.com/",
+      "studentsUrl": "https://www.wellsfargojobs.com/en/early-careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "NatWest Group",
+      "vertical": "Investment Bank",
+      "region": "UK",
+      "careersUrl": "https://jobs.natwestgroup.com/",
+      "studentsUrl": "https://jobs.natwestgroup.com/pages/early-careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Lloyds Banking Group",
+      "vertical": "Investment Bank",
+      "region": "UK",
+      "careersUrl": "https://www.lloydsbankinggroup.com/careers.html",
+      "studentsUrl": "https://www.lloydsbankinggroup.com/careers/early-careers.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Standard Chartered",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "careersUrl": "https://www.sc.com/en/global-careers/",
+      "studentsUrl": "https://www.sc.com/en/global-careers/early-careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "CVC Capital Partners",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.cvc.com/people/careers/",
+      "studentsUrl": "https://www.cvc.com/people/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "EQT",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://eqtgroup.com/careers",
+      "studentsUrl": "https://eqtgroup.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Advent International",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.adventinternational.com/careers/",
+      "studentsUrl": "https://www.adventinternational.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Bain Capital",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.baincapital.com/careers",
+      "studentsUrl": "https://www.baincapital.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Warburg Pincus",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.warburgpincus.com/careers/",
+      "studentsUrl": "https://www.warburgpincus.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Permira",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.permira.com/careers/",
+      "studentsUrl": "https://www.permira.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Cinven",
+      "vertical": "Private Equity",
+      "region": "Europe / UK",
+      "careersUrl": "https://www.cinven.com/people/careers/",
+      "studentsUrl": "https://www.cinven.com/people/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "BC Partners",
+      "vertical": "Private Equity",
+      "region": "Europe / UK",
+      "careersUrl": "https://www.bcpartners.com/careers/",
+      "studentsUrl": "https://www.bcpartners.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "General Atlantic",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.generalatlantic.com/careers/",
+      "studentsUrl": "https://www.generalatlantic.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Silver Lake",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.silverlake.com/careers/",
+      "studentsUrl": "https://www.silverlake.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Vista Equity Partners",
+      "vertical": "Private Equity",
+      "region": "US / UK",
+      "careersUrl": "https://www.vistaequitypartners.com/careers/",
+      "studentsUrl": "https://www.vistaequitypartners.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Thoma Bravo",
+      "vertical": "Private Equity",
+      "region": "US / UK",
+      "careersUrl": "https://www.thomabravo.com/careers",
+      "studentsUrl": "https://www.thomabravo.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Hg",
+      "vertical": "Private Equity",
+      "region": "Europe / UK",
+      "careersUrl": "https://hgcapital.com/careers",
+      "studentsUrl": "https://hgcapital.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Bridgepoint",
+      "vertical": "Private Equity",
+      "region": "Europe / UK",
+      "careersUrl": "https://www.bridgepoint.eu/careers",
+      "studentsUrl": "https://www.bridgepoint.eu/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Ardian",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.ardian.com/careers",
+      "studentsUrl": "https://www.ardian.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Partners Group",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.partnersgroup.com/en/careers",
+      "studentsUrl": "https://www.partnersgroup.com/en/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Brookfield",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.brookfield.com/careers",
+      "studentsUrl": "https://www.brookfield.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Blue Owl Capital",
+      "vertical": "Private Credit",
+      "region": "US / UK",
+      "careersUrl": "https://www.blueowl.com/careers",
+      "studentsUrl": "https://www.blueowl.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Oaktree Capital",
+      "vertical": "Private Credit",
+      "region": "Global / UK",
+      "careersUrl": "https://www.oaktreecapital.com/careers",
+      "studentsUrl": "https://www.oaktreecapital.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Sixth Street",
+      "vertical": "Private Credit",
+      "region": "Global / UK",
+      "careersUrl": "https://sixthstreet.com/careers/",
+      "studentsUrl": "https://sixthstreet.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "HPS Investment Partners",
+      "vertical": "Private Credit",
+      "region": "US / UK",
+      "careersUrl": "https://www.hpspartners.com/careers",
+      "studentsUrl": "https://www.hpspartners.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Golub Capital",
+      "vertical": "Private Credit",
+      "region": "US",
+      "careersUrl": "https://golubcapital.com/careers/",
+      "studentsUrl": "https://golubcapital.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Antares Capital",
+      "vertical": "Private Credit",
+      "region": "US",
+      "careersUrl": "https://www.antares.com/careers",
+      "studentsUrl": "https://www.antares.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Hayfin",
+      "vertical": "Private Credit",
+      "region": "Europe / UK",
+      "careersUrl": "https://hayfin.com/careers/",
+      "studentsUrl": "https://hayfin.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "PIMCO",
+      "vertical": "Asset Management",
+      "region": "Global / UK",
+      "careersUrl": "https://www.pimco.com/gbl/en/general/careers",
+      "studentsUrl": "https://www.pimco.com/gbl/en/general/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "BlackRock",
+      "vertical": "Asset Management",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.blackrock.com/",
+      "studentsUrl": "https://careers.blackrock.com/early-careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Millennium",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.mlp.com/careers/",
+      "studentsUrl": "https://www.mlp.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Balyasny",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.bamfunds.com/careers",
+      "studentsUrl": "https://www.bamfunds.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "D. E. Shaw",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.deshaw.com/careers",
+      "studentsUrl": "https://www.deshaw.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Two Sigma",
+      "vertical": "Hedge Fund",
+      "region": "US / UK",
+      "careersUrl": "https://www.twosigma.com/careers/",
+      "studentsUrl": "https://www.twosigma.com/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Man Group",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.man.com/careers",
+      "studentsUrl": "https://www.man.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Marshall Wace",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.mwam.com/careers",
+      "studentsUrl": "https://www.mwam.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Brevan Howard",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.brevanhoward.com/careers/",
+      "studentsUrl": "https://www.brevanhoward.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Rokos Capital Management",
+      "vertical": "Hedge Fund",
+      "region": "UK",
+      "careersUrl": "https://www.rokoscapital.com/careers/",
+      "studentsUrl": "https://www.rokoscapital.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "AQR Capital Management",
+      "vertical": "Hedge Fund",
+      "region": "US / UK",
+      "careersUrl": "https://www.aqr.com/About-Us/Careers",
+      "studentsUrl": "https://www.aqr.com/About-Us/Careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Schonfeld",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.schonfeld.com/careers",
+      "studentsUrl": "https://www.schonfeld.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Squarepoint Capital",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.squarepoint-capital.com/careers",
+      "studentsUrl": "https://www.squarepoint-capital.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "G-Research",
+      "vertical": "Quant Trading",
+      "region": "UK",
+      "careersUrl": "https://www.gresearch.com/careers/",
+      "studentsUrl": "https://www.gresearch.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Optiver",
+      "vertical": "Quant Trading",
+      "region": "Global / UK",
+      "careersUrl": "https://optiver.com/working-at-optiver/career-opportunities/",
+      "studentsUrl": "https://optiver.com/working-at-optiver/career-opportunities/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "IMC Trading",
+      "vertical": "Quant Trading",
+      "region": "Global / UK",
+      "careersUrl": "https://www.imc.com/us/careers/",
+      "studentsUrl": "https://www.imc.com/us/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Flow Traders",
+      "vertical": "Quant Trading",
+      "region": "Global / UK",
+      "careersUrl": "https://www.flowtraders.com/careers",
+      "studentsUrl": "https://www.flowtraders.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Qube Research & Technologies",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.qube-rt.com/careers/",
+      "studentsUrl": "https://www.qube-rt.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Bridgewater Associates",
+      "vertical": "Hedge Fund",
+      "region": "US",
+      "careersUrl": "https://www.bridgewater.com/careers",
+      "studentsUrl": "https://www.bridgewater.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Meta",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.metacareers.com/",
+      "studentsUrl": "https://www.metacareers.com/careerprograms/students",
+      "atsFamily": "Proprietary",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Apple",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.apple.com/careers/uk/",
+      "studentsUrl": "https://www.apple.com/careers/uk/students.html",
+      "atsFamily": "Proprietary",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "NVIDIA",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.nvidia.com/en-us/about-nvidia/careers/",
+      "studentsUrl": "https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Salesforce",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.salesforce.com/en/",
+      "studentsUrl": "https://careers.salesforce.com/en/university/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Stripe",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://stripe.com/jobs",
+      "studentsUrl": "https://stripe.com/jobs",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Palantir",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.palantir.com/careers/",
+      "studentsUrl": "https://www.palantir.com/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Databricks",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.databricks.com/company/careers",
+      "studentsUrl": "https://www.databricks.com/company/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Snowflake",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.snowflake.com/",
+      "studentsUrl": "https://careers.snowflake.com/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Cloudflare",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.cloudflare.com/careers/",
+      "studentsUrl": "https://www.cloudflare.com/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Uber",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.uber.com/global/en/careers/",
+      "studentsUrl": "https://www.uber.com/global/en/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Airbnb",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.airbnb.com/",
+      "studentsUrl": "https://careers.airbnb.com/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Spotify",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.lifeatspotify.com/jobs",
+      "studentsUrl": "https://www.lifeatspotify.com/jobs",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "TikTok",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.tiktok.com/",
+      "studentsUrl": "https://careers.tiktok.com/",
+      "atsFamily": "Proprietary",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "ByteDance",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.bytedance.com/en/",
+      "studentsUrl": "https://jobs.bytedance.com/en/",
+      "atsFamily": "Proprietary",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "OpenAI",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://openai.com/careers/",
+      "studentsUrl": "https://openai.com/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Anthropic",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://www.anthropic.com/careers",
+      "studentsUrl": "https://www.anthropic.com/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Google DeepMind",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://deepmind.google/careers/",
+      "studentsUrl": "https://deepmind.google/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Bloomberg",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.bloomberg.com/company/careers/",
+      "studentsUrl": "https://www.bloomberg.com/company/careers/early-career/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Wise",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://wise.jobs/",
+      "studentsUrl": "https://wise.jobs/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Revolut",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.revolut.com/careers/",
+      "studentsUrl": "https://www.revolut.com/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Monzo",
+      "vertical": "Technology",
+      "region": "UK",
+      "careersUrl": "https://monzo.com/careers",
+      "studentsUrl": "https://monzo.com/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Checkout.com",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.checkout.com/careers",
+      "studentsUrl": "https://www.checkout.com/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Adyen",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.adyen.com/",
+      "studentsUrl": "https://careers.adyen.com/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Klarna",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.klarna.com/careers/",
+      "studentsUrl": "https://www.klarna.com/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 2
+    },
+    {
+      "firm": "Onex",
+      "vertical": "Private Equity",
+      "region": "North America / UK",
+      "careersUrl": "https://www.onex.com/careers",
+      "studentsUrl": "https://www.onex.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Clayton Dubilier & Rice",
+      "vertical": "Private Equity",
+      "region": "US / UK",
+      "careersUrl": "https://www.claytondubilier.com/careers",
+      "studentsUrl": "https://www.claytondubilier.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Hellman & Friedman",
+      "vertical": "Private Equity",
+      "region": "US / UK",
+      "careersUrl": "https://hf.com/careers",
+      "studentsUrl": "https://hf.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Apax Partners",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.apax.com/careers/",
+      "studentsUrl": "https://www.apax.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Vitruvian Partners",
+      "vertical": "Private Equity",
+      "region": "Europe / UK",
+      "careersUrl": "https://www.vitruvianpartners.com/careers/",
+      "studentsUrl": "https://www.vitruvianpartners.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "L Catterton",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://www.lcatterton.com/Careers.html",
+      "studentsUrl": "https://www.lcatterton.com/Careers.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "TowerBrook",
+      "vertical": "Private Equity",
+      "region": "US / UK",
+      "careersUrl": "https://www.towerbrook.com/careers/",
+      "studentsUrl": "https://www.towerbrook.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "PAI Partners",
+      "vertical": "Private Equity",
+      "region": "Europe / UK",
+      "careersUrl": "https://www.paipartners.com/careers/",
+      "studentsUrl": "https://www.paipartners.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "H.I.G. Capital",
+      "vertical": "Private Equity",
+      "region": "Global / UK",
+      "careersUrl": "https://hig.com/careers/",
+      "studentsUrl": "https://hig.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Winton",
+      "vertical": "Hedge Fund",
+      "region": "UK",
+      "careersUrl": "https://www.winton.com/careers",
+      "studentsUrl": "https://www.winton.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Capula",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.capulaglobal.com/careers",
+      "studentsUrl": "https://www.capulaglobal.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Aspect Capital",
+      "vertical": "Hedge Fund",
+      "region": "UK",
+      "careersUrl": "https://www.aspectcapital.com/careers/",
+      "studentsUrl": "https://www.aspectcapital.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "ExodusPoint",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.exoduspoint.com/careers/",
+      "studentsUrl": "https://www.exoduspoint.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Verition",
+      "vertical": "Hedge Fund",
+      "region": "Global / UK",
+      "careersUrl": "https://www.verition.com/careers",
+      "studentsUrl": "https://www.verition.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Sequoia Capital",
+      "vertical": "Venture Capital",
+      "region": "Global",
+      "careersUrl": "https://jobs.sequoiacap.com/jobs",
+      "studentsUrl": "https://jobs.sequoiacap.com/jobs",
+      "atsFamily": "Consider / portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Sequoia firm vacancies"
+    },
+    {
+      "firm": "Accel",
+      "vertical": "Venture Capital",
+      "region": "Global",
+      "careersUrl": "https://jobs.accel.com/",
+      "studentsUrl": "https://jobs.accel.com/",
+      "atsFamily": "Consider / portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Accel firm vacancies"
+    },
+    {
+      "firm": "Index Ventures",
+      "vertical": "Venture Capital",
+      "region": "Global / UK",
+      "careersUrl": "https://www.indexventures.com/startup-jobs/",
+      "studentsUrl": "https://www.indexventures.com/startup-jobs/",
+      "atsFamily": "Portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Index firm vacancies"
+    },
+    {
+      "firm": "Bessemer Venture Partners",
+      "vertical": "Venture Capital",
+      "region": "Global",
+      "careersUrl": "https://jobs.bvp.com/jobs",
+      "studentsUrl": "https://jobs.bvp.com/jobs",
+      "atsFamily": "Consider / portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Bessemer firm vacancies"
+    },
+    {
+      "firm": "Lightspeed Venture Partners",
+      "vertical": "Venture Capital",
+      "region": "Global",
+      "careersUrl": "https://jobs.lsvp.com/jobs",
+      "studentsUrl": "https://jobs.lsvp.com/jobs",
+      "atsFamily": "Portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Lightspeed firm vacancies"
+    },
+    {
+      "firm": "General Catalyst",
+      "vertical": "Venture Capital",
+      "region": "Global",
+      "careersUrl": "https://jobs.generalcatalyst.com/jobs",
+      "studentsUrl": "https://jobs.generalcatalyst.com/jobs",
+      "atsFamily": "Portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as General Catalyst firm vacancies"
+    },
+    {
+      "firm": "Andreessen Horowitz",
+      "vertical": "Venture Capital",
+      "region": "Global",
+      "careersUrl": "https://jobs.a16z.com/jobs",
+      "studentsUrl": "https://jobs.a16z.com/jobs",
+      "atsFamily": "Portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as a16z firm vacancies"
+    },
+    {
+      "firm": "Balderton Capital",
+      "vertical": "Venture Capital",
+      "region": "Europe / UK",
+      "careersUrl": "https://jobs.balderton.com/jobs",
+      "studentsUrl": "https://jobs.balderton.com/jobs",
+      "atsFamily": "Portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Balderton firm vacancies"
+    },
+    {
+      "firm": "Atomico",
+      "vertical": "Venture Capital",
+      "region": "Europe / UK",
+      "careersUrl": "https://careers.atomico.com/jobs",
+      "studentsUrl": "https://careers.atomico.com/jobs",
+      "atsFamily": "Portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Atomico firm vacancies"
+    },
+    {
+      "firm": "Northzone",
+      "vertical": "Venture Capital",
+      "region": "Europe / US",
+      "careersUrl": "https://jobs.northzone.com/jobs",
+      "studentsUrl": "https://jobs.northzone.com/jobs",
+      "atsFamily": "Portfolio board",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Do not treat as Northzone firm vacancies"
+    },
+    {
+      "firm": "Insight Partners",
+      "vertical": "Venture Capital",
+      "region": "US / UK",
+      "careersUrl": "https://www.insightpartners.com/careers/",
+      "studentsUrl": "https://www.insightpartners.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Battery Ventures",
+      "vertical": "Venture Capital",
+      "region": "Global",
+      "careersUrl": "https://www.battery.com/careers/",
+      "studentsUrl": "https://www.battery.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Check destination type per link"
+    },
+    {
+      "firm": "GV",
+      "vertical": "Venture Capital",
+      "region": "US / UK",
+      "careersUrl": "https://www.gv.com/careers/",
+      "studentsUrl": "https://www.gv.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Founders Fund",
+      "vertical": "Venture Capital",
+      "region": "US",
+      "careersUrl": "https://foundersfund.com/careers/",
+      "studentsUrl": "https://foundersfund.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Check destination type per link"
+    },
+    {
+      "firm": "Netflix",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.netflix.com/",
+      "studentsUrl": "https://jobs.netflix.com/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Adobe",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.adobe.com/",
+      "studentsUrl": "https://careers.adobe.com/us/en/early-career",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Oracle",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.oracle.com/",
+      "studentsUrl": "https://careers.oracle.com/",
+      "atsFamily": "Oracle Cloud",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "SAP",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.sap.com/",
+      "studentsUrl": "https://jobs.sap.com/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "IBM",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.ibm.com/careers",
+      "studentsUrl": "https://www.ibm.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Cisco",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.cisco.com/",
+      "studentsUrl": "https://jobs.cisco.com/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Atlassian",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.atlassian.com/company/careers",
+      "studentsUrl": "https://www.atlassian.com/company/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Capital One",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://www.capitalonecareers.com/",
+      "studentsUrl": "https://www.capitalonecareers.com/students-and-grads",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Mastercard",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.mastercard.com/",
+      "studentsUrl": "https://careers.mastercard.com/us/en/students-graduates",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Visa",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://corporate.visa.com/en/careers.html",
+      "studentsUrl": "https://corporate.visa.com/en/careers/early-careers.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "GitHub",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.github.careers/careers-home",
+      "studentsUrl": "https://www.github.careers/careers-home",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "MongoDB",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.mongodb.com/company/careers",
+      "studentsUrl": "https://www.mongodb.com/company/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Datadog",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.datadoghq.com/",
+      "studentsUrl": "https://careers.datadoghq.com/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "HubSpot",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.hubspot.com/careers",
+      "studentsUrl": "https://www.hubspot.com/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Roblox",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://careers.roblox.com/",
+      "studentsUrl": "https://careers.roblox.com/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Canva",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.lifeatcanva.com/en/jobs/",
+      "studentsUrl": "https://www.lifeatcanva.com/en/jobs/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Figma",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://www.figma.com/careers/",
+      "studentsUrl": "https://www.figma.com/careers/",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Notion",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://www.notion.so/careers",
+      "studentsUrl": "https://www.notion.so/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Scale AI",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://scale.com/careers",
+      "studentsUrl": "https://scale.com/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Perplexity",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://www.perplexity.ai/hub/careers",
+      "studentsUrl": "https://www.perplexity.ai/hub/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "xAI",
+      "vertical": "Technology",
+      "region": "US / UK",
+      "careersUrl": "https://x.ai/careers",
+      "studentsUrl": "https://x.ai/careers",
+      "atsFamily": "Other / wrapper",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Arm",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.arm.com/",
+      "studentsUrl": "https://careers.arm.com/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "ASML",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.asml.com/en/careers",
+      "studentsUrl": "https://www.asml.com/en/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Intel",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.intel.com/",
+      "studentsUrl": "https://jobs.intel.com/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "AMD",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.amd.com/",
+      "studentsUrl": "https://careers.amd.com/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Qualcomm",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.qualcomm.com/careers",
+      "studentsUrl": "https://careers.qualcomm.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "ServiceNow",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.servicenow.com/",
+      "studentsUrl": "https://careers.servicenow.com/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 3
+    },
+    {
+      "firm": "Workday",
+      "vertical": "Technology",
+      "region": "Global / UK",
+      "careersUrl": "https://www.workday.com/en-us/company/careers.html",
+      "studentsUrl": "https://www.workday.com/en-us/company/careers.html",
+      "atsFamily": "Workday",
+      "validation": "Official-domain seed",
+      "batch": 3,
+      "notes": "Derive its own public tenant from official open-roles link"
+    }
+  ]
+}
