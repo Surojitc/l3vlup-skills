@@ -296,14 +296,6 @@
       "tier": "Fintech"
     },
     {
-      "firm": "Bank of America",
-      "ats": "workday",
-      "tenant": "ghr",
-      "shard": "wd1",
-      "site": "lateral-us",
-      "tier": "Tracked"
-    },
-    {
       "firm": "Barclays",
       "ats": "workday",
       "tenant": "barclays",
@@ -317,14 +309,6 @@
       "tenant": "pjtpartners",
       "shard": "wd1",
       "site": "Careers",
-      "tier": "Tracked"
-    },
-    {
-      "firm": "Moelis",
-      "ats": "workday",
-      "tenant": "moelis",
-      "shard": "wd1",
-      "site": "Experienced-Hires",
       "tier": "Tracked"
     },
     {
