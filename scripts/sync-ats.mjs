@@ -224,13 +224,20 @@ async function fetchLever(f) {
 // targeted queries, union them, and lean on the strict early-career + vertical
 // filters downstream to drop false positives. Covers banks + big enterprises.
 async function fetchWorkday(f) {
+  // Two shapes live in the registry. Hand-added rows carry `host`; rows written
+  // by scripts/discover-ats.mjs carry `tenant` + `shard` and no host at all.
+  // Reading f.host alone built 'https://undefined/wday/cxs/...', which threw,
+  // was swallowed by the catch below, and returned an empty list — so every
+  // bank discovery added counted as a healthy board contributing nothing.
+  const host = f.host || (f.tenant && f.shard ? `${f.tenant}.${f.shard}.myworkdayjobs.com` : null);
+  if (!host) throw new Error(`no Workday host for ${f.firm}`);
   const QUERIES = ['intern', 'graduate', 'new grad', 'summer analyst', 'apprentice'];
   const seen = new Map();
   for (const q of QUERIES) {
     for (const offset of [0, 20]) {
       let data;
       try {
-        data = await getJson(`https://${f.host}/wday/cxs/${f.tenant}/${f.site}/jobs`, {
+        data = await getJson(`https://${host}/wday/cxs/${f.tenant}/${f.site}/jobs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ limit: 20, offset, searchText: q }),
@@ -246,7 +253,7 @@ async function fetchWorkday(f) {
           id: idMatch || path,
           title: jp.title ?? '',
           location: jp.locationsText ?? '',
-          url: `https://${f.host}/${f.site}${path}`,
+          url: `https://${host}/${f.site}${path}`,
           // Workday gives relative text ("Posted 3 Days Ago"), not a date.
           postedAt: relativePostedToIso(jp.postedOn),
         });
@@ -268,6 +275,8 @@ async function main() {
 
   // Small concurrency pool so we don't hammer or hang.
   const POOL = 8;
+  // Firms whose board answered but produced no early-career role. See below.
+  const emptyFirms = [];
   // Ceiling on the JSON-LD pass so one bad run cannot crawl indefinitely.
   const LD_PASS_CAP = 400;
   for (let i = 0; i < firms.length; i += POOL) {
@@ -284,6 +293,14 @@ async function main() {
         ok++;
         all.push(...r.value.opps);
         if (r.value.opps.length) console.log(`  ${r.value.firm}: ${r.value.opps.length}`);
+        // A firm that answers healthily and yields nothing was invisible here,
+        // and that is the shape of the worst bug this collector has: a board
+        // that is real, responds, and holds the wrong population. Bank of
+        // America resolved to its 'lateral-us' Workday site — 2,086 live
+        // postings, no campus roles — and would have sat in the registry
+        // contributing zero, indistinguishable from a bank that has not opened
+        // applications yet. Named rather than skipped.
+        else emptyFirms.push(r.value.firm);
       } else {
         failed++;
       }
@@ -398,6 +415,12 @@ async function main() {
 
   await writeFile(OUT, JSON.stringify({ generatedAt: stamp, count: all.length, opportunities: all }, null, 2) + '\n');
   console.log(`\n${all.length} early-career roles from ${ok}/${firms.length} boards (${failed} failed) → ${OUT}`);
+  if (emptyFirms.length) {
+    // Not an error: plenty of firms genuinely have nothing open off-season. It
+    // is a list to read, because a firm that is empty every single run is
+    // usually pointed at the wrong board rather than out of season.
+    console.log(`\n${emptyFirms.length} board(s) answered with no early-career role: ${emptyFirms.join(', ')}`);
+  }
 }
 
 main().catch((e) => {
