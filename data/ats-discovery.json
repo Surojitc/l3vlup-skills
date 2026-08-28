@@ -1,0 +1,268 @@
+{
+  "generatedAt": "2026-08-28T10:14:46.473Z",
+  "results": [
+    {
+      "firm": "Goldman Sachs",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.goldmansachs.com/careers/students → HTTP 403; https://www.goldmansachs.com/careers/students → HTTP 403"
+    },
+    {
+      "firm": "JPMorganChase",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unsupported-ats",
+      "family": "oracle-cloud",
+      "via": "https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates"
+    },
+    {
+      "firm": "Morgan Stanley",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.morganstanley.com/people-opportunities/students-graduates → The operation was aborted due to timeout; https://www.morganstanley.com/people-opportunities/students-graduates → The operation "
+    },
+    {
+      "firm": "Bank of America",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "ghr",
+        "shard": "wd1",
+        "site": "lateral-us"
+      },
+      "postings": 2086,
+      "via": "https://careers.bankofamerica.com/en-us/students"
+    },
+    {
+      "firm": "Barclays",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "barclays",
+        "shard": "wd3",
+        "site": "External_Career_Site_Barclays"
+      },
+      "postings": 965,
+      "via": "https://search.jobs.barclays/graduates"
+    },
+    {
+      "firm": "UBS",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.ubs.com/global/en/careers/early-careers.html"
+    },
+    {
+      "firm": "Deutsche Bank",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://careers.db.com/students-graduates/"
+    },
+    {
+      "firm": "Lazard",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unsupported-ats",
+      "family": "oracle-cloud",
+      "via": "https://www.lazard.com/careers/students/"
+    },
+    {
+      "firm": "Evercore",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.evercore.com/careers/"
+    },
+    {
+      "firm": "HSBC",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.hsbc.com/careers/students-and-graduates"
+    },
+    {
+      "firm": "BNP Paribas",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://group.bnpparibas/en/careers → HTTP 403; https://group.bnpparibas/en/careers → HTTP 403"
+    },
+    {
+      "firm": "Societe Generale",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unsupported-ats",
+      "family": "taleo",
+      "via": "https://careers.societegenerale.com/en"
+    },
+    {
+      "firm": "Rothschild & Co",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.rothschildandco.com/en/careers/students-and-graduates/"
+    },
+    {
+      "firm": "PJT Partners",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "pjtpartners",
+        "shard": "wd1",
+        "site": "Careers"
+      },
+      "postings": 52,
+      "via": "https://www.pjtpartners.com/careers"
+    },
+    {
+      "firm": "Moelis",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "moelis",
+        "shard": "wd1",
+        "site": "Experienced-Hires"
+      },
+      "postings": 48,
+      "via": "https://www.moelis.com/careers/"
+    },
+    {
+      "firm": "Houlihan Lokey",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "hl",
+        "shard": "wd1",
+        "site": "Campus"
+      },
+      "postings": 18,
+      "via": "https://hl.com/careers/"
+    },
+    {
+      "firm": "Jefferies",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.jefferies.com/careers/"
+    },
+    {
+      "firm": "Centerview Partners",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "status": "unreachable",
+      "note": "https://www.centerviewpartners.com/careers/ → HTTP 403; https://www.centerviewpartners.com/careers/ → HTTP 403"
+    },
+    {
+      "firm": "William Blair",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "status": "no-board-found",
+      "via": "https://www.williamblair.com/careers"
+    },
+    {
+      "firm": "Baird",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "status": "no-board-found",
+      "via": "https://www.rwbaird.com/careers/"
+    },
+    {
+      "firm": "RBC",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unsupported-ats",
+      "family": "phenom",
+      "via": "https://jobs.rbc.com/ca/en/students-graduates"
+    },
+    {
+      "firm": "Nomura",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.nomura.com/careers/"
+    },
+    {
+      "firm": "Macquarie",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.macquarie.com/uk/en/careers/early-careers.html → HTTP 404"
+    },
+    {
+      "firm": "Guggenheim Securities",
+      "vertical": "Investment Bank",
+      "region": "US",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "guggenheiminvestment",
+        "shard": "wd5",
+        "site": "External"
+      },
+      "postings": 24,
+      "via": "https://www.guggenheimpartners.com/careers"
+    },
+    {
+      "firm": "Piper Sandler",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "status": "no-board-found",
+      "via": "https://www.pipersandler.com/careers"
+    },
+    {
+      "firm": "Lincoln International",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.lincolninternational.com/careers/ → HTTP 404; https://www.lincolninternational.com/careers/ → HTTP 404"
+    },
+    {
+      "firm": "Wells Fargo",
+      "vertical": "Investment Bank",
+      "region": "US / UK",
+      "status": "no-board-found",
+      "via": "https://www.wellsfargojobs.com/en/early-careers/"
+    },
+    {
+      "firm": "NatWest Group",
+      "vertical": "Investment Bank",
+      "region": "UK",
+      "status": "unreachable",
+      "note": "https://jobs.natwestgroup.com/pages/early-careers → HTTP 403; https://jobs.natwestgroup.com/ → HTTP 403"
+    },
+    {
+      "firm": "Lloyds Banking Group",
+      "vertical": "Investment Bank",
+      "region": "UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "lbg",
+        "shard": "wd3",
+        "site": "lbg_Careers"
+      },
+      "postings": 119,
+      "via": "https://www.lloydsbankinggroup.com/careers/early-careers.html"
+    },
+    {
+      "firm": "Standard Chartered",
+      "vertical": "Investment Bank",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.sc.com/en/global-careers/early-careers/"
+    }
+  ]
+}

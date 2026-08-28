@@ -1,58 +1,355 @@
 {
   "_comment": "Firms whose early-career roles we auto-collate from public ATS boards. Tokens verified live. tier must match TIER_ORDER in app/tracker/TrackerClient.tsx. The daily cron (scripts/sync-ats.mjs) reads this, pulls each board, filters to early-career, and writes data/opportunities.auto.json. To add a firm: find its ATS board token and add a row.",
   "firms": [
-    { "firm": "Stripe", "ats": "greenhouse", "token": "stripe", "tier": "Fintech" },
-    { "firm": "Brex", "ats": "greenhouse", "token": "brex", "tier": "Fintech" },
-    { "firm": "Coinbase", "ats": "greenhouse", "token": "coinbase", "tier": "Fintech" },
-    { "firm": "Robinhood", "ats": "greenhouse", "token": "robinhood", "tier": "Fintech" },
-    { "firm": "Affirm", "ats": "greenhouse", "token": "affirm", "tier": "Fintech" },
-    { "firm": "Chime", "ats": "greenhouse", "token": "chime", "tier": "Fintech" },
-    { "firm": "Gusto", "ats": "greenhouse", "token": "gusto", "tier": "Fintech" },
-    { "firm": "SoFi", "ats": "greenhouse", "token": "sofi", "tier": "Fintech" },
-    { "firm": "Marqeta", "ats": "greenhouse", "token": "marqeta", "tier": "Fintech" },
-    { "firm": "Gemini", "ats": "greenhouse", "token": "gemini", "tier": "Fintech" },
-    { "firm": "Nubank", "ats": "greenhouse", "token": "nubank", "tier": "Fintech" },
-    { "firm": "Ramp", "ats": "ashby", "token": "ramp", "tier": "Fintech" },
-
-    { "firm": "Databricks", "ats": "greenhouse", "token": "databricks", "tier": "Enterprise Tech" },
-    { "firm": "Figma", "ats": "greenhouse", "token": "figma", "tier": "Enterprise Tech" },
-    { "firm": "Cloudflare", "ats": "greenhouse", "token": "cloudflare", "tier": "Enterprise Tech" },
-    { "firm": "GitLab", "ats": "greenhouse", "token": "gitlab", "tier": "Enterprise Tech" },
-    { "firm": "MongoDB", "ats": "greenhouse", "token": "mongodb", "tier": "Enterprise Tech" },
-    { "firm": "Elastic", "ats": "greenhouse", "token": "elastic", "tier": "Enterprise Tech" },
-    { "firm": "Datadog", "ats": "greenhouse", "token": "datadog", "tier": "Enterprise Tech" },
-    { "firm": "Asana", "ats": "greenhouse", "token": "asana", "tier": "Enterprise Tech" },
-    { "firm": "Twilio", "ats": "greenhouse", "token": "twilio", "tier": "Enterprise Tech" },
-    { "firm": "Samsara", "ats": "greenhouse", "token": "samsara", "tier": "Enterprise Tech" },
-    { "firm": "Flexport", "ats": "greenhouse", "token": "flexport", "tier": "Enterprise Tech" },
-    { "firm": "Notion", "ats": "ashby", "token": "notion", "tier": "Enterprise Tech" },
-    { "firm": "Linear", "ats": "ashby", "token": "linear", "tier": "Enterprise Tech" },
-    { "firm": "Replit", "ats": "ashby", "token": "replit", "tier": "Enterprise Tech" },
-    { "firm": "PostHog", "ats": "ashby", "token": "posthog", "tier": "Enterprise Tech" },
-    { "firm": "Supabase", "ats": "ashby", "token": "supabase", "tier": "Enterprise Tech" },
-    { "firm": "Modal", "ats": "ashby", "token": "modal", "tier": "Enterprise Tech" },
-    { "firm": "Harvey", "ats": "ashby", "token": "harvey", "tier": "Enterprise Tech" },
-    { "firm": "Watershed", "ats": "ashby", "token": "watershed", "tier": "Enterprise Tech" },
-
-    { "firm": "Airbnb", "ats": "greenhouse", "token": "airbnb", "tier": "Big Tech" },
-    { "firm": "Dropbox", "ats": "greenhouse", "token": "dropbox", "tier": "Big Tech" },
-    { "firm": "Instacart", "ats": "greenhouse", "token": "instacart", "tier": "Big Tech" },
-    { "firm": "Lyft", "ats": "greenhouse", "token": "lyft", "tier": "Big Tech" },
-    { "firm": "Pinterest", "ats": "greenhouse", "token": "pinterest", "tier": "Big Tech" },
-    { "firm": "Reddit", "ats": "greenhouse", "token": "reddit", "tier": "Big Tech" },
-    { "firm": "Discord", "ats": "greenhouse", "token": "discord", "tier": "Big Tech" },
-
-    { "firm": "Anthropic", "ats": "greenhouse", "token": "anthropic", "tier": "AI Lab" },
-    { "firm": "OpenAI", "ats": "ashby", "token": "openai", "tier": "AI Lab" },
-    { "firm": "Cohere", "ats": "ashby", "token": "cohere", "tier": "AI Lab" },
-
-    { "firm": "IMC Trading", "ats": "greenhouse", "token": "imc", "tier": "Trading Tech" },
-    { "firm": "Akuna Capital", "ats": "greenhouse", "token": "akunacapital", "tier": "Trading Tech" },
-    { "firm": "Jump Trading", "ats": "greenhouse", "token": "jumptrading", "tier": "Trading Tech" },
-    { "firm": "Flow Traders", "ats": "greenhouse", "token": "flowtraders", "tier": "Trading Tech" },
-
-    { "firm": "NVIDIA", "ats": "workday", "host": "nvidia.wd5.myworkdayjobs.com", "tenant": "nvidia", "site": "NVIDIAExternalCareerSite", "tier": "Big Tech" },
-    { "firm": "Citi", "ats": "workday", "host": "citi.wd5.myworkdayjobs.com", "tenant": "citi", "site": "2", "tier": "Bulge Bracket" },
-    { "firm": "Mastercard", "ats": "workday", "host": "mastercard.wd1.myworkdayjobs.com", "tenant": "mastercard", "site": "CorporateCareers", "tier": "Fintech" }
+    {
+      "firm": "Stripe",
+      "ats": "greenhouse",
+      "token": "stripe",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Brex",
+      "ats": "greenhouse",
+      "token": "brex",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Coinbase",
+      "ats": "greenhouse",
+      "token": "coinbase",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Robinhood",
+      "ats": "greenhouse",
+      "token": "robinhood",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Affirm",
+      "ats": "greenhouse",
+      "token": "affirm",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Chime",
+      "ats": "greenhouse",
+      "token": "chime",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Gusto",
+      "ats": "greenhouse",
+      "token": "gusto",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "SoFi",
+      "ats": "greenhouse",
+      "token": "sofi",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Marqeta",
+      "ats": "greenhouse",
+      "token": "marqeta",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Gemini",
+      "ats": "greenhouse",
+      "token": "gemini",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Nubank",
+      "ats": "greenhouse",
+      "token": "nubank",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Ramp",
+      "ats": "ashby",
+      "token": "ramp",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Databricks",
+      "ats": "greenhouse",
+      "token": "databricks",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Figma",
+      "ats": "greenhouse",
+      "token": "figma",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Cloudflare",
+      "ats": "greenhouse",
+      "token": "cloudflare",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "GitLab",
+      "ats": "greenhouse",
+      "token": "gitlab",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "MongoDB",
+      "ats": "greenhouse",
+      "token": "mongodb",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Elastic",
+      "ats": "greenhouse",
+      "token": "elastic",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Datadog",
+      "ats": "greenhouse",
+      "token": "datadog",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Asana",
+      "ats": "greenhouse",
+      "token": "asana",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Twilio",
+      "ats": "greenhouse",
+      "token": "twilio",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Samsara",
+      "ats": "greenhouse",
+      "token": "samsara",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Flexport",
+      "ats": "greenhouse",
+      "token": "flexport",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Notion",
+      "ats": "ashby",
+      "token": "notion",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Linear",
+      "ats": "ashby",
+      "token": "linear",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Replit",
+      "ats": "ashby",
+      "token": "replit",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "PostHog",
+      "ats": "ashby",
+      "token": "posthog",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Supabase",
+      "ats": "ashby",
+      "token": "supabase",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Modal",
+      "ats": "ashby",
+      "token": "modal",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Harvey",
+      "ats": "ashby",
+      "token": "harvey",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Watershed",
+      "ats": "ashby",
+      "token": "watershed",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Airbnb",
+      "ats": "greenhouse",
+      "token": "airbnb",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Dropbox",
+      "ats": "greenhouse",
+      "token": "dropbox",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Instacart",
+      "ats": "greenhouse",
+      "token": "instacart",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Lyft",
+      "ats": "greenhouse",
+      "token": "lyft",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Pinterest",
+      "ats": "greenhouse",
+      "token": "pinterest",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Reddit",
+      "ats": "greenhouse",
+      "token": "reddit",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Discord",
+      "ats": "greenhouse",
+      "token": "discord",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Anthropic",
+      "ats": "greenhouse",
+      "token": "anthropic",
+      "tier": "AI Lab"
+    },
+    {
+      "firm": "OpenAI",
+      "ats": "ashby",
+      "token": "openai",
+      "tier": "AI Lab"
+    },
+    {
+      "firm": "Cohere",
+      "ats": "ashby",
+      "token": "cohere",
+      "tier": "AI Lab"
+    },
+    {
+      "firm": "IMC Trading",
+      "ats": "greenhouse",
+      "token": "imc",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "Akuna Capital",
+      "ats": "greenhouse",
+      "token": "akunacapital",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "Jump Trading",
+      "ats": "greenhouse",
+      "token": "jumptrading",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "Flow Traders",
+      "ats": "greenhouse",
+      "token": "flowtraders",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "NVIDIA",
+      "ats": "workday",
+      "host": "nvidia.wd5.myworkdayjobs.com",
+      "tenant": "nvidia",
+      "site": "NVIDIAExternalCareerSite",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Citi",
+      "ats": "workday",
+      "host": "citi.wd5.myworkdayjobs.com",
+      "tenant": "citi",
+      "site": "2",
+      "tier": "Bulge Bracket"
+    },
+    {
+      "firm": "Mastercard",
+      "ats": "workday",
+      "host": "mastercard.wd1.myworkdayjobs.com",
+      "tenant": "mastercard",
+      "site": "CorporateCareers",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Bank of America",
+      "ats": "workday",
+      "tenant": "ghr",
+      "shard": "wd1",
+      "site": "lateral-us",
+      "tier": "Tracked"
+    },
+    {
+      "firm": "Barclays",
+      "ats": "workday",
+      "tenant": "barclays",
+      "shard": "wd3",
+      "site": "External_Career_Site_Barclays",
+      "tier": "Tracked"
+    },
+    {
+      "firm": "PJT Partners",
+      "ats": "workday",
+      "tenant": "pjtpartners",
+      "shard": "wd1",
+      "site": "Careers",
+      "tier": "Tracked"
+    },
+    {
+      "firm": "Moelis",
+      "ats": "workday",
+      "tenant": "moelis",
+      "shard": "wd1",
+      "site": "Experienced-Hires",
+      "tier": "Tracked"
+    },
+    {
+      "firm": "Houlihan Lokey",
+      "ats": "workday",
+      "tenant": "hl",
+      "shard": "wd1",
+      "site": "Campus",
+      "tier": "Tracked"
+    },
+    {
+      "firm": "Guggenheim Securities",
+      "ats": "workday",
+      "tenant": "guggenheiminvestment",
+      "shard": "wd5",
+      "site": "External",
+      "tier": "Tracked"
+    },
+    {
+      "firm": "Lloyds Banking Group",
+      "ats": "workday",
+      "tenant": "lbg",
+      "shard": "wd3",
+      "site": "lbg_Careers",
+      "tier": "Tracked"
+    }
   ]
 }
