@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-28T10:14:46.473Z",
+  "generatedAt": "2026-08-28T10:21:54.762Z",
   "results": [
     {
       "firm": "Goldman Sachs",
@@ -14,6 +14,7 @@
       "region": "Global / UK",
       "status": "unsupported-ats",
       "family": "oracle-cloud",
+      "atsUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions&#34;,&#34;ctaTitle&#34;:&#34;&#34;,&#34;ctaComponentName&#34;:&#34;Primary",
       "via": "https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates"
     },
     {
@@ -38,20 +39,6 @@
       "via": "https://careers.bankofamerica.com/en-us/students"
     },
     {
-      "firm": "Barclays",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "validated",
-      "board": {
-        "ats": "workday",
-        "tenant": "barclays",
-        "shard": "wd3",
-        "site": "External_Career_Site_Barclays"
-      },
-      "postings": 965,
-      "via": "https://search.jobs.barclays/graduates"
-    },
-    {
       "firm": "UBS",
       "vertical": "Investment Bank",
       "region": "Global / UK",
@@ -71,6 +58,7 @@
       "region": "Global / UK",
       "status": "unsupported-ats",
       "family": "oracle-cloud",
+      "atsUrl": "https://icbpjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/LazardProfessionalCareers",
       "via": "https://www.lazard.com/careers/students/"
     },
     {
@@ -100,6 +88,7 @@
       "region": "Global / UK",
       "status": "unsupported-ats",
       "family": "taleo",
+      "atsUrl": "https://socgen.taleo.net/careersection/sgcareers/profile.ftl?lang=en&amp;src=CWS-1",
       "via": "https://careers.societegenerale.com/en"
     },
     {
@@ -108,20 +97,6 @@
       "region": "Global / UK",
       "status": "no-board-found",
       "via": "https://www.rothschildandco.com/en/careers/students-and-graduates/"
-    },
-    {
-      "firm": "PJT Partners",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "validated",
-      "board": {
-        "ats": "workday",
-        "tenant": "pjtpartners",
-        "shard": "wd1",
-        "site": "Careers"
-      },
-      "postings": 52,
-      "via": "https://www.pjtpartners.com/careers"
     },
     {
       "firm": "Moelis",
@@ -136,20 +111,6 @@
       },
       "postings": 48,
       "via": "https://www.moelis.com/careers/"
-    },
-    {
-      "firm": "Houlihan Lokey",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "validated",
-      "board": {
-        "ats": "workday",
-        "tenant": "hl",
-        "shard": "wd1",
-        "site": "Campus"
-      },
-      "postings": 18,
-      "via": "https://hl.com/careers/"
     },
     {
       "firm": "Jefferies",
@@ -185,6 +146,7 @@
       "region": "Global / UK",
       "status": "unsupported-ats",
       "family": "phenom",
+      "atsUrl": "https://cdn.phenompeople.com/CareerConnectResources/common/js/globalplatform/1781270809227_globalstyles.css",
       "via": "https://jobs.rbc.com/ca/en/students-graduates"
     },
     {
@@ -200,20 +162,6 @@
       "region": "Global / UK",
       "status": "unreachable",
       "note": "https://www.macquarie.com/uk/en/careers/early-careers.html → HTTP 404"
-    },
-    {
-      "firm": "Guggenheim Securities",
-      "vertical": "Investment Bank",
-      "region": "US",
-      "status": "validated",
-      "board": {
-        "ats": "workday",
-        "tenant": "guggenheiminvestment",
-        "shard": "wd5",
-        "site": "External"
-      },
-      "postings": 24,
-      "via": "https://www.guggenheimpartners.com/careers"
     },
     {
       "firm": "Piper Sandler",
@@ -242,20 +190,6 @@
       "region": "UK",
       "status": "unreachable",
       "note": "https://jobs.natwestgroup.com/pages/early-careers → HTTP 403; https://jobs.natwestgroup.com/ → HTTP 403"
-    },
-    {
-      "firm": "Lloyds Banking Group",
-      "vertical": "Investment Bank",
-      "region": "UK",
-      "status": "validated",
-      "board": {
-        "ats": "workday",
-        "tenant": "lbg",
-        "shard": "wd3",
-        "site": "lbg_Careers"
-      },
-      "postings": 119,
-      "via": "https://www.lloydsbankinggroup.com/careers/early-careers.html"
     },
     {
       "firm": "Standard Chartered",

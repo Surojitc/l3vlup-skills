@@ -334,6 +334,22 @@
       "shard": "wd3",
       "site": "lbg_Careers",
       "tier": "Tracked"
+    },
+    {
+      "firm": "Bank of America",
+      "ats": "workday",
+      "tenant": "ghr",
+      "shard": "wd1",
+      "site": "lateral-us",
+      "tier": "Tracked"
+    },
+    {
+      "firm": "Moelis",
+      "ats": "workday",
+      "tenant": "moelis",
+      "shard": "wd1",
+      "site": "Experienced-Hires",
+      "tier": "Tracked"
     }
   ]
 }
