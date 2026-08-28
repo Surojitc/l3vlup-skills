@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-28T09:21:16.598Z",
+  "generatedAt": "2026-08-28T10:00:06.226Z",
   "count": 124,
   "opportunities": [
     {
@@ -166,24 +166,6 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8089379",
-      "firm": "Cloudflare",
-      "role": "Research Engineer Intern (Fall 2026)",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "In-Office",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-07-28",
-      "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089379?gh_jid=8089379",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-cloudflare-8089407",
       "firm": "Cloudflare",
       "role": "Research Engineer Intern (Fall 2026)",
@@ -202,22 +184,21 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8118845",
+      "id": "greenhouse-cloudflare-8089379",
       "firm": "Cloudflare",
-      "role": "Software Engineer Intern (Fall 2026)",
-      "vertical": "Software Engineering",
+      "role": "Research Engineer Intern (Fall 2026)",
+      "vertical": "Data & ML",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
       "location": "In-Office",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-08-11",
+      "openingDate": "2026-07-28",
       "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089379?gh_jid=8089379",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced",
-        "Rolling"
+        "Auto-sourced"
       ]
     },
     {
@@ -233,6 +214,25 @@
       "openingDate": "2026-08-20",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118855?gh_jid=8118855",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Rolling"
+      ]
+    },
+    {
+      "id": "greenhouse-cloudflare-8118845",
+      "firm": "Cloudflare",
+      "role": "Software Engineer Intern (Fall 2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "In-Office",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-11",
+      "status": "Open",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced",
@@ -679,24 +679,6 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4818790101",
-      "firm": "IMC Trading",
-      "role": "Graduate Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Chicago, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-07-01",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4818790101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-imc-4917773101",
       "firm": "IMC Trading",
       "role": "Graduate Software Engineer",
@@ -715,18 +697,18 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4564480101",
+      "id": "greenhouse-imc-4818790101",
       "firm": "IMC Trading",
-      "role": "Graduate Software Engineer (2026)",
+      "role": "Graduate Software Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Trading Tech",
-      "location": "Amsterdam, Netherlands",
-      "region": "Europe",
+      "location": "Chicago, United States",
+      "region": "US",
       "level": "Graduate",
-      "openingDate": "2025-08-27",
+      "openingDate": "2026-07-01",
       "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4818790101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -745,6 +727,24 @@
       "openingDate": "2025-08-27",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4635938101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4564480101",
+      "firm": "IMC Trading",
+      "role": "Graduate Software Engineer (2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Amsterdam, Netherlands",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2025-08-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1302,24 +1302,6 @@
       ]
     },
     {
-      "id": "greenhouse-jumptrading-8002998",
-      "firm": "Jump Trading",
-      "role": "Campus Data Engineer (Intern)",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Chicago",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-07-08",
-      "status": "Open",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8002998",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-jumptrading-7975008",
       "firm": "Jump Trading",
       "role": "Campus Data Engineer (Intern)",
@@ -1338,10 +1320,10 @@
       ]
     },
     {
-      "id": "greenhouse-jumptrading-8003013",
+      "id": "greenhouse-jumptrading-8002998",
       "firm": "Jump Trading",
-      "role": "Campus FPGA Engineer (Intern)",
-      "vertical": "Software Engineering",
+      "role": "Campus Data Engineer (Intern)",
+      "vertical": "Data & ML",
       "programmeType": "Summer Internship",
       "tier": "Trading Tech",
       "location": "Chicago",
@@ -1349,7 +1331,7 @@
       "level": "Internship",
       "openingDate": "2026-07-08",
       "status": "Open",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8003013",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8002998",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1368,6 +1350,24 @@
       "openingDate": "2026-07-13",
       "status": "Open",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7974391",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8003013",
+      "firm": "Jump Trading",
+      "role": "Campus FPGA Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8003013",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1445,23 +1445,6 @@
       ]
     },
     {
-      "id": "greenhouse-jumptrading-8010307",
-      "firm": "Jump Trading",
-      "role": "Campus Quantitative Researcher (Intern)",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "London; Amsterdam",
-      "region": "UK",
-      "level": "Internship",
-      "openingDate": "2026-07-13",
-      "status": "Open",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8010307",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-jumptrading-8027900",
       "firm": "Jump Trading",
       "role": "Campus Quantitative Researcher (Intern)",
@@ -1474,6 +1457,23 @@
       "openingDate": "2026-08-24",
       "status": "Open",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8010307",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "London; Amsterdam",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8010307",
       "tags": [
         "Auto-sourced"
       ]
