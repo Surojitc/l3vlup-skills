@@ -21,7 +21,7 @@ import {
   extractJsonLdDeadline,
 } from '../lib/deadline-extract.mjs';
 import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'lib/sources/ats-registry.json');
@@ -36,29 +36,64 @@ const EARLY_CAREER =
   /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?career|placement|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|analyst\s+programme?|off[\s-]?cycle|spring\s+(week|insight))\b/i;
 const SENIOR = /\b(senior|staff|principal|director|distinguished|vp|head\s+of|lead)\b/i;
 
-function isEarlyCareer(title) {
+export function isEarlyCareer(title) {
   if (SENIOR.test(title)) return false;
   return EARLY_CAREER.test(title);
 }
 
-function inferVertical(title) {
-  const t = title.toLowerCase();
+// Every role that clears the early-career filter gets a vertical. The order of
+// these rules is the whole design: each is reachable only because the ones
+// above it are narrower, so the specific reading of an overloaded word wins.
+// "Quantitative Risk Management" is Quant, plain "Credit Risk" is Risk;
+// "Technology Investment Banking" is banking, plain "Technology Analyst" is
+// engineering.
+export function inferVertical(title) {
+  const t = String(title || '').toLowerCase();
+
   if (/\b(quant|quantitative)\b/.test(t)) return 'Quant';
   if (
-    /machine learning|deep learning|\bml\b|\bai\b|data scientist|data engineer|research (engineer|scientist)|applied scientist|research residency/.test(t)
+    /machine learning|deep learning|\bml\b|\bai\b|data scien(ce|tist)|data engineer|research (engineer|scientist)|applied scientist|research residency|\bdata analytics\b/.test(t)
   )
     return 'Data & ML';
-  // Finance verticals — classify only clear signals so bank/ops roles aren't mislabeled.
+
   if (/equity research|research analyst/.test(t)) return 'Equity Research';
-  if (/private equity/.test(t)) return 'Private Equity';
-  if (/investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory/.test(t)) return 'Investment Banking';
+  if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
+  if (/venture capital|\bvc\b\s|growth equity/.test(t)) return 'Venture Capital';
+  if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';
+  if (/hedge fund|long[\s\/-]?short|multi[\s-]?strategy|portfolio management/.test(t)) return 'Hedge Fund';
+  if (/investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory|capital markets|restructuring|corporate finance/.test(t))
+    return 'Investment Banking';
+
+  if (
+    /sales (and|&) trading|\bs&t\b|global markets|\bmarkets\b|trading|\btrader\b|securities|structuring|fixed income|equities desk/.test(t)
+  )
+    return 'Sales & Trading';
+  if (/asset management|investment management|fund management|\bmulti[\s-]?asset\b/.test(t)) return 'Asset Management';
+  if (/wealth management|private bank|private wealth|\bpwm\b/.test(t)) return 'Wealth Management';
+  if (/corporate development/.test(t)) return 'Corporate Development';
+
   if (/product manager|product management|\bapm\b|\brpm\b|associate product/.test(t)) return 'Product Management';
-  if (/software engineer|\bswe\b|developer|frontend|front-end|backend|back-end|full[ -]?stack|infrastructure engineer|systems engineer|engineer/.test(t))
+  if (
+    /software engineer|\bswe\b|developer|frontend|front-end|backend|back-end|full[ -]?stack|infrastructure engineer|systems engineer|\btechnology\b|\bengineering\b|engineer/.test(t)
+  )
     return 'Software Engineering';
-  return null;
+
+  if (/\brisk\b|credit analysis|\bcredit analyst\b/.test(t)) return 'Risk';
+  if (/compliance|\blegal\b|financial crime|\bkyc\b|anti[\s-]?money/.test(t)) return 'Compliance & Legal';
+  if (/\baudit\b|\btax\b|accounting|\bfinance\b|treasury|controller/.test(t)) return 'Finance & Accounting';
+  if (/operations|\bops\b|middle office|back office|business management/.test(t)) return 'Operations';
+
+  if (/fintech sales|account executive|business development|\bsales\b/.test(t)) return 'FinTech Sales';
+
+  // Kept, not dropped. Returning null here used to discard the role outright,
+  // which is how every Markets, Wealth Management and Operations graduate
+  // scheme a bank publishes went missing from the tracker. The role title,
+  // department tag and application URL all survive, so anything landing here
+  // can be reclassified later without re-collecting it.
+  return 'Other';
 }
 
-function inferProgrammeAndLevel(title) {
+export function inferProgrammeAndLevel(title) {
   const t = title.toLowerCase();
   // Checked before the generic intern match, because most of these titles also
   // contain "intern" or "program" and would otherwise be filed as internships.
@@ -131,10 +166,10 @@ function toIsoDate(value) {
   return d.toISOString().slice(0, 10);
 }
 
-function toOpportunity(job, firm) {
+export function toOpportunity(job, firm) {
   if (!job.title || !isEarlyCareer(job.title)) return null;
+  // No null check: inferVertical always classifies, falling back to 'Other'.
   const vertical = inferVertical(job.title);
-  if (!vertical) return null;
   const { programmeType, level } = inferProgrammeAndLevel(job.title);
   const tags = ['Auto-sourced'];
   if (job.department) tags.push(job.department);
@@ -223,6 +258,72 @@ async function fetchLever(f) {
 // Workday search is fuzzy (matches "International" for "intern"), so we run a few
 // targeted queries, union them, and lean on the strict early-career + vertical
 // filters downstream to drop false positives. Covers banks + big enterprises.
+const WORKDAY_QUERIES = ['intern', 'graduate', 'new grad', 'summer analyst', 'apprentice'];
+const WORKDAY_PAGE = 20;
+const WORKDAY_MAX_PAGES_PER_QUERY = 15; // 300 postings per query, before dedupe
+const WORKDAY_MAX_POSTINGS_PER_FIRM = 600; // whole-firm budget across all queries
+
+/**
+ * Page through a Workday board until it runs out, deduping on externalPath.
+ *
+ * Offsets used to be the fixed pair [0, 20], which sampled 40 postings from
+ * boards holding hundreds — Barclays reports 965 — so which roles reached the
+ * tracker was decided by Workday's result order rather than by relevance. Every
+ * Barclays hit in the run that exposed this was Singapore or Hong Kong for
+ * exactly that reason.
+ *
+ * `fetchPage(query, offset)` is injected so the termination rules can be tested
+ * without a live board. They matter more than they look: a deployment that
+ * ignores `offset` replays page one forever, and this runs in CI against real
+ * boards.
+ *
+ * @returns {Map<string, object>} postings keyed by Workday's stable externalPath
+ */
+export async function paginateWorkday(fetchPage, opts = {}) {
+  const {
+    queries = WORKDAY_QUERIES,
+    page: PAGE = WORKDAY_PAGE,
+    maxPages = WORKDAY_MAX_PAGES_PER_QUERY,
+    maxPostings = WORKDAY_MAX_POSTINGS_PER_FIRM,
+  } = opts;
+  const seen = new Map();
+
+  for (const q of queries) {
+    let offset = 0;
+    for (let page = 0; page < maxPages; page++) {
+      if (seen.size >= maxPostings) break;
+      let data;
+      try {
+        data = await fetchPage(q, offset, PAGE);
+      } catch {
+        break; // this query failed; move to the next one
+      }
+
+      const postings = data?.jobPostings ?? [];
+      if (postings.length === 0) break;
+
+      let added = 0;
+      for (const jp of postings) {
+        const path = jp.externalPath;
+        if (!path || seen.has(path)) continue;
+        added++;
+        seen.set(path, jp);
+      }
+      // A page that adds nothing new means the board is ignoring our offset and
+      // replaying page one. Without this the loop never terminates.
+      if (added === 0) break;
+
+      offset += PAGE;
+      // `total` is the count for this search term. Trust it when present, but
+      // the two checks above are what actually terminate the loop, because not
+      // every deployment returns it.
+      if (typeof data.total === 'number' && offset >= data.total) break;
+      if (postings.length < PAGE) break;
+    }
+  }
+  return seen;
+}
+
 async function fetchWorkday(f) {
   // Two shapes live in the registry. Hand-added rows carry `host`; rows written
   // by scripts/discover-ats.mjs carry `tenant` + `shard` and no host at all.
@@ -231,36 +332,23 @@ async function fetchWorkday(f) {
   // bank discovery added counted as a healthy board contributing nothing.
   const host = f.host || (f.tenant && f.shard ? `${f.tenant}.${f.shard}.myworkdayjobs.com` : null);
   if (!host) throw new Error(`no Workday host for ${f.firm}`);
-  const QUERIES = ['intern', 'graduate', 'new grad', 'summer analyst', 'apprentice'];
-  const seen = new Map();
-  for (const q of QUERIES) {
-    for (const offset of [0, 20]) {
-      let data;
-      try {
-        data = await getJson(`https://${host}/wday/cxs/${f.tenant}/${f.site}/jobs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ limit: 20, offset, searchText: q }),
-        });
-      } catch {
-        break; // this query/page failed; move on
-      }
-      for (const jp of data.jobPostings ?? []) {
-        const path = jp.externalPath;
-        if (!path || seen.has(path)) continue;
-        const idMatch = path.split('_').pop();
-        seen.set(path, {
-          id: idMatch || path,
-          title: jp.title ?? '',
-          location: jp.locationsText ?? '',
-          url: `https://${host}/${f.site}${path}`,
-          // Workday gives relative text ("Posted 3 Days Ago"), not a date.
-          postedAt: relativePostedToIso(jp.postedOn),
-        });
-      }
-    }
-  }
-  return [...seen.values()];
+
+  const seen = await paginateWorkday((searchText, offset, limit) =>
+    getJson(`https://${host}/wday/cxs/${f.tenant}/${f.site}/jobs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ limit, offset, searchText }),
+    })
+  );
+
+  return [...seen.values()].map((jp) => ({
+    id: jp.externalPath.split('_').pop() || jp.externalPath,
+    title: jp.title ?? '',
+    location: jp.locationsText ?? '',
+    url: `https://${host}/${f.site}${jp.externalPath}`,
+    // Workday gives relative text ("Posted 3 Days Ago"), not a date.
+    postedAt: relativePostedToIso(jp.postedOn),
+  }));
 }
 
 const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday };
@@ -385,6 +473,19 @@ async function main() {
   }
   const overridden = applyManualDeadlines(all, manual, stamp.slice(0, 10));
 
+  // Roles that reached the tracker without a recognised vertical. This number is
+  // the price of no longer discarding them, and it is reported so it can be
+  // driven down: a title that keeps landing here is a rule inferVertical is
+  // missing, not a role worth losing. Sample titles included so the next rule
+  // can be written without re-running the collection.
+  const other = all.filter((o) => o.vertical === 'Other');
+  if (other.length) {
+    const share = ((other.length / all.length) * 100).toFixed(1);
+    console.log(`\nunclassified: ${other.length}/${all.length} roles (${share}%) fell back to 'Other'`);
+    for (const o of other.slice(0, 12)) console.log(`  ${o.firm} — ${o.role.slice(0, 70)}`);
+    if (other.length > 12) console.log(`  …and ${other.length - 12} more`);
+  }
+
   const withDates = all.filter((o) => o.closingDate).length;
   const rolling = all.filter((o) => o.tags?.includes('Rolling')).length;
   console.log(
@@ -423,7 +524,12 @@ async function main() {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+// Only sync when executed directly. The classifiers above are exported so the
+// tests can import them, and importing this file must not kick off a live
+// collection against every board in the registry.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
