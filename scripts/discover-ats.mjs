@@ -20,7 +20,13 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { detectBoard, boardApiUrl, detectUnsupportedFamily, firstBoard } from '../lib/ats-discover.mjs';
+import {
+  detectBoard,
+  boardApiUrl,
+  detectUnsupportedFamily,
+  firstBoard,
+  candidateUrls,
+} from '../lib/ats-discover.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SEED = join(ROOT, 'lib/sources/careers-seed.json');
@@ -108,9 +114,14 @@ async function resolveFirm(firm) {
                note: 'board pattern matched but returned no postings' };
     }
 
-    const family = detectUnsupportedFamily(res.url) ??
-      (html.match(/https?:\/\/[^\s"'<>]+/g) || []).map(detectUnsupportedFamily).find(Boolean);
-    if (family) return { ...base, status: 'unsupported-ats', family, via: url };
+    // Keep the URL that matched, not just the family name. 'oracle-cloud' does
+    // not say which Oracle deployment, and the tenant host is the only part an
+    // adapter can be written against.
+    const atsUrl = detectUnsupportedFamily(res.url)
+      ? res.url
+      : candidateUrls(html, res.url).find(detectUnsupportedFamily) ?? null;
+    const family = atsUrl ? detectUnsupportedFamily(atsUrl) : null;
+    if (family) return { ...base, status: 'unsupported-ats', family, atsUrl, via: url };
   }
 
   if (httpFailures.length) {

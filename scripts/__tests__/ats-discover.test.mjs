@@ -77,5 +77,30 @@ eq('protocol-relative link is still found',
    firstBoard('<script src="//firm.wd1.myworkdayjobs.com/External"></script>', null),
    { ats: 'workday', tenant: 'firm', shard: 'wd1', site: 'External' });
 
+// --- choosing between a firm's several Workday sites -----------------------
+// Every case here is drawn from the first live run, which put Bank of America
+// on 'lateral-us' and Moelis on 'Experienced-Hires'. Both validated — they are
+// real boards with hundreds of postings — so nothing downstream could tell.
+eq('the campus site wins even when the lateral one is linked first',
+   firstBoard(`<a href="https://ghr.wd1.myworkdayjobs.com/lateral-us">Experienced professionals</a>
+               <a href="https://ghr.wd1.myworkdayjobs.com/Campus_Careers">Students</a>`, null),
+   { ats: 'workday', tenant: 'ghr', shard: 'wd1', site: 'Campus_Careers' });
+eq('Experienced-Hires loses to anything else',
+   firstBoard(`<a href="https://moelis.wd1.myworkdayjobs.com/Experienced-Hires">Exp</a>
+               <a href="https://moelis.wd1.myworkdayjobs.com/Campus">Campus</a>`, null),
+   { ats: 'workday', tenant: 'moelis', shard: 'wd1', site: 'Campus' });
+eq('with no campus site, a neutral one still beats the lateral one',
+   firstBoard(`<a href="https://firm.wd1.myworkdayjobs.com/lateral-us">A</a>
+               <a href="https://firm.wd1.myworkdayjobs.com/External">B</a>`, null),
+   { ats: 'workday', tenant: 'firm', shard: 'wd1', site: 'External' });
+// Visible and wrong beats absent: someone can correct a board they can see.
+eq('a lateral board is still taken when it is the only one',
+   firstBoard('<a href="https://firm.wd1.myworkdayjobs.com/lateral-us">A</a>', null),
+   { ats: 'workday', tenant: 'firm', shard: 'wd1', site: 'lateral-us' });
+eq('site preference does not override the Workday-over-Greenhouse rule',
+   firstBoard(`<a href="https://boards.greenhouse.io/firmcampus">Campus</a>
+               <a href="https://firm.wd1.myworkdayjobs.com/lateral-us">Lateral</a>`, null),
+   { ats: 'workday', tenant: 'firm', shard: 'wd1', site: 'lateral-us' });
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);
