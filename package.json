@@ -10,6 +10,8 @@
     "profile": "python3 skills/company-profile/build.py",
     "comps": "python3 skills/comps-set-builder/build.py",
     "test": "python3 tests/run_offline.py",
-    "ats": "node scripts/sync-ats.mjs"
+    "ats": "node scripts/sync-ats.mjs",
+    "test:deadlines": "node scripts/__tests__/deadline-extract.test.mjs",
+    "test:classify": "node scripts/__tests__/classify-programme.test.mjs"
   }
 }

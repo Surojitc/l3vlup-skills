@@ -15,6 +15,11 @@
  */
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import {
+  extractDeadline,
+  applyManualDeadlines,
+  extractJsonLdDeadline,
+} from '../lib/deadline-extract.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -55,6 +60,16 @@ function inferVertical(title) {
 
 function inferProgrammeAndLevel(title) {
   const t = title.toLowerCase();
+  // Checked before the generic intern match, because most of these titles also
+  // contain "intern" or "program" and would otherwise be filed as internships.
+  if (
+    /\b(sophomore|freshman|first[- ]year)\b/.test(t) ||
+    /\b(insight|early insights?|discovery|explore|exploration|immersion|launchpad|springboard)\b.*\b(program|programme|day|series|summit|experience)\b/.test(t) ||
+    /\b(program|programme|summit)\b.*\b(insight|discovery|immersion)\b/.test(t)
+  ) {
+    return { programmeType: 'Insight Program', level: 'Internship' };
+  }
+  if (/spring\s*(week|insight)/.test(t)) return { programmeType: 'Spring Week', level: 'Internship' };
   if (/intern|co-op|coop|\bstudent\b/.test(t)) return { programmeType: 'Summer Internship', level: 'Internship' };
   if (/residency/.test(t)) return { programmeType: 'Graduate Programme', level: 'Experienced' };
   return { programmeType: 'Graduate Programme', level: 'Graduate' };
@@ -123,6 +138,8 @@ function toOpportunity(job, firm) {
   const { programmeType, level } = inferProgrammeAndLevel(job.title);
   const tags = ['Auto-sourced'];
   if (job.department) tags.push(job.department);
+  const extracted = job.deadline ? {} : extractDeadline(job.description || '');
+  if (extracted.rolling) tags.push('Rolling');
   return {
     id: `${firm.ats}-${firm.token || firm.tenant}-${job.id}`,
     firm: firm.firm,
@@ -133,7 +150,9 @@ function toOpportunity(job, firm) {
     location: (job.location || '').trim() || 'See listing',
     region: inferRegion(job.location),
     level,
-    closingDate: job.deadline || undefined,
+    // A stated deadline, in order of trust: the ATS field if a board bothers
+    // to populate it, otherwise one the posting states in prose. Never inferred.
+    closingDate: job.deadline || extracted.closingDate || undefined,
     // Real posting date from the ATS. Drives JobPosting datePosted, which
     // Google requires — without it the markup is invalid and the row is
     // ineligible for job rich results.
@@ -157,7 +176,10 @@ async function getJson(url, init) {
 }
 
 async function fetchGreenhouse(f) {
-  const d = await getJson(`https://boards-api.greenhouse.io/v1/boards/${f.token}/jobs?content=false`);
+  // content=true costs a larger payload and buys the posting body, which is
+  // where deadlines are actually written — application_deadline is a real
+  // Greenhouse field that almost no board populates.
+  const d = await getJson(`https://boards-api.greenhouse.io/v1/boards/${f.token}/jobs?content=true`);
   return (d.jobs || []).map((j) => ({
     id: String(j.id),
     title: j.title || '',
@@ -165,6 +187,7 @@ async function fetchGreenhouse(f) {
     url: j.absolute_url,
     deadline: j.application_deadline || undefined,
     postedAt: j.first_published || j.updated_at || undefined,
+    description: j.content || '',
   }));
 }
 
@@ -179,6 +202,7 @@ async function fetchAshby(f) {
       url: j.jobUrl || j.applyUrl,
       department: j.department || undefined,
       postedAt: j.publishedAt || j.updatedAt || undefined,
+      description: j.descriptionPlain || j.descriptionHtml || '',
     }));
 }
 
@@ -192,6 +216,7 @@ async function fetchLever(f) {
     department: j.categories?.team || undefined,
     // Lever returns epoch milliseconds, not an ISO string.
     postedAt: j.createdAt ? new Date(j.createdAt).toISOString() : undefined,
+    description: j.descriptionPlain || j.description || '',
   }));
 }
 
@@ -243,6 +268,8 @@ async function main() {
 
   // Small concurrency pool so we don't hammer or hang.
   const POOL = 8;
+  // Ceiling on the JSON-LD pass so one bad run cannot crawl indefinitely.
+  const LD_PASS_CAP = 400;
   for (let i = 0; i < firms.length; i += POOL) {
     const batch = firms.slice(i, i + POOL);
     const results = await Promise.allSettled(
@@ -291,6 +318,63 @@ async function main() {
     );
     process.exit(1);
   }
+
+  // ---------------------------------------------------------------------
+  // Second pass: read JobPosting structured data off the posting page itself.
+  //
+  // `validThrough` is required for a posting to be eligible for Google's job
+  // rich results, so employers chasing that traffic publish the deadline as
+  // machine-readable JSON-LD even when their ATS exposes no such field. That
+  // makes it far more reliable than reading prose, and it costs one HTTP GET
+  // per undated role — only for roles the first pass could not date.
+  // ---------------------------------------------------------------------
+  const undated = all.filter((o) => !o.closingDate && o.applicationUrl).slice(0, LD_PASS_CAP);
+  let fromMarkup = 0;
+  if (undated.length) {
+    console.log(`\nchecking ${undated.length} posting pages for JobPosting validThrough…`);
+    for (let i = 0; i < undated.length; i += POOL) {
+      const batch = undated.slice(i, i + POOL);
+      await Promise.allSettled(
+        batch.map(async (o) => {
+          const res = await fetch(o.applicationUrl, {
+            headers: { 'User-Agent': UA },
+            signal: AbortSignal.timeout(TIMEOUT_MS),
+          });
+          if (!res.ok) return;
+          const html = await res.text();
+          const found = extractJsonLdDeadline(html);
+          // Prose is the fallback when a page carries no markup.
+          const date = found.closingDate || extractDeadline(html).closingDate;
+          if (date) {
+            o.closingDate = date;
+            fromMarkup++;
+          }
+        })
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Hand-entered deadlines win over anything scraped. Most bank early-career
+  // dates are announced on the firm's own careers page and never reach the
+  // ATS record, so this is the only route for them.
+  // ---------------------------------------------------------------------
+  const MANUAL = join(ROOT, 'data/deadlines.manual.json');
+  let manual = [];
+  try {
+    manual = JSON.parse(await readFile(MANUAL, 'utf8')).deadlines ?? [];
+  } catch {
+    /* optional file */
+  }
+  const overridden = applyManualDeadlines(all, manual, stamp.slice(0, 10));
+
+  const withDates = all.filter((o) => o.closingDate).length;
+  const rolling = all.filter((o) => o.tags?.includes('Rolling')).length;
+  console.log(
+    `\ndeadlines: ${withDates}/${all.length} dated ` +
+      `(${fromMarkup} from JobPosting markup, ${overridden} from ` +
+      `data/deadlines.manual.json), ${rolling} marked rolling`
+  );
 
   await mkdir(dirname(OUT), { recursive: true });
 

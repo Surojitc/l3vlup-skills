@@ -1,0 +1,18 @@
+{
+  "_comment": [
+    "Hand-entered application deadlines, applied on top of whatever the ATS sync finds.",
+    "",
+    "Most bank early-career deadlines are announced on the firm's own careers page or",
+    "in an email to campus, never in the ATS record, so no amount of scraping will",
+    "find them. This file is where a date you know goes.",
+    "",
+    "Matching: `id` is exact and wins. Otherwise `firm` plus `rolePattern` (a",
+    "case-insensitive substring of the role title) applies to every matching role,",
+    "which is what you want when a bank runs one deadline across a whole programme.",
+    "",
+    "`closingDate` must be ISO (YYYY-MM-DD). `source` is not used by the site; it is",
+    "there so the next person can tell where the date came from and re-check it.",
+    "Entries whose date has passed are ignored, so stale rows are harmless."
+  ],
+  "deadlines": []
+}

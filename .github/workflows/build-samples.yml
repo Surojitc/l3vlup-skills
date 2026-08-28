@@ -58,6 +58,14 @@ jobs:
       - name: Offline checks
         run: python3 tests/run_offline.py
 
+      # The deadline extractor decides what dates reach a public page, so a
+      # regression here would put wrong dates on the site rather than merely
+      # failing. Cheap to run and it gates the sync below.
+      - name: Test deadline extraction and programme classification
+        run: |
+          node scripts/__tests__/deadline-extract.test.mjs
+          node scripts/__tests__/classify-programme.test.mjs
+
       - name: Sync the opportunity tracker from public ATS boards
         # No continue-on-error: the script has its own collapse guard and exits
         # non-zero rather than publishing a shrunken list over good data. Letting
