@@ -1154,13 +1154,14 @@
     },
     {
       "date": "2026-08-28",
-      "count": 124,
+      "count": 130,
       "byVertical": {
-        "Software Engineering": 59,
+        "Software Engineering": 60,
         "Product Management": 4,
         "Data & ML": 30,
         "Quant": 25,
-        "Investment Banking": 6
+        "Investment Banking": 10,
+        "Equity Research": 1
       },
       "ids": [
         "greenhouse-stripe-8097801",
@@ -1286,7 +1287,13 @@
         "workday-citi-26990048",
         "workday-citi-26990039",
         "workday-citi-26990264",
-        "workday-citi-26982662"
+        "workday-citi-26982662",
+        "workday-barclays-JR-0000128135",
+        "workday-barclays-JR-0000121763",
+        "workday-barclays-JR-0000117558",
+        "workday-barclays-JR-0000117560",
+        "workday-barclays-JR-0000119610",
+        "workday-hl-R3447-1"
       ]
     }
   ]
