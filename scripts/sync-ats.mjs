@@ -189,14 +189,18 @@ function relativePostedToIso(text) {
   return d.toISOString().slice(0, 10);
 }
 
-/** Normalise whatever an ATS gave us to a plain YYYY-MM-DD, or nothing. */
-function toIsoDate(value) {
+/**
+ * Normalise whatever an ATS gave us to a plain YYYY-MM-DD, or nothing.
+ *
+ * `allowFuture` separates the two uses. A POSTING date in the future is bad
+ * data and would make JobPosting markup invalid, so it is dropped. A DEADLINE
+ * in the future is the entire point of a deadline.
+ */
+function toIsoDate(value, { allowFuture = false } = {}) {
   if (!value) return undefined;
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return undefined;
-  // A posting date in the future is bad data, and would make JobPosting
-  // markup invalid. Drop it rather than publish it.
-  if (d.getTime() > Date.now()) return undefined;
+  if (!allowFuture && d.getTime() > Date.now()) return undefined;
   return d.toISOString().slice(0, 10);
 }
 
@@ -221,7 +225,12 @@ export function toOpportunity(job, firm) {
     level,
     // A stated deadline, in order of trust: the ATS field if a board bothers
     // to populate it, otherwise one the posting states in prose. Never inferred.
-    closingDate: job.deadline || extracted.closingDate || undefined,
+    // Normalised to a plain date. Greenhouse returns application_deadline as a
+    // full timestamp on some boards, and two Robinhood rows shipped as
+    // '2026-09-26T19:28:09-04:00' — which renders as a wall of text next to the
+    // plain dates beside it and is not a date the reader can act on differently
+    // for knowing the hour.
+    closingDate: toIsoDate(job.deadline, { allowFuture: true }) || extracted.closingDate || undefined,
     // Real posting date from the ATS. Drives JobPosting datePosted, which
     // Google requires — without it the markup is invalid and the row is
     // ineligible for job rich results.
