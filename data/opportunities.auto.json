@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-28T18:57:36.808Z",
-  "count": 206,
+  "generatedAt": "2026-08-29T12:48:36.036Z",
+  "count": 208,
   "opportunities": [
     {
       "id": "greenhouse-stripe-7544547",
@@ -41,7 +41,7 @@
     {
       "id": "greenhouse-stripe-8097801",
       "firm": "Stripe",
-      "role": "Software Engineer, Intern",
+      "role": "Software Engineer, Intern (Summer)",
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Fintech",
@@ -324,24 +324,6 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8089407",
-      "firm": "Cloudflare",
-      "role": "Research Engineer Intern (Fall 2026)",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "In-Office",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-07-29",
-      "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-cloudflare-8089379",
       "firm": "Cloudflare",
       "role": "Research Engineer Intern (Fall 2026)",
@@ -354,6 +336,24 @@
       "openingDate": "2026-07-28",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089379?gh_jid=8089379",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-cloudflare-8089407",
+      "firm": "Cloudflare",
+      "role": "Research Engineer Intern (Fall 2026)",
+      "vertical": "Data & ML",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "In-Office",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-29",
+      "status": "Open",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -647,23 +647,6 @@
       ]
     },
     {
-      "id": "greenhouse-flexport-8128413",
-      "firm": "Flexport",
-      "role": "Area Manager - New Grad",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Enterprise Tech",
-      "location": "San Bernardino Warehouse",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-08-19",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128413",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-flexport-8070269",
       "firm": "Flexport",
       "role": "Area Manager - New Grad",
@@ -693,6 +676,23 @@
       "openingDate": "2026-08-21",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128438",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-flexport-8128413",
+      "firm": "Flexport",
+      "role": "Area Manager - New Grad",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Enterprise Tech",
+      "location": "San Bernardino Warehouse",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128413",
       "tags": [
         "Auto-sourced"
       ]
@@ -1149,24 +1149,6 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4917773101",
-      "firm": "IMC Trading",
-      "role": "Graduate Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Aarhus, Central Denmark Region, Denmark",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-07-31",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4917773101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-imc-4818790101",
       "firm": "IMC Trading",
       "role": "Graduate Software Engineer",
@@ -1185,18 +1167,18 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4635938101",
+      "id": "greenhouse-imc-4917773101",
       "firm": "IMC Trading",
-      "role": "Graduate Software Engineer (2026)",
+      "role": "Graduate Software Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Trading Tech",
       "location": "Aarhus, Central Denmark Region, Denmark",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2025-08-27",
+      "openingDate": "2026-07-31",
       "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4635938101",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4917773101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1215,6 +1197,24 @@
       "openingDate": "2025-08-27",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4635938101",
+      "firm": "IMC Trading",
+      "role": "Graduate Software Engineer (2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Aarhus, Central Denmark Region, Denmark",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2025-08-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4635938101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1916,23 +1916,6 @@
       ]
     },
     {
-      "id": "greenhouse-jumptrading-8027900",
-      "firm": "Jump Trading",
-      "role": "Campus Quantitative Researcher (Intern)",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Hong Kong; Shanghai",
-      "region": "Asia",
-      "level": "Internship",
-      "openingDate": "2026-08-24",
-      "status": "Open",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-jumptrading-8010307",
       "firm": "Jump Trading",
       "role": "Campus Quantitative Researcher (Intern)",
@@ -1962,6 +1945,23 @@
       "openingDate": "2026-08-03",
       "status": "Open",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027939",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8027900",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong; Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
       "tags": [
         "Auto-sourced"
       ]
@@ -2018,24 +2018,6 @@
       ]
     },
     {
-      "id": "greenhouse-flowtraders-7507482",
-      "firm": "Flow Traders",
-      "role": "Graduate Trader",
-      "vertical": "Sales & Trading",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Amsterdam",
-      "region": "Europe",
-      "level": "Graduate",
-      "openingDate": "2026-01-30",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/7507482",
-      "recommendedPrepSlug": "sales-and-trading-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-flowtraders-4782837",
       "firm": "Flow Traders",
       "role": "Graduate Trader",
@@ -2048,6 +2030,24 @@
       "openingDate": "2023-01-04",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/4782837",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-flowtraders-7507482",
+      "firm": "Flow Traders",
+      "role": "Graduate Trader",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Amsterdam",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-01-30",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/7507482",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -2697,23 +2697,6 @@
       ]
     },
     {
-      "id": "workday-citi-26951376",
-      "firm": "Citi",
-      "role": "Functions - Internal Audit, Summer Analyst, Tampa - USA, 2027",
-      "vertical": "Finance & Accounting",
-      "programmeType": "Summer Internship",
-      "tier": "Bulge Bracket",
-      "location": "Tampa Florida United States",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-08-05",
-      "status": "Open",
-      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Tampa-Florida-United-States/Functions---Internal-Audit--Summer-Analyst--Tampa---USA--2027_26951376",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "workday-citi-25848278",
       "firm": "Citi",
       "role": "Mehnaty Graduate Program (UAE Nationals Only)",
@@ -2948,6 +2931,24 @@
       ]
     },
     {
+      "id": "workday-citi-26986138",
+      "firm": "Citi",
+      "role": "Markets – Sales and Trading, Internship, São Paulo - Brazil, 2026",
+      "vertical": "Sales & Trading",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Sao Paulo Sao Paulo Brazil",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-20",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Sao-Paulo-Sao-Paulo-Brazil/Markets---Sales-and-Trading--Internship--So-Paulo---Brazil--2026_26986138",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "workday-mastercard-R-286662-1",
       "firm": "Mastercard",
       "role": "Internship Program, Americas, 2027 – Mexico City, Mexico",
@@ -3015,6 +3016,24 @@
       "openingDate": "2026-07-30",
       "status": "Open",
       "applicationUrl": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/Bogota-Colombia/Internship-Program---Mastercard---2027---Bogota--Colombia_R-286675",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-barclays-JR-0000123974-1",
+      "firm": "Barclays",
+      "role": "Banking Graduate Programme 2027 London",
+      "vertical": "Investment Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Tracked",
+      "location": "Canary Wharf, 1 Churchill Place",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-29",
+      "status": "Open",
+      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Banking-Graduate-Programme-2027-London_JR-0000123974-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
       ]
@@ -3122,6 +3141,24 @@
       "openingDate": "2026-08-20",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Houston-609-Main-Street/Banking-Analyst-Summer-Internship-Program-2027-Houston_JR-0000083839",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-barclays-JR-0000124213-1",
+      "firm": "Barclays",
+      "role": "Capital Markets Graduate Programme 2027 London",
+      "vertical": "Investment Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Tracked",
+      "location": "Canary Wharf, 1 Churchill Place",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-29",
+      "status": "Open",
+      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Capital-Markets-Graduate-Programme-2027-London_JR-0000124213-1",
       "recommendedPrepSlug": "investment-banking-interview-prep",
       "tags": [
         "Auto-sourced"
