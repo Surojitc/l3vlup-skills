@@ -30,6 +30,11 @@ on:
         type: boolean
         required: false
         default: false
+      probe_fields:
+        description: 'Report the full field set each ATS returns, instead of resolving boards'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
@@ -54,7 +59,15 @@ jobs:
       - name: Test board detection
         run: node scripts/__tests__/ats-discover.test.mjs
 
+      # Scaffolding: reports the full field set each ATS returns so enrichment
+      # is written against observed payloads. Never fails the run.
+      - name: Probe ATS field coverage
+        if: inputs.probe_fields
+        continue-on-error: true
+        run: node scripts/probe-ats-fields.mjs
+
       - name: Resolve careers pages to boards
+        if: ${{ !inputs.probe_fields }}
         # Inputs go through the environment and into a bash array, never into
         # the command line by interpolation. "Investment Bank" contains a space,
         # so an unquoted expansion would hand the script --vertical=Investment
