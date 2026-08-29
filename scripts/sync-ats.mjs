@@ -20,6 +20,7 @@ import {
   applyManualDeadlines,
   extractJsonLdDeadline,
 } from '../lib/deadline-extract.mjs';
+import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -229,6 +230,8 @@ export function toOpportunity(job, firm) {
     applicationUrl: job.url,
     recommendedPrepSlug: prepSlugFor(vertical),
     tags,
+    // Internal, stripped before write. Addresses the Workday detail endpoint.
+    _workdayDetail: job.workdayDetail,
   };
 }
 
@@ -379,8 +382,11 @@ async function fetchWorkday(f) {
     title: jp.title ?? '',
     location: jp.locationsText ?? '',
     url: `https://${host}/${f.site}${jp.externalPath}`,
-    // Workday gives relative text ("Posted 3 Days Ago"), not a date.
+    // Workday gives relative text ("Posted 3 Days Ago"), not a date. The detail
+    // pass below replaces this with the exact startDate where it can.
     postedAt: relativePostedToIso(jp.postedOn),
+    // Kept so the detail endpoint can be addressed without rebuilding the host.
+    workdayDetail: { host, tenant: f.tenant, site: f.site, externalPath: jp.externalPath },
   }));
 }
 
@@ -400,6 +406,8 @@ async function main() {
   const emptyFirms = [];
   // Ceiling on the JSON-LD pass so one bad run cannot crawl indefinitely.
   const LD_PASS_CAP = 400;
+  // One GET per Workday role. Bounded for the same reason the JSON-LD pass is.
+  const WD_DETAIL_CAP = 400;
   for (let i = 0; i < firms.length; i += POOL) {
     const batch = firms.slice(i, i + POOL);
     const results = await Promise.allSettled(
@@ -466,6 +474,56 @@ async function main() {
   // makes it far more reliable than reading prose, and it costs one HTTP GET
   // per undated role — only for roles the first pass could not date.
   // ---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
+  // Workday detail pass.
+  //
+  // The list endpoint returns a locationsText that is often "3 Locations" and a
+  // postedOn of "Posted Yesterday". The per-job detail endpoint returns
+  // startDate and endDate as exact ISO dates and a structured location with an
+  // ISO country code. endDate is the apply-by date — Workday shows it to
+  // candidates as "time left to apply" — which makes it the largest available
+  // source of deadlines for banks, who are almost all on Workday and almost all
+  // currently undated.
+  //
+  // Runs before the JSON-LD pass so the cheaper and more reliable source wins,
+  // and only for Workday rows, so the JSON-LD budget is left for the rest.
+  // ---------------------------------------------------------------------
+  const wdRows = all.filter((o) => o._workdayDetail).slice(0, WD_DETAIL_CAP);
+  let fromWorkday = 0;
+  let wdLocations = 0;
+  if (wdRows.length) {
+    console.log(`\nreading ${wdRows.length} Workday postings for exact dates and locations…`);
+    for (let i = 0; i < wdRows.length; i += POOL) {
+      await Promise.allSettled(
+        wdRows.slice(i, i + POOL).map(async (o) => {
+          const d = o._workdayDetail;
+          const url = detailUrl(d.host, d.tenant, d.site, d.externalPath);
+          if (!url) return;
+          const res = await fetch(url, {
+            headers: { 'User-Agent': UA, Accept: 'application/json' },
+            signal: AbortSignal.timeout(TIMEOUT_MS),
+          });
+          if (!res.ok) return;
+          const parsed = parseWorkdayDetail(await res.json());
+          if (parsed.closingDate && !o.closingDate) {
+            o.closingDate = parsed.closingDate;
+            fromWorkday++;
+          }
+          // An exact date always beats one derived from "Posted 3 Days Ago".
+          if (parsed.openingDate) o.openingDate = parsed.openingDate;
+          // "3 Locations" is not a location.
+          if (parsed.location && (!o.location || /^\d+\s+Locations?$/i.test(o.location))) {
+            o.location = parsed.location;
+            o.region = inferRegion(parsed.location);
+            wdLocations++;
+          }
+        })
+      );
+    }
+    console.log(`  ${fromWorkday} deadlines, ${wdLocations} locations resolved from Workday detail`);
+  }
+  for (const o of all) delete o._workdayDetail;
+
   const undated = all.filter((o) => !o.closingDate && o.applicationUrl).slice(0, LD_PASS_CAP);
   let fromMarkup = 0;
   if (undated.length) {
@@ -523,7 +581,7 @@ async function main() {
   const rolling = all.filter((o) => o.tags?.includes('Rolling')).length;
   console.log(
     `\ndeadlines: ${withDates}/${all.length} dated ` +
-      `(${fromMarkup} from JobPosting markup, ${overridden} from ` +
+      `(${fromWorkday} from Workday detail, ${fromMarkup} from JobPosting markup, ${overridden} from ` +
       `data/deadlines.manual.json), ${rolling} marked rolling`
   );
 
