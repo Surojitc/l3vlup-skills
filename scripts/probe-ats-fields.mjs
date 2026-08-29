@@ -65,7 +65,10 @@ async function probeWorkday(f) {
 
   // The detail endpoint. This is the part we do not call.
   try {
-    const res = await get(`https://${host}/wday/cxs/${f.tenant}/${f.site}/job${first.externalPath}`);
+    // externalPath already begins with '/job/', so appending it to '.../job'
+    // produced '/job/job/...' and Workday answered 406. The detail URL is the
+    // site path plus externalPath, nothing between them.
+    const res = await get(`https://${host}/wday/cxs/${f.tenant}/${f.site}${first.externalPath}`);
     if (!res.ok) return console.log(`  detail HTTP ${res.status}`);
     const d = await res.json();
     console.log('\n  detail top-level keys: ' + keys(d).join(', '));
