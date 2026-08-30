@@ -74,3 +74,26 @@ jobs:
               git pull --rebase origin main
             done
           fi
+
+      # Daily social post — moved here from the private repo (2026-08-30),
+      # whose metered Actions budget had silently stopped it. Runs LAST so it
+      # posts against the data committed moments ago. Every channel is
+      # optional: the script silently skips any channel whose secrets are
+      # absent, so this step is a no-op until secrets are added. The tokens
+      # are repository secrets — never exposed to forks or fork PRs, and this
+      # workflow must never move to pull_request_target (see header).
+      - name: Daily social post
+        if: github.event_name != 'pull_request'
+        continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: node scripts/daily-post.mjs
