@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T23:33:23.199Z",
+  "generatedAt": "2026-08-30T12:10:03.869Z",
   "count": 208,
   "opportunities": [
     {
@@ -101,7 +101,7 @@
       "location": "Denver, CO; Westlake, TX",
       "region": "US",
       "level": "Graduate",
-      "closingDate": "2026-09-26T19:28:09-04:00",
+      "closingDate": "2026-09-26",
       "openingDate": "2026-08-27",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/robinhood/jobs/8163432?t=gh_src=&gh_jid=8163432",
@@ -119,7 +119,7 @@
       "location": "Denver, CO; Westlake, TX",
       "region": "US",
       "level": "Graduate",
-      "closingDate": "2026-09-19T13:28:11-04:00",
+      "closingDate": "2026-09-19",
       "openingDate": "2026-08-18",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/robinhood/jobs/8128738?t=gh_src=&gh_jid=8128738",
@@ -306,6 +306,24 @@
       ]
     },
     {
+      "id": "greenhouse-cloudflare-8089407",
+      "firm": "Cloudflare",
+      "role": "Research Engineer Intern (Fall 2026)",
+      "vertical": "Data & ML",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "In-Office",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-29",
+      "status": "Open",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-cloudflare-8089400",
       "firm": "Cloudflare",
       "role": "Research Engineer Intern (Fall 2026)",
@@ -342,21 +360,22 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8089407",
+      "id": "greenhouse-cloudflare-8118845",
       "firm": "Cloudflare",
-      "role": "Research Engineer Intern (Fall 2026)",
-      "vertical": "Data & ML",
+      "role": "Software Engineer Intern (Fall 2026)",
+      "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
       "location": "In-Office",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-29",
+      "openingDate": "2026-08-11",
       "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced"
+        "Auto-sourced",
+        "Rolling"
       ]
     },
     {
@@ -372,25 +391,6 @@
       "openingDate": "2026-08-20",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118855?gh_jid=8118855",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Rolling"
-      ]
-    },
-    {
-      "id": "greenhouse-cloudflare-8118845",
-      "firm": "Cloudflare",
-      "role": "Software Engineer Intern (Fall 2026)",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "In-Office",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-08-11",
-      "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced",
@@ -647,6 +647,23 @@
       ]
     },
     {
+      "id": "greenhouse-flexport-8128413",
+      "firm": "Flexport",
+      "role": "Area Manager - New Grad",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Enterprise Tech",
+      "location": "San Bernardino Warehouse",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128413",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-flexport-8070269",
       "firm": "Flexport",
       "role": "Area Manager - New Grad",
@@ -676,23 +693,6 @@
       "openingDate": "2026-08-21",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128438",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
-      "id": "greenhouse-flexport-8128413",
-      "firm": "Flexport",
-      "role": "Area Manager - New Grad",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Enterprise Tech",
-      "location": "San Bernardino Warehouse",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-08-19",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128413",
       "tags": [
         "Auto-sourced"
       ]
@@ -1149,24 +1149,6 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4818790101",
-      "firm": "IMC Trading",
-      "role": "Graduate Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Chicago, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-07-01",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4818790101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-imc-4917773101",
       "firm": "IMC Trading",
       "role": "Graduate Software Engineer",
@@ -1185,18 +1167,18 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4564480101",
+      "id": "greenhouse-imc-4818790101",
       "firm": "IMC Trading",
-      "role": "Graduate Software Engineer (2026)",
+      "role": "Graduate Software Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Trading Tech",
-      "location": "Amsterdam, Netherlands",
-      "region": "Europe",
+      "location": "Chicago, United States",
+      "region": "US",
       "level": "Graduate",
-      "openingDate": "2025-08-27",
+      "openingDate": "2026-07-01",
       "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4818790101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1215,6 +1197,24 @@
       "openingDate": "2025-08-27",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4635938101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4564480101",
+      "firm": "IMC Trading",
+      "role": "Graduate Software Engineer (2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Amsterdam, Netherlands",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2025-08-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1916,6 +1916,23 @@
       ]
     },
     {
+      "id": "greenhouse-jumptrading-8027900",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong; Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-jumptrading-8010307",
       "firm": "Jump Trading",
       "role": "Campus Quantitative Researcher (Intern)",
@@ -1945,23 +1962,6 @@
       "openingDate": "2026-08-03",
       "status": "Open",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027939",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
-      "id": "greenhouse-jumptrading-8027900",
-      "firm": "Jump Trading",
-      "role": "Campus Quantitative Researcher (Intern)",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Hong Kong; Shanghai",
-      "region": "Asia",
-      "level": "Internship",
-      "openingDate": "2026-08-24",
-      "status": "Open",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
       "tags": [
         "Auto-sourced"
       ]
@@ -2018,24 +2018,6 @@
       ]
     },
     {
-      "id": "greenhouse-flowtraders-4782837",
-      "firm": "Flow Traders",
-      "role": "Graduate Trader",
-      "vertical": "Sales & Trading",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Hong Kong",
-      "region": "Asia",
-      "level": "Graduate",
-      "openingDate": "2023-01-04",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/4782837",
-      "recommendedPrepSlug": "sales-and-trading-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-flowtraders-7507482",
       "firm": "Flow Traders",
       "role": "Graduate Trader",
@@ -2048,6 +2030,24 @@
       "openingDate": "2026-01-30",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/7507482",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-flowtraders-4782837",
+      "firm": "Flow Traders",
+      "role": "Graduate Trader",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2023-01-04",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/4782837",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -2296,6 +2296,7 @@
       "location": "US, CA, Santa Clara",
       "region": "US",
       "level": "Internship",
+      "openingDate": "2026-05-27",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/PhD-Research-Intern--Generative-AI---2026_JR2016035",
       "recommendedPrepSlug": "software-engineering-interview-prep",
