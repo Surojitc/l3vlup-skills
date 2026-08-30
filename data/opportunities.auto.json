@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-30T12:10:03.869Z",
-  "count": 208,
+  "generatedAt": "2026-08-30T21:03:39.397Z",
+  "count": 310,
   "opportunities": [
     {
       "id": "greenhouse-stripe-7544547",
@@ -102,6 +102,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-09-26",
+      "deadlineSource": "ats-field",
       "openingDate": "2026-08-27",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/robinhood/jobs/8163432?t=gh_src=&gh_jid=8163432",
@@ -120,6 +121,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-09-19",
+      "deadlineSource": "ats-field",
       "openingDate": "2026-08-18",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/robinhood/jobs/8128738?t=gh_src=&gh_jid=8128738",
@@ -306,24 +308,6 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8089407",
-      "firm": "Cloudflare",
-      "role": "Research Engineer Intern (Fall 2026)",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "In-Office",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-07-29",
-      "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-cloudflare-8089400",
       "firm": "Cloudflare",
       "role": "Research Engineer Intern (Fall 2026)",
@@ -360,22 +344,21 @@
       ]
     },
     {
-      "id": "greenhouse-cloudflare-8118845",
+      "id": "greenhouse-cloudflare-8089407",
       "firm": "Cloudflare",
-      "role": "Software Engineer Intern (Fall 2026)",
-      "vertical": "Software Engineering",
+      "role": "Research Engineer Intern (Fall 2026)",
+      "vertical": "Data & ML",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
       "location": "In-Office",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-08-11",
+      "openingDate": "2026-07-29",
       "status": "Open",
-      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8089407?gh_jid=8089407",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
-        "Auto-sourced",
-        "Rolling"
+        "Auto-sourced"
       ]
     },
     {
@@ -391,6 +374,25 @@
       "openingDate": "2026-08-20",
       "status": "Open",
       "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118855?gh_jid=8118855",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Rolling"
+      ]
+    },
+    {
+      "id": "greenhouse-cloudflare-8118845",
+      "firm": "Cloudflare",
+      "role": "Software Engineer Intern (Fall 2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "In-Office",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-11",
+      "status": "Open",
+      "applicationUrl": "https://boards.greenhouse.io/cloudflare/jobs/8118845?gh_jid=8118845",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced",
@@ -647,23 +649,6 @@
       ]
     },
     {
-      "id": "greenhouse-flexport-8128413",
-      "firm": "Flexport",
-      "role": "Area Manager - New Grad",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Enterprise Tech",
-      "location": "San Bernardino Warehouse",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-08-19",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128413",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-flexport-8070269",
       "firm": "Flexport",
       "role": "Area Manager - New Grad",
@@ -693,6 +678,23 @@
       "openingDate": "2026-08-21",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128438",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-flexport-8128413",
+      "firm": "Flexport",
+      "role": "Area Manager - New Grad",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Enterprise Tech",
+      "location": "San Bernardino Warehouse",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8128413",
       "tags": [
         "Auto-sourced"
       ]
@@ -1149,24 +1151,6 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4917773101",
-      "firm": "IMC Trading",
-      "role": "Graduate Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Aarhus, Central Denmark Region, Denmark",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-07-31",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4917773101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-imc-4818790101",
       "firm": "IMC Trading",
       "role": "Graduate Software Engineer",
@@ -1185,18 +1169,18 @@
       ]
     },
     {
-      "id": "greenhouse-imc-4635938101",
+      "id": "greenhouse-imc-4917773101",
       "firm": "IMC Trading",
-      "role": "Graduate Software Engineer (2026)",
+      "role": "Graduate Software Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Trading Tech",
       "location": "Aarhus, Central Denmark Region, Denmark",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2025-08-27",
+      "openingDate": "2026-07-31",
       "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4635938101",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4917773101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1215,6 +1199,24 @@
       "openingDate": "2025-08-27",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4564480101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4635938101",
+      "firm": "IMC Trading",
+      "role": "Graduate Software Engineer (2026)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Aarhus, Central Denmark Region, Denmark",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2025-08-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4635938101",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -1412,6 +1414,216 @@
       "openingDate": "2026-08-12",
       "status": "Open",
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4941208101",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4907399101",
+      "firm": "IMC Trading",
+      "role": "Quantitative Research Intern (BS/MS) - Summer 2027",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-01",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4907399101",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4907400101",
+      "firm": "IMC Trading",
+      "role": "Quantitative Research Intern (PhD) - Summer 2027",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-01",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4907400101",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4936262101",
+      "firm": "IMC Trading",
+      "role": "Quantitative Trader Intern",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Amsterdam, Netherlands",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-07-31",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4936262101",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4941205101",
+      "firm": "IMC Trading",
+      "role": "Quantitative Trader Intern 2027",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong, Hong Kong",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-12",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4941205101",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4823923101",
+      "firm": "IMC Trading",
+      "role": "Quantitative Trader Intern - Summer 2027",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-01",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4823923101",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4577504101",
+      "firm": "IMC Trading",
+      "role": "Software Engineer, Early Career",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2025-04-17",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4577504101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4667854101",
+      "firm": "IMC Trading",
+      "role": "Software Engineer Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Amsterdam, Netherlands",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-05-07",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4667854101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4941206101",
+      "firm": "IMC Trading",
+      "role": "Software Engineer Intern 2027",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong, Hong Kong",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-12",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4941206101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4823924101",
+      "firm": "IMC Trading",
+      "role": "Software Engineer Intern - Summer 2027",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-01",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4823924101",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4753890101",
+      "firm": "IMC Trading",
+      "role": "Trader Assistant (Working Student)",
+      "vertical": "Sales & Trading",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Amsterdam, Netherlands",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-01-21",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4753890101",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4939846101",
+      "firm": "IMC Trading",
+      "role": "Trader Intern",
+      "vertical": "Sales & Trading",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Amsterdam, Netherlands",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-07-31",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4939846101",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-imc-4685421101",
+      "firm": "IMC Trading",
+      "role": "Working Student - Tech",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Aarhus, Central Denmark Region, Denmark",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2025-11-05",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4685421101",
       "tags": [
         "Auto-sourced"
       ]
@@ -1916,23 +2128,6 @@
       ]
     },
     {
-      "id": "greenhouse-jumptrading-8027900",
-      "firm": "Jump Trading",
-      "role": "Campus Quantitative Researcher (Intern)",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Hong Kong; Shanghai",
-      "region": "Asia",
-      "level": "Internship",
-      "openingDate": "2026-08-24",
-      "status": "Open",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-jumptrading-8010307",
       "firm": "Jump Trading",
       "role": "Campus Quantitative Researcher (Intern)",
@@ -1962,6 +2157,23 @@
       "openingDate": "2026-08-03",
       "status": "Open",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027939",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8027900",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong; Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027900",
       "tags": [
         "Auto-sourced"
       ]
@@ -2001,6 +2213,409 @@
       ]
     },
     {
+      "id": "greenhouse-jumptrading-8125888",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher, PhD (Full-Time)",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago; New York",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8125888",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8049938",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher, PhD (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago; New York",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8049938",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7728630",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher, UG/MS (Full-Time)",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago; New York",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7728630",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7982648",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Researcher, UG/MS (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago; New York",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7982648",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7982619",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Trader (Full-Time)",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago; New York",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7982619",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8050801",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Trader (Full-Time)",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "London; Amsterdam",
+      "region": "UK",
+      "level": "Graduate",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8050801",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8027941",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Trader (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-03",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027941",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8050772",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Trader (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "London; Amsterdam",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8050772",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8027922",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Trader (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong; Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027922",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7848371",
+      "firm": "Jump Trading",
+      "role": "Campus Quantitative Trader (Intern)",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago; New York",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7848371",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8000835",
+      "firm": "Jump Trading",
+      "role": "Campus Software Engineer (Full-Time)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8000835",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8002989",
+      "firm": "Jump Trading",
+      "role": "Campus Software Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8002989",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7975026",
+      "firm": "Jump Trading",
+      "role": "Campus Software Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "London",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7975026",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8008112",
+      "firm": "Jump Trading",
+      "role": "Campus Systems Engineer (Full-Time)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8008112",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7215943",
+      "firm": "Jump Trading",
+      "role": "Campus Systems Engineer (Full-Time)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "London",
+      "region": "UK",
+      "level": "Graduate",
+      "openingDate": "2025-09-26",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7215943",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8008306",
+      "firm": "Jump Trading",
+      "role": "Campus Systems Engineer (Full-Time)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Amsterdam",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8008306",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8007788",
+      "firm": "Jump Trading",
+      "role": "Campus Systems Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8007788",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8000323",
+      "firm": "Jump Trading",
+      "role": "Campus Systems Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "London; Amsterdam",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8000323",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8027952",
+      "firm": "Jump Trading",
+      "role": "Campus Systems Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-03",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027952",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7565728",
+      "firm": "Jump Trading",
+      "role": "Campus Trading Team Software Engineer  (Intern)",
+      "vertical": "Sales & Trading",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-02-05",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7565728",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7974943",
+      "firm": "Jump Trading",
+      "role": "Campus UI Software Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "London",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7974943",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-8003019",
+      "firm": "Jump Trading",
+      "role": "Campus UI Software Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-07-08",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8003019",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-jumptrading-7974587",
+      "firm": "Jump Trading",
+      "role": "Early Career Talent Development Programs Specialist  | Talent Development",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-06-01",
+      "status": "Open",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=7974587",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "greenhouse-flowtraders-8094581",
       "firm": "Flow Traders",
       "role": "Graduate Quantitative Trader",
@@ -2018,24 +2633,6 @@
       ]
     },
     {
-      "id": "greenhouse-flowtraders-7507482",
-      "firm": "Flow Traders",
-      "role": "Graduate Trader",
-      "vertical": "Sales & Trading",
-      "programmeType": "Graduate Programme",
-      "tier": "Trading Tech",
-      "location": "Amsterdam",
-      "region": "Europe",
-      "level": "Graduate",
-      "openingDate": "2026-01-30",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/7507482",
-      "recommendedPrepSlug": "sales-and-trading-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "greenhouse-flowtraders-4782837",
       "firm": "Flow Traders",
       "role": "Graduate Trader",
@@ -2048,6 +2645,24 @@
       "openingDate": "2023-01-04",
       "status": "Open",
       "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/4782837",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "greenhouse-flowtraders-7507482",
+      "firm": "Flow Traders",
+      "role": "Graduate Trader",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Amsterdam",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-01-30",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/7507482",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -2095,10 +2710,9 @@
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Big Tech",
-      "location": "China, Beijing",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-23",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Beijing/Solution-Architect-Manager---Intern-Program_JR2021277",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2116,7 +2730,6 @@
       "location": "Taiwan, Taipei",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-24",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/System-Design-Validation-Intern---2027_JR2021783",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2134,7 +2747,6 @@
       "location": "Taiwan, Taipei",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-28",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/System-Design-Intern--LDE---2027_JR2021952",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2149,8 +2761,8 @@
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Big Tech",
-      "location": "China, Shanghai",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Internship",
       "openingDate": "2026-08-18",
       "status": "Open",
@@ -2221,12 +2833,30 @@
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Big Tech",
-      "location": "China, Beijing",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Internship",
       "openingDate": "2026-08-27",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Beijing/Developer-Technology-Engineering-Intern---2027_JR2024122",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2024500",
+      "firm": "NVIDIA",
+      "role": "System Software Engineer (RDSS Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "Taiwan, Taipei",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-30",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/System-Software-Engineer--RDSS-Intern-_JR2024500",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
@@ -2260,7 +2890,6 @@
       "location": "US, CA, Santa Clara",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-05-06",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Applied-Deep-Learning-PhD-Research-Intern--Reinforcement-Learning-for-LLMs---Fall-2026_JR2012398",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2278,7 +2907,6 @@
       "location": "US, CA, Santa Clara",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-05-22",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/PhD-Software-Engineering-Intern--Decision-Intelligence---Fall-2026_JR2017522",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2296,7 +2924,6 @@
       "location": "US, CA, Santa Clara",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-05-27",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/PhD-Research-Intern--Generative-AI---2026_JR2016035",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2314,7 +2941,6 @@
       "location": "US, CA, Santa Clara",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-01",
       "status": "Open",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Applied-Research-Intern--NLP---Fall-2026_JR2010488",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2536,6 +3162,480 @@
       ]
     },
     {
+      "id": "workday-nvidia-JR2023495",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Software Engineering",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Software-Engineering_JR2023495",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023499",
+      "firm": "NVIDIA",
+      "role": "NVIDIA Spring 2027 Internships: Developer and Performance Technology",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-Spring-2027-Internships--Developer-and-Performance-Technology_JR2023499",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023833",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Ph.D. Research Computer Vision and Deep Learning",
+      "vertical": "Data & ML",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--PhD-Research-Computer-Vision-and-Deep-Learning_JR2023833",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023838",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Ph.D. Research Autonomous Vehicles",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--PhD-Research-Autonomous-Vehicles_JR2023838",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023497-1",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Deep Learning",
+      "vertical": "Data & ML",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Deep-Learning_JR2023497-1",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023501",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Hardware Physical Design / VLSI",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Hardware-Physical-Design---VLSI_JR2023501",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023502",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Mixed Signal Design",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Mixed-Signal-Design_JR2023502",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023508-1",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Hardware Engineering",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Hardware-Engineering_JR2023508-1",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023847",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Ph.D. Research Robotics",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--PhD-Research-Robotics_JR2023847",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023854",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Ph.D. Research Computer Architecture and Systems",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--PhD-Research-Computer-Architecture-and-Systems_JR2023854",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023837",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Ph.D. Research Large Language Models",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--PhD-Research-Large-Language-Models_JR2023837",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023855",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Internships: Ph.D. Research Hardware",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--PhD-Research-Hardware_JR2023855",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023856",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 Summer Internships: Ph.D. Engineering",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "US, CA, Santa Clara",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/NVIDIA-2027-Summer-Internships--PhD-Engineering_JR2023856",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023302",
+      "firm": "NVIDIA",
+      "role": "Software Engineering Intern, Test Automation — Autonomous Vehicles",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "Germany, Munich",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Germany-Munich/Software-Engineering-Intern--Test-Automation---Autonomous-Vehicles_JR2023302",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2022442-1",
+      "firm": "NVIDIA",
+      "role": "Solutions Architect, Graduate Program",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "Finland, Helsinki",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-02",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Finland-Helsinki/Solutions-Architect--Graduate-Program_JR2022442-1",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2022444",
+      "firm": "NVIDIA",
+      "role": "Solutions Architect, Graduate Program",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "Poland, Warsaw",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-08-02",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Poland-Warsaw/Solutions-Architect--Graduate-Program_JR2022444",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2008771",
+      "firm": "NVIDIA",
+      "role": "Formal Verification Engineer - New College Graduate",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "Hungary, Budapest",
+      "region": "US",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Hungary-Budapest/Formal-Verification-Engineer---New-College-Graduate_JR2008771",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2016978-1",
+      "firm": "NVIDIA",
+      "role": "Board Design Engineer, LDE - New College Graduate",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "Taiwan, Taipei",
+      "region": "US",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/Board-Design-Engineer--LDE---New-College-Graduate_JR2016978-1",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2020781",
+      "firm": "NVIDIA",
+      "role": "System Software Engineer, SOC - New College Graduate",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "2 Locations",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-27",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/System-Software-Engineer--SOC--New-College-Graduate_JR2020781",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2024111",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 New College Graduate: Software Engineering - China",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "3 Locations",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/NVIDIA-2027-New-College-Graduate--Software-Engineering---China_JR2024111",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2024108",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 New College Graduate: GPU Architecture Engineering - China",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "3 Locations",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/NVIDIA-2027-New-College-Graduate--GPU-Architecture-Engineering---China_JR2024108",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2024110",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 New College Graduate: Hardware ASIC Engineering - China",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "China, Shanghai",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/NVIDIA-2027-New-College-Graduate--Hardware-ASIC-Engineering---China_JR2024110",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2018685",
+      "firm": "NVIDIA",
+      "role": "Research Scientist, Deep Learning and Computer Vision - New College Graduate",
+      "vertical": "Data & ML",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "Taiwan, Taipei",
+      "region": "US",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/Research-Scientist--Deep-Learning-and-Computer-Vision---New-College-Graduate_JR2018685",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023370",
+      "firm": "NVIDIA",
+      "role": "PCB Design EDA and AI Engineer - New College Graduate 2027",
+      "vertical": "Data & ML",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "2 Locations",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-17",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Taipei/PCB-Design-EDA-and-AI-Engineer---New-College-Graduate-2027_JR2023370",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2024109",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 New College Graduate: Autonomous Vehicles and Robotics - China",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "3 Locations",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/NVIDIA-2027-New-College-Graduate--Autonomous-Vehicles-and-Robotics---China_JR2024109",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2024107",
+      "firm": "NVIDIA",
+      "role": "NVIDIA 2027 New College Graduate: Deep Learning and High-Performance Computing Engineering - China",
+      "vertical": "Data & ML",
+      "programmeType": "Graduate Programme",
+      "tier": "Big Tech",
+      "location": "3 Locations",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/NVIDIA-2027-New-College-Graduate--Deep-Learning-and-High-Performance-Computing-Engineering---China_JR2024107",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-nvidia-JR2023655",
+      "firm": "NVIDIA",
+      "role": "Software QA Intern, Spark Rapids  - 2027",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Big Tech",
+      "location": "China, Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-08-20",
+      "status": "Open",
+      "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/Software-QA-Intern--Spark-Rapids----2027_JR2023655",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "workday-citi-26973462",
       "firm": "Citi",
       "role": "Banking - Investment Banking, Part-time Intern, Tokyo-JPN, 2027",
@@ -2563,7 +3663,6 @@
       "location": "Bogota  Colombia",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2025-03-10",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Bogota--Colombia/XMLNAME-2025-Markets-Internship-Colombia_25836348",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
@@ -2581,7 +3680,6 @@
       "location": "Taguig  Philippines",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2025-04-24",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taguig--Philippines/Enterprise-Operations---Technology--Summer-Analyst--Internship---Philippines_25855095-1",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2599,7 +3697,6 @@
       "location": "Bogota  Colombia",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2025-09-26",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Bogota--Colombia/Markets---Sales-and-Trading--Internship--Bogot---Colombia--2026_25907844",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
@@ -2617,7 +3714,6 @@
       "location": "Bogota  Colombia",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2025-09-26",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Bogota--Colombia/Banking---Corporate-Baking--Internship--Bogot---Colombia--2026_25909660",
       "recommendedPrepSlug": "investment-banking-interview-prep",
@@ -2635,7 +3731,6 @@
       "location": "Budapest  Hungary",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2026-02-24",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Budapest--Hungary/Technology---Infrastructure--Summer-Analyst--Hungary---Budapest--2026_25921946",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -2670,7 +3765,6 @@
       "location": "KYIV Ukraine",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-06-29",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/KYIV-Ukraine/Ukraine-Internship-Program---2026_25929484",
       "tags": [
@@ -2687,7 +3781,6 @@
       "location": "Kuala Lumpur Selangor Malaysia",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-14",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Kuala-Lumpur-Selangor-Malaysia/Internship--Kuala-Lumpur--Malaysia---APAC--2026_26947855",
       "tags": [
@@ -2704,7 +3797,6 @@
       "location": "Penang Pulau Pinang (penang) Malaysia",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-14",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Penang-Pulau-Pinang-penang-Malaysia/Internship--Penang--Malaysia---APAC--2026_26947868",
       "tags": [
@@ -2721,7 +3813,6 @@
       "location": "Dubai United Arab Emirates",
       "region": "Middle East",
       "level": "Graduate",
-      "openingDate": "2026-07-21",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Dubai-United-Arab-Emirates/REGISTER---Apprenticeship-Programmes-2025Dubai--Mehnaty--_25848278",
       "tags": [
@@ -2738,7 +3829,6 @@
       "location": "Mumbai Maharashtra India",
       "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2026-07-22",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Fresh-Graduates---KYC-Operations-Analyst-1_26977893",
       "tags": [
@@ -2755,7 +3845,6 @@
       "location": "Taguig  Philippines",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2024-04-26",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taguig--Philippines/Fresh-Graduate---Finance--Economics--Mathematics--Accounting--Business-Administration--Commerce_24743918-1",
       "tags": [
@@ -2772,7 +3861,6 @@
       "location": "Mumbai Maharashtra India",
       "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2025-03-17",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Job-Requisition--25843173-Citi-India-Apprenticeship-Program---SS-Ops_25843180",
       "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
@@ -2790,7 +3878,6 @@
       "location": "Dubai United Arab Emirates",
       "region": "Middle East",
       "level": "Internship",
-      "openingDate": "2025-01-16",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Dubai-United-Arab-Emirates/XMLNAME-2025-Wealth-Management-Summer-Internship--Dubai--UAE--UAE-Nationals-preferred-_25820546",
       "tags": [
@@ -2894,7 +3981,6 @@
       "location": "Singapore  Singapore",
       "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2026-07-23",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Singapore--Singapore/Services---Summer-Analyst--Singapore--2027_26978591",
       "tags": [
@@ -2911,7 +3997,6 @@
       "location": "Shanghai Shanghai China",
       "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2026-07-23",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Shanghai-Shanghai-China/Services---Summer-Analyst--China--2027_26978889",
       "tags": [
@@ -2928,7 +4013,6 @@
       "location": "Hong Kong  Hong Kong",
       "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2026-07-23",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Services---Summer-Analyst--Hong-Kong--2027_26978589",
       "tags": [
@@ -2972,6 +4056,682 @@
       ]
     },
     {
+      "id": "workday-citi-26988854",
+      "firm": "Citi",
+      "role": "Markets – Sales and Trading, Internship, São Paulo - Brazil, 2026",
+      "vertical": "Sales & Trading",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Sao Paulo Sao Paulo Brazil",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Sao-Paulo-Sao-Paulo-Brazil/Markets---Sales-and-Trading--Internship--So-Paulo---Brazil--2026_26988854",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26987934",
+      "firm": "Citi",
+      "role": "Banking – Corporate Banking, Internship, São Paulo – Brazil, 2026",
+      "vertical": "Corporate Banking",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Sao Paulo Sao Paulo Brazil",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Sao-Paulo-Sao-Paulo-Brazil/Banking---Corporate-Banking--Internship--So-Paulo---Brazil--2026_26987934",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26982664",
+      "firm": "Citi",
+      "role": "Corporate Banking - Summer Internship Program, Tokyo - Japan, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Chiyoda-ku Tokyo Japan",
+      "region": "Asia",
+      "level": "Internship",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Chiyoda-ku-Tokyo-Japan/Corporate-Banking---Summer-Internship-Program--Tokyo---Japan--2027_26982664",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-25849760",
+      "firm": "Citi",
+      "role": "Citi India Apprenticeship Program - Corporate Banking",
+      "vertical": "Corporate Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Citi-India-Apprenticeship-Program---Corporate-Banking_25849760",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-25854531",
+      "firm": "Citi",
+      "role": "Citi India Apprenticeship Program",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Citi-India-Apprenticeship-Program_25854531",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-25873675",
+      "firm": "Citi",
+      "role": "Citi India Apprenticeship Program - Treasury and Trade Solutions",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Citi-India-Apprenticeship-Program---Treasury-and-Trade-Solutions_25873675",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26945311",
+      "firm": "Citi",
+      "role": "Services - Summer Analyst Program, New York City - US, 2027",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "New York New York United States",
+      "region": "US",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/New-York-New-York-United-States/Services---Summer-Analyst-Program--New-York-City---US--2027_26945311",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26951374",
+      "firm": "Citi",
+      "role": "Functions - Internal Audit, Summer Analyst, New York - USA, 2027",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "New York New York United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-05",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/New-York-New-York-United-States/Functions---Internal-Audit--Summer-Analyst--New-York---USA--2027_26951374",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-25928747",
+      "firm": "Citi",
+      "role": "Markets - Quantitative Analysis, Summer Analyst - New York City - US, 2027",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "New York New York United States",
+      "region": "US",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/New-York-New-York-United-States/Markets---Quantitative-Analysis--Summer-Analyst---New-York-City---US--2027_25928747",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-25928736",
+      "firm": "Citi",
+      "role": "Markets - Sales and Trading, Summer Analyst, New York City - US, 2027",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "New York New York United States",
+      "region": "US",
+      "level": "Graduate",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/New-York-New-York-United-States/Markets---Sales-and-Trading--Summer-Analyst--New-York-City---US--2027_25928736",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26988476",
+      "firm": "Citi",
+      "role": "Wealth - Citigold, Summer Analyst, Singapore, 2027",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Singapore  Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Singapore--Singapore/Wealth---Citigold--Summer-Analyst--Singapore--2027_26988476",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26988474",
+      "firm": "Citi",
+      "role": "Wealth - Citigold, Summer Analyst, Hong Kong, 2027",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Hong Kong  Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Wealth---Citigold--Summer-Analyst--Hong-Kong--2027_26988474",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26988484",
+      "firm": "Citi",
+      "role": "Wealth - Private Bank, Summer Analyst,  Singapore, 2027",
+      "vertical": "Wealth Management",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Singapore  Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Singapore--Singapore/Wealth---Private-Bank--Summer-Analyst---Singapore--2027_26988484",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26985506",
+      "firm": "Citi",
+      "role": "Banking - Commercial Banking, Summer Analyst, Taiwan – APAC, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Taipei Taipei City Taiwan",
+      "region": "US",
+      "level": "Graduate",
+      "closingDate": "2026-11-27",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-08-17",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taipei-Taipei-City-Taiwan/Banking---Commercial-Banking--Summer-Analyst--Taiwan---APAC--2027_26985506",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26951380",
+      "firm": "Citi",
+      "role": "Functions - Internal Audit, Summer Analyst - Mississauga, ON 2027",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Mississauga Ontario Canada",
+      "region": "US",
+      "level": "Internship",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mississauga-Ontario-Canada/Functions---Internal-Audit--Summer-Analyst---Mississauga--ON-2027_26951380",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26983682",
+      "firm": "Citi",
+      "role": "Banking - Commercial Banking, Summer Analyst, China – APAC, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Shanghai Shanghai China",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-06",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Shanghai-Shanghai-China/Banking---Commercial-Banking--Summer-Analyst--China---APAC--2027_26983682",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26951376",
+      "firm": "Citi",
+      "role": "Functions - Internal Audit, Summer Analyst, Tampa - USA, 2027",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Tampa Florida United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-05",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Tampa-Florida-United-States/Functions---Internal-Audit--Summer-Analyst--Tampa---USA--2027_26951376",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26951372",
+      "firm": "Citi",
+      "role": "Functions - Internal Audit, Summer Analyst, Dallas - USA, 2027",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Irving Texas United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-05",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Irving-Texas-United-States/Functions---Internal-Audit--Summer-Analyst--Dallas---USA--2027_26951372",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26985457",
+      "firm": "Citi",
+      "role": "Banking - Commercial Banking, Summer Analyst, Singapore – APAC, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Singapore  Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-12",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Singapore--Singapore/Banking---Commercial-Banking--Summer-Analyst--Singapore---APAC--2027_26985457",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26988478",
+      "firm": "Citi",
+      "role": "Wealth - Private Bank, Summer Analyst, Hong Kong, 2027",
+      "vertical": "Wealth Management",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Hong Kong  Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Wealth---Private-Bank--Summer-Analyst--Hong-Kong--2027_26988478",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26978287",
+      "firm": "Citi",
+      "role": "Markets – Sales and Trading, Summer Analyst, Singapore - 2027",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Singapore  Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-05",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Singapore--Singapore/Markets---Sales-and-Trading--Summer-Analyst--Singapore---2027_26978287",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26983683",
+      "firm": "Citi",
+      "role": "Banking - Corporate Banking, Summer Analyst, China – APAC, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Shanghai Shanghai China",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-06",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Shanghai-Shanghai-China/Banking---Corporate-Banking--Summer-Analyst--China---APAC--2027_26983683",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26985501",
+      "firm": "Citi",
+      "role": "Banking - Corporate Banking, Summer Analyst, Taiwan – APAC, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Taipei Taipei City Taiwan",
+      "region": "US",
+      "level": "Graduate",
+      "closingDate": "2026-11-27",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-08-17",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taipei-Taipei-City-Taiwan/Banking---Corporate-Banking--Summer-Analyst--Taiwan---APAC--2027_26985501",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26985504",
+      "firm": "Citi",
+      "role": "Banking - Investment Banking, Summer Analyst, Taiwan – APAC, 2027",
+      "vertical": "Investment Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Taipei Taipei City Taiwan",
+      "region": "US",
+      "level": "Graduate",
+      "closingDate": "2026-11-27",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-08-17",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taipei-Taipei-City-Taiwan/Banking---Investment-Banking--Summer-Analyst--Taiwan---APAC--2027_26985504",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26990051",
+      "firm": "Citi",
+      "role": "Functions - Quantitative Risk Management, Summer Analyst, Tampa - USA, 2027",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Tampa Florida United States",
+      "region": "US",
+      "level": "Graduate",
+      "closingDate": "2026-09-09",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-08-27",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Tampa-Florida-United-States/Functions---Quantitative-Risk-Management--Summer-Analyst--Tampa---USA--2027_26990051",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26990048",
+      "firm": "Citi",
+      "role": "Functions - Quantitative Risk Management, Summer Analyst, Irving - USA, 2027",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Irving Texas United States",
+      "region": "US",
+      "level": "Graduate",
+      "closingDate": "2026-09-09",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-08-27",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Irving-Texas-United-States/Functions---Quantitative-Risk-Management--Summer-Analyst--Irving---USA--2027_26990048",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26990039",
+      "firm": "Citi",
+      "role": "Functions - Quantitative Risk Management, Summer Analyst, Buffalo - USA, 2027",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Getzville New York United States",
+      "region": "US",
+      "level": "Graduate",
+      "closingDate": "2026-09-09",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-08-27",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Getzville-New-York-United-States/Functions---Quantitative-Risk-Management--Summer-Analyst--Buffalo---USA--2027_26990039",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26985455",
+      "firm": "Citi",
+      "role": "Banking - Commercial Banking, Summer Analyst, Hong Kong – APAC, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Kowloon  Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-12",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Kowloon--Hong-Kong/Banking---Commercial-Banking--Summer-Analyst--Hong-Kong---APAC--2027_26985455",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26984751",
+      "firm": "Citi",
+      "role": "Banking - Capital Markets, Summer Analyst, Hong Kong – APAC, 2027",
+      "vertical": "Investment Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Hong Kong  Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-06",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Capital-Markets--Summer-Analyst--Hong-Kong---APAC--2027_26984751",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26978275",
+      "firm": "Citi",
+      "role": "Markets – Sales and Trading, Summer Analyst, Hong Kong - 2027",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Hong Kong  Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-05",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Markets---Sales-and-Trading--Summer-Analyst--Hong-Kong---2027_26978275",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26990264",
+      "firm": "Citi",
+      "role": "Banking - Investment Banking, Summer Analyst, Korea, Republic of – APAC, 2027",
+      "vertical": "Investment Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Seoul  Korea, Republic Of",
+      "region": "Asia",
+      "level": "Graduate",
+      "closingDate": "2026-10-30",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-08-28",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Seoul--Korea-Republic-Of/Banking---Investment-Banking--Summer-Analyst--Korea--Republic-of---APAC--2027_26990264",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26982662",
+      "firm": "Citi",
+      "role": "Investment Banking - Summer Internship Program, Tokyo - Japan, 2027",
+      "vertical": "Investment Banking",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Chiyoda-ku Tokyo Japan",
+      "region": "Asia",
+      "level": "Internship",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Chiyoda-ku-Tokyo-Japan/Investment-Banking---Summer-Internship-Program--Tokyo---Japan--2027_26982662",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26976914",
+      "firm": "Citi",
+      "role": "Markets - Summer Internship Program, Boston Career Forum in 2026, Tokyo - Japan, 2027",
+      "vertical": "Sales & Trading",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Chiyoda-ku Tokyo Japan",
+      "region": "Asia",
+      "level": "Internship",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Chiyoda-ku-Tokyo-Japan/Markets---Summer-Internship-Program--Boston-Career-Forum-in-2026--Tokyo---Japan--2027_26976914",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26969229",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - Chennai",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "DLF CYBERCITY 12B",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/DLF-CYBERCITY-12B/Young-Apprentice---C00---Chennai_26969229",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26969217",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - MUMBAI",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Young-Apprentice---C00---MUMBAI_26969217",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26969227",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - Chennai",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "DLF CYBERCITY 12B",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/DLF-CYBERCITY-12B/Young-Apprentice---C00---Chennai_26969227",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26969219",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - MUMBAI",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-19",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Young-Apprentice---C00---MUMBAI_26969219",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26980969",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - MUMBAI",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-08-27",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Young-Apprentice---C00---MUMBAI_26980969",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
+      "id": "workday-citi-26986314",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - CHENNAI",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "1/124, SHIVAJI GARDENS, MOONLI",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-28",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/1124-SHIVAJI-GARDENS-MOONLI/Young-Apprentice---C00---CHENNAI_26986314",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "workday-mastercard-R-286662-1",
       "firm": "Mastercard",
       "role": "Internship Program, Americas, 2027 – Mexico City, Mexico",
@@ -2982,6 +4742,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-09-05",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-25",
       "status": "Open",
       "applicationUrl": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/Mexico-City-Mexico/Internship-Program--Americas--2027---Mexico-City--Mexico_R-286662-1",
@@ -3000,6 +4761,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-09-17",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-11",
       "status": "Open",
       "applicationUrl": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/Santo-Domingo-Dominican-Republic/Internship-Program--Americas--2027---Dominican-Republic_R-288238-1",
@@ -3018,6 +4780,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-09-06",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-03",
       "status": "Open",
       "applicationUrl": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/Sao-Paulo-Brazil/Internship-Program--2027---So-Paulo--Brazil_R-286481",
@@ -3036,7 +4799,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-09-05",
-      "openingDate": "2026-07-30",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/Bogota-Colombia/Internship-Program---Mastercard---2027---Bogota--Colombia_R-286675",
       "tags": [
@@ -3170,24 +4933,6 @@
       ]
     },
     {
-      "id": "workday-barclays-JR-0000124213-1",
-      "firm": "Barclays",
-      "role": "Capital Markets Graduate Programme 2027 London",
-      "vertical": "Investment Banking",
-      "programmeType": "Graduate Programme",
-      "tier": "Tracked",
-      "location": "Canary Wharf, 1 Churchill Place",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-08-29",
-      "status": "Open",
-      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Capital-Markets-Graduate-Programme-2027-London_JR-0000124213-1",
-      "recommendedPrepSlug": "investment-banking-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ]
-    },
-    {
       "id": "workday-barclays-JR-0000123462-1",
       "firm": "Barclays",
       "role": "Banking Associate Graduate Program 2027 San Francisco",
@@ -3206,6 +4951,24 @@
       ]
     },
     {
+      "id": "workday-barclays-JR-0000124213-1",
+      "firm": "Barclays",
+      "role": "Capital Markets Graduate Programme 2027 London",
+      "vertical": "Investment Banking",
+      "programmeType": "Graduate Programme",
+      "tier": "Tracked",
+      "location": "Canary Wharf, 1 Churchill Place",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-08-29",
+      "status": "Open",
+      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Capital-Markets-Graduate-Programme-2027-London_JR-0000124213-1",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ]
+    },
+    {
       "id": "workday-barclays-JR-0000128135",
       "firm": "Barclays",
       "role": "Investment Banking Graduate Programme 2027 Singapore",
@@ -3216,6 +4979,7 @@
       "region": "Asia",
       "level": "Graduate",
       "closingDate": "2026-11-01",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Investment-Banking-Graduate-Programme-2027-Singapore_JR-0000128135",
@@ -3235,6 +4999,7 @@
       "region": "Asia",
       "level": "Graduate",
       "closingDate": "2026-11-01",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Private-Bank-and-Wealth-Management-Graduate-Programme-2027-Singapore_JR-0000128136",
@@ -3253,6 +5018,7 @@
       "region": "Asia",
       "level": "Graduate",
       "closingDate": "2026-11-01",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Graduate-Programme-2027-Hong-Kong_JR-0000128133",
@@ -3272,6 +5038,7 @@
       "region": "Asia",
       "level": "Graduate",
       "closingDate": "2026-11-01",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-17",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Sales--Trading-and-Structuring-Graduate-Programme-2027-Singapore_JR-0000128131",
@@ -3291,7 +5058,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-12-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Electronic-Trading-Associate-Summer-Internship-Programme-2027-Hong-Kong_JR-0000117566",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
@@ -3328,7 +5095,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-11-01",
-      "openingDate": "2026-07-07",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/XMLNAME-2027-Operations-Analyst-Summer-Internship-Programme-Singapore_JR-0000121768",
       "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
@@ -3347,7 +5114,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-11-01",
-      "openingDate": "2026-07-07",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/XMLNAME-2027-Technology-Developer-Summer-Internship-Programme-Singapore_JR-0000121763",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -3366,7 +5133,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-11-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Private-Bank-and-Wealth-Management-Summer-Internship-Programme-2027-Singapore_JR-0000117561",
       "tags": [
@@ -3384,7 +5151,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-12-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Quantitative-Analytics-Associate-Off-Cycle-Internship-2027-Hong-Kong_JR-0000117565",
       "tags": [
@@ -3402,7 +5169,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-12-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Quantitative-Analytics-Associate-Off-Cycle-Internship-2027-Singapore_JR-0000117563",
       "tags": [
@@ -3420,7 +5187,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-11-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Research-Analyst-Summer-Internship-Programme-2027-Singapore_JR-0000119610",
       "recommendedPrepSlug": "equity-research-interview-prep",
@@ -3439,7 +5206,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-10-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Investment-Banking-Summer-Internship-Programme-2027-Hong-Kong_JR-0000117558",
       "recommendedPrepSlug": "investment-banking-interview-prep",
@@ -3458,7 +5225,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-10-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Investment-Banking-Summer-Internship-Programme-2027-Singapore_JR-0000117560",
       "recommendedPrepSlug": "investment-banking-interview-prep",
@@ -3477,7 +5244,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-10-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Summer-Internship-Programme-2027-Hong-Kong_JR-0000117559",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
@@ -3496,7 +5263,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-10-01",
-      "openingDate": "2026-07-01",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Singapore-Marina-Bay-Financial-Tower-2/Sales--Trading-and-Structuring-Summer-Internship-Programme-2027-Singapore_JR-0000117562",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
@@ -3514,7 +5281,6 @@
       "location": "New York",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2026-07-30",
       "status": "Open",
       "applicationUrl": "https://pjtpartners.wd1.myworkdayjobs.com/Careers/job/New-York/Associate---Campus-Recruiter_R0003456",
       "tags": [
@@ -3528,10 +5294,9 @@
       "vertical": "Corporate Development",
       "programmeType": "Summer Internship",
       "tier": "Tracked",
-      "location": "Los Angeles",
+      "location": "2 Locations",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-02",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Los-Angeles-CA-USA/Corporate-Development-Intern--Summer-2027-_R3354",
       "recommendedPrepSlug": "corporate-development-ma-interview-prep",
@@ -3656,7 +5421,6 @@
       "location": "Zurich, Switzerland",
       "region": "Europe",
       "level": "Graduate",
-      "openingDate": "2026-07-22",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Zurich-Switzerland/XMLNAME-2026-Graduate-Financial-Analyst---Corporate-Finance--Consumer-Group-_R3432",
       "recommendedPrepSlug": "investment-banking-interview-prep",
@@ -3674,7 +5438,6 @@
       "location": "Hong Kong, China",
       "region": "Asia",
       "level": "Internship",
-      "openingDate": "2026-07-15",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Hong-Kong-China/Off-Cycle-Intern--Financial-and-Valuation-Advisory--Hong-Kong-_R3096",
       "recommendedPrepSlug": "investment-banking-interview-prep",
@@ -3692,7 +5455,6 @@
       "location": "London, UK",
       "region": "UK",
       "level": "Graduate",
-      "openingDate": "2026-07-06",
       "status": "Open",
       "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/London-UK/Financial-Analyst--Portfolio-Valuation-and-Fund-Advisory-Services--Structured-Products---2026-Graduate---London_R3390",
       "recommendedPrepSlug": "investment-banking-interview-prep",
@@ -3711,6 +5473,7 @@
       "region": "UK",
       "level": "Graduate",
       "closingDate": "2026-09-09",
+      "deadlineSource": "ledger",
       "openingDate": "2026-08-26",
       "status": "Open",
       "applicationUrl": "https://lbg.wd3.myworkdayjobs.com/lbg_Careers/job/London/Graduate-Analyst---Property-Portfolio_162466",

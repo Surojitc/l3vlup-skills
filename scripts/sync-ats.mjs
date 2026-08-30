@@ -21,6 +21,16 @@ import {
   extractJsonLdDeadline,
 } from '../lib/deadline-extract.mjs';
 import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
+import {
+  ledgerDeadline,
+  loadLedger,
+  needsCheck,
+  orderForEnrichment,
+  pruneLedger,
+  recordHit,
+  recordMiss,
+  serialiseLedger,
+} from '../lib/deadline-ledger.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -28,13 +38,31 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'lib/sources/ats-registry.json');
 const OUT = join(ROOT, 'data/opportunities.auto.json');
 const UA = 'Mozilla/5.0 (compatible; L3vlupTracker/1.0; +https://l3vlup.com)';
-const PER_FIRM_CAP = 25; // avoid one big board flooding the tracker
+const LEDGER = join(ROOT, 'data/deadlines.learned.json');
 const TIMEOUT_MS = 12000;
+
+/**
+ * No per-firm cap.
+ *
+ * There used to be one, at 25. It was not a filter — it was `.slice(0, 25)` over
+ * whatever order the board happened to answer in, so which roles reached the
+ * site was decided by fetch order. When Workday pagination landed, Citi's
+ * candidate pool went from 10 to 62 and the slice took a different 25; the five
+ * roles that carried deadlines fell outside it and the tracker lost every dated
+ * Citi role overnight. Those postings were still live and still carried
+ * `validThrough` — they had simply stopped being collated.
+ *
+ * A cap that discards by arrival order discards the most valuable rows as
+ * readily as the least. The ceiling below is a runaway guard, not a filter: it
+ * is far above any real board's early-career count, and hitting it is logged as
+ * a problem to look at rather than absorbed silently.
+ */
+const PER_FIRM_CEILING = 1000;
 
 /* ----------------------------- classification ---------------------------- */
 // Word-boundaried so "Internal"/"International" do NOT match "intern".
 const EARLY_CAREER =
-  /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?career|placement|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|summer\s+associate|analyst\s+programme?|off[\s-]?cycle|spring\s+(week|insight))\b/i;
+  /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?career|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?|placements?\s+(?:year|scheme|programme?|student)|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|summer\s+associate|analyst\s+programme?|off[\s-]?cycle|spring\s+(week|insight))\b/i;
 const SENIOR = /\b(senior|staff|principal|director|distinguished|vp|head\s+of|lead)\b/i;
 
 export function isEarlyCareer(title) {
@@ -213,6 +241,7 @@ export function toOpportunity(job, firm) {
   if (job.department) tags.push(job.department);
   const extracted = job.deadline ? {} : extractDeadline(job.description || '');
   if (extracted.rolling) tags.push('Rolling');
+  const atsDate = toIsoDate(job.deadline, { allowFuture: true });
   return {
     id: `${firm.ats}-${firm.token || firm.tenant}-${job.id}`,
     firm: firm.firm,
@@ -230,7 +259,11 @@ export function toOpportunity(job, firm) {
     // '2026-09-26T19:28:09-04:00' — which renders as a wall of text next to the
     // plain dates beside it and is not a date the reader can act on differently
     // for knowing the hour.
-    closingDate: toIsoDate(job.deadline, { allowFuture: true }) || extracted.closingDate || undefined,
+    closingDate: atsDate || extracted.closingDate || undefined,
+    // Where the date came from, so a run-over-run swap between sources is
+    // visible instead of hiding behind a flat total. See the provenance
+    // summary at the end of main().
+    deadlineSource: atsDate ? 'ats-field' : extracted.closingDate ? 'prose' : undefined,
     // Real posting date from the ATS. Drives JobPosting datePosted, which
     // Google requires — without it the markup is invalid and the row is
     // ineligible for job rich results.
@@ -403,7 +436,16 @@ const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchL
 
 async function main() {
   const registry = JSON.parse(await readFile(REGISTRY, 'utf8'));
-  const firms = registry.firms || [];
+  // A parked firm resolved to a real board that provably holds no early-career
+  // roles — an experienced-hire site, usually. Polling it costs five paginated
+  // queries and returns nothing, and its silence is indistinguishable from a
+  // firm that has not opened applications yet. Skipped and named, with the
+  // evidence kept in the registry so it is not rediscovered and re-added.
+  const parked = (registry.firms || []).filter((f) => f.parked);
+  const firms = (registry.firms || []).filter((f) => !f.parked);
+  if (parked.length) {
+    console.log(`parked (not polled): ${parked.map((f) => f.firm).join(', ')}`);
+  }
   const stamp = new Date().toISOString();
   const all = [];
   let ok = 0;
@@ -413,16 +455,44 @@ async function main() {
   const POOL = 8;
   // Firms whose board answered but produced no early-career role. See below.
   const emptyFirms = [];
-  // Ceiling on the JSON-LD pass so one bad run cannot crawl indefinitely.
-  const LD_PASS_CAP = 400;
-  // One GET per Workday role. Bounded for the same reason the JSON-LD pass is.
-  const WD_DETAIL_CAP = 400;
+  // Firms whose board did not answer at all.
+  const failedFirms = [];
+  // ---------------------------------------------------------------------
+  // Enrichment budgets.
+  //
+  // Raised with the collated set. Removing the per-firm cap roughly trebles the
+  // number of roles, and a budget that stayed at 400 would simply have moved
+  // the truncation from the collation into the enrichment — the same silent
+  // loss one step later. These are sized for a cold start, where the ledger is
+  // empty and every role needs asking.
+  //
+  // In steady state almost none of this is spent: the ledger answers for roles
+  // already dated, and holds a widening backoff for roles whose pages have said
+  // nothing. A normal day checks the new postings and little else.
+  //
+  // The wall-clock stop is the real guard. A cap on requests bounds a healthy
+  // run; it does not bound one where every request is timing out, which is
+  // exactly when a scheduled job needs to give up and publish what it has.
+  // ---------------------------------------------------------------------
+  const LD_PASS_CAP = 1200;
+  const WD_DETAIL_CAP = 800;
+  const ENRICH_POOL = 12;
+  const ENRICH_BUDGET_MS = 12 * 60 * 1000;
+  const enrichStartedAt = Date.now();
+  const outOfTime = () => Date.now() - enrichStartedAt > ENRICH_BUDGET_MS;
   for (let i = 0; i < firms.length; i += POOL) {
     const batch = firms.slice(i, i + POOL);
     const results = await Promise.allSettled(
       batch.map(async (f) => {
         const raw = await FETCHERS[f.ats](f);
-        const opps = raw.map((j) => toOpportunity(j, f)).filter(Boolean).slice(0, PER_FIRM_CAP);
+        const opps = raw.map((j) => toOpportunity(j, f)).filter(Boolean);
+        // Ceiling, not cap: see PER_FIRM_CEILING. Reaching it means a board is
+        // answering with something we did not expect, which is worth saying out
+        // loud rather than trimming away.
+        if (opps.length > PER_FIRM_CEILING) {
+          console.warn(`  !! ${f.firm}: ${opps.length} early-career roles, above the ${PER_FIRM_CEILING} ceiling — truncating; check the board and the filters`);
+          return { firm: f.firm, opps: opps.slice(0, PER_FIRM_CEILING) };
+        }
         return { firm: f.firm, opps };
       })
     );
@@ -441,8 +511,16 @@ async function main() {
         else emptyFirms.push(r.value.firm);
       } else {
         failed++;
+        // Named, not just counted. A board that starts failing every run looks
+        // identical to a firm with nothing open unless something says which one
+        // it was — the same reason emptyFirms is reported below.
+        failedFirms.push({ firm: batch[results.indexOf(r)]?.firm ?? 'unknown', reason: String(r.reason?.message ?? r.reason).slice(0, 80) });
       }
     }
+  }
+  if (failedFirms.length) {
+    console.log(`\n${failedFirms.length} board(s) failed to answer:`);
+    for (const f of failedFirms) console.log(`  ${f.firm}: ${f.reason}`);
   }
 
   // ---------------------------------------------------------------------
@@ -457,12 +535,15 @@ async function main() {
   // A real drop happens gradually; a collapse is infrastructure. Bail loudly
   // and leave yesterday's data in place, which is stale but correct.
   // ---------------------------------------------------------------------
-  let previousCount = 0;
+  // Read once and keep the rows: the collapse guard needs the count, and the
+  // per-firm delta report at the end needs to know which roles were dated.
+  let previousRoles = [];
   try {
-    previousCount = JSON.parse(await readFile(OUT, 'utf8')).opportunities?.length ?? 0;
+    previousRoles = JSON.parse(await readFile(OUT, 'utf8')).opportunities ?? [];
   } catch {
     /* first run — nothing to protect */
   }
+  const previousCount = previousRoles.length;
   const MIN_RETAINED_SHARE = 0.5;
   if (previousCount > 0 && all.length < previousCount * MIN_RETAINED_SHARE) {
     console.error(
@@ -483,6 +564,35 @@ async function main() {
   // makes it far more reliable than reading prose, and it costs one HTTP GET
   // per undated role — only for roles the first pass could not date.
   // ---------------------------------------------------------------------
+  // What we already know.
+  //
+  // Loaded before any enrichment so the passes below can skip roles whose
+  // deadline is already established, and so a role that briefly falls out of a
+  // board does not lose its date. See lib/deadline-ledger.mjs for why this is
+  // not simply a cache.
+  // ---------------------------------------------------------------------
+  const today = stamp.slice(0, 10);
+  let ledger;
+  try {
+    ledger = loadLedger(JSON.parse(await readFile(LEDGER, 'utf8')));
+  } catch {
+    ledger = loadLedger(null);
+  }
+  let fromLedger = 0;
+  for (const o of all) {
+    if (o.closingDate) {
+      recordHit(ledger, o.id, o.closingDate, o.deadlineSource ?? 'ats-field', today);
+      continue;
+    }
+    const known = ledgerDeadline(ledger, o.id, today);
+    if (known) {
+      o.closingDate = known.closingDate;
+      o.deadlineSource = 'ledger';
+      fromLedger++;
+    }
+  }
+  if (fromLedger) console.log(`\ncarried ${fromLedger} deadlines forward from the ledger`);
+
   // ---------------------------------------------------------------------
   // Workday detail pass.
   //
@@ -497,14 +607,23 @@ async function main() {
   // Runs before the JSON-LD pass so the cheaper and more reliable source wins,
   // and only for Workday rows, so the JSON-LD budget is left for the rest.
   // ---------------------------------------------------------------------
-  const wdRows = all.filter((o) => o._workdayDetail).slice(0, WD_DETAIL_CAP);
+  // Only rows we still cannot date, and only those the ledger says are worth
+  // asking about again. A board that has answered "no deadline" four runs
+  // running is not asked a fifth time today.
+  const wdRows = all
+    .filter((o) => o._workdayDetail && !o.closingDate && needsCheck(ledger, o.id, today, 'workday-detail'))
+    .slice(0, WD_DETAIL_CAP);
   let fromWorkday = 0;
   let wdLocations = 0;
   if (wdRows.length) {
     console.log(`\nreading ${wdRows.length} Workday postings for exact dates and locations…`);
-    for (let i = 0; i < wdRows.length; i += POOL) {
+    for (let i = 0; i < wdRows.length; i += ENRICH_POOL) {
+      if (outOfTime()) {
+        console.warn(`  !! enrichment budget spent after ${i}/${wdRows.length} Workday rows; the rest carry over to the next run`);
+        break;
+      }
       await Promise.allSettled(
-        wdRows.slice(i, i + POOL).map(async (o) => {
+        wdRows.slice(i, i + ENRICH_POOL).map(async (o) => {
           const d = o._workdayDetail;
           const url = detailUrl(d.host, d.tenant, d.site, d.externalPath);
           if (!url) return;
@@ -516,7 +635,11 @@ async function main() {
           const parsed = parseWorkdayDetail(await res.json());
           if (parsed.closingDate && !o.closingDate) {
             o.closingDate = parsed.closingDate;
+            o.deadlineSource = 'workday-detail';
+            recordHit(ledger, o.id, parsed.closingDate, 'workday-detail', today);
             fromWorkday++;
+          } else if (!o.closingDate) {
+            recordMiss(ledger, o.id, today, 'workday-detail');
           }
           // An exact date always beats one derived from "Posted 3 Days Ago".
           if (parsed.openingDate) o.openingDate = parsed.openingDate;
@@ -533,26 +656,63 @@ async function main() {
   }
   for (const o of all) delete o._workdayDetail;
 
-  const undated = all.filter((o) => !o.closingDate && o.applicationUrl).slice(0, LD_PASS_CAP);
+  // ---------------------------------------------------------------------
+  // JSON-LD pass, prioritised rather than truncated.
+  //
+  // The budget exists because this costs one GET per role and the collated set
+  // no longer has a per-firm cap holding it down. What changed is *which* roles
+  // the budget buys: the queue is ordered so a Bulge Bracket investment banking
+  // role is asked before a graduate software engineering one, and roles the
+  // ledger has already answered for are not asked at all.
+  //
+  // The previous version sliced an unordered list at 400. That is the same
+  // mistake the per-firm cap made one layer up — a ceiling that discards by
+  // arrival order — and it would have started biting silently the moment the
+  // cap came off and the undated pool grew.
+  // ---------------------------------------------------------------------
+  const candidates = all.filter(
+    (o) => !o.closingDate && o.applicationUrl && needsCheck(ledger, o.id, today, 'jsonld')
+  );
+  const undated = orderForEnrichment(candidates).slice(0, LD_PASS_CAP);
+  const skippedForBudget = candidates.length - undated.length;
   let fromMarkup = 0;
   if (undated.length) {
-    console.log(`\nchecking ${undated.length} posting pages for JobPosting validThrough…`);
-    for (let i = 0; i < undated.length; i += POOL) {
-      const batch = undated.slice(i, i + POOL);
+    console.log(
+      `\nchecking ${undated.length} posting pages for JobPosting validThrough` +
+        `${skippedForBudget > 0 ? ` (${skippedForBudget} more queued for a later run)` : ''}…`
+    );
+    for (let i = 0; i < undated.length; i += ENRICH_POOL) {
+      if (outOfTime()) {
+        console.warn(`  !! enrichment budget spent after ${i}/${undated.length} posting pages; the rest carry over to the next run`);
+        break;
+      }
+      const batch = undated.slice(i, i + ENRICH_POOL);
       await Promise.allSettled(
         batch.map(async (o) => {
-          const res = await fetch(o.applicationUrl, {
-            headers: { 'User-Agent': UA },
-            signal: AbortSignal.timeout(TIMEOUT_MS),
-          });
-          if (!res.ok) return;
-          const html = await res.text();
-          const found = extractJsonLdDeadline(html);
-          // Prose is the fallback when a page carries no markup.
-          const date = found.closingDate || extractDeadline(html).closingDate;
+          let date;
+          try {
+            const res = await fetch(o.applicationUrl, {
+              headers: { 'User-Agent': UA },
+              signal: AbortSignal.timeout(TIMEOUT_MS),
+            });
+            if (!res.ok) return; // a failed fetch is not evidence of no deadline
+            const html = await res.text();
+            const found = extractJsonLdDeadline(html);
+            // Prose is the fallback when a page carries no markup.
+            date = found.closingDate || extractDeadline(html).closingDate;
+          } catch {
+            return; // ditto: do not record a miss for a network failure
+          }
           if (date) {
             o.closingDate = date;
+            o.deadlineSource = 'jsonld';
+            recordHit(ledger, o.id, date, 'jsonld', today);
             fromMarkup++;
+          } else {
+            // The page answered and carried no date. That is a real answer, and
+            // recording it is what stops us asking again tomorrow. Scoped to
+            // this source: the Workday detail endpoint may still know better.
+            recordMiss(ledger, o.id, today, 'jsonld');
           }
         })
       );
@@ -571,7 +731,14 @@ async function main() {
   } catch {
     /* optional file */
   }
-  const overridden = applyManualDeadlines(all, manual, stamp.slice(0, 10));
+  const beforeManual = new Map(all.map((o) => [o.id, o.closingDate]));
+  const overridden = applyManualDeadlines(all, manual, today);
+  for (const o of all) {
+    if (o.closingDate && o.closingDate !== beforeManual.get(o.id)) {
+      o.deadlineSource = 'manual';
+      recordHit(ledger, o.id, o.closingDate, 'manual', today);
+    }
+  }
 
   // Roles that reached the tracker without a recognised vertical. This number is
   // the price of no longer discarding them, and it is reported so it can be
@@ -588,10 +755,49 @@ async function main() {
 
   const withDates = all.filter((o) => o.closingDate).length;
   const rolling = all.filter((o) => o.tags?.includes('Rolling')).length;
+  const bySource = {};
+  for (const o of all) if (o.closingDate) bySource[o.deadlineSource ?? 'unknown'] = (bySource[o.deadlineSource ?? 'unknown'] ?? 0) + 1;
   console.log(
     `\ndeadlines: ${withDates}/${all.length} dated ` +
-      `(${fromWorkday} from Workday detail, ${fromMarkup} from JobPosting markup, ${overridden} from ` +
-      `data/deadlines.manual.json), ${rolling} marked rolling`
+      `(${fromWorkday} new from Workday detail, ${fromMarkup} new from JobPosting markup, ` +
+      `${fromLedger} carried forward, ${overridden} from data/deadlines.manual.json), ` +
+      `${rolling} marked rolling`
+  );
+  console.log(`  by source: ${Object.entries(bySource).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}=${v}`).join(' ') || 'none'}`);
+
+  // ---------------------------------------------------------------------
+  // Run-over-run delta, per firm.
+  //
+  // This exists because the failure it catches is invisible in a total. When
+  // Citi's five deadlines were lost, Barclays gained ten in the same run and
+  // the site-wide figure moved from 22 to 22 — a swap that read as "nothing
+  // happened" for two days. A firm losing dated roles is now named.
+  // ---------------------------------------------------------------------
+  const datedNow = {};
+  for (const o of all) if (o.closingDate) datedNow[o.firm] = (datedNow[o.firm] ?? 0) + 1;
+  const datedBefore = {};
+  for (const o of previousRoles) if (o.closingDate) datedBefore[o.firm] = (datedBefore[o.firm] ?? 0) + 1;
+  const moved = [...new Set([...Object.keys(datedNow), ...Object.keys(datedBefore)])]
+    .map((f) => ({ firm: f, delta: (datedNow[f] ?? 0) - (datedBefore[f] ?? 0), now: datedNow[f] ?? 0, was: datedBefore[f] ?? 0 }))
+    .filter((x) => x.delta !== 0)
+    .sort((a, b) => a.delta - b.delta);
+  if (previousRoles.length && moved.length) {
+    console.log('\ndated-role changes since the last run:');
+    for (const m of moved) console.log(`  ${m.delta > 0 ? '+' : ''}${m.delta}  ${m.firm} (${m.was} -> ${m.now})`);
+    const lost = moved.filter((m) => m.delta < 0);
+    if (lost.length) {
+      console.log(
+        `::warning::${lost.length} firm(s) lost dated roles: ${lost.map((m) => `${m.firm} ${m.was}->${m.now}`).join(', ')}`
+      );
+    }
+  }
+
+  // Forget expired dates and roles long gone, then persist.
+  pruneLedger(ledger, new Set(all.map((o) => o.id)), today);
+  await writeFile(LEDGER, JSON.stringify(serialiseLedger(ledger, today), null, 2) + '\n');
+  console.log(
+    `\nledger: ${Object.keys(ledger.entries).length} remembered deadlines, ` +
+      `${Object.keys(ledger.misses).length} roles known to carry none -> ${LEDGER}`
   );
 
   await mkdir(dirname(OUT), { recursive: true });
