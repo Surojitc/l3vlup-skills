@@ -16,6 +16,7 @@
     "discover:ats": "node scripts/discover-ats.mjs",
     "test:discover": "node scripts/__tests__/ats-discover.test.mjs",
     "test:vertical": "node scripts/__tests__/classify-vertical.test.mjs",
-    "test:paginate": "node scripts/__tests__/workday-paginate.test.mjs"
+    "test:paginate": "node scripts/__tests__/workday-paginate.test.mjs",
+    "test:ledger": "node scripts/__tests__/deadline-ledger.test.mjs"
   }
 }
