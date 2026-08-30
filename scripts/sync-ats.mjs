@@ -432,7 +432,113 @@ async function fetchWorkday(f) {
   }));
 }
 
-const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday };
+/* ------------------------------ Oracle Cloud ----------------------------- */
+// Oracle Recruiting Cloud, which is where JPMorgan sits — and a good part of the
+// rest of the banking sector that is not on Workday. The candidate-facing site
+// is a single-page app, but it is driven by a public REST endpoint that returns
+// everything we need in JSON, including an exact PostedDate and a real
+// PostingEndDate field.
+//
+// Two landmines, both hit while building this:
+//
+//   1. `expand=requisitionList...` is not optional. Without it the call still
+//      returns 200 with a full facet payload and simply omits requisitionList —
+//      so a board with thousands of roles reads as a firm with none. That is the
+//      exact silent-empty failure the collapse guard and emptyFirms reporting
+//      exist for, and it would have been invisible here.
+//   2. `/hcmUI/CandidateExperience/...` is the SPA, not the API. Fetching it
+//      returns HTML and no data. The API lives under `/hcmRestApi/`.
+const ORACLE_QUERIES = ['intern', 'graduate', 'summer analyst', 'apprentice', 'student'];
+const ORACLE_PAGE = 25;
+const ORACLE_MAX_PAGES_PER_QUERY = 8;
+const ORACLE_MAX_POSTINGS_PER_FIRM = 600;
+
+/**
+ * Page through an Oracle Recruiting Cloud site, deduping on requisition Id.
+ *
+ * Same termination contract as paginateWorkday, and for the same reasons: a
+ * deployment that ignores `offset` replays page one forever, so "a page that
+ * added nothing new" has to be a stop condition rather than trusting a count.
+ *
+ * `fetchPage(query, offset, limit)` is injected so those rules can be tested
+ * without a live board.
+ *
+ * @returns {Map<string, object>} requisitions keyed by Oracle's stable Id
+ */
+export async function paginateOracle(fetchPage, opts = {}) {
+  const {
+    queries = ORACLE_QUERIES,
+    page: PAGE = ORACLE_PAGE,
+    maxPages = ORACLE_MAX_PAGES_PER_QUERY,
+    maxPostings = ORACLE_MAX_POSTINGS_PER_FIRM,
+  } = opts;
+  const seen = new Map();
+
+  for (const q of queries) {
+    let offset = 0;
+    for (let page = 0; page < maxPages; page++) {
+      if (seen.size >= maxPostings) break;
+      let data;
+      try {
+        data = await fetchPage(q, offset, PAGE);
+      } catch {
+        break; // this query failed; move to the next one
+      }
+
+      const bundle = data?.items?.[0];
+      const reqs = bundle?.requisitionList ?? [];
+      if (reqs.length === 0) break;
+
+      let added = 0;
+      for (const r of reqs) {
+        const id = r?.Id;
+        if (id == null || seen.has(String(id))) continue;
+        added++;
+        seen.set(String(id), r);
+      }
+      if (added === 0) break;
+
+      offset += PAGE;
+      if (typeof bundle.TotalJobsCount === 'number' && offset >= bundle.TotalJobsCount) break;
+      if (reqs.length < PAGE) break;
+    }
+  }
+  return seen;
+}
+
+/** Normalise one Oracle requisition into the shape toOpportunity() expects. */
+export function oracleToJob(r, { host, site }) {
+  return {
+    id: String(r.Id),
+    title: r.Title ?? '',
+    location: r.PrimaryLocation ?? '',
+    url: `https://${host}/hcmUI/CandidateExperience/en/sites/${site}/job/${r.Id}`,
+    department: r.JobFamily || undefined,
+    // An exact ISO date, unlike Workday's "Posted 3 Days Ago" prose.
+    postedAt: r.PostedDate || undefined,
+    // The apply-by date when the requisition carries one. JPMorgan currently
+    // leaves it null throughout, but it is a first-class field on the record
+    // rather than something to be read out of a page, so it costs nothing to
+    // take and starts working the day they populate it.
+    deadline: r.PostingEndDate || undefined,
+    description: [r.ShortDescriptionStr, r.ExternalQualificationsStr, r.ExternalResponsibilitiesStr]
+      .filter(Boolean)
+      .join(' '),
+  };
+}
+
+async function fetchOracle(f) {
+  const seen = await paginateOracle((q, offset, limit) => {
+    const finder = `findReqs;siteNumber=${f.site},limit=${limit},offset=${offset},sortBy=POSTING_DATES_DESC,keyword=${q}`;
+    const url =
+      `https://${f.host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions` +
+      `?onlyData=true&expand=requisitionList.secondaryLocations&finder=${encodeURIComponent(finder)}`;
+    return getJson(url);
+  });
+  return [...seen.values()].map((r) => oracleToJob(r, f));
+}
+
+const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle };
 
 async function main() {
   const registry = JSON.parse(await readFile(REGISTRY, 'utf8'));

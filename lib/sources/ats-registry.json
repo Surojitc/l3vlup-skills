@@ -1,5 +1,5 @@
 {
-  "_comment": "Firms whose early-career roles we auto-collate from public ATS boards. Tokens verified live. tier must match TIER_ORDER in app/tracker/TrackerClient.tsx. The daily cron (scripts/sync-ats.mjs) reads this, pulls each board, filters to early-career, and writes data/opportunities.auto.json. To add a firm: find its ATS board token and add a row. A firm with \"parked\": true is left in place but not polled: its board resolved and answers, but provably holds no early-career roles, so polling it only produces a firm that looks like it has nothing open. parkedReason records the evidence.",
+  "_comment": "Firms whose early-career roles we auto-collate from public ATS boards. Tokens verified live. tier must match TIER_ORDER in app/tracker/TrackerClient.tsx. The daily cron (scripts/sync-ats.mjs) reads this, pulls each board, filters to early-career, and writes data/opportunities.auto.json. To add a firm: find its ATS board token and add a row. A firm with \"parked\": true is left in place but not polled: its board resolved and answers, but provably holds no early-career roles, so polling it only produces a firm that looks like it has nothing open. parkedReason records the evidence. ats: oracle is Oracle Recruiting Cloud; host + site (the CX_nnnn id from the careers URL) identify the board.",
   "firms": [
     {
       "firm": "Stripe",
@@ -288,6 +288,13 @@
       "tier": "Bulge Bracket"
     },
     {
+      "firm": "JPMorgan Chase",
+      "ats": "oracle",
+      "host": "jpmc.fa.oraclecloud.com",
+      "site": "CX_1001",
+      "tier": "Bulge Bracket"
+    },
+    {
       "firm": "Mastercard",
       "ats": "workday",
       "host": "mastercard.wd1.myworkdayjobs.com",
@@ -354,6 +361,15 @@
       "tier": "Tracked",
       "parked": true,
       "parkedReason": "The 'Experienced-Hires' site is what its name says: 48 postings, zero early-career across the same queries (probed 2026-08-30). No Moelis campus Workday site resolves. Needs another route."
+    },
+    {
+      "firm": "Nomura",
+      "ats": "talnet",
+      "host": "nomuracampus.tal.net",
+      "site": "brand-4",
+      "tier": "Bulge Bracket",
+      "parked": true,
+      "parkedReason": "tal.net serves an interstitial bot check — \"We just need to confirm you're a real person\" — before any vacancy list is reachable (probed 2026-08-30, every URL shape returns the same 4.7KB gate). Getting past it would mean defeating an anti-bot control the operator deliberately put there, which is not something to automate. Nomura needs the manual deadline lane or a direct link to their campus site instead. No talnet fetcher exists, and this row must stay parked unless that changes."
     }
   ]
 }

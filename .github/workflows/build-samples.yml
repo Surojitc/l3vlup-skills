@@ -69,6 +69,7 @@ jobs:
           node scripts/__tests__/workday-paginate.test.mjs
           node scripts/__tests__/workday-detail.test.mjs
           node scripts/__tests__/deadline-ledger.test.mjs
+          node scripts/__tests__/oracle-paginate.test.mjs
           node scripts/__tests__/ats-discover.test.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
