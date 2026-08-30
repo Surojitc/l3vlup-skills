@@ -21,6 +21,7 @@ import {
   extractJsonLdDeadline,
 } from '../lib/deadline-extract.mjs';
 import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
+import { parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import {
   ledgerDeadline,
   loadLedger,
@@ -38,6 +39,10 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'lib/sources/ats-registry.json');
 const OUT = join(ROOT, 'data/opportunities.auto.json');
 const UA = 'Mozilla/5.0 (compatible; L3vlupTracker/1.0; +https://l3vlup.com)';
+// tal.net's front end is rendered for browsers and returns an interstitial to
+// anything it does not recognise. Used only for that family.
+const BROWSER_UA =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 const LEDGER = join(ROOT, 'data/deadlines.learned.json');
 const TIMEOUT_MS = 12000;
 
@@ -538,7 +543,50 @@ async function fetchOracle(f) {
   return [...seen.values()].map((r) => oracleToJob(r, f));
 }
 
-const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle };
+/* --------------------------------- tal.net -------------------------------- */
+// Morgan Stanley, Nomura and BlackRock run campus hiring here, and nothing else
+// in this collector reaches them. See lib/talnet.mjs for why this is the one
+// HTML parser in the file.
+//
+// Boards are small — tens of roles, not thousands — so the detail page is
+// fetched for every row rather than deferred to the enrichment budget. That is
+// deliberate: tal.net states an explicit `Deadline:`, which is a stated
+// apply-by date rather than an SEO artifact, and it is worth taking at
+// collation time so it lands as an ATS field with the provenance to match.
+const TALNET_POOL = 6;
+
+async function fetchTalnet(f) {
+  const url = talnetBoardUrl(f.host, f.brand);
+  if (!url) return [];
+  const res = await fetch(url, { headers: { 'User-Agent': BROWSER_UA }, signal: AbortSignal.timeout(TIMEOUT_MS) });
+  if (!res.ok) throw new Error(`${res.status}`);
+  const rows = parseTalnetBoard(await res.text());
+
+  const jobs = rows.map((r) => ({
+    id: r.id,
+    title: r.title,
+    location: r.location,
+    url: r.url,
+    description: '',
+  }));
+
+  // Detail pages, for the deadline and the body text the board omits.
+  for (let i = 0; i < jobs.length; i += TALNET_POOL) {
+    await Promise.allSettled(
+      jobs.slice(i, i + TALNET_POOL).map(async (j) => {
+        const d = await fetch(j.url, { headers: { 'User-Agent': BROWSER_UA }, signal: AbortSignal.timeout(TIMEOUT_MS) });
+        if (!d.ok) return;
+        const html = await d.text();
+        const deadline = parseTalnetDeadline(html);
+        if (deadline) j.deadline = deadline;
+        j.description = html;
+      })
+    );
+  }
+  return jobs;
+}
+
+const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet };
 
 async function main() {
   const registry = JSON.parse(await readFile(REGISTRY, 'utf8'));

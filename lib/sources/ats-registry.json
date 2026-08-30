@@ -308,7 +308,7 @@
       "tenant": "barclays",
       "shard": "wd3",
       "site": "External_Career_Site_Barclays",
-      "tier": "Tracked"
+      "tier": "Bulge Bracket"
     },
     {
       "firm": "PJT Partners",
@@ -316,7 +316,7 @@
       "tenant": "pjtpartners",
       "shard": "wd1",
       "site": "Careers",
-      "tier": "Tracked"
+      "tier": "Elite Boutique"
     },
     {
       "firm": "Houlihan Lokey",
@@ -324,15 +324,15 @@
       "tenant": "hl",
       "shard": "wd1",
       "site": "Campus",
-      "tier": "Tracked"
+      "tier": "Middle Market"
     },
     {
       "firm": "Guggenheim Securities",
       "ats": "workday",
       "tenant": "guggenheiminvestment",
       "shard": "wd5",
-      "site": "External",
-      "tier": "Tracked"
+      "site": "Guggenheim_Careers_Campus",
+      "tier": "Elite Boutique"
     },
     {
       "firm": "Lloyds Banking Group",
@@ -340,7 +340,7 @@
       "tenant": "lbg",
       "shard": "wd3",
       "site": "lbg_Careers",
-      "tier": "Tracked"
+      "tier": "Middle Market"
     },
     {
       "firm": "Bank of America",
@@ -348,7 +348,7 @@
       "tenant": "ghr",
       "shard": "wd1",
       "site": "lateral-us",
-      "tier": "Tracked",
+      "tier": "Bulge Bracket",
       "parked": true,
       "parkedReason": "The 'lateral-us' site is an experienced-hire board: 2,087 live postings and zero early-career roles across intern/graduate/campus/summer-analyst queries (probed 2026-08-30). BofA campus recruiting runs off campus.bankofamerica.com, which is not a Workday board. Parked rather than deleted so it is not rediscovered and re-added."
     },
@@ -358,18 +358,211 @@
       "tenant": "moelis",
       "shard": "wd1",
       "site": "Experienced-Hires",
-      "tier": "Tracked",
+      "tier": "Elite Boutique",
       "parked": true,
-      "parkedReason": "The 'Experienced-Hires' site is what its name says: 48 postings, zero early-career across the same queries (probed 2026-08-30). No Moelis campus Workday site resolves. Needs another route."
+      "parkedReason": "The 'Experienced-Hires' site is what its name says: 48 postings, zero early-career across the same queries (probed 2026-08-30). No Moelis campus Workday site resolves. Needs another route. Campus hiring is on moelis-careers.tal.net, which serves the same bot-check interstitial as the other gated tal.net tenants (probed 2026-08-30)."
+    },
+    {
+      "firm": "BMO Capital Markets",
+      "ats": "workday",
+      "host": "bmo.wd3.myworkdayjobs.com",
+      "tenant": "bmo",
+      "site": "Privileged",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Wells Fargo",
+      "ats": "workday",
+      "host": "wf.wd1.myworkdayjobs.com",
+      "tenant": "wf",
+      "site": "wellsfargojobs",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Blackstone",
+      "ats": "workday",
+      "host": "blackstone.wd1.myworkdayjobs.com",
+      "tenant": "blackstone",
+      "site": "Blackstone_Campus_Careers",
+      "tier": "Megafund"
+    },
+    {
+      "firm": "FTI Consulting",
+      "ats": "workday",
+      "host": "fticonsulting.wd108.myworkdayjobs.com",
+      "tenant": "fticonsulting",
+      "site": "FTIConsultingCareers",
+      "tier": "Independent Advisory"
+    },
+    {
+      "firm": "Mizuho",
+      "ats": "workday",
+      "host": "mizuho.wd1.myworkdayjobs.com",
+      "tenant": "mizuho",
+      "site": "mizuho_confidential",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Vanguard",
+      "ats": "workday",
+      "host": "vanguard.wd5.myworkdayjobs.com",
+      "tenant": "vanguard",
+      "site": "vanguard_external",
+      "tier": "Asset Manager"
+    },
+    {
+      "firm": "Berkeley Research Group",
+      "ats": "workday",
+      "host": "thinkbrg.wd5.myworkdayjobs.com",
+      "tenant": "thinkbrg",
+      "site": "BRG_External_Career_Site",
+      "tier": "Independent Advisory"
+    },
+    {
+      "firm": "ING",
+      "ats": "workday",
+      "host": "ing.wd3.myworkdayjobs.com",
+      "tenant": "ing",
+      "site": "ICSGBLCOR",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Capital One",
+      "ats": "workday",
+      "host": "capitalone.wd12.myworkdayjobs.com",
+      "tenant": "capitalone",
+      "site": "Capital_One",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Northwestern Mutual",
+      "ats": "workday",
+      "host": "northwesternmutual.wd5.myworkdayjobs.com",
+      "tenant": "northwesternmutual",
+      "site": "CORPORATE-CAREERS",
+      "tier": "Asset Manager"
+    },
+    {
+      "firm": "Harris Williams",
+      "ats": "workday",
+      "host": "pnc.wd5.myworkdayjobs.com",
+      "tenant": "pnc",
+      "site": "HarrisWilliams",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Santander",
+      "ats": "workday",
+      "host": "santander.wd3.myworkdayjobs.com",
+      "tenant": "santander",
+      "site": "SantanderCareers",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Apollo Global Management",
+      "ats": "workday",
+      "host": "athene.wd5.myworkdayjobs.com",
+      "tenant": "athene",
+      "site": "Apollo_Careers",
+      "tier": "Megafund"
+    },
+    {
+      "firm": "OMERS",
+      "ats": "workday",
+      "host": "omers.wd3.myworkdayjobs.com",
+      "tenant": "omers",
+      "site": "OMERS_External",
+      "tier": "Asset Manager"
+    },
+    {
+      "firm": "CIBC",
+      "ats": "workday",
+      "host": "cibc.wd3.myworkdayjobs.com",
+      "tenant": "cibc",
+      "site": "search",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Raymond James",
+      "ats": "workday",
+      "host": "raymondjames.wd1.myworkdayjobs.com",
+      "tenant": "raymondjames",
+      "site": "RaymondJamesEarlyCareers",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "PSP Investments",
+      "ats": "workday",
+      "host": "investpsp.wd3.myworkdayjobs.com",
+      "tenant": "investpsp",
+      "site": "psp_careers",
+      "tier": "Asset Manager"
+    },
+    {
+      "firm": "Morgan Stanley",
+      "ats": "talnet",
+      "host": "morganstanley.tal.net",
+      "brand": "brand-4",
+      "tier": "Bulge Bracket"
     },
     {
       "firm": "Nomura",
       "ats": "talnet",
       "host": "nomuracampus.tal.net",
-      "site": "brand-4",
-      "tier": "Bulge Bracket",
+      "brand": "brand-4",
+      "tier": "Bulge Bracket"
+    },
+    {
+      "firm": "BlackRock",
+      "ats": "talnet",
+      "host": "blackrock.tal.net",
+      "brand": "brand-4",
+      "tier": "Asset Manager"
+    },
+    {
+      "firm": "Evercore",
+      "ats": "talnet",
+      "host": "evercore.tal.net",
+      "brand": "brand-4",
+      "tier": "Elite Boutique",
       "parked": true,
-      "parkedReason": "tal.net serves an interstitial bot check — \"We just need to confirm you're a real person\" — before any vacancy list is reachable (probed 2026-08-30, every URL shape returns the same 4.7KB gate). Getting past it would mean defeating an anti-bot control the operator deliberately put there, which is not something to automate. Nomura needs the manual deadline lane or a direct link to their campus site instead. No talnet fetcher exists, and this row must stay parked unless that changes."
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+    },
+    {
+      "firm": "Jefferies",
+      "ats": "talnet",
+      "host": "jefferies.tal.net",
+      "brand": "brand-4",
+      "tier": "Middle Market",
+      "parked": true,
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+    },
+    {
+      "firm": "Lazard",
+      "ats": "talnet",
+      "host": "lazard-careers.tal.net",
+      "brand": "brand-4",
+      "tier": "Elite Boutique",
+      "parked": true,
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+    },
+    {
+      "firm": "Rothschild & Co",
+      "ats": "talnet",
+      "host": "rothschildandco.tal.net",
+      "brand": "brand-4",
+      "tier": "Elite Boutique",
+      "parked": true,
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+    },
+    {
+      "firm": "Perella Weinberg Partners",
+      "ats": "talnet",
+      "host": "pwpcareers.tal.net",
+      "brand": "brand-4",
+      "tier": "Elite Boutique",
+      "parked": true,
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
     }
   ]
 }
