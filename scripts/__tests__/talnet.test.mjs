@@ -6,7 +6,7 @@
  * the thing that tells us the page changed shape before the tracker quietly
  * empties out.
  */
-import { parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../../lib/talnet.mjs';
+import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../../lib/talnet.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -63,6 +63,17 @@ const BOARD = `
 
 eq('junk input yields nothing', parseTalnetBoard('<html>no board</html>'), []);
 eq('non-string input yields nothing', parseTalnetBoard(null), []);
+
+// --- the gate must not read as an empty board -----------------------------
+// Nomura served 113KB of board in the morning and the interstitial by the
+// afternoon. Parsed naively that is zero rows, which is indistinguishable from
+// a firm with nothing open, so the caller has to be able to tell.
+eq('the interstitial is detected by wording',
+   isTalnetGate('<html><body>We just need to confirm you\'re a real person</body></html>'), true);
+eq('  …and by its size when reworded', isTalnetGate('<html>' + 'x'.repeat(4000) + '</html>'), true);
+eq('a real board is not a gate', isTalnetGate(BOARD + 'x'.repeat(12000)), false);
+eq('a short page that still holds rows is not a gate', isTalnetGate(BOARD), false);
+eq('a non-string is treated as a gate', isTalnetGate(null), true);
 
 // --- deadlines, which are day-first ---------------------------------------
 // This is the whole reason the date is not handed to `new Date()`: it reads

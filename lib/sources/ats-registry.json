@@ -526,7 +526,7 @@
       "brand": "brand-4",
       "tier": "Elite Boutique",
       "parked": true,
-      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table. Re-probed 2026-08-31 across 80 URL shapes (2 langs x 5 path segments x 8 brand ids): all returned the same ~4.8KB gate, versus 60-136KB of real board from Morgan Stanley, Nomura and BlackRock on identical paths. Per-tenant setting on shared infrastructure, so worth re-probing occasionally rather than treating as permanent."
     },
     {
       "firm": "Jefferies",
@@ -535,7 +535,7 @@
       "brand": "brand-4",
       "tier": "Middle Market",
       "parked": true,
-      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table. Re-probed 2026-08-31 across 80 URL shapes (2 langs x 5 path segments x 8 brand ids): all returned the same ~4.8KB gate, versus 60-136KB of real board from Morgan Stanley, Nomura and BlackRock on identical paths. Per-tenant setting on shared infrastructure, so worth re-probing occasionally rather than treating as permanent."
     },
     {
       "firm": "Lazard",
@@ -544,7 +544,7 @@
       "brand": "brand-4",
       "tier": "Elite Boutique",
       "parked": true,
-      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table. Re-probed 2026-08-31 across 80 URL shapes (2 langs x 5 path segments x 8 brand ids): all returned the same ~4.8KB gate, versus 60-136KB of real board from Morgan Stanley, Nomura and BlackRock on identical paths. Per-tenant setting on shared infrastructure, so worth re-probing occasionally rather than treating as permanent."
     },
     {
       "firm": "Rothschild & Co",
@@ -553,7 +553,7 @@
       "brand": "brand-4",
       "tier": "Elite Boutique",
       "parked": true,
-      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table. Re-probed 2026-08-31 across 80 URL shapes (2 langs x 5 path segments x 8 brand ids): all returned the same ~4.8KB gate, versus 60-136KB of real board from Morgan Stanley, Nomura and BlackRock on identical paths. Per-tenant setting on shared infrastructure, so worth re-probing occasionally rather than treating as permanent."
     },
     {
       "firm": "Perella Weinberg Partners",
@@ -562,7 +562,33 @@
       "brand": "brand-4",
       "tier": "Elite Boutique",
       "parked": true,
-      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table (probed 2026-08-30: ~4.8KB gate on every brand id, versus 60-136KB of real board from the reachable tenants). Same platform as Morgan Stanley and Nomura, which do serve it — this is a per-tenant setting, so it is worth re-probing periodically."
+      "parkedReason": "tal.net tenant serves an interstitial bot check instead of the vacancy table. Re-probed 2026-08-31 across 80 URL shapes (2 langs x 5 path segments x 8 brand ids): all returned the same ~4.8KB gate, versus 60-136KB of real board from Morgan Stanley, Nomura and BlackRock on identical paths. Per-tenant setting on shared infrastructure, so worth re-probing occasionally rather than treating as permanent."
+    },
+    {
+      "firm": "Point72",
+      "ats": "greenhouse",
+      "token": "point72",
+      "tier": "Multi-Manager"
+    },
+    {
+      "firm": "Millennium",
+      "ats": "eightfold",
+      "host": "campusjobs.mlp.com",
+      "domain": "mlp.com",
+      "tier": "Multi-Manager"
+    },
+    {
+      "firm": "Jane Street",
+      "ats": "janestreet",
+      "tier": "Prop Trading"
+    },
+    {
+      "firm": "Goldman Sachs",
+      "ats": "custom",
+      "host": "higher.gs.com",
+      "tier": "Bulge Bracket",
+      "parked": true,
+      "parkedReason": "higher.gs.com is a client-rendered Apollo/GraphQL app with no public data route: __NEXT_DATA__ ships an empty initialApolloState, /sitemap.xml, /roles.json, /api/graphql, /graphql and /gateway/api/v1/graphql all 404, and role pages carry no JobPosting markup (probed 2026-08-31). Unlike the tal.net gate this is not a setting somebody can flip — there is nothing public to read. Goldman needs the manual deadline lane or a plain link to goldmansachs.com/careers/students."
     }
   ]
 }
