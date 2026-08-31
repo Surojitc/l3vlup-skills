@@ -6,7 +6,14 @@
  * indistinguishable from the truth until someone notices a bank has vanished
  * from the tracker.
  */
-import { detectBoard, boardApiUrl, detectUnsupportedFamily, firstBoard } from '../../lib/ats-discover.mjs';
+import {
+  boardApiUrl,
+  candidateTokens,
+  detectBoard,
+  detectUnsupportedFamily,
+  firstBoard,
+  tokenMatchesFirm,
+} from '../../lib/ats-discover.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -101,6 +108,32 @@ eq('site preference does not override the Workday-over-Greenhouse rule',
    firstBoard(`<a href="https://boards.greenhouse.io/firmcampus">Campus</a>
                <a href="https://firm.wd1.myworkdayjobs.com/lateral-us">Lateral</a>`, null),
    { ats: 'workday', tenant: 'firm', shard: 'wd1', site: 'lateral-us' });
+
+// --- token guessing -------------------------------------------------------
+// Reading the careers page finds nothing when the page is client-rendered, and
+// most fund sites are: 106 of 128 seed firms returned "no board found", and
+// guessing tokens then resolved eleven of them straight away.
+eq('collapsed form comes first, it is the common one',
+   candidateTokens('William Blair')[0], 'williamblair');
+eq('the corporate suffix is stripped so "aqr" is tried',
+   candidateTokens('AQR Capital Management').includes('aqr'), true);
+eq('ampersands become "and"',
+   candidateTokens('Qube Research & Technologies')[0], 'quberesearchandtechnologies');
+eq('a blank name yields nothing', candidateTokens(''), []);
+eq('two-letter fragments are dropped', candidateTokens('BP'), []);
+
+// --- the portfolio trap ---------------------------------------------------
+// Venture firms publish their portfolio companies' boards on their own careers
+// pages. Those boards validate perfectly — real, answering, full of interns —
+// so the first sweep credited Verkada's roles to General Catalyst, Flexport's
+// to a16z and Bitmovin's to Atomico.
+eq('a firm matches its own token', tokenMatchesFirm('AQR Capital Management', 'aqr'), true);
+eq('  …including the collapsed form', tokenMatchesFirm('Man Group', 'mangroup'), true);
+eq('a portfolio company does not match the VC',
+   tokenMatchesFirm('General Catalyst', 'verkada'), false);
+eq('  …nor does Flexport match a16z', tokenMatchesFirm('Andreessen Horowitz', 'flexport'), false);
+eq('  …nor Bitmovin match Atomico', tokenMatchesFirm('Atomico', 'bitmovin'), false);
+eq('missing arguments are not a match', tokenMatchesFirm('', 'x'), false);
 
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);
