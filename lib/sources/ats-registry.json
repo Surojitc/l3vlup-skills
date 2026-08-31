@@ -589,6 +589,112 @@
       "tier": "Bulge Bracket",
       "parked": true,
       "parkedReason": "higher.gs.com is a client-rendered Apollo/GraphQL app with no public data route: __NEXT_DATA__ ships an empty initialApolloState, /sitemap.xml, /roles.json, /api/graphql, /graphql and /gateway/api/v1/graphql all 404, and role pages carry no JobPosting markup (probed 2026-08-31). Unlike the tal.net gate this is not a setting somebody can flip — there is nothing public to read. Goldman needs the manual deadline lane or a plain link to goldmansachs.com/careers/students."
+    },
+    {
+      "firm": "AQR Capital Management",
+      "ats": "greenhouse",
+      "token": "aqr",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Squarepoint Capital",
+      "ats": "greenhouse",
+      "token": "squarepointcapital",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Qube Research & Technologies",
+      "ats": "greenhouse",
+      "token": "quberesearchandtechnologies",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Schonfeld",
+      "ats": "greenhouse",
+      "token": "schonfeld",
+      "tier": "Multi-Manager"
+    },
+    {
+      "firm": "Man Group",
+      "ats": "greenhouse",
+      "token": "mangroup",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Lincoln International",
+      "ats": "greenhouse",
+      "token": "lincolninternational",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "William Blair",
+      "ats": "greenhouse",
+      "token": "williamblair",
+      "tier": "Middle Market"
+    },
+    {
+      "firm": "Palantir",
+      "ats": "lever",
+      "token": "palantir",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Snowflake",
+      "ats": "ashby",
+      "token": "snowflake",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Perplexity",
+      "ats": "ashby",
+      "token": "perplexity",
+      "tier": "AI Lab"
+    },
+    {
+      "firm": "Roblox",
+      "ats": "greenhouse",
+      "token": "roblox",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "Intel",
+      "ats": "workday",
+      "host": "intel.wd1.myworkdayjobs.com",
+      "tenant": "intel",
+      "site": "External",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Visa",
+      "ats": "workday",
+      "host": "visa.wd5.myworkdayjobs.com",
+      "tenant": "visa",
+      "site": "Visa_Early_Careers",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "HSBC",
+      "ats": "avature",
+      "host": "mycareer.hsbc.com",
+      "tier": "Bulge Bracket",
+      "parked": true,
+      "parkedReason": "mycareer.hsbc.com publishes an RSS feed at /en_GB/external/SearchJobs/feed/, but it is hard capped at 20 items and ignores pipelineRecordsPerPage, jobOffset and every keyword parameter tried (probed 2026-08-31). The HTML search behind it is experienced-hire: the early-career-looking slugs are 'Credit Risk Senior Analyst' and similar. HSBC's graduate programmes are not on this board."
+    },
+    {
+      "firm": "Societe Generale",
+      "ats": "taleo",
+      "host": "socgen.taleo.net",
+      "tier": "Middle Market",
+      "parked": true,
+      "parkedReason": "Taleo tenant socgen.taleo.net is real, but careersection/rest/jobboard/searchjobs returns 'An Error Occurred in TEE' without a valid portal id, and no portal id appears in any public page (probed 2026-08-31). Taleo needs a per-tenant portal number that SG does not expose."
+    },
+    {
+      "firm": "UBS",
+      "ats": "taleo",
+      "host": "jobs.ubs.com",
+      "tier": "Bulge Bracket",
+      "parked": true,
+      "parkedReason": "jobs.ubs.com returns 403 to a plain GET and the careers landing pages 404 (probed 2026-08-31). Detected as Taleo/Yello from markup on a partner page, but no reachable board."
     }
   ]
 }
