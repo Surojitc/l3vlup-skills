@@ -19,6 +19,7 @@
     "test:paginate": "node scripts/__tests__/workday-paginate.test.mjs",
     "test:ledger": "node scripts/__tests__/deadline-ledger.test.mjs",
     "test:oracle": "node scripts/__tests__/oracle-paginate.test.mjs",
-    "test:talnet": "node scripts/__tests__/talnet.test.mjs"
+    "test:talnet": "node scripts/__tests__/talnet.test.mjs",
+    "test:feeds": "node scripts/__tests__/eightfold-janestreet.test.mjs"
   }
 }

@@ -21,7 +21,9 @@ import {
   extractJsonLdDeadline,
 } from '../lib/deadline-extract.mjs';
 import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
-import { parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
+import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
+import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
+import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import {
   ledgerDeadline,
   loadLedger,
@@ -237,8 +239,34 @@ function toIsoDate(value, { allowFuture = false } = {}) {
   return d.toISOString().slice(0, 10);
 }
 
+/**
+ * The per-firm part of a role id.
+ *
+ * Greenhouse and Ashby have a token, Workday a tenant. The families added since
+ * — tal.net, Eightfold, Oracle, Jane Street — have neither, and the id template
+ * used to interpolate `undefined` for all of them: Morgan Stanley roles were
+ * `talnet-undefined-21876` and BlackRock's `talnet-undefined-12220`, sharing one
+ * namespace. Two tal.net tenants issuing the same opportunity number would then
+ * collide, and the loser would be silently overwritten in both the tracker and
+ * the deadline ledger.
+ *
+ * `token || tenant` stays first so every id already in the ledger and the
+ * history file keeps its value; only the families that were producing
+ * `undefined` change.
+ */
+export function firmKey(firm) {
+  const raw = firm.token || firm.tenant || firm.host || firm.domain || firm.firm || 'unknown';
+  return String(raw).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
 export function toOpportunity(job, firm) {
-  if (!job.title || !isEarlyCareer(job.title)) return null;
+  // `earlyCareerConfirmed` is set by fetchers whose source states the level in a
+  // dedicated field rather than in the title. Jane Street is the case that
+  // forced it: `availability` says "Summer Internship" while the title says
+  // "Software Engineer", so a title-only test threw away the entire board and
+  // reported the firm as having nothing open.
+  if (!job.title) return null;
+  if (!job.earlyCareerConfirmed && !isEarlyCareer(job.title)) return null;
   // No null check: inferVertical always classifies, falling back to 'Other'.
   const vertical = inferVertical(job.title);
   const { programmeType, level } = inferProgrammeAndLevel(job.title);
@@ -248,7 +276,7 @@ export function toOpportunity(job, firm) {
   if (extracted.rolling) tags.push('Rolling');
   const atsDate = toIsoDate(job.deadline, { allowFuture: true });
   return {
-    id: `${firm.ats}-${firm.token || firm.tenant}-${job.id}`,
+    id: `${firm.ats}-${firmKey(firm)}-${job.id}`,
     firm: firm.firm,
     role: job.title.trim(),
     vertical,
@@ -560,7 +588,14 @@ async function fetchTalnet(f) {
   if (!url) return [];
   const res = await fetch(url, { headers: { 'User-Agent': BROWSER_UA }, signal: AbortSignal.timeout(TIMEOUT_MS) });
   if (!res.ok) throw new Error(`${res.status}`);
-  const rows = parseTalnetBoard(await res.text());
+  const body = await res.text();
+  // A gated tenant answers 200 with a ~4.8KB interstitial. Parsed naively that
+  // is zero rows, which is indistinguishable from a firm with nothing open —
+  // and it is not hypothetical: Nomura served 113KB in the morning and the gate
+  // by the afternoon, and the board silently reported 0 roles. Throwing puts it
+  // in the failed-boards list, where a disappearing firm belongs.
+  if (isTalnetGate(body)) throw new Error('bot-check interstitial');
+  const rows = parseTalnetBoard(body);
 
   const jobs = rows.map((r) => ({
     id: r.id,
@@ -586,7 +621,32 @@ async function fetchTalnet(f) {
   return jobs;
 }
 
-const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet };
+/* -------------------------------- Eightfold ------------------------------- */
+// Millennium's campus board. See lib/eightfold.mjs for the `num` cap that makes
+// pagination mandatory rather than optional.
+async function fetchEightfold(f) {
+  const seen = await paginateEightfold((start, num) => getJson(eightfoldUrl(f.host, f.domain, start, num)));
+  return [...seen.values()].map((p) => eightfoldToJob(p, f));
+}
+
+/* ------------------------------- Jane Street ------------------------------ */
+// No ATS at all: a public JSON file behind a client-rendered page. The level
+// lives in `availability` rather than the title, so the filtering happens in
+// lib/janestreet.mjs before our own early-career rules ever see it.
+async function fetchJaneStreet() {
+  const feed = await getJson('https://www.janestreet.com/jobs/main.json');
+  return parseJaneStreetFeed(feed);
+}
+
+/* --------------------------------- iCIMS --------------------------------- */
+// Deliberately absent. Probed 2026-08-31: Stifel returns 110 postings of which
+// exactly one is early-career, Affinius 12 and Oak Hill 2 with none, and SIG's
+// sig.icims.com is an employee login (orgname=sig-employee), not a public
+// board. iCIMS has no JSON API, so this would be a second HTML parser bought
+// for roughly one role. Recorded here so the next person can see it was
+// measured rather than missed.
+
+const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet };
 
 async function main() {
   const registry = JSON.parse(await readFile(REGISTRY, 'utf8'));

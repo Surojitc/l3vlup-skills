@@ -5,7 +5,7 @@
  * the interesting part: a board that ignores `offset` replays page one forever,
  * and this runs unattended in CI against live boards.
  */
-import { oracleToJob, paginateOracle } from '../sync-ats.mjs';
+import { firmKey, oracleToJob, paginateOracle } from '../sync-ats.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -99,6 +99,20 @@ const req = (id) => ({ Id: id, Title: `Role ${id}` });
   eq('a populated PostingEndDate is carried through', job.deadline, '2026-11-30');
   eq('missing fields degrade to empty rather than undefined strings', [job.title, job.location], ['X', '']);
 }
+
+// --- the id namespace -----------------------------------------------------
+// Every family added after Greenhouse/Workday lacked token and tenant, so the
+// id template interpolated `undefined` and put every tal.net firm in one
+// namespace. A shared opportunity number would silently overwrite between firms.
+eq('a greenhouse token is unchanged', firmKey({ token: 'point72' }), 'point72');
+eq('a workday tenant is unchanged', firmKey({ tenant: 'citi' }), 'citi');
+eq('token wins over tenant so existing ids are stable',
+   firmKey({ token: 'a', tenant: 'b', host: 'c' }), 'a');
+eq('a talnet host becomes the key', firmKey({ host: 'nomuracampus.tal.net' }), 'nomuracampus-tal-net');
+eq('  …and differs per tenant', firmKey({ host: 'morganstanley.tal.net' }), 'morganstanley-tal-net');
+eq('an eightfold domain becomes the key', firmKey({ domain: 'mlp.com' }), 'mlp-com');
+eq('a bare firm name is the last resort', firmKey({ firm: 'Jane Street' }), 'jane-street');
+eq('nothing at all still yields a key', firmKey({}), 'unknown');
 
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);
