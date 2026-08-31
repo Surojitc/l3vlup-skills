@@ -800,6 +800,18 @@
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
     },
+    "workday-cibc-2617782-1": {
+      "closingDate": "2026-09-28",
+      "source": "workday-detail",
+      "firstSeen": "2026-08-31",
+      "lastConfirmed": "2026-08-31"
+    },
+    "workday-citi-26976395": {
+      "closingDate": "2026-09-02",
+      "source": "workday-detail",
+      "firstSeen": "2026-08-31",
+      "lastConfirmed": "2026-08-31"
+    },
     "workday-citi-26985125": {
       "closingDate": "2026-10-31",
       "source": "workday-detail",
@@ -3421,6 +3433,30 @@
       "attempts": 1
     },
     "workday-citi-26988854|workday-detail": {
+      "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-citi-26989486|jsonld": {
+      "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-citi-26989486|workday-detail": {
+      "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-citi-26989500|jsonld": {
+      "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-citi-26989500|workday-detail": {
+      "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-citi-26989981|jsonld": {
+      "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-citi-26989981|workday-detail": {
       "checkedAt": "2026-08-31",
       "attempts": 1
     },
