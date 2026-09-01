@@ -38,6 +38,7 @@ const VERTICALS = [
       // Both proven daily in sync-deals.mjs.
       { source: 'PR Newswire', url: 'https://www.prnewswire.com/rss/financial-services-latest-news/acquisitions-mergers-and-takeovers-list.rss' },
       { source: 'GlobeNewswire', url: 'https://www.globenewswire.com/RssFeed/subjectcode/12-Mergers%20And%20Acquisitions/feedTitle/GlobeNewswire%20-%20Mergers%20and%20Acquisitions' },
+      { source: 'FT', url: 'https://www.ft.com/mergers-acquisitions?format=rss', include: null },
     ],
   },
   {
@@ -54,7 +55,10 @@ const VERTICALS = [
     label: 'Private Equity',
     include: PE,
     feeds: [
-      { source: 'Private Equity Wire', url: 'https://www.privateequitywire.co.uk/feed/' },
+      // Publisher section feeds are already on-topic: take everything (include: null).
+      { source: 'FT', url: 'https://www.ft.com/private-equity?format=rss', include: null },
+      { source: 'PE Hub', url: 'https://www.pehub.com/feed/', include: null },
+      { source: 'Private Equity Wire', url: 'https://www.privateequitywire.co.uk/feed/', include: null },
       { source: 'PR Newswire', url: 'https://www.prnewswire.com/rss/financial-services-latest-news/acquisitions-mergers-and-takeovers-list.rss' },
     ],
   },
@@ -73,7 +77,10 @@ const VERTICALS = [
     key: 'hf',
     label: 'Hedge Funds',
     include: null,
-    feeds: [{ source: 'Hedgeweek', url: 'https://www.hedgeweek.com/feed/' }],
+    feeds: [
+      { source: 'FT', url: 'https://www.ft.com/hedge-funds?format=rss', include: null },
+      { source: 'Hedgeweek', url: 'https://www.hedgeweek.com/feed/', include: null },
+    ],
   },
 ];
 
@@ -85,6 +92,8 @@ const decode = (s) =>
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#0?39;|&apos;/g, "'")
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
     .replace(/<[^>]+>/g, '')
     .replace(/&amp;/g, '&') // wires double-encode
     .trim();
@@ -100,10 +109,9 @@ function parseRss(xml, source, vertical) {
     const title = pick('title');
     const link = pick('link');
     const pubDate = pick('pubDate');
-    const description = pick('description');
     if (!title || !link) continue;
     const date = pubDate ? new Date(pubDate) : null;
-    const valMatch = /(?:US)?([$£€])\s?([\d.,]+)\s*(billion|bn|million|mn|m\b|b\b)/i.exec(`${title} ${description ?? ''}`);
+    const valMatch = /(?:US)?([$£€])\s?([\d.,]+)\s*(billion|bn|million|mn|m\b|b\b)/i.exec(title);
     let dealValue = null;
     let valueUsdB = null;
     if (valMatch) {
@@ -141,7 +149,8 @@ for (const v of VERTICALS) {
       const items = parseRss(await res.text(), feed.source, v.key);
       if (items.length === 0) throw new Error('0 items parsed');
       console.log(`${items.length} items`);
-      all.push(...items.filter((i) => !v.include || v.include.test(i.title)));
+      const include = feed.include === null ? null : (feed.include ?? v.include);
+      all.push(...items.filter((i) => !include || include.test(i.title)));
     } catch (err) {
       console.log(`FAILED: ${err.message}`);
     }
@@ -158,9 +167,16 @@ try {
 
 const weekAgo = Date.now() - 8 * 86400000;
 const seen = new Set();
+const seenTitles = new Set();
 const perVertical = {};
 const items = all
   .filter((i) => !EXCLUDE.test(i.title))
+  .filter((i) => {
+    const key = i.title.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().slice(0, 80);
+    if (seenTitles.has(key)) return false;
+    seenTitles.add(key);
+    return true;
+  })
   .filter((i) => !i.date || new Date(i.date).getTime() > weekAgo)
   .filter((i) => (seen.has(i.link) ? false : (seen.add(i.link), true)))
   .sort((a, b) => ((a.date ?? '') < (b.date ?? '') ? 1 : -1))
