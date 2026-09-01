@@ -24,6 +24,7 @@ import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
+import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
 import {
   ledgerDeadline,
   loadLedger,
@@ -732,9 +733,49 @@ async function main() {
       }
     }
   }
+  // Read once and keep the rows: the collapse guard needs the count, and the
+  // per-firm delta report at the end needs to know which roles were dated.
+  let previousRoles = [];
+  let previousGeneratedAt;
+  try {
+    const prev = JSON.parse(await readFile(OUT, 'utf8'));
+    previousRoles = prev.opportunities ?? [];
+    previousGeneratedAt = typeof prev.generatedAt === 'string' ? prev.generatedAt.slice(0, 10) : undefined;
+  } catch {
+    /* first run — nothing to protect */
+  }
+  const previousCount = previousRoles.length;
+
   if (failedFirms.length) {
     console.log(`\n${failedFirms.length} board(s) failed to answer:`);
     for (const f of failedFirms) console.log(`  ${f.firm}: ${f.reason}`);
+  }
+
+  // Everything collated above was seen on a board just now.
+  const runDay = stamp.slice(0, 10);
+  for (const o of all) o.lastConfirmedAt = runDay;
+
+  // ---------------------------------------------------------------------
+  // Carry forward the roles of boards that failed.
+  //
+  // Only failures. A board that answered and returned nothing has told us
+  // something true, and its roles are dropped as before. See
+  // lib/role-retention.mjs for why this exists at all — tal.net serves to
+  // residential addresses and refuses datacentre ones, so three firms have
+  // never survived a CI run despite collating perfectly by hand.
+  // ---------------------------------------------------------------------
+  const retained = retainRoles(previousRoles, failedFirms.map((f) => f.firm), runDay, {
+    fallbackConfirmedAt: previousGeneratedAt,
+  });
+  if (retained.length) {
+    all.push(...retained);
+    const byFirm = {};
+    for (const r of retained) byFirm[r.firm] = (byFirm[r.firm] ?? 0) + 1;
+    console.log(
+      `\ncarried forward ${retained.length} role(s) from failed boards, marked Unconfirmed ` +
+        `(dropped after ${RETENTION_DAYS} days): ` +
+        Object.entries(byFirm).map(([f, n]) => `${f} ${n}`).join(', ')
+    );
   }
 
   // ---------------------------------------------------------------------
@@ -749,15 +790,6 @@ async function main() {
   // A real drop happens gradually; a collapse is infrastructure. Bail loudly
   // and leave yesterday's data in place, which is stale but correct.
   // ---------------------------------------------------------------------
-  // Read once and keep the rows: the collapse guard needs the count, and the
-  // per-firm delta report at the end needs to know which roles were dated.
-  let previousRoles = [];
-  try {
-    previousRoles = JSON.parse(await readFile(OUT, 'utf8')).opportunities ?? [];
-  } catch {
-    /* first run — nothing to protect */
-  }
-  const previousCount = previousRoles.length;
   const MIN_RETAINED_SHARE = 0.5;
   if (previousCount > 0 && all.length < previousCount * MIN_RETAINED_SHARE) {
     console.error(
