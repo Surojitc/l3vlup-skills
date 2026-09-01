@@ -1,0 +1,6 @@
+# Danger surfaces on a public repo whose workflows receive FIRECRAWL_API_KEY:
+# anything here changes what scheduled Actions execute. PRs touching these
+# paths need Suro's review before merge — enable branch protection on main
+# with "Require review from Code Owners" to enforce mechanically.
+/.github/   @Surojitc
+/scripts/   @Surojitc
