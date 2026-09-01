@@ -39,6 +39,8 @@ const VERTICALS = [
       { source: 'PR Newswire', url: 'https://www.prnewswire.com/rss/financial-services-latest-news/acquisitions-mergers-and-takeovers-list.rss' },
       { source: 'GlobeNewswire', url: 'https://www.globenewswire.com/RssFeed/subjectcode/12-Mergers%20And%20Acquisitions/feedTitle/GlobeNewswire%20-%20Mergers%20and%20Acquisitions' },
       { source: 'FT', url: 'https://www.ft.com/mergers-acquisitions?format=rss', include: null },
+      { source: 'WSJ', url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml' },
+      { source: 'Bloomberg', url: 'https://feeds.bloomberg.com/markets/news.rss' },
     ],
   },
   {
@@ -48,6 +50,7 @@ const VERTICALS = [
     feeds: [
       { source: 'PR Newswire', url: 'https://www.prnewswire.com/rss/financial-services-latest-news/financing-agreements-list.rss' },
       { source: 'GlobeNewswire', url: 'https://www.globenewswire.com/RssFeed/subjectcode/65-Initial%20Public%20Offerings/feedTitle/GlobeNewswire%20-%20Initial%20Public%20Offerings' },
+      { source: 'WSJ', url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml' },
     ],
   },
   {
@@ -80,6 +83,8 @@ const VERTICALS = [
     feeds: [
       { source: 'FT', url: 'https://www.ft.com/hedge-funds?format=rss', include: null },
       { source: 'Hedgeweek', url: 'https://www.hedgeweek.com/feed/', include: null },
+      { source: 'WSJ', url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml' },
+      { source: 'Bloomberg', url: 'https://feeds.bloomberg.com/markets/news.rss' },
     ],
   },
 ];
