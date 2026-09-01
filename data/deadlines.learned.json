@@ -1046,6 +1046,24 @@
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
     },
+    "workday-ing-REQ-10120571": {
+      "closingDate": "2026-09-08",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-01",
+      "lastConfirmed": "2026-09-01"
+    },
+    "workday-ing-REQ-10120673-2": {
+      "closingDate": "2026-11-30",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-01",
+      "lastConfirmed": "2026-09-01"
+    },
+    "workday-ing-REQ-10120783-1": {
+      "closingDate": "2026-12-31",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-01",
+      "lastConfirmed": "2026-09-01"
+    },
     "workday-investpsp-R4933": {
       "closingDate": "2026-09-01",
       "source": "workday-detail",
@@ -3036,6 +3054,10 @@
       "checkedAt": "2026-09-01",
       "attempts": 1
     },
+    "oracle-jpmc-fa-oraclecloud-com-210774212|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
     "oracle-jpmc-fa-oraclecloud-com-210774216|jsonld": {
       "checkedAt": "2026-09-01",
       "attempts": 1
@@ -3148,7 +3170,15 @@
       "checkedAt": "2026-09-01",
       "attempts": 1
     },
+    "oracle-jpmc-fa-oraclecloud-com-210775278|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
     "oracle-jpmc-fa-oraclecloud-com-210775295|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210775302|jsonld": {
       "checkedAt": "2026-09-01",
       "attempts": 1
     },
@@ -3273,6 +3303,10 @@
       "attempts": 1
     },
     "oracle-jpmc-fa-oraclecloud-com-210780517|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210780537|jsonld": {
       "checkedAt": "2026-09-01",
       "attempts": 1
     },
@@ -3544,12 +3578,100 @@
       "checkedAt": "2026-08-31",
       "attempts": 1
     },
+    "workday-barclays-JR-0000123989|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000123989|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124027-1|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124027-1|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124063-1|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124063-1|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124204|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124204|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
     "workday-barclays-JR-0000124213-1|jsonld": {
       "checkedAt": "2026-08-31",
       "attempts": 1
     },
     "workday-barclays-JR-0000124213-1|workday-detail": {
       "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124215|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124215|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124230|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124230|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124243|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124243|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124255-1|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124255-1|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124397|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124397|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124400-1|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124400-1|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124421|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124421|workday-detail": {
+      "checkedAt": "2026-09-01",
       "attempts": 1
     },
     "workday-barclays-JR-0000124444|jsonld": {
@@ -3574,6 +3696,102 @@
     },
     "workday-barclays-JR-0000124472-1|workday-detail": {
       "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124502|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124502|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124627|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124627|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124634|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124634|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124637|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124637|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124681|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124681|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124686|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124686|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124706|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124706|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124708|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124708|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124856|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124856|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124931|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124931|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124958|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124958|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000125015|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000125015|workday-detail": {
+      "checkedAt": "2026-09-01",
       "attempts": 1
     },
     "workday-blackstone-40628|jsonld": {
@@ -4462,6 +4680,14 @@
     },
     "workday-ing-REQ-10117806|workday-detail": {
       "checkedAt": "2026-08-31",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10118129|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10118129|workday-detail": {
+      "checkedAt": "2026-09-01",
       "attempts": 1
     },
     "workday-ing-REQ-10118508|jsonld": {
@@ -5413,6 +5639,22 @@
       "attempts": 1
     },
     "workday-nvidia-JR2024557|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2024681|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2024681|workday-detail": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2024822|jsonld": {
+      "checkedAt": "2026-09-01",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2024822|workday-detail": {
       "checkedAt": "2026-09-01",
       "attempts": 1
     },
