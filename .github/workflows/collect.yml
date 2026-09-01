@@ -43,6 +43,15 @@ jobs:
         continue-on-error: true
         run: node scripts/sync-deals.mjs
 
+      # Cross-vertical newsflow for the site's news map (M&A, capital raises,
+      # PE, VC, hedge funds). Same wires-and-RSS approach as the deal tape;
+      # each feed is independently fault-tolerant. On the FIRST run, read this
+      # step's log for FAILED lines — three of the feeds could not be probed
+      # from the dev environment and this log is where a dead URL shows up.
+      - name: Newsflow map
+        continue-on-error: true
+        run: node scripts/sync-newsflow.mjs
+
       # Diffs public graduate careers pages against the last snapshot. Both the
       # target list and the output are public web data, which is what makes this
       # safe to run — and to publish the results of — on a public repository.
