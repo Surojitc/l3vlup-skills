@@ -159,15 +159,55 @@ export function inferProgrammeAndLevel(title) {
   return { programmeType: 'Graduate Programme', level: 'Graduate' };
 }
 
-function inferRegion(location) {
+/**
+ * Locations that reached none of the patterns below and fell through to the
+ * default. Reported at the end of a run: the fallback is a guess, and a guess
+ * nobody counts is a guess nobody fixes.
+ */
+export const unmatchedLocations = new Map();
+
+const REGION_PATTERNS = [
+  ['Remote', /\bremote\b|work from home|virtual/],
+  [
+    'UK',
+    /london|united kingdom|\buk\b|\bu\.k\b|england|scotland|wales|northern ireland|edinburgh|manchester|glasgow|birmingham|bristol|leeds|cardiff|belfast|sheffield|liverpool|nottingham|newcastle|oxford|cambridge, uk|reading, uk|milton keynes|canary wharf/,
+  ],
+  [
+    'Europe',
+    /\beurope\b|\bemea\b|dublin|ireland|amsterdam|netherlands|rotterdam|paris|france|berlin|münchen|munich|frankfurt|hamburg|germany|madrid|barcelona|spain|zurich|geneva|basel|switzerland|stockholm|sweden|milan|rome|italy|lisbon|porto|portugal|warsaw|krakow|poland|copenhagen|denmark|aarhus|helsinki|finland|oslo|norway|vienna|austria|brussels|bruxelles|belgium|prague|czech|budapest|hungary|bucharest|romania|sofia|bulgaria|athens|greece|luxembourg|malta|zagreb|croatia|vilnius|lithuania|riga|latvia|tallinn|estonia|bratislava|slovakia|ljubljana|slovenia|reykjavik|iceland/,
+  ],
+  [
+    'Asia',
+    /\basia\b|\bapac\b|singapore|hong kong|tokyo|osaka|japan|bangalore|bengaluru|mumbai|hyderabad|pune|chennai|gurgaon|gurugram|noida|delhi|india|shanghai|beijing|shenzhen|china|taiwan|taipei|hsinchu|seoul|korea|sydney|melbourne|brisbane|perth|australia|auckland|new zealand|kuala lumpur|malaysia|jakarta|indonesia|bangkok|thailand|manila|philippines|hanoi|ho chi minh|vietnam/,
+  ],
+  ['Middle East', /dubai|abu dhabi|riyadh|qatar|doha|\buae\b|saudi|bahrain|kuwait|oman|tel aviv|israel|amman|jordan/],
+  [
+    'US',
+    /united states|\busa\b|\bu\.s\b|\bus\b|america|canada|toronto|vancouver|montreal|calgary|ottawa|mexico|brazil|sao paulo|argentina|chile|colombia|new york|\bnyc\b|chicago|boston|san francisco|bay area|seattle|austin|dallas|houston|atlanta|denver|miami|philadelphia|phoenix|charlotte|jersey city|washington|los angeles|san diego|san jose|portland|minneapolis|detroit|salt lake|columbus|nashville|raleigh|pittsburgh|tampa|orlando|st\. louis|kansas city|cincinnati|cleveland|milwaukee|sacramento|las vegas|hartford|wilmington|richmond|baltimore|california|texas|florida|virginia|illinois|arizona|georgia|colorado|oregon|utah|massachusetts|new jersey|pennsylvania|north carolina|ohio|michigan|minnesota|tennessee|missouri|wisconsin|indiana|maryland|connecticut|delaware/,
+  ],
+  // "Greenwich, CT" and "Malvern, PA" are unambiguous with the comma in front,
+  // where a bare two-letter code would match "in", "or" and "me" in ordinary
+  // prose. This runs last so a European or Asian city never reaches it.
+  [
+    'US',
+    /,\s*(?:al|ak|az|ar|ca|co|ct|dc|de|fl|ga|hi|ia|id|il|in|ks|ky|la|ma|md|me|mi|mn|mo|ms|mt|nc|nd|ne|nh|nj|nm|nv|ny|oh|ok|or|pa|ri|sc|sd|tn|tx|ut|va|vt|wa|wi|wv|wy)\b/,
+  ],
+];
+
+export function inferRegion(location) {
   const l = (location || '').toLowerCase();
-  if (/remote/.test(l)) return 'Remote';
-  if (/london|united kingdom|\buk\b|england|scotland|edinburgh|manchester|glasgow/.test(l)) return 'UK';
-  if (/dublin|ireland|amsterdam|netherlands|paris|france|berlin|münchen|munich|germany|madrid|barcelona|spain|zurich|switzerland|stockholm|sweden|milan|italy|lisbon|portugal|warsaw|poland/.test(l))
-    return 'Europe';
-  if (/singapore|hong kong|tokyo|japan|bangalore|bengaluru|india|shanghai|beijing|china|seoul|korea|sydney|australia/.test(l))
-    return 'Asia';
-  if (/dubai|abu dhabi|riyadh|qatar|doha|\buae\b|saudi|bahrain/.test(l)) return 'Middle East';
+  for (const [region, pattern] of REGION_PATTERNS) {
+    if (pattern.test(l)) return region;
+  }
+  // The taxonomy has no "unknown", and a row has to go somewhere for the page
+  // to render. It goes to US because that is where most of the board is, and
+  // the location is recorded so the guess is visible rather than silent.
+  //
+  // It was not visible before: 293 of 577 US rows carried a location saying
+  // nothing US-like. Bristol, Denmark, Taiwan, Finland and Hungary were all
+  // being published as US, which put UK roles on the US hub and vice versa.
+  const key = (location || '').trim() || '(blank)';
+  unmatchedLocations.set(key, (unmatchedLocations.get(key) ?? 0) + 1);
   return 'US';
 }
 
@@ -997,6 +1037,19 @@ async function main() {
     console.log(`\nunclassified: ${other.length}/${all.length} roles (${share}%) fell back to 'Other'`);
     for (const o of other.slice(0, 12)) console.log(`  ${o.firm} — ${o.role.slice(0, 70)}`);
     if (other.length > 12) console.log(`  …and ${other.length - 12} more`);
+  }
+
+  // Same reasoning as the unclassified block above. A location the patterns do
+  // not recognise is still published, as US, because the taxonomy has nowhere
+  // else to put it — so the guess has to be counted or it stays invisible. It
+  // did stay invisible: 293 of 577 US rows carried a location saying nothing
+  // US-like, which put Bristol on the US hub and Taipei alongside it.
+  if (unmatchedLocations.size) {
+    const rows = [...unmatchedLocations.values()].reduce((a, b) => a + b, 0);
+    console.log(`\nunplaced: ${rows} role(s) across ${unmatchedLocations.size} location strings defaulted to US`);
+    for (const [loc, n] of [...unmatchedLocations.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10)) {
+      console.log(`  ${String(n).padStart(3)}  ${loc}`);
+    }
   }
 
   const withDates = all.filter((o) => o.closingDate).length;

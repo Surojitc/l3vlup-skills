@@ -21,6 +21,7 @@
     "test:oracle": "node scripts/__tests__/oracle-paginate.test.mjs",
     "test:talnet": "node scripts/__tests__/talnet.test.mjs",
     "test:feeds": "node scripts/__tests__/eightfold-janestreet.test.mjs",
-    "test:retention": "node scripts/__tests__/role-retention.test.mjs"
+    "test:retention": "node scripts/__tests__/role-retention.test.mjs",
+    "test:region": "node scripts/__tests__/infer-region.test.mjs"
   }
 }
