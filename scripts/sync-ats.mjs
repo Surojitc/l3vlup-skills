@@ -166,34 +166,54 @@ export function inferProgrammeAndLevel(title) {
  */
 export const unmatchedLocations = new Map();
 
+// Order matters, and two things decide it.
+//
+// Unambiguous country and city names run first, so "Munich, DE" is Europe
+// before anything looks at DE as a US state code. Then the comma-anchored US
+// state codes, so "Birmingham, AL" and "Manchester, NH" are US before the bare
+// UK city names below can claim them — those names exist in both countries and
+// a state code is the stronger signal. The bare UK names run after, so a
+// "Birmingham" with nothing else attached still resolves to the larger city.
+//
+// The word boundaries are not decoration. Without them `india` matches
+// Indianapolis, `wales` matches New South Wales, and `oman` matches Romania.
+// All three shipped in the first version of this and are covered by tests.
 const REGION_PATTERNS = [
   ['Remote', /\bremote\b|work from home|virtual/],
-  [
-    'UK',
-    /london|united kingdom|\buk\b|\bu\.k\b|england|scotland|wales|northern ireland|edinburgh|manchester|glasgow|birmingham|bristol|leeds|cardiff|belfast|sheffield|liverpool|nottingham|newcastle|oxford|cambridge, uk|reading, uk|milton keynes|canary wharf/,
-  ],
   [
     'Europe',
     /\beurope\b|\bemea\b|dublin|ireland|amsterdam|netherlands|rotterdam|paris|france|berlin|münchen|munich|frankfurt|hamburg|germany|madrid|barcelona|spain|zurich|geneva|basel|switzerland|stockholm|sweden|milan|rome|italy|lisbon|porto|portugal|warsaw|krakow|poland|copenhagen|denmark|aarhus|helsinki|finland|oslo|norway|vienna|austria|brussels|bruxelles|belgium|prague|czech|budapest|hungary|bucharest|romania|sofia|bulgaria|athens|greece|luxembourg|malta|zagreb|croatia|vilnius|lithuania|riga|latvia|tallinn|estonia|bratislava|slovakia|ljubljana|slovenia|reykjavik|iceland/,
   ],
   [
     'Asia',
-    /\basia\b|\bapac\b|singapore|hong kong|tokyo|osaka|japan|bangalore|bengaluru|mumbai|hyderabad|pune|chennai|gurgaon|gurugram|noida|delhi|india|shanghai|beijing|shenzhen|china|taiwan|taipei|hsinchu|seoul|korea|sydney|melbourne|brisbane|perth|australia|auckland|new zealand|kuala lumpur|malaysia|jakarta|indonesia|bangkok|thailand|manila|philippines|hanoi|ho chi minh|vietnam/,
+    /\basia\b|\bapac\b|singapore|hong kong|tokyo|osaka|japan|bangalore|bengaluru|mumbai|hyderabad|pune|chennai|gurgaon|gurugram|noida|\bdelhi\b|\bindia\b|shanghai|beijing|shenzhen|\bchina\b|taiwan|taipei|hsinchu|seoul|korea|sydney|melbourne|brisbane|perth|australia|auckland|new zealand|kuala lumpur|malaysia|jakarta|indonesia|bangkok|thailand|manila|philippines|hanoi|ho chi minh|vietnam/,
   ],
-  ['Middle East', /dubai|abu dhabi|riyadh|qatar|doha|\buae\b|saudi|bahrain|kuwait|oman|tel aviv|israel|amman|jordan/],
   [
-    'US',
-    /united states|\busa\b|\bu\.s\b|\bus\b|america|canada|toronto|vancouver|montreal|calgary|ottawa|mexico|brazil|sao paulo|argentina|chile|colombia|new york|\bnyc\b|chicago|boston|san francisco|bay area|seattle|austin|dallas|houston|atlanta|denver|miami|philadelphia|phoenix|charlotte|jersey city|washington|los angeles|san diego|san jose|portland|minneapolis|detroit|salt lake|columbus|nashville|raleigh|pittsburgh|tampa|orlando|st\. louis|kansas city|cincinnati|cleveland|milwaukee|sacramento|las vegas|hartford|wilmington|richmond|baltimore|california|texas|florida|virginia|illinois|arizona|georgia|colorado|oregon|utah|massachusetts|new jersey|pennsylvania|north carolina|ohio|michigan|minnesota|tennessee|missouri|wisconsin|indiana|maryland|connecticut|delaware/,
+    'Middle East',
+    /dubai|abu dhabi|riyadh|qatar|doha|\buae\b|saudi|bahrain|kuwait|\boman\b|tel aviv|israel|amman|jordan/,
   ],
-  // "Greenwich, CT" and "Malvern, PA" are unambiguous with the comma in front,
-  // where a bare two-letter code would match "in", "or" and "me" in ordinary
-  // prose. This runs last so a European or Asian city never reaches it.
+  [
+    'UK',
+    /london|united kingdom|\buk\b|\bu\.k\b|england|scotland|(?<!new south )\bwales\b|northern ireland|edinburgh|glasgow|cardiff|belfast|canary wharf|milton keynes/,
+  ],
+  // A two-letter code after a comma is a strong US signal and beats the bare
+  // city names below. A bare code would read "in" out of "Bengaluru, India"
+  // and "ma" out of "MA - Casablanca, Morocco", which is why it needs the comma.
   [
     'US',
     /,\s*(?:al|ak|az|ar|ca|co|ct|dc|de|fl|ga|hi|ia|id|il|in|ks|ky|la|ma|md|me|mi|mn|mo|ms|mt|nc|nd|ne|nh|nj|nm|nv|ny|oh|ok|or|pa|ri|sc|sd|tn|tx|ut|va|vt|wa|wi|wv|wy)\b/,
   ],
+  // UK cities that also name a US city. Reached only when no state code said
+  // otherwise, in which case the larger city is the better guess.
+  [
+    'UK',
+    /birmingham|manchester|bristol|leeds|sheffield|liverpool|nottingham|newcastle|oxford|cambridge|reading/,
+  ],
+  [
+    'US',
+    /united states|\busa\b|\bu\.s\b|\bus\b|america|canada|toronto|vancouver|montreal|calgary|ottawa|mexico|brazil|sao paulo|argentina|chile|colombia|new york|\bnyc\b|chicago|boston|san francisco|bay area|seattle|austin|dallas|houston|atlanta|denver|miami|philadelphia|phoenix|charlotte|jersey city|washington|los angeles|san diego|san jose|portland|minneapolis|detroit|salt lake|columbus|nashville|raleigh|pittsburgh|tampa|orlando|st\. louis|kansas city|cincinnati|cleveland|milwaukee|sacramento|las vegas|hartford|wilmington|richmond|baltimore|california|texas|florida|virginia|illinois|arizona|georgia|colorado|oregon|utah|massachusetts|new jersey|pennsylvania|north carolina|ohio|michigan|minnesota|tennessee|missouri|wisconsin|indiana|maryland|connecticut|delaware/,
+  ],
 ];
-
 export function inferRegion(location) {
   const l = (location || '').toLowerCase();
   for (const [region, pattern] of REGION_PATTERNS) {

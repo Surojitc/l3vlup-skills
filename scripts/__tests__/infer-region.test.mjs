@@ -41,6 +41,29 @@ eq('a bare state code in prose does not match', inferRegion('MA - Casablanca, Mo
 eq('Bengaluru is Asia, not US via "in"', inferRegion('Bengaluru, India'), 'Asia');
 eq('Ontario is not matched as "on"', inferRegion('Toronto'), 'US');
 
+// --- substring collisions, all of which shipped in the first version ---
+
+// `india` matched Indianapolis, `wales` matched New South Wales, and `oman`
+// matched Romania. Each was found by reading the diff rather than by a failing
+// test, which is why they are pinned here.
+eq('Indianapolis is not India', inferRegion('Indianapolis, IN'), 'US');
+eq('nor is Indiana', inferRegion('Bloomington, Indiana'), 'US');
+eq('New South Wales is not Wales', inferRegion('Sydney, New South Wales'), 'Asia');
+eq('and neither is the state on its own', inferRegion('New South Wales, Australia'), 'Asia');
+eq('Romania is not Oman', inferRegion('Bucharest, Romania'), 'Europe');
+eq('Oman still is', inferRegion('Oman'), 'Middle East');
+
+// --- cities that exist in both countries ---
+
+// A state code is the stronger signal, so it is tested before the bare UK
+// names. With nothing attached, the larger city wins.
+eq('Birmingham with a state code is US', inferRegion('Birmingham, AL'), 'US');
+eq('Birmingham on its own is UK', inferRegion('Birmingham'), 'UK');
+eq('Manchester with a state code is US', inferRegion('Manchester, NH'), 'US');
+eq('Cambridge with a state code is US', inferRegion('Cambridge, MA'), 'US');
+// A European city must never reach the state-code rule: DE is Delaware.
+eq('Munich is Europe, not Delaware', inferRegion('Munich, DE'), 'Europe');
+
 // --- the default is a guess, and it has to be counted ---
 {
   unmatchedLocations.clear();
