@@ -38,6 +38,42 @@ vert('Compliance Graduate Programme', 'Compliance & Legal');
 vert('Finance Analyst', 'Finance & Accounting');
 vert('Technology Analyst', 'Software Engineering');
 
+// --- AI, split out of the single 'Data & ML' bucket -----------------------
+// Three careers were sharing one vertical. These fix the boundary between them,
+// and the finance cases below fix the boundary that the research rule could
+// most easily have broken.
+vert('Research Engineer Intern (Fall 2026)', 'AI Research');
+vert('PhD GenAI Research Scientist Intern', 'AI Research');
+vert('Applied Scientist Intern', 'AI Research');
+vert('ML Research Intern', 'AI Research');
+vert('Graduate Machine Learning Researcher - London', 'AI Research');
+vert('AI Residency Program', 'AI Engineering');
+
+vert('Machine Learning Engineer, New Grad', 'AI Engineering');
+vert('Software Engineer, Early Career (AI)', 'AI Engineering');
+vert('NVIDIA 2027 Internships: Deep Learning', 'AI Engineering');
+vert('LLM Infrastructure Intern', 'AI Engineering');
+vert('Computer Vision Intern 2027', 'AI Engineering');
+
+// A title that calls itself data work stays data work, even with an AI token
+// in it. The alternative empties the data vertical for no gain.
+vert('Data Science Intern (Winter 2027)', 'Data & ML');
+vert('Campus Data Engineer (Intern)', 'Data & ML');
+vert('Data Analytics Intern, Winter 2027', 'Data & ML');
+vert('Data Scientist, Machine Learning (New Grad)', 'Data & ML');
+
+// The regressions the research rule could most easily cause. "Research" means
+// something entirely different in finance, and a wider rule would have moved
+// every equity research and hedge fund role into AI overnight.
+vert('Equity Research Summer Analyst', 'Equity Research');
+vert('Research Analyst, Healthcare', 'Equity Research');
+vert('Quantitative Research Analyst', 'Quant');
+// A known gap, asserted so it is visible rather than forgotten: the equity
+// research rule matches "equity research" and "research analyst", so this title
+// has always fallen through to Other. Left alone here because widening that
+// rule is a separate change with its own regression surface.
+vert('Investment Research Intern', 'Other');
+
 // --- the fallback ---------------------------------------------------------
 vert('Summer Analyst Programme 2027', 'Other');
 vert('Early Careers Opportunity', 'Other');
@@ -54,7 +90,9 @@ vert('Functions - Quantitative Risk Management, Summer Analyst', 'Quant');
 vert('Research Analyst Summer Internship Programme 2027', 'Equity Research');
 vert('Intern - M&A/Financial Restructuring - Sao Paulo', 'Investment Banking');
 vert('2027 Technology Developer Summer Internship Programme', 'Software Engineering');
-vert('Machine Learning Engineer Intern', 'Data & ML');
+// Moved from 'Data & ML' when AI was split out: this is an engineer, not a
+// data role, and it now routes to the AI engineering preparation.
+vert('Machine Learning Engineer Intern', 'AI Engineering');
 
 // --- overloaded words resolve to the specific reading --------------------
 // Each of these is only correct because of rule ORDER. They are the cases that
@@ -77,7 +115,9 @@ vert('ASIC Physical Design Intern - 2027', 'Software Engineering');
 vert('NVIDIA 2027 Internships: Hardware Verification', 'Software Engineering');
 vert('System Design Validation Intern - 2027', 'Software Engineering');
 vert('Account Development Representative Intern - Atlanta', 'FinTech Sales');
-vert('Applied Research Intern, NLP - Fall 2026', 'Data & ML');
+// Also moved: applied research on NLP is research, and reading it as a data
+// role was the conflation this split exists to end.
+vert('Applied Research Intern, NLP - Fall 2026', 'AI Research');
 // Still correctly Other: no function is named at all.
 vert('Internship, Kuala Lumpur, Malaysia - APAC, 2026', 'Other');
 vert('Internship Program, Americas, 2027 - Mexico City', 'Other');
