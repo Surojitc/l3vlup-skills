@@ -8,6 +8,7 @@
     "deals": "node scripts/sync-deals.mjs",
     "macro": "node scripts/sync-macro.mjs",
     "profile": "python3 skills/company-profile/build.py",
+    "precedents": "node scripts/sync-precedents.mjs",
     "comps": "python3 skills/comps-set-builder/build.py",
     "test": "python3 tests/run_offline.py",
     "ats": "node scripts/sync-ats.mjs",

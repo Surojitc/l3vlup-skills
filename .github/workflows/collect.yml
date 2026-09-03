@@ -69,6 +69,17 @@ jobs:
           FULL_HISTORY: ${{ inputs.full_history && '1' || '0' }}
         run: node scripts/sync-macro.mjs
 
+      # Weekly only. Schedule 13E-3 filings arrive a handful a week, and the
+      # collector is incremental: after the first run it reads one quarterly
+      # index and four requests per genuinely new filing. The private repo
+      # keeps a copy of the output as its fallback.
+      - name: Precedent transactions
+        if: github.event.schedule != '0 6 * * *'
+        continue-on-error: true
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: node scripts/sync-precedents.mjs
+
       - name: Commit
         run: |
           git config user.name "l3vlup-bot"
