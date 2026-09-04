@@ -84,16 +84,57 @@ export function isEarlyCareer(title) {
 // "Quantitative Risk Management" is Quant, plain "Credit Risk" is Risk;
 // "Technology Investment Banking" is banking, plain "Technology Analyst" is
 // engineering.
+/**
+ * The signals that make a role an AI role rather than a data or software one.
+ * Defined once because two rules below read it and a drift between them would
+ * put research and engineering roles in different buckets on the same evidence.
+ */
+const AI_TOKEN =
+  /machine learning|deep learning|reinforcement learning|\bml\b|\bai\b|\bai\/ml\b|\bllm\b|\bnlp\b|gen(erative )?ai|computer vision|applied research/;
+
 export function inferVertical(title) {
   const t = String(title || '').toLowerCase();
 
   if (/\b(quant|quantitative)\b/.test(t)) return 'Quant';
-  if (
-    /machine learning|deep learning|\bml\b|\bai\b|data scien(ce|tist)|data engineer|research (engineer|scientist)|applied scientist|research residency|\bdata analytics\b|applied research|\bnlp\b|\bllm\b|computer vision/.test(t)
-  )
-    return 'Data & ML';
 
-  if (/equity research|research analyst/.test(t)) return 'Equity Research';
+  // AI was one bucket called 'Data & ML' carrying three different careers. On a
+  // 993-row sweep it held 78 roles: 35 research, 29 applied AI engineering and
+  // 14 genuine data roles, filtered together and all routed to the same
+  // preparation. Someone looking for research work read past dozens of data
+  // engineering rows to find it, and the tracker offered no way to say so.
+  //
+  // Research first, because a research engineer is a more specific reading than
+  // an AI engineer, and the rule is deliberately narrow: it needs an
+  // AI-industry job title ("research engineer", "applied scientist") or an
+  // AI token sitting beside the word research. A bare "Research Analyst" must
+  // keep falling through to Equity Research below, which is what it means in
+  // finance and what a wider rule would have quietly broken.
+  if (
+    /applied scientist|research (engineer|scientist)|research residency|research associate, (ai|ml)/.test(t) ||
+    (AI_TOKEN.test(t) && /\bresearch(er)?\b/.test(t))
+  )
+    return 'AI Research';
+
+  // Data before applied AI, so a title that calls itself data work stays data
+  // work. "Data Scientist, Machine Learning" is a data scientist; "Machine
+  // Learning Engineer" is not.
+  if (/data scien(ce|tist)|data engineer|\bdata analytics\b|\bdata analyst\b/.test(t)) return 'Data & ML';
+
+  if (AI_TOKEN.test(t)) return 'AI Engineering';
+
+  // "Investment Research" is the sell-side equity research division, not a
+  // hedge fund seat: Goldman's equity research arm is literally called Global
+  // Investment Research, and asset managers use the same name for the same
+  // function. Without this an "Investment Research Intern" fell through every
+  // rule and landed in Other.
+  //
+  // Buy-side research is not swallowed by this: a fund seat that names the fund
+  // ("Hedge Fund Investment Analyst") is caught by the hedge fund rule above.
+  // A bare "Investment Analyst" still lands in Other, which is a real remaining
+  // gap and deliberately left alone here — the title is genuinely ambiguous
+  // across funds, corporates and asset managers, and guessing it into one of
+  // them would be worse than leaving it visible in the Other report.
+  if (/equity research|research analyst|investment research/.test(t)) return 'Equity Research';
   if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
   if (/venture capital|\bvc\b\s|growth equity/.test(t)) return 'Venture Capital';
   if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';
@@ -252,6 +293,10 @@ const PREP_SLUG = {
   // is a proxy, not a path: the loops differ substantially, and docs/content-gaps.md
   // carries this as the second-largest content gap on the site.
   'Data & ML': 'software-engineering-interview-prep',
+  // These two do have tracks of their own, written for these loops rather than
+  // borrowed from a neighbouring one.
+  'AI Engineering': 'ai-engineer-interview-prep',
+  'AI Research': 'ml-research-interview-prep',
 };
 
 function prepSlugFor(vertical) {
