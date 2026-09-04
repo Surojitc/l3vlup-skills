@@ -122,7 +122,14 @@ export function inferVertical(title) {
 
   if (AI_TOKEN.test(t)) return 'AI Engineering';
 
-  if (/equity research|research analyst/.test(t)) return 'Equity Research';
+  // "Investment Research" is the sell-side equity research division, not a
+  // hedge fund seat: Goldman's equity research arm is literally called Global
+  // Investment Research, and asset managers use the same name for the same
+  // function. Buy-side research at a fund advertises as "Investment Analyst" or
+  // "Research Analyst" and is caught by the hedge fund rule above, or by the
+  // "research analyst" branch here. Without this an "Investment Research
+  // Intern" fell through every rule and landed in Other.
+  if (/equity research|research analyst|investment research/.test(t)) return 'Equity Research';
   if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
   if (/venture capital|\bvc\b\s|growth equity/.test(t)) return 'Venture Capital';
   if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';

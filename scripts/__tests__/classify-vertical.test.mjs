@@ -68,11 +68,16 @@ vert('Data Scientist, Machine Learning (New Grad)', 'Data & ML');
 vert('Equity Research Summer Analyst', 'Equity Research');
 vert('Research Analyst, Healthcare', 'Equity Research');
 vert('Quantitative Research Analyst', 'Quant');
-// A known gap, asserted so it is visible rather than forgotten: the equity
-// research rule matches "equity research" and "research analyst", so this title
-// has always fallen through to Other. Left alone here because widening that
-// rule is a separate change with its own regression surface.
-vert('Investment Research Intern', 'Other');
+// Sell-side equity research, not a hedge fund seat. Goldman's equity research
+// division is called Global Investment Research and asset managers use the name
+// for the same function, so the title belongs here rather than in Other, where
+// it used to land.
+vert('Investment Research Intern', 'Equity Research');
+vert('Global Investment Research Summer Analyst', 'Equity Research');
+// Buy-side research keeps its own homes, so widening the rule has not swallowed
+// the funds.
+vert('Hedge Fund Investment Analyst', 'Hedge Fund');
+vert('Quantitative Research Analyst', 'Quant');
 
 // --- the fallback ---------------------------------------------------------
 vert('Summer Analyst Programme 2027', 'Other');
