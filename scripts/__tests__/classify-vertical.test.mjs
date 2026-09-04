@@ -77,6 +77,10 @@ vert('Global Investment Research Summer Analyst', 'Equity Research');
 // Buy-side research keeps its own homes, so widening the rule has not swallowed
 // the funds.
 vert('Hedge Fund Investment Analyst', 'Hedge Fund');
+// The remaining gap, asserted so it stays visible: a bare "Investment Analyst"
+// is genuinely ambiguous across funds, corporates and asset managers, so it is
+// left in Other rather than guessed into one of them.
+vert('Investment Analyst Intern', 'Other');
 vert('Quantitative Research Analyst', 'Quant');
 
 // --- the fallback ---------------------------------------------------------
