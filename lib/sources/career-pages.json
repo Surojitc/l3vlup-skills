@@ -1,16 +1,9 @@
 {
-  "_comment": "Firms NOT on a public ATS JSON board. The career-change detector (scripts/detect-career-changes.mjs) fetches each url, extracts early-career postings, and diffs against the last snapshot — exactly how a deadline tracker detects new openings. JS-heavy SPA career pages need a rendered fetch: set FIRECRAWL_API_KEY to enable it. tier must match TIER_ORDER in the tracker UI.",
+  "_comment": "Firms NOT on a public ATS JSON board. The career-change detector (scripts/detect-career-changes.mjs) fetches each url, extracts early-career postings, and diffs against the last snapshot - exactly how a deadline tracker detects new openings. JS-heavy SPA career pages need a rendered fetch: set FIRECRAWL_API_KEY to enable it. tier must match TIER_ORDER in the tracker UI. Before adding a firm, check lib/sources/ats-registry.json: a firm whose board is reachable there is already collated with real ids, locations and deadlines, and a second pass over its marketing page adds nav links rather than roles while spending a Firecrawl credit. This registry is for firms with no reachable board, including the ones parked in the ATS registry.",
   "pages": [
     {
       "firm": "Goldman Sachs",
       "url": "https://www.goldmansachs.com/careers/students/programs",
-      "region": "US",
-      "tier": "Bulge Bracket",
-      "rendered": true
-    },
-    {
-      "firm": "Morgan Stanley",
-      "url": "https://www.morganstanley.com/people/careers/careers-early.html",
       "region": "US",
       "tier": "Bulge Bracket",
       "rendered": true
