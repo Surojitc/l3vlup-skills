@@ -24,12 +24,14 @@ no account. If it is useful to you, take it.
 | [`data/macro.auto.json`](data/macro.auto.json) | 11 series: US Treasury 10Y and 2Y, the 2s10s curve, CPI and unemployment; Eurozone HICP, ECB deposit rate and 10Y AAA yield; UK CPI, Bank Rate and 10Y gilt | Weekly |
 | [`data/calendar.auto.json`](data/calendar.auto.json) | Upcoming economic releases and central-bank rate decisions for the US, Eurozone and UK, with times and market-mover flags | Daily |
 | [`data/deals.auto.json`](data/deals.auto.json) | Announced M&A and private-equity deals, with transaction values where the release discloses one | Daily |
+| [`data/decks.auto.json`](data/decks.auto.json) | Every Schedule 13E-3 take-private since 2020: target, sector, buyer, adviser, stated transaction value, and a link to each banker board presentation filed as an exhibit on sec.gov | Weekly |
 
 Rendered with charts, commentary and an interactive yield-curve model:
 **[Macro Chartbook](https://www.l3vlup.com/macro)** ·
 **[Economic Calendar](https://www.l3vlup.com/macro/calendar)** ·
 **[Curve Lab](https://www.l3vlup.com/macro/curve-lab)** ·
-**[Deal Pulse](https://www.l3vlup.com/pulse)**
+**[Deal Pulse](https://www.l3vlup.com/pulse)** ·
+**[Banker board books](https://www.l3vlup.com/intel/deal-decks)**
 
 ---
 
@@ -128,6 +130,40 @@ Every file carries a `generatedAt` ISO timestamp at the top level.
 }
 ```
 </details>
+<details>
+<summary><code>decks.auto.json</code></summary>
+
+```jsonc
+{
+  "generatedAt": "2026-09-06T21:35:00.000Z",
+  "since": 2020,
+  "indexedThrough": "2026Q3",
+  "counts": { "transactions": 277, "withDecks": 182, "decks": 1186, "valued": 228, "filings": 1280 },
+  "transactions": [
+    {
+      "id": "0001193125-20-245290",        // accession of the initial schedule
+      "announced": "2020-09-14",
+      "year": 2020,
+      "quarter": "2020Q3",
+      "target": { "name": "AKCEA THERAPEUTICS, INC.", "cik": "0001662524", "sic": "2834", "sicDescription": "PHARMACEUTICAL PREPARATIONS", "state": "DE" },
+      "sector": "Healthcare",             // from the SEC industry code
+      "buyers": ["IONIS PHARMACEUTICALS INC", "AVALANCHE MERGER SUB, INC."],
+      "buyerType": "Strategic",           // heuristic on the filing persons' names
+      "advisers": ["Goldman Sachs", "Stifel"],
+      "transactionValue": 536,            // USD millions, as stated in the filing-fee table
+      "valueSource": "cover page",        // or "EX-FILING FEES"
+      "capSize": "Small",                 // Micro < $250m · Small · Mid · Large · Mega > $20bn · Undisclosed
+      "analyses": ["dcf", "precedents", "trading-comps"],   // detected in the readable exhibits
+      "rating": "A",                      // A–D teaching-value grade, null when no deck was filed
+      "filings": [{ "form": "SC 13E3", "filed": "2020-09-14", "accession": "…", "filingUrl": "https://www.sec.gov/…" }],
+      "decks": [{ "id": "…", "exhibit": "EX-99.CII", "url": "https://www.sec.gov/…", "bytes": 27934, "isPdf": false, "advisers": ["Goldman Sachs"], "analyses": ["…"], "filed": "2020-09-14" }],
+      "hasDecks": true
+    }
+  ],
+  "filings": [ /* one row per filing, the raw material the transactions are built from */ ]
+}
+```
+</details>
 
 ---
 
@@ -141,6 +177,7 @@ aggregator, no reseller, and no scraped paywall anywhere in the chain.
 | Macro | [US Treasury](https://home.treasury.gov/resource-center/data-chart-center/interest-rates) daily yield curve · [BLS](https://www.bls.gov/) CPI and unemployment · [ECB Data Portal](https://data.ecb.europa.eu/) · [ONS](https://www.ons.gov.uk/) · [Bank of England](https://www.bankofengland.co.uk/boeapps/database/) |
 | Calendar | BLS release schedule (ICS) · [BEA](https://www.bea.gov/news/schedule) · [Federal Reserve FOMC calendar](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm) · ECB Governing Council dates · ONS release calendar · Bank of England MPC dates |
 | Deals | PR Newswire and GlobeNewswire M&A wires |
+| Board books | [SEC EDGAR](https://www.sec.gov/) quarterly form index, submission headers, filing-fee tables and the adviser exhibits themselves, read once each |
 
 ```mermaid
 flowchart LR

@@ -80,6 +80,17 @@ jobs:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: node scripts/sync-precedents.mjs
 
+      # Weekly only. Same shape as the precedents step: the first run reads
+      # every quarter since 2020 (about twelve minutes, roughly 4,000 requests
+      # at the SEC's polite rate); after that it reads one quarterly index and
+      # a handful of requests per new filing or amendment.
+      - name: Banker board books
+        if: github.event.schedule != '0 6 * * *'
+        continue-on-error: true
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: node scripts/sync-decks.mjs
+
       - name: Commit
         run: |
           git config user.name "l3vlup-bot"
