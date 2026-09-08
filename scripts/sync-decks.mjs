@@ -24,7 +24,9 @@
 //      of the primary document before that) states the transaction value.
 //   5. The HTML adviser exhibits are read once for the analyses
 //      they contain (DCF, trading comps, precedents, premiums paid, LBO and
-//      so on) and for the adviser's name.
+//      so on), for the adviser's name, and for the title on the first slide:
+//      these decks are slide images with their own text laid underneath in
+//      white, so "EX-99.(C)(4)" can be shown as what the bankers called it.
 //
 // Incremental: filings already on file are kept, closed quarters are not
 // re-read, and a steady-state run is one index read plus a handful of requests
@@ -47,6 +49,7 @@ import {
   classifyExhibit,
   detectAdvisers,
   detectAnalyses,
+  extractCoverTitle,
   parseHeader,
   parseTransactionValue,
   rate,
@@ -71,8 +74,15 @@ const FORMS = new Set(['SC 13E3', 'SC 13E3/A']);
 const MIN_DECK_BYTES = 10_000;
 /** The largest exhibit read for its contents. Bigger ones are image-heavy. */
 const MAX_SCAN_BYTES = 3_000_000;
-/** How many HTML adviser exhibits are read per filing. */
+/**
+ * How many HTML adviser exhibits are read for their analyses, largest first.
+ * The cover title is read from every readable exhibit, since the page lists
+ * every one of them and the exhibit is fetched either way.
+ */
 const SCAN_PER_FILING = 8;
+
+/** What a deck carries when its first page gave up nothing certain. */
+const NO_COVER = { coverTitle: null, projectName: null, documentKind: null, preparedFor: null, coverDate: null };
 
 // ── Fetch helpers ───────────────────────────────────────────────────────────
 
@@ -221,15 +231,19 @@ async function resolve(f) {
 
   if (decks.length > 0) {
     // Read the readable decks for what they contain. The fairness
-    // opinion presentation is usually the largest and the most complete.
+    // opinion presentation is usually the largest and the most complete, so
+    // the analyses are counted from the biggest ones; the cover title is
+    // taken from all of them, because a reader picking between eight
+    // exhibits needs to know which is which.
     const readable = decks
       .filter((d) => !d.isPdf && d.bytes <= MAX_SCAN_BYTES)
-      .sort((a, b) => b.bytes - a.bytes)
-      .slice(0, SCAN_PER_FILING);
+      .sort((a, b) => b.bytes - a.bytes);
     const found = new Set();
-    for (const d of readable) {
+    for (const [i, d] of readable.entries()) {
       const html = await sec(`${base}/${d.file}`, { asText: true, allow404: true });
       if (!html) continue;
+      d.cover = extractCoverTitle(html, { filedOn: f.filed });
+      if (i >= SCAN_PER_FILING) continue;
       scanned += 1;
       const text = stripHtml(html);
       for (const k of detectAnalyses(text)) analyses[k] = true;
@@ -269,8 +283,50 @@ async function resolve(f) {
       isPdf: d.isPdf,
       advisers: d.advisers ?? [],
       analyses: d.analyses ?? [],
+      ...(d.cover ?? NO_COVER),
     })),
   };
+}
+
+// ── Cover titles on filings already indexed ─────────────────────────────────
+
+/**
+ * Read the first slide of every exhibit on file that has not been read for
+ * one yet.
+ *
+ * The title arrived after the index did. Re-resolving each filing to pick it
+ * up would re-read the submission headers, the fee tables and the file sizes,
+ * none of which have changed, so this reads the exhibits themselves and
+ * nothing else. An exhibit that yields no title is written as an explicit
+ * null, which is what keeps the next run from asking again: the pass is
+ * finished when every deck carries the field, whatever its value.
+ */
+async function backfillCovers(rows) {
+  const wanted = [];
+  for (const row of rows) {
+    for (const d of row.decks ?? []) {
+      if ('coverTitle' in d) continue;
+      // Nothing to read: a scanned PDF has no text layer at all, and an
+      // exhibit past the size limit is an image the collector never opens.
+      if (d.isPdf || d.bytes > MAX_SCAN_BYTES) Object.assign(d, NO_COVER);
+      else wanted.push({ deck: d, filed: row.filed });
+    }
+  }
+  if (wanted.length === 0) return;
+
+  console.log(`${wanted.length} exhibits on file have not been read for a cover title.`);
+  let done = 0;
+  await pool(wanted, CONCURRENCY, async ({ deck, filed }) => {
+    let html;
+    try {
+      html = await sec(deck.url, { asText: true, allow404: true });
+    } catch {
+      return; // A bad minute on EDGAR, not a document without a title.
+    }
+    Object.assign(deck, html ? extractCoverTitle(html, { filedOn: filed }) : NO_COVER);
+    done += 1;
+    if (done % 100 === 0) console.log(`  ${done}/${wanted.length} read`);
+  });
 }
 
 // ── Transactions from filings ───────────────────────────────────────────────
@@ -419,6 +475,7 @@ async function main() {
   }
 
   const filings = [...known.values()].sort((a, b) => (a.filed < b.filed ? 1 : -1));
+  await backfillCovers(filings);
   const transactions = groupTransactions(filings).sort((a, b) => (a.announced < b.announced ? 1 : -1));
   const skipList = [...skipped.values()].sort((a, b) => (a.accession < b.accession ? -1 : 1));
   const indexedThrough = quarters.length > 0 ? quarterKey(quarters[quarters.length - 1]) : existing.indexedThrough;
@@ -426,6 +483,7 @@ async function main() {
   const withDecks = transactions.filter((t) => t.hasDecks).length;
   const deckCount = transactions.reduce((n, t) => n + t.decks.length, 0);
   const valued = transactions.filter((t) => t.transactionValue !== null).length;
+  const titled = transactions.reduce((n, t) => n + t.decks.filter((d) => d.coverTitle).length, 0);
 
   writeFileSync(
     OUT,
@@ -440,10 +498,11 @@ async function main() {
           capSize: 'Micro < $250M · Small $250M–1B · Mid $1–5B · Large $5–20B · Mega > $20B, on transaction value',
           rating: 'A–D teaching-value grade from exhibit count, readability, analyses detected and a disclosed value. Not a judgement of the advice.',
           buyerType: 'Heuristic on the filing persons\' names: sponsor, strategic, management or founder, controlling holder.',
+          coverTitle: 'The title on the first slide, rebuilt from the phrases recognised on it. Null where the cover could not be read with confidence.',
           analyses: ANALYSES.map((a) => a.key),
           advisers: ADVISERS.map((a) => a.name),
         },
-        counts: { transactions: transactions.length, withDecks, decks: deckCount, valued, filings: filings.length },
+        counts: { transactions: transactions.length, withDecks, decks: deckCount, valued, titled, filings: filings.length },
         transactions,
         filings,
         skipped: skipList,
@@ -454,7 +513,7 @@ async function main() {
   );
 
   console.log(
-    `Wrote ${transactions.length} transactions (${withDecks} with adviser decks, ${deckCount} decks, ${valued} with a stated value) ` +
+    `Wrote ${transactions.length} transactions (${withDecks} with adviser decks, ${deckCount} decks, ${titled} named from their cover, ${valued} with a stated value) ` +
     `from ${filings.length} filings, ${skipList.length} skipped, in ${requests} requests and ${(bytes / 1e6).toFixed(0)} MB.`,
   );
 
