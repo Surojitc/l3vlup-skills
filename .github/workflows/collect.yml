@@ -150,6 +150,41 @@ jobs:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: python3 scripts/sync_funds.py
 
+      # Monthly, and monthly is the honest rate: who the SEC files under an
+      # industry code changes when a company lists, deregisters or is
+      # reclassified, which is a handful of names a month against roughly
+      # eight thousand listed registrants.
+      #
+      # The comps lab reads data/peers.auto.json for the slow half of its peer
+      # screen, which is industry membership, and keeps every price, market cap
+      # and multiple live. So a file a few weeks old costs a reader a company
+      # that listed since it was built, never a stale multiple, and a file that
+      # is missing or unreadable costs nothing at all: the lab falls back to
+      # asking EDGAR itself, exactly as it did before this existed.
+      #
+      # A full crawl is all 444 SIC codes the SEC publishes, which measured 877
+      # requests: two for the code list and the ticker file, 875 pages of
+      # company search. The collector caches per industry under .cache/peers,
+      # which is not committed, so each scheduled run here re-reads every code
+      # and the file is genuinely refreshed rather than carried forward. The
+      # cache is what makes a local re-run, or a run resumed after a failure,
+      # cheap.
+      #
+      # The timeout is set against the slow case. The seeding run took about an
+      # hour end to end on a link where each SEC request cost roughly four
+      # seconds; a runner talking to EDGAR directly should be several times
+      # quicker. It matters because the file is written once at the end, so a
+      # step killed early writes nothing at all.
+      #
+      # Public SEC endpoints only. No key, no account, no secret.
+      - name: Industry peer lists
+        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        timeout-minutes: 90
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: python3 scripts/sync_peers.py
+
       - name: Commit
         run: |
           git config user.name "l3vlup-bot"
