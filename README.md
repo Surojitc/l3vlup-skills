@@ -15,9 +15,9 @@
 
 ## What this is
 
-Three datasets, collected every day from the agencies and wires that publish them,
-normalised into plain JSON and committed here. No API key, no signup, no rate limit,
-no account. If it is useful to you, take it.
+Five datasets, collected on their own schedule from the agencies and wires that
+publish them, normalised into plain JSON and committed here. No API key, no
+signup, no rate limit, no account. If it is useful to you, take it.
 
 | Dataset | Contents | Updated |
 |---|---|---|
@@ -25,6 +25,7 @@ no account. If it is useful to you, take it.
 | [`data/calendar.auto.json`](data/calendar.auto.json) | Upcoming economic releases and central-bank rate decisions for the US, Eurozone and UK, with times and market-mover flags | Daily |
 | [`data/deals.auto.json`](data/deals.auto.json) | Announced M&A and private-equity deals, with transaction values where the release discloses one | Daily |
 | [`data/decks.auto.json`](data/decks.auto.json) | Every Schedule 13E-3 take-private since 2020: target, sector, buyer, adviser, stated transaction value, and a link to each banker board presentation filed as an exhibit on sec.gov | Weekly |
+| [`data/precedent-transactions.auto.json`](data/precedent-transactions.auto.json) | Take-privates and public-target mergers read out of the filings themselves: the offer per share, the premiums the filing states, the target's last twelve months of revenue, EBITDA and net debt at announcement, and the multiples those imply | Monthly |
 
 Rendered with charts, commentary and an interactive yield-curve model:
 **[Macro Chartbook](https://www.l3vlup.com/macro)** ·
@@ -164,6 +165,49 @@ Every file carries a `generatedAt` ISO timestamp at the top level.
 }
 ```
 </details>
+<details>
+<summary><code>precedent-transactions.auto.json</code></summary>
+
+```jsonc
+{
+  "generatedAt": "2026-09-08T08:57:48Z",
+  "method": { /* one sentence per field saying where it was read from */ },
+  "counts": { "transactions": 4292, "withOffer": 3192, "withMultiples": 1384, "withPremium": 1741, "flagged": 1469, "takePrivates": 792, "publicMergers": 3500 },
+  "transactions": [
+    {
+      "id": "0001140361-26-030551",       // accession of the filing it was read from
+      "source": "DEFM14A",                // DEFM14A · DEFM14C · SC 13E3
+      "dealType": "public merger",        // or "take-private"
+      "target": { "name": "Arcosa, Inc.", "cik": "0001739445", "sic": "3440", "sicDescription": "Fabricated Structural Metal Products", "state": "DE" },
+      "sector": "Industrials",
+      "acquirer": "CRH Americas, Inc.",
+      "announced": "2026-06-21",          // the merger agreement date
+      "announcedBasis": "merger agreement",  // or "filing date", where none is stated
+      "offerPrice": 150.0,                // per-share cash consideration, as stated
+      "consideration": "cash",
+      "premium1Day": 0.104,               // the premiums the filing states, as fractions
+      "premium52WeekHigh": 0.01,
+      "unaffectedPrice": 135.87,          // offerPrice / (1 + premium1Day)
+      "sharesOut": 49.096,                // millions, cover-page count at announcement
+      "ltmRevenue": 2823.1,               // USD millions, to the last period end before the deal
+      "ltmEbitda": 556.1,
+      "netDebt": 1367.9,
+      "equityValue": 7364.4,              // offerPrice x sharesOut
+      "ev": 8732.3,                       // equityValue + netDebt
+      "evLtmRev": 3.09,
+      "evLtmEbitda": 15.7,
+      "status": "ok",                     // or no-offer · no-consideration · rejected · error
+      "flags": [],
+      "documentsRead": ["https://www.sec.gov/…"]
+    }
+  ]
+}
+```
+
+A flagged row failed a cross-check and is kept rather than dropped, so you can see
+what the filing said and decide for yourself. `doubt` says which of its figures the
+flag puts in question, the multiples or the premiums.
+</details>
 
 ---
 
@@ -178,10 +222,11 @@ aggregator, no reseller, and no scraped paywall anywhere in the chain.
 | Calendar | BLS release schedule (ICS) · [BEA](https://www.bea.gov/news/schedule) · [Federal Reserve FOMC calendar](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm) · ECB Governing Council dates · ONS release calendar · Bank of England MPC dates |
 | Deals | PR Newswire and GlobeNewswire M&A wires |
 | Board books | [SEC EDGAR](https://www.sec.gov/) quarterly form index, submission headers, filing-fee tables and the adviser exhibits themselves, read once each |
+| Precedent transactions | [SEC EDGAR](https://www.sec.gov/) Schedule 13E-3 transaction statements, DEFM14A and DEFM14C merger proxies, and the targets' own XBRL company facts |
 
 ```mermaid
 flowchart LR
-  A["Official sources<br/>Treasury · BLS · ECB · ONS · BoE · wires"] --> B["Collectors<br/>Node 20, no dependencies"]
+  A["Official sources<br/>Treasury · BLS · ECB · ONS · BoE · SEC · wires"] --> B["Collectors<br/>Node 20 and Python 3.11, no dependencies"]
   B --> C["Normalise<br/>one shape per dataset"]
   C --> D["Commit JSON<br/>this repo, free Actions minutes"]
   D --> E["l3vlup.com<br/>charts and commentary"]
@@ -200,17 +245,26 @@ previous data intact rather than blanking a chart.
 
 ## Running the collectors
 
-Node 20, zero dependencies, no credentials.
+Node 20 and Python 3.11, zero dependencies, no credentials.
 
 ```bash
 npm run macro       # FULL_HISTORY=1 npm run macro  rebuilds 26 years of Treasury data
 npm run calendar
 npm run deals
+npm run sync:decks
+npm run precedents  # take-privates listed in the board-book index
+npm run mergers     # public mergers, and take-privates filed before 2020
 ```
 
 [`.github/workflows/collect.yml`](.github/workflows/collect.yml) runs the calendar and
-deal tape daily at 06:00 UTC, adds the macro chartbook on Mondays, and commits whatever
+deal tape daily at 06:00 UTC, adds the macro chartbook and the board books on Mondays,
+adds the precedent transactions on the first of each month, and commits whatever
 changed. Each step is independent, so one failing source never stops the others.
+
+The monthly cadence is the pace of the data. A merger proxy is a quarterly-ish event,
+so looking for new ones every morning would spend thousands of SEC requests to find
+nothing. The collector is incremental either way: a deal already on file is never read
+again.
 
 ---
 

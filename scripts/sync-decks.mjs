@@ -26,9 +26,9 @@
 //      they contain (DCF, trading comps, precedents, premiums paid, LBO and
 //      so on) and for the adviser's name.
 //
-// Incremental like sync-precedents.mjs: filings already on file are kept,
-// closed quarters are not re-read, and a steady-state run is one index read
-// plus a handful of requests per new filing. FULL_REBUILD=1 starts over.
+// Incremental: filings already on file are kept, closed quarters are not
+// re-read, and a steady-state run is one index read plus a handful of requests
+// per new filing. FULL_REBUILD=1 starts over.
 //
 //   node scripts/sync-decks.mjs
 //   FULL_REBUILD=1 node scripts/sync-decks.mjs

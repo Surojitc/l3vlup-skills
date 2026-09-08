@@ -8,7 +8,6 @@
     "deals": "node scripts/sync-deals.mjs",
     "macro": "node scripts/sync-macro.mjs",
     "profile": "python3 skills/company-profile/build.py",
-    "precedents": "node scripts/sync-precedents.mjs",
     "comps": "python3 skills/comps-set-builder/build.py",
     "test": "python3 tests/run_offline.py",
     "ats": "node scripts/sync-ats.mjs",
@@ -25,6 +24,8 @@
     "test:retention": "node scripts/__tests__/role-retention.test.mjs",
     "test:region": "node scripts/__tests__/infer-region.test.mjs",
     "test:decks": "node scripts/__tests__/decks.test.mjs",
-    "sync:decks": "node scripts/sync-decks.mjs"
+    "sync:decks": "node scripts/sync-decks.mjs",
+    "precedents": "python3 scripts/sync_precedent_transactions.py precedents",
+    "mergers": "python3 scripts/sync_precedent_transactions.py mergers"
   }
 }
