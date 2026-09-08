@@ -17,6 +17,14 @@ on:
   schedule:
     - cron: '0 6 * * *' # daily: calendar and deal tape
     - cron: '0 7 * * 1' # Mondays: the above plus the macro chartbook
+    # First of the month: the above plus the precedent transactions database.
+    # Monthly because that is how fast the underlying data moves. A merger
+    # proxy is a quarterly-ish event, not a daily one, so reading for new ones
+    # every morning would spend thousands of SEC requests to find nothing. The
+    # first run of that collector against an empty database is several hours
+    # and thousands of requests; every run after it reads one quarterly index
+    # and a handful of requests per genuinely new filing, which is minutes.
+    - cron: '0 8 1 * *'
   workflow_dispatch:
     inputs:
       full_history:
@@ -34,6 +42,11 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 20
+      # For the monthly precedent transactions collector, which is Python and
+      # standard library only. Pinned to the version build-samples.yml uses.
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
 
       - name: Economic calendar
         continue-on-error: true
@@ -69,27 +82,73 @@ jobs:
           FULL_HISTORY: ${{ inputs.full_history && '1' || '0' }}
         run: node scripts/sync-macro.mjs
 
-      # Weekly only. Schedule 13E-3 filings arrive a handful a week, and the
-      # collector is incremental: after the first run it reads one quarterly
-      # index and four requests per genuinely new filing. The private repo
-      # keeps a copy of the output as its fallback.
-      - name: Precedent transactions
-        if: github.event.schedule != '0 6 * * *'
-        continue-on-error: true
-        env:
-          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
-        run: node scripts/sync-precedents.mjs
-
-      # Weekly only. Same shape as the precedents step: the first run reads
-      # every quarter since 2020 (about twelve minutes, roughly 4,000 requests
-      # at the SEC's polite rate); after that it reads one quarterly index and
-      # a handful of requests per new filing or amendment.
+      # Weekly, and it stays weekly. Adviser board books arrive a handful a
+      # week, so a monthly pass would leave a new deck sitting unread for up to
+      # a month; this is not part of the monthly block below and should not be
+      # tidied into it. The first run reads every quarter since 2020 (about
+      # twelve minutes, roughly 4,000 requests at the SEC's polite rate); after
+      # that it reads one quarterly index and a handful of requests per new
+      # filing or amendment.
       - name: Banker board books
         if: github.event.schedule != '0 6 * * *'
         continue-on-error: true
         env:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: node scripts/sync-decks.mjs
+
+      # ── monthly: the precedent transactions database ──────────────────────
+      #
+      # Both steps write data/precedent-transactions.auto.json, which the site
+      # reads for its precedent, premiums-paid and football-field pages. Each
+      # refreshes only the rows it wrote, so they can run in either order; they
+      # run after the board books above because the take-private step reads the
+      # index that step has just refreshed.
+      #
+      # Every source is a public SEC endpoint. No key, no account, no secret,
+      # which is what makes this safe on a public repository at all.
+      #
+      # The step timeout is deliberate: a first run against an empty database
+      # is hours, and the collector writes what it has read every ten rows, so
+      # stopping the step short still leaves the run able to commit its
+      # progress. Being killed by the job timeout instead would throw it away.
+      #
+      # Both the database and the quarterly form index are committed already,
+      # seeded from a local run, so the first scheduled run here is incremental
+      # from the start. Without the index cache it would re-download 67
+      # quarterly indexes, about a gigabyte, before finding nothing new.
+      - name: Precedent transactions (take-privates)
+        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        timeout-minutes: 60
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: python3 scripts/sync_precedent_transactions.py precedents
+
+      - name: Precedent transactions (public mergers)
+        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        timeout-minutes: 180
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: python3 scripts/sync_precedent_transactions.py mergers
+
+      # Monthly with the transactions database, and for the same reason: a 13F
+      # is quarterly, filed forty-five days after the quarter end, so the four
+      # dates that matter are the middles of February, May, August and
+      # November. Reading on the first of every month catches each of those
+      # within a fortnight and spends nothing the rest of the year.
+      #
+      # The universe is a curated list of about ninety-five managers in
+      # data/funds.universe.json, editable without touching code. The whole
+      # 13F population is nearer nine thousand filers and is mostly index
+      # sleeves, which is why --universe all exists and is not the default.
+      - name: Hedge fund holdings
+        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        timeout-minutes: 90
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: python3 scripts/sync_funds.py
 
       - name: Commit
         run: |

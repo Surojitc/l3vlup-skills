@@ -1,0 +1,714 @@
+{
+  "_comment": [
+    "The managers a candidate is actually asked about. Edit this file, not sync_funds.py.",
+    "",
+    "'search' is the query put to EDGAR's own company search (browse-edgar, filtered to",
+    "form 13F-HR). 'match' pins the answer when that search returns more than one filer,",
+    "and holds EDGAR's conformed name exactly as EDGAR spells it. 'cik' is filled in by",
+    "`python3 scripts/sync_funds.py --resolve`; it is never typed by hand, so every number",
+    "here traces back to a search anyone can repeat.",
+    "",
+    "'name' is what the site shows and 'strategy' is the bucket it shows it under.",
+    "",
+    "Index managers are deliberately absent. BlackRock, Vanguard and State Street are the",
+    "three largest 13F filers by a wide margin and tell a candidate nothing: they hold",
+    "everything, in proportion to the index, because that is the mandate."
+  ],
+  "strategies": [
+    "Multistrategy",
+    "Quant / systematic",
+    "Long/short equity",
+    "Value / activist",
+    "Macro",
+    "Long-only"
+  ],
+  "managers": [
+    {
+      "name": "Citadel Advisors LLC",
+      "strategy": "Multistrategy",
+      "search": "citadel advisors",
+      "match": "CITADEL ADVISORS LLC",
+      "cik": "0001423053",
+      "edgarName": "CITADEL ADVISORS LLC"
+    },
+    {
+      "name": "Millennium Management LLC",
+      "strategy": "Multistrategy",
+      "search": "millennium management",
+      "cik": "0001273087",
+      "edgarName": "MILLENNIUM MANAGEMENT LLC"
+    },
+    {
+      "name": "Point72 Asset Management LP",
+      "strategy": "Multistrategy",
+      "search": "point72 asset management",
+      "match": "Point72 Asset Management, L.P.",
+      "cik": "0001603466",
+      "edgarName": "Point72 Asset Management, L.P."
+    },
+    {
+      "name": "Balyasny Asset Management LLC",
+      "strategy": "Multistrategy",
+      "search": "balyasny",
+      "cik": "0001218710",
+      "edgarName": "BALYASNY ASSET MANAGEMENT LLC"
+    },
+    {
+      "name": "ExodusPoint Capital Management LP",
+      "strategy": "Multistrategy",
+      "search": "exoduspoint",
+      "cik": "0001736225",
+      "edgarName": "ExodusPoint Capital Management, LP"
+    },
+    {
+      "name": "Schonfeld Strategic Advisors LLC",
+      "strategy": "Multistrategy",
+      "search": "schonfeld strategic",
+      "cik": "0001665241",
+      "edgarName": "Schonfeld Strategic Advisors LLC"
+    },
+    {
+      "name": "Hudson Bay Capital Management LP",
+      "strategy": "Multistrategy",
+      "search": "hudson bay capital",
+      "cik": "0001393825",
+      "edgarName": "Hudson Bay Capital Management LP"
+    },
+    {
+      "name": "Verition Fund Management LLC",
+      "strategy": "Multistrategy",
+      "search": "verition",
+      "cik": "0001454027",
+      "edgarName": "Verition Fund Management LLC"
+    },
+    {
+      "name": "Walleye Capital LLC",
+      "strategy": "Multistrategy",
+      "search": "walleye capital",
+      "cik": "0001758720",
+      "edgarName": "Walleye Capital LLC"
+    },
+    {
+      "name": "Eisler Capital Management Ltd",
+      "strategy": "Multistrategy",
+      "search": "eisler",
+      "cik": "0002055810",
+      "edgarName": "Eisler Capital Management Ltd.",
+      "match": "Eisler Capital Management Ltd."
+    },
+    {
+      "name": "Squarepoint Ops LLC",
+      "strategy": "Multistrategy",
+      "search": "squarepoint",
+      "cik": "0001642575",
+      "edgarName": "Squarepoint Ops LLC"
+    },
+    {
+      "name": "Freestone Grove Partners LP",
+      "strategy": "Multistrategy",
+      "search": "freestone grove",
+      "cik": "0002007591",
+      "edgarName": "Freestone Grove Partners LP"
+    },
+    {
+      "name": "Renaissance Technologies LLC",
+      "strategy": "Quant / systematic",
+      "search": "renaissance technologies",
+      "cik": "0001037389",
+      "edgarName": "RENAISSANCE TECHNOLOGIES LLC"
+    },
+    {
+      "name": "Two Sigma Investments LP",
+      "strategy": "Quant / systematic",
+      "search": "two sigma",
+      "match": "TWO SIGMA INVESTMENTS, LP",
+      "cik": "0001179392",
+      "edgarName": "TWO SIGMA INVESTMENTS, LP"
+    },
+    {
+      "name": "Two Sigma Advisers LP",
+      "strategy": "Quant / systematic",
+      "search": "two sigma",
+      "match": "TWO SIGMA ADVISERS, LP",
+      "cik": "0001478735",
+      "edgarName": "TWO SIGMA ADVISERS, LP"
+    },
+    {
+      "name": "D. E. Shaw & Co.",
+      "strategy": "Quant / systematic",
+      "search": "shaw d e",
+      "match": "D. E. Shaw & Co., Inc.",
+      "cik": "0001009207",
+      "edgarName": "D. E. Shaw & Co., Inc."
+    },
+    {
+      "name": "AQR Capital Management LLC",
+      "strategy": "Quant / systematic",
+      "search": "aqr capital",
+      "cik": "0001167557",
+      "edgarName": "AQR CAPITAL MANAGEMENT LLC"
+    },
+    {
+      "name": "Man Group PLC",
+      "strategy": "Quant / systematic",
+      "search": "man group",
+      "cik": "0001637460",
+      "edgarName": "Man Group plc"
+    },
+    {
+      "name": "Acadian Asset Management LLC",
+      "strategy": "Quant / systematic",
+      "search": "acadian asset",
+      "cik": "0000916542",
+      "edgarName": "ACADIAN ASSET MANAGEMENT LLC"
+    },
+    {
+      "name": "PDT Partners LLC",
+      "strategy": "Quant / systematic",
+      "search": "pdt partners",
+      "cik": "0001564702",
+      "edgarName": "PDT Partners, LLC"
+    },
+    {
+      "name": "Voloridge Investment Management LLC",
+      "strategy": "Quant / systematic",
+      "search": "voloridge",
+      "cik": "0001556921",
+      "edgarName": "VOLORIDGE INVESTMENT MANAGEMENT, LLC"
+    },
+    {
+      "name": "Winton Group Ltd",
+      "strategy": "Quant / systematic",
+      "search": "winton",
+      "cik": "0001612063",
+      "edgarName": "WINTON GROUP Ltd"
+    },
+    {
+      "name": "Jane Street Group LLC",
+      "strategy": "Quant / systematic",
+      "search": "jane street",
+      "cik": "0001595888",
+      "edgarName": "JANE STREET GROUP, LLC"
+    },
+    {
+      "name": "Susquehanna International Group LLP",
+      "strategy": "Quant / systematic",
+      "search": "susquehanna international",
+      "cik": "0001446194",
+      "edgarName": "SUSQUEHANNA INTERNATIONAL GROUP, LLP"
+    },
+    {
+      "name": "Quantbot Technologies LP",
+      "strategy": "Quant / systematic",
+      "search": "quantbot technologies",
+      "cik": "0001512991",
+      "edgarName": "Quantbot Technologies LP"
+    },
+    {
+      "name": "Marshall Wace LLP",
+      "strategy": "Quant / systematic",
+      "search": "marshall wace",
+      "cik": "0001318757",
+      "edgarName": "MARSHALL WACE, LLP"
+    },
+    {
+      "name": "Arrowstreet Capital LP",
+      "strategy": "Quant / systematic",
+      "search": "arrowstreet",
+      "cik": "0001164508",
+      "edgarName": "ARROWSTREET CAPITAL, LIMITED PARTNERSHIP"
+    },
+    {
+      "name": "Tiger Global Management LLC",
+      "strategy": "Long/short equity",
+      "search": "tiger global",
+      "cik": "0001167483",
+      "edgarName": "TIGER GLOBAL MANAGEMENT LLC"
+    },
+    {
+      "name": "Coatue Management LLC",
+      "strategy": "Long/short equity",
+      "search": "coatue",
+      "cik": "0001135730",
+      "edgarName": "COATUE MANAGEMENT LLC"
+    },
+    {
+      "name": "Lone Pine Capital LLC",
+      "strategy": "Long/short equity",
+      "search": "lone pine capital",
+      "cik": "0001061165",
+      "edgarName": "LONE PINE CAPITAL LLC"
+    },
+    {
+      "name": "Viking Global Investors LP",
+      "strategy": "Long/short equity",
+      "search": "viking global",
+      "cik": "0001103804",
+      "edgarName": "VIKING GLOBAL INVESTORS LP"
+    },
+    {
+      "name": "Maverick Capital Ltd",
+      "strategy": "Long/short equity",
+      "search": "maverick capital",
+      "cik": "0000934639",
+      "edgarName": "MAVERICK CAPITAL LTD"
+    },
+    {
+      "name": "Whale Rock Capital Management LLC",
+      "strategy": "Long/short equity",
+      "search": "whale rock",
+      "cik": "0001387322",
+      "edgarName": "Whale Rock Capital Management LLC"
+    },
+    {
+      "name": "D1 Capital Partners LP",
+      "strategy": "Long/short equity",
+      "search": "d1 capital",
+      "cik": "0001747057",
+      "edgarName": "D1 Capital Partners L.P."
+    },
+    {
+      "name": "Durable Capital Partners LP",
+      "strategy": "Long/short equity",
+      "search": "durable capital",
+      "cik": "0001798849",
+      "edgarName": "Durable Capital Partners LP"
+    },
+    {
+      "name": "Light Street Capital Management LLC",
+      "strategy": "Long/short equity",
+      "search": "light street",
+      "cik": "0001569049",
+      "edgarName": "LIGHT STREET CAPITAL MANAGEMENT, LLC"
+    },
+    {
+      "name": "Altimeter Capital Management LP",
+      "strategy": "Long/short equity",
+      "search": "altimeter capital",
+      "cik": "0001541617",
+      "edgarName": "Altimeter Capital Management, LP"
+    },
+    {
+      "name": "Dragoneer Investment Group LLC",
+      "strategy": "Long/short equity",
+      "search": "dragoneer",
+      "cik": "0001602189",
+      "edgarName": "Dragoneer Investment Group, LLC"
+    },
+    {
+      "name": "Egerton Capital UK LLP",
+      "strategy": "Long/short equity",
+      "search": "egerton capital",
+      "cik": "0001581811",
+      "edgarName": "Egerton Capital (UK) LLP"
+    },
+    {
+      "name": "TCI Fund Management Ltd",
+      "strategy": "Long/short equity",
+      "search": "tci fund",
+      "cik": "0001647251",
+      "edgarName": "TCI Fund Management Ltd"
+    },
+    {
+      "name": "Farallon Capital Management LLC",
+      "strategy": "Long/short equity",
+      "search": "farallon capital",
+      "cik": "0000909661",
+      "edgarName": "FARALLON CAPITAL MANAGEMENT, L.L.C."
+    },
+    {
+      "name": "Soroban Capital Partners LP",
+      "strategy": "Long/short equity",
+      "search": "soroban capital",
+      "cik": "0001517857",
+      "edgarName": "Soroban Capital Partners LP"
+    },
+    {
+      "name": "Glenview Capital Management LLC",
+      "strategy": "Long/short equity",
+      "search": "glenview capital",
+      "cik": "0001138995",
+      "edgarName": "GLENVIEW CAPITAL MANAGEMENT, LLC"
+    },
+    {
+      "name": "Davidson Kempner Capital Management LP",
+      "strategy": "Long/short equity",
+      "search": "davidson kempner",
+      "cik": "0001595082",
+      "edgarName": "DAVIDSON KEMPNER CAPITAL MANAGEMENT LP"
+    },
+    {
+      "name": "Tybourne Capital Management HK Ltd",
+      "strategy": "Long/short equity",
+      "search": "tybourne",
+      "cik": "0001553936",
+      "edgarName": "TYBOURNE CAPITAL MANAGEMENT (HK) LTD"
+    },
+    {
+      "name": "Steadfast Capital Management LP",
+      "strategy": "Long/short equity",
+      "search": "steadfast capital management",
+      "cik": "0001214822",
+      "edgarName": "STEADFAST CAPITAL MANAGEMENT LP"
+    },
+    {
+      "name": "Woodline Partners LP",
+      "strategy": "Long/short equity",
+      "search": "woodline partners",
+      "cik": "0001784547",
+      "edgarName": "Woodline Partners LP"
+    },
+    {
+      "name": "Holocene Advisors LP",
+      "strategy": "Long/short equity",
+      "search": "holocene advisors",
+      "cik": "0001700574",
+      "edgarName": "Holocene Advisors, LP"
+    },
+    {
+      "name": "Pershing Square Capital Management LP",
+      "strategy": "Value / activist",
+      "search": "pershing square",
+      "match": "Pershing Square Capital Management, L.P.",
+      "cik": "0001336528",
+      "edgarName": "Pershing Square Capital Management, L.P."
+    },
+    {
+      "name": "Third Point LLC",
+      "strategy": "Value / activist",
+      "search": "third point",
+      "match": "Third Point LLC",
+      "cik": "0001040273",
+      "edgarName": "Third Point LLC"
+    },
+    {
+      "name": "Elliott Investment Management LP",
+      "strategy": "Value / activist",
+      "search": "elliott investment management",
+      "cik": "0001791786",
+      "edgarName": "Elliott Investment Management L.P."
+    },
+    {
+      "name": "Trian Fund Management LP",
+      "strategy": "Value / activist",
+      "search": "trian",
+      "match": "TRIAN FUND MANAGEMENT, L.P.",
+      "cik": "0001345471",
+      "edgarName": "TRIAN FUND MANAGEMENT, L.P."
+    },
+    {
+      "name": "Starboard Value LP",
+      "strategy": "Value / activist",
+      "search": "starboard value",
+      "match": "Starboard Value LP",
+      "cik": "0001517137",
+      "edgarName": "Starboard Value LP"
+    },
+    {
+      "name": "ValueAct Holdings LP",
+      "strategy": "Value / activist",
+      "search": "valueact",
+      "match": "ValueAct Holdings, L.P.",
+      "cik": "0001418814",
+      "edgarName": "ValueAct Holdings, L.P."
+    },
+    {
+      "name": "Baupost Group LLC",
+      "strategy": "Value / activist",
+      "search": "baupost",
+      "match": "BAUPOST GROUP LLC/MA",
+      "cik": "0001061768",
+      "edgarName": "BAUPOST GROUP LLC/MA"
+    },
+    {
+      "name": "Greenlight Capital",
+      "strategy": "Value / activist",
+      "search": "dme capital",
+      "match": "DME Capital Management, LP",
+      "cik": "0001489933",
+      "edgarName": "DME Capital Management, LP"
+    },
+    {
+      "name": "Appaloosa LP",
+      "strategy": "Value / activist",
+      "search": "appaloosa",
+      "cik": "0001656456",
+      "edgarName": "Appaloosa LP"
+    },
+    {
+      "name": "Scion Asset Management LLC",
+      "strategy": "Value / activist",
+      "search": "scion asset",
+      "cik": "0001649339",
+      "edgarName": "Scion Asset Management, LLC"
+    },
+    {
+      "name": "Jana Partners",
+      "strategy": "Value / activist",
+      "search": "jana",
+      "cik": "0001998597",
+      "edgarName": "JANA Partners Management, LP",
+      "match": "JANA Partners Management, LP"
+    },
+    {
+      "name": "Sachem Head Capital Management LP",
+      "strategy": "Value / activist",
+      "search": "sachem head",
+      "cik": "0001582090",
+      "edgarName": "Sachem Head Capital Management LP"
+    },
+    {
+      "name": "Engaged Capital LLC",
+      "strategy": "Value / activist",
+      "search": "engaged capital",
+      "cik": "0001559771",
+      "edgarName": "Engaged Capital LLC"
+    },
+    {
+      "name": "Carl C. Icahn",
+      "strategy": "Value / activist",
+      "search": "icahn",
+      "match": "ICAHN CARL C",
+      "cik": "0000921669",
+      "edgarName": "ICAHN CARL C"
+    },
+    {
+      "name": "Oaktree Capital Management LP",
+      "strategy": "Value / activist",
+      "search": "oaktree capital management",
+      "cik": "0000949509",
+      "edgarName": "OAKTREE CAPITAL MANAGEMENT LP"
+    },
+    {
+      "name": "GAMCO Investors Inc",
+      "strategy": "Value / activist",
+      "search": "gamco",
+      "cik": "0000807249",
+      "edgarName": "GAMCO INVESTORS, INC. ET AL"
+    },
+    {
+      "name": "Dodge & Cox",
+      "strategy": "Value / activist",
+      "search": "dodge & cox",
+      "cik": "0000200217",
+      "edgarName": "DODGE &amp; COX"
+    },
+    {
+      "name": "Ruane Cunniff & Goldfarb LP",
+      "strategy": "Value / activist",
+      "search": "ruane",
+      "match": "Ruane, Cunniff & Goldfarb L.P.",
+      "cik": "0001720792",
+      "edgarName": "Ruane, Cunniff & Goldfarb L.P."
+    },
+    {
+      "name": "Southeastern Asset Management Inc",
+      "strategy": "Value / activist",
+      "search": "southeastern asset",
+      "cik": "0000807985",
+      "edgarName": "SOUTHEASTERN ASSET MANAGEMENT INC/TN/"
+    },
+    {
+      "name": "First Eagle Investment Management LLC",
+      "strategy": "Value / activist",
+      "search": "first eagle",
+      "cik": "0001325447",
+      "edgarName": "First Eagle Investment Management, LLC"
+    },
+    {
+      "name": "Harris Associates LP",
+      "strategy": "Value / activist",
+      "search": "harris associates",
+      "cik": "0000813917",
+      "edgarName": "HARRIS ASSOCIATES L P"
+    },
+    {
+      "name": "Markel Group Inc",
+      "strategy": "Value / activist",
+      "search": "markel",
+      "match": "MARKEL GROUP INC.",
+      "cik": "0001096343",
+      "edgarName": "MARKEL GROUP INC."
+    },
+    {
+      "name": "Bridgewater Associates LP",
+      "strategy": "Macro",
+      "search": "bridgewater associates",
+      "cik": "0001350694",
+      "edgarName": "Bridgewater Associates, LP"
+    },
+    {
+      "name": "Brevan Howard Capital Management LP",
+      "strategy": "Macro",
+      "search": "brevan howard",
+      "cik": "0001512857",
+      "edgarName": "Brevan Howard Capital Management LP"
+    },
+    {
+      "name": "Caxton Associates LLP",
+      "strategy": "Macro",
+      "search": "caxton",
+      "cik": "0002051323",
+      "edgarName": "CAXTON ASSOCIATES LLP",
+      "match": "CAXTON ASSOCIATES LLP"
+    },
+    {
+      "name": "Soros Fund Management LLC",
+      "strategy": "Macro",
+      "search": "soros fund",
+      "cik": "0001029160",
+      "edgarName": "SOROS FUND MANAGEMENT LLC"
+    },
+    {
+      "name": "Tudor Investment Corp",
+      "strategy": "Macro",
+      "search": "tudor investment",
+      "cik": "0000923093",
+      "edgarName": "TUDOR INVESTMENT CORP ET AL"
+    },
+    {
+      "name": "Moore Capital Management LP",
+      "strategy": "Macro",
+      "search": "moore capital",
+      "cik": "0001448574",
+      "edgarName": "MOORE CAPITAL MANAGEMENT, LP"
+    },
+    {
+      "name": "Element Capital Management LLC",
+      "strategy": "Macro",
+      "search": "element capital",
+      "cik": "0001535630",
+      "edgarName": "ELEMENT CAPITAL MANAGEMENT LLC"
+    },
+    {
+      "name": "Discovery Capital Management LLC",
+      "strategy": "Macro",
+      "search": "discovery capital management",
+      "cik": "0001389507",
+      "edgarName": "DISCOVERY CAPITAL MANAGEMENT, LLC / CT"
+    },
+    {
+      "name": "Rokos Capital Management LLP",
+      "strategy": "Macro",
+      "search": "rokos capital",
+      "cik": "0001666335",
+      "edgarName": "Rokos Capital Management LLP"
+    },
+    {
+      "name": "Berkshire Hathaway Inc",
+      "strategy": "Long-only",
+      "search": "berkshire hathaway",
+      "match": "BERKSHIRE HATHAWAY INC",
+      "cik": "0001067983",
+      "edgarName": "BERKSHIRE HATHAWAY INC"
+    },
+    {
+      "name": "Fidelity (FMR LLC)",
+      "strategy": "Long-only",
+      "search": "fmr llc",
+      "cik": "0000315066",
+      "edgarName": "FMR LLC"
+    },
+    {
+      "name": "T. Rowe Price Associates Inc",
+      "strategy": "Long-only",
+      "search": "t rowe price",
+      "cik": "0000080255",
+      "edgarName": "PRICE T ROWE ASSOCIATES INC /MD/"
+    },
+    {
+      "name": "Capital World Investors",
+      "strategy": "Long-only",
+      "search": "capital world investors",
+      "cik": "0001422849",
+      "edgarName": "Capital World Investors"
+    },
+    {
+      "name": "Capital Research Global Investors",
+      "strategy": "Long-only",
+      "search": "capital research global",
+      "cik": "0001422848",
+      "edgarName": "Capital Research Global Investors"
+    },
+    {
+      "name": "Wellington Management Group LLP",
+      "strategy": "Long-only",
+      "search": "wellington management",
+      "cik": "0000902219",
+      "edgarName": "WELLINGTON MANAGEMENT CO LLP"
+    },
+    {
+      "name": "Baillie Gifford & Co",
+      "strategy": "Long-only",
+      "search": "baillie gifford",
+      "match": "BAILLIE GIFFORD & CO",
+      "cik": "0001088875",
+      "edgarName": "BAILLIE GIFFORD & CO"
+    },
+    {
+      "name": "Janus Henderson Group Ltd",
+      "strategy": "Long-only",
+      "search": "janus henderson",
+      "match": "Janus Henderson Group Ltd.",
+      "cik": "0001274173",
+      "edgarName": "Janus Henderson Group Ltd."
+    },
+    {
+      "name": "Invesco Ltd",
+      "strategy": "Long-only",
+      "search": "invesco ltd",
+      "cik": "0000914208",
+      "edgarName": "Invesco Ltd."
+    },
+    {
+      "name": "Neuberger Berman Group LLC",
+      "strategy": "Long-only",
+      "search": "neuberger berman group",
+      "cik": "0001465109",
+      "edgarName": "Neuberger Berman Group LLC"
+    },
+    {
+      "name": "Artisan Partners LP",
+      "strategy": "Long-only",
+      "search": "artisan partners limited partnership",
+      "cik": "0001466153",
+      "edgarName": "Artisan Partners Limited Partnership",
+      "match": "Artisan Partners Limited Partnership"
+    },
+    {
+      "name": "MFS Investment Management",
+      "strategy": "Long-only",
+      "search": "massachusetts financial services co",
+      "cik": "0000912938",
+      "edgarName": "MASSACHUSETTS FINANCIAL SERVICES CO /MA/"
+    },
+    {
+      "name": "AllianceBernstein LP",
+      "strategy": "Long-only",
+      "search": "alliancebernstein",
+      "cik": "0001109448",
+      "edgarName": "ALLIANCEBERNSTEIN L.P."
+    },
+    {
+      "name": "Akre Capital Management LLC",
+      "strategy": "Long-only",
+      "search": "akre capital",
+      "cik": "0001112520",
+      "edgarName": "AKRE CAPITAL MANAGEMENT LLC"
+    },
+    {
+      "name": "Polen Capital Management LLC",
+      "strategy": "Long-only",
+      "search": "polen capital",
+      "cik": "0001034524",
+      "edgarName": "POLEN CAPITAL MANAGEMENT LLC"
+    },
+    {
+      "name": "ARK Investment Management LLC",
+      "strategy": "Long-only",
+      "search": "ark investment management",
+      "cik": "0001697748",
+      "edgarName": "ARK Investment Management LLC"
+    }
+  ]
+}
