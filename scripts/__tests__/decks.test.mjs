@@ -10,6 +10,9 @@ import {
   classifyExhibit,
   detectAdvisers,
   detectAnalyses,
+  extractCoverTitle,
+  findCoverDate,
+  findProjectName,
   parseHeader,
   parseTransactionValue,
   rate,
@@ -161,6 +164,71 @@ test('rating rewards breadth, count, readability and a stated value', () => {
   assert.equal(rate({ decks: 2, readable: 2, analyses: 5, valued: true }).grade, 'B');
   assert.equal(rate({ decks: 2, readable: 2, analyses: 4, valued: false }).grade, 'C');
   assert.equal(rate({ decks: 1, readable: 0, analyses: 0, valued: false }).grade, 'D');
+});
+
+// ── Cover titles ────────────────────────────────────────────────────────────
+
+/** A Donnelley exhibit: slide images with each slide's own text in white under it. */
+const COVER = `<DOCUMENT>
+<TYPE>EX-99.(C)(III)
+<SEQUENCE>3
+<FILENAME>d75849dex99ciii.htm
+<DESCRIPTION>EX-99.(C)(III)
+<TEXT>
+<HTML><HEAD><TITLE>EX-99.(c)(iii)</TITLE></HEAD><BODY>
+<P ALIGN="right"><B>Exhibit (c)(iii) </B></P>
+<P><IMG SRC="g75849page11.jpg" ALT="LOGO"></P>
+<P STYLE="font-size:0.5pt"><FONT COLOR="#FFFFFF">Project ECLIPSEDiscussion Materials for the Board of
+Directors April 2026 Privileged&nbsp;&amp; Confidential / Prepared in Consultation with Counsel Confidential </FONT></P>
+</BODY></HTML>`;
+
+test('the cover title is rebuilt from the phrases on the first slide', () => {
+  const c = extractCoverTitle(COVER, { filedOn: '2026-09-01' });
+  assert.equal(c.coverTitle, 'Project Eclipse: discussion materials for the Board of Directors, April 2026');
+  assert.equal(c.projectName, 'Eclipse');
+  assert.equal(c.documentKind, 'discussion materials');
+  assert.equal(c.preparedFor, 'the Board of Directors');
+  assert.equal(c.coverDate, 'April 2026');
+});
+
+test('confidentiality boilerplate never reaches the name', () => {
+  const c = extractCoverTitle(COVER, { filedOn: '2026-09-01' });
+  assert.ok(!/confidential|privileged|counsel|draft/i.test(c.coverTitle));
+});
+
+test('a cover that says nothing certain yields no name', () => {
+  assert.equal(extractCoverTitle('<TEXT><HTML><BODY><IMG SRC="page1.jpg"></BODY></HTML>').coverTitle, null);
+  // A first page that is only the adviser's disclaimer is not a title.
+  const disclaimer = '<TEXT><p>Jefferies LLC Member SIPC. The information provided in this document, '
+    + 'including valuation discussions, represents the views of Jefferies Investment Banking.</p>';
+  assert.equal(extractCoverTitle(disclaimer).coverTitle, null);
+});
+
+test('a word every deck uses needs a code name or a committee behind it', () => {
+  assert.equal(extractCoverTitle('<TEXT><p>This presentation has been prepared by the adviser.</p>').coverTitle, null);
+  assert.equal(
+    extractCoverTitle('<TEXT><p>Project Tempest Presentation Materials June 2024</p>').coverTitle,
+    'Project Tempest: presentation materials, June 2024',
+  );
+});
+
+test('the code name survives spacing the filing agent lost', () => {
+  assert.equal(findProjectName('Project ECLIPSEDiscussion Materials').name, 'Eclipse');
+  assert.equal(findProjectName('Project Northern Lights Presentation prepared for').name, 'Northern Lights');
+  // A bank's own name is not the second half of a code name.
+  assert.equal(findProjectName('Prepared for Project Stallion WELLS FARGO').name, 'Stallion');
+  assert.equal(findProjectName('Project Discussion Materials'), null);
+  assert.equal(findProjectName('Discussion Materials'), null);
+});
+
+test('the date next to the title beats one left in the template', () => {
+  const cover = 'DRAFT CONFIDENTIAL PREPARED JULY 2022 FOR: Project Northern Lights Presentation '
+    + 'prepared for the Transaction Committee of the Board of Directors August 12, 2024';
+  assert.equal(findCoverDate(cover, { anchor: cover.indexOf('Project') }), '12 August 2024');
+  // Letter-spaced covers only read once the spacing is out.
+  assert.equal(findCoverDate('Di s cuss ion Materia l s Janu a ry 11, 2024'), '11 January 2024');
+  // A date after the filing is a misread, not a meeting.
+  assert.equal(findCoverDate('Discussion Materials March 1, 2027', { filedOn: '2026-09-01' }), null);
 });
 
 console.log(`${passed} passed`);
