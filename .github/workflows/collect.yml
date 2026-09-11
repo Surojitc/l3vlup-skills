@@ -132,6 +132,30 @@ jobs:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: python3 scripts/sync_precedent_transactions.py mergers
 
+      # The CUSIP-to-ticker map the holdings pages are read through, and the
+      # reason it exists: a 13F information table names a security by CUSIP and
+      # by whatever the filer typed in the issuer column, never by ticker, and
+      # an ETF is filed under the trust that issues it. So eleven different
+      # Select Sector funds arrive as eleven identical lines and forty-four per
+      # cent of all holdings resolved to no ticker at all, every dual-class
+      # company and every fund among them.
+      #
+      # The SEC's fails-to-deliver files are the map. Published twice a month
+      # under FOIA, each row carries CUSIP, symbol and description side by side.
+      # The fails themselves are irrelevant here; that pair is the only free
+      # CUSIP-to-ticker link the regulator publishes, and twelve files of it
+      # cover 97.8% of the rows that had nothing.
+      #
+      # Runs before the holdings collector so a quarter that lands this morning
+      # is read against a map refreshed the same morning. Monthly is ample: a
+      # mapping moves when a ticker changes, and a stale map is still a correct
+      # one. Reads sec.gov and nothing else, and needs no secret.
+      - name: CUSIP to ticker map
+        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        timeout-minutes: 20
+        run: node scripts/sync-cusip-tickers.mjs
+
       # Monthly with the transactions database, and for the same reason: a 13F
       # is quarterly, filed forty-five days after the quarter end, so the four
       # dates that matter are the middles of February, May, August and
