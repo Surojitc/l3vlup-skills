@@ -11,6 +11,12 @@ name: Collect and build
 # It doubles as the integration test for the EDGAR client: if a tag list goes
 # stale or EDGAR changes shape, this goes red before anyone downloads a broken
 # workbook.
+#
+# The last step is the one exception to "nothing in it needs a secret": once the
+# tracker has actually been pushed, it asks the site to work out which programme
+# pages changed and tell Bing. See the note above that step for why it is safe
+# here, and for why it is the step immediately after the push rather than a
+# separate scheduled workflow.
 
 on:
   workflow_dispatch:
@@ -27,6 +33,10 @@ on:
         description: 'Comps peers (comma separated)'
         required: false
         default: 'AMD,AVGO,MRVL,INTC'
+      indexnow_force:
+        description: 'Call IndexNow even if the tracker file did not change'
+        required: false
+        default: 'false'
   schedule:
     # Daily for the tracker, which is the one that actually moves day to day.
     - cron: '30 6 * * *'
@@ -151,20 +161,109 @@ jobs:
           fi
 
       - name: Commit samples
+        id: commit
         run: |
           git config user.name  "l3vlup-bot"
           git config user.email "actions@users.noreply.github.com"
           git add samples/ data/ || true
           if git diff --cached --quiet; then
             echo "no sample changes"
+            echo "tracker=false" >> "$GITHUB_OUTPUT"
             exit 0
+          fi
+          # Whether the board itself moved, as distinct from a workbook rebuild.
+          # Only data/opportunities.auto.json changes what a /tracker/[slug] page
+          # renders, so only it is worth telling an engine about.
+          if git diff --cached --quiet -- data/opportunities.auto.json; then
+            tracker=false
+          else
+            tracker=true
           fi
           git commit -m "chore(data): daily collection [skip ci]"
           for i in 1 2 3 4 5; do
-            git push && exit 0
+            if git push; then
+              # Set only after the push has actually landed. The site reads the
+              # published file, so a commit sitting on the runner is not data
+              # anything downstream can see.
+              echo "tracker=$tracker" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
             echo "push failed, rebasing (attempt $i)"
             git pull --rebase origin main || true
             sleep $((2 ** i))
           done
           echo "::error::could not push samples"
           exit 1
+
+      # Ask the site to work out what changed on the board and tell Bing.
+      #
+      # WHY IT IS THE STEP AFTER THE PUSH
+      # ---------------------------------
+      # This job is the only thing that knows the board moved, and the site's
+      # detector is a change detector: it diffs the published set against the
+      # snapshot it recorded last time and posts only the difference. Calling it
+      # the moment the data is published is the whole point, and the detector
+      # reads the feed with `cache: 'no-store'` precisely so that it sees this
+      # push rather than whatever the site's hourly data cache was holding. The
+      # response reports the feed's own generatedAt, so a pass that read a stale
+      # copy would be visible rather than silent.
+      #
+      # It is gated on the step output above rather than on the detector
+      # no-op'ing by itself. Both are correct, because an empty delta submits
+      # nothing; the output gate also spares an authenticated request, a
+      # database read and a serverless invocation on a morning the board did not
+      # move, and a skipped step says so plainly in the log.
+      #
+      # The site's own Vercel cron at 09:00 UTC is the independent fallback for
+      # a morning this job fails, is cancelled, or cannot reach the site. It is
+      # hours clear of this step on purpose: the two are not meant to overlap,
+      # and the detector's compare-and-set write absorbs it if they ever do.
+      #
+      # WHY IT IS SAFE IN A PUBLIC REPOSITORY
+      # -------------------------------------
+      # `CRON_SECRET` is a repository secret and secrets are never available to
+      # a fork. This workflow has no `pull_request` trigger and deliberately no
+      # `pull_request_target`, so there is no path by which a pull request, from
+      # a fork or otherwise, can run it or read the secret. It runs on a
+      # schedule and by hand, both of which need write access here.
+      #
+      # The secret is never echoed, never interpolated into a command line, and
+      # never written to a file that survives the step. curl reads it from a
+      # config file in the runner's temporary directory, so it does not reach
+      # the process list either. Absent, the step says so and exits clean.
+      - name: Tell the site the tracker moved
+        if: |
+          github.repository == 'Surojitc/l3vlup-skills' &&
+          (steps.commit.outputs.tracker == 'true' || github.event.inputs.indexnow_force == 'true')
+        # A recrawl hint is not worth failing a data collection over, and there
+        # is nothing downstream of this.
+        continue-on-error: true
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "CRON_SECRET is not set in this repository; the site's daily cron covers it."
+            exit 0
+          fi
+
+          conf="$(mktemp)"
+          trap 'rm -f "$conf"' EXIT
+          printf 'header = "Authorization: Bearer %s"\n' "$CRON_SECRET" > "$conf"
+
+          code=$(curl -sS --config "$conf" \
+            -o response.json -w '%{http_code}' \
+            --max-time 120 --retry 2 --retry-connrefused \
+            -X POST 'https://www.l3vlup.com/api/cron/indexnow') || code=000
+
+          echo "the detector answered HTTP $code"
+          # Counts and the feed timestamp. No secret and no personal data.
+          head -c 600 response.json || true
+          echo
+
+          case "$code" in
+            200) echo "::notice::IndexNow pass complete" ;;
+            401) echo "::error::CRON_SECRET here does not match the site's" ;;
+            503) echo "::error::the site has no IndexNow state store; run supabase/indexnow.sql" ;;
+            *)   echo "::warning::unexpected response $code; the site's 09:00 cron will retry" ;;
+          esac
