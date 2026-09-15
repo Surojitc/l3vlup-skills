@@ -1,0 +1,121 @@
+name: Tell IndexNow the tracker changed
+
+# After the board moves, ask the site to work out what moved and tell Bing.
+#
+# WHY THIS IS A SEPARATE WORKFLOW AND NOT A STEP IN build-samples.yml
+# -------------------------------------------------------------------
+# The obvious place is the end of the collection job, right after the commit.
+# It does not work, for a reason that is invisible from here: the site reads
+# `data/opportunities.auto.json` over `DATA_BASE_URL` through Next's data cache
+# with `revalidate: 3600`. Whatever it read most recently is served for an hour.
+# The collector starts at 06:30 and pushes around 06:40, and the site's own
+# IndexNow cron runs at 06:00, so at 06:40 the cache still holds the 06:00 copy
+# — which is precisely the data this call is trying to move past.
+#
+# So the call waits until that hour is certainly over. 07:45 leaves a margin
+# after the 07:00 expiry of a cache entry populated at 06:00, and well after
+# the collector has finished.
+#
+# WHY IT IS SAFE IN A PUBLIC REPOSITORY
+# -------------------------------------
+# `CRON_SECRET` is a repository secret and secrets are never available to a
+# fork. This workflow has no `pull_request` trigger and deliberately no
+# `pull_request_target`: there is no path by which a pull request, from a fork
+# or otherwise, can run it or read the secret. It runs on a schedule and by
+# hand, both of which require write access to this repository.
+#
+# The secret is never echoed, never interpolated into a command line, and never
+# written to a file that survives the step. curl reads it from a config file in
+# the runner's temporary directory, so it does not appear in the process list
+# either.
+
+on:
+  schedule:
+    # 07:45 UTC: after build-samples.yml (06:30) and after the site's data cache
+    # from the 06:00 pass has expired. Do not move this earlier without reading
+    # the note above.
+    - cron: '45 7 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Call even if the tracker file did not change'
+        required: false
+        default: 'false'
+
+# No write access is needed: this reads the log and makes one outbound request.
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-ping
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    # A fork that enables Actions gets its own schedule and its own (absent)
+    # secret, so this is belt and braces rather than the protection itself.
+    if: github.repository == 'Surojitc/l3vlup-skills'
+    steps:
+      # Enough history to see whether this morning's run committed the tracker.
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 50
+
+      - name: Did the tracker actually change?
+        id: changed
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            echo "forced by hand"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # The collector commits data/opportunities.auto.json only when the
+          # board moved. A day it did not is a day with nothing to tell Bing,
+          # and the site's own cron covers anything this misses.
+          recent=$(git log -1 --since='6 hours ago' --format=%H -- data/opportunities.auto.json || true)
+          if [ -n "$recent" ]; then
+            echo "tracker committed in $recent"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "the tracker file has not moved this morning; nothing to submit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ask the site what changed, and tell IndexNow
+        if: steps.changed.outputs.changed == 'true'
+        # A recrawl hint is not worth failing anything over, and this workflow
+        # has nothing downstream of it.
+        continue-on-error: true
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "CRON_SECRET is not set in this repository; the site's daily cron covers it."
+            exit 0
+          fi
+
+          # The header goes in a config file rather than on the command line, so
+          # the secret never reaches the process list. Removed either way.
+          conf="$(mktemp)"
+          trap 'rm -f "$conf"' EXIT
+          printf 'header = "Authorization: Bearer %s"\n' "$CRON_SECRET" > "$conf"
+
+          code=$(curl -sS --config "$conf" \
+            -o response.json -w '%{http_code}' \
+            --max-time 120 --retry 2 --retry-connrefused \
+            -X POST 'https://www.l3vlup.com/api/cron/indexnow') || code=000
+
+          echo "the detector answered HTTP $code"
+          # Counts only. The body carries no secret and no personal data.
+          head -c 600 response.json || true
+          echo
+
+          case "$code" in
+            200) echo "::notice::IndexNow pass complete" ;;
+            401) echo "::error::CRON_SECRET here does not match the site's" ;;
+            503) echo "::error::the site has no IndexNow state store; run supabase/indexnow.sql" ;;
+            *)   echo "::warning::unexpected response $code; the site's daily cron will retry" ;;
+          esac
