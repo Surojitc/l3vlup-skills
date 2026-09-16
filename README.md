@@ -36,7 +36,7 @@ Rendered with charts, commentary and an interactive yield-curve model:
 
 ---
 
-## Letters research (Phase 0, discovery only)
+## Letters research (Phase 0: discovery and enumeration)
 
 `data/letters.sources.json` lists the SEC-hosted sources of five managers'
 own investment writing (activist letters and decks filed as DFAN14A or
@@ -44,8 +44,13 @@ Schedule 13D exhibits; shareholder reports filed as N-CSR), with every
 manager website whose terms restrict automated reading recorded as
 excluded. `npm run discover:letters` reads one submissions index per source
 from data.sec.gov and writes `data/letters.discovery.{json,md}`: what
-exists, where on sec.gov, and in what form. It downloads no document,
-parses nothing and calls no model; those are later, separately approved
+exists, where on sec.gov, and in what form; `npm run enumerate:letters` then
+reads at most fifteen filing index pages and lists the documents inside them
+with their subject companies. Filing index URLs are authoritative; a
+solicitation's documents sit under the subject company's CIK folder, so a
+document path is never inferred from the filer's CIK. Every network attempt
+is appended to `data/letters.requests.jsonl`. Neither downloads a document,
+parses one or calls a model; those are later, separately approved
 milestones. No letter text is ever committed here.
 
 ## Using the data

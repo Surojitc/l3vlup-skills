@@ -21,6 +21,7 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'no
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { activeSources, capAcrossFunds, entityMatches, selectCandidates } from '../lib/letters.mjs';
+import { appendLedger } from '../lib/letters-ledger.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'data', 'letters.sources.json');
@@ -48,6 +49,7 @@ async function secJson(url) {
   lastAt = Date.now();
   const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
   log.requests.push({ url, status: res.status, at: new Date().toISOString() });
+  appendLedger({ script: 'discover-letters', url, status: res.status, attempt: 0 });
   if (res.status === 403 || res.status === 429) throw new Error(`STOP: HTTP ${res.status} from ${url}`);
   if (!res.ok) throw new Error(`HTTP ${res.status} from ${url}`);
   return res.json();
@@ -69,14 +71,14 @@ function markdown(report) {
   const lines = [
     '# Letters discovery report (Phase 0)',
     '',
-    `Generated ${report.generatedAt}. Window since ${report.since}. ${report.requests.length} request(s), ${report.sources.length} source(s).`,
-    'Nothing was downloaded, parsed or sent to a model. Document URLs point at sec.gov.',
+    `Generated ${report.generatedAt}. Window since ${report.since}. ${report.requests.filter((r) => typeof r.status === 'number').length} request(s) to sec.gov, ${report.requests.filter((r) => r.status === 'cached').length} from cache, ${report.sources.length} source(s).`,
+    'Nothing was downloaded, parsed or sent to a model. Filing index URLs are authoritative; a primary-document URL appears only where the filing sits under the filer\'s own CIK folder. Superseded for document URLs by data/letters.exhibits.md.',
     '',
     '| Fund | Form | Accession | Filed | Title | Document | Format | Retrieval | Rights | Duplicate key | Relevance |',
     '|---|---|---|---|---|---|---|---|---|---|---|',
   ];
   for (const c of report.candidates) {
-    const doc = c.documentUrl ? `[primary](${c.documentUrl}) · [index](${c.indexUrl})` : `[index](${c.indexUrl})`;
+    const doc = c.documentUrl ? `[primary](${c.documentUrl}) · [index](${c.indexUrl})` : `[index](${c.indexUrl}) (document path not inferable from the filer CIK)`;
     lines.push(`| ${c.fund} | ${c.form} | ${c.accession} | ${c.filingDate} | ${c.title.replace(/\|/g, '/')} | ${doc} | ${c.format} | ${c.retrievalMode} | ${c.rightsJudgement} | ${c.duplicateKey} | ${c.relevance} |`);
   }
   lines.push('', '## Per source', '', '| Source | Entity on EDGAR | In window | Listed | Recent block truncated |', '|---|---|---|---|---|');
@@ -103,6 +105,8 @@ async function main() {
     phase: registry.phase,
     since: null,
     limits: { sources: active.length, requestsPerSource: 1, maxCandidates: cap, windowMonths },
+    note: 'Filing index URLs are authoritative. A primary-document URL is written only where the filing sits under the filer\'s own CIK folder (a registered fund\'s report); for a solicitation or a Schedule 13D the folder is the subject company\'s and is not inferred here. data/letters.exhibits.json supersedes this file for document URLs.',
+    supersededBy: 'data/letters.exhibits.json',
     requests: log.requests,
     sources: [],
     candidates: [],

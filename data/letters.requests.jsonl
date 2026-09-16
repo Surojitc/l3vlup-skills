@@ -1,0 +1,21 @@
+{"note":"One line per network attempt by the letters scripts. Lines marked reconstructed were written after the fact from the run output of 16 September 2026, with times to the minute; every later line is written by the script at the moment of the attempt."}
+{"at":"2026-09-16T20:38:00Z","script":"discover-letters","url":"https://data.sec.gov/submissions/CIK0001517137.json","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:38:00Z","script":"discover-letters","url":"https://data.sec.gov/submissions/CIK0001791786.json","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:38:00Z","script":"discover-letters","url":"https://data.sec.gov/submissions/CIK0000806636.json","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:38:00Z","script":"discover-letters","url":"https://data.sec.gov/submissions/CIK0000872323.json","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:38:00Z","script":"discover-letters","url":"https://data.sec.gov/submissions/CIK0000089043.json","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1517137/000092189525000816/0000921895-25-000816-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1517137/000119380524001416/0001193805-24-001416-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/0000921895-24-002508-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1791786/000092189525000692/0000921895-25-000692-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1791786/000092189524002164/0000921895-24-002164-index.htm","status":503,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:02Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1791786/000092189524002164/0000921895-24-002164-index.htm","status":200,"attempt":1,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1791786/000092189525001028/0000921895-25-001028-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/806636/000158064226001717/0001580642-26-001717-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/806636/000158064225001664/0001580642-25-001664-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/806636/000158064226006087/0001580642-26-006087-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/872323/000110465925117601/0001104659-25-117601-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/872323/000110465924125538/0001104659-24-125538-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/872323/000110465926065606/0001104659-26-065606-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/89043/000119312526074946/0001193125-26-074946-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/89043/000119312525045012/0001193125-25-045012-index.htm","status":200,"attempt":0,"reconstructed":true}
