@@ -165,4 +165,127 @@ test('a source that is not an SEC public record cannot be active', () => {
   assert.equal(problems.length, 3);
 });
 
+
+
+// ── Exhibit enumeration ─────────────────────────────────────────────────────
+
+import {
+  CONTENT_RELEVANCE,
+  campaignKey,
+  classifyDocument,
+  groupCampaigns,
+  parseFilingIndex,
+  planIndexes,
+  recommendTen,
+  sizeHint,
+} from '../../lib/letters.mjs';
+
+const FIXTURES = join(ROOT, 'scripts', '__tests__', 'fixtures');
+
+test('a solicitation index yields its documents, the subject company and the filer', () => {
+  const idx = parseFilingIndex(readFileSync(join(FIXTURES, 'index-dfan14a-fragment.htm'), 'utf8'));
+  assert.equal(idx.documents.length, 3);
+  assert.deepEqual(idx.documents.map((d) => d.type), ['DFAN14A', 'DFAN14A', '']);
+  assert.equal(idx.documents[1].description, 'LETTER TO STOCKHOLDERS');
+  assert.equal(idx.documents[1].filename, 'ex1todfan14a06297347_031925.pdf');
+  assert.equal(idx.documents[1].size, 648284);
+  assert.equal(idx.documents[1].href, '/Archives/edgar/data/769397/000092189525000816/ex1todfan14a06297347_031925.pdf');
+  assert.equal(idx.subject.name, 'Autodesk, Inc.');
+  assert.equal(idx.subject.cik, '0000769397');
+  assert.equal(idx.filer.name, 'Starboard Value LP');
+  assert.equal(idx.filingDate, '2025-03-19');
+  assert.equal(idx.periodOfReport, null);
+});
+
+test('a shareholder report index yields the inline primary document and its period', () => {
+  const idx = parseFilingIndex(readFileSync(join(FIXTURES, 'index-ncsr-fragment.htm'), 'utf8'));
+  const primary = idx.documents[0];
+  assert.equal(primary.type, 'N-CSR');
+  assert.equal(primary.filename, 'longleaf_ncsr.htm', 'the iXBRL badge is not part of the filename');
+  assert.equal(primary.inline, true);
+  assert.equal(idx.documents[1].type, 'EX-99.CERT');
+  assert.equal(idx.subject, null);
+  assert.equal(idx.filer.name, 'LONGLEAF PARTNERS FUNDS TRUST');
+  assert.equal(idx.periodOfReport, '2025-12-31');
+});
+
+test('documents are classified by declared type and description, never by filename', () => {
+  const cover = { seq: '1', type: 'DFAN14A', description: '', filename: 'dfan14a10168303_03042025.htm', size: 39262 };
+  const deck = { seq: '2', type: 'DFAN14A', description: '', filename: 'ex991todfan10168003_030425.pdf', size: 9794322 };
+  const gif = { seq: '3', type: 'GRAPHIC', description: 'GRAPHIC', filename: 'image_001.gif', size: 4148 };
+  const full = { seq: '', type: '', description: 'Complete submission text file', filename: 'x.txt', size: 1 };
+  const docs = [cover, deck, gif, full];
+  assert.equal(classifyDocument(cover, 'DFAN14A', { siblings: docs }), 'solicitation_cover');
+  assert.equal(classifyDocument(deck, 'DFAN14A', { siblings: docs }), 'unclassified');
+  assert.equal(classifyDocument(gif, 'DFAN14A', { siblings: docs }), 'routine');
+  assert.equal(classifyDocument(full, 'DFAN14A', { siblings: docs }), 'routine');
+  assert.equal(classifyDocument(cover, 'DFAN14A', { siblings: [cover, full] }), 'unclassified', 'a lone primary document is the content');
+  assert.equal(classifyDocument({ seq: '2', type: 'DFAN14A', description: 'LETTER TO STOCKHOLDERS', filename: 'a.pdf' }, 'DFAN14A'), 'letter');
+  assert.equal(classifyDocument({ seq: '2', type: 'EX-99.1', description: 'INVESTOR PRESENTATION', filename: 'a.pdf' }, 'SC 13D'), 'presentation');
+  assert.equal(classifyDocument({ seq: '2', type: 'EX-99.1', description: 'JOINT FILING AGREEMENT', filename: 'a.htm' }, 'SC 13D'), 'routine');
+  assert.equal(classifyDocument({ seq: '1', type: 'SC 13D', description: 'THE SCHEDULE 13D', filename: 'a.htm' }, 'SC 13D'), 'schedule_13d');
+  assert.equal(classifyDocument({ seq: '1', type: 'N-CSR', description: '', filename: 'r.htm' }, 'N-CSR'), 'shareholder_report');
+  assert.equal(classifyDocument({ seq: '4', type: 'EX-99.IND PUB ACCT', description: '', filename: 'e.htm' }, 'N-CSR'), 'routine');
+  assert.equal(CONTENT_RELEVANCE.solicitation_cover, 'low');
+  assert.equal(sizeHint(deck), 'a PDF this large is usually a presentation');
+  assert.equal(sizeHint({ filename: 'a.pdf', size: 648284 }), 'a PDF this size is usually a letter');
+});
+
+test('campaigns group by the filer agent matter number, and a stray filing joins the campaign around it', () => {
+  const c = (filingDate, primaryDocument, form = 'DFAN14A') => ({ filingDate, primaryDocument, form, accession: `${filingDate}-${primaryDocument}` });
+  assert.equal(campaignKey(c('2025-03-04', 'dfan14a10168303_03042025.htm')), 'matter:10168303');
+  assert.equal(campaignKey(c('2024-11-14', 'sc13da406297282_11142024.htm', 'SC 13D/A')), 'matter:06297282');
+  assert.equal(campaignKey(c('2025-04-09', 'e664374_dfan14a-phillips66.htm')), 'date:2025-04');
+  const groups = groupCampaigns([
+    c('2025-03-04', 'dfan14a10168303_03042025.htm'),
+    c('2025-05-20', 'dfan14a10168303_05202025.htm'),
+    c('2025-04-09', 'e664374_dfan14a-phillips66.htm'),
+    c('2024-09-24', 'dfan14a10168307_09242024.htm'),
+    c('2024-10-15', 'p24-2934sc13da.htm', 'SC 13D/A'),
+    c('2026-03-11', 'dfan14a06297384_03112026.htm'),
+  ]);
+  assert.deepEqual(groups.map((g) => [g.key, g.filings.length]), [['matter:10168303', 3], ['matter:10168307', 2], ['matter:06297384', 1]], 'engagements before one-offs, newest first');
+});
+
+test('the index plan takes one filing per campaign and the two annual reports plus the newest semi-annual', () => {
+  const src = { activist: { sourceType: 'sec_exhibit' }, fund: { sourceType: 'sec_shareholder_report' } };
+  const c = (filingDate, primaryDocument, form, sourceId) => ({ filingDate, primaryDocument, form, sourceId, accession: `${filingDate}-${form}` });
+  const plan = planIndexes(
+    {
+      e: [c('2025-03-04', 'dfan14a10168303_1.htm', 'DFAN14A', 'activist'), c('2025-05-20', 'dfan14a10168303_2.htm', 'DFAN14A', 'activist'), c('2025-04-09', 'e664374_x.htm', 'DFAN14A', 'activist'), c('2024-09-24', 'dfan14a10168307_1.htm', 'DFAN14A', 'activist')],
+      f: [c('2025-03-11', 'a.htm', 'N-CSR', 'fund'), c('2025-08-29', 'b.htm', 'N-CSRS', 'fund'), c('2026-03-10', 'c.htm', 'N-CSR', 'fund'), c('2026-09-04', 'd.htm', 'N-CSRS', 'fund')],
+    },
+    src,
+    3
+  );
+  const e = plan.filter((p) => p.fund === 'e').map((p) => p.filingDate);
+  assert.deepEqual(e, ['2025-03-04', '2024-09-24', '2025-04-09'], 'first of each campaign, then the other agent\'s filing in the largest');
+  const f = plan.filter((p) => p.fund === 'f').map((p) => `${p.form} ${p.filingDate}`);
+  assert.deepEqual(f, ['N-CSR 2026-03-10', 'N-CSR 2025-03-11', 'N-CSRS 2026-09-04']);
+});
+
+test('the recommendation takes two campaigns for an activist and the newest plus the earliest period for a fund', () => {
+  const src = { a: { sourceType: 'sec_exhibit' }, r: { sourceType: 'sec_shareholder_report' } };
+  const row = (fund, sourceId, filingDate, extra) => ({ fund, sourceId, filingDate, eligible: 'yes', thesisRelevance: 'high', ...extra });
+  const rec = recommendTen(
+    [
+      row('act', 'a', '2025-03-19', { campaign: 'm1', thesisRelevance: 'high' }),
+      row('act', 'a', '2025-03-19', { campaign: 'm1', thesisRelevance: 'low' }),
+      row('act', 'a', '2024-11-07', { campaign: 'm2', thesisRelevance: 'review', eligible: 'review' }),
+      row('act', 'a', '2024-11-26', { campaign: 'm3', thesisRelevance: 'medium' }),
+      row('fund', 'r', '2026-03-10', { reportingPeriod: '2025-12-31' }),
+      row('fund', 'r', '2025-03-11', { reportingPeriod: '2024-12-31' }),
+      row('fund', 'r', '2026-09-04', { reportingPeriod: '2026-06-30' }),
+    ],
+    src
+  );
+  const act = rec.find((x) => x.fund === 'act');
+  assert.deepEqual(act.picks.map((p) => p.campaign), ['m1', 'm2'], 'a labelled letter, then an unlabelled document from another campaign, before a schedule');
+  assert.equal(act.shortfall, null);
+  const fund = rec.find((x) => x.fund === 'fund');
+  assert.deepEqual(fund.picks.map((p) => p.reportingPeriod), ['2024-12-31', '2026-06-30']);
+  const short = recommendTen([row('one', 'a', '2025-01-01', { campaign: 'only' })], src).find((x) => x.fund === 'one');
+  assert.match(short.shortfall, /only 1 suitable campaign/);
+});
+
 console.log(`${passed} passed`);

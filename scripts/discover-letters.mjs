@@ -69,7 +69,7 @@ function markdown(report) {
   const lines = [
     '# Letters discovery report (Phase 0)',
     '',
-    `Generated ${report.generatedAt}. Window since ${report.since}. ${report.requests.length} request(s), ${report.sources.length} source(s).`,
+    `Generated ${report.generatedAt}. Window since ${report.since}. ${report.requests.filter((r) => typeof r.status === 'number').length} request(s) to sec.gov, ${report.requests.filter((r) => r.status === 'cached').length} from cache, ${report.sources.length} source(s).`,
     'Nothing was downloaded, parsed or sent to a model. Document URLs point at sec.gov.',
     '',
     '| Fund | Form | Accession | Filed | Title | Document | Format | Retrieval | Rights | Duplicate key | Relevance |',
