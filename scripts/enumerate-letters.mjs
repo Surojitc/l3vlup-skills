@@ -25,14 +25,19 @@ import { fileURLToPath } from 'node:url';
 import {
   CONTENT_RELEVANCE,
   activeSources,
+  authoritativeIndexUrl,
   classifyDocument,
+  documentUrlFrom,
   entityMatches,
+  fetchGate,
+  overFetchCap,
   parseFilingIndex,
   planIndexes,
   recommendTen,
   selectCandidates,
   sizeHint,
 } from '../lib/letters.mjs';
+import { appendLedger } from '../lib/letters-ledger.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'data', 'letters.sources.json');
@@ -62,11 +67,13 @@ async function secText(url) {
       res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'text/html' } });
     } catch (err) {
       requests.push({ url, status: 'network-error', attempt, at: new Date().toISOString() });
+      appendLedger({ script: 'enumerate-letters', url, status: 'network-error', attempt });
       if (attempt === 1) throw new Error(`STOP: ${err.message} from ${url} after one retry`);
       await sleep(2000);
       continue;
     }
     requests.push({ url, status: res.status, attempt, at: new Date().toISOString() });
+    appendLedger({ script: 'enumerate-letters', url, status: res.status, attempt });
     if (res.status === 403 || res.status === 429) throw new Error(`STOP: HTTP ${res.status} from ${url}`);
     if (res.status >= 500 && attempt === 0) {
       await sleep(2000);
@@ -85,9 +92,9 @@ async function indexPage(accession, url) {
     requests.push({ url: `cache:${path}`, status: 'cached', at: new Date().toISOString() });
     return readFileSync(path, 'utf8');
   }
-  if (CACHE_ONLY) throw new Error(`STOP: --cache-only and ${accession} is not cached`);
-  const made = requests.filter((r) => typeof r.status === 'number' || r.status === 'network-error').length;
-  if (made >= MAX_INDEX_REQUESTS) throw new Error(`STOP: ${MAX_INDEX_REQUESTS} filing-index requests already made (a retried 5xx counts twice)`);
+  const attemptsMade = requests.filter((r) => typeof r.status === 'number' || r.status === 'network-error').length;
+  const gate = fetchGate({ cacheOnly: CACHE_ONLY, attemptsMade, cap: MAX_INDEX_REQUESTS, what: 'filing-index request' });
+  if (!gate.allowed) throw new Error(`STOP: ${gate.reason} (${accession})`);
   const html = await secText(url);
   writeFileSync(path, html);
   return html;
@@ -150,7 +157,8 @@ async function main() {
 
   const report = {
     generatedAt: now.toISOString(),
-    limits: { maxIndexRequests: MAX_INDEX_REQUESTS, perFund: PER_FUND, retries: 1 },
+    limits: { maxIndexRequests: MAX_INDEX_REQUESTS, perFund: PER_FUND, retries: 1, fetchCapBytes: 15 * 1024 * 1024 },
+    note: 'Index URLs are the folder EDGAR itself uses for the filing, read from the page. Every network attempt, including a failed one and its retry, is appended to data/letters.requests.jsonl; the requests array below is this run only.',
     requests,
     requestsMade: 0,
     cacheHits: 0,
@@ -186,7 +194,8 @@ async function main() {
     const idx = parseFilingIndex(html);
     const isReport = sourcesById[p.sourceId]?.sourceType === 'sec_shareholder_report';
     const subject = idx.subject?.name || null;
-    const inspected = { fund: p.fund, form: p.form, accession: p.accession, filingDate: p.filingDate, indexUrl: p.indexUrl, why: p.why, campaign: p.campaign || null, periodOfReport: idx.periodOfReport, subjectCompany: subject, subjectCik: idx.subject?.cik || null, filer: idx.filer?.name || null, documents: idx.documents.length };
+    const indexUrl = authoritativeIndexUrl(idx.documents, p.accession) || p.indexUrl;
+    const inspected = { fund: p.fund, form: p.form, accession: p.accession, filingDate: p.filingDate, requestedIndexUrl: p.indexUrl, indexUrl, why: p.why, campaign: p.campaign || null, periodOfReport: idx.periodOfReport, subjectCompany: subject, subjectCik: idx.subject?.cik || null, filer: idx.filer?.name || null, documents: idx.documents.length };
     report.inspected.push(inspected);
     console.log(`${p.fund} ${p.form} ${p.filingDate}: ${idx.documents.length} documents${subject ? ` · subject ${subject}` : ''}${idx.periodOfReport ? ` · period ${idx.periodOfReport}` : ''}`);
     for (const d of idx.documents) {
@@ -201,12 +210,14 @@ async function main() {
       if (likely === 'solicitation_cover') limitation = 'the primary document is usually the cover legend; the exhibit carries the content';
       if (!subject && !isReport) limitation = (limitation ? `${limitation}; ` : '') + 'no subject company on the index page';
       const eligible = relevance === 'none' ? 'no' : relevance === 'review' ? 'review' : format === 'other' ? 'review' : 'yes';
+      const overCap = overFetchCap(d.size);
+      if (overCap) limitation = (limitation ? `${limitation}; ` : '') + 'over the 15 MB Phase 0 fetch cap; needs an explicit exception';
       report.shortlist.push({
-        fund: p.fund, sourceId: p.sourceId, filingDate: p.filingDate, form: p.form, accession: p.accession, indexUrl: p.indexUrl,
+        fund: p.fund, sourceId: p.sourceId, filingDate: p.filingDate, form: p.form, accession: p.accession, indexUrl,
         campaign: p.campaign || null, reportingPeriod: isReport ? idx.periodOfReport : null, subjectCompany: subject, subjectCik: idx.subject?.cik || null,
         exhibitType: d.type, exhibitDescription: d.description || null, filename: d.filename, seq: d.seq, size: d.size,
-        documentUrl: d.href ? new URL(d.href.replace(/^\/ix\?doc=/i, ''), 'https://www.sec.gov/').toString() : null,
-        format, isPrimary, likelyContent: likely, thesisRelevance: relevance, reason, limitation, eligible,
+        documentUrl: documentUrlFrom(d.href),
+        format, isPrimary, overFetchCap: overCap, likelyContent: likely, thesisRelevance: relevance, reason, limitation, eligible,
       });
     }
   }

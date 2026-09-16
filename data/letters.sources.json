@@ -12,6 +12,10 @@
     "The CIKs for the three registered funds were written from memory and are checked against the",
     "entity name EDGAR returns before a single filing is listed; a mismatch stops the run.",
     "",
+    "Filing index URLs are authoritative. A DFAN14A or Schedule 13D is stored under the subject",
+    "company's CIK folder, which the submissions index does not name, so no document URL is ever",
+    "inferred from the filer's CIK; enumerate-letters.mjs reads the folder off the index page.",
+    "",
     "Edit this file, not the script."
   ],
   "version": 1,

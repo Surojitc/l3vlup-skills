@@ -46,7 +46,10 @@ excluded. `npm run discover:letters` reads one submissions index per source
 from data.sec.gov and writes `data/letters.discovery.{json,md}`: what
 exists, where on sec.gov, and in what form; `npm run enumerate:letters` then
 reads at most fifteen filing index pages and lists the documents inside them
-with their subject companies. Neither downloads a document,
+with their subject companies. Filing index URLs are authoritative; a
+solicitation's documents sit under the subject company's CIK folder, so a
+document path is never inferred from the filer's CIK. Every network attempt
+is appended to `data/letters.requests.jsonl`. Neither downloads a document,
 parses one or calls a model; those are later, separately approved
 milestones. No letter text is ever committed here.
 

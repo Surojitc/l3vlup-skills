@@ -288,4 +288,93 @@ test('the recommendation takes two campaigns for an activist and the newest plus
   assert.match(short.shortfall, /only 1 suitable campaign/);
 });
 
+
+
+// ── URLs EDGAR states, gating, caps, duplicates ─────────────────────────────
+
+import { authoritativeIndexUrl, documentUrlFrom, fetchGate, overFetchCap, FETCH_CAP_BYTES } from '../../lib/letters.mjs';
+import { appendLedger } from '../../lib/letters-ledger.mjs';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+
+test('a solicitation\'s documents live under the subject company\'s folder, and the index URL follows the page, not the filer', () => {
+  const idx = parseFilingIndex(readFileSync(join(FIXTURES, 'index-dfan14a-fragment.htm'), 'utf8'));
+  const url = documentUrlFrom(idx.documents[1].href);
+  assert.equal(url, 'https://www.sec.gov/Archives/edgar/data/769397/000092189525000816/ex1todfan14a06297347_031925.pdf');
+  assert.ok(url.includes('/data/769397/'), 'the subject, Autodesk');
+  assert.ok(!url.includes('/data/1517137/'), 'not the filer, Starboard');
+  assert.equal(authoritativeIndexUrl(idx.documents, '0000921895-25-000816'), 'https://www.sec.gov/Archives/edgar/data/769397/000092189525000816/0000921895-25-000816-index.htm');
+  assert.equal(documentUrlFrom('/ix?doc=/Archives/edgar/data/806636/000158064226001717/longleaf_ncsr.htm'), 'https://www.sec.gov/Archives/edgar/data/806636/000158064226001717/longleaf_ncsr.htm');
+  assert.equal(documentUrlFrom(null), null);
+  assert.equal(authoritativeIndexUrl([], 'x'), null);
+});
+
+test('discovery writes no document URL for an exhibit source, only for a registered fund\'s own filing', () => {
+  const sub = fixture([['DFAN14A', '2026-05-01', '0000921895-26-000001', 'letter.htm', null]]);
+  const exhibit = selectCandidates(sub, { ...SOURCE, sourceType: 'sec_exhibit' }, { now: NOW }).candidates[0];
+  assert.equal(exhibit.documentUrl, null);
+  assert.match(exhibit.documentUrlNote, /not inferable from the filer CIK/);
+  assert.ok(exhibit.indexUrl.endsWith('-index.htm'));
+  const report = selectCandidates(fixture([['N-CSR', '2026-03-10', '0001580642-26-001717', 'r.htm', null]]), { ...SOURCE, sourceType: 'sec_shareholder_report', forms: ['N-CSR'] }, { now: NOW }).candidates[0];
+  assert.ok(report.documentUrl.endsWith('/r.htm'));
+});
+
+test('a filing listed twice in the index is one candidate', () => {
+  const sub = fixture([
+    ['DFAN14A', '2026-05-01', '0000921895-26-000001', 'letter.htm', null],
+    ['DFAN14A', '2026-05-01', '0000921895-26-000001', 'letter.htm', null],
+  ]);
+  assert.equal(selectCandidates(sub, SOURCE, { now: NOW }).candidates.length, 1);
+});
+
+test('submission text files, cover legends and certifications are never letters', () => {
+  const full = { seq: '', type: '', description: 'Complete submission text file', filename: 'x.txt' };
+  const cert = { seq: '2', type: 'EX-99.CERT', description: '', filename: 'cert.htm' };
+  const cert906 = { seq: '3', type: 'EX-99.906 CERT', description: '', filename: 'cert906.htm' };
+  const code = { seq: '4', type: 'EX-99.CODE ETH', description: '', filename: 'code.htm' };
+  const card = { seq: '5', type: 'DEFC14A', description: 'FORM OF PROXY CARD', filename: 'card.htm' };
+  const cover = { seq: '1', type: 'DFAN14A', description: '', filename: 'cover.htm', size: 30000 };
+  const exhibit = { seq: '2', type: 'DFAN14A', description: '', filename: 'ex.pdf', size: 500000 };
+  for (const d of [full, cert, cert906, code, card]) assert.equal(classifyDocument(d, 'N-CSR'), 'routine', d.type || d.description);
+  assert.equal(classifyDocument(cover, 'DFAN14A', { siblings: [cover, exhibit, full] }), 'solicitation_cover');
+  assert.equal(CONTENT_RELEVANCE.routine, 'none');
+});
+
+test('a document over the 15 MB cap is flagged, and an unlabelled one stays unclassified with a size hint', () => {
+  assert.equal(FETCH_CAP_BYTES, 15 * 1024 * 1024);
+  assert.equal(overFetchCap(22286670), true);
+  assert.equal(overFetchCap(13674170), false);
+  assert.equal(overFetchCap(null), false);
+  const big = { seq: '2', type: 'DFAN14A', description: 'EXHIBIT 99.1', filename: 'ex991.pdf', size: 22286670 };
+  assert.equal(classifyDocument(big, 'DFAN14A', { siblings: [big] }), 'unclassified', '"EXHIBIT 99.1" says nothing about the content');
+  assert.equal(sizeHint(big), 'a PDF this large is usually a presentation');
+  const small = { seq: '1', type: 'DFAN14A', description: '', filename: 'e.htm', size: 19814 };
+  assert.equal(classifyDocument(small, 'DFAN14A', { siblings: [small] }), 'unclassified');
+  assert.equal(sizeHint(small), 'a short HTML document: a letter, a release or a cover');
+});
+
+test('a cache-only run can make no request, and the cap counts every attempt including a retry', () => {
+  assert.equal(fetchGate({ cacheOnly: true, attemptsMade: 0, cap: 15 }).allowed, false);
+  assert.match(fetchGate({ cacheOnly: true, attemptsMade: 0, cap: 15, what: 'filing-index request' }).reason, /cache-only/);
+  assert.equal(fetchGate({ cacheOnly: false, attemptsMade: 14, cap: 15 }).allowed, true);
+  assert.equal(fetchGate({ cacheOnly: false, attemptsMade: 15, cap: 15 }).allowed, false);
+  assert.match(fetchGate({ cacheOnly: false, attemptsMade: 15, cap: 15 }).reason, /retried failure counts twice/);
+});
+
+test('the request ledger records attempts, including a failure and its retry, one line each', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'letters-'));
+  const path = join(dir, 'requests.jsonl');
+  appendLedger({ script: 't', url: 'u', status: 503, attempt: 0 }, path);
+  appendLedger({ script: 't', url: 'u', status: 200, attempt: 1 }, path);
+  const lines = readFileSync(path, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  assert.deepEqual(lines.map((l) => [l.status, l.attempt]), [[503, 0], [200, 1]]);
+  assert.ok(lines.every((l) => typeof l.at === 'string'));
+  rmSync(dir, { recursive: true });
+  const committed = readFileSync(join(ROOT, 'data', 'letters.requests.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  const attempts = committed.filter((l) => l.status !== undefined);
+  assert.equal(attempts.filter((l) => l.script === 'enumerate-letters' && l.reconstructed).length, 15, 'fifteen index attempts on the first run');
+  assert.equal(attempts.filter((l) => l.status === 503).length, 1);
+  assert.equal(attempts.filter((l) => l.attempt === 1).length, 1, 'the one retry');
+});
+
 console.log(`${passed} passed`);
