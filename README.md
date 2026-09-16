@@ -36,6 +36,18 @@ Rendered with charts, commentary and an interactive yield-curve model:
 
 ---
 
+## Letters research (Phase 0, discovery only)
+
+`data/letters.sources.json` lists the SEC-hosted sources of five managers'
+own investment writing (activist letters and decks filed as DFAN14A or
+Schedule 13D exhibits; shareholder reports filed as N-CSR), with every
+manager website whose terms restrict automated reading recorded as
+excluded. `npm run discover:letters` reads one submissions index per source
+from data.sec.gov and writes `data/letters.discovery.{json,md}`: what
+exists, where on sec.gov, and in what form. It downloads no document,
+parses nothing and calls no model; those are later, separately approved
+milestones. No letter text is ever committed here.
+
 ## Using the data
 
 Fetch it directly. These URLs are stable.
