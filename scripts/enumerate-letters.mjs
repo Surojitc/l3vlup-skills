@@ -110,7 +110,9 @@ function markdown(report) {
     '| Fund | Filed | Form | Accession | Index | Campaign / period | Subject company | Exhibit type | Description | Filename | Document URL | Likely content | Relevance | Reason | Ambiguity | Eligible |',
     '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
   ];
+  const routine = report.shortlist.filter((r) => r.thesisRelevance === 'none');
   for (const r of report.shortlist) {
+    if (r.thesisRelevance === 'none') continue;
     l.push(`| ${r.fund} | ${r.filingDate} | ${r.form} | ${r.accession} | [index](${r.indexUrl}) | ${r.campaign || r.reportingPeriod || ''} | ${r.subjectCompany || ''} | ${r.exhibitType} | ${(r.exhibitDescription || '').replace(/\|/g, '/')} | ${r.filename} | ${r.documentUrl ? `[doc](${r.documentUrl})` : ''} | ${r.likelyContent} | ${r.thesisRelevance} | ${r.reason} | ${r.limitation || ''} | ${r.eligible} |`);
   }
   const routineTypes = {};
