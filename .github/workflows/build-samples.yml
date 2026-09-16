@@ -214,10 +214,13 @@ jobs:
       # database read and a serverless invocation on a morning the board did not
       # move, and a skipped step says so plainly in the log.
       #
-      # The site's own Vercel cron at 09:00 UTC is the independent fallback for
-      # a morning this job fails, is cancelled, or cannot reach the site. It is
-      # hours clear of this step on purpose: the two are not meant to overlap,
-      # and the detector's compare-and-set write absorbs it if they ever do.
+      # The site's own Vercel cron at 20:00 UTC is the independent fallback for
+      # a day this job fails, is cancelled, or cannot reach the site. It sits
+      # that late on purpose. GitHub defers this schedule heavily: across twenty
+      # consecutive runs the observed starts ranged from 10:52 to 18:57 UTC, so
+      # a fallback has to clear the tail of that window rather than its median.
+      # The two are not meant to overlap, and the detector's compare-and-set
+      # write absorbs it if they ever do.
       #
       # WHY IT IS SAFE IN A PUBLIC REPOSITORY
       # -------------------------------------
@@ -265,5 +268,5 @@ jobs:
             200) echo "::notice::IndexNow pass complete" ;;
             401) echo "::error::CRON_SECRET here does not match the site's" ;;
             503) echo "::error::the site has no IndexNow state store; run supabase/indexnow.sql" ;;
-            *)   echo "::warning::unexpected response $code; the site's 09:00 cron will retry" ;;
+            *)   echo "::warning::unexpected response $code; the site's 20:00 cron will retry" ;;
           esac
