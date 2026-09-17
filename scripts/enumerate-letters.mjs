@@ -18,6 +18,9 @@
 //   node scripts/enumerate-letters.mjs               # writes data/letters.exhibits.{json,md}
 //   node scripts/enumerate-letters.mjs --dry-run     # prints, writes nothing
 //   node scripts/enumerate-letters.mjs --cache-only  # never touches the network; a planned index not in the cache is reported, not fetched
+//   node scripts/enumerate-letters.mjs --extras-only # reads only the indexes named in data/letters.authorised-indexes.json,
+//                                                    # reuses every cached index for the rest of the report, and refuses to
+//                                                    # run if that would fetch anything else
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -25,6 +28,8 @@ import { fileURLToPath } from 'node:url';
 import {
   CONTENT_RELEVANCE,
   activeSources,
+  campaignKey,
+  groupCampaigns,
   authoritativeIndexUrl,
   classifyDocument,
   documentUrlFrom,
@@ -41,6 +46,7 @@ import { appendLedger } from '../lib/letters-ledger.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'data', 'letters.sources.json');
+const AUTHORISED = join(ROOT, 'data', 'letters.authorised-indexes.json');
 const OUT_JSON = join(ROOT, 'data', 'letters.exhibits.json');
 const OUT_MD = join(ROOT, 'data', 'letters.exhibits.md');
 const CACHE = join(ROOT, '.cache', 'letters');
@@ -48,6 +54,7 @@ const CACHE = join(ROOT, '.cache', 'letters');
 const UA = process.env.SEC_USER_AGENT || 'L3VLUP Research (contact: suro@l3vlup.com)';
 const DRY = process.argv.includes('--dry-run');
 const CACHE_ONLY = process.argv.includes('--cache-only');
+const EXTRAS_ONLY = process.argv.includes('--extras-only');
 const MAX_INDEX_REQUESTS = 15;
 const PER_FUND = 3;
 const GAP_MS = 250;
@@ -151,9 +158,43 @@ async function main() {
     if (!entityMatches(sub, s.expectedName)) throw new Error(`${s.id}: cached index names "${sub.name}", expected "${s.expectedName}"`);
     byFund[s.fund] = selectCandidates(sub, s, { now, windowMonths: registry.windowMonths || 24 }).candidates;
   }
-  const plan = planIndexes(byFund, sourcesById, PER_FUND);
-  if (plan.length > MAX_INDEX_REQUESTS) throw new Error(`plan has ${plan.length} indexes, over the ${MAX_INDEX_REQUESTS} cap`);
-  console.log(`plan: ${plan.length} filing indexes (cap ${MAX_INDEX_REQUESTS}), ${PER_FUND} per fund`);
+  let plan = planIndexes(byFund, sourcesById, PER_FUND);
+
+  // Indexes authorised one by one, added to the plan by accession. In
+  // extras-only mode the plan keeps every index already cached (no request)
+  // and adds exactly these (one request each); anything else would be an
+  // unauthorised fetch, so the run refuses rather than making it.
+  const authorised = existsSync(AUTHORISED) ? JSON.parse(readFileSync(AUTHORISED, 'utf8')) : { indexes: [] };
+  const extras = [];
+  for (const a of authorised.indexes || []) {
+    const found = Object.values(byFund).flat().find((c) => c.accession === a.accession);
+    if (!found) throw new Error(`authorised index ${a.accession} is not a candidate of any source`);
+    // A campaign is an activist's engagement; a registered fund's report has none.
+    const isExhibit = sourcesById[found.sourceId]?.sourceType === 'sec_exhibit';
+    extras.push({ fund: found.fund, ...found, why: `authorised individually: ${a.reason}`, authorised: true, campaign: isExhibit ? campaignKey(found) : null });
+  }
+  if (EXTRAS_ONLY) {
+    const cached = plan.filter((p) => existsSync(join(CACHE, `index-${p.accession}.htm`)));
+    plan = [...cached, ...extras.filter((e) => !cached.some((c) => c.accession === e.accession))];
+    const wouldFetch = plan.filter((p) => !existsSync(join(CACHE, `index-${p.accession}.htm`)));
+    const unauthorised = wouldFetch.filter((p) => !extras.some((e) => e.accession === p.accession));
+    if (unauthorised.length) throw new Error(`refusing: --extras-only would fetch ${unauthorised.map((p) => p.accession).join(', ')}, which nothing authorised`);
+    console.log(`extras-only: ${cached.length} cached index(es) reused, ${wouldFetch.length} authorised index(es) to read`);
+  } else {
+    plan = [...plan, ...extras.filter((e) => !plan.some((p) => p.accession === e.accession))];
+  }
+
+  // Every filing of every campaign, so a later step can name an alternative from the same engagement.
+  const campaigns = {};
+  for (const [fund, list] of Object.entries(byFund)) {
+    if (sourcesById[list[0]?.sourceId]?.sourceType === 'sec_exhibit') {
+      campaigns[fund] = groupCampaigns(list).map((c) => ({ key: c.key, filings: c.filings.map((f) => ({ filingDate: f.filingDate, form: f.form, accession: f.accession, indexUrl: f.indexUrl })) }));
+    }
+  }
+  // The cap is on requests, not on plan entries: a cached index costs nothing.
+  const toFetch = plan.filter((p) => !existsSync(join(CACHE, `index-${p.accession}.htm`)));
+  if (toFetch.length > MAX_INDEX_REQUESTS) throw new Error(`plan would fetch ${toFetch.length} indexes, over the ${MAX_INDEX_REQUESTS} cap`);
+  console.log(`plan: ${plan.length} filing indexes, ${toFetch.length} to fetch (cap ${MAX_INDEX_REQUESTS}), ${PER_FUND} per fund`);
 
   const report = {
     generatedAt: now.toISOString(),
@@ -163,6 +204,8 @@ async function main() {
     requestsMade: 0,
     cacheHits: 0,
     inspected: [],
+    authorisedIndexes: authorised.indexes || [],
+    campaigns,
     shortlist: [],
     recommended: [],
     notInspected: [],
@@ -211,7 +254,7 @@ async function main() {
       if (!subject && !isReport) limitation = (limitation ? `${limitation}; ` : '') + 'no subject company on the index page';
       const eligible = relevance === 'none' ? 'no' : relevance === 'review' ? 'review' : format === 'other' ? 'review' : 'yes';
       const overCap = overFetchCap(d.size);
-      if (overCap) limitation = (limitation ? `${limitation}; ` : '') + 'over the 15 MB Phase 0 fetch cap; needs an explicit exception';
+      if (overCap) limitation = (limitation ? `${limitation}; ` : '') + 'over the 15 MiB Phase 0 fetch cap, so it is not eligible';
       report.shortlist.push({
         fund: p.fund, sourceId: p.sourceId, filingDate: p.filingDate, form: p.form, accession: p.accession, indexUrl,
         campaign: p.campaign || null, reportingPeriod: isReport ? idx.periodOfReport : null, subjectCompany: subject, subjectCik: idx.subject?.cik || null,

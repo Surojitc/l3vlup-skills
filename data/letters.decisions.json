@@ -1,0 +1,72 @@
+{
+  "_comment": [
+    "Suro's decisions on individual documents. The selection reads this file and obeys it:",
+    "a refused document is never chosen again, whatever its score, and an approved one is",
+    "recorded so the set can be reproduced. Reasons are kept because a later phase will be",
+    "asked why a document was or was not used.",
+    "",
+    "The 15 MiB fetch cap is a rule, not a preference: a document above it is not eligible at",
+    "all in Phase 0, so no selection may carry one as an exception."
+  ],
+  "decidedBy": "Suro",
+  "decidedAt": "2026-09-17",
+  "approved": [
+    {
+      "accession": "0000921895-25-000816",
+      "filename": "ex1todfan14a06297347_031925.pdf",
+      "note": "Starboard on Autodesk, 19 March 2025"
+    },
+    {
+      "accession": "0000921895-25-001028",
+      "filename": "e664374_dfan14a-phillips66.htm",
+      "note": "Elliott on Phillips 66, 9 April 2025"
+    },
+    {
+      "accession": "0001580642-25-001664",
+      "filename": "longleafpartners_ncsr.htm",
+      "note": "Longleaf, period ending 31 December 2024"
+    },
+    {
+      "accession": "0001580642-26-006087",
+      "filename": "longleaf_ncsrs.htm",
+      "note": "Longleaf, period ending 30 June 2026"
+    },
+    {
+      "accession": "0001104659-24-125538",
+      "filename": "tm2426235d1_ncsr.htm",
+      "note": "Oakmark, period ending 30 September 2024"
+    },
+    {
+      "accession": "0001193125-25-045012",
+      "filename": "d850206dncsr.htm",
+      "note": "Sequoia, period ending 31 December 2024"
+    },
+    {
+      "accession": "0001193125-26-074946",
+      "filename": "d76890dncsr.htm",
+      "note": "Sequoia, period ending 31 December 2025"
+    }
+  ],
+  "refused": [
+    {
+      "accession": "0000921895-24-002164",
+      "filename": "ex991dfan14a10168307_092424.pdf",
+      "reason": "21.3 MiB, above the 15 MiB Phase 0 fetch cap. Size exception refused: the pilot proves the pipeline inside its stated limits."
+    },
+    {
+      "accession": "0001104659-26-065606",
+      "filename": "tm2614019d1_ncsrs.htm",
+      "reason": "16.0 MiB, above the 15 MiB Phase 0 fetch cap. Size exception refused, same reason."
+    },
+    {
+      "accession": "0000921895-24-002508",
+      "filename": "dfan14a06297361_11072024.htm",
+      "reason": "Validated as a press release announcing a nomination, not a manager-authored letter. A release qualifies only where it reproduces the letter in full, as the Phillips 66 document does."
+    },
+    {
+      "accession": "0000921895-24-002183",
+      "filename": "ex991dfan14a10168307_092624.pdf",
+      "reason": "Validated 17 September 2026 by one authorised complete download: a two-page image-only PDF with no text layer (no font objects, two JPEG page images). An image-only artefact does not qualify, and Phase 0 excludes optical character recognition, so nothing could be read from it."
+    }
+  ]
+}

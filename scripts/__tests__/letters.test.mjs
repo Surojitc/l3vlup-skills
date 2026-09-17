@@ -340,7 +340,7 @@ test('submission text files, cover legends and certifications are never letters'
   assert.equal(CONTENT_RELEVANCE.routine, 'none');
 });
 
-test('a document over the 15 MB cap is flagged, and an unlabelled one stays unclassified with a size hint', () => {
+test('a document over the 15 MiB cap is flagged, and an unlabelled one stays unclassified with a size hint', () => {
   assert.equal(FETCH_CAP_BYTES, 15 * 1024 * 1024);
   assert.equal(overFetchCap(22286670), true);
   assert.equal(overFetchCap(13674170), false);

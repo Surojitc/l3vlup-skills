@@ -1,0 +1,30 @@
+{
+  "_comment": [
+    "Filing indexes Suro authorised individually, beyond the fifteen the plan chose.",
+    "scripts/enumerate-letters.mjs --extras-only reads exactly these, reuses every cached",
+    "index for the rest of the report, and refuses to run if the plan would fetch anything",
+    "else. One line per authorisation, with the reason it was asked for.",
+    "",
+    "The submission sizes quoted below are the size field EDGAR reports for the whole",
+    "submission in the filer's index, not the size of any one document inside it."
+  ],
+  "authorisedBy": "Suro",
+  "authorisedAt": "2026-09-17",
+  "indexes": [
+    {
+      "fund": "starboard-value",
+      "accession": "0000921895-26-000666",
+      "reason": "Starboard needs a second campaign: the News Corp document validated as a press release. This is the 11 March 2026 DFAN14A campaign."
+    },
+    {
+      "fund": "elliott",
+      "accession": "0000921895-24-002183",
+      "reason": "Elliott/Southwest needs an under-cap replacement for the 21.3 MB exhibit. Of the three uninspected DFAN14As, the cached submission sizes are 66 MB (15 October), 56 KB (16 October) and 2.2 MB (26 September). The 15 October submission cannot hold an under-cap exhibit; the 16 October one is a single small document with no room for a letter exhibit; 26 September is the only one whose size fits a letter PDF under the cap."
+    },
+    {
+      "fund": "harris-associates",
+      "accession": "0001104659-25-054127",
+      "reason": "Oakmark needs an under-cap second period: the 2026-03-31 report is 16.0 MB and the 2025-09-30 report is larger still. This is the report for the period ending 31 March 2025."
+    }
+  ]
+}

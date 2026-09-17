@@ -1,0 +1,90 @@
+{
+  "note": "Head reads of unlabelled candidates: metadata only, never the body. Reused on every run so no document is read twice.",
+  "validations": {
+    "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/dfan14a06297361_11072024.htm": {
+      "fund": "starboard-value",
+      "filename": "dfan14a06297361_11072024.htm",
+      "at": "2026-09-17T06:20:35Z",
+      "result": {
+        "status": 200,
+        "contentType": "text/html",
+        "contentLength": 5265,
+        "title": null,
+        "classification": "press_release",
+        "evidence": "marker \"press release\" in the opening text",
+        "words": 1413,
+        "bytesInspected": 28469,
+        "confidence": "firm"
+      }
+    },
+    "https://www.sec.gov/Archives/edgar/data/1534701/000092189525001028/e664374_dfan14a-phillips66.htm": {
+      "fund": "elliott",
+      "filename": "e664374_dfan14a-phillips66.htm",
+      "at": "2026-09-17T06:20:35Z",
+      "result": {
+        "status": 200,
+        "contentType": "text/html",
+        "contentLength": 4462,
+        "title": null,
+        "classification": "letter",
+        "evidence": "a release wrapping a letter: the letter marker follows the release marker",
+        "words": 1232,
+        "bytesInspected": 19814,
+        "confidence": "firm"
+      }
+    },
+    "https://www.sec.gov/Archives/edgar/data/92380/000092189524002164/ex991dfan14a10168307_092424.pdf": {
+      "fund": "elliott",
+      "filename": "ex991dfan14a10168307_092424.pdf",
+      "at": "2026-09-17T06:20:35Z",
+      "result": {
+        "status": 206,
+        "contentType": "application/pdf",
+        "contentLength": 262144,
+        "title": null,
+        "classification": "letter",
+        "evidence": "1 portrait page boxes seen",
+        "pages": null,
+        "landscapeBoxes": 0,
+        "boxesSeen": 1,
+        "bytesInspected": 262144,
+        "rangeHonoured": true,
+        "confidence": "weak"
+      }
+    },
+    "https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/ex991dfan14a10168307_092624.pdf": {
+      "fund": "elliott",
+      "filename": "ex991dfan14a10168307_092624.pdf",
+      "at": "2026-09-17T10:41:39Z",
+      "result": {
+        "status": 200,
+        "contentType": "application/pdf",
+        "contentLength": 1622433,
+        "bytesInspected": 1622433,
+        "method": "authorised one-off complete download to a temporary directory outside the repository, structure inspected with the Python standard library, file deleted immediately afterwards",
+        "visibleDocumentTitle": null,
+        "visibleTitleNote": "none readable: the document carries no text layer, and its XMP dc:title is only the filename",
+        "apparentAuthor": null,
+        "apparentAuthorNote": "not stated in the file; its XMP dc:creator is the filer agent's initials, not an author. Elliott is the filer of the submission, per the filing index",
+        "intendedRecipient": null,
+        "intendedRecipientNote": "not determinable without optical character recognition, which Phase 0 excludes",
+        "documentDate": "2024-09-26",
+        "documentDateBasis": "XMP CreateDate 2024-09-26T15:46:04-04:00, matching the filing date",
+        "pageCount": 2,
+        "pageGeometry": "two portrait pages, 612 x 792 points",
+        "fontObjects": 0,
+        "imageXObjects": 2,
+        "jpegStreams": 2,
+        "textBearingContentStreams": 0,
+        "hasTextLayer": false,
+        "containsCompanySpecificAnalyticalArgument": "not established: with no text layer nothing can be read from the document",
+        "managerAuthored": "not established from the document itself; Elliott filed it, but its contents are unreadable",
+        "classification": "image_only",
+        "confidence": "firm",
+        "evidence": "no font objects and no text-bearing content streams; both pages are JPEG images",
+        "eligible": false,
+        "eligibilityReason": "an image-only artefact, which the eligibility test excludes, and which Phase 0 could not read anyway since optical character recognition is out of scope"
+      }
+    }
+  }
+}
