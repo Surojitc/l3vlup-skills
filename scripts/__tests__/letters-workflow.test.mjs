@@ -129,6 +129,79 @@ test('the parsing job runs in the mode that retains nothing', () => {
   assert.ok(!yaml.includes('LETTERS_ARCHIVE_ROOT'), 'the workflow sets an archive root');
 });
 
+test('a dry run asked to open a pull request is refused, not quietly half-run', () => {
+  const step = yaml.slice(yaml.indexOf('- name: Refuse a contradictory request'), yaml.indexOf('- uses: actions/checkout'));
+  assert.match(step, /if: \$\{\{ inputs\.dry_run && inputs\.open_pull_request \}\}/);
+  assert.match(step, /exit 1/, 'the contradiction does not fail the run');
+  // It is the first step, so nothing is installed or fetched before it.
+  assert.ok(yaml.indexOf('- name: Refuse a contradictory request') < yaml.indexOf('- uses: actions/checkout'),
+    'the refusal runs after the checkout');
+});
+
+test('the SEC user agent is identified without needing a repository variable or any secret', () => {
+  const m = yaml.match(/SEC_USER_AGENT: "\$\{\{ vars\.SEC_USER_AGENT \|\| '([^']+)' \}\}"/);
+  assert.ok(m, 'there is no identified fallback user agent');
+  assert.match(m[1], /L3VLUP/, 'the fallback does not name us');
+  assert.match(m[1], /@/, 'the fallback carries no contact address');
+  assert.ok(!/secrets\.SEC_USER_AGENT/.test(yaml), 'the user agent is read from a secret');
+});
+
+test('a cleanup check runs whatever happened, and looks in both places a leftover could be', () => {
+  const step = yaml.slice(yaml.indexOf('- name: Confirm nothing was left behind'));
+  assert.match(step, /if: always\(\)/, 'the cleanup check is conditional on success');
+  assert.match(step, /letters-run-\*/, 'it does not look where the workspace is made');
+  assert.match(step, /RUNNER_TEMP/, 'it does not look in the runner temp directory');
+  assert.match(step, /pdf\|html\?\|txt/, 'it does not look for a document or text file');
+  assert.match(step, /exit \$status/, 'it reports rather than fails');
+  // The prefix it looks for must be the one the workspace actually uses.
+  const workspace = readFileSync(join(REPO, 'lib', 'letters-workspace.mjs'), 'utf8');
+  assert.match(workspace, /prefix = 'letters-run-'/, 'the workspace prefix no longer matches the cleanup check');
+});
+
+test('the generated branch name cannot collide with a concurrent, previous or retried run', () => {
+  const open = job('open-pull-request');
+  assert.match(open, /GITHUB_RUN_ID/, 'the branch name does not carry the run id');
+  assert.match(open, /GITHUB_RUN_ATTEMPT/, 'a re-run of the same run would collide');
+  assert.match(open, /git ls-remote --exit-code --heads origin "\$branch"/, 'nothing checks the branch is free');
+  assert.ok(!/parsed-\$\(date -u \+%Y%m%d-%H%M%S\)/.test(open), 'the branch is still named by a same-second timestamp');
+});
+
+test('the write-enabled job proves only the three metadata files arrived before it trusts them', () => {
+  const open = job('open-pull-request');
+  const check = open.indexOf('- name: Confirm only the three metadata files arrived');
+  const validate = open.indexOf('- name: Validate what arrived');
+  const commit = open.indexOf('git commit');
+  assert.ok(check !== -1, 'nothing checks what the artifact carried');
+  assert.ok(check < validate, 'the contents check runs after validation');
+  assert.ok(validate < commit, 'validation runs after the commit');
+  assert.ok(open.indexOf('git checkout -b') > validate, 'a branch is created before validation');
+});
+
+// The classic Actions injection: an attacker-controlled string interpolated
+// by the runner into the text of a shell script, where it becomes code. This
+// workflow has no untrusted input to begin with — workflow_dispatch can only
+// be fired by someone with write access, and both inputs are typed booleans
+// used only in if: expressions — but the absence of the vector is worth
+// holding in place rather than re-deriving.
+test('no expression is interpolated into any run: script', () => {
+  const runBlocks = [...yaml.matchAll(/\n\s+run: \|?\n([\s\S]*?)(?=\n\s+- |\n\s{2}\w|$)/g)].map((m) => m[1]);
+  assert.ok(runBlocks.length >= 5, 'the run blocks were not found; the test is not looking at anything');
+  for (const block of runBlocks) {
+    const found = block.match(/\$\{\{[^}]*\}\}/);
+    assert.equal(found, null, `an expression reaches a shell script: ${found?.[0]}`);
+  }
+});
+
+test('the two inputs are typed booleans and never reach a shell', () => {
+  assert.match(yaml, /dry_run:[\s\S]*?type: boolean/);
+  assert.match(yaml, /open_pull_request:[\s\S]*?type: boolean/);
+  // They appear only in if: conditions, which the runner evaluates itself.
+  for (const m of yaml.matchAll(/inputs\.(dry_run|open_pull_request)/g)) {
+    const line = yaml.slice(yaml.lastIndexOf('\n', m.index) + 1, yaml.indexOf('\n', m.index));
+    assert.match(line.trim(), /^(if:|#)/, `an input is used outside an if: condition — ${line.trim()}`);
+  }
+});
+
 // ── The validator the write-enabled job gates on ────────────────────────────
 
 const approvedUrl = 'https://www.sec.gov/Archives/edgar/data/872323/000110465926000001/report.htm';

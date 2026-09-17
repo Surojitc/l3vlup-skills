@@ -31,6 +31,9 @@ Built: `.github/workflows/letters-parse.yml`. What it says, and why:
 | Concurrency | `group: letters-parse`, `cancel-in-progress: false` | Two runs fetching the same documents is impolite to the SEC and races on the output |
 | Timeout | `timeout-minutes: 15` | The nine documents parse in under a minute; anything near this is wrong |
 | Defaults | `dry_run: true`, `open_pull_request: false` | Running it unchanged plans the work, fetches nothing and opens nothing |
+| Contradictions | `dry_run` and `open_pull_request` both true fails on the first step | A dry run produces nothing to open; running half of what was asked and skipping the rest silently is not an answer |
+| User agent | `vars.SEC_USER_AGENT` with an identified fallback, never a secret | The SEC asks an automated reader to name itself; there is nothing private in a contact address |
+| Branch names | `letters/parsed-<date>-<run id>-<attempt>`, refused if it already exists | A same-second timestamp can collide; a run id cannot |
 | Permissions | `contents: read` at the top and on the parsing job; `contents: write` and `pull-requests: write` on the second, and nothing else | The job that touches documents holds no write token, and the one that can write never addresses sec.gov |
 | Actions | pinned to full commit SHAs, each with the tag it came from in a comment | A tag can be moved; a commit cannot |
 | Output | a pull request from a separate job, never a push to `main` | Generated change is reviewed, not asserted |
@@ -39,7 +42,7 @@ Built: `.github/workflows/letters-parse.yml`. What it says, and why:
 | Artifacts | the three metadata files, named one by one, never a directory or a wildcard | An artifact outlives the runner and is downloadable, so a glob is how a document escapes |
 | No-change | no pull request is opened when the output is unchanged | An unchanged rerun rewrites the same bytes, so an empty diff is the normal result |
 | Logs | metadata only: sizes, counts, hashes, statuses | A log is public and permanent |
-| Cleanup | the script's own `finally` and signal handlers, then a step that fails the run if anything but the three metadata files is left in `data/` | A shell step cannot clean up a workspace inside a `mkdtemp` directory it was never told about; what a step *can* do is refuse to upload a surprise, so that is what it does |
+| Cleanup | the script's own `finally` and signal handlers, then an `if: always()` step that looks for a surviving `letters-run-*` workspace and for any document or text file git did not expect | A shell step cannot clean up a `mkdtemp` directory it was never told about, but it can check the two places a leftover could be and fail the run if it finds one. It asks git rather than mtimes, so there is no race against the checkout's own timestamps |
 
 The sequence: checkout with `persist-credentials: false`, `npm ci
 --omit=optional`, the three letters suites, a check that the nine-document
