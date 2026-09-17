@@ -1,48 +1,63 @@
 #!/usr/bin/env node
 // Letters research: retrieval and deterministic parsing of the approved set.
 //
-// Fetches the nine documents Suro approved, once each, and turns each into
-// page-aware or section-aware text on the encrypted archive. It runs no
-// model, no optical character recognition and no network request beyond the
-// nine: everything it produces is a mechanical transformation of bytes the
-// SEC published, and every one of those bytes stays out of git.
+// The first-cut production path, and it is meant to run in the public
+// collector: fetch the approved documents from sec.gov, parse them where
+// they land, publish measurements, and delete everything else before the
+// process ends. No model runs here, no optical character recognition, no
+// taxonomy. What reaches git is provenance and quality, never a letter.
 //
-// Nothing happens until the archive checks out. LETTERS_ARCHIVE_ROOT must
-// name an existing directory, outside this repository, not on scratch space,
-// on a volume confirmed as encrypted. Any failure prints which condition
-// failed and stops before a single request.
+// Two modes.
 //
-//   node scripts/retrieve-letters.mjs --dry-run   # preconditions and the plan; fetches nothing
-//   node scripts/retrieve-letters.mjs             # retrieve, parse and write the archive
-//   node scripts/retrieve-letters.mjs --forget-originals   # keep the text, drop the originals
+//   --mode ephemeral-sec   (default) A directory made for this run and
+//                          removed at the end of it. Only documents the
+//                          approved selection names, only on sec.gov.
+//                          Needs no archive, so it runs anywhere: a laptop
+//                          today, a GitHub runner tomorrow.
 //
-// Re-running is cheap and safe: a document already in the manifest with a
-// verified hash and a good extraction is skipped without a request.
+//   --mode local-private   Optional and not part of Phase 0. Keeps originals
+//                          and extracted text, so it keeps the archive gate:
+//                          a verified encrypted volume or it refuses.
+//
+//   node scripts/retrieve-letters.mjs --dry-run
+//   node scripts/retrieve-letters.mjs
+//   node scripts/retrieve-letters.mjs --mode local-private
+//
+// Cleanup runs from a finally block, from the signal handlers a cancellation
+// sends, and after a parser is killed. It cannot run if the machine itself
+// is destroyed; on a hosted runner that is what discards the disk anyway.
 
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ARCHIVE_ENV, archivePaths, resolveArchive } from '../lib/letters-archive.mjs';
 import { CAP_BYTES, FetchRefusal, fetchDocument } from '../lib/letters-fetch.mjs';
 import { extractSections, PARSER as HTML_PARSER, PARSER_VERSION as HTML_VERSION } from '../lib/letters-html.mjs';
 import { parsePdf } from '../lib/letters-pdf.mjs';
 import { assess } from '../lib/letters-quality.mjs';
-import { alreadyRetrieved, emptyManifest, validateRow, writeManifestAtomic } from '../lib/letters-manifest.mjs';
+import { emptyOutput, SCHEMA_VERSION, toPublicRecord, unchanged, validatePublicRecord } from '../lib/letters-output.mjs';
+import { approvedDocument, DEFAULT_MODE, onExitCleanup, resolveWorkspace, withWorkspace } from '../lib/letters-workspace.mjs';
 import { appendLedger } from '../lib/letters-ledger.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SELECTION = join(ROOT, 'data', 'letters.selection.json');
+const OUT_JSON = join(ROOT, 'data', 'letters.parsed.json');
+const OUT_MD = join(ROOT, 'data', 'letters.parsed.md');
 const UA = process.env.SEC_USER_AGENT || 'L3VLUP Research (contact: suro@l3vlup.com)';
+
+const arg = (name, fallback) => {
+  const i = process.argv.indexOf(name);
+  return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
+};
+const MODE = arg('--mode', DEFAULT_MODE);
 const DRY = process.argv.includes('--dry-run');
-const FORGET = process.argv.includes('--forget-originals');
 const GAP_MS = 1500;
 const MAX_DOCUMENTS = 9;
+const MAX_REQUESTS = 9;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const sha = (buf) => createHash('sha256').update(buf).digest('hex');
 
-function plan() {
+function approvedSelection() {
   const sel = JSON.parse(readFileSync(SELECTION, 'utf8'));
   return sel.selection.map((s) => ({
     manager: s.fund,
@@ -55,8 +70,6 @@ function plan() {
     filename: s.filename,
     format: s.mimeType.includes('pdf') ? 'pdf' : 'html',
     expectedBytes: s.bytes,
-    rightsJudgement: 'SEC public record; excerpt-only display with a link to sec.gov',
-    sourceClassification: s.form.startsWith('N-CSR') ? 'sec_shareholder_report' : 'sec_exhibit',
   }));
 }
 
@@ -69,42 +82,41 @@ async function parseDocument(format, path, buf) {
   return { ...out, status: out.sections.length ? 'ok' : 'failed', parser: HTML_PARSER, parserVersion: HTML_VERSION, items: out.sections };
 }
 
-async function main() {
-  const documents = plan();
-  if (documents.length > MAX_DOCUMENTS) throw new Error(`the plan holds ${documents.length} documents, over the ${MAX_DOCUMENTS} approved`);
-
-  const archive = resolveArchive({ repoRoot: ROOT });
-  console.log(`archive precondition: ${archive.ok ? 'passed' : 'REFUSED'}`);
-  for (const c of archive.checks) console.log(`  ${c.ok ? 'ok ' : 'no '} ${c.name}: ${c.detail}`);
-  if (!archive.ok) {
-    console.error(`\nRefusing to fetch anything. ${archive.refusal}`);
-    console.error(`Set ${ARCHIVE_ENV} to a directory on the encrypted archive volume and run this on the machine that holds it.`);
-    console.log(`\nThe plan, unchanged, is ${documents.length} documents:`);
-    for (const d of documents) console.log(`  ${d.manager.padEnd(18)} ${d.filingDate} ${d.form.padEnd(8)} ${String(d.expectedBytes).padStart(9)} ${d.format.padEnd(4)} ${d.documentUrl}`);
-    process.exit(3);
+function markdown(output, mode) {
+  const l = [
+    '# Letters: deterministic parsing results',
+    '',
+    `Generated ${output.generatedAt} in ${mode} mode. Schema version ${output.schemaVersion}.`,
+    '',
+    'Measurements only. No original bytes, no extracted text, no excerpt and no generated analysis: the documents stay on sec.gov, and this file records what was read and how well.',
+    '',
+    '| Manager | Subject or period | Filed | Form | Bytes | Parser | Status | Units | Characters | Empty | Repeated edge | Discussion | Warnings |',
+    '|---|---|---|---|---|---|---|---|---|---|---|---|---|',
+  ];
+  for (const d of output.documents) {
+    const q = d.quality || {};
+    l.push(`| ${d.manager} | ${d.subjectOrPeriod} | ${d.filingDate} | ${d.form} | ${d.sourceBytes} | ${d.parser} ${d.parserVersion} | ${d.extractionStatus} | ${d.unitCount} ${d.units} | ${d.characterCount} | ${q.emptyUnitRatio ?? ''} | ${q.repeatedEdgeRatio ?? ''} | ${q.managerDiscussionPresent ? 'yes' : 'no'} | ${(d.warnings || []).length} |`);
   }
+  l.push('', '## Warnings', '');
+  for (const d of output.documents) for (const w of d.warnings || []) l.push(`- ${d.manager} ${d.filingDate}: ${w}`);
+  if (!output.documents.some((d) => (d.warnings || []).length)) l.push('- none');
+  return `${l.join('\n')}\n`;
+}
 
-  const paths = archivePaths(archive.root, '');
-  for (const dir of ['originals', 'text', 'structured', 'review']) mkdirSync(join(archive.root, dir), { recursive: true });
-  const manifestPath = paths.manifest;
-  const manifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : emptyManifest();
+async function run(place, documents) {
+  const previous = existsSync(OUT_JSON) ? JSON.parse(readFileSync(OUT_JSON, 'utf8')) : null;
+  const work = place.mode === 'local-private' ? place.scratch : place.workspace;
+  const keep = place.retainsBytes ? place.root : null;
+  if (keep) for (const dir of ['originals', 'text', 'structured']) mkdirSync(join(keep, dir), { recursive: true });
 
-  if (DRY) {
-    console.log(`\nDry run: ${documents.length} documents planned, nothing fetched.`);
-    for (const d of documents) console.log(`  ${d.manager.padEnd(18)} ${d.format.padEnd(4)} ${String(d.expectedBytes).padStart(9)} ${d.documentUrl}`);
-    return;
-  }
-
-  const rows = [];
+  const records = [];
   let requests = 0;
   for (const d of documents) {
-    const known = Object.values(manifest.documents).find((r) => r.documentUrl === d.documentUrl && r.extractionStatus === 'ok');
-    if (known && alreadyRetrieved(manifest, known.sha256) && existsSync(archivePaths(archive.root, known.sha256).text)) {
-      console.log(`skip  ${d.manager} ${d.filename}: already retrieved and parsed, hash ${known.sha256.slice(0, 12)}`);
-      rows.push(known);
-      continue;
-    }
+    const check = approvedDocument(d.documentUrl, documents);
+    if (!check.ok) { console.error(`skip  ${d.manager}: ${check.reason}`); continue; }
+    if (requests >= MAX_REQUESTS) { console.error(`stop  the ${MAX_REQUESTS} request ceiling is reached`); break; }
     if (requests) await sleep(GAP_MS);
+
     let got;
     try {
       requests += 1;
@@ -114,33 +126,50 @@ async function main() {
         expectedBytes: d.expectedBytes,
         cap: CAP_BYTES,
         userAgent: UA,
-        onAttempt: ({ url, status }) => appendLedger({ script: 'retrieve-letters', url, status, attempt: 0, purpose: 'approved document retrieval' }),
+        onAttempt: ({ url, status }) => appendLedger({ script: 'retrieve-letters', url, status, attempt: 0, purpose: `approved document retrieval (${place.mode})` }),
       });
     } catch (err) {
       const refusal = err instanceof FetchRefusal ? err : new FetchRefusal('error', err.message);
-      console.error(`stop  ${d.manager} ${d.filename}: ${refusal.message}`);
+      console.error(`FAIL  ${d.manager} ${d.filename}: ${refusal.message}`);
+      records.push(toPublicRecord({
+        schemaVersion: SCHEMA_VERSION, manager: d.manager, documentId: null, subjectOrPeriod: d.subjectOrPeriod, filingDate: d.filingDate,
+        form: d.form, accession: d.accession, filingIndexUrl: d.filingIndexUrl, documentUrl: d.documentUrl, sourceBytes: null, sha256: null,
+        mimeType: null, parser: null, parserVersion: null, extractionStatus: 'failed', units: null, unitCount: 0, characterCount: 0,
+        quality: null, warnings: [refusal.message.slice(0, 480)], processedAt: new Date().toISOString(),
+      }));
       if (refusal.stopRun) { console.error('The SEC refused the request. Stopping without a retry.'); break; }
-      rows.push({ ...d, documentId: null, sha256: null, extractionStatus: 'failed', warnings: [refusal.message], retrievedAt: new Date().toISOString(), httpStatus: null, contentType: null, actualBytes: null, parser: null, parserVersion: null, units: null, unitCount: 0, characterCount: 0, originalRetained: false });
       continue;
     }
 
     const hash = got.sha256;
-    const p = archivePaths(archive.root, hash);
-    writeFileSync(p.original, got.body);
-    const parsed = await parseDocument(d.format, p.original, got.body);
-    const quality = assess({ units: parsed.units, items: parsed.items, rawCharacters: got.bytes });
-    const text = parsed.items.map((i) => i.text).join('\n\n');
-    writeFileSync(p.text, text, 'utf8');
-    writeFileSync(p.structured, `${JSON.stringify({
-      documentId: hash,
-      units: parsed.units,
-      parser: parsed.parser,
-      parserVersion: parsed.parserVersion,
-      items: parsed.items.map((i) => ({ index: i.index, tag: i.tag, chars: i.chars, sha256: sha(i.text || ''), text: i.text })),
-    }, null, 2)}\n`, 'utf8');
-    if (FORGET) rmSync(p.original, { force: true });
+    const scratchFile = join(work.path, `${hash}.${d.format}`);
+    writeFileSync(scratchFile, got.body);
 
-    const row = {
+    const prior = previous?.documents?.find((x) => x.documentUrl === d.documentUrl);
+    const sameSource = prior && prior.sha256 === hash && prior.extractionStatus === 'ok';
+    let parsed;
+    let quality;
+    if (sameSource && prior.parser && prior.parserVersion === (d.format === 'pdf' ? prior.parserVersion : HTML_VERSION)) {
+      console.log(`same  ${d.manager.padEnd(18)} unchanged source and parser; keeping the existing record`);
+      records.push(prior);
+      rmSync(scratchFile, { force: true });
+      continue;
+    }
+    parsed = await parseDocument(d.format, scratchFile, got.body);
+    quality = assess({ units: parsed.units, items: parsed.items, rawCharacters: got.bytes });
+
+    if (keep) {
+      writeFileSync(join(keep, 'originals', hash), got.body);
+      writeFileSync(join(keep, 'text', `${hash}.txt`), parsed.items.map((i) => i.text).join('\n\n'), 'utf8');
+      writeFileSync(join(keep, 'structured', `${hash}.json`), `${JSON.stringify({
+        documentId: hash, units: parsed.units, parser: parsed.parser, parserVersion: parsed.parserVersion,
+        items: parsed.items.map((i) => ({ index: i.index, tag: i.tag, chars: i.chars, sha256: createHash('sha256').update(i.text || '').digest('hex'), text: i.text })),
+      }, null, 2)}\n`, 'utf8');
+    }
+    rmSync(scratchFile, { force: true });
+
+    const record = toPublicRecord({
+      schemaVersion: SCHEMA_VERSION,
       manager: d.manager,
       documentId: hash,
       subjectOrPeriod: d.subjectOrPeriod,
@@ -149,49 +178,82 @@ async function main() {
       accession: d.accession,
       filingIndexUrl: d.filingIndexUrl,
       documentUrl: d.documentUrl,
-      retrievedAt: new Date().toISOString(),
-      httpStatus: got.status,
-      contentType: got.contentType,
-      expectedBytes: d.expectedBytes,
-      actualBytes: got.bytes,
+      sourceBytes: got.bytes,
       sha256: hash,
+      mimeType: got.contentType,
       parser: parsed.parser,
       parserVersion: parsed.parserVersion,
       extractionStatus: parsed.status,
       units: parsed.units,
       unitCount: parsed.items.length,
       characterCount: quality.normalisedCharacters,
-      warnings: [...got.warnings, ...(parsed.warnings || []), ...quality.warnings],
-      originalRetained: !FORGET,
-      rightsJudgement: d.rightsJudgement,
-      sourceClassification: d.sourceClassification,
-    };
-    const problems = validateRow(row);
-    if (problems.length) row.warnings.push(`manifest row problems: ${problems.join('; ')}`);
-    manifest.documents[hash] = row;
-    rows.push(row);
-    console.log(`${parsed.status === 'ok' ? 'ok   ' : 'FAIL '} ${d.manager.padEnd(18)} ${String(got.bytes).padStart(9)} bytes · ${parsed.items.length} ${parsed.units} · ${quality.normalisedCharacters} chars · ${row.warnings.length} warning(s)`);
+      quality: {
+        emptyUnitRatio: quality.emptyUnitRatio,
+        repeatedEdgeRatio: quality.repeatedEdgeRatio,
+        replacementCharacters: quality.replacementCharacters,
+        replacementRate: quality.replacementRate,
+        tableRows: quality.tableRows,
+        managerDiscussionPresent: quality.managerDiscussionPresent,
+        managerDiscussionMarkers: quality.managerDiscussionMarkers,
+      },
+      warnings: [...got.warnings, ...(parsed.warnings || []), ...quality.warnings].map((w) => String(w).slice(0, 480)),
+      processedAt: new Date().toISOString(),
+    });
+    const problems = validatePublicRecord(record);
+    if (problems.length) throw new Error(`the record for ${d.documentUrl} is not publishable: ${problems.join('; ')}`);
+    records.push(record);
+    console.log(`${parsed.status === 'ok' ? 'ok   ' : 'FAIL '} ${d.manager.padEnd(18)} ${String(got.bytes).padStart(9)} bytes · ${parsed.items.length} ${parsed.units} · ${quality.normalisedCharacters} chars · ${record.warnings.length} warning(s)`);
   }
 
-  writeManifestAtomic(manifestPath, manifest);
+  const output = emptyOutput();
+  output.generatedAt = new Date().toISOString();
+  output.documents = records;
+  output.counts = {
+    documents: records.length,
+    parsed: records.filter((r) => r.extractionStatus === 'ok').length,
+    failed: records.filter((r) => r.extractionStatus !== 'ok').length,
+    requests,
+    unchanged: records.filter((r) => previous && unchanged(previous, r)).length,
+  };
+  return output;
+}
 
-  // The review report holds short samples and lives only on the archive.
-  const report = ['# Letters retrieval review', '', `Generated ${new Date().toISOString()}. Local only: this file lives on the encrypted archive and is never committed.`, ''];
-  for (const r of rows) {
-    report.push(`## ${r.manager} · ${r.subjectOrPeriod} · ${r.form} ${r.filingDate}`);
-    report.push(`${r.extractionStatus} · ${r.unitCount} ${r.units} · ${r.characterCount} characters · ${r.actualBytes} bytes · ${r.sha256 ? r.sha256.slice(0, 16) : 'no hash'}`);
-    if (r.warnings?.length) report.push(`warnings: ${r.warnings.join('; ')}`);
-    const structured = r.sha256 ? archivePaths(archive.root, r.sha256).structured : null;
-    if (structured && existsSync(structured)) {
-      const items = JSON.parse(readFileSync(structured, 'utf8')).items.slice(0, 3);
-      for (const i of items) report.push(`  - ${r.units.slice(0, -1)} ${i.index}: ${(i.text || '').slice(0, 300)}`);
-    }
-    report.push('');
+async function main() {
+  const documents = approvedSelection();
+  if (documents.length > MAX_DOCUMENTS) throw new Error(`the selection holds ${documents.length} documents, over the ${MAX_DOCUMENTS} approved`);
+
+  const place = resolveWorkspace({ mode: MODE, repoRoot: ROOT });
+  console.log(`mode: ${MODE}${place.ok ? '' : ' — REFUSED'}`);
+  for (const c of place.checks || []) console.log(`  ${c.ok ? 'ok ' : 'no '} ${c.name}: ${c.detail}`);
+  if (!place.ok) {
+    console.error(`\nRefusing to fetch anything. ${place.refusal}`);
+    if (MODE === 'local-private') console.error('local-private keeps documents, so it needs a verified encrypted archive. The default mode, ephemeral-sec, keeps nothing and needs none.');
+    process.exit(3);
   }
-  writeFileSync(join(archive.root, 'review', 'report.md'), report.join('\n'), 'utf8');
 
-  console.log(`\n${rows.filter((r) => r.extractionStatus === 'ok').length} of ${documents.length} parsed · ${requests} document request(s) · manifest ${manifestPath}`);
-  console.log(`Review report written to ${join(archive.root, 'review', 'report.md')} (archive only, never committed).`);
+  const workspace = place.mode === 'local-private' ? place.scratch : place.workspace;
+  onExitCleanup(workspace);
+
+  if (DRY) {
+    console.log(`\nDry run in ${MODE}: ${documents.length} documents planned, nothing fetched.`);
+    for (const d of documents) console.log(`  ${d.manager.padEnd(18)} ${d.format.padEnd(4)} ${String(d.expectedBytes).padStart(9)} ${d.documentUrl}`);
+    workspace.cleanup();
+    return;
+  }
+
+  const { value: output, error, cleanup } = await withWorkspace(workspace, () => run(place, documents));
+  if (cleanup.clean) {
+    console.log(`cleanup: workspace removed (${cleanup.scratchFilesAtEnd} scratch file(s) at the end)`);
+  } else {
+    console.error(`CLEANUP FAILED: ${cleanup.remainingFiles} file(s) remain under ${workspace.path}`);
+    process.exitCode = 4;
+  }
+  if (error) { console.error(error); process.exit(1); }
+
+  writeFileSync(OUT_JSON, `${JSON.stringify(output, null, 2)}\n`);
+  writeFileSync(OUT_MD, markdown(output, MODE));
+  console.log(`\n${output.counts.parsed} of ${output.counts.documents} parsed · ${output.counts.requests} request(s) · wrote ${OUT_JSON} and ${OUT_MD}`);
+  if (place.retainsBytes) console.log(`Originals and text retained on the archive at ${place.root} (never committed).`);
 }
 
 main().catch((err) => {

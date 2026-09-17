@@ -7,75 +7,113 @@ recognition and no network request beyond those nine. Everything it produces
 is a mechanical transformation of bytes the SEC published, and none of those
 bytes may reach git.
 
-## Before anything runs
+## Two modes
 
-The archive is a precondition, not a setting. `LETTERS_ARCHIVE_ROOT` must
-name a directory that exists, sits outside this repository, is not on
-scratch space, and lives on a volume the tool can confirm is encrypted. Six
-checks run in that order and the command prints which one failed:
+| | `ephemeral-sec` (default) | `local-private` |
+|---|---|---|
+| Purpose | the first-cut production path, and what runs in the public collector | optional deeper private work, not part of Phase 0 |
+| Where it works | a directory made fresh for the run and deleted at the end | a verified encrypted archive volume |
+| What survives | nothing but the public measurements | originals, normalised text and per-unit hashes |
+| Needs `LETTERS_ARCHIVE_ROOT` | no | yes, and it must pass every check below |
+| Documents it may touch | only URLs on `https://www.sec.gov/` that the approved selection already names | the same |
+| Where it can run | a laptop, a GitHub runner, anywhere | the machine holding the archive |
+
+The default needs no archive at all. That is deliberate: the public pipeline
+has to keep working with the private machine permanently offline.
+
+```bash
+node scripts/retrieve-letters.mjs --dry-run        # plan and checks, fetches nothing
+node scripts/retrieve-letters.mjs                  # ephemeral-sec, the default
+node scripts/retrieve-letters.mjs --mode local-private
+```
+
+## What the approved-document guard does
+
+Two conditions, both required, checked before a request is made: the URL
+must be an `https://www.sec.gov/Archives/edgar/data/...` filing document,
+and it must appear in `data/letters.selection.json`. Editing a URL does not
+reach a document nobody approved.
+
+## The archive gate, for `local-private` only
+
+That mode keeps bytes, so it keeps the gate. Six checks, in order, each with
+its own refusal:
 
 | Check | Refuses when |
 |---|---|
 | archive root set | `LETTERS_ARCHIVE_ROOT` is unset or blank |
 | archive root absolute | the path is relative |
-| archive root exists | the directory is absent, or is a file; mount the volume first |
+| archive root exists | the directory is absent, or is a file |
 | archive outside the repository | the path is inside this checkout, where a document could be staged |
-| archive is not scratch space | the path is under a temporary directory, which a container erases |
+| archive is not scratch space | the path is under a temporary directory |
 | archive volume is encrypted | the probe says no, or cannot tell |
 
-The encryption probe asks the operating system. On macOS it reads
-`diskutil info -plist` for the volume holding the path and looks for
-`Encrypted`. On Linux it finds the mount's backing device and asks whether
-it is a dm-crypt mapping. A probe that cannot answer is a refusal: an
-unproven volume is treated as an unencrypted one.
+On Linux the probe asks whether the mount's backing device is a dm-crypt
+mapping. **On macOS it is not written yet**, and says so, so `local-private`
+refuses there: the private archive has not been commissioned, and an
+untested probe returning true would be worse than no probe. It will be
+built when the downstream ingest is.
 
-```bash
-export LETTERS_ARCHIVE_ROOT=/Volumes/L3VLUP-Letters
-export SEC_USER_AGENT='L3VLUP Research (contact: suro@l3vlup.com)'
-node scripts/retrieve-letters.mjs --dry-run
-```
+## Temporary data, and what happens to it
 
-`--dry-run` prints the precondition results and the nine planned documents
-and fetches nothing. It is also what runs when the archive is missing: the
-command prints the plan, says which check failed, and exits 3 without a
-request.
+Every run gets its own directory from `mkdtemp`, so two runs never share a
+path. It is removed by a `finally` block that covers a clean return, a fetch
+refusal, a parser that threw, a parser killed on timeout and an interrupted
+write; by handlers for `SIGINT`, `SIGTERM` and `SIGHUP`, which is what a
+cancelled job sends; and the run then surveys the directory and reports a
+failure to delete rather than assuming success. Cleanup is idempotent, so a
+signal handler and the `finally` block can both run it.
+
+**What this does not cover**: a machine destroyed mid-run. No code runs
+then. On a hosted runner the protection is that the runner itself is
+discarded with its disk; that is the isolation, and it is not the same thing
+as a guarantee.
 
 ## The run
 
-```bash
-node scripts/retrieve-letters.mjs                     # retrieve, parse, write the archive
-node scripts/retrieve-letters.mjs --forget-originals  # keep the text and the hashes, drop the originals
-```
-
-Each document, in turn, with a pause between: fetch once, hash while
-streaming, write the original under its hash, parse, write the text and the
-structured units, update the manifest atomically. A document already in the
-manifest with a verified hash and a good extraction is skipped without a
-request, so a second run costs nothing.
-
-Retrieval rules the fetcher enforces rather than assumes:
+Each document in turn, with a pause between: fetch once, hash while
+streaming, write it to the run's own directory, parse it there, measure the
+result, then delete the file. Rules the fetcher enforces rather than assumes:
 
 - only the exact approved URL, only `https`, only a `sec.gov` host
 - redirects followed only within `sec.gov`, at most three
-- a body abandoned mid-stream the moment it passes 15 MiB (15,728,640 bytes)
-- a declared `Content-Length` over the cap refused before the body starts
+- the body abandoned the moment it passes **15 MiB (15,728,640 bytes)**, and a
+  declared `Content-Length` over the cap refused before the body starts
 - the content type checked against what the selection expects
-- a 403 or a 429 stops the whole run, with no retry
 - SHA-256 computed while streaming, so nothing is read twice
+- a 403 or a 429 stops the run, with no retry
+- at most nine documents and nine requests
 
-## What lands on the archive
+A document whose accession, source hash and parser version all match the
+previous run is not parsed again; its record is carried forward. The hash is
+only knowable after fetching, so idempotency saves the parse, not the
+request.
 
-```
-$LETTERS_ARCHIVE_ROOT/
-  originals/<sha256>        the bytes as fetched, or absent after --forget-originals
-  text/<sha256>.txt         one normalised UTF-8 file
-  structured/<sha256>.json  units in order, each with its own hash
-  manifest.json             one metadata row per document
-  review/report.md          short samples, for Suro's eyes, never committed
-```
+Note on sizes: the SEC serves these compressed, so `Content-Length` reports
+the bytes on the wire while the decoded document is larger. The comparison
+that matters is against the size the selection recorded, and that is the one
+that warns.
 
-Nothing generated lives here: no summary, no claim, no tag, no inference.
-Those belong to a later milestone that has not been approved.
+## What the run publishes
+
+Two files, both metadata:
+
+- `data/letters.parsed.json` — one record per document: manager, document id,
+  subject or period, filing date, form, accession, the authoritative index
+  and document URLs, source bytes, SHA-256, MIME type, parser and exact
+  version, extraction status, unit counts, character count, the quality
+  measures, warnings, and when it was processed.
+- `data/letters.parsed.md` — the same, as a table a person reads.
+
+The permitted fields are an allowlist in `lib/letters-output.mjs`. Anything
+not on it is dropped before the file is written, a field named after
+document content is refused by name, and a string long enough to be prose is
+refused even in an allowed field. No original bytes, no extracted text, no
+excerpt, no summary, no thesis and no theme tag: those belong to a later
+stage that has not been approved.
+
+In `local-private` mode the originals, the normalised text and the per-unit
+hashes are also written to the archive. They are never committed.
 
 ## Parsing
 

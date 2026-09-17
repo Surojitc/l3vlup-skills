@@ -11,6 +11,8 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ARCHIVE_ENV, probeEncryption, resolveArchive } from '../../lib/letters-archive.mjs';
+import { approvedDocument, createWorkspace, resolveWorkspace, withWorkspace } from '../../lib/letters-workspace.mjs';
+import { SCHEMA_VERSION, identityKey, toPublicRecord, unchanged, validatePublicRecord } from '../../lib/letters-output.mjs';
 import { CAP_BYTES, FetchRefusal, contentTypeMatches, fetchDocument, isSecUrl } from '../../lib/letters-fetch.mjs';
 import { extractSections } from '../../lib/letters-html.mjs';
 import { WORKER, parsePdf } from '../../lib/letters-pdf.mjs';
@@ -94,9 +96,9 @@ await test('the encryption probe reports a plain device as not encrypted and a d
   assert.equal(linux('crypt').encrypted, true);
   assert.equal(linux('disk').encrypted, false);
   assert.equal(probeEncryption('/x', { platform: 'linux', run: () => { throw new Error('boom'); } }).encrypted, null);
-  const mac = (plist) => probeEncryption('/x', { platform: 'darwin', run: () => plist });
-  assert.equal(mac('<key>Encrypted</key>\n<true/>').encrypted, true);
-  assert.equal(mac('<key>FilesystemType</key>\n<string>apfs</string>').encrypted, false);
+  // macOS is left unimplemented on purpose until the private archive is
+  // commissioned: an untested probe that returned true would be worse than none.
+  assert.equal(probeEncryption('/x', { platform: 'darwin' }).encrypted, null);
   assert.equal(probeEncryption('/x', { platform: 'sunos' }).encrypted, null);
 });
 
@@ -128,13 +130,23 @@ await test('a body over the cap is abandoned mid-stream, and an oversized Conten
   );
 });
 
-await test('a Content-Length mismatch and a size change since selection are warnings, not silence', async () => {
+await test('a Content-Length mismatch warns, unless the body was compressed on the wire', async () => {
   const impl = async () => res({ status: 200, headers: { 'content-type': 'application/pdf', 'content-length': '99' }, body: Buffer.from('four') });
   const out = await fetchDocument({ url: 'https://www.sec.gov/a.pdf', expectedFormat: 'pdf', expectedBytes: 5, userAgent: 'x', fetchImpl: impl });
   assert.equal(out.bytes, 4);
   assert.match(out.warnings[0], /Content-Length said 99 but 4 bytes arrived/);
   assert.match(out.warnings[1], /selection recorded 5 bytes but 4 arrived/);
   assert.equal(out.sha256, createHash('sha256').update('four').digest('hex'), 'the hash is of what arrived');
+
+  // The SEC gzips these: Content-Length is the compressed size and comparing
+  // it with the decoded body would warn on every well-behaved response.
+  const gzipped = async () => res({ status: 200, headers: { 'content-type': 'application/pdf', 'content-length': '99', 'content-encoding': 'gzip' }, body: Buffer.from('four') });
+  const enc = await fetchDocument({ url: 'https://www.sec.gov/a.pdf', expectedFormat: 'pdf', expectedBytes: 4, userAgent: 'x', fetchImpl: gzipped });
+  assert.deepEqual(enc.warnings, [], 'no spurious warning when the transfer was encoded');
+  assert.equal(enc.contentEncoding, 'gzip');
+  // A chunked response declares nothing, and silence is not a mismatch.
+  const chunked = async () => res({ status: 200, headers: { 'content-type': 'application/pdf', 'content-length': '0' }, body: Buffer.from('four') });
+  assert.deepEqual((await fetchDocument({ url: 'https://www.sec.gov/a.pdf', expectedFormat: 'pdf', expectedBytes: 4, userAgent: 'x', fetchImpl: chunked })).warnings, []);
 });
 
 await test('a wrong content type, a 403 and a 429 each stop without a retry', async () => {
@@ -280,6 +292,102 @@ await test('the archive can never be staged: its paths are gitignored and it liv
   assert.ok(ignore.includes('node_modules/'), 'and the dependencies stay out too');
   const inside = resolveArchive({ env: { [ARCHIVE_ENV]: join(REPO, 'letters-archive') }, repoRoot: REPO, exists: () => true, stat: () => stubStat, probe: okProbe });
   assert.equal(inside.ok, false, 'the gate refuses an archive inside the repository');
+});
+
+// ── The two modes ───────────────────────────────────────────────────────────
+
+await test('ephemeral-sec needs no archive, retains nothing, and refuses a document nobody approved', () => {
+  const place = resolveWorkspace({ mode: 'ephemeral-sec', env: {}, repoRoot: REPO, base: tmp });
+  assert.equal(place.ok, true, 'no LETTERS_ARCHIVE_ROOT, and it still runs');
+  assert.equal(place.retainsBytes, false);
+  assert.ok(place.workspace.path.startsWith(tmp), 'a directory of its own');
+  place.workspace.cleanup();
+
+  const selection = [{ documentUrl: 'https://www.sec.gov/Archives/edgar/data/769397/000092189525000816/ex1.pdf' }];
+  assert.equal(approvedDocument(selection[0].documentUrl, selection).ok, true);
+  assert.match(approvedDocument('https://www.sec.gov/Archives/edgar/data/1/000000000000000001/x.pdf', selection).reason, /not in the approved selection/);
+  assert.match(approvedDocument('https://evil.example/x.pdf', selection).reason, /not an https www\.sec\.gov filing document/);
+  assert.match(approvedDocument('http://www.sec.gov/Archives/edgar/data/1/000000000000000001/x.pdf', selection).reason, /not an https/);
+});
+
+await test('local-private still refuses without a verified encrypted archive, and an unknown mode refuses too', () => {
+  const refused = resolveWorkspace({ mode: 'local-private', env: {}, repoRoot: REPO, base: tmp });
+  assert.equal(refused.ok, false);
+  assert.match(refused.refusal, /LETTERS_ARCHIVE_ROOT is not set/);
+  assert.match(resolveWorkspace({ mode: 'nonsense' }).refusal, /unknown mode/);
+  // macOS is deliberately not implemented yet, so it refuses rather than guessing.
+  assert.equal(probeEncryption('/x', { platform: 'darwin' }).encrypted, null);
+  assert.match(probeEncryption('/x', { platform: 'darwin' }).evidence, /not built yet/);
+});
+
+// ── Cleanup, after each way a run ends ──────────────────────────────────────
+
+const scratch = (ws, name) => writeFileSync(join(ws.path, name), 'scratch bytes');
+
+await test('the workspace is removed after success, a download failure, a size rejection, a parser exception, a timeout and an interrupted write', async () => {
+  const endings = [
+    ['success', async (ws) => { scratch(ws, 'doc.pdf'); return 'parsed'; }],
+    ['download failure', async (ws) => { throw new FetchRefusal('http_error', 'HTTP 500'); }],
+    ['size rejection', async (ws) => { scratch(ws, 'partial.pdf'); throw new FetchRefusal('body_too_large', 'over the cap'); }],
+    ['parser exception', async (ws) => { scratch(ws, 'doc.pdf'); throw new Error('the parser threw'); }],
+    ['parser timeout', async (ws) => { scratch(ws, 'doc.pdf'); return { status: 'failed', failure: 'timeout' }; }],
+    ['interrupted write', async (ws) => { scratch(ws, 'doc.pdf'); scratch(ws, 'out.json.tmp'); throw new Error('interrupted'); }],
+  ];
+  for (const [label, fn] of endings) {
+    const ws = createWorkspace({ base: tmp });
+    const paths = [];
+    const { error, cleanup } = await withWorkspace(ws, async (w) => { const r = await fn(w); paths.push(w.path); return r; });
+    assert.equal(cleanup.clean, true, `${label}: the workspace is gone`);
+    assert.equal(cleanup.remainingFiles, 0, `${label}: no file survived`);
+    assert.equal(cleanup.workspaceExists, false, `${label}: the directory itself is gone`);
+    assert.equal(existsSync(ws.path), false, `${label}: nothing at the path`);
+    if (label !== 'success' && label !== 'parser timeout') assert.ok(error, `${label}: the error is returned, not swallowed`);
+  }
+});
+
+await test('cleanup is idempotent, so a signal handler and a finally block can both run it', () => {
+  const ws = createWorkspace({ base: tmp });
+  scratch(ws, 'a.pdf');
+  assert.equal(ws.cleanup().removed, true);
+  assert.equal(ws.cleanup().alreadyGone, true, 'the second call does nothing and does not throw');
+  assert.equal(existsSync(ws.path), false);
+});
+
+// ── What may be published ───────────────────────────────────────────────────
+
+await test('the public record carries only allowed fields, and refuses text however it arrives', () => {
+  const full = {
+    schemaVersion: SCHEMA_VERSION, manager: 'starboard-value', documentId: 'c'.repeat(64), sha256: 'c'.repeat(64),
+    subjectOrPeriod: 'CARMAX INC', filingDate: '2026-03-11', form: 'DFAN14A', accession: '0000921895-26-000666',
+    filingIndexUrl: 'https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/0000921895-26-000666-index.htm',
+    documentUrl: 'https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1.pdf',
+    sourceBytes: 145421, mimeType: 'application/pdf', parser: 'pdfjs-dist', parserVersion: '6.3.289',
+    extractionStatus: 'ok', units: 'pages', unitCount: 3, characterCount: 9000, quality: { emptyUnitRatio: 0 },
+    warnings: [], processedAt: '2026-09-17T00:00:00Z',
+    // None of these may survive.
+    text: 'Dear Members of the Board', pages: [{ text: 'page one' }], items: [1], summary: 'a summary', themes: ['x'], originalPath: '/tmp/x',
+  };
+  const record = toPublicRecord(full);
+  for (const forbidden of ['text', 'pages', 'items', 'summary', 'themes', 'originalPath']) {
+    assert.ok(!(forbidden in record), `${forbidden} is dropped`);
+  }
+  assert.deepEqual(validatePublicRecord(record), []);
+  assert.deepEqual(validatePublicRecord({ ...record, text: 'x' }), ['text is not a public field', 'text would carry document content']);
+  assert.ok(validatePublicRecord({ ...record, subjectOrPeriod: 'y'.repeat(401) })[0].includes('measurements, not text'));
+  assert.ok(validatePublicRecord({ ...record, quality: { note: 'z'.repeat(401) } })[0].includes('quality.note'));
+  assert.ok(validatePublicRecord({ ...record, documentUrl: 'https://example.com/x' }).some((p) => /authoritative sec\.gov/.test(p)));
+  assert.ok(validatePublicRecord({ ...record, sourceBytes: CAP_BYTES + 1 }).some((p) => /over the 15 MiB cap/.test(p)));
+});
+
+await test('a record is unchanged only when accession, source hash and parser version all match', () => {
+  const base = { accession: 'a', sha256: 'd'.repeat(64), parser: 'p', parserVersion: '1', documentUrl: 'u', extractionStatus: 'ok' };
+  const previous = { documents: [base] };
+  assert.equal(unchanged(previous, { ...base }), true);
+  assert.equal(unchanged(previous, { ...base, sha256: 'e'.repeat(64) }), false, 'the document changed');
+  assert.equal(unchanged(previous, { ...base, parserVersion: '2' }), false, 'the parser changed');
+  assert.equal(unchanged(previous, { ...base, accession: 'b' }), false, 'a different filing');
+  assert.equal(unchanged(previous, { ...base, extractionStatus: 'failed' }), false);
+  assert.equal(identityKey(base), 'a:' + 'd'.repeat(64) + ':p@1');
 });
 
 rmSync(tmp, { recursive: true, force: true });
