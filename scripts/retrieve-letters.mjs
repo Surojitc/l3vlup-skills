@@ -37,6 +37,7 @@ import { parsePdf } from '../lib/letters-pdf.mjs';
 import { assess } from '../lib/letters-quality.mjs';
 import { emptyOutput, SCHEMA_VERSION, toPublicRecord, unchanged, validatePublicRecord } from '../lib/letters-output.mjs';
 import { approvedDocument, DEFAULT_MODE, onExitCleanup, resolveWorkspace, withWorkspace } from '../lib/letters-workspace.mjs';
+import { emptyManifest, validateRow, writeManifestAtomic } from '../lib/letters-manifest.mjs';
 import { appendLedger } from '../lib/letters-ledger.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -110,6 +111,12 @@ async function run(place, documents) {
   if (keep) for (const dir of ['originals', 'text', 'structured']) mkdirSync(join(keep, dir), { recursive: true });
 
   const records = [];
+  // local-private keeps bytes, so it keeps a manifest of what it kept: the
+  // public record cannot carry a path, and a private archive nobody can
+  // inventory is not an archive.
+  const privateManifest = keep
+    ? (existsSync(join(keep, 'manifest.json')) ? JSON.parse(readFileSync(join(keep, 'manifest.json'), 'utf8')) : emptyManifest())
+    : null;
   let requests = 0;
   for (const d of documents) {
     const check = approvedDocument(d.documentUrl, documents);
@@ -168,6 +175,22 @@ async function run(place, documents) {
     }
     rmSync(scratchFile, { force: true });
 
+    if (privateManifest) {
+      const row = {
+        manager: d.manager, documentId: hash, subjectOrPeriod: d.subjectOrPeriod, filingDate: d.filingDate, form: d.form,
+        accession: d.accession, filingIndexUrl: d.filingIndexUrl, documentUrl: d.documentUrl, retrievedAt: new Date().toISOString(),
+        httpStatus: got.status, contentType: got.contentType, expectedBytes: d.expectedBytes, actualBytes: got.bytes, sha256: hash,
+        parser: parsed.parser, parserVersion: parsed.parserVersion, extractionStatus: parsed.status, units: parsed.units,
+        unitCount: parsed.items.length, characterCount: quality.normalisedCharacters,
+        warnings: [...got.warnings, ...(parsed.warnings || []), ...quality.warnings], originalRetained: true,
+        rightsJudgement: 'SEC public record; excerpt-only display with a link to sec.gov',
+        sourceClassification: d.form.startsWith('N-CSR') ? 'sec_shareholder_report' : 'sec_exhibit',
+      };
+      const rowProblems = validateRow(row);
+      if (rowProblems.length) row.warnings.push(`manifest row problems: ${rowProblems.join('; ')}`);
+      privateManifest.documents[hash] = row;
+    }
+
     const record = toPublicRecord({
       schemaVersion: SCHEMA_VERSION,
       manager: d.manager,
@@ -204,6 +227,8 @@ async function run(place, documents) {
     records.push(record);
     console.log(`${parsed.status === 'ok' ? 'ok   ' : 'FAIL '} ${d.manager.padEnd(18)} ${String(got.bytes).padStart(9)} bytes · ${parsed.items.length} ${parsed.units} · ${quality.normalisedCharacters} chars · ${record.warnings.length} warning(s)`);
   }
+
+  if (privateManifest) writeManifestAtomic(join(keep, 'manifest.json'), privateManifest);
 
   const output = emptyOutput();
   output.generatedAt = new Date().toISOString();
