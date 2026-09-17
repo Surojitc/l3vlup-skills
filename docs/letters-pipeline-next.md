@@ -20,28 +20,44 @@ The Mac mini is downstream and optional. Everything above works with it
 permanently offline, which is why the default mode retains nothing and needs
 no archive.
 
-## 1. The manual workflow, for the next pull request
+## 1. The manual workflow
 
-Not added here. What it should say when it is:
+Built: `.github/workflows/letters-parse.yml`. What it says, and why:
 
 | Setting | Value | Why |
 |---|---|---|
-| Trigger | `workflow_dispatch` only, at first | A first run someone watches, before a schedule exists |
+| Trigger | `workflow_dispatch` only | A first run someone watches, before a schedule exists |
 | Schedule | added only after a manual run is reviewed, monthly | The documents move quarterly; monthly is already generous |
 | Concurrency | `group: letters-parse`, `cancel-in-progress: false` | Two runs fetching the same documents is impolite to the SEC and races on the output |
 | Timeout | `timeout-minutes: 15` | The nine documents parse in under a minute; anything near this is wrong |
-| Permissions | `contents: read` for the parsing job | The job that touches documents holds no write token |
+| Defaults | `dry_run: true`, `open_pull_request: false` | Running it unchanged plans the work, fetches nothing and opens nothing |
+| Permissions | `contents: read` at the top and on the parsing job; `contents: write` and `pull-requests: write` on the second, and nothing else | The job that touches documents holds no write token, and the one that can write never addresses sec.gov |
+| Actions | pinned to full commit SHAs, each with the tag it came from in a comment | A tag can be moved; a commit cannot |
 | Output | a pull request from a separate job, never a push to `main` | Generated change is reviewed, not asserted |
 | Ceilings | nine documents, nine requests, 15 MiB each, enforced in the script | The workflow cannot raise them by editing a `with:` value |
 | AI | none. No `ANTHROPIC_API_KEY`, no model step | This stage is deterministic; extraction is a later approval |
-| Artifacts | none for source documents or extracted text | An artifact outlives the runner and is downloadable |
+| Artifacts | the three metadata files, named one by one, never a directory or a wildcard | An artifact outlives the runner and is downloadable, so a glob is how a document escapes |
+| No-change | no pull request is opened when the output is unchanged | An unchanged rerun rewrites the same bytes, so an empty diff is the normal result |
 | Logs | metadata only: sizes, counts, hashes, statuses | A log is public and permanent |
-| Cleanup | a final step with `if: always()` removing the workspace | Belt to the runner's braces |
+| Cleanup | the script's own `finally` and signal handlers, then a step that fails the run if anything but the three metadata files is left in `data/` | A shell step cannot clean up a workspace inside a `mkdtemp` directory it was never told about; what a step *can* do is refuse to upload a surprise, so that is what it does |
 
-The sequence: checkout, `npm ci`, run in `ephemeral-sec`, assert the
-workspace is gone, then a second job opens the pull request with the two
-generated files. Only the second job needs write access, and it never sees a
-document.
+The sequence: checkout with `persist-credentials: false`, `npm ci
+--omit=optional`, the three letters suites, a check that the nine-document
+and nine-request ceilings are still in the script, then either a dry run or
+a real one in `ephemeral-sec`, the allowlist validator, and a check that the
+run left nothing in `data/` but the three metadata files. If they changed,
+they are uploaded, named one by one.
+
+The second job downloads them and validates them again, knowing nothing
+about how they were made: every record inside the allowlist, every document
+one the approved selection names, no more than nine, no run data, and the
+two files agreeing with each other. `scripts/letters-validate-output.mjs` is
+that gate, and nothing is committed until it passes. Only this job holds a
+write token, and it never addresses sec.gov.
+
+`scripts/__tests__/letters-workflow.test.mjs` holds each of these as a test,
+so the limits the workflow was agreed under do not depend on anyone
+remembering them.
 
 **Runtime and growth, measured.** The nine documents fetched and parsed in
 17.8 seconds on an ordinary connection; add `npm ci` for two packages and a

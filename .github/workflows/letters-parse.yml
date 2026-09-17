@@ -1,0 +1,218 @@
+name: Letters — parse the approved documents
+
+# Manual only. There is no schedule and there will not be one until the
+# pipeline has been run by hand enough times to be boring.
+#
+# The job that touches sec.gov cannot write anything, and the job that can
+# write never touches sec.gov. That split is the whole design: parsing reads
+# nine public filings and produces two metadata files, and a second job
+# validates those files against the allowlist and opens a pull request for a
+# person to read. Nothing is pushed to a branch anyone deploys from.
+#
+# What this workflow never does: fetch a document the approved selection does
+# not name, upload an original or any extracted text, call a model, read a
+# model key, run optical character recognition, touch Supabase or Vercel, or
+# change the site. It needs no secret beyond the token GitHub issues for the
+# run itself.
+#
+# Defaults are the safe ones. Run it with nothing changed and it plans the
+# work, fetches nothing and opens nothing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Plan and check only; fetch nothing'
+        type: boolean
+        required: false
+        default: true
+      open_pull_request:
+        description: 'Open a pull request if the parsed output changed'
+        type: boolean
+        required: false
+        default: false
+
+# One run at a time. A second run parsing the same nine documents while the
+# first is mid-flight would double the requests to sec.gov for no result, so
+# a queued run waits rather than cancelling: the one already talking to the
+# SEC should be allowed to finish and clean up after itself.
+concurrency:
+  group: letters-parse
+  cancel-in-progress: false
+
+# Read-only by default. The one job that needs more asks for it itself.
+permissions:
+  contents: read
+
+jobs:
+  parse:
+    name: Parse (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+
+      # --omit=optional leaves out @napi-rs/canvas, which pdfjs-dist declares
+      # for rendering pages to images. Nothing here renders anything, and
+      # every test passes without it, so 34 MB of prebuilt native binary stays
+      # out of the tree.
+      - name: Install
+        run: npm ci --omit=optional
+
+      - name: Tests
+        run: |
+          npm run test:letters
+          npm run test:select
+          npm run test:retrieval
+
+      # The nine is enforced in the script, which is the only place that can
+      # enforce it. This is the check that the script still says nine, so a
+      # quiet edit widening the run shows up before any request is made.
+      - name: Confirm the approved set is still nine
+        run: |
+          count=$(node -e "console.log(JSON.parse(require('fs').readFileSync('data/letters.selection.json','utf8')).selection.length)")
+          echo "approved documents: $count"
+          if [ "$count" -gt 9 ]; then
+            echo "::error::the selection holds $count documents, over the nine approved for Phase 0"
+            exit 1
+          fi
+          grep -q 'MAX_DOCUMENTS = 9' scripts/retrieve-letters.mjs || {
+            echo "::error::the nine-document ceiling is no longer in scripts/retrieve-letters.mjs"; exit 1; }
+          grep -q 'MAX_REQUESTS = 9' scripts/retrieve-letters.mjs || {
+            echo "::error::the nine-request ceiling is no longer in scripts/retrieve-letters.mjs"; exit 1; }
+
+      - name: Dry run
+        if: ${{ inputs.dry_run }}
+        run: node scripts/retrieve-letters.mjs --dry-run
+
+      # ephemeral-sec is the default and needs no archive: the workspace is
+      # made by mkdtemp and deleted before the step ends, and the runner's
+      # disk is discarded afterwards either way.
+      - name: Retrieve and parse
+        if: ${{ !inputs.dry_run }}
+        env:
+          SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT }}
+        run: node scripts/retrieve-letters.mjs --mode ephemeral-sec
+
+      - name: Validate the output against the allowlist
+        if: ${{ !inputs.dry_run }}
+        run: node scripts/letters-validate-output.mjs
+
+      # An unchanged rerun rewrites both files byte for byte, so an empty
+      # diff here means there is genuinely nothing to open a pull request
+      # about, and the next job is skipped.
+      - name: Did anything change
+        id: diff
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if git diff --quiet -- data/letters.parsed.json data/letters.parsed.md data/letters.requests.jsonl; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "the parsed output is unchanged; there is nothing to open"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git --no-pager diff --stat -- data/letters.parsed.json data/letters.parsed.md data/letters.requests.jsonl
+          fi
+
+      # Three metadata files and nothing else. The upload is named file by
+      # file rather than by directory so an original or a text dump cannot be
+      # swept in by a wildcard; the step before it fails the run if anything
+      # unexpected is in the workspace.
+      - name: Check nothing else is staged for upload
+        if: ${{ !inputs.dry_run && steps.diff.outputs.changed == 'true' }}
+        run: |
+          unexpected=$(git status --porcelain -- data/ | grep -v -E 'letters\.(parsed\.(json|md)|requests\.jsonl)$' || true)
+          if [ -n "$unexpected" ]; then
+            echo "::error::the run left files that are not the parsed metadata:"
+            echo "$unexpected"
+            exit 1
+          fi
+
+      - name: Upload the parsed metadata
+        if: ${{ !inputs.dry_run && steps.diff.outputs.changed == 'true' }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: letters-parsed-metadata
+          path: |
+            data/letters.parsed.json
+            data/letters.parsed.md
+            data/letters.requests.jsonl
+          if-no-files-found: error
+          retention-days: 1
+
+  open-pull-request:
+    name: Validate and open a pull request
+    needs: parse
+    if: ${{ !inputs.dry_run && inputs.open_pull_request && needs.parse.outputs.changed == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # The least that can open a pull request: a branch to push and the pull
+    # request itself. No packages, no actions, no deployments, no id-token.
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci --omit=optional
+
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: letters-parsed-metadata
+          path: data
+
+      # The parsing job already refused to write an unpublishable record, but
+      # this job did not watch it do so. It re-reads the files it is about to
+      # commit, knowing nothing about how they were made: every record inside
+      # the allowlist, every document one the approved selection names, no
+      # more than nine, no run data, and the two files agreeing with each
+      # other. Nothing is committed until this passes.
+      - name: Validate what arrived
+        run: node scripts/letters-validate-output.mjs
+
+      - name: Open the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/; then
+            echo "nothing changed after all; not opening a pull request"
+            exit 0
+          fi
+          branch="letters/parsed-$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$branch"
+          git add data/letters.parsed.json data/letters.parsed.md data/letters.requests.jsonl
+          git commit -m 'Letters: refresh the parsed metadata for the approved documents'
+          git push origin "$branch"
+          printf '%s\n' \
+            'Opened by the manual **Letters — parse** workflow. Metadata only: the' \
+            'documents stay on sec.gov and nothing was retained by the run.' \
+            '' \
+            'Both files are validated against the public allowlist before this branch' \
+            'is pushed, so a diff here means a document genuinely changed on sec.gov —' \
+            'an amended filing, a different parser result — and not that a run' \
+            'happened. Read the diff for what moved and why.' \
+            '' \
+            '---' \
+            '_Generated by [Claude Code](https://claude.ai/code)_' > /tmp/letters-pr-body.md
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title 'Letters: refresh the parsed metadata' \
+            --body-file /tmp/letters-pr-body.md
