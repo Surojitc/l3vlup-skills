@@ -20,7 +20,7 @@
       }
     ]
   },
-  "generatedAt": "2026-09-17T07:29:56.016Z",
+  "generatedAt": "2026-09-17T07:30:33.598Z",
   "limits": {
     "maxValidationGets": 4,
     "pdfHeadBytes": 262144,
@@ -219,7 +219,7 @@
       "validationMethod": "filing index description only; no document was read",
       "managerAuthoredThesisMaterial": "yes: the manager's letter to shareholders is inside the report",
       "why": "the registrant's N-CSRS for the period ending 2025-03-31: the primary document carries the manager's letter to shareholders",
-      "campaignId": "date:2025-05",
+      "campaignId": null,
       "eligibility": "yes",
       "exceptionRequired": null,
       "alternativeCandidate": "none among the inspected indexes",

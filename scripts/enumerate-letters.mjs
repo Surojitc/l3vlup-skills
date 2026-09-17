@@ -169,7 +169,9 @@ async function main() {
   for (const a of authorised.indexes || []) {
     const found = Object.values(byFund).flat().find((c) => c.accession === a.accession);
     if (!found) throw new Error(`authorised index ${a.accession} is not a candidate of any source`);
-    extras.push({ fund: found.fund, ...found, why: `authorised individually: ${a.reason}`, authorised: true, campaign: campaignKey(found) });
+    // A campaign is an activist's engagement; a registered fund's report has none.
+    const isExhibit = sourcesById[found.sourceId]?.sourceType === 'sec_exhibit';
+    extras.push({ fund: found.fund, ...found, why: `authorised individually: ${a.reason}`, authorised: true, campaign: isExhibit ? campaignKey(found) : null });
   }
   if (EXTRAS_ONLY) {
     const cached = plan.filter((p) => existsSync(join(CACHE, `index-${p.accession}.htm`)));

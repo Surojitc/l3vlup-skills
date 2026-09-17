@@ -1,6 +1,6 @@
 # Letters exhibit enumeration (Phase 0)
 
-Generated 2026-09-17T07:29:55.920Z. 0 filing-index request(s) to sec.gov, 17 from cache. No exhibit or report was opened.
+Generated 2026-09-17T07:30:33.507Z. 0 filing-index request(s) to sec.gov, 17 from cache. No exhibit or report was opened.
 
 ## Shortlist
 
@@ -27,7 +27,7 @@ Generated 2026-09-17T07:29:55.920Z. 0 filing-index request(s) to sec.gov, 17 fro
 | starboard-value | 2026-03-11 | DFAN14A | 0000921895-26-000666 | [index](https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/0000921895-26-000666-index.htm) | matter:06297384 | CARMAX INC | DFAN14A | LETTER TO THE ISSUER, DATED MARCH 10, 2026 | ex1todfan14a06297384_031126.pdf | [doc](https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf) | letter | high | letter by declared type "DFAN14A" and description "LETTER TO THE ISSUER, DATED MARCH 10, 2026" |  | yes |
 | elliott | 2024-09-26 | DFAN14A | 0000921895-24-002183 | [index](https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/0000921895-24-002183-index.htm) | matter:10168307 | SOUTHWEST AIRLINES CO | DFAN14A |  | dfan14a10168307_09262024.htm | [doc](https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/dfan14a10168307_09262024.htm) | solicitation_cover | low | solicitation cover by declared type "DFAN14A", no description | the primary document is usually the cover legend; the exhibit carries the content | yes |
 | elliott | 2024-09-26 | DFAN14A | 0000921895-24-002183 | [index](https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/0000921895-24-002183-index.htm) | matter:10168307 | SOUTHWEST AIRLINES CO | DFAN14A | EXHIBIT 99.1 | ex991dfan14a10168307_092624.pdf | [doc](https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/ex991dfan14a10168307_092624.pdf) | unclassified | review | unclassified by declared type "DFAN14A" and description "EXHIBIT 99.1"; a PDF this size is usually a letter | no description on the index; the document kind is unknown until opened | review |
-| harris-associates | 2025-05-29 | N-CSRS | 0001104659-25-054127 | [index](https://www.sec.gov/Archives/edgar/data/872323/000110465925054127/0001104659-25-054127-index.htm) | date:2025-05 |  | N-CSRS | N-CSRS | tm2512387d1_ncsrs.htm | [doc](https://www.sec.gov/Archives/edgar/data/872323/000110465925054127/tm2512387d1_ncsrs.htm) | shareholder_report | high | shareholder report by declared type "N-CSRS" and description "N-CSRS" |  | yes |
+| harris-associates | 2025-05-29 | N-CSRS | 0001104659-25-054127 | [index](https://www.sec.gov/Archives/edgar/data/872323/000110465925054127/0001104659-25-054127-index.htm) | 2025-03-31 |  | N-CSRS | N-CSRS | tm2512387d1_ncsrs.htm | [doc](https://www.sec.gov/Archives/edgar/data/872323/000110465925054127/tm2512387d1_ncsrs.htm) | shareholder_report | high | shareholder report by declared type "N-CSRS" and description "N-CSRS" |  | yes |
 
 353 routine documents omitted from the table (in the JSON):  17, EX-99.1 1, EX-99.2 1, GRAPHIC 292, EX-99.CERT 9, EX-99.906 CERT 7, EX-101.SCH 9, XML 9, EX-99.IND PUB ACCT 1, EX-99.4 1, EX-99.906CERT 2, EX-99.CODE ETH 3, EX-99.(B) 1.
 
