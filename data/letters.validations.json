@@ -1,0 +1,56 @@
+{
+  "note": "Head reads of unlabelled candidates: metadata only, never the body. Reused on every run so no document is read twice.",
+  "validations": {
+    "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/dfan14a06297361_11072024.htm": {
+      "fund": "starboard-value",
+      "filename": "dfan14a06297361_11072024.htm",
+      "at": "2026-09-17T06:20:35Z",
+      "result": {
+        "status": 200,
+        "contentType": "text/html",
+        "contentLength": 5265,
+        "title": null,
+        "classification": "press_release",
+        "evidence": "marker \"press release\" in the opening text",
+        "words": 1413,
+        "bytesInspected": 28469,
+        "confidence": "firm"
+      }
+    },
+    "https://www.sec.gov/Archives/edgar/data/1534701/000092189525001028/e664374_dfan14a-phillips66.htm": {
+      "fund": "elliott",
+      "filename": "e664374_dfan14a-phillips66.htm",
+      "at": "2026-09-17T06:20:35Z",
+      "result": {
+        "status": 200,
+        "contentType": "text/html",
+        "contentLength": 4462,
+        "title": null,
+        "classification": "letter",
+        "evidence": "a release wrapping a letter: the letter marker follows the release marker",
+        "words": 1232,
+        "bytesInspected": 19814,
+        "confidence": "firm"
+      }
+    },
+    "https://www.sec.gov/Archives/edgar/data/92380/000092189524002164/ex991dfan14a10168307_092424.pdf": {
+      "fund": "elliott",
+      "filename": "ex991dfan14a10168307_092424.pdf",
+      "at": "2026-09-17T06:20:35Z",
+      "result": {
+        "status": 206,
+        "contentType": "application/pdf",
+        "contentLength": 262144,
+        "title": null,
+        "classification": "letter",
+        "evidence": "1 portrait page boxes seen",
+        "pages": null,
+        "landscapeBoxes": 0,
+        "boxesSeen": 1,
+        "bytesInspected": 262144,
+        "rangeHonoured": true,
+        "confidence": "weak"
+      }
+    }
+  }
+}

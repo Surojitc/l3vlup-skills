@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T21:11:59.969Z",
+  "generatedAt": "2026-09-17T06:22:39.407Z",
   "limits": {
     "maxIndexRequests": 15,
     "perFund": 3,
@@ -11,72 +11,72 @@
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-25-000816.htm",
       "status": "cached",
-      "at": "2026-09-16T21:11:59.997Z"
+      "at": "2026-09-17T06:22:39.426Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001193805-24-001416.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.001Z"
+      "at": "2026-09-17T06:22:39.430Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-24-002508.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.002Z"
+      "at": "2026-09-17T06:22:39.431Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-25-000692.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.003Z"
+      "at": "2026-09-17T06:22:39.431Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-24-002164.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.004Z"
+      "at": "2026-09-17T06:22:39.432Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-25-001028.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.004Z"
+      "at": "2026-09-17T06:22:39.432Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001580642-26-001717.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.005Z"
+      "at": "2026-09-17T06:22:39.433Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001580642-25-001664.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.006Z"
+      "at": "2026-09-17T06:22:39.433Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001580642-26-006087.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.007Z"
+      "at": "2026-09-17T06:22:39.434Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001104659-25-117601.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.007Z"
+      "at": "2026-09-17T06:22:39.435Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001104659-24-125538.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.009Z"
+      "at": "2026-09-17T06:22:39.436Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001104659-26-065606.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.012Z"
+      "at": "2026-09-17T06:22:39.438Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001193125-26-074946.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.013Z"
+      "at": "2026-09-17T06:22:39.439Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001193125-25-045012.htm",
       "status": "cached",
-      "at": "2026-09-16T21:12:00.014Z"
+      "at": "2026-09-17T06:22:39.439Z"
     }
   ],
   "requestsMade": 0,
@@ -293,6 +293,528 @@
       "documents": 14
     }
   ],
+  "campaigns": {
+    "starboard-value": [
+      {
+        "key": "matter:06297347",
+        "filings": [
+          {
+            "filingDate": "2025-03-19",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000816",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189525000816/0000921895-25-000816-index.htm"
+          },
+          {
+            "filingDate": "2025-03-26",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000885",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189525000885/0000921895-25-000885-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297371",
+        "filings": [
+          {
+            "filingDate": "2024-11-26",
+            "form": "SC 13D",
+            "accession": "0001193805-24-001416",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000119380524001416/0001193805-24-001416-index.htm"
+          },
+          {
+            "filingDate": "2024-12-09",
+            "form": "SC 13D/A",
+            "accession": "0000921895-24-002913",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002913/0000921895-24-002913-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297361",
+        "filings": [
+          {
+            "filingDate": "2024-09-20",
+            "form": "PREC14A",
+            "accession": "0000921895-24-002153",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002153/0000921895-24-002153-index.htm"
+          },
+          {
+            "filingDate": "2024-10-10",
+            "form": "DEFC14A",
+            "accession": "0001193805-24-001235",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000119380524001235/0001193805-24-001235-index.htm"
+          },
+          {
+            "filingDate": "2024-11-07",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002508",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/0000921895-24-002508-index.htm"
+          },
+          {
+            "filingDate": "2024-11-08",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002526",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002526/0000921895-24-002526-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297384",
+        "filings": [
+          {
+            "filingDate": "2026-03-11",
+            "form": "DFAN14A",
+            "accession": "0000921895-26-000666",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189526000666/0000921895-26-000666-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297373",
+        "filings": [
+          {
+            "filingDate": "2026-02-17",
+            "form": "DFAN14A",
+            "accession": "0000921895-26-000436",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189526000436/0000921895-26-000436-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "date:2025-09",
+        "filings": [
+          {
+            "filingDate": "2025-09-08",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-002557",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189525002557/0000921895-25-002557-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297339",
+        "filings": [
+          {
+            "filingDate": "2025-04-14",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001074",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189525001074/0000921895-25-001074-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297362",
+        "filings": [
+          {
+            "filingDate": "2025-02-05",
+            "form": "PREC14A",
+            "accession": "0001193805-25-000113",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000119380525000113/0001193805-25-000113-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297352",
+        "filings": [
+          {
+            "filingDate": "2024-12-10",
+            "form": "SC 13D/A",
+            "accession": "0000921895-24-002922",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002922/0000921895-24-002922-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:06297282",
+        "filings": [
+          {
+            "filingDate": "2024-11-14",
+            "form": "SC 13D/A",
+            "accession": "0000921895-24-002743",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002743/0000921895-24-002743-index.htm"
+          }
+        ]
+      }
+    ],
+    "elliott": [
+      {
+        "key": "matter:10168303",
+        "filings": [
+          {
+            "filingDate": "2025-03-04",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000692",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000692/0000921895-25-000692-index.htm"
+          },
+          {
+            "filingDate": "2025-03-04",
+            "form": "PREC14A",
+            "accession": "0001193805-25-000261",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000119380525000261/0001193805-25-000261-index.htm"
+          },
+          {
+            "filingDate": "2025-03-06",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000701",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000701/0000921895-25-000701-index.htm"
+          },
+          {
+            "filingDate": "2025-03-18",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000803",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000803/0000921895-25-000803-index.htm"
+          },
+          {
+            "filingDate": "2025-03-21",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000852",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000852/0000921895-25-000852-index.htm"
+          },
+          {
+            "filingDate": "2025-03-24",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000868",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000868/0000921895-25-000868-index.htm"
+          },
+          {
+            "filingDate": "2025-03-25",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000878",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000878/0000921895-25-000878-index.htm"
+          },
+          {
+            "filingDate": "2025-03-26",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000887",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000887/0000921895-25-000887-index.htm"
+          },
+          {
+            "filingDate": "2025-03-27",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000899",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000899/0000921895-25-000899-index.htm"
+          },
+          {
+            "filingDate": "2025-03-28",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000913",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000913/0000921895-25-000913-index.htm"
+          },
+          {
+            "filingDate": "2025-04-02",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000943",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000943/0000921895-25-000943-index.htm"
+          },
+          {
+            "filingDate": "2025-04-03",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000976",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000976/0000921895-25-000976-index.htm"
+          },
+          {
+            "filingDate": "2025-04-03",
+            "form": "DEFC14A",
+            "accession": "0000921895-25-000972",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000972/0000921895-25-000972-index.htm"
+          },
+          {
+            "filingDate": "2025-04-04",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-000986",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525000986/0000921895-25-000986-index.htm"
+          },
+          {
+            "filingDate": "2025-04-08",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001022",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001022/0000921895-25-001022-index.htm"
+          },
+          {
+            "filingDate": "2025-04-09",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001045",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001045/0000921895-25-001045-index.htm"
+          },
+          {
+            "filingDate": "2025-04-09",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001028",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001028/0000921895-25-001028-index.htm"
+          },
+          {
+            "filingDate": "2025-04-10",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001055",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001055/0000921895-25-001055-index.htm"
+          },
+          {
+            "filingDate": "2025-04-10",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001049",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001049/0000921895-25-001049-index.htm"
+          },
+          {
+            "filingDate": "2025-04-11",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001065",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001065/0000921895-25-001065-index.htm"
+          },
+          {
+            "filingDate": "2025-04-14",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001075",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001075/0000921895-25-001075-index.htm"
+          },
+          {
+            "filingDate": "2025-04-15",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001085",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001085/0000921895-25-001085-index.htm"
+          },
+          {
+            "filingDate": "2025-04-16",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001103",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001103/0000921895-25-001103-index.htm"
+          },
+          {
+            "filingDate": "2025-04-17",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001118",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001118/0000921895-25-001118-index.htm"
+          },
+          {
+            "filingDate": "2025-04-18",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001124",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001124/0000921895-25-001124-index.htm"
+          },
+          {
+            "filingDate": "2025-04-21",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001131",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001131/0000921895-25-001131-index.htm"
+          },
+          {
+            "filingDate": "2025-04-22",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001135",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001135/0000921895-25-001135-index.htm"
+          },
+          {
+            "filingDate": "2025-04-23",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001146",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001146/0000921895-25-001146-index.htm"
+          },
+          {
+            "filingDate": "2025-04-24",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001153",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001153/0000921895-25-001153-index.htm"
+          },
+          {
+            "filingDate": "2025-04-25",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001167",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001167/0000921895-25-001167-index.htm"
+          },
+          {
+            "filingDate": "2025-04-28",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001193",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001193/0000921895-25-001193-index.htm"
+          },
+          {
+            "filingDate": "2025-04-29",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001207",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001207/0000921895-25-001207-index.htm"
+          },
+          {
+            "filingDate": "2025-04-30",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001219",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001219/0000921895-25-001219-index.htm"
+          },
+          {
+            "filingDate": "2025-05-01",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001236",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001236/0000921895-25-001236-index.htm"
+          },
+          {
+            "filingDate": "2025-05-02",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001262",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001262/0000921895-25-001262-index.htm"
+          },
+          {
+            "filingDate": "2025-05-05",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001283",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001283/0000921895-25-001283-index.htm"
+          },
+          {
+            "filingDate": "2025-05-06",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001299",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001299/0000921895-25-001299-index.htm"
+          },
+          {
+            "filingDate": "2025-05-07",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001321",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001321/0000921895-25-001321-index.htm"
+          },
+          {
+            "filingDate": "2025-05-08",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001346",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001346/0000921895-25-001346-index.htm"
+          },
+          {
+            "filingDate": "2025-05-09",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001376",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001376/0000921895-25-001376-index.htm"
+          },
+          {
+            "filingDate": "2025-05-12",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001404",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001404/0000921895-25-001404-index.htm"
+          },
+          {
+            "filingDate": "2025-05-13",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001439",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001439/0000921895-25-001439-index.htm"
+          },
+          {
+            "filingDate": "2025-05-14",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001478",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001478/0000921895-25-001478-index.htm"
+          },
+          {
+            "filingDate": "2025-05-15",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001560",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001560/0000921895-25-001560-index.htm"
+          },
+          {
+            "filingDate": "2025-05-16",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001576",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001576/0000921895-25-001576-index.htm"
+          },
+          {
+            "filingDate": "2025-05-19",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001588",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001588/0000921895-25-001588-index.htm"
+          },
+          {
+            "filingDate": "2025-05-20",
+            "form": "DFAN14A",
+            "accession": "0000921895-25-001599",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189525001599/0000921895-25-001599-index.htm"
+          }
+        ]
+      },
+      {
+        "key": "matter:10168307",
+        "filings": [
+          {
+            "filingDate": "2024-09-24",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002164",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002164/0000921895-24-002164-index.htm"
+          },
+          {
+            "filingDate": "2024-09-24",
+            "form": "SC 13D/A",
+            "accession": "0000902664-24-005604",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000090266424005604/0000902664-24-005604-index.htm"
+          },
+          {
+            "filingDate": "2024-09-26",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002183",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002183/0000921895-24-002183-index.htm"
+          },
+          {
+            "filingDate": "2024-10-15",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002289",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002289/0000921895-24-002289-index.htm"
+          },
+          {
+            "filingDate": "2024-10-15",
+            "form": "PREC14A",
+            "accession": "0001193805-24-001245",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000119380524001245/0001193805-24-001245-index.htm"
+          },
+          {
+            "filingDate": "2024-10-15",
+            "form": "SC 13D/A",
+            "accession": "0000902664-24-005829",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000090266424005829/0000902664-24-005829-index.htm"
+          },
+          {
+            "filingDate": "2024-10-16",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002300",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002300/0000921895-24-002300-index.htm"
+          },
+          {
+            "filingDate": "2024-10-17",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002313",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002313/0000921895-24-002313-index.htm"
+          },
+          {
+            "filingDate": "2024-10-18",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002321",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002321/0000921895-24-002321-index.htm"
+          },
+          {
+            "filingDate": "2024-10-21",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002329",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002329/0000921895-24-002329-index.htm"
+          },
+          {
+            "filingDate": "2024-10-22",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002336",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002336/0000921895-24-002336-index.htm"
+          },
+          {
+            "filingDate": "2024-10-23",
+            "form": "DFAN14A",
+            "accession": "0000921895-24-002347",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000092189524002347/0000921895-24-002347-index.htm"
+          },
+          {
+            "filingDate": "2024-10-24",
+            "form": "SC 13D/A",
+            "accession": "0000902664-24-005965",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000090266424005965/0000902664-24-005965-index.htm"
+          },
+          {
+            "filingDate": "2024-10-30",
+            "form": "SC 13D/A",
+            "accession": "0000902664-24-006082",
+            "indexUrl": "https://www.sec.gov/Archives/edgar/data/1791786/000090266424006082/0000902664-24-006082-index.htm"
+          }
+        ]
+      }
+    ]
+  },
   "shortlist": [
     {
       "fund": "starboard-value",

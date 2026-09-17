@@ -46,7 +46,9 @@ excluded. `npm run discover:letters` reads one submissions index per source
 from data.sec.gov and writes `data/letters.discovery.{json,md}`: what
 exists, where on sec.gov, and in what form; `npm run enumerate:letters` then
 reads at most fifteen filing index pages and lists the documents inside them
-with their subject companies. Filing index URLs are authoritative; a
+with their subject companies; `npm run select:letters` picks two documents
+per fund by rule, reading at most the head of an unlabelled candidate once
+and keeping only its classification. Filing index URLs are authoritative; a
 solicitation's documents sit under the subject company's CIK folder, so a
 document path is never inferred from the filer's CIK. Every network attempt
 is appended to `data/letters.requests.jsonl`. Neither downloads a document,

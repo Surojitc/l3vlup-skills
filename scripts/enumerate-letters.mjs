@@ -25,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 import {
   CONTENT_RELEVANCE,
   activeSources,
+  groupCampaigns,
   authoritativeIndexUrl,
   classifyDocument,
   documentUrlFrom,
@@ -152,6 +153,13 @@ async function main() {
     byFund[s.fund] = selectCandidates(sub, s, { now, windowMonths: registry.windowMonths || 24 }).candidates;
   }
   const plan = planIndexes(byFund, sourcesById, PER_FUND);
+  // Every filing of every campaign, so a later step can name an alternative from the same engagement.
+  const campaigns = {};
+  for (const [fund, list] of Object.entries(byFund)) {
+    if (sourcesById[list[0]?.sourceId]?.sourceType === 'sec_exhibit') {
+      campaigns[fund] = groupCampaigns(list).map((c) => ({ key: c.key, filings: c.filings.map((f) => ({ filingDate: f.filingDate, form: f.form, accession: f.accession, indexUrl: f.indexUrl })) }));
+    }
+  }
   if (plan.length > MAX_INDEX_REQUESTS) throw new Error(`plan has ${plan.length} indexes, over the ${MAX_INDEX_REQUESTS} cap`);
   console.log(`plan: ${plan.length} filing indexes (cap ${MAX_INDEX_REQUESTS}), ${PER_FUND} per fund`);
 
@@ -163,6 +171,7 @@ async function main() {
     requestsMade: 0,
     cacheHits: 0,
     inspected: [],
+    campaigns,
     shortlist: [],
     recommended: [],
     notInspected: [],

@@ -19,3 +19,6 @@
 {"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/872323/000110465926065606/0001104659-26-065606-index.htm","status":200,"attempt":0,"reconstructed":true}
 {"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/89043/000119312526074946/0001193125-26-074946-index.htm","status":200,"attempt":0,"reconstructed":true}
 {"at":"2026-09-16T20:45:00Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/89043/000119312525045012/0001193125-25-045012-index.htm","status":200,"attempt":0,"reconstructed":true}
+{"at":"2026-09-17T06:20:34.359Z","script":"select-letters","url":"https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/dfan14a06297361_11072024.htm","status":200,"attempt":0,"purpose":"validation head read"}
+{"at":"2026-09-17T06:20:35.495Z","script":"select-letters","url":"https://www.sec.gov/Archives/edgar/data/1534701/000092189525001028/e664374_dfan14a-phillips66.htm","status":200,"attempt":0,"purpose":"validation head read"}
+{"at":"2026-09-17T06:20:36.713Z","script":"select-letters","url":"https://www.sec.gov/Archives/edgar/data/92380/000092189524002164/ex991dfan14a10168307_092424.pdf","status":206,"attempt":0,"purpose":"validation head read"}
