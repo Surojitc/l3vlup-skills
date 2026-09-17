@@ -1,10 +1,10 @@
 # Letters Phase 0: final document selection
 
-Generated 2026-09-17T07:30:33.598Z. 0 validation GET(s) made this run (cap 4); bodies were not stored. No document was fetched for parsing.
+Generated 2026-09-17T10:43:58.965Z. 0 validation GET(s) made this run (cap 4); bodies were not stored. No document was fetched for parsing.
 
-Fetch cap: 15728640 bytes (15 MiB), the threshold as it has been applied since the Phase 0 plan. Nothing above it is eligible, so no row below carries a size exception. Headroom is printed per row; a row marked near the cap is within 10% of it, and one of them is above 15,000,000 decimal bytes while below 15 MiB, so the binary reading is doing real work there.
+Fetch cap: 15728640 bytes = 15 MiB exactly, the threshold as it has been applied since the Phase 0 plan and confirmed on 17 September 2026. Nothing above it is eligible, so no row below carries a size exception. Headroom is printed per row; a row marked near the cap is within 10% of it. One selected report is 15,598,170 bytes, which is 14.9 MiB and inside the cap, though above 15.0 MB decimal.
 
-Network attempts on the ledger: 7 observed (written as they happened) and 20 reconstructed after the fact from run output, never added together as one figure.
+Network attempts on the ledger: 8 observed (written as they happened) and 20 reconstructed after the fact from run output, never added together as one figure.
 
 | Fund | Subject / period | Campaign | Filed | Form | Accession | Index | Document | Filename | Type | Bytes | Headroom | Index description | Validation | Why it qualifies | Manager-authored thesis material | Eligibility |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -20,17 +20,18 @@ Network attempts on the ledger: 7 observed (written as they happened) and 20 rec
 
 ## Refused by decision
 
-- ex991dfan14a10168307_092424.pdf (0000921895-24-002164): 21.3 MB, above the 15 MiB Phase 0 fetch cap. Size exception refused: the pilot proves the pipeline inside its stated limits.
-- tm2614019d1_ncsrs.htm (0001104659-26-065606): 16.0 MB, above the 15 MiB Phase 0 fetch cap. Size exception refused, same reason.
+- ex991dfan14a10168307_092424.pdf (0000921895-24-002164): 21.3 MiB, above the 15 MiB Phase 0 fetch cap. Size exception refused: the pilot proves the pipeline inside its stated limits.
+- tm2614019d1_ncsrs.htm (0001104659-26-065606): 16.0 MiB, above the 15 MiB Phase 0 fetch cap. Size exception refused, same reason.
 - dfan14a06297361_11072024.htm (0000921895-24-002508): Validated as a press release announcing a nomination, not a manager-authored letter. A release qualifies only where it reproduces the letter in full, as the Phillips 66 document does.
+- ex991dfan14a10168307_092624.pdf (0000921895-24-002183): Validated 17 September 2026 by one authorised complete download: a two-page image-only PDF with no text layer (no font objects, two JPEG page images). An image-only artefact does not qualify, and Phase 0 excludes optical character recognition, so nothing could be read from it.
 
 ## Shortfalls
 
-- **elliott**: only 1 acceptable campaign(s) under the fetch cap. Nearest candidate: ex991dfan14a10168307_092624.pdf (1622433 bytes, SOUTHWEST AIRLINES CO, campaign matter:10168307), which the head read left unsettled: 1 portrait page boxes seen. One deeper read of that same document would settle it.
+- **elliott**: only 1 acceptable campaign(s) under the fetch cap. Every candidate its inspected indexes offered has been examined and refused; nothing is substituted automatically, so the set stands at nine until Suro decides.
 
 ## Validation reads on file
 
 - starboard-value dfan14a06297361_11072024.htm: 2026-09-17T06:20:35Z, HTTP 200, text/html, press_release (firm); marker "press release" in the opening text
 - elliott e664374_dfan14a-phillips66.htm: 2026-09-17T06:20:35Z, HTTP 200, text/html, letter (firm); a release wrapping a letter: the letter marker follows the release marker
 - elliott ex991dfan14a10168307_092424.pdf: 2026-09-17T06:20:35Z, HTTP 206, application/pdf, letter (weak); 1 portrait page boxes seen
-- elliott ex991dfan14a10168307_092624.pdf: 2026-09-17T07:26:48.556Z, HTTP 206, application/pdf, letter (weak); 1 portrait page boxes seen
+- elliott ex991dfan14a10168307_092624.pdf: 2026-09-17T10:41:39Z, HTTP 200, application/pdf, image_only (firm); no font objects and no text-bearing content streams; both pages are JPEG images

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T07:30:33.507Z",
+  "generatedAt": "2026-09-17T10:43:58.830Z",
   "limits": {
     "maxIndexRequests": 15,
     "perFund": 3,
@@ -11,87 +11,87 @@
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-25-000816.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.528Z"
+      "at": "2026-09-17T10:43:58.860Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001193805-24-001416.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.531Z"
+      "at": "2026-09-17T10:43:58.865Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-24-002508.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.531Z"
+      "at": "2026-09-17T10:43:58.866Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-25-000692.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.532Z"
+      "at": "2026-09-17T10:43:58.866Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-24-002164.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.532Z"
+      "at": "2026-09-17T10:43:58.867Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-25-001028.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.533Z"
+      "at": "2026-09-17T10:43:58.867Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001580642-26-001717.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.533Z"
+      "at": "2026-09-17T10:43:58.867Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001580642-25-001664.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.534Z"
+      "at": "2026-09-17T10:43:58.868Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001580642-26-006087.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.534Z"
+      "at": "2026-09-17T10:43:58.869Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001104659-25-117601.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.535Z"
+      "at": "2026-09-17T10:43:58.869Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001104659-24-125538.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.535Z"
+      "at": "2026-09-17T10:43:58.870Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001104659-26-065606.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.537Z"
+      "at": "2026-09-17T10:43:58.873Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001193125-26-074946.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.538Z"
+      "at": "2026-09-17T10:43:58.874Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001193125-25-045012.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.538Z"
+      "at": "2026-09-17T10:43:58.874Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-26-000666.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.538Z"
+      "at": "2026-09-17T10:43:58.875Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0000921895-24-002183.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.539Z"
+      "at": "2026-09-17T10:43:58.875Z"
     },
     {
       "url": "cache:/home/user/l3vlup-skills/.cache/letters/index-0001104659-25-054127.htm",
       "status": "cached",
-      "at": "2026-09-17T07:30:33.539Z"
+      "at": "2026-09-17T10:43:58.875Z"
     }
   ],
   "requestsMade": 0,
@@ -1280,7 +1280,7 @@
       "likelyContent": "unclassified",
       "thesisRelevance": "review",
       "reason": "unclassified by declared type \"DFAN14A\" and description \"EXHIBIT 99.1\"; a PDF this large is usually a presentation",
-      "limitation": "no description on the index; the document kind is unknown until opened; over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "no description on the index; the document kind is unknown until opened; over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "review"
     },
     {
@@ -1358,7 +1358,7 @@
       "likelyContent": "routine",
       "thesisRelevance": "none",
       "reason": "routine by declared type \"\" and description \"Complete submission text file\"",
-      "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "no"
     },
     {
@@ -3464,7 +3464,7 @@
       "likelyContent": "shareholder_report",
       "thesisRelevance": "high",
       "reason": "shareholder report by declared type \"N-CSR\" and description \"N-CSR\"",
-      "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "yes"
     },
     {
@@ -4556,7 +4556,7 @@
       "likelyContent": "routine",
       "thesisRelevance": "none",
       "reason": "routine by declared type \"\" and description \"Complete submission text file\"",
-      "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "no"
     },
     {
@@ -7364,7 +7364,7 @@
       "likelyContent": "routine",
       "thesisRelevance": "none",
       "reason": "routine by declared type \"\" and description \"Complete submission text file\"",
-      "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "no"
     },
     {
@@ -7442,7 +7442,7 @@
       "likelyContent": "shareholder_report",
       "thesisRelevance": "high",
       "reason": "shareholder report by declared type \"N-CSRS\" and description \"N-CSRS\"",
-      "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "yes"
     },
     {
@@ -8534,7 +8534,7 @@
       "likelyContent": "routine",
       "thesisRelevance": "none",
       "reason": "routine by declared type \"\" and description \"Complete submission text file\"",
-      "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "no"
     },
     {
@@ -10588,7 +10588,7 @@
       "likelyContent": "routine",
       "thesisRelevance": "none",
       "reason": "routine by declared type \"\" and description \"Complete submission text file\"",
-      "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+      "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
       "eligible": "no"
     },
     {
@@ -10871,7 +10871,7 @@
           "likelyContent": "shareholder_report",
           "thesisRelevance": "high",
           "reason": "shareholder report by declared type \"N-CSRS\" and description \"N-CSRS\"",
-          "limitation": "over the 15 MB Phase 0 fetch cap; needs an explicit exception",
+          "limitation": "over the 15 MiB Phase 0 fetch cap, so it is not eligible",
           "eligible": "yes"
         }
       ],

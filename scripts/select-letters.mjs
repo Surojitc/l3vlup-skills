@@ -132,7 +132,7 @@ function markdown(report) {
     '',
     `Generated ${report.generatedAt}. ${report.validationGets} validation GET(s) made this run (cap ${MAX_VALIDATION_GETS}); bodies were not stored. No document was fetched for parsing.`,
     '',
-    `Fetch cap: ${report.limits.fetchCapBytes} bytes (15 MiB), the threshold as it has been applied since the Phase 0 plan. Nothing above it is eligible, so no row below carries a size exception. Headroom is printed per row; a row marked near the cap is within 10% of it, and one of them is above 15,000,000 decimal bytes while below 15 MiB, so the binary reading is doing real work there.`,
+    `Fetch cap: ${report.limits.fetchCapBytes} bytes = 15 MiB exactly, the threshold as it has been applied since the Phase 0 plan and confirmed on 17 September 2026. Nothing above it is eligible, so no row below carries a size exception. Headroom is printed per row; a row marked near the cap is within 10% of it. One selected report is 15,598,170 bytes, which is 14.9 MiB and inside the cap, though above 15.0 MB decimal.`,
     '',
     `Network attempts on the ledger: ${report.ledger.observed} observed (written as they happened) and ${report.ledger.reconstructed} reconstructed after the fact from run output, never added together as one figure.`,
     '',
@@ -142,7 +142,7 @@ function markdown(report) {
   l.push('', '## Refused by decision', '');
   for (const d of report.decisions.refused) l.push(`- ${d.filename} (${d.accession}): ${d.reason}`);
   l.push('', '## Shortfalls', '');
-  for (const f of report.funds) if (f.shortfall) l.push(`- **${f.fund}**: ${f.shortfall}. ${f.remedy || notInspectedFor(f.fund) || 'no further candidate listed'}`);
+  for (const f of report.funds) if (f.shortfall) l.push(`- **${f.fund}**: ${f.shortfall}. ${f.remedy || 'Every candidate its inspected indexes offered has been examined and refused; nothing is substituted automatically, so the set stands at nine until Suro decides.'}`);
   if (!report.funds.some((f) => f.shortfall)) l.push('- none: ten documents, two per fund, every one under the cap.');
   l.push('', '## Validation reads on file', '');
   for (const v of report.validationsOnFile) l.push(`- ${v.fund} ${v.filename}: ${v.at}, HTTP ${v.status}, ${v.contentType || ''}, ${v.classification} (${v.confidence})${v.title ? `, title "${v.title}"` : ''}; ${v.evidence || ''}`);

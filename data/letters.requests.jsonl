@@ -26,3 +26,4 @@
 {"at":"2026-09-17T07:25:15.378Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/1791786/000092189524002183/0000921895-24-002183-index.htm","status":200,"attempt":0}
 {"at":"2026-09-17T07:25:15.852Z","script":"enumerate-letters","url":"https://www.sec.gov/Archives/edgar/data/872323/000110465925054127/0001104659-25-054127-index.htm","status":200,"attempt":0}
 {"at":"2026-09-17T07:26:48.523Z","script":"select-letters","url":"https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/ex991dfan14a10168307_092624.pdf","status":206,"attempt":0,"purpose":"validation head read"}
+{"at":"2026-09-17T10:41:39.838Z","script":"validate-elliott-southwest","url":"https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/ex991dfan14a10168307_092624.pdf","status":200,"attempt":0,"purpose":"authorised one-off validation download, temporary, deleted after inspection"}

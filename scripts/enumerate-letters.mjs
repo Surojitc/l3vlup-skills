@@ -254,7 +254,7 @@ async function main() {
       if (!subject && !isReport) limitation = (limitation ? `${limitation}; ` : '') + 'no subject company on the index page';
       const eligible = relevance === 'none' ? 'no' : relevance === 'review' ? 'review' : format === 'other' ? 'review' : 'yes';
       const overCap = overFetchCap(d.size);
-      if (overCap) limitation = (limitation ? `${limitation}; ` : '') + 'over the 15 MB Phase 0 fetch cap; needs an explicit exception';
+      if (overCap) limitation = (limitation ? `${limitation}; ` : '') + 'over the 15 MiB Phase 0 fetch cap, so it is not eligible';
       report.shortlist.push({
         fund: p.fund, sourceId: p.sourceId, filingDate: p.filingDate, form: p.form, accession: p.accession, indexUrl,
         campaign: p.campaign || null, reportingPeriod: isReport ? idx.periodOfReport : null, subjectCompany: subject, subjectCik: idx.subject?.cik || null,
