@@ -150,3 +150,10 @@ calibration/examples/*
 out/
 __pycache__/
 *.pyc
+
+# The letters archive never belongs in git: originals and extracted text
+# live on the encrypted volume named by LETTERS_ARCHIVE_ROOT, and these
+# patterns stop a stray copy being staged if one were ever made here.
+letters-archive/
+.letters-archive/
+letters-review-report.md

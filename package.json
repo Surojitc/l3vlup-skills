@@ -28,9 +28,15 @@
     "discover:letters": "node scripts/discover-letters.mjs",
     "enumerate:letters": "node scripts/enumerate-letters.mjs",
     "select:letters": "node scripts/select-letters.mjs",
+    "retrieve:letters": "node scripts/retrieve-letters.mjs",
+    "test:retrieval": "node scripts/__tests__/letters-retrieval.test.mjs",
     "test:select": "node scripts/__tests__/letters-select.test.mjs",
     "test:letters": "node scripts/__tests__/letters.test.mjs",
     "precedents": "python3 scripts/sync_precedent_transactions.py precedents",
     "mergers": "python3 scripts/sync_precedent_transactions.py mergers"
+  },
+  "dependencies": {
+    "parse5": "8.0.1",
+    "pdfjs-dist": "6.3.289"
   }
 }
