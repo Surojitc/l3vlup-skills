@@ -19,11 +19,12 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classifyHtmlHead, classifyPdfHead, selectFinal } from '../lib/letters-select.mjs';
-import { appendLedger } from '../lib/letters-ledger.mjs';
+import { appendLedger, ledgerSummary } from '../lib/letters-ledger.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const EXHIBITS = join(ROOT, 'data', 'letters.exhibits.json');
 const REGISTRY = join(ROOT, 'data', 'letters.sources.json');
+const DECISIONS = join(ROOT, 'data', 'letters.decisions.json');
 const OUT_JSON = join(ROOT, 'data', 'letters.selection.json');
 const OUT_MD = join(ROOT, 'data', 'letters.selection.md');
 // Validation results persist here, keyed by document URL, so a re-run reuses
@@ -79,6 +80,7 @@ function mime(row) {
   return row.validation?.contentType || { pdf: 'application/pdf', html: 'text/html', inline_html: 'text/html (inline XBRL)', text: 'text/plain' }[row.format] || 'unknown';
 }
 
+let report_capBytes = 15 * 1024 * 1024;
 function rowOut(fund, g, sourcesById, notInspected) {
   const r = g.best;
   const alt = g.alternatives[0] || null;
@@ -101,7 +103,19 @@ function rowOut(fund, g, sourcesById, notInspected) {
     filename: r.filename,
     mimeType: mime(r),
     bytes: r.size,
+    capHeadroomBytes: report_capBytes - r.size,
+    nearCap: report_capBytes - r.size < report_capBytes * 0.1,
     labelledDescription: r.exhibitDescription || null,
+    validationMethod: r.validation
+      ? `${r.format === 'pdf' ? `first ${r.validation.bytesInspected} bytes of the PDF, page geometry and metadata` : 'whole page, title and opening markers'} (HTTP ${r.validation.status}${r.validation.rangeHonoured ? ', range honoured' : ''})`
+      : 'filing index description only; no document was read',
+    managerAuthoredThesisMaterial: r.likelyContent === 'shareholder_report'
+      ? 'yes: the manager\'s letter to shareholders is inside the report'
+      : r.likelyContent === 'letter' || r.validation?.classification === 'letter'
+        ? 'yes: a letter written by the manager'
+        : r.likelyContent === 'presentation' || r.validation?.classification === 'presentation'
+          ? 'yes: the manager\'s own presentation'
+          : 'not established',
     why,
     campaignId: r.campaign || null,
     eligibility: g.exception ? 'exception' : 'yes',
@@ -113,12 +127,23 @@ function rowOut(fund, g, sourcesById, notInspected) {
 
 let notInspectedFor = () => null;
 function markdown(report) {
-  const l = ['# Letters Phase 0: final document selection', '', `Generated ${report.generatedAt}. ${report.validationGets} validation GET(s) made this run (cap ${MAX_VALIDATION_GETS}); bodies were not stored. No document was fetched for parsing.`, ''];
-  l.push('| Fund | Filed | Period / campaign | Subject | Form | Accession | Index | Document | Filename | Type | Bytes | Labelled | Why | Campaign | Eligibility | Exception | Alternative |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
-  for (const r of report.selection) l.push(`| ${r.fund} | ${r.filingDate} | ${r.reportingPeriodOrCampaign} | ${r.subjectCompany || ''} | ${r.form} | ${r.accession} | [index](${r.filingIndexUrl}) | [doc](${r.documentUrl}) | ${r.filename} | ${r.mimeType} | ${r.bytes} | ${r.labelledDescription || ''} | ${r.why} | ${r.campaignId || ''} | ${r.eligibility} | ${r.exceptionRequired || ''} | ${r.alternativeCandidate} |`);
+  const l = [
+    '# Letters Phase 0: final document selection',
+    '',
+    `Generated ${report.generatedAt}. ${report.validationGets} validation GET(s) made this run (cap ${MAX_VALIDATION_GETS}); bodies were not stored. No document was fetched for parsing.`,
+    '',
+    `Fetch cap: ${report.limits.fetchCapBytes} bytes (15 MiB), the threshold as it has been applied since the Phase 0 plan. Nothing above it is eligible, so no row below carries a size exception. Headroom is printed per row; a row marked near the cap is within 10% of it, and one of them is above 15,000,000 decimal bytes while below 15 MiB, so the binary reading is doing real work there.`,
+    '',
+    `Network attempts on the ledger: ${report.ledger.observed} observed (written as they happened) and ${report.ledger.reconstructed} reconstructed after the fact from run output, never added together as one figure.`,
+    '',
+  ];
+  l.push('| Fund | Subject / period | Campaign | Filed | Form | Accession | Index | Document | Filename | Type | Bytes | Headroom | Index description | Validation | Why it qualifies | Manager-authored thesis material | Eligibility |', '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
+  for (const r of report.selection) l.push(`| ${r.fund} | ${r.subjectCompany || r.reportingPeriodOrCampaign} | ${r.campaignId || 'n.a.'} | ${r.filingDate} | ${r.form} | ${r.accession} | [index](${r.filingIndexUrl}) | [doc](${r.documentUrl}) | ${r.filename} | ${r.mimeType} | ${r.bytes} | ${r.capHeadroomBytes}${r.nearCap ? ' (near cap)' : ''} | ${r.labelledDescription || 'none'} | ${r.validationMethod} | ${r.why} | ${r.managerAuthoredThesisMaterial} | ${r.eligibility} |`);
+  l.push('', '## Refused by decision', '');
+  for (const d of report.decisions.refused) l.push(`- ${d.filename} (${d.accession}): ${d.reason}`);
   l.push('', '## Shortfalls', '');
-  for (const f of report.funds) if (f.shortfall) l.push(`- ${f.fund}: ${f.shortfall}; ${notInspectedFor(f.fund) || 'no further candidate listed'}`);
-  if (!report.funds.some((f) => f.shortfall)) l.push('- none');
+  for (const f of report.funds) if (f.shortfall) l.push(`- **${f.fund}**: ${f.shortfall}. ${f.remedy || notInspectedFor(f.fund) || 'no further candidate listed'}`);
+  if (!report.funds.some((f) => f.shortfall)) l.push('- none: ten documents, two per fund, every one under the cap.');
   l.push('', '## Validation reads on file', '');
   for (const v of report.validationsOnFile) l.push(`- ${v.fund} ${v.filename}: ${v.at}, HTTP ${v.status}, ${v.contentType || ''}, ${v.classification} (${v.confidence})${v.title ? `, title "${v.title}"` : ''}; ${v.evidence || ''}`);
   if (!report.validationsOnFile.length) l.push('- none');
@@ -128,7 +153,9 @@ function markdown(report) {
 
 async function main() {
   const exhibits = JSON.parse(readFileSync(EXHIBITS, 'utf8'));
+  report_capBytes = exhibits.limits.fetchCapBytes;
   const registry = JSON.parse(readFileSync(REGISTRY, 'utf8'));
+  const decisions = existsSync(DECISIONS) ? JSON.parse(readFileSync(DECISIONS, 'utf8')) : { approved: [], refused: [] };
   const sourcesById = Object.fromEntries(registry.sources.map((s) => [s.id, s]));
   const stored = existsSync(VALIDATIONS) ? JSON.parse(readFileSync(VALIDATIONS, 'utf8')) : { validations: {} };
   const shortlist = exhibits.shortlist.map((r) => ({ ...r, validation: stored.validations[r.documentUrl]?.result || null }));
@@ -147,8 +174,8 @@ async function main() {
     return n ? `another period, not inspected: ${n.filingDate} ${n.form} ${n.accession} (one index request)` : null;
   };
 
-  let funds = selectFinal(shortlist, sourcesById);
-  const report = { generatedAt: new Date().toISOString(), limits: { maxValidationGets: MAX_VALIDATION_GETS, pdfHeadBytes: PDF_HEAD_BYTES, fetchCapBytes: exhibits.limits.fetchCapBytes }, validationGets: 0, validations: [], funds: [], selection: [], stopped: null };
+  let funds = selectFinal(shortlist, sourcesById, decisions);
+  const report = { decisions: { decidedAt: decisions.decidedAt, approved: decisions.approved?.length || 0, refused: decisions.refused || [] }, generatedAt: new Date().toISOString(), limits: { maxValidationGets: MAX_VALIDATION_GETS, pdfHeadBytes: PDF_HEAD_BYTES, fetchCapBytes: exhibits.limits.fetchCapBytes }, validationGets: 0, validations: [], funds: [], selection: [], stopped: null };
 
   const queue = () => funds.flatMap((f) => f.needsValidation.map((r) => ({ fund: f.fund, row: r })));
   if (DRY || VALIDATE) {
@@ -174,12 +201,20 @@ async function main() {
         console.log(`validated ${q.fund} ${target.filename}: ${target.validation.classification}${target.validation.title ? ` "${target.validation.title}"` : ''}`);
       }
       if (report.stopped) break;
-      funds = selectFinal(shortlist, sourcesById);
+      funds = selectFinal(shortlist, sourcesById, decisions);
     }
     report.validationGets = done;
   }
   notInspectedFor = (fund) => notInspected(fund, null);
-  report.funds = funds.map((f) => ({ fund: f.fund, isReport: f.isReport, shortfall: f.shortfall, picks: f.picks.length, nextCandidate: f.shortfall ? notInspected(f.fund, null) : null }));
+  report.funds = funds.map((f) => {
+    // A group whose best document a head read left unsettled is the nearest thing to a second pick.
+    const weak = f.groups.find((g) => g.best.validation?.confidence === 'weak' && !f.picks.some((p) => p.key === g.key));
+    const remedy = f.shortfall && weak
+      ? `Nearest candidate: ${weak.best.filename} (${weak.best.size} bytes, ${weak.best.subjectCompany || weak.best.reportingPeriod}, campaign ${weak.key}), which the head read left unsettled: ${weak.best.validation.evidence}. One deeper read of that same document would settle it.`
+      : null;
+    return { fund: f.fund, isReport: f.isReport, shortfall: f.shortfall, picks: f.picks.length, remedy, nextCandidate: f.shortfall ? notInspected(f.fund, null) : null };
+  });
+  report.ledger = ledgerSummary();
   report.validationsOnFile = Object.values(stored.validations).map((v) => ({ fund: v.fund, filename: v.filename, at: v.at, status: v.result.status, classification: v.result.classification, confidence: v.result.confidence, evidence: v.result.evidence, title: v.result.title, contentType: v.result.contentType }));
   report.selection = funds.flatMap((f) => f.picks.map((g) => rowOut(f.fund, g, sourcesById, notInspected)));
   console.log(`${report.selection.length} documents selected across ${funds.length} funds · ${report.validationGets} validation GET(s)`);

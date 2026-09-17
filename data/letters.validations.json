@@ -51,6 +51,25 @@
         "rangeHonoured": true,
         "confidence": "weak"
       }
+    },
+    "https://www.sec.gov/Archives/edgar/data/92380/000092189524002183/ex991dfan14a10168307_092624.pdf": {
+      "fund": "elliott",
+      "filename": "ex991dfan14a10168307_092624.pdf",
+      "at": "2026-09-17T07:26:48.556Z",
+      "result": {
+        "status": 206,
+        "contentType": "application/pdf",
+        "contentLength": 262144,
+        "title": null,
+        "classification": "letter",
+        "confidence": "weak",
+        "evidence": "1 portrait page boxes seen",
+        "pages": null,
+        "landscapeBoxes": 0,
+        "boxesSeen": 1,
+        "bytesInspected": 262144,
+        "rangeHonoured": true
+      }
     }
   }
 }

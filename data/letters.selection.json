@@ -1,5 +1,26 @@
 {
-  "generatedAt": "2026-09-17T06:22:39.495Z",
+  "decisions": {
+    "decidedAt": "2026-09-17",
+    "approved": 7,
+    "refused": [
+      {
+        "accession": "0000921895-24-002164",
+        "filename": "ex991dfan14a10168307_092424.pdf",
+        "reason": "21.3 MB, above the 15 MiB Phase 0 fetch cap. Size exception refused: the pilot proves the pipeline inside its stated limits."
+      },
+      {
+        "accession": "0001104659-26-065606",
+        "filename": "tm2614019d1_ncsrs.htm",
+        "reason": "16.0 MB, above the 15 MiB Phase 0 fetch cap. Size exception refused, same reason."
+      },
+      {
+        "accession": "0000921895-24-002508",
+        "filename": "dfan14a06297361_11072024.htm",
+        "reason": "Validated as a press release announcing a nomination, not a manager-authored letter. A release qualifies only where it reproduces the letter in full, as the Phillips 66 document does."
+      }
+    ]
+  },
+  "generatedAt": "2026-09-17T07:29:56.016Z",
   "limits": {
     "maxValidationGets": 4,
     "pdfHeadBytes": 262144,
@@ -11,15 +32,17 @@
     {
       "fund": "starboard-value",
       "isReport": false,
-      "shortfall": "only 1 acceptable campaign(s)",
-      "picks": 1,
-      "nextCandidate": "another campaign, not inspected: 2026-03-11 DFAN14A 0000921895-26-000666 (one index request)"
+      "shortfall": null,
+      "picks": 2,
+      "remedy": null,
+      "nextCandidate": null
     },
     {
       "fund": "elliott",
       "isReport": false,
-      "shortfall": null,
-      "picks": 2,
+      "shortfall": "only 1 acceptable campaign(s) under the fetch cap",
+      "picks": 1,
+      "remedy": "Nearest candidate: ex991dfan14a10168307_092624.pdf (1622433 bytes, SOUTHWEST AIRLINES CO, campaign matter:10168307), which the head read left unsettled: 1 portrait page boxes seen. One deeper read of that same document would settle it.",
       "nextCandidate": null
     },
     {
@@ -27,6 +50,7 @@
       "isReport": true,
       "shortfall": null,
       "picks": 2,
+      "remedy": null,
       "nextCandidate": null
     },
     {
@@ -34,6 +58,7 @@
       "isReport": true,
       "shortfall": null,
       "picks": 2,
+      "remedy": null,
       "nextCandidate": null
     },
     {
@@ -41,10 +66,35 @@
       "isReport": true,
       "shortfall": null,
       "picks": 2,
+      "remedy": null,
       "nextCandidate": null
     }
   ],
   "selection": [
+    {
+      "fund": "starboard-value",
+      "filingDate": "2026-03-11",
+      "reportingPeriodOrCampaign": "matter:06297384",
+      "subjectCompany": "CARMAX INC",
+      "form": "DFAN14A",
+      "accession": "0000921895-26-000666",
+      "filingIndexUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/0000921895-26-000666-index.htm",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf",
+      "filename": "ex1todfan14a06297384_031126.pdf",
+      "mimeType": "application/pdf",
+      "bytes": 145421,
+      "capHeadroomBytes": 15583219,
+      "nearCap": false,
+      "labelledDescription": "LETTER TO THE ISSUER, DATED MARCH 10, 2026",
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: a letter written by the manager",
+      "why": "the index labels it \"LETTER TO THE ISSUER, DATED MARCH 10, 2026\" on CARMAX INC",
+      "campaignId": "matter:06297384",
+      "eligibility": "yes",
+      "exceptionRequired": null,
+      "alternativeCandidate": "another campaign, not inspected: 2026-02-17 DFAN14A 0000921895-26-000436 (one index request)",
+      "validation": null
+    },
     {
       "fund": "starboard-value",
       "filingDate": "2025-03-19",
@@ -57,7 +107,11 @@
       "filename": "ex1todfan14a06297347_031925.pdf",
       "mimeType": "application/pdf",
       "bytes": 648284,
+      "capHeadroomBytes": 15080356,
+      "nearCap": false,
       "labelledDescription": "LETTER TO STOCKHOLDERS",
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: a letter written by the manager",
       "why": "the index labels it \"LETTER TO STOCKHOLDERS\" on Autodesk, Inc.",
       "campaignId": "matter:06297347",
       "eligibility": "yes",
@@ -77,7 +131,11 @@
       "filename": "e664374_dfan14a-phillips66.htm",
       "mimeType": "text/html",
       "bytes": 19814,
+      "capHeadroomBytes": 15708826,
+      "nearCap": false,
       "labelledDescription": null,
+      "validationMethod": "whole page, title and opening markers (HTTP 200)",
+      "managerAuthoredThesisMaterial": "yes: a letter written by the manager",
       "why": "unlabelled on the index; validation read its head: letter, firm (a release wrapping a letter: the letter marker follows the release marker)",
       "campaignId": "matter:10168303",
       "eligibility": "yes",
@@ -96,39 +154,6 @@
       }
     },
     {
-      "fund": "elliott",
-      "filingDate": "2024-09-24",
-      "reportingPeriodOrCampaign": "matter:10168307",
-      "subjectCompany": "SOUTHWEST AIRLINES CO",
-      "form": "DFAN14A",
-      "accession": "0000921895-24-002164",
-      "filingIndexUrl": "https://www.sec.gov/Archives/edgar/data/92380/000092189524002164/0000921895-24-002164-index.htm",
-      "documentUrl": "https://www.sec.gov/Archives/edgar/data/92380/000092189524002164/ex991dfan14a10168307_092424.pdf",
-      "filename": "ex991dfan14a10168307_092424.pdf",
-      "mimeType": "application/pdf",
-      "bytes": 22286670,
-      "labelledDescription": "EXHIBIT 99.1",
-      "why": "unlabelled on the index; validation read its head: letter, weak (1 portrait page boxes seen)",
-      "campaignId": "matter:10168307",
-      "eligibility": "exception",
-      "exceptionRequired": "size: 21.3 MB against the 15 MB cap; no under-cap document gives a second campaign among the inspected indexes; content only weakly validated (1 portrait page boxes seen)",
-      "alternativeCandidate": "same campaign, not inspected: 2024-09-26 DFAN14A 0000921895-24-002183; 2024-10-15 DFAN14A 0000921895-24-002289; 2024-10-16 DFAN14A 0000921895-24-002300 (one index request each)",
-      "validation": {
-        "status": 206,
-        "contentType": "application/pdf",
-        "contentLength": 262144,
-        "title": null,
-        "classification": "letter",
-        "evidence": "1 portrait page boxes seen",
-        "pages": null,
-        "landscapeBoxes": 0,
-        "boxesSeen": 1,
-        "bytesInspected": 262144,
-        "rangeHonoured": true,
-        "confidence": "weak"
-      }
-    },
-    {
       "fund": "southeastern",
       "filingDate": "2026-09-04",
       "reportingPeriodOrCampaign": "2026-06-30",
@@ -140,7 +165,11 @@
       "filename": "longleaf_ncsrs.htm",
       "mimeType": "text/html (inline XBRL)",
       "bytes": 1403127,
+      "capHeadroomBytes": 14325513,
+      "nearCap": false,
       "labelledDescription": null,
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: the manager's letter to shareholders is inside the report",
       "why": "the registrant's N-CSRS for the period ending 2026-06-30: the primary document carries the manager's letter to shareholders",
       "campaignId": null,
       "eligibility": "yes",
@@ -160,12 +189,40 @@
       "filename": "longleafpartners_ncsr.htm",
       "mimeType": "text/html (inline XBRL)",
       "bytes": 1546683,
+      "capHeadroomBytes": 14181957,
+      "nearCap": false,
       "labelledDescription": "N-CSR",
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: the manager's letter to shareholders is inside the report",
       "why": "the registrant's N-CSR for the period ending 2024-12-31: the primary document carries the manager's letter to shareholders",
       "campaignId": null,
       "eligibility": "yes",
       "exceptionRequired": null,
       "alternativeCandidate": "another period, not inspected: 2025-08-29 N-CSRS 0001580642-25-005623 (one index request)",
+      "validation": null
+    },
+    {
+      "fund": "harris-associates",
+      "filingDate": "2025-05-29",
+      "reportingPeriodOrCampaign": "2025-03-31",
+      "subjectCompany": null,
+      "form": "N-CSRS",
+      "accession": "0001104659-25-054127",
+      "filingIndexUrl": "https://www.sec.gov/Archives/edgar/data/872323/000110465925054127/0001104659-25-054127-index.htm",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/872323/000110465925054127/tm2512387d1_ncsrs.htm",
+      "filename": "tm2512387d1_ncsrs.htm",
+      "mimeType": "text/html (inline XBRL)",
+      "bytes": 15598170,
+      "capHeadroomBytes": 130470,
+      "nearCap": true,
+      "labelledDescription": "N-CSRS",
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: the manager's letter to shareholders is inside the report",
+      "why": "the registrant's N-CSRS for the period ending 2025-03-31: the primary document carries the manager's letter to shareholders",
+      "campaignId": "date:2025-05",
+      "eligibility": "yes",
+      "exceptionRequired": null,
+      "alternativeCandidate": "none among the inspected indexes",
       "validation": null
     },
     {
@@ -180,32 +237,16 @@
       "filename": "tm2426235d1_ncsr.htm",
       "mimeType": "text/html (inline XBRL)",
       "bytes": 13674170,
+      "capHeadroomBytes": 2054470,
+      "nearCap": false,
       "labelledDescription": "N-CSR",
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: the manager's letter to shareholders is inside the report",
       "why": "the registrant's N-CSR for the period ending 2024-09-30: the primary document carries the manager's letter to shareholders",
       "campaignId": null,
       "eligibility": "yes",
       "exceptionRequired": null,
-      "alternativeCandidate": "another period, not inspected: 2025-05-29 N-CSRS 0001104659-25-054127 (one index request)",
-      "validation": null
-    },
-    {
-      "fund": "harris-associates",
-      "filingDate": "2026-05-22",
-      "reportingPeriodOrCampaign": "2026-03-31",
-      "subjectCompany": null,
-      "form": "N-CSRS",
-      "accession": "0001104659-26-065606",
-      "filingIndexUrl": "https://www.sec.gov/Archives/edgar/data/872323/000110465926065606/0001104659-26-065606-index.htm",
-      "documentUrl": "https://www.sec.gov/Archives/edgar/data/872323/000110465926065606/tm2614019d1_ncsrs.htm",
-      "filename": "tm2614019d1_ncsrs.htm",
-      "mimeType": "text/html (inline XBRL)",
-      "bytes": 16776637,
-      "labelledDescription": "N-CSRS",
-      "why": "the registrant's N-CSRS for the period ending 2026-03-31: the primary document carries the manager's letter to shareholders",
-      "campaignId": null,
-      "eligibility": "exception",
-      "exceptionRequired": "size: 16.0 MB against the 15 MB cap; no under-cap document gives a second period among the inspected indexes",
-      "alternativeCandidate": "another period, not inspected: 2025-05-29 N-CSRS 0001104659-25-054127 (one index request)",
+      "alternativeCandidate": "none among the inspected indexes",
       "validation": null
     },
     {
@@ -220,12 +261,16 @@
       "filename": "d76890dncsr.htm",
       "mimeType": "text/html (inline XBRL)",
       "bytes": 410922,
+      "capHeadroomBytes": 15317718,
+      "nearCap": false,
       "labelledDescription": "SEQUOIA FUND INC.",
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: the manager's letter to shareholders is inside the report",
       "why": "the registrant's N-CSR for the period ending 2025-12-31: the primary document carries the manager's letter to shareholders",
       "campaignId": null,
       "eligibility": "yes",
       "exceptionRequired": null,
-      "alternativeCandidate": "another period, not inspected: 2025-08-26 N-CSRS 0001193125-25-188618 (one index request)",
+      "alternativeCandidate": "another period, not inspected: 2026-08-25 N-CSRS 0001193125-26-364514 (one index request)",
       "validation": null
     },
     {
@@ -240,16 +285,39 @@
       "filename": "d850206dncsr.htm",
       "mimeType": "text/html (inline XBRL)",
       "bytes": 385301,
+      "capHeadroomBytes": 15343339,
+      "nearCap": false,
       "labelledDescription": "SEQUOIA FUND INC.",
+      "validationMethod": "filing index description only; no document was read",
+      "managerAuthoredThesisMaterial": "yes: the manager's letter to shareholders is inside the report",
       "why": "the registrant's N-CSR for the period ending 2024-12-31: the primary document carries the manager's letter to shareholders",
       "campaignId": null,
       "eligibility": "yes",
       "exceptionRequired": null,
-      "alternativeCandidate": "another period, not inspected: 2025-08-26 N-CSRS 0001193125-25-188618 (one index request)",
+      "alternativeCandidate": "another period, not inspected: 2026-08-25 N-CSRS 0001193125-26-364514 (one index request)",
       "validation": null
     }
   ],
   "stopped": null,
+  "ledger": {
+    "observed": 7,
+    "reconstructed": 20,
+    "byScript": {
+      "discover-letters": {
+        "observed": 0,
+        "reconstructed": 5
+      },
+      "enumerate-letters": {
+        "observed": 3,
+        "reconstructed": 15
+      },
+      "select-letters": {
+        "observed": 4,
+        "reconstructed": 0
+      }
+    },
+    "note": "One line per network attempt by the letters scripts. Lines marked reconstructed were written after the fact from the run output of 16 September 2026, with times to the minute; every later line is written by the script at the moment of the attempt."
+  },
   "validationsOnFile": [
     {
       "fund": "starboard-value",
@@ -277,6 +345,17 @@
       "fund": "elliott",
       "filename": "ex991dfan14a10168307_092424.pdf",
       "at": "2026-09-17T06:20:35Z",
+      "status": 206,
+      "classification": "letter",
+      "confidence": "weak",
+      "evidence": "1 portrait page boxes seen",
+      "title": null,
+      "contentType": "application/pdf"
+    },
+    {
+      "fund": "elliott",
+      "filename": "ex991dfan14a10168307_092624.pdf",
+      "at": "2026-09-17T07:26:48.556Z",
       "status": 206,
       "classification": "letter",
       "confidence": "weak",
