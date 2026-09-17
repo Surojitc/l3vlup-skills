@@ -185,8 +185,15 @@ warning naming what to look at. A warning is for a person, not a gate.
 
 | Package | Version | Licence | Runtime dependencies | Unpacked | Why |
 |---|---|---|---|---|---|
-| `pdfjs-dist` | 6.3.289 (exact) | Apache-2.0 | none (`@napi-rs/canvas` optional, not installed) | 34.8 MB | The only maintained, permissively licensed PDF engine that runs in Node without native compilation. Patched against CVE-2024-4367 and CVE-2026-16633 |
+| `pdfjs-dist` | 6.3.289 (exact) | Apache-2.0 | none required; `@napi-rs/canvas` is an optional dependency npm installs by default | 34.8 MB | The only maintained, permissively licensed PDF engine that runs in Node without native compilation. Patched against CVE-2024-4367 and CVE-2026-16633 |
 | `parse5` | 8.0.1 (exact) | MIT | `entities` | 337 KB | A correct HTML parser for 16 MB inline-XBRL reports, where patterns are neither safe nor accurate |
+
+Install with `npm ci --omit=optional`. `pdfjs-dist` declares
+`@napi-rs/canvas` optionally, for rendering pages to images, and npm installs
+it by default: a 34 MB prebuilt native binary in the tree of a pipeline that
+renders nothing. Omitting it removes that surface entirely and costs nothing
+here — the worker decodes no images (`maxImageSize: 1`) and every test,
+including the PDF ones, passes with the package absent.
 
 Both are pinned exactly and locked. Neither is imported by any collector
 that runs in GitHub Actions, so the scheduled jobs still need no install.
