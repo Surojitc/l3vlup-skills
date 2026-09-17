@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "note": "Deterministic parsing results for the approved Phase 0 documents. Metadata and measurements only: no original bytes, no extracted text, no excerpt, and no generated analysis. The documents themselves stay on sec.gov.",
-  "generatedAt": "2026-09-17T15:27:59.487Z",
+  "generatedAt": "2026-09-17T15:30:25.895Z",
   "counts": {
     "documents": 9,
     "parsed": 9,
     "failed": 0,
     "requests": 9,
-    "unchanged": 0
+    "unchanged": 9
   },
   "documents": [
     {
