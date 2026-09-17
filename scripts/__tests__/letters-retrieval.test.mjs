@@ -12,12 +12,25 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ARCHIVE_ENV, probeEncryption, resolveArchive } from '../../lib/letters-archive.mjs';
 import { approvedDocument, createWorkspace, resolveWorkspace, withWorkspace } from '../../lib/letters-workspace.mjs';
-import { SCHEMA_VERSION, identityKey, toPublicRecord, unchanged, validatePublicRecord } from '../../lib/letters-output.mjs';
+import {
+  buildOutput,
+  EXTRACTION_CONFIG_VERSION,
+  identityKey,
+  preserveProcessedAt,
+  renderMarkdown,
+  SCHEMA_VERSION,
+  serialiseOutput,
+  sortRecords,
+  toPublicRecord,
+  unchanged,
+  validatePublicRecord,
+} from '../../lib/letters-output.mjs';
 import { CAP_BYTES, FetchRefusal, contentTypeMatches, fetchDocument, isSecUrl } from '../../lib/letters-fetch.mjs';
 import { extractSections } from '../../lib/letters-html.mjs';
 import { WORKER, parsePdf } from '../../lib/letters-pdf.mjs';
 import { assess } from '../../lib/letters-quality.mjs';
 import { alreadyRetrieved, emptyManifest, validateRow, writeManifestAtomic } from '../../lib/letters-manifest.mjs';
+import { ledgerSummary } from '../../lib/letters-ledger.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 let passed = 0;
@@ -379,15 +392,140 @@ await test('the public record carries only allowed fields, and refuses text howe
   assert.ok(validatePublicRecord({ ...record, sourceBytes: CAP_BYTES + 1 }).some((p) => /over the 15 MiB cap/.test(p)));
 });
 
-await test('a record is unchanged only when accession, source hash and parser version all match', () => {
-  const base = { accession: 'a', sha256: 'd'.repeat(64), parser: 'p', parserVersion: '1', documentUrl: 'u', extractionStatus: 'ok' };
+await test('a record is unchanged only when the filing, bytes, parser, schema and configuration all match', () => {
+  const base = {
+    accession: 'a', sha256: 'd'.repeat(64), parser: 'p', parserVersion: '1', documentUrl: 'u',
+    schemaVersion: SCHEMA_VERSION, extractionConfigVersion: EXTRACTION_CONFIG_VERSION, extractionStatus: 'ok',
+  };
   const previous = { documents: [base] };
   assert.equal(unchanged(previous, { ...base }), true);
   assert.equal(unchanged(previous, { ...base, sha256: 'e'.repeat(64) }), false, 'the document changed');
   assert.equal(unchanged(previous, { ...base, parserVersion: '2' }), false, 'the parser changed');
   assert.equal(unchanged(previous, { ...base, accession: 'b' }), false, 'a different filing');
+  assert.equal(unchanged(previous, { ...base, schemaVersion: SCHEMA_VERSION + 1 }), false, 'the published shape changed');
+  assert.equal(unchanged(previous, { ...base, extractionConfigVersion: EXTRACTION_CONFIG_VERSION + 1 }), false, 'the parsing configuration changed');
   assert.equal(unchanged(previous, { ...base, extractionStatus: 'failed' }), false);
-  assert.equal(identityKey(base), 'a:' + 'd'.repeat(64) + ':p@1');
+  assert.equal(identityKey(base), `a:${'d'.repeat(64)}:p@1:schema${SCHEMA_VERSION}:config${EXTRACTION_CONFIG_VERSION}:ok`);
+});
+
+// ── Idempotency: an unchanged rerun must rewrite the same bytes ─────────────
+//
+// The committed files are read as a record of the documents, so a diff has
+// to mean a document moved. A run that writes a fresh timestamp, a request
+// count or a tally of what it skipped makes every rerun look like news and
+// makes the real news invisible. These two tests are the pair: nothing about
+// a run may reach the file, and everything about a document must.
+
+/** A record as the retrieval script would build one, at a given clock. */
+function recordAt(now, overrides = {}) {
+  return toPublicRecord({
+    schemaVersion: SCHEMA_VERSION,
+    manager: 'oakmark',
+    documentId: 'b'.repeat(64),
+    subjectOrPeriod: '2026-03-31',
+    filingDate: '2026-06-04',
+    form: 'N-CSRS',
+    accession: '0001104659-26-000001',
+    filingIndexUrl: 'https://www.sec.gov/Archives/edgar/data/872323/000110465926000001/0001104659-26-000001-index.htm',
+    documentUrl: 'https://www.sec.gov/Archives/edgar/data/872323/000110465926000001/report.htm',
+    sourceBytes: 4096,
+    sha256: 'b'.repeat(64),
+    mimeType: 'text/html',
+    parser: 'parse5',
+    parserVersion: '8.0.1',
+    extractionConfigVersion: EXTRACTION_CONFIG_VERSION,
+    extractionStatus: 'ok',
+    units: 'sections',
+    unitCount: 12,
+    characterCount: 3400,
+    quality: { emptyUnitRatio: 0, repeatedEdgeRatio: 0, replacementRate: 0, tableRows: 2, managerDiscussionPresent: true },
+    warnings: [],
+    processedAt: now,
+    ...overrides,
+  });
+}
+
+await test('two generations with different clocks write byte-identical JSON and Markdown', () => {
+  const first = buildOutput([
+    recordAt('2026-01-01T00:00:00.000Z'),
+    recordAt('2026-01-01T00:00:01.000Z', { manager: 'sequoia', documentUrl: 'https://www.sec.gov/Archives/edgar/data/89043/000110465926000002/report.htm', accession: '0001104659-26-000002', sha256: 'c'.repeat(64), documentId: 'c'.repeat(64) }),
+  ]);
+  const firstJson = serialiseOutput(first);
+  const firstMd = renderMarkdown(first);
+
+  // The second run reads the same documents an hour later, in the opposite
+  // order, and preserves each timestamp because nothing about them changed.
+  const later = '2026-06-30T12:34:56.789Z';
+  const second = buildOutput([
+    preserveProcessedAt(first, recordAt(later, { manager: 'sequoia', documentUrl: 'https://www.sec.gov/Archives/edgar/data/89043/000110465926000002/report.htm', accession: '0001104659-26-000002', sha256: 'c'.repeat(64), documentId: 'c'.repeat(64) })),
+    preserveProcessedAt(first, recordAt(later)),
+  ]);
+
+  assert.equal(serialiseOutput(second), firstJson, 'the JSON changed on an unchanged rerun');
+  assert.equal(renderMarkdown(second), firstMd, 'the Markdown changed on an unchanged rerun');
+  assert.ok(!/\d{4}-\d\d-\d\dT\d\d:\d\d/.test(firstMd), 'the Markdown carries a timestamp');
+  assert.deepEqual(Object.keys(first), ['schemaVersion', 'extractionConfigVersion', 'note', 'documents'], 'run data reached the committed file');
+  for (const key of ['generatedAt', 'counts', 'requests', 'runtimeMs', 'mode']) {
+    assert.equal(first[key], undefined, `${key} must not be committed`);
+  }
+});
+
+await test('a changed hash, parser version, schema version or configuration updates the record and its timestamp', () => {
+  const before = buildOutput([recordAt('2026-01-01T00:00:00.000Z')]);
+  const now = '2026-09-17T09:00:00.000Z';
+
+  const same = preserveProcessedAt(before, recordAt(now));
+  assert.equal(same.processedAt, '2026-01-01T00:00:00.000Z', 'an unchanged record kept its first timestamp');
+
+  for (const [what, change] of [
+    ['a re-filed document', { sha256: 'f'.repeat(64), documentId: 'f'.repeat(64) }],
+    ['a newer parser', { parserVersion: '9.9.9' }],
+    ['a wider schema', { schemaVersion: SCHEMA_VERSION + 1 }],
+    ['a different parsing configuration', { extractionConfigVersion: EXTRACTION_CONFIG_VERSION + 1 }],
+    ['a document that stopped parsing', { extractionStatus: 'failed' }],
+  ]) {
+    const after = preserveProcessedAt(before, recordAt(now, change));
+    assert.equal(after.processedAt, now, `${what} should have earned a new timestamp`);
+    assert.notEqual(serialiseOutput(buildOutput([after])), serialiseOutput(before), `${what} should have changed the committed file`);
+  }
+});
+
+await test('the order of records does not depend on the order a run read them', () => {
+  const rows = [
+    { manager: 'starboard-value', filingDate: '2026-03-11', accession: 'a2', documentUrl: 'u2' },
+    { manager: 'oakmark', filingDate: '2026-06-04', accession: 'a1', documentUrl: 'u1' },
+    { manager: 'oakmark', filingDate: '2025-12-31', accession: 'a3', documentUrl: 'u3' },
+  ];
+  const order = (list) => sortRecords(list).map((r) => r.accession).join(',');
+  assert.equal(order(rows), 'a3,a1,a2');
+  assert.equal(order([...rows].reverse()), 'a3,a1,a2', 'the sort depends on the run order');
+});
+
+await test('the retrieval script can rebuild both files without a network call', () => {
+  const source = readFileSync(join(REPO, 'scripts', 'retrieve-letters.mjs'), 'utf8');
+  assert.match(source, /--render-only/, 'render-only is not documented in the usage block');
+  assert.match(source, /function renderOnly\(\)/, 'there is no render-only path');
+  const body = source.slice(source.indexOf('function renderOnly()'), source.indexOf('async function main()'));
+  for (const forbidden of ['fetchDocument', 'appendLedger', 'parsePdf', 'extractSections']) {
+    assert.ok(!body.includes(forbidden), `render-only reaches for ${forbidden}`);
+  }
+});
+
+await test('the committed ledger accounts for every retrieval request, including the unintended run', () => {
+  const lines = readFileSync(join(REPO, 'data', 'letters.requests.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  const gets = lines.filter((l) => l.script === 'retrieve-letters');
+  assert.equal(gets.length, 27, 'the ledger should hold 27 observed document GETs');
+  assert.ok(gets.every((l) => l.status === 200 && l.reconstructed === undefined), 'every retrieval line is observed, not reconstructed');
+
+  const byRun = new Map();
+  for (const l of gets) byRun.set(l.run, (byRun.get(l.run) || 0) + 1);
+  assert.deepEqual([...byRun.entries()].sort(), [[1, 9], [2, 9], [3, 9]], 'three runs of nine documents');
+  assert.deepEqual(gets.filter((l) => l.intended === false).map((l) => l.run), Array(9).fill(3), 'the third run is the accidental one');
+  assert.match(lines[0].note, /Run 3 was accidental/, 'the ledger note does not say what the third run was');
+
+  const summary = ledgerSummary(join(REPO, 'data', 'letters.requests.jsonl'));
+  assert.equal(summary.byScript['retrieve-letters'].observed, 27);
+  assert.equal(summary.byScript['retrieve-letters'].reconstructed, 0);
 });
 
 rmSync(tmp, { recursive: true, force: true });

@@ -24,6 +24,7 @@ has to keep working with the private machine permanently offline.
 ```bash
 node scripts/retrieve-letters.mjs --dry-run        # plan and checks, fetches nothing
 node scripts/retrieve-letters.mjs                  # ephemeral-sec, the default
+node scripts/retrieve-letters.mjs --render-only     # rebuild the two files, no network
 node scripts/retrieve-letters.mjs --mode local-private
 ```
 
@@ -114,6 +115,42 @@ stage that has not been approved.
 
 In `local-private` mode the originals, the normalised text and the per-unit
 hashes are also written to the archive. They are never committed.
+
+### An unchanged rerun writes the same bytes
+
+Both files are a function of the documents and nothing else, so a diff on
+either means a document moved. Two things make that true.
+
+The committed file carries no run data. No generation stamp, no request
+count, no runtime, no tally of what was carried forward: those describe the
+run, and a file that changes every time a run happens cannot be read for
+what changed. They are printed instead, and later go to the job summary.
+
+A record keeps its `processedAt` until something about it genuinely moves.
+The identity of a record is its accession, the SHA-256 of the exact bytes,
+the parser and its version, the schema version and the extraction
+configuration version. While all six match, the stored record is carried
+forward untouched, timestamp and all. When any one of them moves the record
+is rebuilt and dated, because that is news.
+
+`extractionConfigVersion` is our configuration of the parsers, versioned by
+hand in `lib/letters-output.mjs`. Bump it whenever what the parsers produce
+changes: a new hardening flag on the PDF worker, a different rule about
+which elements survive the HTML walk, a change to how units are counted. It
+is not the library version, which moves for its own reasons.
+
+Records are written in a fixed order — manager, then filing date, then
+accession, then document URL — so the file does not depend on the order a
+run happened to read them in, or on which ones were carried forward.
+
+```bash
+node scripts/retrieve-letters.mjs --render-only
+```
+
+rebuilds both files from the records already on disk and makes no network
+request at all. Run it twice and `git diff` is empty. It is also how a
+change to the Markdown table is applied without asking the SEC for the same
+nine documents again.
 
 ## Parsing
 

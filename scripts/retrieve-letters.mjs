@@ -21,11 +21,18 @@
 //
 //   node scripts/retrieve-letters.mjs --dry-run
 //   node scripts/retrieve-letters.mjs
+//   node scripts/retrieve-letters.mjs --render-only
 //   node scripts/retrieve-letters.mjs --mode local-private
 //
 // Cleanup runs from a finally block, from the signal handlers a cancellation
 // sends, and after a parser is killed. It cannot run if the machine itself
 // is destroyed; on a hosted runner that is what discards the disk anyway.
+//
+// The committed files are a function of the documents alone. Two runs that
+// read the same bytes with the same parsers write the same bytes, so a diff
+// on data/letters.parsed.json means a document changed and nothing else.
+// Everything about the run itself — how many requests it made, how long it
+// took, how much it carried forward — is printed and then forgotten.
 
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -33,9 +40,18 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CAP_BYTES, FetchRefusal, fetchDocument } from '../lib/letters-fetch.mjs';
 import { extractSections, PARSER as HTML_PARSER, PARSER_VERSION as HTML_VERSION } from '../lib/letters-html.mjs';
-import { parsePdf } from '../lib/letters-pdf.mjs';
+import { parsePdf, PARSER_VERSION as PDF_VERSION } from '../lib/letters-pdf.mjs';
 import { assess } from '../lib/letters-quality.mjs';
-import { emptyOutput, SCHEMA_VERSION, toPublicRecord, unchanged, validatePublicRecord } from '../lib/letters-output.mjs';
+import {
+  buildOutput,
+  EXTRACTION_CONFIG_VERSION,
+  preserveProcessedAt,
+  renderMarkdown,
+  SCHEMA_VERSION,
+  serialiseOutput,
+  toPublicRecord,
+  validatePublicRecord,
+} from '../lib/letters-output.mjs';
 import { approvedDocument, DEFAULT_MODE, onExitCleanup, resolveWorkspace, withWorkspace } from '../lib/letters-workspace.mjs';
 import { emptyManifest, validateRow, writeManifestAtomic } from '../lib/letters-manifest.mjs';
 import { appendLedger } from '../lib/letters-ledger.mjs';
@@ -52,6 +68,7 @@ const arg = (name, fallback) => {
 };
 const MODE = arg('--mode', DEFAULT_MODE);
 const DRY = process.argv.includes('--dry-run');
+const RENDER_ONLY = process.argv.includes('--render-only');
 const GAP_MS = 1500;
 const MAX_DOCUMENTS = 9;
 const MAX_REQUESTS = 9;
@@ -74,6 +91,15 @@ function approvedSelection() {
   }));
 }
 
+function readPrevious() {
+  return existsSync(OUT_JSON) ? JSON.parse(readFileSync(OUT_JSON, 'utf8')) : null;
+}
+
+function writeOutput(output) {
+  writeFileSync(OUT_JSON, serialiseOutput(output));
+  writeFileSync(OUT_MD, renderMarkdown(output));
+}
+
 async function parseDocument(format, path, buf) {
   if (format === 'pdf') {
     const out = await parsePdf(path);
@@ -83,29 +109,23 @@ async function parseDocument(format, path, buf) {
   return { ...out, status: out.sections.length ? 'ok' : 'failed', parser: HTML_PARSER, parserVersion: HTML_VERSION, items: out.sections };
 }
 
-function markdown(output, mode) {
-  const l = [
-    '# Letters: deterministic parsing results',
-    '',
-    `Generated ${output.generatedAt} in ${mode} mode. Schema version ${output.schemaVersion}.`,
-    '',
-    'Measurements only. No original bytes, no extracted text, no excerpt and no generated analysis: the documents stay on sec.gov, and this file records what was read and how well.',
-    '',
-    '| Manager | Subject or period | Filed | Form | Bytes | Parser | Status | Units | Characters | Empty | Repeated edge | Discussion | Warnings |',
-    '|---|---|---|---|---|---|---|---|---|---|---|---|---|',
-  ];
-  for (const d of output.documents) {
-    const q = d.quality || {};
-    l.push(`| ${d.manager} | ${d.subjectOrPeriod} | ${d.filingDate} | ${d.form} | ${d.sourceBytes} | ${d.parser} ${d.parserVersion} | ${d.extractionStatus} | ${d.unitCount} ${d.units} | ${d.characterCount} | ${q.emptyUnitRatio ?? ''} | ${q.repeatedEdgeRatio ?? ''} | ${q.managerDiscussionPresent ? 'yes' : 'no'} | ${(d.warnings || []).length} |`);
-  }
-  l.push('', '## Warnings', '');
-  for (const d of output.documents) for (const w of d.warnings || []) l.push(`- ${d.manager} ${d.filingDate}: ${w}`);
-  if (!output.documents.some((d) => (d.warnings || []).length)) l.push('- none');
-  return `${l.join('\n')}\n`;
+/**
+ * Whether the record we already hold was made the same way we would make it
+ * now: same bytes, same parser at the same version, same published shape and
+ * the same parsing configuration. If so there is nothing to learn from
+ * parsing it again, and re-parsing would only risk an unnecessary diff.
+ */
+function carriesForward(prior, format) {
+  if (!prior || prior.extractionStatus !== 'ok') return false;
+  return (
+    prior.parserVersion === (format === 'pdf' ? PDF_VERSION : HTML_VERSION) &&
+    prior.schemaVersion === SCHEMA_VERSION &&
+    prior.extractionConfigVersion === EXTRACTION_CONFIG_VERSION
+  );
 }
 
 async function run(place, documents) {
-  const previous = existsSync(OUT_JSON) ? JSON.parse(readFileSync(OUT_JSON, 'utf8')) : null;
+  const previous = readPrevious();
   const work = place.mode === 'local-private' ? place.scratch : place.workspace;
   const keep = place.retainsBytes ? place.root : null;
   if (keep) for (const dir of ['originals', 'text', 'structured']) mkdirSync(join(keep, dir), { recursive: true });
@@ -117,16 +137,16 @@ async function run(place, documents) {
   const privateManifest = keep
     ? (existsSync(join(keep, 'manifest.json')) ? JSON.parse(readFileSync(join(keep, 'manifest.json'), 'utf8')) : emptyManifest())
     : null;
-  let requests = 0;
+  const stats = { requests: 0, carriedForward: 0, parsed: 0, failed: 0 };
   for (const d of documents) {
     const check = approvedDocument(d.documentUrl, documents);
     if (!check.ok) { console.error(`skip  ${d.manager}: ${check.reason}`); continue; }
-    if (requests >= MAX_REQUESTS) { console.error(`stop  the ${MAX_REQUESTS} request ceiling is reached`); break; }
-    if (requests) await sleep(GAP_MS);
+    if (stats.requests >= MAX_REQUESTS) { console.error(`stop  the ${MAX_REQUESTS} request ceiling is reached`); break; }
+    if (stats.requests) await sleep(GAP_MS);
 
     let got;
     try {
-      requests += 1;
+      stats.requests += 1;
       got = await fetchDocument({
         url: d.documentUrl,
         expectedFormat: d.format,
@@ -138,12 +158,14 @@ async function run(place, documents) {
     } catch (err) {
       const refusal = err instanceof FetchRefusal ? err : new FetchRefusal('error', err.message);
       console.error(`FAIL  ${d.manager} ${d.filename}: ${refusal.message}`);
-      records.push(toPublicRecord({
+      stats.failed += 1;
+      records.push(preserveProcessedAt(previous, toPublicRecord({
         schemaVersion: SCHEMA_VERSION, manager: d.manager, documentId: null, subjectOrPeriod: d.subjectOrPeriod, filingDate: d.filingDate,
         form: d.form, accession: d.accession, filingIndexUrl: d.filingIndexUrl, documentUrl: d.documentUrl, sourceBytes: null, sha256: null,
-        mimeType: null, parser: null, parserVersion: null, extractionStatus: 'failed', units: null, unitCount: 0, characterCount: 0,
+        mimeType: null, parser: null, parserVersion: null, extractionConfigVersion: EXTRACTION_CONFIG_VERSION, extractionStatus: 'failed',
+        units: null, unitCount: 0, characterCount: 0,
         quality: null, warnings: [refusal.message.slice(0, 480)], processedAt: new Date().toISOString(),
-      }));
+      })));
       if (refusal.stopRun) { console.error('The SEC refused the request. Stopping without a retry.'); break; }
       continue;
     }
@@ -153,17 +175,17 @@ async function run(place, documents) {
     writeFileSync(scratchFile, got.body);
 
     const prior = previous?.documents?.find((x) => x.documentUrl === d.documentUrl);
-    const sameSource = prior && prior.sha256 === hash && prior.extractionStatus === 'ok';
-    let parsed;
-    let quality;
-    if (sameSource && prior.parser && prior.parserVersion === (d.format === 'pdf' ? prior.parserVersion : HTML_VERSION)) {
-      console.log(`same  ${d.manager.padEnd(18)} unchanged source and parser; keeping the existing record`);
+    if (prior && prior.sha256 === hash && carriesForward(prior, d.format)) {
+      console.log(`same  ${d.manager.padEnd(18)} unchanged source, parser and configuration; keeping the existing record`);
+      stats.carriedForward += 1;
+      stats.parsed += 1;
       records.push(prior);
       rmSync(scratchFile, { force: true });
       continue;
     }
-    parsed = await parseDocument(d.format, scratchFile, got.body);
-    quality = assess({ units: parsed.units, items: parsed.items, rawCharacters: got.bytes });
+    const parsed = await parseDocument(d.format, scratchFile, got.body);
+    const quality = assess({ units: parsed.units, items: parsed.items, rawCharacters: got.bytes });
+    if (parsed.status === 'ok') stats.parsed += 1; else stats.failed += 1;
 
     if (keep) {
       writeFileSync(join(keep, 'originals', hash), got.body);
@@ -206,6 +228,7 @@ async function run(place, documents) {
       mimeType: got.contentType,
       parser: parsed.parser,
       parserVersion: parsed.parserVersion,
+      extractionConfigVersion: EXTRACTION_CONFIG_VERSION,
       extractionStatus: parsed.status,
       units: parsed.units,
       unitCount: parsed.items.length,
@@ -224,26 +247,54 @@ async function run(place, documents) {
     });
     const problems = validatePublicRecord(record);
     if (problems.length) throw new Error(`the record for ${d.documentUrl} is not publishable: ${problems.join('; ')}`);
-    records.push(record);
+    records.push(preserveProcessedAt(previous, record));
     console.log(`${parsed.status === 'ok' ? 'ok   ' : 'FAIL '} ${d.manager.padEnd(18)} ${String(got.bytes).padStart(9)} bytes · ${parsed.items.length} ${parsed.units} · ${quality.normalisedCharacters} chars · ${record.warnings.length} warning(s)`);
   }
 
   if (privateManifest) writeManifestAtomic(join(keep, 'manifest.json'), privateManifest);
 
-  const output = emptyOutput();
-  output.generatedAt = new Date().toISOString();
-  output.documents = records;
-  output.counts = {
-    documents: records.length,
-    parsed: records.filter((r) => r.extractionStatus === 'ok').length,
-    failed: records.filter((r) => r.extractionStatus !== 'ok').length,
-    requests,
-    unchanged: records.filter((r) => previous && unchanged(previous, r)).length,
-  };
-  return output;
+  return { output: buildOutput(records), stats };
+}
+
+/**
+ * A stored record's parsing configuration, for records written before there
+ * was one to record.
+ *
+ * Configuration version 1 is the definition of what the parsers did on the
+ * day this field was added, so a record made by that same code was made at
+ * version 1 and may say so. The guard matters: once the configuration moves
+ * to 2, a record that does not name its version was made by something else
+ * and must be re-parsed rather than relabelled.
+ */
+function withConfigVersion(record) {
+  if (record.extractionConfigVersion != null) return record;
+  if (EXTRACTION_CONFIG_VERSION !== 1) return record;
+  return { ...record, extractionConfigVersion: 1 };
+}
+
+/**
+ * Rebuild both committed files from the records already on disk.
+ *
+ * The one path that touches no network at all. It exists so the rendering
+ * can be proved stable without asking the SEC for the same nine documents
+ * again, and so a change to the Markdown table can be applied without a
+ * retrieval run.
+ */
+function renderOnly() {
+  const previous = readPrevious();
+  if (!previous) { console.error(`there is nothing to render: ${OUT_JSON} does not exist`); process.exit(2); }
+  const records = (previous.documents || []).map((d) => toPublicRecord(withConfigVersion(d)));
+  for (const record of records) {
+    const problems = validatePublicRecord(record);
+    if (problems.length) throw new Error(`the stored record for ${record.documentUrl} is not publishable: ${problems.join('; ')}`);
+  }
+  writeOutput(buildOutput(records));
+  console.log(`render-only: rebuilt ${OUT_JSON} and ${OUT_MD} from ${records.length} stored record(s). No requests made.`);
 }
 
 async function main() {
+  if (RENDER_ONLY) { renderOnly(); return; }
+
   const documents = approvedSelection();
   if (documents.length > MAX_DOCUMENTS) throw new Error(`the selection holds ${documents.length} documents, over the ${MAX_DOCUMENTS} approved`);
 
@@ -266,7 +317,8 @@ async function main() {
     return;
   }
 
-  const { value: output, error, cleanup } = await withWorkspace(workspace, () => run(place, documents));
+  const startedAt = Date.now();
+  const { value, error, cleanup } = await withWorkspace(workspace, () => run(place, documents));
   if (cleanup.clean) {
     console.log(`cleanup: workspace removed (${cleanup.scratchFilesAtEnd} scratch file(s) at the end)`);
   } else {
@@ -275,9 +327,13 @@ async function main() {
   }
   if (error) { console.error(error); process.exit(1); }
 
-  writeFileSync(OUT_JSON, `${JSON.stringify(output, null, 2)}\n`);
-  writeFileSync(OUT_MD, markdown(output, MODE));
-  console.log(`\n${output.counts.parsed} of ${output.counts.documents} parsed · ${output.counts.requests} request(s) · wrote ${OUT_JSON} and ${OUT_MD}`);
+  writeOutput(value.output);
+
+  // The run report, printed and not committed. None of this belongs in a
+  // file that should only change when a document does.
+  const { requests, carriedForward, parsed, failed } = value.stats;
+  console.log(`\n${parsed} of ${value.output.documents.length} parsed, ${failed} failed · ${requests} request(s) · ${carriedForward} carried forward unchanged · ${((Date.now() - startedAt) / 1000).toFixed(1)}s`);
+  console.log(`wrote ${OUT_JSON} and ${OUT_MD}`);
   if (place.retainsBytes) console.log(`Originals and text retained on the archive at ${place.root} (never committed).`);
 }
 
