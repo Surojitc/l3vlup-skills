@@ -1,0 +1,863 @@
+{
+  "taxonomyVersion": 1,
+  "note": "A closed list. A model may select from it and may not extend it: an unmatched claim is recorded as unclassified, never as a new tag. Sector and industry are deterministic issuer attributes on the issuer entity, not tags here; the sector_context axis holds forces a manager argues about, which is a different thing. Every tag carries a negative example because the way a taxonomy rots is by a tag quietly widening until it means nothing.",
+  "axes": [
+    "business_quality",
+    "capital_allocation",
+    "catalyst",
+    "horizon",
+    "investment_case",
+    "operating_driver",
+    "ownership_governance",
+    "risk",
+    "sector_context",
+    "valuation"
+  ],
+  "tags": [
+    {
+      "code": "capital.acquisition_programme",
+      "label": "Acquisition programme",
+      "definition": "A repeatable acquisition strategy.",
+      "aliases": [
+        "roll-up",
+        "M&A programme"
+      ],
+      "positiveExample": "They buy six distributors a year at 6x.",
+      "negativeExample": "They made an acquisition.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "capital_allocation"
+    },
+    {
+      "code": "capital.buyback",
+      "label": "Buyback",
+      "definition": "A stated repurchase programme.",
+      "aliases": [
+        "share repurchase",
+        "buy-back"
+      ],
+      "positiveExample": "They are retiring 8% of shares a year.",
+      "negativeExample": "They may return capital.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "capital_allocation"
+    },
+    {
+      "code": "capital.deleveraging",
+      "label": "Deleveraging",
+      "definition": "A stated path to lower debt.",
+      "aliases": [
+        "debt paydown"
+      ],
+      "positiveExample": "Net debt falls from 3.1x to 1.5x by 2028.",
+      "negativeExample": "They would like less debt.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "capital_allocation"
+    },
+    {
+      "code": "capital.divestiture",
+      "label": "Divestiture",
+      "definition": "A stated intention to sell a business.",
+      "aliases": [
+        "disposal",
+        "asset sale"
+      ],
+      "positiveExample": "The chemicals division is being marketed.",
+      "negativeExample": "The portfolio is under review.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "capital_allocation"
+    },
+    {
+      "code": "capital.dividend_policy",
+      "label": "Dividend policy",
+      "definition": "A stated dividend commitment or change.",
+      "aliases": [
+        "dividend"
+      ],
+      "positiveExample": "The dividend was raised 15% and covered twice.",
+      "negativeExample": "They pay a dividend.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "capital_allocation"
+    },
+    {
+      "code": "case.asset_value_discount",
+      "label": "Asset value discount",
+      "definition": "The market price sits below a defensible appraisal of the assets.",
+      "aliases": [
+        "NAV discount",
+        "below book"
+      ],
+      "positiveExample": "The property portfolio alone exceeds the market capitalisation.",
+      "negativeExample": "Earnings will grow faster than expected.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "investment_case"
+    },
+    {
+      "code": "case.cyclical_recovery",
+      "label": "Cyclical recovery",
+      "definition": "The thesis rests on a cycle turning, not on a structural change in the business.",
+      "aliases": [
+        "cycle turn",
+        "trough recovery"
+      ],
+      "positiveExample": "Orders have troughed and the next upcycle is not in the price.",
+      "negativeExample": "Demand is structurally higher for ever.",
+      "exclusiveWith": [
+        "case.quality_compounder"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "investment_case"
+    },
+    {
+      "code": "case.mispriced_optionality",
+      "label": "Mispriced optionality",
+      "definition": "Value sits in an outcome the market assigns roughly zero probability.",
+      "aliases": [
+        "free option",
+        "hidden option"
+      ],
+      "positiveExample": "The market ascribes nothing to the second pipeline asset.",
+      "negativeExample": "The core business is undervalued.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "investment_case"
+    },
+    {
+      "code": "case.quality_compounder",
+      "label": "Quality compounder",
+      "definition": "The manager owns it for durable high returns on capital reinvested over years, not for a re-rating.",
+      "aliases": [
+        "compounder",
+        "long-term compounder"
+      ],
+      "positiveExample": "We expect this business to reinvest at 20% returns for a decade.",
+      "negativeExample": "The stock is cheap on next year's earnings.",
+      "exclusiveWith": [
+        "case.cyclical_recovery",
+        "case.turnaround"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "investment_case"
+    },
+    {
+      "code": "case.special_situation",
+      "label": "Special situation",
+      "definition": "The return depends on a discrete corporate event rather than operations.",
+      "aliases": [
+        "event driven",
+        "merger arbitrage"
+      ],
+      "positiveExample": "The spread to the agreed offer price is 8% over four months.",
+      "negativeExample": "Margins will expand over three years.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "investment_case"
+    },
+    {
+      "code": "case.turnaround",
+      "label": "Turnaround",
+      "definition": "A troubled business where the thesis is repair, under new management or a new plan.",
+      "aliases": [
+        "restructuring",
+        "self-help"
+      ],
+      "positiveExample": "The new chief executive has closed the loss-making division.",
+      "negativeExample": "The business has compounded for twenty years.",
+      "exclusiveWith": [
+        "case.quality_compounder"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "investment_case"
+    },
+    {
+      "code": "catalyst.contract_award",
+      "label": "Contract award",
+      "definition": "A specific contract or award decision.",
+      "aliases": [
+        "tender",
+        "award"
+      ],
+      "positiveExample": "The defence contract is decided in the fourth quarter.",
+      "negativeExample": "They have a strong order book.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "catalyst"
+    },
+    {
+      "code": "catalyst.corporate_action",
+      "label": "Corporate action",
+      "definition": "A spin-off, sale, merger or similar.",
+      "aliases": [
+        "spin-off",
+        "divestment",
+        "takeover"
+      ],
+      "positiveExample": "The board has agreed to spin off the industrial unit.",
+      "negativeExample": "Management is considering its options.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "catalyst"
+    },
+    {
+      "code": "catalyst.earnings_event",
+      "label": "Earnings event",
+      "definition": "A scheduled results date expected to reveal the thesis.",
+      "aliases": [
+        "quarterly results",
+        "earnings print"
+      ],
+      "positiveExample": "Q2 results in August should show the margin turn.",
+      "negativeExample": "Eventually the market will notice.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "catalyst"
+    },
+    {
+      "code": "catalyst.index_or_listing",
+      "label": "Index or listing event",
+      "definition": "Inclusion, uplisting or a new venue.",
+      "aliases": [
+        "index inclusion",
+        "uplisting"
+      ],
+      "positiveExample": "Index inclusion follows the June review.",
+      "negativeExample": "Liquidity should improve over time.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "catalyst"
+    },
+    {
+      "code": "catalyst.product_launch",
+      "label": "Product launch",
+      "definition": "A dated launch or approval.",
+      "aliases": [
+        "launch",
+        "approval date"
+      ],
+      "positiveExample": "The new platform ships in March 2027.",
+      "negativeExample": "They have a strong product pipeline.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "catalyst"
+    },
+    {
+      "code": "catalyst.regulatory_decision",
+      "label": "Regulatory decision",
+      "definition": "A decision by a regulator on a known date or window.",
+      "aliases": [
+        "FDA decision",
+        "PDUFA",
+        "antitrust ruling"
+      ],
+      "positiveExample": "The regulator decides by 14 May 2027.",
+      "negativeExample": "Regulation is generally favourable.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "catalyst"
+    },
+    {
+      "code": "context.input_cost_cycle",
+      "label": "Input cost cycle",
+      "definition": "Input prices moving the economics of the industry.",
+      "aliases": [
+        "raw material cycle",
+        "cost inflation"
+      ],
+      "positiveExample": "Ethane at these levels adds four points to margin.",
+      "negativeExample": "Costs matter.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "sector_context"
+    },
+    {
+      "code": "context.regulatory_regime_change",
+      "label": "Regulatory regime change",
+      "definition": "A change in the rules governing the industry.",
+      "aliases": [
+        "policy shift",
+        "deregulation"
+      ],
+      "positiveExample": "The new framework allows direct-to-consumer sales.",
+      "negativeExample": "Regulators are watching.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "sector_context"
+    },
+    {
+      "code": "context.secular_demand_shift",
+      "label": "Secular demand shift",
+      "definition": "A durable change in end demand, independent of the cycle.",
+      "aliases": [
+        "structural growth",
+        "secular trend"
+      ],
+      "positiveExample": "Data centre power demand is on a different trajectory.",
+      "negativeExample": "Demand is recovering from the trough.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "sector_context"
+    },
+    {
+      "code": "driver.capacity_addition",
+      "label": "Capacity addition",
+      "definition": "New capacity that changes the earnings base.",
+      "aliases": [
+        "capex expansion"
+      ],
+      "positiveExample": "The third fab doubles wafer starts in 2027.",
+      "negativeExample": "They will invest in the business.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "operating_driver"
+    },
+    {
+      "code": "driver.cost_programme",
+      "label": "Cost programme",
+      "definition": "A named, quantified cost reduction.",
+      "aliases": [
+        "cost cutting",
+        "efficiency programme"
+      ],
+      "positiveExample": "They have committed to $400m of annualised savings by 2027.",
+      "negativeExample": "They intend to be more efficient.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "operating_driver"
+    },
+    {
+      "code": "driver.margin_inflection",
+      "label": "Margin inflection",
+      "definition": "Margins are expected to turn, and that turn carries the thesis.",
+      "aliases": [
+        "margin turn",
+        "operating leverage"
+      ],
+      "positiveExample": "Gross margin should move from 31% to 38% as the new line fills.",
+      "negativeExample": "Margins have been stable for five years.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "operating_driver"
+    },
+    {
+      "code": "driver.market_share_gain",
+      "label": "Market share gain",
+      "definition": "Taking share from identified competitors.",
+      "aliases": [
+        "share gains"
+      ],
+      "positiveExample": "They have taken six points of share from the incumbent.",
+      "negativeExample": "The market is growing.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "operating_driver"
+    },
+    {
+      "code": "driver.mix_shift",
+      "label": "Mix shift",
+      "definition": "A shift toward higher-value products or customers.",
+      "aliases": [
+        "mix improvement"
+      ],
+      "positiveExample": "Software is moving from 20% to 40% of revenue.",
+      "negativeExample": "All segments grow at the same rate.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "operating_driver"
+    },
+    {
+      "code": "driver.volume_growth",
+      "label": "Volume growth",
+      "definition": "Units, not price, drive the case.",
+      "aliases": [
+        "unit growth"
+      ],
+      "positiveExample": "Shipments should grow 18% as capacity comes on.",
+      "negativeExample": "Revenue grows because prices rose.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "operating_driver"
+    },
+    {
+      "code": "governance.activist_engagement",
+      "label": "Activist engagement",
+      "definition": "A public campaign or engagement by the manager.",
+      "aliases": [
+        "campaign",
+        "engagement"
+      ],
+      "positiveExample": "We have nominated three directors.",
+      "negativeExample": "We have spoken to management.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "ownership_governance"
+    },
+    {
+      "code": "governance.board_change",
+      "label": "Board change",
+      "definition": "Directors added, removed or sought.",
+      "aliases": [
+        "board seats",
+        "director nomination"
+      ],
+      "positiveExample": "Two nominees joined the board in May.",
+      "negativeExample": "The board is experienced.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "ownership_governance"
+    },
+    {
+      "code": "governance.control_structure",
+      "label": "Control structure",
+      "definition": "Dual-class shares or a controlling holder.",
+      "aliases": [
+        "dual class",
+        "controlled company"
+      ],
+      "positiveExample": "The founder holds 61% of the votes on 9% of the economics.",
+      "negativeExample": "The shareholder register is concentrated.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "ownership_governance"
+    },
+    {
+      "code": "governance.insider_alignment",
+      "label": "Insider alignment",
+      "definition": "Insider ownership or purchases aligning incentives.",
+      "aliases": [
+        "insider ownership",
+        "skin in the game"
+      ],
+      "positiveExample": "The founder owns 22% and bought more in March.",
+      "negativeExample": "Management holds some shares.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "ownership_governance"
+    },
+    {
+      "code": "governance.management_change",
+      "label": "Management change",
+      "definition": "A named change in senior management.",
+      "aliases": [
+        "new CEO",
+        "management transition"
+      ],
+      "positiveExample": "The new chief executive started in January.",
+      "negativeExample": "Management may change.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "ownership_governance"
+    },
+    {
+      "code": "horizon.one_to_three_years",
+      "label": "One to three years",
+      "definition": "The manager expects the thesis to resolve between one and three years out.",
+      "aliases": [
+        "medium term",
+        "1-3y"
+      ],
+      "positiveExample": "Over the next two to three years.",
+      "negativeExample": "Within a few months.",
+      "exclusiveWith": [
+        "horizon.under_one_year",
+        "horizon.three_to_five_years",
+        "horizon.over_five_years"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "horizon"
+    },
+    {
+      "code": "horizon.over_five_years",
+      "label": "Over five years",
+      "definition": "The manager expects to hold beyond five years, with no dated resolution.",
+      "aliases": [
+        "very long term",
+        ">5y"
+      ],
+      "positiveExample": "We expect to own this for a decade.",
+      "negativeExample": "We expect a re-rating this year.",
+      "exclusiveWith": [
+        "horizon.under_one_year",
+        "horizon.one_to_three_years",
+        "horizon.three_to_five_years"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "horizon"
+    },
+    {
+      "code": "horizon.three_to_five_years",
+      "label": "Three to five years",
+      "definition": "The manager expects the thesis to resolve between three and five years out.",
+      "aliases": [
+        "3-5y"
+      ],
+      "positiveExample": "By the end of the decade.",
+      "negativeExample": "This quarter.",
+      "exclusiveWith": [
+        "horizon.under_one_year",
+        "horizon.one_to_three_years",
+        "horizon.over_five_years"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "horizon"
+    },
+    {
+      "code": "horizon.under_one_year",
+      "label": "Under one year",
+      "definition": "The thesis resolves within twelve months.",
+      "aliases": [
+        "short term",
+        "<1y"
+      ],
+      "positiveExample": "We expect this to play out by next summer.",
+      "negativeExample": "We are long-term investors.",
+      "exclusiveWith": [
+        "horizon.one_to_three_years",
+        "horizon.three_to_five_years",
+        "horizon.over_five_years"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "horizon"
+    },
+    {
+      "code": "quality.commoditised",
+      "label": "Commoditised",
+      "definition": "The product competes primarily on price.",
+      "aliases": [
+        "undifferentiated"
+      ],
+      "positiveExample": "Pricing is set by the spot market.",
+      "negativeExample": "The brand commands a premium.",
+      "exclusiveWith": [
+        "quality.durable_moat"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "business_quality"
+    },
+    {
+      "code": "quality.durable_moat",
+      "label": "Durable moat",
+      "definition": "A structural barrier the manager expects to persist.",
+      "aliases": [
+        "competitive moat",
+        "barrier to entry"
+      ],
+      "positiveExample": "Regulatory approval takes a competitor six years to obtain.",
+      "negativeExample": "The company is currently the largest player.",
+      "exclusiveWith": [
+        "quality.commoditised"
+      ],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "business_quality"
+    },
+    {
+      "code": "quality.pricing_power",
+      "label": "Pricing power",
+      "definition": "The ability to raise price without losing volume.",
+      "aliases": [
+        "price increases stick"
+      ],
+      "positiveExample": "They raised price 9% and volume was flat.",
+      "negativeExample": "Revenue grew because volume grew.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "business_quality"
+    },
+    {
+      "code": "quality.scale_advantage",
+      "label": "Scale advantage",
+      "definition": "Unit economics improve with size in a way rivals cannot match.",
+      "aliases": [
+        "scale economies"
+      ],
+      "positiveExample": "Their cost per delivery falls as density rises.",
+      "negativeExample": "They are a large company.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "business_quality"
+    },
+    {
+      "code": "quality.switching_costs",
+      "label": "Switching costs",
+      "definition": "Customers face real cost or risk in leaving.",
+      "aliases": [
+        "lock-in",
+        "sticky customers"
+      ],
+      "positiveExample": "Migrating the ledger would take a bank eighteen months.",
+      "negativeExample": "Customers are satisfied with the product.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "business_quality"
+    },
+    {
+      "code": "risk.competitive_erosion",
+      "label": "Competitive erosion",
+      "definition": "A named competitor threatens the economics.",
+      "aliases": [
+        "competition",
+        "share loss"
+      ],
+      "positiveExample": "A new entrant is pricing 30% below.",
+      "negativeExample": "The industry is competitive.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "risk"
+    },
+    {
+      "code": "risk.customer_concentration",
+      "label": "Customer concentration",
+      "definition": "A small number of customers carry the revenue.",
+      "aliases": [
+        "concentration"
+      ],
+      "positiveExample": "Two customers are 58% of revenue.",
+      "negativeExample": "They have large customers.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "risk"
+    },
+    {
+      "code": "risk.cyclical_downturn",
+      "label": "Cyclical downturn",
+      "definition": "The cycle turning against the position.",
+      "aliases": [
+        "downturn"
+      ],
+      "positiveExample": "A housing slowdown would halve volumes.",
+      "negativeExample": "Economies go up and down.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "risk"
+    },
+    {
+      "code": "risk.execution_risk",
+      "label": "Execution risk",
+      "definition": "The plan may not be delivered.",
+      "aliases": [
+        "delivery risk"
+      ],
+      "positiveExample": "The integration has slipped twice already.",
+      "negativeExample": "Management could do better.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "risk"
+    },
+    {
+      "code": "risk.leverage_risk",
+      "label": "Leverage risk",
+      "definition": "The balance sheet limits the manager's tolerance.",
+      "aliases": [
+        "balance sheet risk",
+        "debt"
+      ],
+      "positiveExample": "Net debt is 4.6x EBITDA with a 2027 maturity.",
+      "negativeExample": "They carry some debt.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "risk"
+    },
+    {
+      "code": "risk.litigation_risk",
+      "label": "Litigation risk",
+      "definition": "Pending litigation with a material outcome.",
+      "aliases": [
+        "legal risk"
+      ],
+      "positiveExample": "The patent suit could remove the lead product.",
+      "negativeExample": "Companies get sued.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "risk"
+    },
+    {
+      "code": "risk.regulatory_risk",
+      "label": "Regulatory risk",
+      "definition": "A rule or ruling could impair the thesis.",
+      "aliases": [
+        "regulation",
+        "policy risk"
+      ],
+      "positiveExample": "A price cap would remove a third of profit.",
+      "negativeExample": "Regulation always exists.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "risk"
+    },
+    {
+      "code": "valuation.fcf_yield_support",
+      "label": "Free cash flow yield support",
+      "definition": "A free cash flow yield the manager treats as a floor.",
+      "aliases": [
+        "cash yield",
+        "FCF support"
+      ],
+      "positiveExample": "A 9% free cash flow yield limits the downside.",
+      "negativeExample": "The company will be profitable next year.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "valuation"
+    },
+    {
+      "code": "valuation.growth_at_reasonable_price",
+      "label": "Growth at a reasonable price",
+      "definition": "Growth bought at a multiple the manager considers undemanding.",
+      "aliases": [
+        "GARP"
+      ],
+      "positiveExample": "20% growth at 15x forward earnings.",
+      "negativeExample": "We paid up for the best business in the sector.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "valuation"
+    },
+    {
+      "code": "valuation.multiple_rerating",
+      "label": "Multiple re-rating",
+      "definition": "The thesis requires the multiple to rise, not just earnings.",
+      "aliases": [
+        "rerate",
+        "multiple expansion"
+      ],
+      "positiveExample": "At 11x it should trade closer to the peer group's 17x.",
+      "negativeExample": "Earnings will double and the multiple will stay flat.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "valuation"
+    },
+    {
+      "code": "valuation.replacement_value",
+      "label": "Replacement value",
+      "definition": "Value anchored to what rebuilding the asset base would cost.",
+      "aliases": [
+        "replacement cost"
+      ],
+      "positiveExample": "A new plant would cost twice the enterprise value.",
+      "negativeExample": "The shares are cheap versus peers.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "valuation"
+    },
+    {
+      "code": "valuation.sum_of_parts",
+      "label": "Sum of the parts",
+      "definition": "Value is argued segment by segment.",
+      "aliases": [
+        "SOTP",
+        "break-up value"
+      ],
+      "positiveExample": "The services arm alone is worth the whole market capitalisation.",
+      "negativeExample": "The company trades below its historical average multiple.",
+      "exclusiveWith": [],
+      "compatibleWith": [],
+      "versionIntroduced": 1,
+      "deprecatedBy": null,
+      "axis": "valuation"
+    }
+  ]
+}

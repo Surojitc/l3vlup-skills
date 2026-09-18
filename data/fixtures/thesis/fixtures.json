@@ -1,0 +1,175 @@
+{
+  "sourceLength": 432,
+  "manager": {
+    "managerId": "m-fixture",
+    "slug": "fixture-capital",
+    "legalName": "Fixture Capital Partners",
+    "cik": "0000000000"
+  },
+  "document": {
+    "documentId": "doc-1",
+    "managerId": "m-fixture",
+    "accession": "0000000000-26-000001",
+    "form": "N-CSRS",
+    "filingDate": "2026-08-14",
+    "documentUrl": "https://www.sec.gov/Archives/edgar/data/0/000000000026000001/fixture.htm",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "issuers": [
+    {
+      "issuerId": "i-northwind",
+      "canonicalName": "Northwind Components Inc",
+      "issuerCik": "0001111111",
+      "sector": "Industrials",
+      "sectorSource": "sec_sic"
+    },
+    {
+      "issuerId": "i-calder",
+      "canonicalName": "Calder Industries Ltd",
+      "issuerCik": "0002222222",
+      "sector": "Materials",
+      "sectorSource": "sec_sic"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "Northwind Components",
+      "issuerId": "i-northwind",
+      "reviewState": "confirmed"
+    },
+    {
+      "alias": "Calder Industries",
+      "issuerId": "i-calder",
+      "reviewState": "confirmed"
+    },
+    {
+      "alias": "Northwind",
+      "issuerId": "i-northwind",
+      "reviewState": "proposed"
+    },
+    {
+      "alias": "Meridian Group",
+      "issuerId": "i-meridian-a",
+      "reviewState": "confirmed"
+    },
+    {
+      "alias": "Meridian Group",
+      "issuerId": "i-meridian-b",
+      "reviewState": "confirmed"
+    }
+  ],
+  "securityMaster": [
+    {
+      "securityId": "s-nwc-a",
+      "cusipFiled": "037833100",
+      "cusipNormalised": "037833100",
+      "issuerNameFiled": "NORTHWIND COMPONENTS INC",
+      "canonicalIssuerName": "Northwind Components Inc",
+      "ticker": "NWC",
+      "exchange": "XNYS",
+      "issuerCik": "0001111111",
+      "shareClass": "A",
+      "effectiveFrom": "2020-01-01",
+      "effectiveTo": null,
+      "mappingSource": "sec_company_tickers",
+      "mappingConfidence": "exact",
+      "reviewState": "confirmed"
+    },
+    {
+      "securityId": "s-dual-a",
+      "cusipFiled": "38259P508",
+      "cusipNormalised": "38259P508",
+      "issuerNameFiled": "DUALCLASS CO",
+      "canonicalIssuerName": "Dualclass Co",
+      "ticker": "DCLA",
+      "exchange": "XNAS",
+      "issuerCik": "0003333333",
+      "shareClass": "A",
+      "effectiveFrom": "2015-01-01",
+      "effectiveTo": null,
+      "mappingSource": "manual_review",
+      "mappingConfidence": "high",
+      "reviewState": "confirmed"
+    },
+    {
+      "securityId": "s-dual-c",
+      "cusipFiled": "38259P508",
+      "cusipNormalised": "38259P508",
+      "issuerNameFiled": "DUALCLASS CO CL C",
+      "canonicalIssuerName": "Dualclass Co",
+      "ticker": "DCLC",
+      "exchange": "XNAS",
+      "issuerCik": "0003333333",
+      "shareClass": "C",
+      "effectiveFrom": "2015-01-01",
+      "effectiveTo": null,
+      "mappingSource": "manual_review",
+      "mappingConfidence": "high",
+      "reviewState": "confirmed"
+    },
+    {
+      "securityId": "s-pending",
+      "cusipFiled": "594918104",
+      "cusipNormalised": "594918104",
+      "issuerNameFiled": "PENDING CO",
+      "canonicalIssuerName": null,
+      "ticker": null,
+      "exchange": null,
+      "issuerCik": null,
+      "shareClass": null,
+      "effectiveFrom": "2024-01-01",
+      "effectiveTo": null,
+      "mappingSource": "unresolved",
+      "mappingConfidence": "none",
+      "reviewState": "needs_review"
+    }
+  ],
+  "evidence": [
+    {
+      "evidenceId": "e-1",
+      "documentId": "doc-1",
+      "locator": "paragraph 2",
+      "startOffset": 107,
+      "endOffset": 172,
+      "excerpt": "Gross margin should move from 31% to 38% as the second line fills",
+      "sha256OfSource": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/0/000000000026000001/fixture.htm"
+    },
+    {
+      "evidenceId": "e-2",
+      "documentId": "doc-1",
+      "locator": "paragraph 3",
+      "startOffset": 280,
+      "endOffset": 312,
+      "excerpt": "Two customers are 58% of revenue",
+      "sha256OfSource": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/0/000000000026000001/fixture.htm"
+    }
+  ],
+  "positions": [
+    {
+      "positionId": "p-q1",
+      "managerId": "m-fixture",
+      "securityId": "s-nwc-a",
+      "periodEnd": "2026-03-31",
+      "filedOn": "2026-05-14",
+      "shares": 400000
+    },
+    {
+      "positionId": "p-q2",
+      "managerId": "m-fixture",
+      "securityId": "s-nwc-a",
+      "periodEnd": "2026-06-30",
+      "filedOn": "2026-08-14",
+      "shares": 900000
+    },
+    {
+      "positionId": "p-q3",
+      "managerId": "m-fixture",
+      "securityId": "s-nwc-a",
+      "periodEnd": "2026-09-30",
+      "filedOn": "2026-11-14",
+      "shares": 0
+    }
+  ]
+}
