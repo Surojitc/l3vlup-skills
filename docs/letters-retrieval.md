@@ -116,6 +116,33 @@ stage that has not been approved.
 In `local-private` mode the originals, the normalised text and the per-unit
 hashes are also written to the archive. They are never committed.
 
+### What the request ledger keeps, and what it does not
+
+`data/letters.requests.jsonl` is durable evidence, not a log. It holds the
+discovery and validation milestones, the three local retrieval runs of 17
+September and the first production workflow run — 36 observed document GETs,
+with reconstructed entries marked separately and never added to that total.
+
+From there the record splits. A routine attempt goes to a run log
+(`LETTERS_RUN_LOG`, or the temp directory), is rendered into the GitHub job
+summary, rides the one-day artifact, and is discarded with the runner. Nine
+identical 200s every time the workflow runs tell nobody anything, and
+appending them to a tracked file made every run look like a change.
+
+A request is committed only on a material event, and the list is closed in
+`lib/letters-ledger.mjs`:
+
+| Event | Meaning |
+|---|---|
+| `new_document` | a document the committed output had never seen |
+| `source_change` | the bytes at an approved URL changed |
+| `error` | a refusal, a non-200 or a parse failure worth investigating later |
+| `milestone_verification` | a deliberate, named verification run, recorded once and by hand |
+
+`appendDurable` refuses anything else, and refuses an entry that does not say
+where it was observed. Each of those four also moves the published output, so
+a durable ledger write never opens a pull request on its own.
+
 ### An unchanged rerun writes the same bytes
 
 Both files are a function of the documents and nothing else, so a diff on
