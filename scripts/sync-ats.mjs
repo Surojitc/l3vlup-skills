@@ -26,12 +26,7 @@ import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfol
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
 import { normaliseRoleText } from '../lib/text-normalise.mjs';
-import {
-  buildRegistry,
-  recordFormerSlug,
-  serialiseRegistry,
-  updateRegistry,
-} from '../lib/slug-registry.mjs';
+import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
 import {
   ledgerDeadline,
   loadLedger,

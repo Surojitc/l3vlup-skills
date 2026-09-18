@@ -157,3 +157,9 @@ __pycache__/
 letters-archive/
 .letters-archive/
 letters-review-report.md
+
+# Half-written data files. Every published file lands under a temporary name
+# and is moved into place (see writeAtomic in scripts/sync-ats.mjs), so a run
+# that dies mid-write leaves one behind. CI checks out fresh so it can never
+# reach a commit there; this stops a local run staging one.
+data/*.tmp
