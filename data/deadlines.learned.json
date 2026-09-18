@@ -1796,6 +1796,12 @@
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
     },
+    "workday-fticonsulting-JR260359": {
+      "closingDate": "2026-09-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-18",
+      "lastConfirmed": "2026-09-18"
+    },
     "workday-fticonsulting-JR260362-1": {
       "closingDate": "2026-09-18",
       "source": "workday-detail",
@@ -2474,6 +2480,12 @@
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
     },
+    "workday-wf-R-571920": {
+      "closingDate": "2026-09-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-18",
+      "lastConfirmed": "2026-09-18"
+    },
     "workday-wf-R-571924": {
       "closingDate": "2026-09-18",
       "source": "workday-detail",
@@ -2545,6 +2557,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-09-16",
       "lastConfirmed": "2026-09-16"
+    },
+    "workday-wf-R-576265": {
+      "closingDate": "2026-09-20",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-18",
+      "lastConfirmed": "2026-09-18"
     }
   },
   "misses": {
@@ -3649,8 +3667,8 @@
       "attempts": 2
     },
     "greenhouse-robinhood-8142961|jsonld": {
-      "checkedAt": "2026-09-14",
-      "attempts": 1
+      "checkedAt": "2026-09-18",
+      "attempts": 2
     },
     "greenhouse-robinhood-8142963|jsonld": {
       "checkedAt": "2026-09-18",
@@ -5704,6 +5722,30 @@
       "checkedAt": "2026-09-11",
       "attempts": 3
     },
+    "workday-barclays-JR-0000124291|jsonld": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124291|workday-detail": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124379|jsonld": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124379|workday-detail": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124391|jsonld": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124391|workday-detail": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
     "workday-barclays-JR-0000124397|jsonld": {
       "checkedAt": "2026-09-11",
       "attempts": 3
@@ -5839,6 +5881,14 @@
     "workday-barclays-JR-0000124673|workday-detail": {
       "checkedAt": "2026-09-10",
       "attempts": 2
+    },
+    "workday-barclays-JR-0000124677|jsonld": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000124677|workday-detail": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
     },
     "workday-barclays-JR-0000124678|jsonld": {
       "checkedAt": "2026-09-14",
@@ -6048,6 +6098,14 @@
       "checkedAt": "2026-09-11",
       "attempts": 3
     },
+    "workday-barclays-JR-0000125017|jsonld": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000125017|workday-detail": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
     "workday-barclays-JR-0000128099|jsonld": {
       "checkedAt": "2026-09-14",
       "attempts": 2
@@ -6135,6 +6193,14 @@
     "workday-barclays-JR-0000131452|workday-detail": {
       "checkedAt": "2026-09-14",
       "attempts": 3
+    },
+    "workday-barclays-JR-0000132400|jsonld": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000132400|workday-detail": {
+      "checkedAt": "2026-09-18",
+      "attempts": 1
     },
     "workday-barclays-JR-0000132730|jsonld": {
       "checkedAt": "2026-09-17",
