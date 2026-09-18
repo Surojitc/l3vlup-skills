@@ -377,26 +377,33 @@ test('the budget stops at the cap rather than switching behaviour', () => {
   let ledger = emptyCostLedger();
   assert.equal(checkBudget(ledger, { model: 'gpt-fictional', inputTokens: 10, outputTokens: 10, documentId: 'd1' }).allowed, false);
   assert.match(checkBudget(ledger, { model: 'gpt-fictional', inputTokens: 10, outputTokens: 10, documentId: 'd1' }).reason, /not on the allowlist/);
-  assert.match(checkBudget(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: 999_999, outputTokens: 10, documentId: 'd1' }).reason, /per-document limit/);
+  assert.match(checkBudget(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: 999_999, outputTokens: 10, documentId: 'd1' }).reason, /per-call limit/);
 
-  ledger = recordCall(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: 100_000, outputTokens: 5_000, documentId: 'd1' });
+  // The per-document limit accumulates across calls, so a document cannot be
+  // walked past the ceiling one legal call at a time.
+  let perDoc = emptyCostLedger({ budgetUsd: 15 });
+  for (let i = 0; i < 3; i += 1) perDoc = recordCall(perDoc, { model: 'claude-haiku-4-5-20251001', inputTokens: 39_000, outputTokens: 100, documentId: 'd1' });
+  assert.match(checkBudget(perDoc, { model: 'claude-haiku-4-5-20251001', inputTokens: 39_000, outputTokens: 100, documentId: 'd1' }).reason, /per-document limit/);
+
+  // Within every per-call limit, so this one is allowed.
+  ledger = recordCall(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd1' });
   assert.equal(ledger.stopped, false);
   assert.ok(ledger.estimatedUsd > 0);
   assert.equal(ledger.documentsProcessed, 1);
 
   // A tenth document is refused.
-  let wide = emptyCostLedger();
+  let wide = emptyCostLedger({ budgetUsd: 15 });
   for (let i = 0; i < 9; i += 1) wide = recordCall(wide, { model: 'claude-haiku-4-5-20251001', inputTokens: 1000, outputTokens: 100, documentId: `d${i}` });
   const tenth = checkBudget(wide, { model: 'claude-haiku-4-5-20251001', inputTokens: 1000, outputTokens: 100, documentId: 'd9' });
   assert.equal(tenth.allowed, false);
   assert.match(tenth.reason, /9 document ceiling/);
 
   // The cap stops; it does not silently downgrade.
-  let rich = emptyCostLedger();
+  let rich = emptyCostLedger({ budgetUsd: 15 });
   rich.estimatedUsd = 14.99;
-  const over = recordCall(rich, { model: 'claude-sonnet-5', inputTokens: 100_000, outputTokens: 8_000, documentId: 'd1' });
+  const over = recordCall(rich, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd1' });
   assert.equal(over.stopped, true);
-  assert.match(over.stopReason, /over the \$15\.00 hard stop/);
+  assert.match(over.stopReason, /over the \$15\.00 milestone ceiling/);
   assert.equal(over.calls.length, 0, 'a refused call was still recorded');
   assert.equal(checkBudget(over, { model: 'claude-haiku-4-5-20251001', inputTokens: 1, outputTokens: 1, documentId: 'd2' }).allowed, false,
     'the run continued after the stop');

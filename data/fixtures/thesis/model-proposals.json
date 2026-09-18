@@ -1,0 +1,130 @@
+{
+  "doc-1#0": {
+    "usage": {
+      "inputTokens": 124,
+      "outputTokens": 400,
+      "actualUsd": 0.0013
+    },
+    "proposals": [
+      {
+        "issuerMention": "Northwind Components",
+        "paraphrase": "Margins should improve as the second production line fills.",
+        "kind": "statement",
+        "stance": "long",
+        "tags": [
+          "driver.margin_inflection"
+        ],
+        "catalyst": {
+          "description": "August results should show the margin turn",
+          "expectedBy": "2026-08-31",
+          "dateIsExplicit": true
+        },
+        "horizon": "horizon.one_to_three_years",
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
+        "evidenceStartOffset": 107,
+        "evidenceEndOffset": 172,
+        "ticker": "NWC",
+        "cusip": "037833100",
+        "issuerCik": "0001111111",
+        "shares": 900000,
+        "evidenceVerified": true,
+        "publicationState": "published"
+      },
+      {
+        "issuerMention": "Northwind Components",
+        "paraphrase": "Revenue is concentrated in two customers.",
+        "kind": "statement",
+        "stance": "long",
+        "tags": [
+          "risk.customer_concentration"
+        ],
+        "risk": {
+          "description": "Two customers are most of revenue"
+        },
+        "evidenceExcerpt": "Two customers are 58% of revenue",
+        "evidenceStartOffset": 280,
+        "evidenceEndOffset": 312
+      },
+      {
+        "issuerMention": "Northwind Components",
+        "paraphrase": "Management promised a doubling of earnings.",
+        "kind": "statement",
+        "stance": "long",
+        "tags": [
+          "driver.volume_growth"
+        ],
+        "evidenceExcerpt": "We expect earnings to double within a year",
+        "evidenceStartOffset": 0,
+        "evidenceEndOffset": 42
+      },
+      {
+        "issuerMention": "Northwind Components",
+        "paraphrase": "Margins should improve.",
+        "kind": "statement",
+        "stance": "long",
+        "tags": [
+          "driver.margin_inflection"
+        ],
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
+        "evidenceStartOffset": 112,
+        "evidenceEndOffset": 177
+      },
+      {
+        "issuerMention": "Northwind Components",
+        "paraphrase": "The setup looks attractive.",
+        "kind": "classification",
+        "stance": "long",
+        "tags": [
+          "vibes.strong_setup"
+        ],
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
+        "evidenceStartOffset": 107,
+        "evidenceEndOffset": 172
+      },
+      {
+        "issuerMention": "Northwind Components",
+        "paraphrase": "They will probably add to the position if the margin turn lands.",
+        "kind": "inference",
+        "stance": "unclear",
+        "tags": [],
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
+        "evidenceStartOffset": 107,
+        "evidenceEndOffset": 172
+      },
+      {
+        "issuerMention": "Northwind",
+        "paraphrase": "A second view on the same business.",
+        "kind": "statement",
+        "stance": "long",
+        "tags": [
+          "quality.pricing_power"
+        ],
+        "evidenceExcerpt": "Two customers are 58% of revenue",
+        "evidenceStartOffset": 280,
+        "evidenceEndOffset": 312
+      },
+      {
+        "issuerMention": "Calder Industries",
+        "paraphrase": "Nothing new was said about this holding.",
+        "kind": "statement",
+        "stance": "unclear",
+        "tags": [],
+        "evidenceExcerpt": "We continue to hold Calder Industries and have nothing to add this quarter",
+        "evidenceStartOffset": 356,
+        "evidenceEndOffset": 430
+      },
+      {
+        "issuerMention": "Northwind Components",
+        "paraphrase": "Margins should improve as the second production line fills.",
+        "kind": "statement",
+        "stance": "long",
+        "tags": [
+          "driver.margin_inflection"
+        ],
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
+        "evidenceStartOffset": 107,
+        "evidenceEndOffset": 172
+      }
+    ]
+  }
+}
