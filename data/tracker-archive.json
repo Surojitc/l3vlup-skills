@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-18T14:55:30.855Z",
-  "count": 1613,
+  "generatedAt": "2026-09-18T15:28:26.005Z",
+  "count": 1620,
   "roles": {
     "akuna-capital-accounting-intern-term-time-part-time": {
       "id": "greenhouse-akunacapital-8109370",
@@ -2842,21 +2842,6 @@
       "lastSeen": "2026-09-18"
     },
     "berkeley-research-group-internship-competition-economics-october-2026-start": {
-      "id": "workday-thinkbrg-JR100655",
-      "firm": "Berkeley Research Group",
-      "role": "Internship - Competition Economics (October 2026 Start)",
-      "vertical": "Other",
-      "programmeType": "Summer Internship",
-      "tier": "Independent Advisory",
-      "location": "Brussels, BEL",
-      "region": "Europe",
-      "level": "Internship",
-      "applicationUrl": "https://thinkbrg.wd5.myworkdayjobs.com/BRG_External_Career_Site/job/Brussels-BEL/Internship---Competition-Economics--October-2026-Start-_JR100655",
-      "slug": "berkeley-research-group-internship-competition-economics-october-2026-start",
-      "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-18"
-    },
-    "berkeley-research-group-internship-competition-economics-october-2026-start-europe": {
       "id": "workday-thinkbrg-JR100949",
       "firm": "Berkeley Research Group",
       "role": "Internship - Competition Economics (October 2026 Start)",
@@ -2867,6 +2852,21 @@
       "region": "Europe",
       "level": "Internship",
       "applicationUrl": "https://thinkbrg.wd5.myworkdayjobs.com/BRG_External_Career_Site/job/Brussels-BEL/Internship---Competition-Economics--October-2026-Start-_JR100949",
+      "slug": "berkeley-research-group-internship-competition-economics-october-2026-start",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18"
+    },
+    "berkeley-research-group-internship-competition-economics-october-2026-start-europe": {
+      "id": "workday-thinkbrg-JR100655",
+      "firm": "Berkeley Research Group",
+      "role": "Internship - Competition Economics (October 2026 Start)",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Independent Advisory",
+      "location": "Brussels, BEL",
+      "region": "Europe",
+      "level": "Internship",
+      "applicationUrl": "https://thinkbrg.wd5.myworkdayjobs.com/BRG_External_Career_Site/job/Brussels-BEL/Internship---Competition-Economics--October-2026-Start-_JR100655",
       "slug": "berkeley-research-group-internship-competition-economics-october-2026-start-europe",
       "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-18"
@@ -8217,6 +8217,22 @@
       "lastSeen": "2026-09-01",
       "slug": "houlihan-lokey-off-cycle-intern-financial-restructuring-singapore-jan-jun-2027"
     },
+    "houlihan-lokey-off-cycle-internship-primary-capital-advisory-private-equity-fundraising-january-2027": {
+      "id": "workday-hl-R3598",
+      "firm": "Houlihan Lokey",
+      "role": "Off-Cycle Internship, Primary Capital Advisory (Private Equity Fundraising) - January 2027",
+      "vertical": "Private Equity",
+      "programmeType": "Summer Internship",
+      "tier": "Middle Market",
+      "location": "Paris, France",
+      "region": "Europe",
+      "level": "Internship",
+      "applicationUrl": "https://hl.wd1.myworkdayjobs.com/Campus/job/Paris-France/Off-Cycle-Internship---Primary-Capital-Advisory--Private-Equity-Fundraising----January-2027_R3598",
+      "recommendedPrepSlug": "private-equity-interview-prep",
+      "slug": "houlihan-lokey-off-cycle-internship-primary-capital-advisory-private-equity-fundraising-january-2027",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18"
+    },
     "houlihan-lokey-q2-2027-off-cycle-internship-corporate-finance-industrials": {
       "id": "workday-hl-R3543",
       "firm": "Houlihan Lokey",
@@ -10254,16 +10270,16 @@
       "lastSeen": "2026-09-18"
     },
     "intel-intern-system-software-development-engineer": {
-      "id": "workday-intel-JR0286935",
+      "id": "workday-intel-JR0286937",
       "firm": "Intel",
       "role": "Intern System Software Development Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
-      "location": "Malaysia, Kulim",
+      "location": "Malaysia, Penang",
       "region": "Asia",
       "level": "Internship",
-      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/Malaysia-Kulim/Intern-System-Software-Development-Engineer_JR0286935",
+      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/Malaysia-Penang/Intern-System-Software-Development-Engineer_JR0286937",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "intel-intern-system-software-development-engineer",
       "firstSeen": "2026-09-18",
@@ -10286,16 +10302,16 @@
       "lastSeen": "2026-09-18"
     },
     "intel-intern-system-software-development-engineer-asia": {
-      "id": "workday-intel-JR0286937",
+      "id": "workday-intel-JR0286935",
       "firm": "Intel",
       "role": "Intern System Software Development Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
-      "location": "Malaysia, Penang",
+      "location": "Malaysia, Kulim",
       "region": "Asia",
       "level": "Internship",
-      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/Malaysia-Penang/Intern-System-Software-Development-Engineer_JR0286937",
+      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/Malaysia-Kulim/Intern-System-Software-Development-Engineer_JR0286935",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "intel-intern-system-software-development-engineer-asia",
       "firstSeen": "2026-09-18",
@@ -10443,6 +10459,22 @@
       "slug": "intel-module-engineering-intern-ai-ml-data-science-robotics-electrical-and-mechatronics-engineering-disciplines"
     },
     "intel-module-engineering-phd-intern": {
+      "id": "workday-intel-JR0287022-1",
+      "firm": "Intel",
+      "role": "Module Engineering PhD Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "US, Oregon, Hillsboro",
+      "region": "US",
+      "level": "Internship",
+      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/Module-Engineering-PhD-Intern_JR0287022-1",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "intel-module-engineering-phd-intern",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18"
+    },
+    "intel-module-engineering-phd-intern-2": {
       "id": "workday-intel-JR0286932",
       "firm": "Intel",
       "role": "Module Engineering PhD Intern",
@@ -10453,22 +10485,6 @@
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/US-Arizona-Phoenix/Module-Engineering-PhD-Intern_JR0286932",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "slug": "intel-module-engineering-phd-intern",
-      "firstSeen": "2026-09-18",
-      "lastSeen": "2026-09-18"
-    },
-    "intel-module-engineering-phd-intern-2": {
-      "id": "workday-intel-JR0287026",
-      "firm": "Intel",
-      "role": "Module Engineering PhD Intern",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "US, Oregon, Hillsboro",
-      "region": "US",
-      "level": "Internship",
-      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/Module-Engineering-PhD-Intern_JR0287026",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "intel-module-engineering-phd-intern-2",
       "firstSeen": "2026-09-18",
@@ -10523,7 +10539,7 @@
       "lastSeen": "2026-09-18"
     },
     "intel-module-engineering-phd-intern-us": {
-      "id": "workday-intel-JR0287022-1",
+      "id": "workday-intel-JR0287026",
       "firm": "Intel",
       "role": "Module Engineering PhD Intern",
       "vertical": "Software Engineering",
@@ -10532,7 +10548,7 @@
       "location": "US, Oregon, Hillsboro",
       "region": "US",
       "level": "Internship",
-      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/Module-Engineering-PhD-Intern_JR0287022-1",
+      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/Module-Engineering-PhD-Intern_JR0287026",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "intel-module-engineering-phd-intern-us",
       "firstSeen": "2026-09-18",
@@ -11246,16 +11262,16 @@
       "lastSeen": "2026-09-18"
     },
     "jane-street-linux-engineer-3": {
-      "id": "janestreet-jane-street-8651286002",
+      "id": "janestreet-jane-street-8643171002",
       "firm": "Jane Street",
       "role": "Linux Engineer",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Prop Trading",
-      "location": "London, United Kingdom",
-      "region": "UK",
+      "location": "Hong Kong",
+      "region": "Asia",
       "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8651286002/",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8643171002/",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "jane-street-linux-engineer-3",
       "firstSeen": "2026-09-01",
@@ -11273,12 +11289,12 @@
       "level": "Graduate",
       "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8651286002/",
       "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "jane-street-linux-engineer-4",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-01",
-      "slug": "jane-street-linux-engineer-4"
+      "lastSeen": "2026-09-18"
     },
     "jane-street-linux-engineer-asia": {
-      "id": "janestreet-jane-street-8643171002",
+      "id": "janestreet-jane-street-8625946002",
       "firm": "Jane Street",
       "role": "Linux Engineer",
       "vertical": "Software Engineering",
@@ -11287,7 +11303,7 @@
       "location": "Hong Kong",
       "region": "Asia",
       "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8643171002/",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8625946002/",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "jane-street-linux-engineer-asia",
       "firstSeen": "2026-09-01",
@@ -11502,16 +11518,16 @@
       "lastSeen": "2026-09-18"
     },
     "jane-street-procurement-specialist": {
-      "id": "janestreet-jane-street-8675914002",
+      "id": "janestreet-jane-street-8693354002",
       "firm": "Jane Street",
       "role": "Procurement Specialist",
       "vertical": "Other",
       "programmeType": "Graduate Programme",
       "tier": "Prop Trading",
-      "location": "New York, United States",
-      "region": "US",
+      "location": "Hong Kong",
+      "region": "Asia",
       "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8675914002/",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8693354002/",
       "slug": "jane-street-procurement-specialist",
       "firstSeen": "2026-09-01",
       "lastSeen": "2026-09-18"
@@ -11546,6 +11562,21 @@
       "firstSeen": "2026-09-01",
       "lastSeen": "2026-09-18"
     },
+    "jane-street-procurement-specialist-us": {
+      "id": "janestreet-jane-street-8675914002",
+      "firm": "Jane Street",
+      "role": "Procurement Specialist",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "New York, United States",
+      "region": "US",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8675914002/",
+      "slug": "jane-street-procurement-specialist-us",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18"
+    },
     "jane-street-quantitative-researcher": {
       "id": "janestreet-jane-street-8474416002",
       "firm": "Jane Street",
@@ -11577,6 +11608,21 @@
       "lastSeen": "2026-09-18"
     },
     "jane-street-quantitative-researcher-3": {
+      "id": "janestreet-jane-street-8600948002",
+      "firm": "Jane Street",
+      "role": "Quantitative Researcher",
+      "vertical": "Quant",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "London, United Kingdom",
+      "region": "UK",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8600948002/",
+      "slug": "jane-street-quantitative-researcher-3",
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-18"
+    },
+    "jane-street-quantitative-researcher-4": {
       "id": "janestreet-jane-street-8754684002",
       "firm": "Jane Street",
       "role": "Quantitative Researcher",
@@ -11587,8 +11633,8 @@
       "region": "Asia",
       "level": "Graduate",
       "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8754684002/",
-      "slug": "jane-street-quantitative-researcher-3",
-      "firstSeen": "2026-09-01",
+      "slug": "jane-street-quantitative-researcher-4",
+      "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-18"
     },
     "jane-street-quantitative-researcher-asia": {
@@ -11607,7 +11653,7 @@
       "lastSeen": "2026-09-18"
     },
     "jane-street-quantitative-researcher-uk": {
-      "id": "janestreet-jane-street-8600948002",
+      "id": "janestreet-jane-street-8474416002",
       "firm": "Jane Street",
       "role": "Quantitative Researcher",
       "vertical": "Quant",
@@ -11616,7 +11662,7 @@
       "location": "London, United Kingdom",
       "region": "UK",
       "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8600948002/",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8474416002/",
       "slug": "jane-street-quantitative-researcher-uk",
       "firstSeen": "2026-09-01",
       "lastSeen": "2026-09-18"
@@ -11791,6 +11837,22 @@
       "lastSeen": "2026-09-18"
     },
     "jane-street-software-engineer-2": {
+      "id": "janestreet-jane-street-8594541002",
+      "firm": "Jane Street",
+      "role": "Software Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "New York, United States",
+      "region": "US",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8594541002/",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "jane-street-software-engineer-2",
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-18"
+    },
+    "jane-street-software-engineer-3": {
       "id": "janestreet-jane-street-8599644002",
       "firm": "Jane Street",
       "role": "Software Engineer",
@@ -11802,11 +11864,27 @@
       "level": "Graduate",
       "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8599644002/",
       "recommendedPrepSlug": "software-engineering-interview-prep",
-      "slug": "jane-street-software-engineer-2",
+      "slug": "jane-street-software-engineer-3",
       "firstSeen": "2026-09-01",
       "lastSeen": "2026-09-18"
     },
-    "jane-street-software-engineer-3": {
+    "jane-street-software-engineer-4": {
+      "id": "janestreet-jane-street-8617298002",
+      "firm": "Jane Street",
+      "role": "Software Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8617298002/",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "jane-street-software-engineer-4",
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-18"
+    },
+    "jane-street-software-engineer-5": {
       "id": "janestreet-jane-street-8632392002",
       "firm": "Jane Street",
       "role": "Software Engineer",
@@ -11817,38 +11895,6 @@
       "region": "Asia",
       "level": "Graduate",
       "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8632392002/",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "slug": "jane-street-software-engineer-3",
-      "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18"
-    },
-    "jane-street-software-engineer-4": {
-      "id": "janestreet-jane-street-8637960002",
-      "firm": "Jane Street",
-      "role": "Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Prop Trading",
-      "location": "Hong Kong",
-      "region": "Asia",
-      "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8637960002/",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "slug": "jane-street-software-engineer-4",
-      "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18"
-    },
-    "jane-street-software-engineer-5": {
-      "id": "janestreet-jane-street-8646746002",
-      "firm": "Jane Street",
-      "role": "Software Engineer",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Prop Trading",
-      "location": "Singapore",
-      "region": "Asia",
-      "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8646746002/",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "jane-street-software-engineer-5",
       "firstSeen": "2026-09-01",
@@ -11868,6 +11914,38 @@
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "jane-street-software-engineer-6",
       "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-18"
+    },
+    "jane-street-software-engineer-7": {
+      "id": "janestreet-jane-street-8637960002",
+      "firm": "Jane Street",
+      "role": "Software Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8637960002/",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "jane-street-software-engineer-7",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18"
+    },
+    "jane-street-software-engineer-8": {
+      "id": "janestreet-jane-street-8646746002",
+      "firm": "Jane Street",
+      "role": "Software Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8646746002/",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "jane-street-software-engineer-8",
+      "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-18"
     },
     "jane-street-software-engineer-asia": {
@@ -11903,7 +11981,7 @@
       "lastSeen": "2026-09-18"
     },
     "jane-street-software-engineer-us": {
-      "id": "janestreet-jane-street-8594541002",
+      "id": "janestreet-jane-street-8419303002",
       "firm": "Jane Street",
       "role": "Software Engineer",
       "vertical": "Software Engineering",
@@ -11912,7 +11990,7 @@
       "location": "New York, United States",
       "region": "US",
       "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8594541002/",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8419303002/",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "jane-street-software-engineer-us",
       "firstSeen": "2026-09-01",
@@ -12010,6 +12088,38 @@
       "lastSeen": "2026-09-18"
     },
     "jane-street-trading-desk-operations-engineer-2": {
+      "id": "janestreet-jane-street-8700980002",
+      "firm": "Jane Street",
+      "role": "Trading Desk Operations Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "London, United Kingdom",
+      "region": "UK",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8700980002/",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "jane-street-trading-desk-operations-engineer-2",
+      "firstSeen": "2026-09-01",
+      "lastSeen": "2026-09-18"
+    },
+    "jane-street-trading-desk-operations-engineer-3": {
+      "id": "janestreet-jane-street-8759009002",
+      "firm": "Jane Street",
+      "role": "Trading Desk Operations Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Prop Trading",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8759009002/",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "jane-street-trading-desk-operations-engineer-3",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18"
+    },
+    "jane-street-trading-desk-operations-engineer-4": {
       "id": "janestreet-jane-street-8782247002",
       "firm": "Jane Street",
       "role": "Trading Desk Operations Engineer",
@@ -12021,12 +12131,12 @@
       "level": "Graduate",
       "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8782247002/",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
-      "slug": "jane-street-trading-desk-operations-engineer-2",
-      "firstSeen": "2026-09-01",
+      "slug": "jane-street-trading-desk-operations-engineer-4",
+      "firstSeen": "2026-09-18",
       "lastSeen": "2026-09-18"
     },
     "jane-street-trading-desk-operations-engineer-asia": {
-      "id": "janestreet-jane-street-8759009002",
+      "id": "janestreet-jane-street-8620505002",
       "firm": "Jane Street",
       "role": "Trading Desk Operations Engineer",
       "vertical": "Sales & Trading",
@@ -12035,7 +12145,7 @@
       "location": "Hong Kong",
       "region": "Asia",
       "level": "Graduate",
-      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8759009002/",
+      "applicationUrl": "https://www.janestreet.com/join-jane-street/position/8620505002/",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "slug": "jane-street-trading-desk-operations-engineer-asia",
       "firstSeen": "2026-09-01",
@@ -13668,22 +13778,6 @@
       "lastSeen": "2026-09-18"
     },
     "jump-trading-campus-c-software-engineer-intern": {
-      "id": "greenhouse-jumptrading-8027860",
-      "firm": "Jump Trading",
-      "role": "Campus C++ Software Engineer (Intern)",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Shanghai",
-      "region": "Asia",
-      "level": "Internship",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027860",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "slug": "jump-trading-campus-c-software-engineer-intern",
-      "firstSeen": "2026-08-03",
-      "lastSeen": "2026-09-18"
-    },
-    "jump-trading-campus-c-software-engineer-intern-asia": {
       "id": "greenhouse-jumptrading-8027946",
       "firm": "Jump Trading",
       "role": "Campus C++ Software Engineer (Intern)",
@@ -13694,6 +13788,22 @@
       "region": "Asia",
       "level": "Internship",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027946",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "jump-trading-campus-c-software-engineer-intern",
+      "firstSeen": "2026-08-03",
+      "lastSeen": "2026-09-18"
+    },
+    "jump-trading-campus-c-software-engineer-intern-asia": {
+      "id": "greenhouse-jumptrading-8027860",
+      "firm": "Jump Trading",
+      "role": "Campus C++ Software Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027860",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "jump-trading-campus-c-software-engineer-intern-asia",
       "firstSeen": "2026-09-18",
@@ -13826,22 +13936,6 @@
       "lastSeen": "2026-09-18"
     },
     "jump-trading-campus-python-software-engineer-intern": {
-      "id": "greenhouse-jumptrading-8027923",
-      "firm": "Jump Trading",
-      "role": "Campus Python Software Engineer (Intern)",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "Shanghai",
-      "region": "Asia",
-      "level": "Internship",
-      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027923",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "slug": "jump-trading-campus-python-software-engineer-intern",
-      "firstSeen": "2026-08-03",
-      "lastSeen": "2026-09-18"
-    },
-    "jump-trading-campus-python-software-engineer-intern-asia": {
       "id": "greenhouse-jumptrading-8027955",
       "firm": "Jump Trading",
       "role": "Campus Python Software Engineer (Intern)",
@@ -13852,6 +13946,22 @@
       "region": "Asia",
       "level": "Internship",
       "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027955",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "jump-trading-campus-python-software-engineer-intern",
+      "firstSeen": "2026-08-03",
+      "lastSeen": "2026-09-18"
+    },
+    "jump-trading-campus-python-software-engineer-intern-asia": {
+      "id": "greenhouse-jumptrading-8027923",
+      "firm": "Jump Trading",
+      "role": "Campus Python Software Engineer (Intern)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "Shanghai",
+      "region": "Asia",
+      "level": "Internship",
+      "applicationUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027923",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "jump-trading-campus-python-software-engineer-intern-asia",
       "firstSeen": "2026-09-18",
@@ -14897,9 +15007,9 @@
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778821",
       "recommendedPrepSlug": "ai-engineer-interview-prep",
+      "slug": "millennium-2027-applied-ai-engineer-intern-new-york",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-applied-ai-engineer-intern-new-york"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-applied-ai-engineer-intern-singapore": {
       "id": "eightfold-campusjobs-mlp-com-755957778819",
@@ -14975,9 +15085,9 @@
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778878",
+      "slug": "millennium-2027-compliance-intern-miami",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-compliance-intern-miami"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-compliance-intern-new-york": {
       "id": "eightfold-campusjobs-mlp-com-755957778858",
@@ -15020,9 +15130,9 @@
       "region": "UK",
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778817",
+      "slug": "millennium-2027-corporate-access-services-intern-london",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-01",
-      "slug": "millennium-2027-corporate-access-services-intern-london"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-corporate-services-and-real-estate-intern-london": {
       "id": "eightfold-campusjobs-mlp-com-755957778824",
@@ -15096,9 +15206,9 @@
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778885",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "millennium-2027-execution-trading-intern-hong-kong",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-execution-trading-intern-hong-kong"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-execution-trading-intern-singapore": {
       "id": "eightfold-campusjobs-mlp-com-755957778852",
@@ -15172,9 +15282,9 @@
       "region": "Asia",
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778870",
+      "slug": "millennium-2027-finance-intern-singapore",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-finance-intern-singapore"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-human-resources-business-management-intern-new-york": {
       "id": "eightfold-campusjobs-mlp-com-755957778840",
@@ -15203,9 +15313,9 @@
       "region": "Asia",
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778844",
+      "slug": "millennium-2027-market-risk-intern-hong-kong",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-market-risk-intern-hong-kong"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-market-risk-intern-london": {
       "id": "eightfold-campusjobs-mlp-com-755957778864",
@@ -15248,9 +15358,9 @@
       "region": "UK",
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778881",
+      "slug": "millennium-2027-marketing-and-communications-intern-london",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-marketing-and-communications-intern-london"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-operations-and-middle-office-intern-hong-kong": {
       "id": "eightfold-campusjobs-mlp-com-755957778823",
@@ -15296,9 +15406,9 @@
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778837",
       "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
+      "slug": "millennium-2027-operations-and-middle-office-intern-miami",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-operations-and-middle-office-intern-miami"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-operations-and-middle-office-intern-new-york": {
       "id": "eightfold-campusjobs-mlp-com-755957778846",
@@ -15312,9 +15422,9 @@
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778846",
       "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
+      "slug": "millennium-2027-operations-and-middle-office-intern-new-york",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-operations-and-middle-office-intern-new-york"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-operations-and-middle-office-intern-singapore": {
       "id": "eightfold-campusjobs-mlp-com-755957778888",
@@ -15328,9 +15438,9 @@
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778888",
       "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
+      "slug": "millennium-2027-operations-and-middle-office-intern-singapore",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-operations-and-middle-office-intern-singapore"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-quantitative-developer-intern-hong-kong": {
       "id": "eightfold-campusjobs-mlp-com-755957854172",
@@ -15448,9 +15558,9 @@
       "region": "Asia",
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778835",
+      "slug": "millennium-2027-quantitative-researcher-intern-hong-kong",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-quantitative-researcher-intern-hong-kong"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-quantitative-researcher-intern-london": {
       "id": "eightfold-campusjobs-mlp-com-755957778828",
@@ -15478,9 +15588,9 @@
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778853",
+      "slug": "millennium-2027-quantitative-researcher-intern-miami",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-quantitative-researcher-intern-miami"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-quantitative-researcher-intern-new-york": {
       "id": "eightfold-campusjobs-mlp-com-755957778843",
@@ -15630,9 +15740,9 @@
       "level": "Internship",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778866",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "millennium-2027-trading-services-intern-hong-kong",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-18",
-      "slug": "millennium-2027-trading-services-intern-hong-kong"
+      "lastSeen": "2026-09-18"
     },
     "millennium-2027-trading-services-intern-london": {
       "id": "eightfold-campusjobs-mlp-com-755957819921",
@@ -21172,18 +21282,18 @@
     "qube-research-and-technologies-2027-internship-graduate-data-engineer": {
       "id": "greenhouse-quberesearchandtechnologies-8749947002",
       "firm": "Qube Research & Technologies",
-      "role": "2027 Internship/Graduate - Data Engineer",
+      "role": "2027 – Internship, Data Engineering",
       "vertical": "Data & ML",
       "programmeType": "Summer Internship",
       "tier": "Systematic",
-      "location": "Hong Kong",
+      "location": "Hong Kong, Singapore",
       "region": "Asia",
       "level": "Internship",
       "applicationUrl": "https://job-boards.greenhouse.io/quberesearchandtechnologies/jobs/8749947002",
       "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "qube-research-and-technologies-2027-internship-graduate-data-engineer",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-01",
-      "slug": "qube-research-and-technologies-2027-internship-graduate-data-engineer"
+      "lastSeen": "2026-09-18"
     },
     "qube-research-and-technologies-2027-internship-graduate-fpga-engineer": {
       "id": "greenhouse-quberesearchandtechnologies-8742098002",
@@ -23271,16 +23381,16 @@
       "lastSeen": "2026-09-18"
     },
     "stripe-software-engineer-intern-europe": {
-      "id": "greenhouse-stripe-8130807",
+      "id": "greenhouse-stripe-8097801",
       "firm": "Stripe",
-      "role": "Software Engineer, Intern",
+      "role": "Software Engineer, Intern (Summer or Winter)",
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Fintech",
-      "location": "Bucharest",
+      "location": "Dublin",
       "region": "Europe",
       "level": "Internship",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130807",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8097801",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "stripe-software-engineer-intern-europe",
       "firstSeen": "2026-08-19",
@@ -23358,13 +23468,13 @@
       "programmeType": "Summer Internship",
       "tier": "Fintech",
       "location": "Bucharest",
-      "region": "US",
+      "region": "Europe",
       "level": "Internship",
       "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130807",
       "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "stripe-software-engineer-intern-us",
       "firstSeen": "2026-09-01",
-      "lastSeen": "2026-09-01",
-      "slug": "stripe-software-engineer-intern-us"
+      "lastSeen": "2026-09-18"
     },
     "stripe-software-engineer-new-grad": {
       "id": "greenhouse-stripe-8128744",
@@ -23383,16 +23493,16 @@
       "lastSeen": "2026-09-18"
     },
     "stripe-software-engineer-new-grad-2": {
-      "id": "greenhouse-stripe-8130922",
+      "id": "greenhouse-stripe-8157838",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "Bucharest",
-      "region": "Europe",
+      "location": "Toronto",
+      "region": "US",
       "level": "Graduate",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8157838",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "stripe-software-engineer-new-grad-2",
       "firstSeen": "2026-09-01",
@@ -23479,16 +23589,16 @@
       "lastSeen": "2026-09-18"
     },
     "stripe-software-engineer-new-grad-us": {
-      "id": "greenhouse-stripe-8157838",
+      "id": "greenhouse-stripe-8130922",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "Toronto",
-      "region": "US",
+      "location": "Bucharest",
+      "region": "Europe",
       "level": "Graduate",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8157838",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "stripe-software-engineer-new-grad-us",
       "firstSeen": "2026-09-01",

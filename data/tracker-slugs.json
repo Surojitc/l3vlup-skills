@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-18T14:55:30.855Z",
-  "count": 1584,
+  "generatedAt": "2026-09-18T15:28:26.005Z",
+  "count": 1585,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -1036,7 +1036,7 @@
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8027860": {
-      "slug": "jump-trading-campus-c-software-engineer-intern",
+      "slug": "jump-trading-campus-c-software-engineer-intern-asia",
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8027898": {
@@ -1052,7 +1052,7 @@
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8027923": {
-      "slug": "jump-trading-campus-python-software-engineer-intern",
+      "slug": "jump-trading-campus-python-software-engineer-intern-asia",
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8027938": {
@@ -1068,7 +1068,7 @@
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8027946": {
-      "slug": "jump-trading-campus-c-software-engineer-intern-asia",
+      "slug": "jump-trading-campus-c-software-engineer-intern",
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8027952": {
@@ -1076,7 +1076,7 @@
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8027955": {
-      "slug": "jump-trading-campus-python-software-engineer-intern-asia",
+      "slug": "jump-trading-campus-python-software-engineer-intern",
       "since": "2026-09-18"
     },
     "greenhouse-jumptrading-8049938": {
@@ -1369,10 +1369,10 @@
       ]
     },
     "greenhouse-quberesearchandtechnologies-8749947002": {
-      "slug": "qube-research-and-technologies-2027-internship-data-engineering-asia",
+      "slug": "qube-research-and-technologies-2027-internship-graduate-data-engineer",
       "since": "2026-09-18",
       "was": [
-        "qube-research-and-technologies-2027-internship-graduate-data-engineer"
+        "qube-research-and-technologies-2027-internship-data-engineering-asia"
       ]
     },
     "greenhouse-quberesearchandtechnologies-8773084002": {
@@ -1726,8 +1726,11 @@
       "since": "2026-09-18"
     },
     "greenhouse-stripe-8097801": {
-      "slug": "stripe-software-engineer-intern-summer-or-winter",
-      "since": "2026-09-18"
+      "slug": "stripe-software-engineer-intern-europe",
+      "since": "2026-09-18",
+      "was": [
+        "stripe-software-engineer-intern-summer-or-winter"
+      ]
     },
     "greenhouse-stripe-8128744": {
       "slug": "stripe-software-engineer-new-grad",
@@ -1742,11 +1745,8 @@
       "since": "2026-09-18"
     },
     "greenhouse-stripe-8130807": {
-      "slug": "stripe-software-engineer-intern-europe",
-      "since": "2026-09-18",
-      "was": [
-        "stripe-software-engineer-intern-us"
-      ]
+      "slug": "stripe-software-engineer-intern-us",
+      "since": "2026-09-18"
     },
     "greenhouse-stripe-8130867": {
       "slug": "stripe-software-engineer-intern-uk",
@@ -1761,7 +1761,7 @@
       "since": "2026-09-18"
     },
     "greenhouse-stripe-8130922": {
-      "slug": "stripe-software-engineer-new-grad-2",
+      "slug": "stripe-software-engineer-new-grad-us",
       "since": "2026-09-18"
     },
     "greenhouse-stripe-8130927": {
@@ -1777,7 +1777,7 @@
       "since": "2026-09-18"
     },
     "greenhouse-stripe-8157838": {
-      "slug": "stripe-software-engineer-new-grad-us",
+      "slug": "stripe-software-engineer-new-grad-2",
       "since": "2026-09-18"
     },
     "greenhouse-stripe-8160776": {
@@ -1825,8 +1825,11 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8419303002": {
-      "slug": "jane-street-software-engineer",
-      "since": "2026-09-18"
+      "slug": "jane-street-software-engineer-us",
+      "since": "2026-09-18",
+      "was": [
+        "jane-street-software-engineer"
+      ]
     },
     "janestreet-jane-street-8441121002": {
       "slug": "jane-street-cybersecurity-analyst",
@@ -1837,8 +1840,11 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8474416002": {
-      "slug": "jane-street-quantitative-researcher",
-      "since": "2026-09-18"
+      "slug": "jane-street-quantitative-researcher-uk",
+      "since": "2026-09-18",
+      "was": [
+        "jane-street-quantitative-researcher"
+      ]
     },
     "janestreet-jane-street-8498547002": {
       "slug": "jane-street-quantitative-researcher-us",
@@ -1885,7 +1891,7 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8594541002": {
-      "slug": "jane-street-software-engineer-us",
+      "slug": "jane-street-software-engineer-2",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8596771002": {
@@ -1893,11 +1899,11 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8599644002": {
-      "slug": "jane-street-software-engineer-2",
+      "slug": "jane-street-software-engineer-3",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8600948002": {
-      "slug": "jane-street-quantitative-researcher-uk",
+      "slug": "jane-street-quantitative-researcher-3",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8611307002": {
@@ -1909,16 +1915,22 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8617298002": {
-      "slug": "jane-street-software-engineer-asia",
-      "since": "2026-09-18"
+      "slug": "jane-street-software-engineer-4",
+      "since": "2026-09-18",
+      "was": [
+        "jane-street-software-engineer-asia"
+      ]
     },
     "janestreet-jane-street-8617344002": {
       "slug": "jane-street-quantitative-trader-3",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8620505002": {
-      "slug": "jane-street-trading-desk-operations-engineer",
-      "since": "2026-09-18"
+      "slug": "jane-street-trading-desk-operations-engineer-asia",
+      "since": "2026-09-18",
+      "was": [
+        "jane-street-trading-desk-operations-engineer"
+      ]
     },
     "janestreet-jane-street-8620793002": {
       "slug": "jane-street-network-engineer",
@@ -1945,8 +1957,11 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8625946002": {
-      "slug": "jane-street-linux-engineer",
-      "since": "2026-09-18"
+      "slug": "jane-street-linux-engineer-asia",
+      "since": "2026-09-18",
+      "was": [
+        "jane-street-linux-engineer"
+      ]
     },
     "janestreet-jane-street-8626146002": {
       "slug": "jane-street-linux-engineer-uk",
@@ -1973,7 +1988,7 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8632392002": {
-      "slug": "jane-street-software-engineer-3",
+      "slug": "jane-street-software-engineer-5",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8632723002": {
@@ -1985,7 +2000,7 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8637960002": {
-      "slug": "jane-street-software-engineer-4",
+      "slug": "jane-street-software-engineer-7",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8641280002": {
@@ -2000,11 +2015,11 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8643171002": {
-      "slug": "jane-street-linux-engineer-asia",
+      "slug": "jane-street-linux-engineer-3",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8646746002": {
-      "slug": "jane-street-software-engineer-5",
+      "slug": "jane-street-software-engineer-8",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8646893002": {
@@ -2024,11 +2039,8 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8651286002": {
-      "slug": "jane-street-linux-engineer-3",
-      "since": "2026-09-18",
-      "was": [
-        "jane-street-linux-engineer-4"
-      ]
+      "slug": "jane-street-linux-engineer-4",
+      "since": "2026-09-18"
     },
     "janestreet-jane-street-8651323002": {
       "slug": "jane-street-hardware-engineer-fpga-asic-uk",
@@ -2043,12 +2055,15 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8675914002": {
-      "slug": "jane-street-procurement-specialist",
+      "slug": "jane-street-procurement-specialist-us",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8693354002": {
-      "slug": "jane-street-procurement-specialist-asia",
-      "since": "2026-09-18"
+      "slug": "jane-street-procurement-specialist",
+      "since": "2026-09-18",
+      "was": [
+        "jane-street-procurement-specialist-asia"
+      ]
     },
     "janestreet-jane-street-8693539002": {
       "slug": "jane-street-network-engineer-asia",
@@ -2059,11 +2074,14 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8700980002": {
-      "slug": "jane-street-trading-desk-operations-engineer-uk",
-      "since": "2026-09-18"
+      "slug": "jane-street-trading-desk-operations-engineer-2",
+      "since": "2026-09-18",
+      "was": [
+        "jane-street-trading-desk-operations-engineer-uk"
+      ]
     },
     "janestreet-jane-street-8754684002": {
-      "slug": "jane-street-quantitative-researcher-3",
+      "slug": "jane-street-quantitative-researcher-4",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8755768002": {
@@ -2071,11 +2089,11 @@
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8759009002": {
-      "slug": "jane-street-trading-desk-operations-engineer-asia",
+      "slug": "jane-street-trading-desk-operations-engineer-3",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8782247002": {
-      "slug": "jane-street-trading-desk-operations-engineer-2",
+      "slug": "jane-street-trading-desk-operations-engineer-4",
       "since": "2026-09-18"
     },
     "janestreet-jane-street-8810604002": {
@@ -4888,6 +4906,10 @@
       "slug": "houlihan-lokey-off-cycle-intern-financial-and-valuation-advisory-london",
       "since": "2026-09-18"
     },
+    "workday-hl-R3598": {
+      "slug": "houlihan-lokey-off-cycle-internship-primary-capital-advisory-private-equity-fundraising-january-2027",
+      "since": "2026-09-18"
+    },
     "workday-hl-R3599": {
       "slug": "houlihan-lokey-2027-graduate-financial-analyst-corporate-finance-manda",
       "since": "2026-09-18"
@@ -5295,7 +5317,7 @@
       "since": "2026-09-18"
     },
     "workday-intel-JR0286932": {
-      "slug": "intel-module-engineering-phd-intern",
+      "slug": "intel-module-engineering-phd-intern-2",
       "since": "2026-09-18"
     },
     "workday-intel-JR0286933": {
@@ -5307,11 +5329,11 @@
       "since": "2026-09-18"
     },
     "workday-intel-JR0286935": {
-      "slug": "intel-intern-system-software-development-engineer",
+      "slug": "intel-intern-system-software-development-engineer-asia",
       "since": "2026-09-18"
     },
     "workday-intel-JR0286937": {
-      "slug": "intel-intern-system-software-development-engineer-asia",
+      "slug": "intel-intern-system-software-development-engineer",
       "since": "2026-09-18"
     },
     "workday-intel-JR0286939": {
@@ -5355,11 +5377,11 @@
       "since": "2026-09-18"
     },
     "workday-intel-JR0287022-1": {
-      "slug": "intel-module-engineering-phd-intern-us",
+      "slug": "intel-module-engineering-phd-intern",
       "since": "2026-09-18"
     },
     "workday-intel-JR0287026": {
-      "slug": "intel-module-engineering-phd-intern-2",
+      "slug": "intel-module-engineering-phd-intern-us",
       "since": "2026-09-18"
     },
     "workday-intel-JR0287047": {
@@ -5983,7 +6005,7 @@
       "since": "2026-09-18"
     },
     "workday-thinkbrg-JR100655": {
-      "slug": "berkeley-research-group-internship-competition-economics-october-2026-start",
+      "slug": "berkeley-research-group-internship-competition-economics-october-2026-start-europe",
       "since": "2026-09-18"
     },
     "workday-thinkbrg-JR100948": {
@@ -5991,7 +6013,7 @@
       "since": "2026-09-18"
     },
     "workday-thinkbrg-JR100949": {
-      "slug": "berkeley-research-group-internship-competition-economics-october-2026-start-europe",
+      "slug": "berkeley-research-group-internship-competition-economics-october-2026-start",
       "since": "2026-09-18"
     },
     "workday-thinkbrg-JR100976": {
