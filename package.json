@@ -43,7 +43,8 @@
     "test:select": "node scripts/__tests__/letters-select.test.mjs",
     "test:letters": "node scripts/__tests__/letters.test.mjs",
     "precedents": "python3 scripts/sync_precedent_transactions.py precedents",
-    "mergers": "python3 scripts/sync_precedent_transactions.py mergers"
+    "mergers": "python3 scripts/sync_precedent_transactions.py mergers",
+    "test:slugs": "node scripts/__tests__/slug-registry.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.72.0",
