@@ -36,6 +36,8 @@
     "test:thesis": "node scripts/__tests__/thesis.test.mjs",
     "validate:thesis": "node scripts/thesis-validate.mjs --fixtures",
     "review:thesis": "node scripts/thesis-review.mjs",
+    "extract:thesis": "node scripts/thesis-extract.mjs",
+    "test:extraction": "node scripts/__tests__/thesis-extraction.test.mjs",
     "test:select": "node scripts/__tests__/letters-select.test.mjs",
     "test:letters": "node scripts/__tests__/letters.test.mjs",
     "precedents": "python3 scripts/sync_precedent_transactions.py precedents",
