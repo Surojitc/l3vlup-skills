@@ -35,7 +35,7 @@ const baseClaim = {
   claimId: 'c-1', managerId: 'm-fixture', documentId: 'doc-1', filingDate: '2026-08-14',
   kind: 'statement', stance: 'long', paraphrase: 'Margins should improve as the second line fills.',
   evidenceRef: 'e-1', evidenceState: 'verified', tags: ['driver.margin_inflection'],
-  provenance: 'model', model: 'claude-haiku-4-5', promptVersion: 'thesis-extract-v1',
+  provenance: 'model', model: 'claude-haiku-4-5-20251001', promptVersion: 'thesis-extract-v1',
   reviewStatus: 'pending',
 };
 
@@ -377,24 +377,24 @@ test('the budget stops at the cap rather than switching behaviour', () => {
   let ledger = emptyCostLedger();
   assert.equal(checkBudget(ledger, { model: 'gpt-fictional', inputTokens: 10, outputTokens: 10, documentId: 'd1' }).allowed, false);
   assert.match(checkBudget(ledger, { model: 'gpt-fictional', inputTokens: 10, outputTokens: 10, documentId: 'd1' }).reason, /not on the allowlist/);
-  assert.match(checkBudget(ledger, { model: 'claude-haiku-4-5', inputTokens: 999_999, outputTokens: 10, documentId: 'd1' }).reason, /per-call limit/);
+  assert.match(checkBudget(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: 999_999, outputTokens: 10, documentId: 'd1' }).reason, /per-call limit/);
 
   // The per-document limit accumulates across calls, so a document cannot be
   // walked past the ceiling one legal call at a time.
   let perDoc = emptyCostLedger({ budgetUsd: 15 });
-  for (let i = 0; i < 3; i += 1) perDoc = recordCall(perDoc, { model: 'claude-haiku-4-5', inputTokens: 39_000, outputTokens: 100, documentId: 'd1' });
-  assert.match(checkBudget(perDoc, { model: 'claude-haiku-4-5', inputTokens: 39_000, outputTokens: 100, documentId: 'd1' }).reason, /per-document limit/);
+  for (let i = 0; i < 3; i += 1) perDoc = recordCall(perDoc, { model: 'claude-haiku-4-5-20251001', inputTokens: 39_000, outputTokens: 100, documentId: 'd1' });
+  assert.match(checkBudget(perDoc, { model: 'claude-haiku-4-5-20251001', inputTokens: 39_000, outputTokens: 100, documentId: 'd1' }).reason, /per-document limit/);
 
   // Within every per-call limit, so this one is allowed.
-  ledger = recordCall(ledger, { model: 'claude-haiku-4-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd1' });
+  ledger = recordCall(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd1' });
   assert.equal(ledger.stopped, false);
   assert.ok(ledger.estimatedUsd > 0);
   assert.equal(ledger.documentsProcessed, 1);
 
   // A tenth document is refused.
   let wide = emptyCostLedger({ budgetUsd: 15 });
-  for (let i = 0; i < 9; i += 1) wide = recordCall(wide, { model: 'claude-haiku-4-5', inputTokens: 1000, outputTokens: 100, documentId: `d${i}` });
-  const tenth = checkBudget(wide, { model: 'claude-haiku-4-5', inputTokens: 1000, outputTokens: 100, documentId: 'd9' });
+  for (let i = 0; i < 9; i += 1) wide = recordCall(wide, { model: 'claude-haiku-4-5-20251001', inputTokens: 1000, outputTokens: 100, documentId: `d${i}` });
+  const tenth = checkBudget(wide, { model: 'claude-haiku-4-5-20251001', inputTokens: 1000, outputTokens: 100, documentId: 'd9' });
   assert.equal(tenth.allowed, false);
   assert.match(tenth.reason, /9 document ceiling/);
 
@@ -405,10 +405,10 @@ test('the budget stops at the cap rather than switching behaviour', () => {
   assert.equal(over.stopped, true);
   assert.match(over.stopReason, /over the \$15\.00 milestone ceiling/);
   assert.equal(over.calls.length, 0, 'a refused call was still recorded');
-  assert.equal(checkBudget(over, { model: 'claude-haiku-4-5', inputTokens: 1, outputTokens: 1, documentId: 'd2' }).allowed, false,
+  assert.equal(checkBudget(over, { model: 'claude-haiku-4-5-20251001', inputTokens: 1, outputTokens: 1, documentId: 'd2' }).allowed, false,
     'the run continued after the stop');
 
-  assert.ok(estimateUsd('claude-sonnet-5', 1e6, 0) > estimateUsd('claude-haiku-4-5', 1e6, 0));
+  assert.ok(estimateUsd('claude-sonnet-5', 1e6, 0) > estimateUsd('claude-haiku-4-5-20251001', 1e6, 0));
   assert.deepEqual(Object.keys(MODEL_ALLOWLIST).length, 2);
 });
 

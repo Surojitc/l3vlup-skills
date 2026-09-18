@@ -17,7 +17,7 @@ import {
   REQUEST_TIMEOUT_MS, systemPrompt,
 } from '../../lib/thesis-anthropic.mjs';
 import { parseArgs, resolveDocuments } from '../thesis-pilot.mjs';
-import { checkBudget, emptyCostLedger, LIMITS, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, recordCall } from '../../lib/thesis-cost.mjs';
+import { checkBudget, emptyCostLedger, LIMITS, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, recordCall, resolveModelId } from '../../lib/thesis-cost.mjs';
 import { runDocument } from '../../lib/thesis-runner.mjs';
 import { emptyDecisionLog } from '../../lib/thesis-review.mjs';
 
@@ -260,10 +260,13 @@ await test('token usage and the real dollar cost are recorded per call', async (
   assert.equal(answer.usage.inputTokens, 1_000_000);
   assert.equal(answer.usage.outputTokens, 1_000_000);
   assert.equal(answer.usage.cacheReadInputTokens, 512);
-  assert.equal(answer.usage.actualUsd, price.inputPerMTok + price.outputPerMTok);
+  // A million in, a million out, plus 512 cache-read tokens at a tenth rate.
+  const expected = Number((price.inputPerMTok + price.outputPerMTok + (512 / 1e6) * price.cacheReadPerMTok).toFixed(6));
+  assert.equal(answer.usage.actualUsd, expected);
   const [call] = model.calls;
   assert.equal(call.ok, true);
-  assert.equal(call.actualUsd, price.inputPerMTok + price.outputPerMTok);
+  assert.equal(call.actualUsd, expected);
+  assert.ok(expected > price.inputPerMTok + price.outputPerMTok, 'the cache read was not charged at all');
   assert.ok(Number.isFinite(call.ms));
   assert.equal(actualUsd('not-on-the-allowlist', { inputTokens: 1, outputTokens: 1 }), null);
 });
@@ -308,18 +311,44 @@ await test('the model identifier is confirmed by the API before any billable tok
   assert.match(unknown.reason, /does not know that model identifier/);
 });
 
-await test('the allowlist carries the published identifiers and prices, dated', () => {
-  assert.deepEqual(Object.keys(MODEL_ALLOWLIST).sort(), ['claude-haiku-4-5', 'claude-sonnet-5']);
+await test('the allowlist pins snapshots, not aliases, and carries dated prices', () => {
+  assert.deepEqual(Object.keys(MODEL_ALLOWLIST).sort(), ['claude-haiku-4-5-20251001', 'claude-sonnet-5']);
   for (const [id, p] of Object.entries(MODEL_ALLOWLIST)) {
-    assert.ok(!/-\d{8}$/.test(id), `${id} carries a date suffix; the published identifiers take none`);
-    assert.ok(Number.isFinite(p.inputPerMTok) && Number.isFinite(p.outputPerMTok), `${id} has no price`);
+    for (const f of ['inputPerMTok', 'outputPerMTok', 'cacheReadPerMTok', 'contextTokens', 'maxOutputTokens']) {
+      assert.ok(Number.isFinite(p[f]), `${id} has no ${f}`);
+    }
     assert.ok(p.pricedOn, `${id} does not say when its price was checked`);
+    // Pre-4.6 models carry a snapshot date; 4.6 and later are dateless and
+    // are themselves snapshots. Neither may be an alias.
+    assert.ok(!Object.keys(MODEL_ALIASES).includes(id), `${id} is an alias, which can repoint`);
   }
-  assert.equal(MODEL_ALLOWLIST['claude-haiku-4-5'].inputPerMTok, 1.00);
-  assert.equal(MODEL_ALLOWLIST['claude-haiku-4-5'].outputPerMTok, 5.00);
-  assert.equal(MODEL_ALLOWLIST['claude-sonnet-5'].inputPerMTok, 2.00);
-  assert.equal(MODEL_ALLOWLIST['claude-sonnet-5'].outputPerMTok, 10.00);
-  assert.equal(PILOT_MODEL, 'claude-haiku-4-5');
+  const haiku = MODEL_ALLOWLIST['claude-haiku-4-5-20251001'];
+  assert.equal(haiku.inputPerMTok, 1.00);
+  assert.equal(haiku.outputPerMTok, 5.00);
+  assert.equal(haiku.cacheReadPerMTok, 0.10, 'a cache read is a tenth of base input');
+  assert.equal(haiku.contextTokens, 200_000);
+  assert.equal(haiku.alias, 'claude-haiku-4-5');
+  const sonnet = MODEL_ALLOWLIST['claude-sonnet-5'];
+  assert.equal(sonnet.inputPerMTok, 2.00);
+  assert.equal(sonnet.outputPerMTok, 10.00);
+  assert.equal(sonnet.alias, null, 'a 4.6-generation id is its own snapshot and has no alias');
+  assert.equal(PILOT_MODEL, 'claude-haiku-4-5-20251001');
+  // An alias a person types resolves to the snapshot before anything records it.
+  assert.equal(resolveModelId('claude-haiku-4-5'), 'claude-haiku-4-5-20251001');
+  assert.equal(resolveModelId('claude-sonnet-5'), 'claude-sonnet-5');
+});
+
+await test('cache reads are costed at their own rate, and the estimate stays conservative', () => {
+  const m = 'claude-haiku-4-5-20251001';
+  const plain = actualUsd(m, { inputTokens: 1e6, outputTokens: 0 });
+  const cached = actualUsd(m, { inputTokens: 0, outputTokens: 0, cacheReadInputTokens: 1e6 });
+  assert.equal(plain, 1.00);
+  assert.equal(cached, 0.10, 'a cache read was charged at the full input rate');
+  assert.equal(actualUsd(m, { inputTokens: 1e6, outputTokens: 1e6, cacheReadInputTokens: 1e6 }), 6.10);
+  // The budget check knows nothing about cache hits, so it over-estimates —
+  // which is the safe direction for a ceiling.
+  const cost = readFileSync(join(REPO, 'lib', 'thesis-cost.mjs'), 'utf8');
+  assert.ok(!/cacheRead/.test(cost.slice(cost.indexOf('export function checkBudget'))), 'the budget check discounts for cache hits');
 });
 
 // ── The command's refusals ─────────────────────────────────────────────────
@@ -338,6 +367,7 @@ await test('the pilot refuses to start without both an allowlist and a budget', 
   assert.deepEqual(parseArgs(['--documents', 'a, b ,c', '--budget', '3']).documents, ['a', 'b', 'c']);
   assert.equal(parseArgs(['--documents', 'a', '--budget', '3']).model, PILOT_MODEL);
   assert.match(parseArgs(['--documents', 'a', '--budget', '3', '--model', 'gpt-fictional']).problems[0], /not on the allowlist/);
+  assert.equal(parseArgs(['--documents', 'a', '--budget', '3', '--model', 'claude-haiku-4-5']).model, PILOT_MODEL, 'the alias was not resolved to the snapshot');
 });
 
 await test('only approved documents are reachable, by name', () => {

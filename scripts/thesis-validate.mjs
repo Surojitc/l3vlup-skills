@@ -45,7 +45,7 @@ function main() {
       filingDate: f.document.filingDate, kind: 'statement', stance: 'long',
       paraphrase: 'Margins should improve as the second production line fills.',
       evidenceRef: 'e-1', evidenceState: 'unverified', tags: ['driver.margin_inflection'],
-      provenance: 'model', model: 'claude-haiku-4-5', promptVersion: 'thesis-extract-v1',
+      provenance: 'model', model: 'claude-haiku-4-5-20251001', promptVersion: 'thesis-extract-v1',
       reviewStatus: 'pending',
     }];
   } else {

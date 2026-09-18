@@ -148,6 +148,50 @@ before it matters.
 reaches the site, and every claim lands in `needs_review` or
 `issuer_unresolved` for a person to decide.
 
+## Putting the key somewhere, without typing it
+
+The obvious instruction is the wrong one. This:
+
+```bash
+printf 'ANTHROPIC_API_KEY=%s\n' 'sk-ant-...' > ~/.config/l3vlup/pilot.env   # DON'T
+```
+
+writes the key into `~/.bash_history` or `~/.zsh_history` in plain text,
+where it survives every later `history` search, every shell-history sync and
+every backup of the home directory. A key that has been typed at a prompt
+should be treated as compromised.
+
+Two ways that do not touch history. Either read it into the file without it
+ever appearing on a command line:
+
+```bash
+mkdir -p ~/.config/l3vlup && chmod 700 ~/.config/l3vlup
+umask 077
+printf 'ANTHROPIC_API_KEY=' > ~/.config/l3vlup/pilot.env
+read -rs KEY && printf '%s\n' "$KEY" >> ~/.config/l3vlup/pilot.env && unset KEY
+chmod 600 ~/.config/l3vlup/pilot.env
+```
+
+`read -rs` does not echo, and the value never becomes an argument, so nothing
+lands in history. Or paste it into an editor, which never sees a shell:
+
+```bash
+mkdir -p ~/.config/l3vlup && chmod 700 ~/.config/l3vlup
+(umask 077; "${EDITOR:-nano}" ~/.config/l3vlup/pilot.env)
+# one line: ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Sourcing the file is safe — the command contains the path, not the value:
+
+```bash
+set -a; . ~/.config/l3vlup/pilot.env; set +a
+```
+
+If the key has already been typed at a prompt, rotate it in the console and
+clear the history entry rather than hoping. On zsh a line beginning with a
+space is not recorded when `HIST_IGNORE_SPACE` is set, which is a habit worth
+having but not a control worth relying on.
+
 ## The pilot client
 
 `lib/thesis-anthropic.mjs` is the only file in this repository that can talk
@@ -163,15 +207,23 @@ confirm the identifier before spending anything.
 
 | | Was | Is | Why |
 |---|---|---|---|
-| Haiku identifier | `claude-haiku-4-5-20251001` | **`claude-haiku-4-5`** | the published identifiers are complete and take no date suffix |
-| Sonnet 5 price | $3.00 / $15.00 per MTok | **$2.00 / $10.00** | $3/$15 is the previous generation's price |
+| Haiku identifier | `claude-haiku-4-5-20251001` | **unchanged — it was already right** | it is the pinned snapshot; the dateless form is an alias that can repoint |
+| Sonnet 5 price | $3.00 / $15.00 per MTok | **$2.00 / $10.00** | the scheduled increase was cancelled; $2/$10 is the standard price |
 
 | Model | Identifier | Context | Input $/MTok | Output $/MTok | Role |
 |---|---|---|---|---|---|
-| Claude Haiku 4.5 | `claude-haiku-4-5` | 200K | $1.00 | $5.00 | extraction — the pilot model |
+| Claude Haiku 4.5 | `claude-haiku-4-5-20251001` (alias `claude-haiku-4-5`) | 200K | $1.00 | $5.00 | extraction — the pilot model |
 | Claude Sonnet 5 | `claude-sonnet-5` | 1M | $2.00 | $10.00 | escalation, needs separate approval |
 
-Prices verified 2026-06-24 and carried on each entry as `pricedOn`. A wrong
+Models before the 4.6 generation carry a snapshot date, and the dateless form
+is an alias that resolves to the most recent snapshot for that minor version —
+so it can repoint. From 4.6 on, the dateless id *is* the snapshot. Haiku 4.5
+predates 4.6, so we pin the dated id: every claim records the model that made
+it, and an id that can quietly move makes that record a lie. The alias is
+accepted on the command line and resolved to the snapshot before anything is
+recorded.
+
+Verified against platform.claude.com on 2026-09-18 — the models overview for identifiers and context windows, the pricing page for rates — and carried on each entry as `pricedOn`. Cache reads are a tenth of base input and are priced separately; the budget estimate still assumes no cache hits, which keeps it conservative. A wrong
 identifier fails loudly at the first call; a wrong price fails silently and
 mis-states every budget check, which is worse. `preflightModel` asks the
 Models API to confirm the identifier before a billable token is spent — that

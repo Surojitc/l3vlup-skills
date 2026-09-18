@@ -29,7 +29,7 @@ let passed = 0;
 async function test(name, fn) { await fn(); passed += 1; console.log(`  ok  ${name}`); }
 
 const run = (over = {}) => runDocument({
-  model: fakeModel({ responses: PROPOSALS }), modelId: 'claude-haiku-4-5',
+  model: fakeModel({ responses: PROPOSALS }), modelId: 'claude-haiku-4-5-20251001',
   document: F.document, manager: F.manager, sourceText: SOURCE,
   taxonomy: TAXONOMY, aliases: F.aliases,
   ledger: emptyCostLedger(), decisionLog: emptyDecisionLog(), ...over,
@@ -261,8 +261,8 @@ await test('the $3 pilot budget stops the run, and the $15 milestone ceiling is 
   // And the stop is a stop: no fallback to the cheaper model.
   const after = recordCall(wide, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd' });
   assert.equal(after.stopped, true);
-  assert.equal(checkBudget(after, { model: 'claude-haiku-4-5', inputTokens: 1, outputTokens: 1, documentId: 'd' }).allowed, false);
-  assert.deepEqual(Object.keys(MODEL_ALLOWLIST), ['claude-haiku-4-5', 'claude-sonnet-5']);
+  assert.equal(checkBudget(after, { model: 'claude-haiku-4-5-20251001', inputTokens: 1, outputTokens: 1, documentId: 'd' }).allowed, false);
+  assert.deepEqual(Object.keys(MODEL_ALLOWLIST), ['claude-haiku-4-5-20251001', 'claude-sonnet-5']);
 });
 
 await test('a run stopped by the budget yields what it had, and resumes without re-charging', async () => {

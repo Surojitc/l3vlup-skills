@@ -16,13 +16,13 @@ const claims = [
   { claimId: 'c-1', managerId: F.manager.managerId, documentId: 'doc-1', filingDate: F.document.filingDate,
     kind: 'statement', stance: 'long', paraphrase: 'Margins should improve as the second production line fills.',
     evidenceRef: 'e-1', evidenceState: 'verified', tags: ['driver.margin_inflection'], provenance: 'model',
-    model: 'claude-haiku-4-5', promptVersion: 'thesis-extract-v1', reviewStatus: 'pending',
+    model: 'claude-haiku-4-5-20251001', promptVersion: 'thesis-extract-v1', reviewStatus: 'pending',
     catalysts: [{ description: 'August results should show the margin turn', expectedBy: '2026-08-31', dateIsExplicit: true }],
     risks: [{ description: 'Two customers are most of revenue' }] },
   { claimId: 'c-2', managerId: F.manager.managerId, documentId: 'doc-1', filingDate: F.document.filingDate,
     kind: 'inference', stance: 'unclear', paraphrase: 'The position is likely to be sized up if the margin turn lands.',
     evidenceRef: 'e-1', evidenceState: 'verified', tags: [], provenance: 'model',
-    model: 'claude-haiku-4-5', promptVersion: 'thesis-extract-v1', reviewStatus: 'pending' },
+    model: 'claude-haiku-4-5-20251001', promptVersion: 'thesis-extract-v1', reviewStatus: 'pending' },
 ];
 
 const byId = new Map(F.evidence.map((e) => [e.evidenceId, e]));

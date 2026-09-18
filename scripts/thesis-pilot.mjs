@@ -24,7 +24,7 @@ import { extractSections, PARSER_VERSION as HTML_VERSION } from '../lib/letters-
 import { parsePdf } from '../lib/letters-pdf.mjs';
 import { onExitCleanup, resolveWorkspace, withWorkspace } from '../lib/letters-workspace.mjs';
 import { anthropicModel, preflightModel, realClient } from '../lib/thesis-anthropic.mjs';
-import { emptyCostLedger, LIMITS, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL } from '../lib/thesis-cost.mjs';
+import { emptyCostLedger, LIMITS, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, resolveModelId } from '../lib/thesis-cost.mjs';
 import { runDocument } from '../lib/thesis-runner.mjs';
 import { emptyDecisionLog, renderReview, reviewCard } from '../lib/thesis-review.mjs';
 
@@ -52,8 +52,12 @@ export function parseArgs(argv) {
     problems.push(`--budget ${budget} is over the $${LIMITS.hardStopUsd.toFixed(2)} milestone ceiling, which no run may raise`);
   }
 
-  const model = value('--model') || PILOT_MODEL;
-  if (!MODEL_ALLOWLIST[model]) problems.push(`--model ${model} is not on the allowlist: ${Object.keys(MODEL_ALLOWLIST).join(', ')}`);
+  // An alias a person types is resolved to the snapshot we pin, so the run
+  // records the id that actually served it rather than a pointer.
+  const model = resolveModelId(value('--model') || PILOT_MODEL);
+  if (!MODEL_ALLOWLIST[model]) {
+    problems.push(`--model ${value('--model')} is not on the allowlist: ${[...Object.keys(MODEL_ALLOWLIST), ...Object.keys(MODEL_ALIASES)].join(', ')}`);
+  }
 
   return {
     problems,
