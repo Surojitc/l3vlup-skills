@@ -83,7 +83,7 @@ publicly.
 
 | | |
 |---|---|
-| Allowlist | `claude-haiku-4-5-20251001` (extraction), `claude-sonnet-5` (escalation) |
+| Allowlist | `claude-haiku-4-5` (extraction), `claude-sonnet-5` (escalation) |
 | Max documents | 9 |
 | Max chunks per document | 12 |
 | Max input / output tokens per call | 40,000 / 4,000 |
@@ -125,7 +125,7 @@ The second Longleaf report is the better test of manager discussion than
 either Oakmark report, which are ten times the size and would spend most of
 the chunk ceiling on financial statements.
 
-**Model:** `claude-haiku-4-5-20251001`, one pass, **no automatic fallback**.
+**Model:** `claude-haiku-4-5`, one pass, **no automatic fallback**.
 Any `claude-sonnet-5` adjudication of a failed verification is a separate
 decision requiring separate approval; the allowlist contains it, and nothing
 reaches for it.
@@ -148,9 +148,133 @@ before it matters.
 reaches the site, and every claim lands in `needs_review` or
 `issuer_unresolved` for a person to decide.
 
+## Putting the key somewhere, without typing it
+
+The obvious instruction is the wrong one. This:
+
+```bash
+printf 'ANTHROPIC_API_KEY=%s\n' 'sk-ant-...' > ~/.config/l3vlup/pilot.env   # DON'T
+```
+
+writes the key into `~/.bash_history` or `~/.zsh_history` in plain text,
+where it survives every later `history` search, every shell-history sync and
+every backup of the home directory. A key that has been typed at a prompt
+should be treated as compromised.
+
+Two ways that do not touch history. Either read it into the file without it
+ever appearing on a command line:
+
+```bash
+mkdir -p ~/.config/l3vlup && chmod 700 ~/.config/l3vlup
+umask 077
+printf 'ANTHROPIC_API_KEY=' > ~/.config/l3vlup/pilot.env
+read -rs KEY && printf '%s\n' "$KEY" >> ~/.config/l3vlup/pilot.env && unset KEY
+chmod 600 ~/.config/l3vlup/pilot.env
+```
+
+`read -rs` does not echo, and the value never becomes an argument, so nothing
+lands in history. Or paste it into an editor, which never sees a shell:
+
+```bash
+mkdir -p ~/.config/l3vlup && chmod 700 ~/.config/l3vlup
+(umask 077; "${EDITOR:-nano}" ~/.config/l3vlup/pilot.env)
+# one line: ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Sourcing the file is safe — the command contains the path, not the value:
+
+```bash
+set -a; . ~/.config/l3vlup/pilot.env; set +a
+```
+
+If the key has already been typed at a prompt, rotate it in the console and
+clear the history entry rather than hoping. On zsh a line beginning with a
+space is not recorded when `HIST_IGNORE_SPACE` is set, which is a habit worth
+having but not a control worth relying on.
+
+## The pilot client
+
+`lib/thesis-anthropic.mjs` is the only file in this repository that can talk
+to Anthropic, and `scripts/thesis-pilot.mjs` is the only command that can
+spend money. Everything else is unchanged: the client implements the `Model`
+shape the runner already took.
+
+### Model identifiers, checked rather than recalled
+
+Both allowlist entries were wrong when first written from memory. That is the
+reason the table below is dated and the reason the pilot asks the API to
+confirm the identifier before spending anything.
+
+| | Was | Is | Why |
+|---|---|---|---|
+| Haiku identifier | `claude-haiku-4-5-20251001` | **unchanged — it was already right** | it is the pinned snapshot; the dateless form is an alias that can repoint |
+| Sonnet 5 price | $3.00 / $15.00 per MTok | **$2.00 / $10.00** | the scheduled increase was cancelled; $2/$10 is the standard price |
+
+| Model | Identifier | Context | Input $/MTok | Output $/MTok | Role |
+|---|---|---|---|---|---|
+| Claude Haiku 4.5 | `claude-haiku-4-5-20251001` (alias `claude-haiku-4-5`) | 200K | $1.00 | $5.00 | extraction — the pilot model |
+| Claude Sonnet 5 | `claude-sonnet-5` | 1M | $2.00 | $10.00 | escalation, needs separate approval |
+
+Models before the 4.6 generation carry a snapshot date, and the dateless form
+is an alias that resolves to the most recent snapshot for that minor version —
+so it can repoint. From 4.6 on, the dateless id *is* the snapshot. Haiku 4.5
+predates 4.6, so we pin the dated id: every claim records the model that made
+it, and an id that can quietly move makes that record a lie. The alias is
+accepted on the command line and resolved to the snapshot before anything is
+recorded.
+
+Verified against platform.claude.com on 2026-09-18 — the models overview for identifiers and context windows, the pricing page for rates — and carried on each entry as `pricedOn`. Cache reads are a tenth of base input and are priced separately; the budget estimate still assumes no cache hits, which keeps it conservative. A wrong
+identifier fails loudly at the first call; a wrong price fails silently and
+mis-states every budget check, which is worse. `preflightModel` asks the
+Models API to confirm the identifier before a billable token is spent — that
+endpoint is not inference and costs nothing.
+
+### The security boundary
+
+- **The client never reads the key.** No `process.env`, no `apiKey` argument,
+  no logging of one. `new Anthropic()` resolves the credential itself. A test
+  strips comments and asserts the module's *code* contains no `process.env`
+  and exactly one mention of the variable's name — inside the sentence that
+  tells a person where to put it.
+- **The SDK import is lazy**, inside `realClient()`. Importing the module —
+  which every test does — cannot reach the network or require a credential.
+- **No retries.** `maxRetries: 0`. A retry would charge twice for a call the
+  budget counted once.
+- **120-second timeout**, passed to the client, translated to a named
+  `timeout` failure.
+- **Nothing is retried into existence.** A malformed answer, a missing usage
+  block, a refusal, a truncated tool input: each is a recorded failure with a
+  reason. What cannot be verified is dropped.
+
+### Refusals
+
+The command will not start without **both** an explicit document allowlist and
+an explicit budget. Neither has a default that runs — naming the documents is
+how you say which, and naming the budget is how you say you meant to spend. It
+also refuses a budget over $15, a model off the allowlist, and any identifier
+that is not in the approved selection.
+
+### Usage and cost per call
+
+`readUsage` refuses a response whose token counts are missing rather than
+treating it as free, and usage is read **before** the proposals, so a
+malformed answer cannot mask an uncosted call. Each call records input tokens,
+output tokens, cache reads, the actual dollar cost and the elapsed
+milliseconds into `.pilot/cost.json`.
+
+### Cleanup
+
+The fetched bytes are written into a `mkdtemp` workspace and deleted the
+moment they are parsed. The workspace itself is removed by `withWorkspace` —
+the same helper the retrieval pipeline uses, so the tested path is the real
+path — on success, on failure, on a timeout and on `SIGINT`/`SIGTERM`/
+`SIGHUP`. A failed cleanup sets a non-zero exit code. The outputs are written
+*after* the workspace closes, so an interrupted run still leaves its cost and
+partial results behind.
+
 ## What the pilot still needs
 
 An `ANTHROPIC_API_KEY`, which nobody has granted and which this repository
-must never hold — the collector is public. The realistic shape is a local run
-on a machine holding the key, or a separate manually-dispatched workflow job
-carrying it as a secret. Either is its own approval.
+must never hold — the collector is public. The client is built and tested;
+what remains is the key, in the shell that launches the run, and a person
+deciding to spend.

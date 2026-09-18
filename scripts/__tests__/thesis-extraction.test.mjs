@@ -295,8 +295,13 @@ await test('no public output carries the source text, and no module can reach a 
       assert.ok(!text.includes(forbidden), `${f} contains ${forbidden}`);
     }
   }
+  // The SDK belongs to the pilot client alone. The harness is written
+  // against the Model interface and must never reach for it directly.
   const pkg = JSON.parse(readFileSync(join(REPO, 'package.json'), 'utf8'));
-  assert.deepEqual(Object.keys(pkg.dependencies).sort(), ['parse5', 'pdfjs-dist']);
+  assert.deepEqual(Object.keys(pkg.dependencies).sort(), ['@anthropic-ai/sdk', 'parse5', 'pdfjs-dist']);
+  for (const f of ['lib/thesis-model.mjs', 'lib/thesis-runner.mjs', 'lib/thesis-chunk.mjs', 'lib/thesis-states.mjs', 'lib/thesis-cost.mjs', 'scripts/thesis-extract.mjs']) {
+    assert.ok(!readFileSync(join(REPO, f), 'utf8').includes('@anthropic-ai/sdk'), `${f} imports the SDK`);
+  }
 });
 
 await test('company mentions are found without a model, as candidates only', () => {

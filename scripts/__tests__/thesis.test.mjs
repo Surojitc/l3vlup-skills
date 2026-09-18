@@ -438,8 +438,14 @@ test('the committed contract carries no model key, no client and no source text'
       assert.ok(!text.includes(forbidden), `${f} contains ${forbidden}`);
     }
   }
+  // The SDK is a dependency of the repository now, for the pilot client
+  // alone. What must stay true is that no contract module imports it: the
+  // schemas, validators and taxonomy are decided without a model in reach.
   const pkg = JSON.parse(readFileSync(join(REPO, 'package.json'), 'utf8'));
-  assert.deepEqual(Object.keys(pkg.dependencies).sort(), ['parse5', 'pdfjs-dist'], 'a model dependency was added');
+  assert.deepEqual(Object.keys(pkg.dependencies).sort(), ['@anthropic-ai/sdk', 'parse5', 'pdfjs-dist']);
+  for (const f of files) {
+    assert.ok(!readFileSync(join(REPO, f), 'utf8').includes('@anthropic-ai/sdk'), `${f} imports the SDK`);
+  }
 
   // The fixture source is invented, and no real filing text is committed.
   assert.match(SOURCE, /Fixture Capital Partners/);

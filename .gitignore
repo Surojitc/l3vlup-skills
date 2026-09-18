@@ -158,6 +158,11 @@ letters-archive/
 .letters-archive/
 letters-review-report.md
 
+# The pilot writes here: claims awaiting review, what was dropped, what the
+# model said that it was not allowed to say, and the cost. None of it is
+# published, and a draft review artefact does not belong in git.
+.pilot/
+
 # Half-written data files. Every published file lands under a temporary name
 # and is moved into place (see writeAtomic in scripts/sync-ats.mjs), so a run
 # that dies mid-write leaves one behind. CI checks out fresh so it can never
