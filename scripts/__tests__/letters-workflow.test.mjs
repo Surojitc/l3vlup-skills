@@ -9,11 +9,13 @@
 //   node scripts/__tests__/letters-workflow.test.mjs
 
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildOutput, renderMarkdown, serialiseOutput, toPublicRecord } from '../../lib/letters-output.mjs';
 import { validateOutputFiles } from '../letters-validate-output.mjs';
+import { appendDurable, appendRunLog, isMaterial, ledgerSummary, MATERIAL_EVENTS, renderRunSummary } from '../../lib/letters-ledger.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const WORKFLOW = join(REPO, '.github', 'workflows', 'letters-parse.yml');
@@ -106,8 +108,8 @@ test('nothing but the three metadata files may be uploaded', () => {
 });
 
 test('no pull request is opened when the output is unchanged', () => {
-  assert.match(yaml, /needs\.parse\.outputs\.changed == 'true'/, 'the job does not depend on something having changed');
-  assert.match(yaml, /git diff --quiet -- data\/letters\.parsed\.json data\/letters\.parsed\.md/);
+  assert.match(yaml, /needs\.parse\.outputs\.publication_changed == 'true'/, 'the job does not depend on the published output having changed');
+  assert.match(yaml, /git diff --quiet -- data\/letters\.parsed\.json data\/letters\.parsed\.md\; then/);
   assert.match(yaml, /if git diff --quiet -- data\/; then\n\s+echo "nothing changed after all/, 'the second job does not re-check before committing');
 });
 
@@ -200,6 +202,153 @@ test('the two inputs are typed booleans and never reach a shell', () => {
     const line = yaml.slice(yaml.lastIndexOf('\n', m.index) + 1, yaml.indexOf('\n', m.index));
     assert.match(line.trim(), /^(if:|#)/, `an input is used outside an if: condition — ${line.trim()}`);
   }
+});
+
+// ── Change detection: what may and may not start the write-enabled job ─────
+//
+// The rule these eight hold in place: a generated branch, commit or pull
+// request exists only when data/letters.parsed.json or data/letters.parsed.md
+// moved. Request activity never starts one — that was the defect the first
+// production run exposed, where nine appended ledger lines made an otherwise
+// unchanged run look like news and started a job that had nothing to do.
+
+/** The `if` expression guarding the write-enabled job, as GitHub sees it. */
+const WRITE_JOB_IF = job('open-pull-request').match(/\n {4}if: (.+)/)[1];
+
+/** Evaluate the workflow's gating logic against a hypothetical run. */
+function writeJobRuns({ dryRun = false, openPr = true, publicationChanged }) {
+  assert.match(WRITE_JOB_IF, /!inputs\.dry_run/, 'the write job no longer checks dry_run');
+  assert.match(WRITE_JOB_IF, /inputs\.open_pull_request/, 'the write job no longer checks open_pull_request');
+  assert.match(WRITE_JOB_IF, /needs\.parse\.outputs\.publication_changed == 'true'/, 'the write job no longer gates on the published output');
+  return !dryRun && openPr && publicationChanged === 'true';
+}
+
+/** The `Did the published output change` step, as a function of what moved. */
+function publicationChangedFor(paths) {
+  const step = yaml.slice(yaml.indexOf('- name: Did the published output change'), yaml.indexOf('- name: Check nothing else is staged'));
+  const watched = [...step.matchAll(/data\/[\w.]+/g)].map((m) => m[0]);
+  const gate = step.match(/git diff --quiet -- ([^\n]+)\; then/)[1].trim().split(/\s+/);
+  assert.deepEqual(gate, ['data/letters.parsed.json', 'data/letters.parsed.md'],
+    `the change gate watches ${gate.join(' ')}`);
+  assert.ok(watched.includes('data/letters.parsed.json'));
+  return paths.some((f) => gate.includes(f)) ? 'true' : 'false';
+}
+
+await test('1. unchanged parsed outputs with request activity only does not start the write job', () => {
+  const changed = publicationChangedFor(['data/letters.requests.jsonl']);
+  assert.equal(changed, 'false', 'request activity moved the publication gate');
+  assert.equal(writeJobRuns({ publicationChanged: changed }), false, 'the write job started on request activity alone');
+});
+
+await test('2. a changed parsed JSON makes the write job eligible', () => {
+  const changed = publicationChangedFor(['data/letters.parsed.json']);
+  assert.equal(changed, 'true');
+  assert.equal(writeJobRuns({ publicationChanged: changed }), true);
+});
+
+await test('3. a changed parsed Markdown makes the write job eligible', () => {
+  const changed = publicationChangedFor(['data/letters.parsed.md']);
+  assert.equal(changed, 'true');
+  assert.equal(writeJobRuns({ publicationChanged: changed }), true);
+});
+
+await test('4. ledger or job-summary data alone never starts the write job', () => {
+  for (const f of ['data/letters.requests.jsonl', 'letters-requests.run.jsonl', 'GITHUB_STEP_SUMMARY']) {
+    assert.equal(writeJobRuns({ publicationChanged: publicationChangedFor([f]) }), false, `${f} started the write job`);
+  }
+  // And the gate expression names neither the ledger nor the run log.
+  const step = yaml.slice(yaml.indexOf('- name: Did the published output change'), yaml.indexOf('- name: Check nothing else is staged'));
+  const gate = step.match(/git diff --quiet -- ([^\n]+)\; then/)[1];
+  assert.ok(!gate.includes('requests.jsonl'), 'the ledger is back in the change gate');
+});
+
+await test('5. no changed output means no branch is generated, because the job never starts', () => {
+  assert.equal(writeJobRuns({ publicationChanged: 'false' }), false);
+  // Everything that creates a branch lives in the job that does not run.
+  const parse = job('parse');
+  for (const forbidden of ['git checkout -b', 'git push origin', 'gh pr create', 'git commit']) {
+    assert.ok(!parse.includes(forbidden), `the read-only job can ${forbidden}`);
+  }
+});
+
+await test('6. a validation failure stops the run before the write job can act', () => {
+  const parse = job('parse');
+  const validate = parse.indexOf('- name: Validate the output against the allowlist');
+  const diff = parse.indexOf('- name: Did the published output change');
+  const upload = parse.indexOf('- name: Upload the parsed metadata');
+  assert.ok(validate !== -1 && validate < diff && diff < upload, 'validation does not precede the change gate and the upload');
+  // The validator exits non-zero, and no step between it and the upload
+  // carries continue-on-error, so a failure fails the job and needs: parse
+  // never resolves.
+  assert.ok(!parse.includes('continue-on-error'), 'a step may swallow a validation failure');
+  assert.match(job('open-pull-request'), /needs: parse/);
+  // And the write job validates again, before it creates anything.
+  const open = job('open-pull-request');
+  assert.ok(open.indexOf('- name: Validate what arrived') < open.indexOf('git checkout -b'));
+});
+
+await test('7. routine polling is written to the run log, never to the tracked ledger', () => {
+  const script = readFileSync(join(REPO, 'scripts', 'retrieve-letters.mjs'), 'utf8');
+  assert.match(script, /onAttempt: \(\{ url, status \}\) => appendRunLog\(/, 'attempts still go to the tracked ledger');
+  assert.ok(!/appendLedger\(/.test(script), 'the script writes the tracked ledger directly');
+
+  const tmp = mkdtempSync(join(tmpdir(), 'letters-policy-'));
+  const runLog = join(tmp, 'run.jsonl');
+  const durable = join(tmp, 'durable.jsonl');
+  for (let i = 0; i < 9; i += 1) appendRunLog({ script: 'retrieve-letters', url: `https://www.sec.gov/Archives/x${i}.htm`, status: 200, attempt: 0 }, runLog);
+  assert.equal(readFileSync(runLog, 'utf8').trim().split('\n').length, 9);
+  assert.ok(!existsSync(durable), 'routine polling reached the durable ledger');
+
+  // The workflow points the run log at the runner temp directory, so it is
+  // discarded with the runner rather than committed.
+  assert.match(yaml, /LETTERS_RUN_LOG: \$\{\{ runner\.temp \}\}/);
+  assert.match(renderRunSummary(runLog), /## Requests: 9/);
+  rmSync(tmp, { recursive: true, force: true });
+});
+
+await test('8. a material event can be recorded durably, and only a material event', () => {
+  const tmp = mkdtempSync(join(tmpdir(), 'letters-material-'));
+  const durable = join(tmp, 'durable.jsonl');
+  const base = { script: 'retrieve-letters', url: 'https://www.sec.gov/Archives/x.htm', status: 200, attempt: 0, observedIn: '123' };
+
+  for (const kind of Object.keys(MATERIAL_EVENTS)) {
+    appendDurable({ ...base, material: kind }, durable);
+    assert.ok(isMaterial(kind));
+  }
+  assert.equal(readFileSync(durable, 'utf8').trim().split('\n').length, 4);
+
+  assert.throws(() => appendDurable({ ...base }, durable), /not a material event/, 'an unnamed event was written durably');
+  assert.throws(() => appendDurable({ ...base, material: 'routine' }, durable), /not a material event/, 'routine polling was written durably');
+  assert.throws(() => appendDurable({ ...base, material: 'seemed_interesting' }, durable), /not a material event/);
+  assert.throws(() => appendDurable({ script: 's', url: 'u', status: 200, material: 'new_document' }, durable), /where it was observed/);
+  assert.equal(readFileSync(durable, 'utf8').trim().split('\n').length, 4, 'a refused write still appended');
+
+  // The script records exactly the four, at the four moments they occur.
+  const script = readFileSync(join(REPO, 'scripts', 'retrieve-letters.mjs'), 'utf8');
+  assert.match(script, /recordMaterial\('new_document'/);
+  assert.match(script, /recordMaterial\('source_change'/);
+  assert.equal((script.match(/recordMaterial\('error'/g) || []).length, 2, 'a refused fetch and a failed parse should both be recorded');
+  rmSync(tmp, { recursive: true, force: true });
+});
+
+await test('the durable ledger holds 36 observed document GETs, the nine from the production run marked', () => {
+  const lines = readFileSync(join(REPO, 'data', 'letters.requests.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  const gets = lines.filter((l) => l.script === 'retrieve-letters');
+  assert.equal(gets.length, 36, 'the durable observed total should be 36');
+
+  const production = gets.filter((l) => l.workflowRunId === 35265891040);
+  assert.equal(production.length, 9);
+  assert.ok(production.every((l) => l.purpose === 'production_verification'), 'the nine are not marked production_verification');
+  assert.ok(production.every((l) => l.material === 'milestone_verification' && l.observedIn === '35265891040'));
+  assert.ok(production.every((l) => l.status === 200 && l.attempt === 0));
+  assert.equal(new Set(production.map((l) => l.url)).size, 9, 'the nine are not nine distinct documents');
+
+  const summary = ledgerSummary(join(REPO, 'data', 'letters.requests.jsonl'));
+  assert.equal(summary.byScript['retrieve-letters'].observed, 36);
+  assert.equal(summary.byScript['retrieve-letters'].reconstructed, 0);
+  assert.equal(summary.reconstructed, 20, 'reconstructed entries must stay separate and unchanged');
+  assert.match(summary.note, /never added together/);
+  assert.match(summary.note, /36 observed GETs/);
 });
 
 // ── The validator the write-enabled job gates on ────────────────────────────

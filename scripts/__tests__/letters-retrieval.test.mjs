@@ -506,25 +506,26 @@ await test('the retrieval script can rebuild both files without a network call',
   assert.match(source, /--render-only/, 'render-only is not documented in the usage block');
   assert.match(source, /function renderOnly\(\)/, 'there is no render-only path');
   const body = source.slice(source.indexOf('function renderOnly()'), source.indexOf('async function main()'));
-  for (const forbidden of ['fetchDocument', 'appendLedger', 'parsePdf', 'extractSections']) {
+  for (const forbidden of ['fetchDocument', 'appendLedger', 'appendRunLog', 'appendDurable', 'parsePdf', 'extractSections']) {
     assert.ok(!body.includes(forbidden), `render-only reaches for ${forbidden}`);
   }
 });
 
-await test('the committed ledger accounts for every retrieval request, including the unintended run', () => {
+await test('the committed ledger accounts for all four retrieval runs, the unintended one included', () => {
   const lines = readFileSync(join(REPO, 'data', 'letters.requests.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
   const gets = lines.filter((l) => l.script === 'retrieve-letters');
-  assert.equal(gets.length, 27, 'the ledger should hold 27 observed document GETs');
+  assert.equal(gets.length, 36, 'the durable ledger should hold 36 observed document GETs');
   assert.ok(gets.every((l) => l.status === 200 && l.reconstructed === undefined), 'every retrieval line is observed, not reconstructed');
 
   const byRun = new Map();
   for (const l of gets) byRun.set(l.run, (byRun.get(l.run) || 0) + 1);
-  assert.deepEqual([...byRun.entries()].sort(), [[1, 9], [2, 9], [3, 9]], 'three runs of nine documents');
+  assert.deepEqual([...byRun.entries()].sort(), [[1, 9], [2, 9], [3, 9], [4, 9]], 'four runs of nine documents');
   assert.deepEqual(gets.filter((l) => l.intended === false).map((l) => l.run), Array(9).fill(3), 'the third run is the accidental one');
-  assert.match(lines[0].note, /Run 3 was accidental/, 'the ledger note does not say what the third run was');
+  assert.match(lines[0].note, /run 3 accidental/, 'the ledger note does not say what the third run was');
+  assert.match(lines[0].note, /production_verification/, 'the ledger note does not say what the fourth run was');
 
   const summary = ledgerSummary(join(REPO, 'data', 'letters.requests.jsonl'));
-  assert.equal(summary.byScript['retrieve-letters'].observed, 27);
+  assert.equal(summary.byScript['retrieve-letters'].observed, 36);
   assert.equal(summary.byScript['retrieve-letters'].reconstructed, 0);
 });
 

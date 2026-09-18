@@ -52,7 +52,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      changed: ${{ steps.diff.outputs.changed }}
+      publication_changed: ${{ steps.diff.outputs.publication_changed }}
     steps:
       # A dry run fetches nothing, so there is no output to open anything
       # about. Asking for both is a contradiction, and the honest answer is
@@ -117,25 +117,35 @@ jobs:
           # same expression build-samples.yml uses. It is a variable, never a
           # secret: there is nothing here to keep private.
           SEC_USER_AGENT: "${{ vars.SEC_USER_AGENT || 'L3VLUP Research (contact: suro@l3vlup.com)' }}"
+          # Routine request detail goes here, is rendered into the job
+          # summary, rides the one-day artifact, and dies with the runner.
+          LETTERS_RUN_LOG: ${{ runner.temp }}/letters-requests.run.jsonl
         run: node scripts/retrieve-letters.mjs --mode ephemeral-sec
 
       - name: Validate the output against the allowlist
         if: ${{ !inputs.dry_run }}
         run: node scripts/letters-validate-output.mjs
 
-      # An unchanged rerun rewrites both files byte for byte, so an empty
-      # diff here means there is genuinely nothing to open a pull request
-      # about, and the next job is skipped.
-      - name: Did anything change
+      # Only the two publication files decide this.
+      #
+      # data/letters.requests.jsonl is deliberately absent. It grows on every
+      # real run by design, so including it meant every run looked like a
+      # change and the write-enabled job started for no reason — the same
+      # noise the deterministic output was built to remove, one level up.
+      # Under the ledger policy a routine attempt no longer reaches that file
+      # at all, and a material event that does always moves the published
+      # output too, so it is never the sole reason to open anything.
+      - name: Did the published output change
         id: diff
         if: ${{ !inputs.dry_run }}
         run: |
-          if git diff --quiet -- data/letters.parsed.json data/letters.parsed.md data/letters.requests.jsonl; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "the parsed output is unchanged; there is nothing to open"
+          if git diff --quiet -- data/letters.parsed.json data/letters.parsed.md; then
+            echo "publication_changed=false" >> "$GITHUB_OUTPUT"
+            echo "the published output is unchanged; nothing to open"
+            git --no-pager diff --stat -- data/ || true
           else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            git --no-pager diff --stat -- data/letters.parsed.json data/letters.parsed.md data/letters.requests.jsonl
+            echo "publication_changed=true" >> "$GITHUB_OUTPUT"
+            git --no-pager diff --stat -- data/letters.parsed.json data/letters.parsed.md
           fi
 
       # Three metadata files and nothing else. The upload is named file by
@@ -143,9 +153,9 @@ jobs:
       # swept in by a wildcard; the step before it fails the run if anything
       # unexpected is in the workspace.
       - name: Check nothing else is staged for upload
-        if: ${{ !inputs.dry_run && steps.diff.outputs.changed == 'true' }}
+        if: ${{ !inputs.dry_run && steps.diff.outputs.publication_changed == 'true' }}
         run: |
-          unexpected=$(git status --porcelain -- data/ | grep -v -E 'letters\.(parsed\.(json|md)|requests\.jsonl)$' || true)
+          unexpected=$(git status --porcelain -- data/ | grep -v -E 'letters[.](parsed[.](json|md)|requests[.]jsonl)$' || true)
           if [ -n "$unexpected" ]; then
             echo "::error::the run left files that are not the parsed metadata:"
             echo "$unexpected"
@@ -190,7 +200,7 @@ jobs:
           exit $status
 
       - name: Upload the parsed metadata
-        if: ${{ !inputs.dry_run && steps.diff.outputs.changed == 'true' }}
+        if: ${{ !inputs.dry_run && steps.diff.outputs.publication_changed == 'true' }}
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: letters-parsed-metadata
@@ -198,13 +208,14 @@ jobs:
             data/letters.parsed.json
             data/letters.parsed.md
             data/letters.requests.jsonl
+            ${{ runner.temp }}/letters-requests.run.jsonl
           if-no-files-found: error
           retention-days: 1
 
   open-pull-request:
     name: Validate and open a pull request
     needs: parse
-    if: ${{ !inputs.dry_run && inputs.open_pull_request && needs.parse.outputs.changed == 'true' }}
+    if: ${{ !inputs.dry_run && inputs.open_pull_request && needs.parse.outputs.publication_changed == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # The least that can open a pull request: a branch to push and the pull
@@ -273,7 +284,15 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git checkout -b "$branch"
+          # Named files only, and never anything under .github. The token
+          # this job holds has no workflows scope, so GitHub would refuse a
+          # push touching a workflow anyway; this makes the intent explicit
+          # rather than relying on the platform to catch it.
           git add data/letters.parsed.json data/letters.parsed.md data/letters.requests.jsonl
+          if ! git diff --cached --quiet -- ':(glob).github/**' ':(glob)*.yml' ':(glob)*.yaml'; then
+            echo "::error::the staged change touches a workflow or configuration file; refusing"
+            exit 1
+          fi
           git commit -m 'Letters: refresh the parsed metadata for the approved documents'
           git push origin "$branch"
           printf '%s\n' \

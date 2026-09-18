@@ -34,7 +34,7 @@
 // Everything about the run itself — how many requests it made, how long it
 // took, how much it carried forward — is printed and then forgotten.
 
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -54,7 +54,7 @@ import {
 } from '../lib/letters-output.mjs';
 import { approvedDocument, DEFAULT_MODE, onExitCleanup, resolveWorkspace, withWorkspace } from '../lib/letters-workspace.mjs';
 import { emptyManifest, validateRow, writeManifestAtomic } from '../lib/letters-manifest.mjs';
-import { appendLedger } from '../lib/letters-ledger.mjs';
+import { appendDurable, appendRunLog, renderRunSummary, runLogPath } from '../lib/letters-ledger.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SELECTION = join(ROOT, 'data', 'letters.selection.json');
@@ -124,6 +124,38 @@ function carriesForward(prior, format) {
   );
 }
 
+/**
+ * Write a line to the committed ledger, for the four reasons that earn one.
+ *
+ * Everything else a run does goes to the run log and the job summary. The
+ * asymmetry is deliberate: nine identical 200s on every run tell nobody
+ * anything and make every run look like a change, while a document that
+ * appeared, moved or would not parse is exactly what somebody will want to
+ * find in six months. A durable write always coincides with a change to the
+ * published output, so the ledger never opens a pull request on its own.
+ */
+function recordMaterial(material, d, detail = {}) {
+  appendDurable({
+    script: 'retrieve-letters',
+    url: d.documentUrl,
+    status: detail.status ?? null,
+    attempt: 0,
+    material,
+    observedIn: process.env.GITHUB_RUN_ID || 'local',
+    manager: d.manager,
+    accession: d.accession,
+    purpose: `${material}: ${MATERIAL_NOTE[material]}`,
+    ...detail,
+  });
+}
+
+const MATERIAL_NOTE = {
+  new_document: 'a document the committed output had not seen before',
+  source_change: 'the bytes at an approved URL changed',
+  error: 'a refusal, a non-200 or a parse failure worth investigating later',
+  milestone_verification: 'a deliberate, named verification run',
+};
+
 async function run(place, documents) {
   const previous = readPrevious();
   const work = place.mode === 'local-private' ? place.scratch : place.workspace;
@@ -153,12 +185,13 @@ async function run(place, documents) {
         expectedBytes: d.expectedBytes,
         cap: CAP_BYTES,
         userAgent: UA,
-        onAttempt: ({ url, status }) => appendLedger({ script: 'retrieve-letters', url, status, attempt: 0, purpose: `approved document retrieval (${place.mode})` }),
+        onAttempt: ({ url, status }) => appendRunLog({ script: 'retrieve-letters', url, status, attempt: 0, purpose: `approved document retrieval (${place.mode})` }),
       });
     } catch (err) {
       const refusal = err instanceof FetchRefusal ? err : new FetchRefusal('error', err.message);
       console.error(`FAIL  ${d.manager} ${d.filename}: ${refusal.message}`);
       stats.failed += 1;
+      recordMaterial('error', d, { detail: refusal.message.slice(0, 300), code: refusal.code });
       records.push(preserveProcessedAt(previous, toPublicRecord({
         schemaVersion: SCHEMA_VERSION, manager: d.manager, documentId: null, subjectOrPeriod: d.subjectOrPeriod, filingDate: d.filingDate,
         form: d.form, accession: d.accession, filingIndexUrl: d.filingIndexUrl, documentUrl: d.documentUrl, sourceBytes: null, sha256: null,
@@ -175,6 +208,8 @@ async function run(place, documents) {
     writeFileSync(scratchFile, got.body);
 
     const prior = previous?.documents?.find((x) => x.documentUrl === d.documentUrl);
+    if (!prior) recordMaterial('new_document', d, { sha256: hash, bytes: got.bytes });
+    else if (prior.sha256 !== hash) recordMaterial('source_change', d, { was: prior.sha256, now: hash, bytes: got.bytes });
     if (prior && prior.sha256 === hash && carriesForward(prior, d.format)) {
       console.log(`same  ${d.manager.padEnd(18)} unchanged source, parser and configuration; keeping the existing record`);
       stats.carriedForward += 1;
@@ -185,7 +220,8 @@ async function run(place, documents) {
     }
     const parsed = await parseDocument(d.format, scratchFile, got.body);
     const quality = assess({ units: parsed.units, items: parsed.items, rawCharacters: got.bytes });
-    if (parsed.status === 'ok') stats.parsed += 1; else stats.failed += 1;
+    if (parsed.status === 'ok') stats.parsed += 1;
+    else { stats.failed += 1; recordMaterial('error', d, { detail: `extraction ${parsed.status}`, sha256: hash }); }
 
     if (keep) {
       writeFileSync(join(keep, 'originals', hash), got.body);
@@ -333,6 +369,16 @@ async function main() {
   // file that should only change when a document does.
   const { requests, carriedForward, parsed, failed } = value.stats;
   console.log(`\n${parsed} of ${value.output.documents.length} parsed, ${failed} failed · ${requests} request(s) · ${carriedForward} carried forward unchanged · ${((Date.now() - startedAt) / 1000).toFixed(1)}s`);
+
+  // The request detail belongs beside the run that made it, not in the
+  // repository's history. On a runner this reaches the job summary; locally
+  // it is a file under the temp directory that nothing tracks.
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, renderRunSummary());
+    console.log('request detail written to the job summary');
+  } else {
+    console.log(`request detail written to ${runLogPath()} (untracked)`);
+  }
   console.log(`wrote ${OUT_JSON} and ${OUT_MD}`);
   if (place.retainsBytes) console.log(`Originals and text retained on the archive at ${place.root} (never committed).`);
 }

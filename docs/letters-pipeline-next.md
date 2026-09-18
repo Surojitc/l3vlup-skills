@@ -40,7 +40,8 @@ Built: `.github/workflows/letters-parse.yml`. What it says, and why:
 | Ceilings | nine documents, nine requests, 15 MiB each, enforced in the script | The workflow cannot raise them by editing a `with:` value |
 | AI | none. No `ANTHROPIC_API_KEY`, no model step | This stage is deterministic; extraction is a later approval |
 | Artifacts | the three metadata files, named one by one, never a directory or a wildcard | An artifact outlives the runner and is downloadable, so a glob is how a document escapes |
-| No-change | no pull request is opened when the output is unchanged | An unchanged rerun rewrites the same bytes, so an empty diff is the normal result |
+| No-change | the write job starts only when `data/letters.parsed.json` or `data/letters.parsed.md` moved | An unchanged rerun rewrites the same bytes, so an empty diff is the normal result |
+| Request logging | routine attempts go to a run log, the job summary and the one-day artifact; the tracked ledger takes only `new_document`, `source_change`, `error` or `milestone_verification` | Nine identical 200s on every run tell nobody anything and make every run look like a change. A durable write always coincides with a publication change, so the ledger never opens a pull request on its own |
 | Logs | metadata only: sizes, counts, hashes, statuses | A log is public and permanent |
 | Cleanup | the script's own `finally` and signal handlers, then an `if: always()` step that looks for a surviving `letters-run-*` workspace and for any document or text file git did not expect | A shell step cannot clean up a `mkdtemp` directory it was never told about, but it can check the two places a leftover could be and fail the run if it finds one. It asks git rather than mtimes, so there is no race against the checkout's own timestamps |
 
