@@ -24,7 +24,7 @@ const PROPOSALS = JSON.parse(readFileSync(join(ROOT, 'data', 'fixtures', 'thesis
 
 const model = fakeModel({ responses: PROPOSALS });
 const out = await runDocument({
-  model, modelId: 'claude-haiku-4-5-20251001',
+  model, modelId: 'claude-haiku-4-5',
   document: F.document, manager: F.manager, sourceText: SOURCE,
   taxonomy: TAXONOMY, aliases: F.aliases,
   ledger: emptyCostLedger(), decisionLog: emptyDecisionLog(),

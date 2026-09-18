@@ -172,7 +172,7 @@ Defined, not executed. No key, no client, no dependency.
 | Maximum input tokens per document | 120,000 |
 | Maximum output tokens per document | 8,000 |
 | Maximum model calls | 18 |
-| Model allowlist | `claude-haiku-4-5-20251001` (extraction), `claude-sonnet-5` (escalation on a failed verification) |
+| Model allowlist | `claude-haiku-4-5` (extraction), `claude-sonnet-5` (escalation on a failed verification) |
 | Prompt version | `thesis-extract-v1` |
 | Hard stop | **$15.00 cumulative** |
 

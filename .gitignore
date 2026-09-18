@@ -157,3 +157,8 @@ __pycache__/
 letters-archive/
 .letters-archive/
 letters-review-report.md
+
+# The pilot writes here: claims awaiting review, what was dropped, what the
+# model said that it was not allowed to say, and the cost. None of it is
+# published, and a draft review artefact does not belong in git.
+.pilot/
