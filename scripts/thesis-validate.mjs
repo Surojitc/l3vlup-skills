@@ -18,7 +18,7 @@ import { reassemblyProblems, verifyEvidence } from '../lib/thesis-evidence.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const arg = (n, f) => { const i = process.argv.indexOf(n); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : f; };
 
-export function validateBatch({ claims, evidence, sourceText, taxonomy, sourceLength = null }) {
+export function validateBatch({ claims, evidence, sourceText, taxonomy }) {
   const byId = new Map(evidence.map((e) => [e.evidenceId, e]));
   const results = [];
   for (const claim of claims) {
@@ -29,7 +29,7 @@ export function validateBatch({ claims, evidence, sourceText, taxonomy, sourceLe
     results.push({ claimId: claim.claimId, evidenceState: verdict.state, problems, mayEnterReview: problems.length === 0 });
   }
   const verified = results.filter((r) => r.mayEnterReview).map((r) => byId.get(claims.find((c) => c.claimId === r.claimId)?.evidenceRef)).filter(Boolean);
-  const reassembly = reassemblyProblems(verified, { sourceLength });
+  const reassembly = reassemblyProblems(verified, { sourceText });
   return { results: results.sort((a, b) => a.claimId.localeCompare(b.claimId)), reassembly };
 }
 
@@ -53,7 +53,7 @@ function main() {
     evidence = JSON.parse(readFileSync(arg('--evidence'), 'utf8'));
     sourceText = readFileSync(arg('--source'), 'utf8');
   }
-  const { results, reassembly } = validateBatch({ claims, evidence, sourceText, taxonomy, sourceLength: sourceText.length });
+  const { results, reassembly } = validateBatch({ claims, evidence, sourceText, taxonomy });
   for (const r of results) {
     console.log(`${r.mayEnterReview ? 'ok   ' : 'DROP '} ${r.claimId}  evidence ${r.evidenceState}`);
     for (const p of r.problems) console.log(`        ${p}`);

@@ -516,7 +516,7 @@
     {
       "code": "horizon.one_to_three_years",
       "label": "One to three years",
-      "definition": "",
+      "definition": "The manager expects the thesis to resolve between one and three years out.",
       "aliases": [
         "medium term",
         "1-3y"
@@ -536,7 +536,7 @@
     {
       "code": "horizon.over_five_years",
       "label": "Over five years",
-      "definition": "",
+      "definition": "The manager expects to hold beyond five years, with no dated resolution.",
       "aliases": [
         "very long term",
         ">5y"
@@ -556,7 +556,7 @@
     {
       "code": "horizon.three_to_five_years",
       "label": "Three to five years",
-      "definition": "",
+      "definition": "The manager expects the thesis to resolve between three and five years out.",
       "aliases": [
         "3-5y"
       ],

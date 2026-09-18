@@ -14,7 +14,7 @@ import {
   CLAIM_KINDS, claimFingerprint, ENTITIES, EXCERPT_MAX_CHARS, EXCERPT_MAX_WORDS,
   FORBIDDEN_FIELDS, KINDS_NEVER_QUOTED, STANCES, validateClaim, validateTags,
 } from '../../lib/thesis-schema.mjs';
-import { excerptProblems, publicView, PROPORTIONAL_SHARE, reassemblyProblems, verifyEvidence, wordCount } from '../../lib/thesis-evidence.mjs';
+import { excerptProblems, MAX_DOCUMENT_QUOTED_CHARS, MAX_DOCUMENT_QUOTED_WORDS, publicView, reassemblyProblems, verifyEvidence, wordCount } from '../../lib/thesis-evidence.mjs';
 import {
   normaliseCusip, positionContext, positionDelta, resolveIssuerMention,
   resolveSecurity, validateSecurityRow,
@@ -76,25 +76,49 @@ test('a public excerpt is capped at 25 words and 200 characters, the lower bitin
 
 test('excerpts may not be reassembled into the letter', () => {
   const doc = 'doc-1';
-  // Two spans that touch merge into one span over the cap.
+  const src = 'word '.repeat(5000);
+  const spans = (n, words) => Array.from({ length: n }, (_, i) => ({ documentId: doc, startOffset: i * 500, endOffset: i * 500 + words * 5 - 1 }));
+
+  // Two spans that touch merge into one span over the per-excerpt cap.
   const adjacent = [
-    { documentId: doc, startOffset: 0, endOffset: 150 },
-    { documentId: doc, startOffset: 150, endOffset: 300 },
+    { documentId: doc, startOffset: 0, endOffset: 150, excerpt: 'a' },
+    { documentId: doc, startOffset: 150, endOffset: 300, excerpt: 'b' },
   ];
   assert.match(reassemblyProblems(adjacent)[0], /merge into a 300-character span/);
 
-  // Many separate small spans still cannot cover the document.
-  const scattered = Array.from({ length: 12 }, (_, i) => ({ documentId: doc, startOffset: i * 500, endOffset: i * 500 + 100 }));
-  assert.match(reassemblyProblems(scattered).join(' '), /characters quoted in total/);
+  // The cumulative cap is what stops many individually valid excerpts
+  // reproducing the document. Two 20-word excerpts pass; three do not.
+  assert.deepEqual(reassemblyProblems(spans(2, 20), { sourceText: src }), []);
+  assert.match(reassemblyProblems(spans(3, 20), { sourceText: src })[0],
+    /60 words quoted in total, over the 50-word cumulative cap/);
+  assert.match(reassemblyProblems(spans(10, 20), { sourceText: src })[0], /over the 50-word cumulative cap/);
+});
 
-  assert.deepEqual(reassemblyProblems([{ documentId: doc, startOffset: 0, endOffset: 120 }]), []);
+test('the cumulative cap is absolute, so a short document cannot be reproduced by many valid excerpts', () => {
+  assert.equal(MAX_DOCUMENT_QUOTED_WORDS, 50);
+  assert.equal(MAX_DOCUMENT_QUOTED_CHARS, 400);
 
-  // The proportional limit never falls below one permitted excerpt, or a
-  // short note could not be quoted at all; it still bites on a long one.
-  assert.deepEqual(reassemblyProblems([{ documentId: doc, startOffset: 0, endOffset: 65 }], { sourceLength: 432 }), [],
-    'a single legitimate excerpt was refused on a short document');
-  assert.deepEqual(reassemblyProblems(Array.from({ length: 8 }, (_, i) => ({ documentId: doc, startOffset: i * 5000, endOffset: i * 5000 + 120 })), { sourceLength: 100_000 }), []);
-  assert.match(reassemblyProblems(Array.from({ length: 20 }, (_, i) => ({ documentId: doc, startOffset: i * 5000, endOffset: i * 5000 + 150 })), { sourceLength: 100_000 })[0], /over the 1000-character limit/);
+  // The case the earlier proportional rule got wrong in both directions.
+  // A short note: one legitimate excerpt is allowed, five are not, and the
+  // answer no longer depends on how long the document happens to be.
+  const one = [{ documentId: 'short', startOffset: 0, endOffset: 65, excerpt: SOURCE.slice(107, 172) }];
+  assert.deepEqual(reassemblyProblems(one, { sourceText: SOURCE }), [], 'a single excerpt was refused on a short note');
+
+  const five = Array.from({ length: 5 }, (_, i) => ({ documentId: 'short', startOffset: i * 80, endOffset: i * 80 + 60, excerpt: SOURCE.slice(i * 80, i * 80 + 60) }));
+  assert.ok(reassemblyProblems(five, { sourceText: SOURCE }).length, 'five excerpts reproduced a 432-character note');
+
+  // And a very long document gets no more latitude than a short one.
+  const long = 'word '.repeat(200_000);
+  const many = Array.from({ length: 4 }, (_, i) => ({ documentId: 'long', startOffset: i * 10_000, endOffset: i * 10_000 + 99 }));
+  assert.match(reassemblyProblems(many, { sourceText: long })[0], /over the 50-word cumulative cap/,
+    'a long document was allowed more quotation than a short one');
+
+  // Without the source text the word count falls back to the excerpts, and
+  // an overlap is counted twice, which errs toward refusing.
+  assert.ok(reassemblyProblems([
+    { documentId: 'd', startOffset: 0, endOffset: 300, excerpt: 'a '.repeat(30) },
+    { documentId: 'd', startOffset: 900, endOffset: 1200, excerpt: 'b '.repeat(30) },
+  ]).some((p) => /cumulative cap/.test(p)));
 });
 
 test('no public view carries the source text, and a full document can never be one', () => {
@@ -140,6 +164,10 @@ test('the taxonomy is closed, complete and between 40 and 60 tags', () => {
       assert.ok(t[f] !== undefined, `${t.code} has no ${f}`);
     }
     assert.ok(t.positiveExample && t.negativeExample, `${t.code} needs both examples`);
+    // A definition has to say something. An empty or one-word definition is
+    // how a tag quietly becomes whatever the model wants it to mean.
+    assert.ok(t.definition.length >= 15, `${t.code} has a definition too thin to classify against: "${t.definition}"`);
+    assert.ok(t.positiveExample.length >= 10 && t.negativeExample.length >= 10, `${t.code} has a token example`);
     assert.ok(!codes.has(t.code), `${t.code} is defined twice`);
     codes.add(t.code);
     assert.ok(Object.prototype.hasOwnProperty.call(t, 'deprecatedBy'));

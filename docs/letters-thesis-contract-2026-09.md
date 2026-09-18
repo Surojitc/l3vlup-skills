@@ -88,10 +88,19 @@ fewer than 200 characters, and a long compound reaches 200 characters in far
 fewer than 25 words.
 
 Because many short excerpts reassemble into a long one, `reassemblyProblems`
-also refuses spans from one document that touch or overlap (they are measured
-merged), more than 1,000 characters from any one document, and more than 2%
-of a document — with the proportional limit never falling below a single
-permitted excerpt, so a short note can still be quoted once.
+applies a **cumulative cap per source document: 50 words and 400 characters**,
+across every published claim from that document, whichever bites first. Spans
+that touch or overlap are measured merged, so two excerpts either side of a
+comma cannot be stitched into one long one.
+
+The cumulative cap is absolute rather than proportional, and that is the
+point. A share-of-document rule is wrong at both ends: two per cent of a
+short note forbids quoting it at all, while two per cent of a 15 MB
+shareholder report is 300,000 characters, which is not a limit. The reason to
+cap is the manager's copyright in their own words, and that does not scale
+with page count. Fifty words is two permitted excerpts; a document needing
+more than two short quotations is being reproduced rather than cited, and the
+paraphrase is doing no work.
 
 Public output is the paraphrase, the sec.gov link, the page or section
 locator, and a short attributed excerpt only where one is needed.
