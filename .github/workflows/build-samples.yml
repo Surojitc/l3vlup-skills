@@ -84,12 +84,19 @@ jobs:
           node scripts/__tests__/eightfold-janestreet.test.mjs
           node scripts/__tests__/role-retention.test.mjs
           node scripts/__tests__/ats-discover.test.mjs
+          node scripts/__tests__/slug-registry.test.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
         # No continue-on-error: the script has its own collapse guard and exits
         # non-zero rather than publishing a shrunken list over good data. Letting
         # that failure be visible is the whole point — a silent 'success' that
         # collated nothing is worse than a red run.
+        #
+        # This writes three files, not one: the feed, the slug registry that
+        # pins each record's URL to its source job id, and the archive of URLs
+        # whose roles have left the board. All three are staged and pushed by
+        # the existing commit step below, which is what makes them one
+        # transaction. There is deliberately no second schedule for any of it.
         run: node scripts/sync-ats.mjs
 
       - name: Sync the economic backdrop

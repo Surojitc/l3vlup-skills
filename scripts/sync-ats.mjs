@@ -14,7 +14,7 @@
  * Run locally: npm run sync:ats
  */
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
 import {
   extractDeadline,
   applyManualDeadlines,
@@ -25,6 +25,8 @@ import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } f
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
+import { normaliseRoleText } from '../lib/text-normalise.mjs';
+import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
 import {
   ledgerDeadline,
   loadLedger,
@@ -47,6 +49,8 @@ const UA = 'Mozilla/5.0 (compatible; L3vlupTracker/1.0; +https://l3vlup.com)';
 const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 const LEDGER = join(ROOT, 'data/deadlines.learned.json');
+const SLUGS = join(ROOT, 'data/tracker-slugs.json');
+const ARCHIVE = join(ROOT, 'data/tracker-archive.json');
 const TIMEOUT_MS = 12000;
 
 /**
@@ -754,6 +758,78 @@ async function fetchJaneStreet() {
 
 const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet };
 
+/**
+ * Write a file the way a consumer may read it at any moment.
+ *
+ * The site fetches these over HTTP the instant the push lands, and the IndexNow
+ * detector deliberately reads them uncached. A half-written JSON file is a
+ * parse error on a public page, so the bytes land under a temporary name and
+ * are moved into place, which is atomic within a filesystem. The commit that
+ * follows is the real transaction: the feed, the registry and the archive are
+ * staged and pushed together, so a run that dies between them publishes none of
+ * them rather than a feed whose slugs have no registry behind them.
+ */
+async function writeAtomic(path, contents) {
+  const temp = `${path}.tmp`;
+  await writeFile(temp, contents);
+  await rename(temp, path);
+}
+
+/** Days a departed role's page is kept before the registry forgets the URL. */
+const ARCHIVE_DAYS = 365;
+
+/**
+ * The record of every tracker URL this collector has published, departed roles
+ * included.
+ *
+ * It used to be rebuilt in the website's repository, by a second job reading
+ * this same feed, and that job is `workflow_dispatch` only: the archive sat
+ * seventeen days stale while the board moved daily underneath it. Two
+ * independent things fetching one feed and each keeping half the state is how
+ * they disagree. This is the only place that sees a role leave, so this is
+ * where the leaving is recorded.
+ *
+ * Entries carry the durable id and the canonical slug, so a consumer can join
+ * them to the registry without re-deriving anything.
+ */
+function updateArchive(previous, records, slugs, day) {
+  const roles = { ...previous };
+  const KEEP = ['id', 'firm', 'role', 'vertical', 'programmeType', 'tier', 'division', 'location', 'region', 'level', 'applicationUrl', 'recommendedPrepSlug'];
+
+  for (const record of records) {
+    const slug = slugs.get(String(record.id));
+    if (!slug) continue;
+    const entry = {};
+    for (const key of KEEP) {
+      if (record[key] !== undefined && record[key] !== null && record[key] !== '') entry[key] = record[key];
+    }
+    const prev = roles[slug];
+    roles[slug] = {
+      ...entry,
+      slug,
+      firstSeen: prev?.firstSeen && prev.firstSeen < day ? prev.firstSeen : day,
+      lastSeen: day,
+    };
+  }
+
+  // A URL nobody has seen in a year is not a listing anyone is still
+  // following. Dropping it keeps the file, and the pages built from it,
+  // proportional to what is actually tracked.
+  const cutoff = new Date(Date.parse(`${day}T00:00:00Z`) - ARCHIVE_DAYS * 86400000)
+    .toISOString()
+    .slice(0, 10);
+  let pruned = 0;
+  for (const [slug, entry] of Object.entries(roles)) {
+    if ((entry.lastSeen ?? '') < cutoff) {
+      delete roles[slug];
+      pruned += 1;
+    }
+  }
+
+  const ordered = Object.fromEntries(Object.entries(roles).sort(([a], [b]) => a.localeCompare(b)));
+  return { roles: ordered, pruned };
+}
+
 async function main() {
   const registry = JSON.parse(await readFile(REGISTRY, 'utf8'));
   // A parked firm resolved to a real board that provably holds no early-career
@@ -1158,7 +1234,7 @@ async function main() {
 
   // Forget expired dates and roles long gone, then persist.
   pruneLedger(ledger, new Set(all.map((o) => o.id)), today);
-  await writeFile(LEDGER, JSON.stringify(serialiseLedger(ledger, today), null, 2) + '\n');
+  await writeAtomic(LEDGER, JSON.stringify(serialiseLedger(ledger, today), null, 2) + '\n');
   console.log(
     `\nledger: ${Object.keys(ledger.entries).length} remembered deadlines, ` +
       `${Object.keys(ledger.misses).length} roles known to carry none -> ${LEDGER}`
@@ -1182,10 +1258,77 @@ async function main() {
   history = history.filter((h) => h.date !== day);
   history.push(snapshot);
   history = history.slice(-120);
-  await writeFile(HISTORY, JSON.stringify({ snapshots: history }, null, 2) + '\n');
+  await writeAtomic(HISTORY, JSON.stringify({ snapshots: history }, null, 2) + '\n');
 
-  await writeFile(OUT, JSON.stringify({ generatedAt: stamp, count: all.length, opportunities: all }, null, 2) + '\n');
+  // ---------------------------------------------------------------------
+  // Canonical URLs.
+  //
+  // Last, because everything above can still abort the run, and the registry
+  // must not record a slug for a board that turned out not to have collated.
+  // The titles are normalised first: a zero-width space at the end of a Wells
+  // Fargo title is what made two distinct roles look like one collision and
+  // cost the second its URL. See lib/text-normalise.mjs.
+  // ---------------------------------------------------------------------
+  const normalised = all.map((o) => normaliseRoleText(o));
+  for (let i = 0; i < all.length; i += 1) Object.assign(all[i], normalised[i]);
+
+  let slugRoles = {};
+  try {
+    slugRoles = JSON.parse(await readFile(SLUGS, 'utf8')).roles ?? {};
+  } catch {
+    /* first run — the registry is created below */
+  }
+  const knownBefore = Object.keys(slugRoles).length;
+  const { assigned, added } = updateRegistry(slugRoles, all, runDay);
+
+  // The URL travels in the feed. A role collected this morning therefore has a
+  // stable address this morning, with no commit to the website and no deploy.
+  let unslugged = 0;
+  for (const o of all) {
+    const slug = assigned.get(String(o.id));
+    if (slug) o.slug = slug;
+    else unslugged += 1;
+  }
+  if (unslugged) {
+    console.log(`::warning::${unslugged} role(s) produced no slug (blank firm or role after normalisation)`);
+  }
+
+  // Departed roles. Their URLs stay published, and the record of them belongs
+  // here rather than in a second job reading this same feed.
+  let archiveRoles = {};
+  try {
+    archiveRoles = JSON.parse(await readFile(ARCHIVE, 'utf8')).roles ?? {};
+  } catch {
+    /* first run */
+  }
+  const archivedBefore = Object.keys(archiveRoles).length;
+  const { roles: archived, pruned: archivePruned } = updateArchive(archiveRoles, all, assigned, runDay);
+
+  await writeAtomic(
+    SLUGS,
+    JSON.stringify(serialiseRegistry(slugRoles, stamp), null, 2) + '\n'
+  );
+  await writeAtomic(
+    ARCHIVE,
+    JSON.stringify(
+      { generatedAt: stamp, count: Object.keys(archived).length, roles: archived },
+      null,
+      2
+    ) + '\n'
+  );
+
+  await writeAtomic(
+    OUT,
+    JSON.stringify({ generatedAt: stamp, count: all.length, opportunities: all }, null, 2) + '\n'
+  );
   console.log(`\n${all.length} early-career roles from ${ok}/${firms.length} boards (${failed} failed) → ${OUT}`);
+  console.log(
+    `slug registry: ${Object.keys(slugRoles).length} records (${knownBefore} known, ${added} newly assigned) → ${SLUGS}`
+  );
+  console.log(
+    `archive: ${Object.keys(archived).length} published URLs ` +
+      `(${archivedBefore} before, ${archivePruned} pruned past ${ARCHIVE_DAYS} days) → ${ARCHIVE}`
+  );
   if (emptyFirms.length) {
     // Not an error: plenty of firms genuinely have nothing open off-season. It
     // is a list to read, because a firm that is empty every single run is
