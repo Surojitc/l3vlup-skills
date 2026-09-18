@@ -1,0 +1,288 @@
+name: Thesis pilot — extract claims from approved documents
+
+# Manual only, and the only workflow in this repository that spends money.
+#
+# The shape is the same one the parsing workflow settled into, because the
+# reasoning is the same: the job that reads documents and calls a model holds
+# no write token, and the job that can write never reads a document or calls a
+# model. What is new is the key, so the rules around it are tighter.
+#
+# The key is an encrypted repository secret, passed as an environment variable
+# to exactly one step. It is never echoed, never written to a file, never put
+# in an artefact, and never reaches the job that can open a pull request.
+#
+# Inputs are fixed dropdowns. Not because a free-text field would be
+# inconvenient, but because a free-text input interpolated by the runner into
+# the text of a shell script is the classic Actions injection, and the way to
+# be sure it cannot happen is to have no free text and no interpolation. Every
+# input reaches the script as an environment variable and is validated again
+# in JavaScript against the approved selection.
+#
+# What leaves the runner is one artefact: the sanitised feed, the review
+# markdown and the cost. No source document, no extracted text, no prompt, no
+# model response. lib/thesis-publish.mjs decides that by allowlist and the
+# pull-request job checks it again before committing anything.
+
+on:
+  workflow_dispatch:
+    inputs:
+      document_set:
+        description: 'Which approved documents to read'
+        type: choice
+        required: true
+        default: 'pilot-two'
+        options:
+          - pilot-two
+          - starboard-value-2026-03-11
+          - southeastern-2026-09-04
+      model:
+        description: 'Model (extraction only; escalation needs separate approval)'
+        type: choice
+        required: true
+        default: 'claude-haiku-4-5-20251001'
+        options:
+          - claude-haiku-4-5-20251001
+      budget_usd:
+        description: 'Ceiling for this run, in dollars'
+        type: choice
+        required: true
+        default: '3'
+        options:
+          - '1'
+          - '3'
+      dry_run:
+        description: 'Plan only: no key read, no document fetched, no model called'
+        type: boolean
+        required: false
+        default: true
+      open_pull_request:
+        description: 'Open a draft data pull request if any claim survives'
+        type: boolean
+        required: false
+        default: false
+
+concurrency:
+  group: thesis-pilot
+  cancel-in-progress: false
+
+# Read-only at the top. The one job that needs more asks for it itself, and
+# that job never sees the key.
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    name: Extract (read-only, holds the key)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # A fork cannot reach workflow_dispatch, but saying so costs nothing and
+    # survives somebody later adding a trigger that can.
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'Surojitc/l3vlup-skills'
+    permissions:
+      contents: read
+    outputs:
+      has_claims: ${{ steps.summarise.outputs.has_claims }}
+    steps:
+      - name: Refuse a contradictory request
+        if: ${{ inputs.dry_run && inputs.open_pull_request }}
+        run: |
+          echo "::error::dry_run and open_pull_request cannot both be true: a dry run produces nothing to open a pull request about."
+          exit 1
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci --omit=optional
+
+      - name: Tests
+        run: |
+          npm run test:thesis
+          npm run test:extraction
+          npm run test:pilot
+          npm run test:publish
+
+      # Every ceiling that matters lives in the code, not in this file, so a
+      # workflow edit cannot raise one. This checks they are still there.
+      - name: Confirm the ceilings are still in the code
+        run: |
+          node -e '
+            const c = await import("./lib/thesis-cost.mjs");
+            const fail = (m) => { console.error(`::error::${m}`); process.exit(1); };
+            if (c.LIMITS.hardStopUsd !== 15) fail(`the milestone ceiling is ${c.LIMITS.hardStopUsd}, not 15`);
+            if (c.PILOT_BUDGET_USD !== 3) fail(`the pilot budget default is ${c.PILOT_BUDGET_USD}, not 3`);
+            if (c.LIMITS.maxDocuments > 9) fail(`the document ceiling is ${c.LIMITS.maxDocuments}`);
+            if (c.LIMITS.maxChunksPerDocument > 12) fail(`the chunk ceiling is ${c.LIMITS.maxChunksPerDocument}`);
+            if (c.LIMITS.maxModelCalls > 18) fail(`the call ceiling is ${c.LIMITS.maxModelCalls}`);
+            if (c.emptyCostLedger({ budgetUsd: 1e6 }).budgetUsd !== 15) fail("a run can raise its own budget past the ceiling");
+            console.log("ceilings intact");
+          '
+          grep -q 'MAX_RETRIES = 0' lib/thesis-anthropic.mjs || { echo "::error::retries are no longer disabled"; exit 1; }
+
+      # Inputs reach the script as environment variables and are never spliced
+      # into the text of a command. The script validates them again against
+      # the approved selection before anything is fetched.
+      - name: Dry run
+        if: ${{ inputs.dry_run }}
+        env:
+          DOCUMENT_SET: ${{ inputs.document_set }}
+          MODEL: ${{ inputs.model }}
+          BUDGET_USD: ${{ inputs.budget_usd }}
+        run: node scripts/thesis-pilot.mjs --from-env --dry-run
+
+      - name: Extract
+        if: ${{ !inputs.dry_run }}
+        env:
+          # The only step that sees the key. Not echoed, not written to a
+          # file, not passed to any other step or job.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DOCUMENT_SET: ${{ inputs.document_set }}
+          MODEL: ${{ inputs.model }}
+          BUDGET_USD: ${{ inputs.budget_usd }}
+          SEC_USER_AGENT: "${{ vars.SEC_USER_AGENT || 'L3VLUP Research (contact: suro@l3vlup.com)' }}"
+        run: node scripts/thesis-pilot.mjs --from-env
+
+      - name: Validate the feed before it can leave the runner
+        if: ${{ !inputs.dry_run }}
+        run: node scripts/thesis-feed-check.mjs .pilot/feed.json
+
+      - name: Summarise
+        id: summarise
+        if: ${{ !inputs.dry_run }}
+        run: |
+          count=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(".pilot/feed.json","utf8")).claims.length)')
+          echo "has_claims=$([ "$count" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          node -e '
+            const f = JSON.parse(require("fs").readFileSync(".pilot/feed.json","utf8"));
+            const l = [`## Thesis pilot`, "", `- ${f.claims.length} claim(s) awaiting review`,
+              `- ${f.refused.length} refused by the publication allowlist`,
+              `- ${f.dropped.length} dropped during extraction`,
+              `- ${f.stripped.length} field(s) the model tried to decide and may not`,
+              `- estimated $${(f.cost.estimatedUsd||0).toFixed(4)}, actual $${(f.cost.actualUsd||0).toFixed(4)} of $${f.cost.budgetUsd}`,
+              `- model ${f.model}, prompt ${f.promptVersion}`, "",
+              "Every claim is needs_review or issuer_unresolved. Nothing here is accepted or published."];
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, l.join("\n") + "\n");
+          '
+
+      # Runs whatever happened: a clean finish, a refused fetch, a model that
+      # timed out, a cancellation. The script deletes its own workspace; this
+      # is the independent check, and it also removes anything the artefact
+      # must not carry before the upload step can see it.
+      - name: Delete every document and extracted text
+        if: always()
+        run: |
+          status=0
+          leftover=$(find "${RUNNER_TEMP:-/tmp}" /tmp -maxdepth 1 -name 'letters-run-*' 2>/dev/null | sort -u)
+          if [ -n "$leftover" ]; then
+            echo "::error::a run workspace survived:"; echo "$leftover"
+            find $leftover -type f 2>/dev/null | head -50
+            rm -rf $leftover
+            status=1
+          else
+            echo "ok: no letters-run-* workspace remains"
+          fi
+          stray=$(git status --porcelain --untracked-files=all 2>/dev/null | awk '{print $NF}' | grep -Ei '[.](pdf|html?|txt|xml)$' || true)
+          if [ -n "$stray" ]; then
+            echo "::error::the run left document or text files in the checkout:"; echo "$stray"
+            status=1
+          else
+            echo "ok: no document or extracted-text file in the checkout"
+          fi
+          exit $status
+
+      - name: Upload the sanitised feed
+        if: ${{ !inputs.dry_run }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: thesis-pilot-feed
+          path: |
+            .pilot/feed.json
+            .pilot/review.md
+            .pilot/cost.json
+          if-no-files-found: error
+          retention-days: 1
+
+  open-pull-request:
+    name: Validate and open a draft data pull request
+    needs: extract
+    if: ${{ !inputs.dry_run && inputs.open_pull_request && needs.extract.outputs.has_claims == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # The least that can open a pull request. This job never sees the key and
+    # never fetches a document.
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+
+      - name: Install
+        run: npm ci --omit=optional
+
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: thesis-pilot-feed
+          path: incoming
+
+      # The artefact is checked again here, by a job that did not watch it
+      # being made, before a branch exists.
+      - name: Validate what arrived
+        run: |
+          ls -1 incoming | sort > /tmp/arrived
+          printf '%s\n' cost.json feed.json review.md > /tmp/expected
+          if ! diff -q /tmp/arrived /tmp/expected >/dev/null; then
+            echo "::error::the artefact carried something other than the three expected files:"
+            cat /tmp/arrived
+            exit 1
+          fi
+          node scripts/thesis-feed-check.mjs incoming/feed.json
+
+      - name: Open the draft data pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p data/thesis
+          cp incoming/feed.json data/thesis/claims.pending.json
+          rm -rf incoming
+          if git diff --quiet -- data/thesis/; then
+            echo "the feed is identical to the one already committed; nothing to open"
+            exit 0
+          fi
+          branch="thesis/claims-$(date -u +%Y%m%d)-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            echo "::error::$branch already exists on the remote"; exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$branch"
+          git add data/thesis/claims.pending.json
+          if ! git diff --cached --quiet -- ':(glob).github/**' ':(glob)*.yml' ':(glob)*.yaml'; then
+            echo "::error::the staged change touches a workflow file; refusing"; exit 1
+          fi
+          git commit -m 'Thesis pilot: claims awaiting review'
+          git push origin "$branch"
+          printf '%s\n' \
+            'Claims proposed by the thesis pilot, awaiting review.' \
+            '' \
+            'Every claim is `needs_review` or `issuer_unresolved`. Nothing here is' \
+            'accepted or published, and no workflow can make it so — only a person' \
+            'editing this file can move a claim to `accepted` or `edited`.' \
+            '' \
+            'The feed carries no source text, no prompt and no model response. Read' \
+            'the paraphrase, follow the sec.gov link, and check the excerpt against' \
+            'the filing before accepting anything.' \
+            '' \
+            '---' \
+            '_Generated by [Claude Code](https://claude.ai/code)_' > /tmp/body.md
+          gh pr create --draft --base main --head "$branch" \
+            --title 'Thesis pilot: claims awaiting review' --body-file /tmp/body.md
