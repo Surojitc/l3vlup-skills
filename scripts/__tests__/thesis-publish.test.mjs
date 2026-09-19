@@ -41,30 +41,29 @@ const claim = {
 };
 const reference = { sourceUrl: 'https://www.sec.gov/Archives/x.pdf', locator: 'page 3', excerpt: 'Margins should move from 31% to 38%', attribution: 'Starboard, 2026-03-11' };
 
-// ── The secret ─────────────────────────────────────────────────────────────
+// ── The credential ─────────────────────────────────────────────────────────
 
-test('the key comes only from an encrypted secret, and only one step sees it', () => {
+test('no secret exists: the workflow reads none and stores none', () => {
   const uses = [...WF.matchAll(/\$\{\{\s*secrets\.(\w+)\s*\}\}/g)].map((m) => m[1]);
-  assert.deepEqual(uses, ['ANTHROPIC_API_KEY'], `the workflow reads ${uses.join(', ')}`);
-  assert.equal((WF.match(/ANTHROPIC_API_KEY: \$\{\{ secrets\.ANTHROPIC_API_KEY \}\}/g) || []).length, 1,
-    'the key is passed to more than one step');
+  assert.deepEqual(uses, [], `the workflow reads a stored secret: ${uses.join(', ')}`);
+  assert.ok(!/ANTHROPIC_API_KEY:\s*\$\{\{/.test(WF), 'a static key is still passed to a step');
 
-  // It is on the extract step and nowhere else.
-  const extract = job('extract');
-  const open = job('open-pull-request');
-  assert.ok(extract.includes('secrets.ANTHROPIC_API_KEY'));
-  assert.ok(!open.includes('secrets.'), 'the write-enabled job reads a secret');
-  assert.ok(!open.includes('ANTHROPIC'), 'the write-enabled job mentions the key');
+  // Federation identifiers are not secrets; they must come from `vars`, so a
+  // reviewer can read the trust boundary without Console access.
+  for (const name of ['ANTHROPIC_FEDERATION_RULE_ID', 'ANTHROPIC_ORGANIZATION_ID', 'ANTHROPIC_SERVICE_ACCOUNT_ID']) {
+    assert.ok(WF.includes(`${name}: \${{ vars.${name} }}`), `${name} does not come from a repository variable`);
+  }
 
-  // Never echoed, never written, never sent anywhere.
-  assert.ok(!/echo .*ANTHROPIC_API_KEY|cat .*ANTHROPIC|curl .*ANTHROPIC/.test(WF), 'the key could be printed or sent');
-  assert.ok(!/ANTHROPIC_API_KEY.*>|>.*ANTHROPIC_API_KEY/.test(WF), 'the key could be written to a file');
+  // The credential is never echoed, written to the checkout, or sent anywhere.
+  assert.ok(!/echo .*IDENTITY_TOKEN_FILE"?\s*$|cat .*identity-token/.test(WF), 'the identity token could be printed');
+  assert.ok(!/ANTHROPIC_API_KEY.*>|>.*ANTHROPIC_API_KEY/.test(WF), 'a key could be written to a file');
 });
 
-test('the secret is absent from a dry run, and the client fails helpfully without one', () => {
+test('no credential reaches a dry run, and the client fails helpfully without one', () => {
   // The dry-run step carries no key at all.
   const dry = WF.slice(WF.indexOf('- name: Dry run'), WF.indexOf('- name: Extract'));
-  assert.ok(!dry.includes('ANTHROPIC'), 'a dry run is given the key');
+  assert.ok(!dry.includes('ANTHROPIC_FEDERATION'), 'a dry run is given a credential');
+  assert.ok(!dry.includes('IDENTITY_TOKEN'), 'a dry run is given an identity token');
 
   // And with no credential the client says what to do rather than leaking.
   const client = readFileSync(join(REPO, 'lib', 'thesis-anthropic.mjs'), 'utf8');
@@ -189,16 +188,19 @@ test('the ceilings are checked in code before anything is fetched', () => {
 
 // ── Cleanup ────────────────────────────────────────────────────────────────
 
-test('documents and extracted text are deleted whatever happened', () => {
-  const step = WF.slice(WF.indexOf('- name: Delete every document and extracted text'));
+test('documents, extracted text and the identity token are deleted whatever happened', () => {
+  const step = WF.slice(WF.indexOf('- name: Delete every document, extracted text and identity token'));
   assert.match(step, /if: always\(\)/, 'the cleanup is conditional on success');
   assert.match(step, /letters-run-\*/);
   assert.match(step, /RUNNER_TEMP/);
   assert.match(step, /rm -rf \$leftover/, 'a surviving workspace is reported but not removed');
   assert.match(step, /pdf\|html\?\|txt\|xml/);
   assert.match(step, /exit \$status/);
+  // The identity token is a live bearer credential; it goes with the rest.
+  assert.match(step, /rm -f "\$\{RUNNER_TEMP:-\/tmp\}\/anthropic-identity-token"/, 'the identity token is not deleted');
+  assert.match(step, /the identity token survived cleanup/, 'the deletion is not verified');
   // And it runs before the upload, so nothing unexpected can be collected.
-  assert.ok(WF.indexOf('- name: Delete every document and extracted text') < WF.indexOf('- name: Upload the sanitised feed'));
+  assert.ok(WF.indexOf('- name: Delete every document, extracted text and identity token') < WF.indexOf('- name: Upload the sanitised feed'));
   const workspace = readFileSync(join(REPO, 'lib', 'letters-workspace.mjs'), 'utf8');
   assert.match(workspace, /prefix = 'letters-run-'/, 'the prefix no longer matches the cleanup step');
 });

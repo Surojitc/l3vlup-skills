@@ -7,9 +7,16 @@ name: Thesis pilot — extract claims from approved documents
 # no write token, and the job that can write never reads a document or calls a
 # model. What is new is the key, so the rules around it are tighter.
 #
-# The key is an encrypted repository secret, passed as an environment variable
-# to exactly one step. It is never echoed, never written to a file, never put
-# in an artefact, and never reaches the job that can open a pull request.
+# There is no API key. The extraction job asks GitHub for a short-lived OIDC
+# identity token and exchanges it, through the SDK, for an Anthropic access
+# token that lives 30 minutes and is scoped to inference in one workspace.
+# Nothing long-lived is stored in this repository, so there is no secret to
+# leak, rotate or revoke.
+#
+# Only the extraction job carries `id-token: write`. GitHub exposes the token
+# request endpoint solely to jobs that hold that permission, so the job that
+# can open a pull request cannot ask for an identity token at all: it is not a
+# rule it is asked to follow, it is a capability it does not have.
 #
 # Inputs are fixed dropdowns. Not because a free-text field would be
 # inconvenient, but because a free-text input interpolated by the runner into
@@ -65,8 +72,8 @@ concurrency:
   group: thesis-pilot
   cancel-in-progress: false
 
-# Read-only at the top. The one job that needs more asks for it itself, and
-# that job never sees the key.
+# Read-only at the top, and no `id-token` here: a permission granted at the
+# workflow level would reach every job, including the one that can write.
 permissions:
   contents: read
 
@@ -80,6 +87,8 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.repository == 'Surojitc/l3vlup-skills'
     permissions:
       contents: read
+      # The only job that may ask GitHub who it is.
+      id-token: write
     outputs:
       has_claims: ${{ steps.summarise.outputs.has_claims }}
     steps:
@@ -106,6 +115,7 @@ jobs:
           npm run test:extraction
           npm run test:pilot
           npm run test:publish
+          npm run test:federation
 
       # Every ceiling that matters lives in the code, not in this file, so a
       # workflow edit cannot raise one. This checks they are still there.
@@ -123,6 +133,59 @@ jobs:
             console.log("ceilings intact");
           '
           grep -q 'MAX_RETRIES = 0' lib/thesis-anthropic.mjs || { echo "::error::retries are no longer disabled"; exit 1; }
+          # Federation is only understood from @anthropic-ai/sdk 0.93.0. An
+          # older pin authenticates as nothing at all and the run fails with an
+          # error that does not mention federation, so say so here instead.
+          node -e '
+            const v = require("./node_modules/@anthropic-ai/sdk/package.json").version;
+            const [a, b] = v.split(".").map(Number);
+            if (a === 0 && b < 93) { console.error(`::error::@anthropic-ai/sdk ${v} predates workload identity federation; 0.93.0 or later is required`); process.exit(1); }
+            console.log(`@anthropic-ai/sdk ${v} supports federation`);
+          '
+
+      # A set ANTHROPIC_API_KEY or ANTHROPIC_AUTH_TOKEN outranks federation in
+      # the SDK's credential order, and an empty string still wins its slot. If
+      # either is present the run would quietly authenticate as something other
+      # than this workflow, so stop instead.
+      - name: Refuse to run with a static credential in the environment
+        if: ${{ !inputs.dry_run }}
+        run: |
+          for name in ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN ANTHROPIC_PROFILE; do
+            if [ -n "${!name+set}" ]; then
+              echo "::error::$name is set in this environment; it would shadow the federated credential. Remove it."
+              exit 1
+            fi
+          done
+          missing=
+          for name in ANTHROPIC_FEDERATION_RULE_ID ANTHROPIC_ORGANIZATION_ID ANTHROPIC_SERVICE_ACCOUNT_ID; do
+            [ -n "${!name:-}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::federation is not configured; set these repository variables:$missing"
+            exit 1
+          fi
+          echo "ok: no static credential present, federation variables set"
+
+      # GitHub mints this token only for a job holding id-token: write, and it
+      # expires about five minutes from now. It is written to the runner's
+      # private temp directory, never to the checkout, and deleted by the
+      # always() cleanup below.
+      - name: Ask GitHub who this workflow run is
+        if: ${{ !inputs.dry_run }}
+        env:
+          IDENTITY_TOKEN_FILE: ${{ runner.temp }}/anthropic-identity-token
+        run: |
+          set -euo pipefail
+          umask 077
+          curl -sS --fail-with-body \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
+            | jq -er .value > "$IDENTITY_TOKEN_FILE"
+          # Report the run's identity, never the token. These are the claims
+          # the federation rule matches on, so a denied exchange can be read
+          # against the rule without decoding anything secret.
+          echo "repository=${GITHUB_REPOSITORY} ref=${GITHUB_REF} event=${GITHUB_EVENT_NAME} workflow_ref=${GITHUB_WORKFLOW_REF}"
+          test -s "$IDENTITY_TOKEN_FILE"
 
       # Inputs reach the script as environment variables and are never spliced
       # into the text of a command. The script validates them again against
@@ -138,9 +201,16 @@ jobs:
       - name: Extract
         if: ${{ !inputs.dry_run }}
         env:
-          # The only step that sees the key. Not echoed, not written to a
-          # file, not passed to any other step or job.
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # No key. The SDK reads these four, exchanges the identity token at
+          # POST /v1/oauth/token, and holds the resulting access token in
+          # memory for the life of the process. None of these four is a
+          # secret: they are resource identifiers, and the rule behind them
+          # only mints a token for this workflow, on this branch, in this
+          # repository, started by hand.
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          ANTHROPIC_IDENTITY_TOKEN_FILE: ${{ runner.temp }}/anthropic-identity-token
           DOCUMENT_SET: ${{ inputs.document_set }}
           MODEL: ${{ inputs.model }}
           BUDGET_USD: ${{ inputs.budget_usd }}
@@ -173,10 +243,18 @@ jobs:
       # timed out, a cancellation. The script deletes its own workspace; this
       # is the independent check, and it also removes anything the artefact
       # must not carry before the upload step can see it.
-      - name: Delete every document and extracted text
+      - name: Delete every document, extracted text and identity token
         if: always()
         run: |
           status=0
+          # The identity token is a bearer credential for about five minutes.
+          # It goes first, and its absence is checked rather than assumed.
+          rm -f "${RUNNER_TEMP:-/tmp}/anthropic-identity-token"
+          if [ -e "${RUNNER_TEMP:-/tmp}/anthropic-identity-token" ]; then
+            echo "::error::the identity token survived cleanup"; status=1
+          else
+            echo "ok: no identity token remains"
+          fi
           leftover=$(find "${RUNNER_TEMP:-/tmp}" /tmp -maxdepth 1 -name 'letters-run-*' 2>/dev/null | sort -u)
           if [ -n "$leftover" ]; then
             echo "::error::a run workspace survived:"; echo "$leftover"
@@ -213,8 +291,9 @@ jobs:
     if: ${{ !inputs.dry_run && inputs.open_pull_request && needs.extract.outputs.has_claims == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # The least that can open a pull request. This job never sees the key and
-    # never fetches a document.
+    # The least that can open a pull request. No `id-token`, so GitHub does not
+    # expose the token request endpoint to this job and it cannot obtain an
+    # Anthropic credential even if something in it tried.
     permissions:
       contents: write
       pull-requests: write
