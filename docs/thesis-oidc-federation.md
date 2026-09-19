@@ -56,19 +56,21 @@ us, so it names one repository, one branch, one workflow file and one trigger.
 |---|---|
 | Name | `l3vlup-skills-thesis-pilot` |
 | Issuer | the `fdis_…` from step 2 |
-| Subject | `repo:Surojitc/l3vlup-skills:ref:refs/heads/main` |
+| Subject | `repo:Surojitc@68951812/l3vlup-skills@1344803946:ref:refs/heads/main` |
 | Audience | `https://api.anthropic.com` |
 | Target | the `svac_…` from step 1 |
 | Workspace | the workspace from step 1 |
 | OAuth scope | `workspace:inference` |
 | Token lifetime | `1800` seconds |
 
-And five claim conditions:
+And seven claim conditions:
 
 | Claim | Required value |
 |---|---|
 | `repository` | `Surojitc/l3vlup-skills` |
 | `repository_owner` | `Surojitc` |
+| `repository_id` | `1344803946` |
+| `repository_owner_id` | `68951812` |
 | `ref` | `refs/heads/main` |
 | `event_name` | `workflow_dispatch` |
 | `workflow_ref` | `Surojitc/l3vlup-skills/.github/workflows/thesis-pilot.yml@refs/heads/main` |
@@ -80,11 +82,13 @@ The same rule through the Admin API:
   "name": "l3vlup-skills-thesis-pilot",
   "issuer_id": "fdis_…",
   "match": {
-    "subject_prefix": "repo:Surojitc/l3vlup-skills:ref:refs/heads/main",
+    "subject_prefix": "repo:Surojitc@68951812/l3vlup-skills@1344803946:ref:refs/heads/main",
     "audience": "https://api.anthropic.com",
     "claims": {
       "repository": "Surojitc/l3vlup-skills",
       "repository_owner": "Surojitc",
+      "repository_id": "1344803946",
+      "repository_owner_id": "68951812",
       "ref": "refs/heads/main",
       "event_name": "workflow_dispatch",
       "workflow_ref": "Surojitc/l3vlup-skills/.github/workflows/thesis-pilot.yml@refs/heads/main"
@@ -101,12 +105,28 @@ Note the `svac_…`, `fdrl_…` and `wrkspc_…` ids.
 
 #### Why each line is there
 
+**Read the subject off a real token, not off the documentation.** GitHub
+publishes the default `sub` as `repo:<owner>/<repo>:ref:<ref>`. This issuer
+does not produce that: it decorates both names with their numeric ids, and the
+value above is what Anthropic recorded verbatim for run 35448297026. The rule
+was first written from the published default and the exchange was refused with
+`match_subject_prefix`. A `sub` is whatever the issuer puts in it; the
+authentication history shows the decoded token, so check there rather than
+assuming.
+
 **The subject carries no trailing `*`.** Anthropic treats `subject_prefix` as an
 exact match unless it ends in one. A wildcard such as
-`repo:Surojitc/l3vlup-skills:*` would also match `repo:…:pull_request`, and a
-pull-request run's token is issued to whoever opened the pull request,
-including from a fork. Anyone who could open a pull request could then spend
-our inference budget. The exact form matches only a run against `main`.
+`repo:Surojitc@68951812/l3vlup-skills@1344803946:*` would also match
+`repo:…:pull_request`, and a pull-request run's token is issued to whoever
+opened the pull request, including from a fork. Anyone who could open a pull
+request could then spend our inference budget. The exact form matches only a
+run against `main`.
+
+**The two numeric ids survive a rename.** `repository` and `repository_owner`
+are names, and a name can be given up and taken by somebody else. The ids
+cannot. Pinning both means a renamed-and-squatted `Surojitc/l3vlup-skills`
+fails even though every name matches. They are also what the subject is built
+from, so the two halves of the rule cannot drift apart.
 
 **`workflow_ref` is the one restriction the subject cannot express.** The `sub`
 claim names the repository and the ref, never the workflow file. Without this
