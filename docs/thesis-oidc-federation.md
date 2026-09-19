@@ -155,6 +155,29 @@ credential order, and an empty string still wins its place, so the run would
 authenticate as something other than this workflow. The workflow refuses to
 start if it finds any of the three.
 
+## Prove it works before spending anything
+
+Once the four steps above are done, dispatch the workflow with
+**`auth_check_only = true`** and `dry_run = false`. That runs one thing: the
+identity token is fetched, exchanged, and used to read the pilot model from the
+Models API, which is not an inference endpoint and is not billed.
+
+It cannot do more. `scripts/thesis-auth-check.mjs` imports no fetcher and never
+calls `messages.create`, and a test asserts both by reading the file. In the
+workflow the mode is exclusive with extraction: no document is fetched, no
+artefact is produced, and no pull request is opened.
+
+A pass looks like this:
+
+```
+PASSED
+  the identity token was exchanged and the token was accepted
+  claude-haiku-4-5-20251001 (Claude Haiku 4.5), context 200000 tokens
+```
+
+`auth_check_only`, `dry_run` and `open_pull_request` are mutually exclusive;
+setting two of them fails the run in its first step.
+
 ## What happens at run time
 
 1. You dispatch the workflow by hand from `main`.
@@ -172,7 +195,9 @@ start if it finds any of the three.
    does not expose the token request endpoint to a job without that permission,
    so it cannot obtain an Anthropic credential. It never could read the old
    secret either; the difference is that now it is a capability it lacks rather
-   than a rule it is trusted to follow.
+   than a rule it is trusted to follow. It downloads one artefact carrying one
+   file, the feed it is about to commit. The review notes and the cost ledger
+   go out as a separate artefact it has no path to.
 
 ## When the exchange is refused
 

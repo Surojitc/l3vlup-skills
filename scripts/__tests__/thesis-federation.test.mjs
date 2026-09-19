@@ -144,14 +144,53 @@ test('the identity token is fetched into the runner temp, never the checkout', (
   assert.ok(extract.indexOf('Ask GitHub who this workflow run is') < extract.indexOf('- name: Extract'));
 });
 
-test('a static credential in the environment stops the run', () => {
+test('a static credential stops the run, checked in the step that will use it', () => {
   // An API key, even an empty one, outranks federation in the SDK's credential
-  // order, so the run would authenticate as something other than this workflow.
-  const extract = job('extract');
-  for (const name of ['ANTHROPIC_API_KEY', 'ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_PROFILE']) {
-    assert.ok(extract.includes(name), `${name} is not checked for before the run`);
+  // order. A step only receives its own env block, so a check in a step of its
+  // own would inspect a different environment from the one node inherits and
+  // would prove nothing; it would also report the federation variables missing
+  // and fail every real run.
+  for (const stepName of ['- name: Extract', '- name: Authentication check']) {
+    const start = WF.indexOf(stepName);
+    assert.notEqual(start, -1, `${stepName} is missing`);
+    const step = WF.slice(start, WF.indexOf('\n      - name:', start + 1));
+    for (const name of ['ANTHROPIC_API_KEY', 'ANTHROPIC_AUTH_TOKEN', 'ANTHROPIC_PROFILE']) {
+      assert.ok(step.includes(name), `${stepName} does not check ${name}`);
+    }
+    assert.match(step, /would shadow the federated credential/);
+    // The check and the command it guards are in one step, so they share an
+    // environment.
+    assert.ok(step.includes('ANTHROPIC_FEDERATION_RULE_ID: ') && step.includes('node scripts/'),
+      `${stepName} checks an environment it does not then use`);
   }
-  assert.match(extract, /would shadow the federated credential/);
+});
+
+test('the authentication check exchanges a token and spends nothing', () => {
+  const script = readFileSync(join(REPO, 'scripts', 'thesis-auth-check.mjs'), 'utf8');
+  const code = script.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+
+  // It proves the credential works.
+  assert.match(code, /preflightModel/);
+  assert.match(code, /realClient/);
+
+  // And it cannot do anything else. No inference call, no SEC fetch, no
+  // document parsing, no writing to the repository.
+  assert.ok(!/messages\.create|anthropicModel|\.propose\(/.test(code), 'the authentication check can make an inference call');
+  assert.ok(!/fetchDocument|letters-fetch|sec\.gov|https?:\/\//.test(code), 'the authentication check can reach the network itself');
+  assert.ok(!/writeFileSync|mkdirSync|runDocument|parseDocument/.test(code), 'the authentication check writes or parses');
+
+  // In the workflow it is exclusive with extraction, and produces no artefact
+  // and no pull request.
+  assert.match(WF, /auth_check_only:\n\s+description:/);
+  const extract = job('extract');
+  assert.match(extract, /- name: Authentication check\n\s+if: \$\{\{ !inputs\.dry_run && inputs\.auth_check_only \}\}/);
+  for (const step of ['Extract', 'Validate the feed before it can leave the runner', 'Summarise', 'Upload the sanitised feed', 'Upload the review notes for a person']) {
+    const start = WF.indexOf(`- name: ${step}`);
+    const head = WF.slice(start, WF.indexOf('run:', start) === -1 ? start + 400 : WF.indexOf('\n        env:', start) + 1 || start + 400);
+    assert.ok(/!inputs\.auth_check_only/.test(WF.slice(start, start + 300)), `${step} still runs during an authentication check`);
+  }
+  assert.match(job('open-pull-request'), /!inputs\.auth_check_only/);
+  assert.match(WF, /mutually exclusive/);
 });
 
 test('the pinned SDK is new enough to federate', () => {
