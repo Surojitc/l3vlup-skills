@@ -18,7 +18,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   AUDIENCE, BRANCH, evaluateMatch, FEDERATION_RULE, ISSUER_URL, legitimateClaims,
-  REPOSITORY, SDK_FEDERATION_FLOOR, WORKFLOW_PATH, wouldAuthenticate,
+  OWNER, OWNER_ID, REPOSITORY, REPOSITORY_ID, SDK_FEDERATION_FLOOR, subjectFor,
+  WORKFLOW_PATH, wouldAuthenticate,
 } from '../../lib/thesis-federation.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -50,22 +51,33 @@ test('the intended run authenticates', () => {
 // ── Everything else must not ───────────────────────────────────────────────
 
 const refused = [
-  ['another repository owned by someone else', { sub: 'repo:attacker/l3vlup-skills:ref:refs/heads/main', repository: 'attacker/l3vlup-skills', repository_owner: 'attacker' }],
-  ['another repository under the same owner', { sub: `repo:${REPOSITORY.split('/')[0]}/L3vlup:ref:refs/heads/main`, repository: `${REPOSITORY.split('/')[0]}/L3vlup`, workflow_ref: `${REPOSITORY.split('/')[0]}/L3vlup/${WORKFLOW_PATH}@refs/heads/main` }],
-  ['a feature branch', { sub: `repo:${REPOSITORY}:ref:refs/heads/letters-thesis-oidc`, ref: 'refs/heads/letters-thesis-oidc', workflow_ref: `${REPOSITORY}/${WORKFLOW_PATH}@refs/heads/letters-thesis-oidc` }],
-  ['a tag', { sub: `repo:${REPOSITORY}:ref:refs/tags/v1`, ref: 'refs/tags/v1', ref_type: 'tag' }],
-  ['a pull request', { sub: `repo:${REPOSITORY}:pull_request`, event_name: 'pull_request', ref: 'refs/pull/7/merge' }],
-  ['a pull request from a fork', { sub: `repo:${REPOSITORY}:pull_request`, event_name: 'pull_request', actor: 'a-stranger', ref: 'refs/pull/9/merge' }],
+  ['another repository owned by someone else', { sub: subjectFor({ owner: 'attacker', ownerId: '999' }), repository: 'attacker/l3vlup-skills', repository_owner: 'attacker', repository_owner_id: '999' }],
+  ['another repository under the same owner', { sub: subjectFor({ repo: 'L3vlup', repoId: '222' }), repository: `${OWNER}/L3vlup`, repository_id: '222', workflow_ref: `${OWNER}/L3vlup/${WORKFLOW_PATH}@refs/heads/main` }],
+  ['a feature branch', { sub: subjectFor({ trailer: 'ref:refs/heads/letters-thesis-oidc' }), ref: 'refs/heads/letters-thesis-oidc', workflow_ref: `${REPOSITORY}/${WORKFLOW_PATH}@refs/heads/letters-thesis-oidc` }],
+  ['a tag', { sub: subjectFor({ trailer: 'ref:refs/tags/v1' }), ref: 'refs/tags/v1', ref_type: 'tag' }],
+  ['a pull request', { sub: subjectFor({ trailer: 'pull_request' }), event_name: 'pull_request', ref: 'refs/pull/7/merge' }],
+  ['a pull request from a fork', { sub: subjectFor({ trailer: 'pull_request' }), event_name: 'pull_request', actor: 'a-stranger', ref: 'refs/pull/9/merge' }],
   ['a different workflow file in this repository', { workflow_ref: `${REPOSITORY}/.github/workflows/parse-letters.yml@refs/heads/main`, workflow: 'Parse letters' }],
   ['a workflow file in a subdirectory with a similar name', { workflow_ref: `${REPOSITORY}/.github/workflows/nested/thesis-pilot.yml@refs/heads/main` }],
   ['a push to main rather than a manual dispatch', { event_name: 'push' }],
   ['a schedule', { event_name: 'schedule' }],
   ['a repository_dispatch', { event_name: 'repository_dispatch' }],
   ['a workflow_run triggered by something else', { event_name: 'workflow_run' }],
-  ['a deployment environment', { sub: `repo:${REPOSITORY}:environment:production`, event_name: 'deployment' }],
+  ['a deployment environment', { sub: subjectFor({ trailer: 'environment:production' }), event_name: 'deployment' }],
   ['a token minted for a different audience', { aud: 'https://sts.amazonaws.com' }],
   ['a token with no audience at all', { aud: undefined }],
   ['a token with no subject', { sub: undefined }],
+  // The shape this file used to claim GitHub issues. The rule was written
+  // against the documented default rather than the token this issuer actually
+  // produces, and the live exchange was refused with match_subject_prefix.
+  ['the undecorated subject GitHub documents as the default', { sub: `repo:${REPOSITORY}:ref:refs/heads/${BRANCH}` }],
+  // A rename-and-squat: every name matches, both ids are somebody else's.
+  ['the same names under different numeric ids', { repository_id: '999999', repository_owner_id: '888888' }],
+  ['the right repository id under the wrong owner id', { repository_owner_id: '888888' }],
+  ['the right owner id under the wrong repository id', { repository_id: '999999' }],
+  // A numeric claim that arrives as a number rather than a string still has to
+  // compare equal as a string; Anthropic's claims map is string-to-string.
+  ['a numeric repository id sent as a number', { repository_id: Number(REPOSITORY_ID) }],
 ];
 
 for (const [what, patch] of refused) {
@@ -99,7 +111,24 @@ test('the subject is pinned exactly, never by wildcard', () => {
   // A trailing `*` would also match `:pull_request`, including runs from forks.
   assert.ok(!FEDERATION_RULE.match.subject_prefix.endsWith('*'),
     'the subject is a wildcard; a pull request from a fork would match');
-  assert.equal(FEDERATION_RULE.match.subject_prefix, `repo:${REPOSITORY}:ref:refs/heads/${BRANCH}`);
+  // The verbatim value from the authentication event for run 35448297026.
+  assert.equal(FEDERATION_RULE.match.subject_prefix,
+    'repo:Surojitc@68951812/l3vlup-skills@1344803946:ref:refs/heads/main');
+  assert.equal(FEDERATION_RULE.match.subject_prefix, subjectFor());
+});
+
+test('the numeric ids are pinned as claims, so a rename cannot be squatted', () => {
+  assert.equal(FEDERATION_RULE.match.claims.repository_id, REPOSITORY_ID);
+  assert.equal(FEDERATION_RULE.match.claims.repository_owner_id, OWNER_ID);
+  // Strings, because the claims map compares strings. A number would never
+  // equal the claim value and would refuse every run.
+  for (const name of ['repository_id', 'repository_owner_id']) {
+    assert.equal(typeof FEDERATION_RULE.match.claims[name], 'string', `${name} is not a string`);
+    assert.match(FEDERATION_RULE.match.claims[name], /^[0-9]+$/, `${name} is not a plain number`);
+  }
+  // And they are the ids the subject is built from, so the two cannot drift.
+  assert.ok(FEDERATION_RULE.match.subject_prefix.includes(`@${OWNER_ID}/`));
+  assert.ok(FEDERATION_RULE.match.subject_prefix.includes(`@${REPOSITORY_ID}:`));
 });
 
 test('the rule grants the least scope the pipeline can work with', () => {
@@ -209,6 +238,8 @@ test('the documentation states the same rule the tests exercise', () => {
     FEDERATION_RULE.match.subject_prefix,
     FEDERATION_RULE.match.claims.workflow_ref,
     FEDERATION_RULE.match.claims.event_name,
+    FEDERATION_RULE.match.claims.repository_id,
+    FEDERATION_RULE.match.claims.repository_owner_id,
     FEDERATION_RULE.oauth_scope,
     String(FEDERATION_RULE.token_lifetime_seconds),
     ISSUER_URL,
