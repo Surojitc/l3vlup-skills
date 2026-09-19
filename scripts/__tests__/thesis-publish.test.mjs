@@ -14,7 +14,7 @@ import {
   buildFeed, FEED_VERSION, FORBIDDEN_PUBLISHED_FIELDS, HUMAN_ONLY_STATES,
   PUBLISHABLE_STATES, PUBLISHED_CLAIM_FIELDS, sanitiseClaim, serialiseFeed, validateFeed,
 } from '../../lib/thesis-publish.mjs';
-import { DOCUMENT_SETS, parseArgs } from '../thesis-pilot.mjs';
+import { DOCUMENT_SETS, managerNames, parseArgs } from '../thesis-pilot.mjs';
 import { LIMITS, PILOT_BUDGET_USD, PILOT_MODEL } from '../../lib/thesis-cost.mjs';
 import { MAX_DOCUMENT_QUOTED_WORDS } from '../../lib/thesis-evidence.mjs';
 
@@ -316,6 +316,35 @@ test('every action is pinned to a full commit SHA', () => {
   assert.ok(uses.length >= 4);
   for (const u of uses) assert.match(u, /^[\w.-]+\/[\w.-]+@[0-9a-f]{40}$/, `${u} is not pinned`);
   for (const line of WF.split('\n').filter((l) => l.includes('uses:'))) assert.match(line, /# v\d/, `${line.trim()} does not name its version`);
+});
+
+test('the pull request job stages before asking whether anything changed', () => {
+  // The feed is a new, untracked file on the first run, and `git diff` does
+  // not see one of those. Checking before staging made the very first pilot
+  // finish with no pull request at all.
+  const open = job('open-pull-request');
+  const add = open.indexOf('git add data/thesis/claims.pending.json');
+  const check = open.indexOf('git diff --cached --quiet;');
+  assert.ok(add > -1, 'the feed is never staged');
+  assert.ok(check > -1, 'the change check does not read the index');
+  assert.ok(add < check, 'the change is checked before it is staged');
+  assert.ok(!/git diff --quiet -- data\/thesis/.test(open), 'the working-tree check is still there and cannot see a new file');
+});
+
+test('a quotation is attributed to the manager by name, never by slug', () => {
+  const pilot = readFileSync(join(REPO, 'scripts', 'thesis-pilot.mjs'), 'utf8');
+  assert.ok(!/attribution: [^\n]*managerId/.test(pilot), 'attribution is built from the slug');
+  assert.match(pilot, /attribution: [^\n]*managerName/);
+  assert.ok(PUBLISHED_CLAIM_FIELDS.includes('managerName'), 'the feed cannot carry the manager name');
+
+  // The mapping exists for every fund the selection can draw on.
+  const sources = JSON.parse(readFileSync(join(REPO, 'data', 'letters.sources.json'), 'utf8'));
+  const names = managerNames(sources);
+  const selection = JSON.parse(readFileSync(join(REPO, 'data', 'letters.selection.json'), 'utf8')).selection;
+  for (const d of selection) {
+    const name = names.get(d.fund);
+    assert.ok(name && name !== d.fund, `${d.fund} has no legal name to attribute a quotation to`);
+  }
 });
 
 console.log(`${passed} passed`);

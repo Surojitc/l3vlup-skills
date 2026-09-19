@@ -254,21 +254,25 @@ jobs:
           mkdir -p data/thesis
           cp incoming/feed.json data/thesis/claims.pending.json
           rm -rf incoming
-          if git diff --quiet -- data/thesis/; then
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Stage before asking whether anything changed. On the first run the
+          # feed is a new, untracked file, and `git diff` does not see one of
+          # those: the check would report "nothing to open" and the very first
+          # pilot would end without a pull request.
+          git add data/thesis/claims.pending.json
+          if git diff --cached --quiet; then
             echo "the feed is identical to the one already committed; nothing to open"
             exit 0
+          fi
+          if ! git diff --cached --quiet -- ':(glob).github/**' ':(glob)*.yml' ':(glob)*.yaml'; then
+            echo "::error::the staged change touches a workflow file; refusing"; exit 1
           fi
           branch="thesis/claims-$(date -u +%Y%m%d)-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
             echo "::error::$branch already exists on the remote"; exit 1
           fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git checkout -b "$branch"
-          git add data/thesis/claims.pending.json
-          if ! git diff --cached --quiet -- ':(glob).github/**' ':(glob)*.yml' ':(glob)*.yaml'; then
-            echo "::error::the staged change touches a workflow file; refusing"; exit 1
-          fi
           git commit -m 'Thesis pilot: claims awaiting review'
           git push origin "$branch"
           printf '%s\n' \

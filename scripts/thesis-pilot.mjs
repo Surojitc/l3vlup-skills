@@ -33,6 +33,22 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, '.pilot');
 const SELECTION = join(ROOT, 'data', 'letters.selection.json');
 const TAXONOMY = join(ROOT, 'data', 'letters.taxonomy.json');
+const SOURCES = join(ROOT, 'data', 'letters.sources.json');
+
+/**
+ * Slug to the manager's legal name, read from the file that already holds it.
+ *
+ * A quotation has to be attributed to the manager who wrote it, by the name
+ * they are known by. Attributing one to `starboard-value` is not attribution,
+ * and this surface exists to get attribution right.
+ */
+export function managerNames(sources) {
+  const map = new Map();
+  for (const row of sources?.sources || sources || []) {
+    if (row?.fund && row?.manager) map.set(row.fund, row.manager);
+  }
+  return map;
+}
 
 /** Parse argv, refusing anything that would let a run start by accident. */
 /**
@@ -142,6 +158,7 @@ async function main() {
 
   const selection = JSON.parse(readFileSync(SELECTION, 'utf8')).selection;
   const taxonomy = JSON.parse(readFileSync(TAXONOMY, 'utf8'));
+  const names = managerNames(JSON.parse(readFileSync(SOURCES, 'utf8')));
   const { found, missing, available } = resolveDocuments(args.documents, selection);
   if (missing.length) {
     console.error(`Refusing to start: no approved document matches ${missing.join(', ')}.`);
@@ -198,12 +215,13 @@ async function main() {
       if (parsed.status !== 'ok' || !parsed.text) { console.error(`  parse failed (${parsed.status}); skipping`); continue; }
       console.log(`  parsed ${parsed.text.length} characters; extracting`);
 
+      const managerName = names.get(d.fund) || d.fund;
       const document = {
-        documentId: d.accession, managerId: d.fund, accession: d.accession, form: d.form,
+        documentId: d.accession, managerId: d.fund, managerName, accession: d.accession, form: d.form,
         filingDate: d.filingDate, documentUrl: d.documentUrl, sha256: got.sha256,
       };
       const run = await runDocument({
-        model, modelId: args.model, document, manager: { managerId: d.fund, legalName: d.fund },
+        model, modelId: args.model, document, manager: { managerId: d.fund, legalName: managerName },
         sourceText: parsed.text, taxonomy, aliases: [],
         ledger, decisionLog, quotedWordsByDocument: quoted,
       });
@@ -230,7 +248,7 @@ async function main() {
   writeOut('decisions.json', decisionLog);
   writeOut('review.md', renderReview((results || []).flatMap((r) => r.run.claims.map((c) => reviewCard(c.claim, {
     reference: c.reference.publicExcerpt ? { ...c.reference, excerpt: c.reference.publicExcerpt } : null,
-    issuer: null, manager: { legalName: r.document.managerId }, position: null,
+    issuer: null, manager: { legalName: r.document.managerName }, position: null,
   })))));
 
   // The sanitised feed: the only file a workflow is allowed to hand on. It is
@@ -243,11 +261,11 @@ async function main() {
       locator: c.reference.locator,
       excerpt: c.reference.publicExcerpt ?? null,
       excerptWithheld: c.reference.excerptWithheld ?? null,
-      attribution: c.reference.publicExcerpt ? `${r.document.managerId}, ${r.document.filingDate}` : null,
+      attribution: c.reference.publicExcerpt ? `${r.document.managerName}, ${r.document.filingDate}` : null,
     });
   }
   const feed = buildFeed({
-    claims: (results || []).flatMap((r) => r.run.claims.map((c) => ({ ...c.claim, accession: r.document.accession, form: r.document.form }))),
+    claims: (results || []).flatMap((r) => r.run.claims.map((c) => ({ ...c.claim, accession: r.document.accession, form: r.document.form, managerName: r.document.managerName }))),
     references,
     dropped: (results || []).flatMap((r) => r.run.dropped),
     stripped: (results || []).flatMap((r) => r.run.strippedFields),
