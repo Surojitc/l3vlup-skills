@@ -27,19 +27,65 @@ import { anthropicModel, preflightModel, realClient } from '../lib/thesis-anthro
 import { emptyCostLedger, LIMITS, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, resolveModelId } from '../lib/thesis-cost.mjs';
 import { runDocument } from '../lib/thesis-runner.mjs';
 import { emptyDecisionLog, renderReview, reviewCard } from '../lib/thesis-review.mjs';
+import { buildFeed, serialiseFeed, validateFeed } from '../lib/thesis-publish.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, '.pilot');
 const SELECTION = join(ROOT, 'data', 'letters.selection.json');
 const TAXONOMY = join(ROOT, 'data', 'letters.taxonomy.json');
+const SOURCES = join(ROOT, 'data', 'letters.sources.json');
+
+/**
+ * Slug to the manager's legal name, read from the file that already holds it.
+ *
+ * A quotation has to be attributed to the manager who wrote it, by the name
+ * they are known by. Attributing one to `starboard-value` is not attribution,
+ * and this surface exists to get attribution right.
+ */
+export function managerNames(sources) {
+  const map = new Map();
+  for (const row of sources?.sources || sources || []) {
+    if (row?.fund && row?.manager) map.set(row.fund, row.manager);
+  }
+  return map;
+}
 
 /** Parse argv, refusing anything that would let a run start by accident. */
-export function parseArgs(argv) {
+/**
+ * Named sets, so a workflow dropdown never has to carry a document list.
+ *
+ * A choice input can only be one of these strings, and the strings are
+ * resolved here rather than spliced into a command line — which is the whole
+ * reason the workflow has no free-text input.
+ */
+export const DOCUMENT_SETS = Object.freeze({
+  'pilot-two': ['starboard-value-2026-03-11', 'southeastern-2026-09-04'],
+  'starboard-value-2026-03-11': ['starboard-value-2026-03-11'],
+  'southeastern-2026-09-04': ['southeastern-2026-09-04'],
+});
+
+export function parseArgs(argv, env = {}) {
   const problems = [];
+  const fromEnv = argv.includes('--from-env');
   const value = (name) => {
     const i = argv.indexOf(name);
     return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null;
   };
+
+  // In --from-env mode the values arrive as environment variables, never as
+  // arguments. The set name is looked up rather than parsed, so a value the
+  // dropdown could not have produced resolves to nothing.
+  if (fromEnv) {
+    const set = env.DOCUMENT_SET;
+    const list = Object.prototype.hasOwnProperty.call(DOCUMENT_SETS, set) ? DOCUMENT_SETS[set] : null;
+    if (!list) problems.push(`DOCUMENT_SET ${set ?? '(unset)'} is not a known set: ${Object.keys(DOCUMENT_SETS).join(', ')}`);
+    const budget = Number(env.BUDGET_USD);
+    if (!Number.isFinite(budget) || budget <= 0) problems.push(`BUDGET_USD ${env.BUDGET_USD ?? '(unset)'} is not a positive number of dollars`);
+    if (Number.isFinite(budget) && budget > LIMITS.hardStopUsd) problems.push(`BUDGET_USD ${budget} is over the $${LIMITS.hardStopUsd.toFixed(2)} milestone ceiling`);
+    const model = resolveModelId(env.MODEL || PILOT_MODEL);
+    if (!MODEL_ALLOWLIST[model]) problems.push(`MODEL ${env.MODEL} is not on the allowlist`);
+    return { problems, documents: list || [], budget: Number.isFinite(budget) ? budget : null, model, dryRun: argv.includes('--dry-run'), fromEnv: true };
+  }
 
   const documents = value('--documents');
   if (!documents) problems.push('--documents is required: name the documents to read, comma separated. There is no default, because a default would let a run start that nobody chose.');
@@ -65,6 +111,7 @@ export function parseArgs(argv) {
     budget,
     model,
     dryRun: argv.includes('--dry-run'),
+    fromEnv: false,
   };
 }
 
@@ -101,7 +148,7 @@ function writeOut(name, value) {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2));
+  const args = parseArgs(process.argv.slice(2), process.env);
   if (args.problems.length) {
     console.error('Refusing to start.\n');
     for (const p of args.problems) console.error(`  - ${p}`);
@@ -111,6 +158,7 @@ async function main() {
 
   const selection = JSON.parse(readFileSync(SELECTION, 'utf8')).selection;
   const taxonomy = JSON.parse(readFileSync(TAXONOMY, 'utf8'));
+  const names = managerNames(JSON.parse(readFileSync(SOURCES, 'utf8')));
   const { found, missing, available } = resolveDocuments(args.documents, selection);
   if (missing.length) {
     console.error(`Refusing to start: no approved document matches ${missing.join(', ')}.`);
@@ -167,12 +215,13 @@ async function main() {
       if (parsed.status !== 'ok' || !parsed.text) { console.error(`  parse failed (${parsed.status}); skipping`); continue; }
       console.log(`  parsed ${parsed.text.length} characters; extracting`);
 
+      const managerName = names.get(d.fund) || d.fund;
       const document = {
-        documentId: d.accession, managerId: d.fund, accession: d.accession, form: d.form,
+        documentId: d.accession, managerId: d.fund, managerName, accession: d.accession, form: d.form,
         filingDate: d.filingDate, documentUrl: d.documentUrl, sha256: got.sha256,
       };
       const run = await runDocument({
-        model, modelId: args.model, document, manager: { managerId: d.fund, legalName: d.fund },
+        model, modelId: args.model, document, manager: { managerId: d.fund, legalName: managerName },
         sourceText: parsed.text, taxonomy, aliases: [],
         ledger, decisionLog, quotedWordsByDocument: quoted,
       });
@@ -199,8 +248,38 @@ async function main() {
   writeOut('decisions.json', decisionLog);
   writeOut('review.md', renderReview((results || []).flatMap((r) => r.run.claims.map((c) => reviewCard(c.claim, {
     reference: c.reference.publicExcerpt ? { ...c.reference, excerpt: c.reference.publicExcerpt } : null,
-    issuer: null, manager: { legalName: r.document.managerId }, position: null,
+    issuer: null, manager: { legalName: r.document.managerName }, position: null,
   })))));
+
+  // The sanitised feed: the only file a workflow is allowed to hand on. It is
+  // built here and validated immediately, against the bytes rather than
+  // against this process's memory of producing them.
+  const references = new Map();
+  for (const r of results || []) for (const c of r.run.claims) {
+    references.set(c.claim.claimId, {
+      sourceUrl: r.document.documentUrl,
+      locator: c.reference.locator,
+      excerpt: c.reference.publicExcerpt ?? null,
+      excerptWithheld: c.reference.excerptWithheld ?? null,
+      attribution: c.reference.publicExcerpt ? `${r.document.managerName}, ${r.document.filingDate}` : null,
+    });
+  }
+  const feed = buildFeed({
+    claims: (results || []).flatMap((r) => r.run.claims.map((c) => ({ ...c.claim, accession: r.document.accession, form: r.document.form, managerName: r.document.managerName }))),
+    references,
+    dropped: (results || []).flatMap((r) => r.run.dropped),
+    stripped: (results || []).flatMap((r) => r.run.strippedFields),
+    ledger, model: args.model, promptVersion: model.promptVersion,
+    runId: process.env.GITHUB_RUN_ID || null,
+  });
+  const feedProblems = validateFeed(feed);
+  writeOut('feed.json', serialiseFeed(feed));
+  if (feedProblems.length) {
+    console.error('\nThe feed is not publishable:');
+    for (const f of feedProblems) console.error(`  - ${f}`);
+    process.exit(5);
+  }
+  console.log(`feed: ${feed.claims.length} publishable, ${feed.refused.length} refused`);
 
   if (error) { console.error(`\n${error instanceof FetchRefusal ? error.message : error}`); process.exit(1); }
 

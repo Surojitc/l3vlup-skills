@@ -1,0 +1,350 @@
+// The thesis workflow's security properties, and the sanitiser it depends on.
+//
+// Everything here is offline. The workflow is read as text and its rules are
+// asserted; the sanitiser is driven with claims a run could actually produce,
+// including the ones it must refuse.
+//
+//   node scripts/__tests__/thesis-publish.test.mjs
+
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import {
+  buildFeed, FEED_VERSION, FORBIDDEN_PUBLISHED_FIELDS, HUMAN_ONLY_STATES,
+  PUBLISHABLE_STATES, PUBLISHED_CLAIM_FIELDS, sanitiseClaim, serialiseFeed, validateFeed,
+} from '../../lib/thesis-publish.mjs';
+import { DOCUMENT_SETS, managerNames, parseArgs } from '../thesis-pilot.mjs';
+import { LIMITS, PILOT_BUDGET_USD, PILOT_MODEL } from '../../lib/thesis-cost.mjs';
+import { MAX_DOCUMENT_QUOTED_WORDS } from '../../lib/thesis-evidence.mjs';
+
+const REPO = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const WF = readFileSync(join(REPO, '.github', 'workflows', 'thesis-pilot.yml'), 'utf8');
+
+let passed = 0;
+function test(name, fn) { fn(); passed += 1; console.log(`  ok  ${name}`); }
+
+/** The block of YAML belonging to one job. */
+function job(name) {
+  const start = WF.indexOf(`\n  ${name}:\n`);
+  assert.notEqual(start, -1, `there is no ${name} job`);
+  const rest = WF.slice(start + 1);
+  const next = rest.slice(1).search(/\n {2}[a-z][a-z0-9-]*:\n/);
+  return next === -1 ? rest : rest.slice(0, next + 1);
+}
+
+const claim = {
+  claimId: 'c-1', managerId: 'starboard-value', documentId: 'd-1', filingDate: '2026-03-11',
+  kind: 'statement', stance: 'long', paraphrase: 'Margins should improve.',
+  tags: ['driver.margin_inflection'], publicationState: 'needs_review',
+  evidenceState: 'verified', reviewStatus: 'pending', model: PILOT_MODEL,
+};
+const reference = { sourceUrl: 'https://www.sec.gov/Archives/x.pdf', locator: 'page 3', excerpt: 'Margins should move from 31% to 38%', attribution: 'Starboard, 2026-03-11' };
+
+// ── The secret ─────────────────────────────────────────────────────────────
+
+test('the key comes only from an encrypted secret, and only one step sees it', () => {
+  const uses = [...WF.matchAll(/\$\{\{\s*secrets\.(\w+)\s*\}\}/g)].map((m) => m[1]);
+  assert.deepEqual(uses, ['ANTHROPIC_API_KEY'], `the workflow reads ${uses.join(', ')}`);
+  assert.equal((WF.match(/ANTHROPIC_API_KEY: \$\{\{ secrets\.ANTHROPIC_API_KEY \}\}/g) || []).length, 1,
+    'the key is passed to more than one step');
+
+  // It is on the extract step and nowhere else.
+  const extract = job('extract');
+  const open = job('open-pull-request');
+  assert.ok(extract.includes('secrets.ANTHROPIC_API_KEY'));
+  assert.ok(!open.includes('secrets.'), 'the write-enabled job reads a secret');
+  assert.ok(!open.includes('ANTHROPIC'), 'the write-enabled job mentions the key');
+
+  // Never echoed, never written, never sent anywhere.
+  assert.ok(!/echo .*ANTHROPIC_API_KEY|cat .*ANTHROPIC|curl .*ANTHROPIC/.test(WF), 'the key could be printed or sent');
+  assert.ok(!/ANTHROPIC_API_KEY.*>|>.*ANTHROPIC_API_KEY/.test(WF), 'the key could be written to a file');
+});
+
+test('the secret is absent from a dry run, and the client fails helpfully without one', () => {
+  // The dry-run step carries no key at all.
+  const dry = WF.slice(WF.indexOf('- name: Dry run'), WF.indexOf('- name: Extract'));
+  assert.ok(!dry.includes('ANTHROPIC'), 'a dry run is given the key');
+
+  // And with no credential the client says what to do rather than leaking.
+  const client = readFileSync(join(REPO, 'lib', 'thesis-anthropic.mjs'), 'utf8');
+  assert.match(client, /no_credential/);
+  assert.match(client, /reads no key of its own/);
+  const code = client.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  assert.ok(!/process\.env/.test(code), 'the client reads the environment itself');
+});
+
+// ── Events and forks ───────────────────────────────────────────────────────
+
+test('the workflow runs on nothing but a manual dispatch in this repository', () => {
+  assert.match(WF, /^on:\n {2}workflow_dispatch:/m);
+  for (const bad of ['schedule:', 'push:', 'pull_request:', 'pull_request_target:', 'repository_dispatch:', 'issue_comment:', 'workflow_run:', 'workflow_call:']) {
+    assert.ok(!new RegExp(`^ {2}${bad.replace(':', ':')}`, 'm').test(WF), `${bad} was added`);
+  }
+  assert.match(job('extract'), /if: github\.event_name == 'workflow_dispatch' && github\.repository == 'Surojitc\/l3vlup-skills'/);
+  assert.ok(!/fork/i.test(WF) || /github\.repository ==/.test(WF));
+});
+
+// ── Inputs ─────────────────────────────────────────────────────────────────
+
+test('every input is a fixed dropdown, and none reaches a shell', () => {
+  const on = WF.slice(WF.indexOf('on:'), WF.indexOf('concurrency:'));
+  // Split on the six-space keys rather than matching them: consecutive
+  // regex matches cannot both claim the newline that separates them, which
+  // silently found three of the five.
+  const lines = on.split('\n');
+  const inputs = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    const head = lines[i].match(/^ {6}(\w+):$/);
+    if (!head) continue;
+    const body = [];
+    for (let j = i + 1; j < lines.length && !/^ {0,6}\S/.test(lines[j]); j += 1) body.push(lines[j]);
+    inputs.push({ name: head[1], body: body.join('\n') });
+  }
+  assert.equal(inputs.length, 5, `${inputs.length} inputs found`);
+  for (const i of inputs) {
+    assert.match(i.body, /type: (choice|boolean)/, `${i.name} is not a choice or a boolean`);
+    if (/type: choice/.test(i.body)) assert.match(i.body, /options:/, `${i.name} has no fixed options`);
+  }
+  // A choice input can only ever be one of its listed options, and a boolean
+  // only true or false. There is no free text to inject with.
+  assert.ok(!/type: string/.test(on), 'a free-text input was added');
+
+  // No expression is interpolated into any run: script.
+  const runBlocks = [...WF.matchAll(/\n\s+run: \|?\n([\s\S]*?)(?=\n\s+- |\n\s{2}\w|$)/g)].map((m) => m[1]);
+  assert.ok(runBlocks.length >= 6, 'the run blocks were not found');
+  for (const b of runBlocks) {
+    const found = b.match(/\$\{\{[^}]*\}\}/);
+    assert.equal(found, null, `an expression reaches a shell script: ${found?.[0]}`);
+  }
+  // Inputs reach the script as environment variables only.
+  for (const m of WF.matchAll(/inputs\.(\w+)/g)) {
+    const line = WF.slice(WF.lastIndexOf('\n', m.index) + 1, WF.indexOf('\n', m.index)).trim();
+    assert.ok(/^(if:|#|[A-Z_]+:)/.test(line), `an input is used outside an if: or an env: assignment — ${line}`);
+  }
+});
+
+test('an input the dropdown could not have produced resolves to nothing', () => {
+  assert.deepEqual(parseArgs(['--from-env'], { DOCUMENT_SET: 'pilot-two', BUDGET_USD: '3', MODEL: PILOT_MODEL }).documents,
+    ['starboard-value-2026-03-11', 'southeastern-2026-09-04']);
+  for (const hostile of ['pilot-two; rm -rf /', '$(whoami)', '`id`', '../../etc/passwd', 'pilot-two\npilot-two', '__proto__', 'constructor']) {
+    const out = parseArgs(['--from-env'], { DOCUMENT_SET: hostile, BUDGET_USD: '3' });
+    assert.ok(out.problems.some((p) => /is not a known set/.test(p)), `${hostile} was accepted`);
+    assert.deepEqual(out.documents, [], `${hostile} produced documents`);
+  }
+  for (const b of ['99', '-1', '0', 'free', '', undefined]) {
+    assert.ok(parseArgs(['--from-env'], { DOCUMENT_SET: 'pilot-two', BUDGET_USD: b }).problems.length, `BUDGET_USD ${b} was accepted`);
+  }
+  assert.ok(parseArgs(['--from-env'], { DOCUMENT_SET: 'pilot-two', BUDGET_USD: '3', MODEL: 'gpt-x' }).problems.some((p) => /not on the allowlist/.test(p)));
+  // The default set is the two-document pilot.
+  assert.deepEqual(DOCUMENT_SETS['pilot-two'].length, 2);
+  assert.match(WF, /document_set:[\s\S]*?default: 'pilot-two'/);
+});
+
+// ── Permissions ────────────────────────────────────────────────────────────
+
+test('the job that holds the key cannot write, and the job that can write never sees it', () => {
+  assert.match(WF, /^permissions:\n {2}contents: read\n/m);
+  const extract = job('extract');
+  assert.match(extract, /permissions:\n {6}contents: read\n/);
+  assert.ok(!/contents: write|pull-requests: write/.test(extract), 'the extract job can write');
+  assert.match(extract, /persist-credentials: false/);
+
+  const open = job('open-pull-request');
+  assert.match(open, /permissions:\n {6}contents: write\n {6}pull-requests: write\n/);
+  for (const scope of ['packages:', 'actions: write', 'deployments:', 'id-token:', 'security-events:', 'attestations:']) {
+    assert.ok(!open.includes(scope), `the pull-request job asks for ${scope}`);
+  }
+  assert.ok(!/thesis-pilot\.mjs/.test(open), 'the write-enabled job runs the extraction script');
+  // It may name sec.gov in the pull-request body it writes; what it may not
+  // do is address it.
+  assert.ok(!/https?:\/\/\S*sec\.gov/.test(open), 'the write-enabled job addresses sec.gov');
+  assert.ok(!/\bcurl\b|\bwget\b/.test(open), 'the write-enabled job fetches something of its own');
+});
+
+test('nothing in the workflow approves, merges, or publishes', () => {
+  for (const forbidden of ['gh pr merge', 'gh pr review', '--approve', 'enable_pr_auto_merge', 'auto-merge', 'gh pr ready']) {
+    assert.ok(!WF.includes(forbidden), `the workflow can ${forbidden}`);
+  }
+  assert.match(WF, /gh pr create --draft/, 'the generated pull request is not a draft');
+});
+
+// ── Budget ─────────────────────────────────────────────────────────────────
+
+test('the ceilings are checked in code before anything is fetched', () => {
+  const extract = job('extract');
+  const guard = extract.indexOf('- name: Confirm the ceilings are still in the code');
+  assert.ok(guard !== -1, 'nothing checks the ceilings');
+  assert.ok(guard < extract.indexOf('- name: Extract'), 'the ceilings are checked after the fetch');
+  assert.match(extract, /hardStopUsd !== 15/);
+  assert.match(extract, /PILOT_BUDGET_USD !== 3/);
+  assert.match(extract, /budgetUsd: 1e6 \}\)\.budgetUsd !== 15/);
+  assert.match(extract, /MAX_RETRIES = 0/);
+  // The dropdown cannot offer a budget over the pilot default.
+  const options = WF.slice(WF.indexOf('budget_usd:'), WF.indexOf('dry_run:'));
+  assert.deepEqual([...options.matchAll(/- '(\d+)'/g)].map((m) => Number(m[1])), [1, 3]);
+  assert.equal(PILOT_BUDGET_USD, 3);
+  assert.equal(LIMITS.hardStopUsd, 15);
+});
+
+// ── Cleanup ────────────────────────────────────────────────────────────────
+
+test('documents and extracted text are deleted whatever happened', () => {
+  const step = WF.slice(WF.indexOf('- name: Delete every document and extracted text'));
+  assert.match(step, /if: always\(\)/, 'the cleanup is conditional on success');
+  assert.match(step, /letters-run-\*/);
+  assert.match(step, /RUNNER_TEMP/);
+  assert.match(step, /rm -rf \$leftover/, 'a surviving workspace is reported but not removed');
+  assert.match(step, /pdf\|html\?\|txt\|xml/);
+  assert.match(step, /exit \$status/);
+  // And it runs before the upload, so nothing unexpected can be collected.
+  assert.ok(WF.indexOf('- name: Delete every document and extracted text') < WF.indexOf('- name: Upload the sanitised feed'));
+  const workspace = readFileSync(join(REPO, 'lib', 'letters-workspace.mjs'), 'utf8');
+  assert.match(workspace, /prefix = 'letters-run-'/, 'the prefix no longer matches the cleanup step');
+});
+
+test('only the three sanitised files are uploaded, and the artefact is short-lived', () => {
+  const upload = WF.slice(WF.indexOf('- name: Upload the sanitised feed'));
+  const paths = upload.slice(upload.indexOf('path: |')).split('\n').slice(1).map((l) => l.trim()).filter((l) => l.startsWith('.pilot/'));
+  assert.deepEqual(paths, ['.pilot/feed.json', '.pilot/review.md', '.pilot/cost.json']);
+  assert.ok(!upload.includes('.pilot/*') && !upload.includes('.pilot\n'), 'the upload uses a wildcard or a directory');
+  assert.match(upload, /retention-days: 1/);
+  // And the receiving job refuses anything else.
+  assert.match(job('open-pull-request'), /cost\.json feed\.json review\.md/);
+});
+
+// ── The sanitiser ──────────────────────────────────────────────────────────
+
+test('a claim awaiting review is published; one a person must set is refused', () => {
+  const ok = sanitiseClaim(claim, reference);
+  assert.equal(ok.ok, true, JSON.stringify(ok.problems));
+  assert.equal(ok.claim.publicationState, 'needs_review');
+  assert.equal(ok.claim.excerpt, reference.excerpt);
+
+  assert.equal(sanitiseClaim({ ...claim, publicationState: 'issuer_unresolved' }, reference).ok, true);
+  for (const state of HUMAN_ONLY_STATES) {
+    const out = sanitiseClaim({ ...claim, publicationState: state }, reference);
+    assert.equal(out.ok, false, `${state} was published`);
+    assert.match(out.problems[0], /only a person may set that/);
+  }
+  assert.equal(sanitiseClaim({ ...claim, publicationState: 'proposed' }, reference).ok, false);
+  assert.match(sanitiseClaim({ ...claim, reviewStatus: 'accepted' }, reference).problems[0], /set by something other than a person/);
+  assert.deepEqual(PUBLISHABLE_STATES, ['needs_review', 'issuer_unresolved']);
+});
+
+test('a prohibited field is refused by name, however it arrives', () => {
+  for (const field of FORBIDDEN_PUBLISHED_FIELDS) {
+    const out = sanitiseClaim({ ...claim, [field]: 'x' }, reference);
+    assert.equal(out.ok, false, `${field} was published`);
+    assert.ok(out.problems.some((p) => p.startsWith(field)), `${field} was refused for the wrong reason`);
+  }
+  // And a field nobody thought of is dropped rather than carried.
+  const out = sanitiseClaim({ ...claim, somethingNew: 'x' }, reference);
+  assert.equal(out.ok, true);
+  assert.equal(out.claim.somethingNew, undefined, 'an unknown field survived');
+  for (const f of Object.keys(out.claim)) assert.ok(PUBLISHED_CLAIM_FIELDS.includes(f), `${f} is not a published field`);
+});
+
+test('quotation caps hold on the way out, per excerpt and per document', () => {
+  const long = Array.from({ length: 40 }, (_, i) => `w${i}`).join(' ');
+  assert.match(sanitiseClaim(claim, { ...reference, excerpt: long }).problems[0], /over the 25-word cap/);
+  assert.match(sanitiseClaim(claim, { ...reference, excerpt: 'x'.repeat(300) }).problems[0], /over the 200-character cap/);
+  for (const kind of ['inference', 'filing']) {
+    assert.match(sanitiseClaim({ ...claim, kind }, reference).problems[0], new RegExp(`a ${kind} may never carry an excerpt`));
+  }
+  // The cumulative cap is applied across the feed, not per claim.
+  const many = Array.from({ length: 6 }, (_, i) => ({ ...claim, claimId: `c-${i}` }));
+  const refs = new Map(many.map((c) => [c.claimId, { ...reference, excerpt: 'one two three four five six seven eight nine ten' }]));
+  const feed = buildFeed({ claims: many, references: refs, model: PILOT_MODEL, promptVersion: 'v1' });
+  assert.ok(feed.refused.some((r) => /cumulative cap/.test(r.problems.join(' '))), `${MAX_DOCUMENT_QUOTED_WORDS}-word cap not enforced across the feed`);
+});
+
+test('the feed carries no source text, is ordered, and is re-checked on the way in', () => {
+  const feed = buildFeed({
+    claims: [{ ...claim, claimId: 'c-b' }, { ...claim, claimId: 'c-a' }],
+    references: new Map([['c-a', reference], ['c-b', reference]]),
+    dropped: [{ chunkId: 'k1', reason: 'evidence: the excerpt does not occur in the source', paraphrase: 'LEAK' }],
+    stripped: [{ chunkId: 'k1', field: 'ticker', reason: 'a ticker comes from the security master' }],
+    ledger: { estimatedUsd: 0.02, actualUsd: 0.018, budgetUsd: 3, calls: [{ documentId: 'd-1', chunkId: 'k1', model: PILOT_MODEL, inputTokens: 100, outputTokens: 20, actualUsd: 0.0002 }] },
+    model: PILOT_MODEL, promptVersion: 'thesis-extract-v1',
+  });
+  assert.deepEqual(feed.claims.map((c) => c.claimId), ['c-a', 'c-b'], 'the feed is not ordered');
+  assert.deepEqual(validateFeed(feed), []);
+  assert.equal(feed.feedVersion, FEED_VERSION);
+  // A dropped row carries its reason and nothing else.
+  assert.deepEqual(Object.keys(feed.dropped[0]).sort(), ['chunkId', 'reason']);
+  assert.ok(!serialiseFeed(feed).includes('LEAK'), 'a dropped claim carried its text into the feed');
+  // Two builds of the same input are byte-identical.
+  assert.equal(serialiseFeed(feed), serialiseFeed(buildFeed({
+    claims: [{ ...claim, claimId: 'c-a' }, { ...claim, claimId: 'c-b' }],
+    references: new Map([['c-a', reference], ['c-b', reference]]),
+    dropped: [{ chunkId: 'k1', reason: 'evidence: the excerpt does not occur in the source', paraphrase: 'LEAK' }],
+    stripped: [{ chunkId: 'k1', field: 'ticker', reason: 'a ticker comes from the security master' }],
+    ledger: { estimatedUsd: 0.02, actualUsd: 0.018, budgetUsd: 3, calls: [{ documentId: 'd-1', chunkId: 'k1', model: PILOT_MODEL, inputTokens: 100, outputTokens: 20, actualUsd: 0.0002 }] },
+    model: PILOT_MODEL, promptVersion: 'thesis-extract-v1',
+  })));
+});
+
+test('a feed that arrives carrying anything forbidden is refused', () => {
+  const good = buildFeed({ claims: [claim], references: new Map([['c-1', reference]]), model: PILOT_MODEL, promptVersion: 'v1' });
+  assert.deepEqual(validateFeed(good), []);
+
+  assert.ok(validateFeed({ ...good, feedVersion: 99 }).some((p) => /feedVersion/.test(p)));
+  assert.ok(validateFeed({ ...good, claims: [{ ...good.claims[0], publicationState: 'published' }] }).some((p) => /not a state a workflow may hand over/.test(p)));
+  assert.ok(validateFeed({ ...good, claims: [{ ...good.claims[0], sourceText: 'the whole letter' }] }).some((p) => /sourceText may never be published/.test(p)));
+  assert.ok(validateFeed({ ...good, cost: { prompt: 'the system prompt' } }).some((p) => /prompt may never be published/.test(p)));
+  assert.ok(validateFeed({ ...good, claims: [{ ...good.claims[0], kind: 'inference' }] }).some((p) => /carries an excerpt/.test(p)));
+  assert.ok(validateFeed({ ...good, quotedWordsByDocument: { 'd-1': 500 } }).some((p) => /over the cumulative cap/.test(p)));
+  assert.ok(validateFeed(null).length);
+  assert.ok(validateFeed({ feedVersion: FEED_VERSION }).some((p) => /no claims array/.test(p)));
+});
+
+test('the feed checker is run by both jobs, and exits non-zero on a bad feed', () => {
+  assert.equal((WF.match(/thesis-feed-check\.mjs/g) || []).length, 2, 'the feed is not checked twice');
+  const checker = readFileSync(join(REPO, 'scripts', 'thesis-feed-check.mjs'), 'utf8');
+  assert.match(checker, /process\.exit\(1\)/);
+  assert.match(checker, /validateFeed/);
+  // The extract job checks before uploading; the PR job before committing.
+  const extract = job('extract');
+  assert.ok(extract.indexOf('thesis-feed-check') < extract.indexOf('- name: Upload the sanitised feed'));
+  const open = job('open-pull-request');
+  assert.ok(open.indexOf('thesis-feed-check') < open.indexOf('git checkout -b'));
+});
+
+test('every action is pinned to a full commit SHA', () => {
+  const uses = [...WF.matchAll(/uses: (\S+)/g)].map((m) => m[1]);
+  assert.ok(uses.length >= 4);
+  for (const u of uses) assert.match(u, /^[\w.-]+\/[\w.-]+@[0-9a-f]{40}$/, `${u} is not pinned`);
+  for (const line of WF.split('\n').filter((l) => l.includes('uses:'))) assert.match(line, /# v\d/, `${line.trim()} does not name its version`);
+});
+
+test('the pull request job stages before asking whether anything changed', () => {
+  // The feed is a new, untracked file on the first run, and `git diff` does
+  // not see one of those. Checking before staging made the very first pilot
+  // finish with no pull request at all.
+  const open = job('open-pull-request');
+  const add = open.indexOf('git add data/thesis/claims.pending.json');
+  const check = open.indexOf('git diff --cached --quiet;');
+  assert.ok(add > -1, 'the feed is never staged');
+  assert.ok(check > -1, 'the change check does not read the index');
+  assert.ok(add < check, 'the change is checked before it is staged');
+  assert.ok(!/git diff --quiet -- data\/thesis/.test(open), 'the working-tree check is still there and cannot see a new file');
+});
+
+test('a quotation is attributed to the manager by name, never by slug', () => {
+  const pilot = readFileSync(join(REPO, 'scripts', 'thesis-pilot.mjs'), 'utf8');
+  assert.ok(!/attribution: [^\n]*managerId/.test(pilot), 'attribution is built from the slug');
+  assert.match(pilot, /attribution: [^\n]*managerName/);
+  assert.ok(PUBLISHED_CLAIM_FIELDS.includes('managerName'), 'the feed cannot carry the manager name');
+
+  // The mapping exists for every fund the selection can draw on.
+  const sources = JSON.parse(readFileSync(join(REPO, 'data', 'letters.sources.json'), 'utf8'));
+  const names = managerNames(sources);
+  const selection = JSON.parse(readFileSync(join(REPO, 'data', 'letters.selection.json'), 'utf8')).selection;
+  for (const d of selection) {
+    const name = names.get(d.fund);
+    assert.ok(name && name !== d.fund, `${d.fund} has no legal name to attribute a quotation to`);
+  }
+});
+
+console.log(`${passed} passed`);
