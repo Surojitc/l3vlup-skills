@@ -1,5 +1,5 @@
 {
-  "_comment": "Firms whose early-career roles we auto-collate from public ATS boards. Tokens verified live. tier must match TIER_ORDER in app/tracker/TrackerClient.tsx. The daily cron (scripts/sync-ats.mjs) reads this, pulls each board, filters to early-career, and writes data/opportunities.auto.json. To add a firm: find its ATS board token and add a row. A firm with \"parked\": true is left in place but not polled: its board resolved and answers, but provably holds no early-career roles, so polling it only produces a firm that looks like it has nothing open. parkedReason records the evidence. ats: oracle is Oracle Recruiting Cloud; host + site (the CX_nnnn id from the careers URL) identify the board.",
+  "_comment": "Firms whose early-career roles we auto-collate from public ATS boards. Tokens verified live. tier must match TIER_ORDER in app/tracker/TrackerClient.tsx. The daily cron (scripts/sync-ats.mjs) reads this, pulls each board, filters to early-career, and writes data/opportunities.auto.json. To add a firm: find its ATS board token and add a row. A firm with \"parked\": true is left in place but not polled: its board resolved and answers, but provably holds no early-career roles, so polling it only produces a firm that looks like it has nothing open. parkedReason records the evidence. Rows written by scripts/discover-ats.mjs carry how they were found: discoveredVia is the careers page that produced the board, discoveredAt the date it was proved, and postingsAtDiscovery the total the endpoint reported at that moment. That last one is evidence of liveness, not a vacancy count: several providers cap the figure, and Accenture’s 2000 is Workday’s ceiling rather than its true total. None of the three is read at runtime. ats: oracle is Oracle Recruiting Cloud; host + site (the CX_nnnn id from the careers URL) identify the board.",
   "firms": [
     {
       "firm": "Stripe",
@@ -695,6 +695,61 @@
       "tier": "Bulge Bracket",
       "parked": true,
       "parkedReason": "jobs.ubs.com returns 403 to a plain GET and the careers landing pages 404 (probed 2026-08-31). Detected as Taleo/Yello from markup on a partner page, but no reachable board."
+    },
+    {
+      "firm": "Huron Consulting Group",
+      "ats": "workday",
+      "tenant": "huron",
+      "shard": "wd1",
+      "site": "huroncareers",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.huronconsultinggroup.com/careers",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 260
+    },
+    {
+      "firm": "Accenture",
+      "ats": "workday",
+      "tenant": "accenture",
+      "shard": "wd103",
+      "site": "AccentureCareers",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.accenture.com/us-en/careers/jobsearch",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 2000
+    },
+    {
+      "firm": "Cornerstone Research",
+      "ats": "workday",
+      "tenant": "cornerstone",
+      "shard": "wd501",
+      "site": "CornerstoneResearch_Careers",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.cornerstone.com/careers/",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 6
+    },
+    {
+      "firm": "Guidehouse",
+      "ats": "workday",
+      "tenant": "guidehouse",
+      "shard": "wd1",
+      "site": "External",
+      "tier": "Consulting",
+      "discoveredVia": "https://guidehouse.com/careers",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 798
+    },
+    {
+      "firm": "Trinity Life Sciences",
+      "ats": "workday",
+      "tenant": "trinitylifesciences",
+      "shard": "wd108",
+      "site": "Trinity",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.trinitylifesciences.com/careers/",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 87
     }
   ]
 }
