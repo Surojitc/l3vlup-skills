@@ -41,35 +41,38 @@ const claim = {
 };
 const reference = { sourceUrl: 'https://www.sec.gov/Archives/x.pdf', locator: 'page 3', excerpt: 'Margins should move from 31% to 38%', attribution: 'Starboard, 2026-03-11' };
 
-// ── The secret ─────────────────────────────────────────────────────────────
+// ── The credential ─────────────────────────────────────────────────────────
 
-test('the key comes only from an encrypted secret, and only one step sees it', () => {
+test('no secret exists: the workflow reads none and stores none', () => {
   const uses = [...WF.matchAll(/\$\{\{\s*secrets\.(\w+)\s*\}\}/g)].map((m) => m[1]);
-  assert.deepEqual(uses, ['ANTHROPIC_API_KEY'], `the workflow reads ${uses.join(', ')}`);
-  assert.equal((WF.match(/ANTHROPIC_API_KEY: \$\{\{ secrets\.ANTHROPIC_API_KEY \}\}/g) || []).length, 1,
-    'the key is passed to more than one step');
+  assert.deepEqual(uses, [], `the workflow reads a stored secret: ${uses.join(', ')}`);
+  assert.ok(!/ANTHROPIC_API_KEY:\s*\$\{\{/.test(WF), 'a static key is still passed to a step');
 
-  // It is on the extract step and nowhere else.
-  const extract = job('extract');
-  const open = job('open-pull-request');
-  assert.ok(extract.includes('secrets.ANTHROPIC_API_KEY'));
-  assert.ok(!open.includes('secrets.'), 'the write-enabled job reads a secret');
-  assert.ok(!open.includes('ANTHROPIC'), 'the write-enabled job mentions the key');
+  // Federation identifiers are not secrets; they must come from `vars`, so a
+  // reviewer can read the trust boundary without Console access.
+  for (const name of ['ANTHROPIC_FEDERATION_RULE_ID', 'ANTHROPIC_ORGANIZATION_ID', 'ANTHROPIC_SERVICE_ACCOUNT_ID']) {
+    assert.ok(WF.includes(`${name}: \${{ vars.${name} }}`), `${name} does not come from a repository variable`);
+  }
 
-  // Never echoed, never written, never sent anywhere.
-  assert.ok(!/echo .*ANTHROPIC_API_KEY|cat .*ANTHROPIC|curl .*ANTHROPIC/.test(WF), 'the key could be printed or sent');
-  assert.ok(!/ANTHROPIC_API_KEY.*>|>.*ANTHROPIC_API_KEY/.test(WF), 'the key could be written to a file');
+  // The credential is never echoed, written to the checkout, or sent anywhere.
+  assert.ok(!/echo .*IDENTITY_TOKEN_FILE"?\s*$|cat .*identity-token/.test(WF), 'the identity token could be printed');
+  assert.ok(!/ANTHROPIC_API_KEY.*>|>.*ANTHROPIC_API_KEY/.test(WF), 'a key could be written to a file');
 });
 
-test('the secret is absent from a dry run, and the client fails helpfully without one', () => {
+test('no credential reaches a dry run, and the client fails helpfully without one', () => {
   // The dry-run step carries no key at all.
-  const dry = WF.slice(WF.indexOf('- name: Dry run'), WF.indexOf('- name: Extract'));
-  assert.ok(!dry.includes('ANTHROPIC'), 'a dry run is given the key');
+  // To the next step, not to Extract: a step inserted between them would
+  // otherwise be read as part of the dry run.
+  const dryStart = WF.indexOf('- name: Dry run');
+  const dry = WF.slice(dryStart, WF.indexOf('\n      - name:', dryStart + 1));
+  assert.ok(!dry.includes('ANTHROPIC_FEDERATION'), 'a dry run is given a credential');
+  assert.ok(!dry.includes('IDENTITY_TOKEN'), 'a dry run is given an identity token');
 
   // And with no credential the client says what to do rather than leaking.
   const client = readFileSync(join(REPO, 'lib', 'thesis-anthropic.mjs'), 'utf8');
   assert.match(client, /no_credential/);
   assert.match(client, /reads no key of its own/);
+  assert.match(client, /In CI it federates/, 'the client still advises setting a key, which would break federation');
   const code = client.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   assert.ok(!/process\.env/.test(code), 'the client reads the environment itself');
 });
@@ -101,7 +104,7 @@ test('every input is a fixed dropdown, and none reaches a shell', () => {
     for (let j = i + 1; j < lines.length && !/^ {0,6}\S/.test(lines[j]); j += 1) body.push(lines[j]);
     inputs.push({ name: head[1], body: body.join('\n') });
   }
-  assert.equal(inputs.length, 5, `${inputs.length} inputs found`);
+  assert.equal(inputs.length, 6, `${inputs.length} inputs found`);
   for (const i of inputs) {
     assert.match(i.body, /type: (choice|boolean)/, `${i.name} is not a choice or a boolean`);
     if (/type: choice/.test(i.body)) assert.match(i.body, /options:/, `${i.name} has no fixed options`);
@@ -189,28 +192,43 @@ test('the ceilings are checked in code before anything is fetched', () => {
 
 // ── Cleanup ────────────────────────────────────────────────────────────────
 
-test('documents and extracted text are deleted whatever happened', () => {
-  const step = WF.slice(WF.indexOf('- name: Delete every document and extracted text'));
+test('documents, extracted text and the identity token are deleted whatever happened', () => {
+  const step = WF.slice(WF.indexOf('- name: Delete every document, extracted text and identity token'));
   assert.match(step, /if: always\(\)/, 'the cleanup is conditional on success');
   assert.match(step, /letters-run-\*/);
   assert.match(step, /RUNNER_TEMP/);
   assert.match(step, /rm -rf \$leftover/, 'a surviving workspace is reported but not removed');
   assert.match(step, /pdf\|html\?\|txt\|xml/);
   assert.match(step, /exit \$status/);
+  // The identity token is a live bearer credential; it goes with the rest.
+  assert.match(step, /rm -f "\$\{RUNNER_TEMP:-\/tmp\}\/anthropic-identity-token"/, 'the identity token is not deleted');
+  assert.match(step, /the identity token survived cleanup/, 'the deletion is not verified');
   // And it runs before the upload, so nothing unexpected can be collected.
-  assert.ok(WF.indexOf('- name: Delete every document and extracted text') < WF.indexOf('- name: Upload the sanitised feed'));
+  assert.ok(WF.indexOf('- name: Delete every document, extracted text and identity token') < WF.indexOf('- name: Upload the sanitised feed'));
   const workspace = readFileSync(join(REPO, 'lib', 'letters-workspace.mjs'), 'utf8');
   assert.match(workspace, /prefix = 'letters-run-'/, 'the prefix no longer matches the cleanup step');
 });
 
-test('only the three sanitised files are uploaded, and the artefact is short-lived', () => {
-  const upload = WF.slice(WF.indexOf('- name: Upload the sanitised feed'));
-  const paths = upload.slice(upload.indexOf('path: |')).split('\n').slice(1).map((l) => l.trim()).filter((l) => l.startsWith('.pilot/'));
-  assert.deepEqual(paths, ['.pilot/feed.json', '.pilot/review.md', '.pilot/cost.json']);
-  assert.ok(!upload.includes('.pilot/*') && !upload.includes('.pilot\n'), 'the upload uses a wildcard or a directory');
-  assert.match(upload, /retention-days: 1/);
-  // And the receiving job refuses anything else.
-  assert.match(job('open-pull-request'), /cost\.json feed\.json review\.md/);
+test('the feed and the review notes leave as separate, short-lived artefacts', () => {
+  const feed = WF.slice(WF.indexOf('- name: Upload the sanitised feed'), WF.indexOf('- name: Upload the review notes'));
+  assert.match(feed, /name: thesis-pilot-feed/);
+  assert.match(feed, /path: \.pilot\/feed\.json/, 'the feed artefact carries more than the feed');
+  assert.match(feed, /retention-days: 1/);
+
+  const review = WF.slice(WF.indexOf('- name: Upload the review notes'));
+  const paths = review.slice(review.indexOf('path: |')).split('\n').slice(1).map((l) => l.trim()).filter((l) => l.startsWith('.pilot/'));
+  assert.deepEqual(paths, ['.pilot/review.md', '.pilot/cost.json']);
+  assert.match(review.slice(0, review.indexOf('- name:', 10) + 1), /retention-days: 1/);
+
+  assert.ok(!WF.includes('.pilot/*') && !WF.includes('path: .pilot\n'), 'an upload uses a wildcard or a directory');
+
+  // The write-capable job downloads the feed and only the feed, and refuses
+  // an artefact carrying anything else.
+  const open = job('open-pull-request');
+  assert.match(open, /name: thesis-pilot-feed/);
+  assert.ok(!open.includes('thesis-pilot-review'), 'the write-capable job downloads the review notes');
+  assert.ok(!open.includes('review.md'), 'the write-capable job handles the review markdown');
+  assert.match(open, /printf '%s\\n' feed\.json > \/tmp\/expected/);
 });
 
 // ── The sanitiser ──────────────────────────────────────────────────────────

@@ -70,11 +70,12 @@ await test('the client module reads no credential, builds no client at import, a
   const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   assert.ok(!/process\.env/.test(code), 'the client reads an environment variable');
   assert.ok(!/apiKey\s*:/.test(code), 'the client passes an apiKey');
-  // The key's name may appear only inside the one sentence that tells a
-  // person where to put it.
+  // The client names no credential variable at all now that CI federates:
+  // telling somebody to set ANTHROPIC_API_KEY would be advice that breaks the
+  // run, because a set key outranks federation in the SDK's credential order.
   const mentions = [...code.matchAll(/ANTHROPIC_API_KEY/g)];
-  assert.equal(mentions.length, 1, `ANTHROPIC_API_KEY appears ${mentions.length} times in code`);
-  assert.match(code, /set ANTHROPIC_API_KEY in the shell that launches it/);
+  assert.equal(mentions.length, 0, `ANTHROPIC_API_KEY appears ${mentions.length} times in code`);
+  assert.match(code, /In CI it federates/);
   // The SDK import is inside realClient, so importing this module cannot
   // require a key — which is exactly what this test file just did.
   assert.match(source, /export async function realClient/);
