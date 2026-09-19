@@ -695,6 +695,61 @@
       "tier": "Bulge Bracket",
       "parked": true,
       "parkedReason": "jobs.ubs.com returns 403 to a plain GET and the careers landing pages 404 (probed 2026-08-31). Detected as Taleo/Yello from markup on a partner page, but no reachable board."
+    },
+    {
+      "firm": "Huron Consulting Group",
+      "ats": "workday",
+      "tenant": "huron",
+      "shard": "wd1",
+      "site": "huroncareers",
+      "tier": "Specialist Consulting",
+      "discoveredVia": "https://www.huronconsultinggroup.com/careers",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 260
+    },
+    {
+      "firm": "Accenture",
+      "ats": "workday",
+      "tenant": "accenture",
+      "shard": "wd103",
+      "site": "AccentureCareers",
+      "tier": "Technology Consulting",
+      "discoveredVia": "https://www.accenture.com/us-en/careers/jobsearch",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 2000
+    },
+    {
+      "firm": "Cornerstone Research",
+      "ats": "workday",
+      "tenant": "cornerstone",
+      "shard": "wd501",
+      "site": "CornerstoneResearch_Careers",
+      "tier": "Economic Consulting",
+      "discoveredVia": "https://www.cornerstone.com/careers/",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 6
+    },
+    {
+      "firm": "Guidehouse",
+      "ats": "workday",
+      "tenant": "guidehouse",
+      "shard": "wd1",
+      "site": "External",
+      "tier": "Specialist Consulting",
+      "discoveredVia": "https://guidehouse.com/careers",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 798
+    },
+    {
+      "firm": "Trinity Life Sciences",
+      "ats": "workday",
+      "tenant": "trinitylifesciences",
+      "shard": "wd108",
+      "site": "Trinity",
+      "tier": "Specialist Consulting",
+      "discoveredVia": "https://www.trinitylifesciences.com/careers/",
+      "discoveredAt": "2026-09-19",
+      "postingsAtDiscovery": 87
     }
   ]
 }

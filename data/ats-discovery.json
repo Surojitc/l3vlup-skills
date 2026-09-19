@@ -1,202 +1,348 @@
 {
-  "generatedAt": "2026-08-28T10:21:54.762Z",
+  "generatedAt": "2026-09-19T22:55:30.112Z",
   "results": [
     {
-      "firm": "Goldman Sachs",
-      "vertical": "Investment Bank",
+      "firm": "McKinsey & Company",
+      "vertical": "Consulting",
       "region": "Global / UK",
       "status": "unreachable",
-      "note": "https://www.goldmansachs.com/careers/students → HTTP 403; https://www.goldmansachs.com/careers/students → HTTP 403"
+      "note": "https://www.mckinsey.com/careers/students → HTTP 503; https://www.mckinsey.com/careers/search-jobs → HTTP 503"
     },
     {
-      "firm": "JPMorganChase",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "unsupported-ats",
-      "family": "oracle-cloud",
-      "atsUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions&#34;,&#34;ctaTitle&#34;:&#34;&#34;,&#34;ctaComponentName&#34;:&#34;Primary",
-      "via": "https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates"
-    },
-    {
-      "firm": "Morgan Stanley",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "unreachable",
-      "note": "https://www.morganstanley.com/people-opportunities/students-graduates → The operation was aborted due to timeout; https://www.morganstanley.com/people-opportunities/students-graduates → The operation "
-    },
-    {
-      "firm": "Bank of America",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "validated",
-      "board": {
-        "ats": "workday",
-        "tenant": "ghr",
-        "shard": "wd1",
-        "site": "lateral-us"
-      },
-      "postings": 2086,
-      "via": "https://careers.bankofamerica.com/en-us/students"
-    },
-    {
-      "firm": "UBS",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "no-board-found",
-      "via": "https://www.ubs.com/global/en/careers/early-careers.html"
-    },
-    {
-      "firm": "Deutsche Bank",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "no-board-found",
-      "via": "https://careers.db.com/students-graduates/"
-    },
-    {
-      "firm": "Lazard",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "unsupported-ats",
-      "family": "oracle-cloud",
-      "atsUrl": "https://icbpjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/LazardProfessionalCareers",
-      "via": "https://www.lazard.com/careers/students/"
-    },
-    {
-      "firm": "Evercore",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "no-board-found",
-      "via": "https://www.evercore.com/careers/"
-    },
-    {
-      "firm": "HSBC",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "no-board-found",
-      "via": "https://www.hsbc.com/careers/students-and-graduates"
-    },
-    {
-      "firm": "BNP Paribas",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "unreachable",
-      "note": "https://group.bnpparibas/en/careers → HTTP 403; https://group.bnpparibas/en/careers → HTTP 403"
-    },
-    {
-      "firm": "Societe Generale",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "unsupported-ats",
-      "family": "taleo",
-      "atsUrl": "https://socgen.taleo.net/careersection/sgcareers/profile.ftl?lang=en&amp;src=CWS-1",
-      "via": "https://careers.societegenerale.com/en"
-    },
-    {
-      "firm": "Rothschild & Co",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "no-board-found",
-      "via": "https://www.rothschildandco.com/en/careers/students-and-graduates/"
-    },
-    {
-      "firm": "Moelis",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "validated",
-      "board": {
-        "ats": "workday",
-        "tenant": "moelis",
-        "shard": "wd1",
-        "site": "Experienced-Hires"
-      },
-      "postings": 48,
-      "via": "https://www.moelis.com/careers/"
-    },
-    {
-      "firm": "Jefferies",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
-      "status": "no-board-found",
-      "via": "https://www.jefferies.com/careers/"
-    },
-    {
-      "firm": "Centerview Partners",
-      "vertical": "Investment Bank",
-      "region": "US / UK",
-      "status": "unreachable",
-      "note": "https://www.centerviewpartners.com/careers/ → HTTP 403; https://www.centerviewpartners.com/careers/ → HTTP 403"
-    },
-    {
-      "firm": "William Blair",
-      "vertical": "Investment Bank",
-      "region": "US / UK",
-      "status": "no-board-found",
-      "via": "https://www.williamblair.com/careers"
-    },
-    {
-      "firm": "Baird",
-      "vertical": "Investment Bank",
-      "region": "US / UK",
-      "status": "no-board-found",
-      "via": "https://www.rwbaird.com/careers/"
-    },
-    {
-      "firm": "RBC",
-      "vertical": "Investment Bank",
+      "firm": "Boston Consulting Group",
+      "vertical": "Consulting",
       "region": "Global / UK",
       "status": "unsupported-ats",
       "family": "phenom",
       "atsUrl": "https://cdn.phenompeople.com/CareerConnectResources/common/js/globalplatform/1781270809227_globalstyles.css",
-      "via": "https://jobs.rbc.com/ca/en/students-graduates"
+      "via": "https://careers.bcg.com/students"
     },
     {
-      "firm": "Nomura",
-      "vertical": "Investment Bank",
+      "firm": "Bain & Company",
+      "vertical": "Consulting",
       "region": "Global / UK",
       "status": "no-board-found",
-      "via": "https://www.nomura.com/careers/"
+      "via": "https://www.bain.com/careers/"
     },
     {
-      "firm": "Macquarie",
-      "vertical": "Investment Bank",
+      "firm": "Oliver Wyman",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unsupported-ats",
+      "family": "phenom",
+      "atsUrl": "https://mmc.phenompeople.com/global/en/oliver-wyman-search",
+      "via": "https://www.oliverwyman.com/careers.html"
+    },
+    {
+      "firm": "Kearney",
+      "vertical": "Consulting",
       "region": "Global / UK",
       "status": "unreachable",
-      "note": "https://www.macquarie.com/uk/en/careers/early-careers.html → HTTP 404"
+      "note": "https://www.kearney.com/careers/students → HTTP 403; https://www.kearney.com/careers → HTTP 403"
     },
     {
-      "firm": "Piper Sandler",
-      "vertical": "Investment Bank",
+      "firm": "L.E.K. Consulting",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.lek.com/careers/students-graduates → HTTP 404"
+    },
+    {
+      "firm": "Roland Berger",
+      "vertical": "Consulting",
+      "region": "Europe / UK",
+      "status": "no-board-found",
+      "via": "https://www.rolandberger.com/en/Careers/"
+    },
+    {
+      "firm": "OC&C Strategy Consultants",
+      "vertical": "Consulting",
+      "region": "UK / Global",
+      "status": "no-board-found",
+      "via": "https://www.occstrategy.com/en/careers"
+    },
+    {
+      "firm": "Arthur D. Little",
+      "vertical": "Consulting",
+      "region": "Europe / UK",
+      "status": "no-board-found",
+      "via": "https://www.adlittle.com/en/careers"
+    },
+    {
+      "firm": "Bridgespan Group",
+      "vertical": "Consulting",
+      "region": "US",
+      "status": "unsupported-ats",
+      "family": "taleo",
+      "atsUrl": "https://phh.tbe.taleo.net/phh01/ats/careers/v2/searchResults?org=THEBRIDG12&amp;cws=40",
+      "via": "https://www.bridgespan.org/about-us/careers"
+    },
+    {
+      "firm": "Dalberg",
+      "vertical": "Consulting",
+      "region": "Global",
+      "status": "unreachable",
+      "note": "https://dalberg.com/careers/ → HTTP 404; https://dalberg.com/careers/ → HTTP 404"
+    },
+    {
+      "firm": "Deloitte",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.deloitte.com/uk/en/careers/students.html → HTTP 404"
+    },
+    {
+      "firm": "PwC",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.pwc.co.uk/careers/student-careers.html → HTTP 403; https://jobs.us.pwc.com/ → HTTP 503"
+    },
+    {
+      "firm": "EY",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unsupported-ats",
+      "family": "successfactors",
+      "atsUrl": "https://performancemanager5.successfactors.eu/verp/vmod_v1/ui/extlib/jquery_3.5.1/jquery.js",
+      "via": "https://careers.ey.com/"
+    },
+    {
+      "firm": "KPMG",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.kpmgcareers.co.uk/"
+    },
+    {
+      "firm": "Alvarez & Marsal",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.alvarezandmarsal.com/careers → HTTP 403; https://www.alvarezandmarsal.com/careers → HTTP 403"
+    },
+    {
+      "firm": "AlixPartners",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.alixpartners.com/careers/"
+    },
+    {
+      "firm": "Huron Consulting Group",
+      "vertical": "Consulting",
+      "region": "US",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "huron",
+        "shard": "wd1",
+        "site": "huroncareers"
+      },
+      "postings": 260,
+      "via": "https://www.huronconsultinggroup.com/careers"
+    },
+    {
+      "firm": "Teneo",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.teneo.com/careers/"
+    },
+    {
+      "firm": "Accenture",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "accenture",
+        "shard": "wd103",
+        "site": "AccentureCareers"
+      },
+      "postings": 2000,
+      "via": "https://www.accenture.com/us-en/careers/jobsearch"
+    },
+    {
+      "firm": "Capgemini",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.capgemini.com/careers/join-capgemini/"
+    },
+    {
+      "firm": "Thoughtworks",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.thoughtworks.com/careers"
+    },
+    {
+      "firm": "Publicis Sapient",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unsupported-ats",
+      "family": "icims",
+      "atsUrl": "https://referral-publicisgroupe.icims.com/&#34;,&#34;external&#34;:true},{&#34;label&#34;:&#34;Search&#34;,&#34;href&#34;:&#34;https://careers.publicissapient.com/job-search&#34;,&#34;external&#34;:false},{&#34;label&#34;:&#34;Track",
+      "via": "https://careers.publicissapient.com/"
+    },
+    {
+      "firm": "EPAM Systems",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "unreachable",
+      "note": "https://www.epam.com/careers → HTTP 403; https://www.epam.com/careers → HTTP 403"
+    },
+    {
+      "firm": "Slalom",
+      "vertical": "Consulting",
       "region": "US / UK",
       "status": "no-board-found",
-      "via": "https://www.pipersandler.com/careers"
+      "via": "https://www.slalom.com/us/en/careers"
     },
     {
-      "firm": "Lincoln International",
-      "vertical": "Investment Bank",
-      "region": "Global / UK",
+      "firm": "West Monroe",
+      "vertical": "Consulting",
+      "region": "US",
+      "status": "no-board-found",
+      "via": "https://www.westmonroe.com/careers"
+    },
+    {
+      "firm": "Infosys Consulting",
+      "vertical": "Consulting",
+      "region": "Global",
       "status": "unreachable",
-      "note": "https://www.lincolninternational.com/careers/ → HTTP 404; https://www.lincolninternational.com/careers/ → HTTP 404"
+      "note": "https://www.infosys.com/careers.html → HTTP 403; https://www.infosys.com/careers.html → HTTP 403"
     },
     {
-      "firm": "Wells Fargo",
-      "vertical": "Investment Bank",
+      "firm": "Cognizant",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://careers.cognizant.com/global-en/"
+    },
+    {
+      "firm": "Genpact",
+      "vertical": "Consulting",
+      "region": "Global",
+      "status": "detected-not-validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "genpact",
+        "shard": "wd108",
+        "site": "External_Careers&"
+      },
+      "via": "https://www.genpact.com/careers",
+      "note": "board pattern matched but returned no postings"
+    },
+    {
+      "firm": "Analysis Group",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "status": "unsupported-ats",
+      "family": "icims",
+      "atsUrl": "https://datasciencecareers-analysisgroup.icims.com/",
+      "via": "https://www.analysisgroup.com/careers/"
+    },
+    {
+      "firm": "Cornerstone Research",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "cornerstone",
+        "shard": "wd501",
+        "site": "CornerstoneResearch_Careers"
+      },
+      "postings": 6,
+      "via": "https://www.cornerstone.com/careers/"
+    },
+    {
+      "firm": "Charles River Associates",
+      "vertical": "Consulting",
       "region": "US / UK",
       "status": "no-board-found",
-      "via": "https://www.wellsfargojobs.com/en/early-careers/"
+      "via": "https://www.crai.com/careers/"
     },
     {
-      "firm": "NatWest Group",
-      "vertical": "Investment Bank",
-      "region": "UK",
+      "firm": "Brattle Group",
+      "vertical": "Consulting",
+      "region": "US / UK",
       "status": "unreachable",
-      "note": "https://jobs.natwestgroup.com/pages/early-careers → HTTP 403; https://jobs.natwestgroup.com/ → HTTP 403"
+      "note": "https://www.brattle.com/careers/ → HTTP 403; https://www.brattle.com/careers/ → HTTP 403"
     },
     {
-      "firm": "Standard Chartered",
-      "vertical": "Investment Bank",
+      "firm": "Frontier Economics",
+      "vertical": "Consulting",
+      "region": "UK / Europe",
+      "status": "no-board-found",
+      "via": "https://www.frontier-economics.com/uk/en/careers/"
+    },
+    {
+      "firm": "Keystone Strategy",
+      "vertical": "Consulting",
+      "region": "US",
+      "status": "unreachable",
+      "note": "https://www.keystonestrategy.com/careers/ → HTTP 503; https://www.keystonestrategy.com/careers/ → HTTP 503"
+    },
+    {
+      "firm": "ZS Associates",
+      "vertical": "Consulting",
       "region": "Global / UK",
       "status": "no-board-found",
-      "via": "https://www.sc.com/en/global-careers/early-careers/"
+      "via": "https://www.zs.com/careers"
+    },
+    {
+      "firm": "Simon-Kucher",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "status": "no-board-found",
+      "via": "https://www.simon-kucher.com/en/careers"
+    },
+    {
+      "firm": "Guidehouse",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "guidehouse",
+        "shard": "wd1",
+        "site": "External"
+      },
+      "postings": 798,
+      "via": "https://guidehouse.com/careers"
+    },
+    {
+      "firm": "Exponent",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "status": "unsupported-ats",
+      "family": "icims",
+      "atsUrl": "https://careers-exponent.icims.com/",
+      "via": "https://www.exponent.com/careers"
+    },
+    {
+      "firm": "Trinity Life Sciences",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "status": "validated",
+      "board": {
+        "ats": "workday",
+        "tenant": "trinitylifesciences",
+        "shard": "wd108",
+        "site": "Trinity"
+      },
+      "postings": 87,
+      "via": "https://www.trinitylifesciences.com/careers/"
+    },
+    {
+      "firm": "Health Advances",
+      "vertical": "Consulting",
+      "region": "US",
+      "status": "no-board-found",
+      "via": "https://healthadvances.com/careers/"
     }
   ]
 }

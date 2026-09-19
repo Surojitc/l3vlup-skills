@@ -9,7 +9,7 @@
     "",
     "Most rows carry no tenant yet: 'Derive and validate' means the careers URL is",
     "confirmed but the board behind it has not been resolved. scripts/discover-ats.mjs",
-    "does that resolution in CI, where there is network. Nothing here is guessed \u2014",
+    "does that resolution in CI, where there is network. Nothing here is guessed —",
     "a tenant is only written once a board has answered with real postings."
   ],
   "firms": [
@@ -1681,6 +1681,432 @@
       "validation": "Official-domain seed",
       "batch": 3,
       "notes": "Derive its own public tenant from official open-roles link"
+    },
+    {
+      "firm": "McKinsey & Company",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.mckinsey.com/careers/search-jobs",
+      "studentsUrl": "https://www.mckinsey.com/careers/students",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Boston Consulting Group",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.bcg.com/",
+      "studentsUrl": "https://careers.bcg.com/students",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Bain & Company",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.bain.com/careers/find-a-role/",
+      "studentsUrl": "https://www.bain.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Oliver Wyman",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.oliverwyman.com/careers.html",
+      "studentsUrl": "https://www.oliverwyman.com/careers/students-and-graduates.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Kearney",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.kearney.com/careers",
+      "studentsUrl": "https://www.kearney.com/careers/students",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "L.E.K. Consulting",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.lek.com/careers",
+      "studentsUrl": "https://www.lek.com/careers/students-graduates",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Roland Berger",
+      "vertical": "Consulting",
+      "region": "Europe / UK",
+      "careersUrl": "https://www.rolandberger.com/en/Careers/",
+      "studentsUrl": "https://www.rolandberger.com/en/Careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "OC&C Strategy Consultants",
+      "vertical": "Consulting",
+      "region": "UK / Global",
+      "careersUrl": "https://www.occstrategy.com/en/careers",
+      "studentsUrl": "https://www.occstrategy.com/en/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Arthur D. Little",
+      "vertical": "Consulting",
+      "region": "Europe / UK",
+      "careersUrl": "https://www.adlittle.com/en/careers",
+      "studentsUrl": "https://www.adlittle.com/en/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Bridgespan Group",
+      "vertical": "Consulting",
+      "region": "US",
+      "careersUrl": "https://www.bridgespan.org/about-us/careers",
+      "studentsUrl": "https://www.bridgespan.org/about-us/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4,
+      "notes": "Non-profit strategy"
+    },
+    {
+      "firm": "Dalberg",
+      "vertical": "Consulting",
+      "region": "Global",
+      "careersUrl": "https://dalberg.com/careers/",
+      "studentsUrl": "https://dalberg.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4,
+      "notes": "Development strategy"
+    },
+    {
+      "firm": "Deloitte",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://apply.deloitte.com/careers",
+      "studentsUrl": "https://www.deloitte.com/uk/en/careers/students.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "PwC",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://jobs.us.pwc.com/",
+      "studentsUrl": "https://www.pwc.co.uk/careers/student-careers.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "EY",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.ey.com/",
+      "studentsUrl": "https://www.ey.com/en_uk/careers/students",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "KPMG",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.kpmguscareers.com/",
+      "studentsUrl": "https://www.kpmgcareers.co.uk/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Alvarez & Marsal",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.alvarezandmarsal.com/careers",
+      "studentsUrl": "https://www.alvarezandmarsal.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "AlixPartners",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.alixpartners.com/careers/",
+      "studentsUrl": "https://www.alixpartners.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Huron Consulting Group",
+      "vertical": "Consulting",
+      "region": "US",
+      "careersUrl": "https://www.huronconsultinggroup.com/careers",
+      "studentsUrl": "https://www.huronconsultinggroup.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Berkeley Research Group",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.thinkbrg.com/careers/",
+      "studentsUrl": "https://www.thinkbrg.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Teneo",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.teneo.com/careers/",
+      "studentsUrl": "https://www.teneo.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Accenture",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.accenture.com/us-en/careers/jobsearch",
+      "studentsUrl": "https://www.accenture.com/us-en/careers/local/students-graduates",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Capgemini",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.capgemini.com/careers/join-capgemini/",
+      "studentsUrl": "https://www.capgemini.com/careers/join-capgemini/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Thoughtworks",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.thoughtworks.com/careers",
+      "studentsUrl": "https://www.thoughtworks.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Publicis Sapient",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.publicissapient.com/",
+      "studentsUrl": "https://careers.publicissapient.com/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "EPAM Systems",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.epam.com/careers",
+      "studentsUrl": "https://www.epam.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Slalom",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.slalom.com/us/en/careers",
+      "studentsUrl": "https://www.slalom.com/us/en/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "West Monroe",
+      "vertical": "Consulting",
+      "region": "US",
+      "careersUrl": "https://www.westmonroe.com/careers",
+      "studentsUrl": "https://www.westmonroe.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Infosys Consulting",
+      "vertical": "Consulting",
+      "region": "Global",
+      "careersUrl": "https://www.infosys.com/careers.html",
+      "studentsUrl": "https://www.infosys.com/careers.html",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Cognizant",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://careers.cognizant.com/global-en/",
+      "studentsUrl": "https://careers.cognizant.com/global-en/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Genpact",
+      "vertical": "Consulting",
+      "region": "Global",
+      "careersUrl": "https://www.genpact.com/careers",
+      "studentsUrl": "https://www.genpact.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Analysis Group",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.analysisgroup.com/careers/",
+      "studentsUrl": "https://www.analysisgroup.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Cornerstone Research",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.cornerstone.com/careers/",
+      "studentsUrl": "https://www.cornerstone.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Charles River Associates",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.crai.com/careers/",
+      "studentsUrl": "https://www.crai.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Brattle Group",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.brattle.com/careers/",
+      "studentsUrl": "https://www.brattle.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Frontier Economics",
+      "vertical": "Consulting",
+      "region": "UK / Europe",
+      "careersUrl": "https://www.frontier-economics.com/uk/en/careers/",
+      "studentsUrl": "https://www.frontier-economics.com/uk/en/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Keystone Strategy",
+      "vertical": "Consulting",
+      "region": "US",
+      "careersUrl": "https://www.keystonestrategy.com/careers/",
+      "studentsUrl": "https://www.keystonestrategy.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "ZS Associates",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.zs.com/careers",
+      "studentsUrl": "https://www.zs.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4,
+      "notes": "Life sciences and commercial strategy"
+    },
+    {
+      "firm": "Simon-Kucher",
+      "vertical": "Consulting",
+      "region": "Global / UK",
+      "careersUrl": "https://www.simon-kucher.com/en/careers",
+      "studentsUrl": "https://www.simon-kucher.com/en/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4,
+      "notes": "Pricing"
+    },
+    {
+      "firm": "Guidehouse",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://guidehouse.com/careers",
+      "studentsUrl": "https://guidehouse.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4,
+      "notes": "Public sector and regulated industries"
+    },
+    {
+      "firm": "Exponent",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.exponent.com/careers",
+      "studentsUrl": "https://www.exponent.com/careers",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4,
+      "notes": "Engineering and science consulting"
+    },
+    {
+      "firm": "Trinity Life Sciences",
+      "vertical": "Consulting",
+      "region": "US / UK",
+      "careersUrl": "https://www.trinitylifesciences.com/careers/",
+      "studentsUrl": "https://www.trinitylifesciences.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
+    },
+    {
+      "firm": "Health Advances",
+      "vertical": "Consulting",
+      "region": "US",
+      "careersUrl": "https://healthadvances.com/careers/",
+      "studentsUrl": "https://healthadvances.com/careers/",
+      "atsFamily": "Derive and validate",
+      "validation": "Official-domain seed",
+      "batch": 4
     }
   ]
 }
