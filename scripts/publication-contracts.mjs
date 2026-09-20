@@ -200,11 +200,17 @@ export function freshnessReport(producer, { read, committedAt }, now = new Date(
   };
 }
 
+/** A label written for the middle of a sentence, used at the start of one. */
+const sentence = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+
 /** The operator's table: every source, its state, and when it last worked. */
 export function freshnessSummary(producer, report) {
   const icon = { fresh: '🟢', degraded: '🟡', stale: '🔴', manual: '⚪', 'not-due': '⚪' };
   const lines = [
-    `### ${CONTRACTS[producer]?.label ?? producer}: source freshness`,
+    // The labels read as sentence fragments ("the open-data collection")
+    // because that is how they read inside an error message. As a heading
+    // they need the capital.
+    `### ${sentence(CONTRACTS[producer]?.label ?? producer)}: source freshness`,
     '',
     report.blocking
       ? '**A required source is stale.** The healthy sources below are still published; the run is failed so this is not mistaken for a working morning.'

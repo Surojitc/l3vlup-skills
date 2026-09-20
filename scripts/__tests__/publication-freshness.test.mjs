@@ -200,5 +200,45 @@ for (const st of ['fresh', 'degraded', 'stale', 'not-due', 'manual']) {
 }
 eq('a stale source outranks a degraded one in the verdict', [mixed.blocking, mixed.degraded], [true, true]);
 
+// ── 8. nothing a collector read can steer any of this ────────────────────
+// Every string in the report comes from the contract table except one: the
+// stamp, which is read out of a file a collector wrote. It reaches the job
+// summary, so it is worth being sure of.
+const hostile = [
+  '2026-09-20T12:00:00Z\n\n## INJECTED HEADING',
+  '2026-09-20T12:00:00Z | injected | table | row',
+  '$(rm -rf /)',
+  '`whoami`',
+  '../../etc/passwd',
+  '<img src=x onerror=alert(1)>',
+];
+for (const raw of hostile) {
+  const v = fileFreshness(CALENDAR, { generatedAt: raw }, null, NOW);
+  // Either it is not a date, in which case there is no stamp to print, or it
+  // parses and toISOString gives back a canonical string with nothing else in
+  // it. There is no third outcome.
+  check(
+    `a stamp reading ${JSON.stringify(raw.slice(0, 26))} cannot reach the summary as text`,
+    v.lastSuccess === undefined || /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(v.lastSuccess),
+    v.lastSuccess,
+  );
+}
+const hostileReport = freshnessReport('open-data', world(feed({ 'data/calendar.auto.json': { generatedAt: hostile[0] } })), NOW);
+const hostileMd = freshnessSummary('open-data', hostileReport);
+check('and cannot add a heading to the operator table', !/INJECTED/.test(hostileMd));
+check('...nor a row to it', (hostileMd.match(/^\| /gm) ?? []).length === (freshnessSummary('open-data', healthy).match(/^\| /gm) ?? []).length);
+// The verdict is two booleans. A file cannot vote on whether the run passes.
+for (const r of [healthy, oneStale, hostileReport]) {
+  check('the verdict is a boolean, whatever the file said', typeof r.blocking === 'boolean' && typeof r.degraded === 'boolean');
+}
+// Nor can it name a path: the sweep only ever asks about paths in the table.
+eq(
+  'only the contract decides which files are looked at',
+  freshnessReport('open-data', { read: () => ({ generatedAt: hoursAgo(1), path: '/etc/shadow' }), committedAt: () => null }, NOW)
+    .sources.map((s) => s.path)
+    .filter((p) => !Object.values(CONTRACTS).flatMap((c) => c.files).some((f) => f.path === p)),
+  [],
+);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
