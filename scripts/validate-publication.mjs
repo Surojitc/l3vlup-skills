@@ -48,22 +48,21 @@
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { CONTRACTS } from './publication-contracts.mjs';
 
 /**
  * The files a collection run may change, each named with the step that writes
- * it. A new collector step means a new line here, on purpose: the run should
- * not be able to publish a file nobody has thought about.
+ * it. A new collector step means a new line in the contract table, on purpose:
+ * the run should not be able to publish a file nobody has thought about.
+ *
+ * Read from that table rather than written out again here. Two copies of an
+ * allowlist is two allowlists, and the one nobody looks at is the one that
+ * goes stale.
  */
-export const PUBLISHABLE = [
-  { pattern: /^data\/opportunities\.auto\.json$/, what: 'the tracker feed (sync-ats)' },
-  { pattern: /^data\/tracker-slugs\.json$/, what: 'the slug registry (sync-ats)' },
-  { pattern: /^data\/tracker-archive\.json$/, what: 'the archive of published URLs (sync-ats)' },
-  { pattern: /^data\/tracker-history\.json$/, what: 'the board history (sync-ats)' },
-  { pattern: /^data\/deadlines\.learned\.json$/, what: 'the deadline ledger (sync-ats)' },
-  { pattern: /^data\/econ\.auto\.json$/, what: 'the economic backdrop (sync_econ)' },
-  { pattern: /^data\/erp\.auto\.json$/, what: 'equity and country risk premiums (sync_erp)' },
-  { pattern: /^samples\/[A-Za-z0-9._-]+\.xlsx$/, what: 'a sample workbook' },
-];
+export const PUBLISHABLE = CONTRACTS.tracker.files.map((f) => ({
+  pattern: f.pattern ?? new RegExp(`^${f.path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`),
+  what: f.label,
+}));
 
 /** The rows below which a feed is not worth publishing over a good one. */
 export const MIN_ROWS = 200;

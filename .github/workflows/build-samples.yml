@@ -134,6 +134,7 @@ jobs:
           node scripts/__tests__/ats-discover.test.mjs
           node scripts/__tests__/slug-registry.test.mjs
           node scripts/__tests__/validate-publication.test.mjs
+          node scripts/__tests__/publication-contracts.test.mjs
           node scripts/__tests__/publication-freshness.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
 
