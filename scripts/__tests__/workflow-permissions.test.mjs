@@ -147,6 +147,7 @@ const allJobs = workflows.flatMap((w) => w.jobs.map((j) => `${w.file}:${j.name}`
 eq('every job is found, and none has been renamed out from under this test', allJobs.sort(), [
   'build-samples.yml:collect',
   'build-samples.yml:health',
+  'build-samples.yml:notify',
   'build-samples.yml:publish',
   'collect.yml:collect',
   'collect.yml:health',
@@ -210,7 +211,7 @@ eq('exactly the same five may write to the repository at all', holding('contents
 // The three that publish data do nothing themselves: they are a `uses:` and a
 // grant. A step added to one of them would be a step running with the only
 // token in the repository that can merge.
-for (const id of ['collect.yml:publish', 'discover-ats.yml:publish']) {
+for (const id of ['build-samples.yml:publish', 'collect.yml:publish', 'discover-ats.yml:publish']) {
   const [file, name] = id.split(':');
   const job = workflows.find((w) => w.file === file).jobs.find((j) => j.name === name);
   eq(`${id} calls the shared publisher and nothing else`, job.uses, `./.github/workflows/${REUSABLE}`);
@@ -237,11 +238,23 @@ const merges = workflows
   .flatMap((w) => w.jobs.map((j) => ({ id: `${w.file}:${j.name}`, text: j.scripts.join('\n') })))
   .filter((j) => /gh pr merge/.test(j.text))
   .map((j) => j.id);
-// TWO, for the length of the migration and no longer. build-samples keeps
-// its proven inline publisher until PR D, which is the deliberate cost of
-// not switching every producer at once. PR D deletes the inline one and this
-// list goes back to a single entry.
-eq('two publishers can merge during the migration, and they are these', merges, ['build-samples.yml:publish', 'publish-data.yml:publish']);
+// One again, and this is the assertion PR D exists to make true. During the
+// migration there were two: build-samples kept its proven inline publisher
+// while the shared one earned its place on the other producers. That is over,
+// and nothing may reintroduce a second implementation.
+eq('one job in the repository merges a pull request, and it is the shared publisher', merges, ['publish-data.yml:publish']);
+// Every producer routes through it. A publish job with steps of its own would
+// be an inline publisher growing back.
+const producers = ['build-samples.yml', 'collect.yml', 'discover-ats.yml'];
+eq(
+  'every producer publishes through the one implementation',
+  producers.map((f) => workflows.find((w) => w.file === f).jobs.find((j) => j.name === 'publish')?.uses ?? 'none'),
+  producers.map(() => `./.github/workflows/${REUSABLE}`),
+);
+check(
+  'and no producer still carries publication steps of its own',
+  producers.every((f) => !/gh pr create|gh pr merge|git push -q --force/.test(workflows.find((w) => w.file === f).jobs.flatMap((j) => j.scripts).join('\n'))),
+);
 // Against what the runner executes, not against the prose: these files
 // explain the ruleset at length in comments, and a comment cannot call an API.
 const executable = (w) =>
@@ -334,15 +347,6 @@ check('the publisher reaches nothing but GitHub', !/curl|wget|fetch\(/.test(publ
 // branch history at once is how one of them publishes over the other.
 check('publishers are serialised repository-wide', /^concurrency:\n {2}group: publish-data\n {2}cancel-in-progress: false$/m.test(reusable.text));
 
-// A downstream announcement waits for the merge. The daily social post reads
-// the calendar, the deal tape and the chartbook, so announcing a collection
-// that failed to publish is announcing yesterday's data.
-{
-  const job = workflows.find((w) => w.file === 'collect.yml').jobs.find((j) => j.name === 'notify');
-  check("collect.yml:notify runs only after a successful merge", /needs\.publish\.outputs\.merged == 'true'/.test(job.body.join('\n')));
-  eq('collect.yml:notify holds a read-only token', job.permissions, { contents: 'read' });
-}
-
 // The collecting jobs are the ones with the credentials and the network, so
 // the properties that matter there are the negative ones.
 for (const [file, name] of [['build-samples.yml', 'collect'], ['collect.yml', 'collect'], ['discover-ats.yml', 'discover']]) {
@@ -373,25 +377,24 @@ for (const file of ['build-samples.yml', 'collect.yml']) {
   }
   const text = health.body.join('\n');
   eq(`${file}:health holds no token at all`, health.permissions, {});
-  // build-samples publishes in the same run, so its health job waits for
-  // that job too. collect.yml does not publish yet; it gains the second
-  // dependency in PR C, when it has something to wait for.
-  check(`${file}:health runs after everything else in its workflow`, /needs: \[collect(, publish)?\]/.test(text));
+  check(`${file}:health runs after publication`, /needs: \[collect, publish\]/.test(text));
   check(`${file}:health runs even when publication did not`, /if: always\(\)/.test(text));
   check(`${file}:health fails the run on a stale required source`, /BLOCKING[\s\S]*?= "true"[\s\S]*?exit 1/.test(health.scripts.join('\n')));
   check(`${file}:health publishes nothing and merges nothing`, !/gh pr |git push/.test(health.scripts.join('\n')));
   // The sweep reads the working tree after collection and before the gate.
   const collect = w.jobs.find((j) => j.name === 'collect');
   const cb = collect.body.join('\n');
-  const staged = cb.indexOf('Stage the collection');
-  check(
-    `${file} sweeps every source before it stages anything`,
-    staged === -1 ? /check-freshness\.mjs/.test(cb) : cb.indexOf('check-freshness.mjs') < staged,
-  );
+  check(`${file} sweeps every source before it stages anything`, cb.indexOf('check-freshness.mjs') < cb.indexOf('Stage the collection'));
   check(`${file} writes the freshness table to the job summary`, /--summary "\$GITHUB_STEP_SUMMARY"/.test(cb));
   check(`${file} never lets the sweep itself fail the collection`, !/check-freshness[\s\S]{0,200}?exit 1/.test(cb));
 }
 
+// A downstream announcement waits for the merge. Announcing a collection that
+// failed to publish is announcing yesterday's data.
+for (const [file, name] of [['build-samples.yml', 'notify'], ['collect.yml', 'notify']]) {
+  const job = workflows.find((w) => w.file === file).jobs.find((j) => j.name === name);
+  check(`${file}:${name} runs only after a successful merge`, /needs\.publish\.outputs\.merged == 'true'/.test(job.body.join('\n')));
+}
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
