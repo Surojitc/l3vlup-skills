@@ -17,7 +17,7 @@ import {
   REQUEST_TIMEOUT_MS, systemPrompt,
 } from '../../lib/thesis-anthropic.mjs';
 import { parseArgs, resolveDocuments } from '../thesis-pilot.mjs';
-import { checkBudget, emptyCostLedger, LIMITS, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, recordCall, resolveModelId } from '../../lib/thesis-cost.mjs';
+import { checkBudget, emptyCostLedger, LIMITS, MAX_PROPOSALS_PER_CHUNK, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, recordCall, resolveModelId } from '../../lib/thesis-cost.mjs';
 import { runDocument } from '../../lib/thesis-runner.mjs';
 import { emptyDecisionLog } from '../../lib/thesis-review.mjs';
 
@@ -489,6 +489,86 @@ await test('Sonnet 5 resolves to itself, and no alias can redirect it', () => {
   // Its published price, checked against the model table.
   assert.equal(MODEL_ALLOWLIST['claude-sonnet-5'].inputPerMTok, 2.00);
   assert.equal(MODEL_ALLOWLIST['claude-sonnet-5'].outputPerMTok, 10.00);
+});
+
+// ── The bounded Sonnet 5 configuration ──────────────────────────────────────
+
+await test('six proposals per chunk is structural, not a request in the prompt', () => {
+  assert.equal(MAX_PROPOSALS_PER_CHUNK, 6);
+  // `strict: true` makes the schema binding, so a seventh is not returnable.
+  assert.equal(PROPOSAL_TOOL.strict, true);
+  assert.equal(PROPOSAL_TOOL.input_schema.properties.proposals.maxItems, 6);
+  // And the instruction says the same number, so the two cannot disagree.
+  const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
+  const prompt = systemPrompt(taxonomy);
+  assert.match(prompt, /at most 6 claims/);
+  assert.match(PROPOSAL_TOOL.description, /at most 6 material/);
+});
+
+await test('the prompt asks for material claims and names what to leave out', () => {
+  const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
+  const prompt = systemPrompt(taxonomy);
+  for (const material of ['thesis', 'driver of value', 'catalyst', 'risk', 'stance', 'conviction']) {
+    assert.ok(prompt.includes(material), `the prompt does not ask for ${material}`);
+  }
+  for (const excluded of ['background description', 'commentary', 'restatement', 'too small to change a view']) {
+    assert.ok(prompt.includes(excluded), `the prompt does not exclude ${excluded}`);
+  }
+});
+
+await test('the request asks for exactly the per-call output ceiling', async () => {
+  // These had drifted: the ledger priced every call at the ceiling while the
+  // request asked for a hardcoded 4,000, so raising the ceiling would have
+  // changed the price of a call and nothing about what it could return.
+  assert.equal(LIMITS.maxOutputTokensPerCall, 8_000);
+  const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
+  const sent = [];
+  const client = { constructor: class {}, messages: { create: async (req) => { sent.push(req); return {
+    content: [{ type: 'tool_use', name: 'propose_claims', input: { proposals: [] } }],
+    usage: { input_tokens: 10, output_tokens: 5 },
+  }; } } };
+  const model = anthropicModel({ modelId: 'claude-sonnet-5', taxonomy, client });
+  await model.propose({ chunkId: 'c', text: 'x' });
+  assert.equal(sent[0].max_tokens, LIMITS.maxOutputTokensPerCall, 'the request and the ceiling disagree');
+  assert.deepEqual(sent[0].thinking, { type: 'disabled' }, 'thinking came back on');
+  assert.equal(sent[0].tools[0].input_schema.properties.proposals.maxItems, 6);
+});
+
+await test('the 8,000-token ceiling is priced, and the pilot still fits the budget', () => {
+  const p = MODEL_ALLOWLIST['claude-sonnet-5'];
+  const usd = (i, o) => (i / 1e6) * p.inputPerMTok + (o / 1e6) * p.outputPerMTok;
+  // One call at both ceilings.
+  assert.equal(Number(usd(LIMITS.maxInputTokensPerCall, LIMITS.maxOutputTokensPerCall).toFixed(4)), 0.16);
+  // Two documents, bounded by the per-document ceilings, well under $3.
+  const worstTwoDocuments = usd(2 * LIMITS.maxInputTokensPerDocument, 2 * LIMITS.maxOutputTokensPerDocument);
+  assert.ok(worstTwoDocuments < PILOT_BUDGET_USD, `two documents could cost $${worstTwoDocuments.toFixed(2)}`);
+  // Every ceiling the approval fixed is still where it was.
+  assert.equal(PILOT_BUDGET_USD, 3.00);
+  assert.equal(LIMITS.hardStopUsd, 15.00);
+  assert.equal(LIMITS.maxInputTokensPerCall, 40_000);
+  assert.equal(LIMITS.maxDocuments, 9);
+  assert.equal(LIMITS.maxChunksPerDocument, 12);
+  assert.equal(LIMITS.maxModelCalls, 18);
+  assert.equal(MAX_RETRIES, 0);
+});
+
+await test('a truncated answer aborts with no retry and keeps no partial claim', () => {
+  // The tool input of a truncated answer may be half-parsed JSON, so it is
+  // refused before anything reads it rather than after.
+  const truncated = {
+    stop_reason: 'max_tokens',
+    content: [{ type: 'tool_use', name: 'propose_claims', input: { proposals: [{ paraphrase: 'half a claim' }] } }],
+    usage: { input_tokens: 2500, output_tokens: 8000 },
+  };
+  assert.throws(() => readProposals(truncated), (e) => {
+    assert.equal(e.reason, 'truncated');
+    assert.equal(e.retryable, false, 'a truncated answer is marked retryable');
+    return true;
+  });
+  // The usage is still readable, so the call is costed even though it is lost.
+  const usage = readUsage(truncated);
+  assert.equal(usage.outputTokens, 8000);
+  assert.ok(actualUsd('claude-sonnet-5', usage) > 0, 'a truncated call is treated as free');
 });
 
 console.log(`${passed} passed`);

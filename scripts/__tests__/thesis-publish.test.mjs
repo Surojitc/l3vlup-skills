@@ -7,12 +7,14 @@
 //   node scripts/__tests__/thesis-publish.test.mjs
 
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  buildFeed, FEED_VERSION, FORBIDDEN_PUBLISHED_FIELDS, HUMAN_ONLY_STATES,
-  PUBLISHABLE_STATES, PUBLISHED_CLAIM_FIELDS, sanitiseClaim, serialiseFeed, validateFeed,
+  buildFailureReport, buildFeed, FAILURE_REASONS, FEED_VERSION, FORBIDDEN_PUBLISHED_FIELDS,
+  HUMAN_ONLY_STATES, PUBLISHABLE_STATES, PUBLISHED_CLAIM_FIELDS, sanitiseClaim,
+  serialiseFeed, validateFailureReport, validateFeed,
 } from '../../lib/thesis-publish.mjs';
 import { DOCUMENT_SETS, managerNames, parseArgs } from '../thesis-pilot.mjs';
 import { LIMITS, PILOT_BUDGET_USD, PILOT_MODEL } from '../../lib/thesis-cost.mjs';
@@ -363,6 +365,90 @@ test('a quotation is attributed to the manager by name, never by slug', () => {
     const name = names.get(d.fund);
     assert.ok(name && name !== d.fund, `${d.fund} has no legal name to attribute a quotation to`);
   }
+});
+
+// ── A run that did not finish ───────────────────────────────────────────────
+
+test('a failed run reports its cost and nothing else', () => {
+  const ledger = {
+    estimatedUsd: 0.0512, actualUsd: 0.0447, budgetUsd: 3, stopped: false, stopReason: null,
+    calls: [{ documentId: 'd-1', chunkId: 'c-1', model: PILOT_MODEL, inputTokens: 2500, outputTokens: 8000, estimatedUsd: 0.0512, actualUsd: 0.0447 }],
+  };
+  const r = buildFailureReport({ reason: 'truncated', detail: 'the answer hit max_tokens', ledger, model: PILOT_MODEL, documentsAttempted: 1 });
+  assert.deepEqual(validateFailureReport(r), []);
+  assert.equal(r.failed, true);
+  assert.equal(r.reason, 'truncated');
+  assert.equal(r.cost.actualUsd, 0.0447);
+  assert.equal(r.cost.calls.length, 1);
+  assert.equal(r.documentsAttempted, 1);
+  // The per-call record is identifiers and numbers only.
+  for (const k of Object.keys(r.cost.calls[0])) {
+    assert.ok(['documentId', 'chunkId', 'model', 'inputTokens', 'outputTokens', 'estimatedUsd', 'actualUsd'].includes(k), `${k} rides along in a call record`);
+  }
+});
+
+test('a failure report may not carry claims, text, quotations or a feed', () => {
+  const base = buildFailureReport({ reason: 'truncated', ledger: {} });
+  for (const leak of [
+    { claims: [{ paraphrase: 'x' }] },
+    { proposals: [{ evidenceExcerpt: 'a verbatim run of the letter' }] },
+    { refused: [] }, { dropped: [] }, { stripped: [] },
+    { quotedWordsByDocument: { 'd-1': 12 } },
+    { sourceText: 'the whole letter' },
+    { rawResponse: 'the partial tool input' },
+    { prompt: 'the extraction recipe' },
+    { cost: { calls: [{ chunkText: 'a passage' }] } },
+  ]) {
+    const problems = validateFailureReport({ ...base, ...leak });
+    assert.ok(problems.length, `${Object.keys(leak)[0]} was accepted into a failure report`);
+  }
+});
+
+test('a failure reason is snapped to a known vocabulary, and the detail is bounded', () => {
+  // A reason we do not recognise becomes `unknown` rather than travelling
+  // whatever string threw it, which could be a model's or a document's words.
+  assert.equal(buildFailureReport({ reason: 'something the model said', ledger: {} }).reason, 'unknown');
+  for (const r of FAILURE_REASONS) assert.equal(buildFailureReport({ reason: r, ledger: {} }).reason, r);
+  const long = buildFailureReport({ reason: 'truncated', detail: 'x'.repeat(5000), ledger: {} });
+  assert.equal(long.detail.length, 200);
+  assert.deepEqual(validateFailureReport(long), []);
+  assert.ok(validateFailureReport({ ...long, detail: 'x'.repeat(201) }).length);
+});
+
+test('the failure artefact waits for a clean cleanup, and carries one file', () => {
+  const extract = job('extract');
+  // The cleanup says whether it actually succeeded...
+  assert.match(extract, /id: cleanup/);
+  assert.match(extract, /echo "clean=\$\(\[ "\$status" -eq 0 \]/);
+  // ...and both failure steps wait on that, so a surviving workspace or
+  // identity token means nothing leaves the runner.
+  const checks = [...extract.matchAll(/steps\.cleanup\.outputs\.clean == 'true'/g)];
+  assert.equal(checks.length, 2, 'a failure step does not wait for a clean cleanup');
+  const upload = extract.slice(extract.indexOf("- name: Upload the failed run's cost report"));
+  assert.match(upload, /name: thesis-pilot-failure/);
+  assert.match(upload, /path: \.pilot\/failure\.json/, 'the failure artefact carries more than the cost report');
+  assert.match(upload, /retention-days: 1/);
+  assert.match(extract, /failure\(\) && !inputs\.dry_run && !inputs\.auth_check_only/);
+  // It is checked before it is uploaded, by the same validator the library uses.
+  assert.ok(extract.indexOf('thesis-failure-check.mjs') < extract.indexOf('name: thesis-pilot-failure'));
+  // And the write-capable job never sees it.
+  assert.ok(!job('open-pull-request').includes('thesis-pilot-failure'));
+});
+
+test('a cleanup that failed reports it, so nothing is uploaded after it', () => {
+  // The gate is only as good as the line that sets it, so run that line.
+  const line = 'echo "clean=$([ "$status" -eq 0 ] && echo true || echo false)"';
+  const run = (status) => execFileSync('bash', ['-c', `status=${status}; ${line}`], { encoding: 'utf8' }).trim();
+  assert.equal(run(0), 'clean=true');
+  assert.equal(run(1), 'clean=false', 'a failed cleanup would still let the artefact out');
+
+  // And the line is the one the workflow actually runs.
+  const extract = job('extract');
+  assert.ok(extract.includes(line.replace('echo "clean=', 'echo "clean=')), 'the workflow sets the flag some other way');
+  // The cleanup still fails the job: reporting is not the same as forgiving.
+  assert.match(extract, /exit \$status/);
+  const cleanup = extract.slice(extract.indexOf('- name: Delete every document'));
+  assert.ok(cleanup.indexOf('clean=') < cleanup.indexOf('exit $status'), 'the flag is written after the job has already exited');
 });
 
 console.log(`${passed} passed`);
