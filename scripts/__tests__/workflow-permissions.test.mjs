@@ -150,6 +150,8 @@ eq('every job is found, and none has been renamed out from under this test', all
   'build-samples.yml:publish',
   'collect.yml:collect',
   'collect.yml:health',
+  'collect.yml:notify',
+  'collect.yml:publish',
   'discover-ats.yml:discover',
   'discover-ats.yml:publish',
   'letters-parse.yml:open-pull-request',
@@ -191,17 +193,16 @@ const holding = (scope) =>
     .map((j) => j.id)
     .sort();
 
-eq('exactly four jobs in this repository may open a pull request', holding('pull-requests'), [
+eq('exactly five jobs in this repository may open a pull request', holding('pull-requests'), [
   'build-samples.yml:publish',
+  'collect.yml:publish',
   'discover-ats.yml:publish',
   'letters-parse.yml:open-pull-request',
   'thesis-pilot.yml:open-pull-request',
 ]);
-// collect.yml is the fifth, and it is the one still pushing straight to a
-// branch a ruleset refuses. It moves in PR C.
-eq('five may write to the repository at all', holding('contents'), [
+eq('exactly the same five may write to the repository at all', holding('contents'), [
   'build-samples.yml:publish',
-  'collect.yml:collect',
+  'collect.yml:publish',
   'discover-ats.yml:publish',
   'letters-parse.yml:open-pull-request',
   'thesis-pilot.yml:open-pull-request',
@@ -209,7 +210,7 @@ eq('five may write to the repository at all', holding('contents'), [
 // The three that publish data do nothing themselves: they are a `uses:` and a
 // grant. A step added to one of them would be a step running with the only
 // token in the repository that can merge.
-for (const id of ['discover-ats.yml:publish']) {
+for (const id of ['collect.yml:publish', 'discover-ats.yml:publish']) {
   const [file, name] = id.split(':');
   const job = workflows.find((w) => w.file === file).jobs.find((j) => j.name === name);
   eq(`${id} calls the shared publisher and nothing else`, job.uses, `./.github/workflows/${REUSABLE}`);
@@ -333,9 +334,18 @@ check('the publisher reaches nothing but GitHub', !/curl|wget|fetch\(/.test(publ
 // branch history at once is how one of them publishes over the other.
 check('publishers are serialised repository-wide', /^concurrency:\n {2}group: publish-data\n {2}cancel-in-progress: false$/m.test(reusable.text));
 
+// A downstream announcement waits for the merge. The daily social post reads
+// the calendar, the deal tape and the chartbook, so announcing a collection
+// that failed to publish is announcing yesterday's data.
+{
+  const job = workflows.find((w) => w.file === 'collect.yml').jobs.find((j) => j.name === 'notify');
+  check("collect.yml:notify runs only after a successful merge", /needs\.publish\.outputs\.merged == 'true'/.test(job.body.join('\n')));
+  eq('collect.yml:notify holds a read-only token', job.permissions, { contents: 'read' });
+}
+
 // The collecting jobs are the ones with the credentials and the network, so
 // the properties that matter there are the negative ones.
-for (const [file, name] of [['build-samples.yml', 'collect'], ['discover-ats.yml', 'discover']]) {
+for (const [file, name] of [['build-samples.yml', 'collect'], ['collect.yml', 'collect'], ['discover-ats.yml', 'discover']]) {
   const w = workflows.find((x) => x.file === file);
   const job = w.jobs.find((j) => j.name === name);
   const text = job.scripts.join('\n');
