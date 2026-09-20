@@ -259,6 +259,11 @@ jobs:
           git config user.name  "l3vlup-bot"
           git config user.email "actions@users.noreply.github.com"
 
+          # The gate is copied aside first: the reset below puts the working
+          # tree back to main, and on a run dispatched from a branch the gate
+          # itself may not exist there yet.
+          cp scripts/validate-publication.mjs "$RUNNER_TEMP/gate.mjs"
+
           # The data commit is rebuilt on origin/main whatever ref this run was
           # dispatched from. Without this a dispatch from a feature branch
           # would carry that branch's code into a data pull request, and the
@@ -277,7 +282,7 @@ jobs:
           # now that the diff is against main rather than against the dispatch
           # ref. Cheap, and it is the one a reviewer is trusting.
           git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
-          node scripts/validate-publication.mjs --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
+          node "$RUNNER_TEMP/gate.mjs" --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
 
           if git diff --cached --quiet; then
             echo "main already carries this collection; nothing to publish"
