@@ -27,13 +27,43 @@ import { anthropicModel, preflightModel, realClient } from '../lib/thesis-anthro
 import { emptyCostLedger, LIMITS, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, resolveModelId } from '../lib/thesis-cost.mjs';
 import { runDocument } from '../lib/thesis-runner.mjs';
 import { emptyDecisionLog, renderReview, reviewCard } from '../lib/thesis-review.mjs';
-import { buildFeed, serialiseFeed, validateFeed } from '../lib/thesis-publish.mjs';
+import { buildFailureReport, buildFeed, serialiseFeed, validateFailureReport, validateFeed } from '../lib/thesis-publish.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, '.pilot');
 const SELECTION = join(ROOT, 'data', 'letters.selection.json');
 const TAXONOMY = join(ROOT, 'data', 'letters.taxonomy.json');
 const SOURCES = join(ROOT, 'data', 'letters.sources.json');
+
+/**
+ * What a failed run knows about itself.
+ *
+ * A module-scoped snapshot rather than a return value, because the run can die
+ * anywhere and the cost is worth reporting from every one of those places. It
+ * holds identifiers and numbers only; nothing read from a document ever
+ * reaches it.
+ */
+const runState = { model: null, promptVersion: null, ledger: {}, documentsAttempted: 0 };
+
+/** Write the cost of a run that did not finish, or say why it could not. */
+export function writeFailureReport(reason, detail) {
+  const report = buildFailureReport({
+    reason, detail, ledger: runState.ledger, model: runState.model,
+    promptVersion: runState.promptVersion, runId: process.env.GITHUB_RUN_ID || null,
+    documentsAttempted: runState.documentsAttempted,
+  });
+  const problems = validateFailureReport(report);
+  if (problems.length) {
+    // Refuse to write something we cannot vouch for rather than write it and
+    // hope the receiving job catches it.
+    console.error('the failure report is not safe to write:');
+    for (const p of problems) console.error(`  - ${p}`);
+    return null;
+  }
+  writeOut('failure.json', report);
+  console.error(`failure recorded: ${report.reason} · actual $${report.cost.actualUsd.toFixed(4)} of $${report.cost.budgetUsd ?? '?'}`);
+  return report;
+}
 
 /**
  * Slug to the manager's legal name, read from the file that already holds it.
@@ -194,6 +224,9 @@ async function main() {
 
   const model = anthropicModel({ modelId: args.model, taxonomy, client });
   let ledger = emptyCostLedger({ budgetUsd: args.budget });
+  runState.model = args.model;
+  runState.promptVersion = model.promptVersion;
+  runState.ledger = ledger;
   const decisionLog = existsSync(join(OUT, 'decisions.json'))
     ? JSON.parse(readFileSync(join(OUT, 'decisions.json'), 'utf8'))
     : emptyDecisionLog();
@@ -226,6 +259,8 @@ async function main() {
         ledger, decisionLog, quotedWordsByDocument: quoted,
       });
       ledger = run.ledger;
+      runState.ledger = ledger;
+      runState.documentsAttempted += 1;
       out.push({ document, run });
       console.log(`  ${run.claims.length} claim(s), ${run.dropped.length} dropped, ${run.strippedFields.length} field(s) stripped, $${ledger.estimatedUsd.toFixed(4)} spent`);
       if (ledger.stopped) { console.error(`  STOPPED: ${ledger.stopReason}`); break; }
@@ -289,5 +324,12 @@ async function main() {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('thesis-pilot.mjs')) {
-  main().catch((err) => { console.error(err); process.exit(1); });
+  main().catch((err) => {
+    console.error(err);
+    // The cost is the one thing worth keeping from a run that died. It is
+    // written after the workspace has already been torn down by withWorkspace,
+    // so there is nothing left for it to accidentally carry.
+    writeFailureReport(err?.reason ?? 'unknown', err?.detail ?? String(err?.message ?? err));
+    process.exit(1);
+  });
 }
