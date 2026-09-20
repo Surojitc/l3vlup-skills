@@ -47,12 +47,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # It crawls a hundred and sixty corporate careers sites. A token that can
+  # only read is the whole point.
   discover:
+    name: Discover and validate
     runs-on: ubuntu-latest
-    # It commits the registry it discovered, and that is all. Notably not
-    # `pull-requests: write`: nothing in this workflow opens or merges one.
     permissions:
-      contents: write
+      contents: read
+    outputs:
+      changed: ${{ steps.stage.outputs.changed }}
     steps:
       - uses: actions/checkout@v5
 
@@ -63,8 +66,11 @@ jobs:
       # Detection decides what goes into the registry, and a wrong tenant does
       # not error — it returns an empty board that looks like a firm with no
       # early-career roles. Gate the run on the tests.
-      - name: Test board detection
-        run: node scripts/__tests__/ats-discover.test.mjs
+      - name: Test board detection and the publication contract
+        run: |
+          node scripts/__tests__/ats-discover.test.mjs
+          node scripts/__tests__/publication-contracts.test.mjs
+          node scripts/__tests__/workflow-permissions.test.mjs
 
       # Scaffolding: reports the full field set each ATS returns so enrichment
       # is written against observed payloads. Never fails the run.
@@ -127,22 +133,69 @@ jobs:
             require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, L.join("\n") + "\n");
           '
 
-      - name: Commit the registry
+      # ── publication ────────────────────────────────────────────────────
+      # This used to push to main, which the ruleset of 18 September refuses.
+      # Unlike collect.yml it at least failed loudly when it did, but a loud
+      # failure is not a publication either. It now travels the same road as
+      # the other two producers.
+      #
+      # A dry run writes data/ats-discovery.json and nothing else, and that
+      # report is the deliverable of a dry run rather than something to
+      # publish; only a `write` run stages anything at all.
+      - name: Stage the registry
+        id: stage
         if: inputs.write
         run: |
-          git config user.name  "l3vlup-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add lib/sources/ats-registry.json data/ats-discovery.json
+          set -euo pipefail
+          git add -A
           if git diff --cached --quiet; then
             echo "nothing new resolved"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git commit -m "chore(tracker): add boards resolved by discovery [skip ci]"
-          for i in 1 2 3 4 5; do
-            git push && exit 0
-            echo "push failed, rebasing (attempt $i)"
-            git pull --rebase origin main || true
-            sleep $((2 ** i))
-          done
-          echo "::error::could not push the registry"
-          exit 1
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          echo "staged:"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+
+      - name: Check what is about to be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          node scripts/validate-data-publication.mjs \
+            --producer ats-registry \
+            --staged "$RUNNER_TEMP/staged.txt" \
+            --report "$RUNNER_TEMP/pr-body.md" \
+            --ref "${GITHUB_REF_NAME}" \
+            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+      - name: Pack what may be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+          cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
+          cp scripts/validate-data-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
+          cp scripts/publication-contracts.mjs "$RUNNER_TEMP/handoff/publication-contracts.mjs"
+
+      - name: Upload what may be published
+        if: steps.stage.outputs.changed == 'true'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: ats-registry-refresh
+          path: ${{ runner.temp }}/handoff
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    name: Publish
+    needs: discover
+    if: needs.discover.outputs.changed == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/publish-data.yml
+    with:
+      producer: ats-registry
+      artifact: ats-registry-refresh

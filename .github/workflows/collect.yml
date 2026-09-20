@@ -39,12 +39,19 @@ permissions:
   contents: read
 
 jobs:
+  # Everything that touches the outside world, with a token that can only
+  # read. It fetches government feeds, press wires, SEC endpoints and a
+  # hundred and sixty careers pages; whatever any of them returns, this job
+  # cannot push a branch, open a pull request or merge one.
   collect:
+    name: Collect and validate
     runs-on: ubuntu-latest
-    # It commits the collected files, and that is all. Notably not
-    # `pull-requests: write`: nothing in this workflow opens or merges one.
     permissions:
-      contents: write
+      contents: read
+    outputs:
+      blocking: ${{ steps.freshness.outputs.blocking }}
+      degraded: ${{ steps.freshness.outputs.degraded }}
+      changed: ${{ steps.stage.outputs.changed }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -55,6 +62,14 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+
+      # The gate that decides what this run may publish, checked before the
+      # run spends an hour collecting something it would then refuse.
+      - name: Test the publication contract
+        run: |
+          node scripts/__tests__/publication-contracts.test.mjs
+          node scripts/__tests__/publication-freshness.test.mjs
+          node scripts/__tests__/workflow-permissions.test.mjs
 
       - name: Economic calendar
         continue-on-error: true
@@ -217,30 +232,127 @@ jobs:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: python3 scripts/sync_peers.py
 
-      - name: Commit
+      # ── freshness ──────────────────────────────────────────────────────
+      # Every source this producer owns, whether or not this run touched it.
+      # The gate below checks what is being published; a collector that fails
+      # every morning publishes nothing, so the gate has nothing to object to
+      # while the committed file ages behind a green tick. That is how two
+      # days of calendar, deal tape and news map went stale under a run that
+      # reported success.
+      #
+      # It never fails here. Publication of the healthy sources goes ahead
+      # first, and the `health` job at the end turns a stale required source
+      # into a failed run, so the data still flows and the morning is still
+      # visibly not fine.
+      - name: Check how fresh every source is
+        id: freshness
         run: |
-          git config user.name "l3vlup-bot"
-          git config user.email "68951812+Surojitc@users.noreply.github.com"
-          git add data/
-          if git diff --staged --quiet; then
-            echo "No changes."
-          else
-            git commit -m "chore(data): scheduled collection"
-            for i in 1 2 3; do
-              git push && break
-              git pull --rebase origin main
-            done
-          fi
+          set -euo pipefail
+          node scripts/check-freshness.mjs \
+            --producer open-data \
+            --summary "$GITHUB_STEP_SUMMARY" \
+            --output "$GITHUB_OUTPUT"
 
-      # Daily social post — moved here from the private repo (2026-08-30),
-      # whose metered Actions budget had silently stopped it. Runs LAST so it
-      # posts against the data committed moments ago. Every channel is
-      # optional: the script silently skips any channel whose secrets are
-      # absent, so this step is a no-op until secrets are added. The tokens
-      # are repository secrets — never exposed to forks or fork PRs, and this
-      # workflow must never move to pull_request_target (see header).
+      # ── publication ────────────────────────────────────────────────────
+      # This used to be a commit and a push, inside a three-attempt retry
+      # loop. The ruleset of 18 September refused the push and the loop's exit
+      # status was whatever `git pull --rebase` returned, so the step passed,
+      # the job passed, and the run reported success for two days while the
+      # calendar, the deal tape and the news map went stale behind a green
+      # tick. Nothing below can do that: every failure path exits non-zero.
+      #
+      # `git add -A` rather than `git add data/`, which is the other half of
+      # the same lesson. Staging one directory means a run that has edited a
+      # script leaves that change uncommitted and unmentioned; staging
+      # everything and refusing anything outside the allowlist means it fails
+      # loudly instead.
+      - name: Stage the collection
+        id: stage
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "the collection changed nothing; there is nothing to publish"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          echo "staged:"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+
+      - name: Check what is about to be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          node scripts/validate-data-publication.mjs \
+            --producer open-data \
+            --staged "$RUNNER_TEMP/staged.txt" \
+            --report "$RUNNER_TEMP/pr-body.md" \
+            --ref "${GITHUB_REF_NAME}" \
+            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+      # What crosses the line between the two jobs, and nothing else: the
+      # files the gate approved, the body it wrote, and the gate itself. The
+      # gate travels because the job on the other side starts from main, and
+      # on a run dispatched from a branch main may not carry it yet.
+      - name: Pack what may be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+          cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
+          cp scripts/validate-data-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
+          cp scripts/publication-contracts.mjs "$RUNNER_TEMP/handoff/publication-contracts.mjs"
+
+      - name: Upload what may be published
+        if: steps.stage.outputs.changed == 'true'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: open-data-refresh
+          path: ${{ runner.temp }}/handoff
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    name: Publish
+    needs: collect
+    if: needs.collect.outputs.changed == 'true'
+    # Granted here, on the one job that says `uses:`, so a reviewer of this
+    # file sees what the publisher is being trusted with. The publisher
+    # cannot widen it; a called workflow may only narrow what it inherits.
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/publish-data.yml
+    with:
+      producer: open-data
+      artifact: open-data-refresh
+
+  # Downstream notification, and only once the data is actually on main. The
+  # post reads the calendar, the deal tape and the chartbook, so announcing a
+  # collection that failed to publish would be announcing yesterday's.
+  notify:
+    name: Daily social post
+    needs: publish
+    if: needs.publish.outputs.merged == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+      # Every channel is optional: the script silently skips any channel whose
+      # secrets are absent, so this is a no-op until secrets are added. The
+      # tokens are repository secrets, never exposed to forks or fork pull
+      # requests, and this workflow must never move to pull_request_target
+      # (see the header).
       - name: Daily social post
-        if: github.event_name != 'pull_request'
         continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -254,3 +366,35 @@ jobs:
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
         run: node scripts/daily-post.mjs
+
+  # The run's conclusion, set after publication rather than before it.
+  #
+  # Splitting these apart is the point: a stale calendar must not stop a
+  # healthy deal tape reaching the site, and a morning where a collector has
+  # been dead for two days must not report success. So publication happens,
+  # and then this fails the run and says which source and since when.
+  #
+  # `if: always()` because the interesting case is the one where publishing
+  # was skipped or failed: a health report that only runs on the happy path
+  # is the defect it was written to catch.
+  health:
+    name: Source health
+    needs: [collect, publish]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Fail the run if a required source is stale
+        env:
+          BLOCKING: ${{ needs.collect.outputs.blocking }}
+          DEGRADED: ${{ needs.collect.outputs.degraded }}
+        run: |
+          set -euo pipefail
+          if [ "${BLOCKING:-}" = "true" ]; then
+            echo "::error::a required source has not been collected inside its horizon; see the freshness table in this run's summary"
+            exit 1
+          fi
+          if [ "${DEGRADED:-}" = "true" ]; then
+            echo "::warning::an optional source is degraded; publication went ahead"
+          fi
+          echo "every required source is within its horizon"

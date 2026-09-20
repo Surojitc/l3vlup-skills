@@ -95,6 +95,8 @@ jobs:
     permissions:
       contents: read
     outputs:
+      blocking: ${{ steps.freshness.outputs.blocking }}
+      degraded: ${{ steps.freshness.outputs.degraded }}
       changed: ${{ steps.stage.outputs.changed }}
       tracker: ${{ steps.stage.outputs.tracker }}
     steps:
@@ -132,6 +134,8 @@ jobs:
           node scripts/__tests__/ats-discover.test.mjs
           node scripts/__tests__/slug-registry.test.mjs
           node scripts/__tests__/validate-publication.test.mjs
+          node scripts/__tests__/publication-contracts.test.mjs
+          node scripts/__tests__/publication-freshness.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
@@ -217,6 +221,27 @@ jobs:
             exit 1
           fi
 
+      # ── freshness ──────────────────────────────────────────────────────
+      # Every source this producer owns, whether or not this run touched it.
+      # The gate below checks what is being published; a collector that fails
+      # every morning publishes nothing, so the gate has nothing to object to
+      # while the committed file ages behind a green tick. That is how two
+      # days of calendar, deal tape and news map went stale under a run that
+      # reported success.
+      #
+      # It never fails here. Publication of the healthy sources goes ahead
+      # first, and the `health` job at the end turns a stale required source
+      # into a failed run, so the data still flows and the morning is still
+      # visibly not fine.
+      - name: Check how fresh every source is
+        id: freshness
+        run: |
+          set -euo pipefail
+          node scripts/check-freshness.mjs \
+            --producer tracker \
+            --summary "$GITHUB_STEP_SUMMARY" \
+            --output "$GITHUB_OUTPUT"
+
       # ── publication ────────────────────────────────────────────────────
       # Everything below replaces a push to main, which a ruleset has refused
       # since 18 September. The shape is deliberate: stage EVERYTHING, then
@@ -278,7 +303,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/handoff"
           tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
           cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
-          cp scripts/validate-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
+          cp scripts/validate-data-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
+          cp scripts/publication-contracts.mjs "$RUNNER_TEMP/handoff/publication-contracts.mjs"
 
       - name: Upload what may be published
         if: steps.stage.outputs.changed == 'true'
@@ -289,165 +315,50 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-  # The only job in this file that can write anything. It runs no collector,
-  # reads no careers board and calls no model: it unpacks a tar, re-checks it
-  # against the same gate, and opens a pull request.
+  # The publication half lives in one file for all three producers, because
+  # three copies of it would diverge and each would hold a token that can
+  # merge. Granted here, on the one job that says `uses:`, so a reviewer of
+  # this workflow sees what the publisher is trusted with; it cannot widen it.
   publish:
-    name: Open and merge the data pull request
+    name: Publish
     needs: collect
     if: needs.collect.outputs.changed == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    # The least that can open a pull request: a branch to push and the pull
-    # request itself. No packages, no actions, no deployments, no id-token,
-    # and nothing that could approve a review.
     permissions:
       contents: write
       pull-requests: write
+    uses: ./.github/workflows/publish-data.yml
+    with:
+      producer: tracker
+      artifact: daily-data-refresh
+      merge: ${{ github.event.inputs.publish != 'false' }}
+
+  # Ask the site to work out what changed on the board and tell Bing.
+  #
+  # WHY IT IS THE JOB AFTER THE MERGE
+  # ---------------------------------
+  # The site's detector is a change detector: it diffs the published set
+  # against the snapshot it recorded last time and posts only the difference.
+  # Until the merge lands there is nothing on main to recrawl, and a call
+  # before it would spend the delta on data the site cannot yet read.
+  #
+  # Gated on the tracker file itself having moved, because only
+  # data/opportunities.auto.json changes what a /tracker/[slug] page renders;
+  # a workbook rebuild is not news to a search engine.
+  notify:
+    name: Tell the site the tracker moved
+    needs: [collect, publish]
+    if: |
+      github.repository == 'Surojitc/l3vlup-skills' &&
+      (
+        (needs.publish.outputs.merged == 'true' && needs.collect.outputs.tracker == 'true') ||
+        github.event.inputs.indexnow_force == 'true'
+      )
+    runs-on: ubuntu-latest
+    permissions: {}
     steps:
-      # main, not the dispatch ref. A data pull request must carry the
-      # collection and nothing else, and starting anywhere else is how a
-      # feature branch's code would ride along inside it.
-      - uses: actions/checkout@v5
-        with:
-          ref: main
-
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 20
-
-      # Into the temp directory, deliberately: unpacked inside the working
-      # tree it would be staged by the `git add -A` below and published.
-      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
-        with:
-          name: daily-data-refresh
-          path: ${{ runner.temp }}/handoff
-
-      - name: Open or update the data pull request
-        id: pr
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          branch=automation/daily-data-refresh
-          git config user.name  "l3vlup-bot"
-          git config user.email "actions@users.noreply.github.com"
-
-          git checkout -q -B "$branch"
-          tar -xf "$RUNNER_TEMP/handoff/publishable.tar"
-          git add -A
-
-          # The check that actually guarantees the pull request's contents.
-          # The collecting job ran the same gate, but this job did not watch
-          # it do so and takes nothing from it on trust: the list checked here
-          # is the diff against main that is about to be committed. Cheap, and
-          # it is the one a reviewer is trusting.
-          git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
-          node "$RUNNER_TEMP/handoff/gate.mjs" --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
-
-          if git diff --cached --quiet; then
-            echo "main already carries this collection; nothing to publish"
-            echo "number=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          git commit -q -m "chore(data): daily collection [skip ci]"
-
-          # One branch, rebuilt from today's main on every run, so a refresh
-          # nobody merged yesterday is replaced rather than stacked behind
-          # today's. Forcing is safe here and only here: the non-fast-forward
-          # rule guards the default branch, and this branch has one author.
-          git push -q --force origin "HEAD:refs/heads/$branch"
-
-          number=$(gh pr list --head "$branch" --base main --state open --json number --jq '.[0].number // empty')
-          title="chore(data): daily collection $(date -u +%Y-%m-%d)"
-          if [ -n "$number" ]; then
-            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md"
-            echo "updated #$number"
-          else
-            if ! gh pr create --base main --head "$branch" \
-                 --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
-              cat "$RUNNER_TEMP/pr.txt"
-              echo "::error::could not open the data pull request. If the message above says GitHub Actions is not permitted to create pull requests, that is a repository setting: Settings, Actions, General, Workflow permissions. Nothing has been published and the collected files are on the $branch branch."
-              exit 1
-            fi
-            number=$(gh pr view "$branch" --json number --jq .number)
-            echo "opened #$number"
-          fi
-          echo "number=$number" >> "$GITHUB_OUTPUT"
-
-      - name: Merge the data pull request
-        id: merge
-        if: steps.pr.outputs.number != '' && github.event.inputs.publish != 'false'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Through the environment rather than into the script text. Nothing
-          # a careers board returns reaches this job at all, and this is the
-          # habit that keeps it that way.
-          NUMBER: ${{ steps.pr.outputs.number }}
-        run: |
-          set -euo pipefail
-          number="$NUMBER"
-          # Squash, because the ruleset allows nothing else. It requires no
-          # approving review and no status check, so the merge is immediate;
-          # the repository has auto-merge switched off, which is why this is a
-          # direct call rather than --auto. A failure here loses nothing: the
-          # pull request stays open, validated, and mergeable by hand.
-          if ! gh pr merge "$number" --squash > "$RUNNER_TEMP/merge.txt" 2>&1; then
-            cat "$RUNNER_TEMP/merge.txt"
-            echo "::error::data pull request #$number is open and passed every check but could not be merged. Merge it by hand, or re-run once the cause is fixed."
-            exit 1
-          fi
-          echo "merged=true" >> "$GITHUB_OUTPUT"
-          echo "merged #$number"
-
-      # Ask the site to work out what changed on the board and tell Bing.
-      #
-      # WHY IT IS THE STEP AFTER THE PUSH
-      # ---------------------------------
-      # This job is the only thing that knows the board moved, and the site's
-      # detector is a change detector: it diffs the published set against the
-      # snapshot it recorded last time and posts only the difference. Calling it
-      # the moment the data is published is the whole point, and the detector
-      # reads the feed with `cache: 'no-store'` precisely so that it sees this
-      # push rather than whatever the site's hourly data cache was holding. The
-      # response reports the feed's own generatedAt, so a pass that read a stale
-      # copy would be visible rather than silent.
-      #
-      # It is gated on the step output above rather than on the detector
-      # no-op'ing by itself. Both are correct, because an empty delta submits
-      # nothing; the output gate also spares an authenticated request, a
-      # database read and a serverless invocation on a morning the board did not
-      # move, and a skipped step says so plainly in the log.
-      #
-      # The site's own Vercel cron at 20:00 UTC is the independent fallback for
-      # a day this job fails, is cancelled, or cannot reach the site. It sits
-      # that late on purpose. GitHub defers this schedule heavily: across twenty
-      # consecutive runs the observed starts ranged from 10:52 to 18:57 UTC, so
-      # a fallback has to clear the tail of that window rather than its median.
-      # The two are not meant to overlap, and the detector's compare-and-set
-      # write absorbs it if they ever do.
-      #
-      # WHY IT IS SAFE IN A PUBLIC REPOSITORY
-      # -------------------------------------
-      # `CRON_SECRET` is a repository secret and secrets are never available to
-      # a fork. This workflow has no `pull_request` trigger and deliberately no
-      # `pull_request_target`, so there is no path by which a pull request, from
-      # a fork or otherwise, can run it or read the secret. It runs on a
-      # schedule and by hand, both of which need write access here.
-      #
-      # The secret is never echoed, never interpolated into a command line, and
-      # never written to a file that survives the step. curl reads it from a
-      # config file in the runner's temporary directory, so it does not reach
-      # the process list either. Absent, the step says so and exits clean.
-      - name: Tell the site the tracker moved
-        if: |
-          github.repository == 'Surojitc/l3vlup-skills' &&
-          (
-            (steps.merge.outputs.merged == 'true' && needs.collect.outputs.tracker == 'true') ||
-            github.event.inputs.indexnow_force == 'true'
-          )
-        # A recrawl hint is not worth failing a data collection over, and there
-        # is nothing downstream of this.
+      # A recrawl hint is not worth failing a data collection over, and there
+      # is nothing downstream of this.
+      - name: Call the detector
         continue-on-error: true
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
@@ -478,3 +389,35 @@ jobs:
             503) echo "::error::the site has no IndexNow state store; run supabase/indexnow.sql" ;;
             *)   echo "::warning::unexpected response $code; the site's 20:00 cron will retry" ;;
           esac
+
+  # The run's conclusion, set after publication rather than before it.
+  #
+  # Splitting these apart is the point: a stale calendar must not stop a
+  # healthy deal tape reaching the site, and a morning where a collector has
+  # been dead for two days must not report success. So publication happens,
+  # and then this fails the run and says which source and since when.
+  #
+  # `if: always()` because the interesting case is the one where publishing
+  # was skipped or failed: a health report that only runs on the happy path
+  # is the defect it was written to catch.
+  health:
+    name: Source health
+    needs: [collect, publish]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Fail the run if a required source is stale
+        env:
+          BLOCKING: ${{ needs.collect.outputs.blocking }}
+          DEGRADED: ${{ needs.collect.outputs.degraded }}
+        run: |
+          set -euo pipefail
+          if [ "${BLOCKING:-}" = "true" ]; then
+            echo "::error::a required source has not been collected inside its horizon; see the freshness table in this run's summary"
+            exit 1
+          fi
+          if [ "${DEGRADED:-}" = "true" ]; then
+            echo "::warning::an optional source is degraded; publication went ahead"
+          fi
+          echo "every required source is within its horizon"

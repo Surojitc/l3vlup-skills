@@ -1,0 +1,217 @@
+name: Publish collected data
+
+# The one place in this repository that may write to `main`.
+#
+# WHY IT IS ONE PLACE
+# -------------------
+# A ruleset closed direct pushes to the default branch on 18 September. Three
+# workflows collect data here and all three were pushing. `build-samples` was
+# adapted first, and adapting the other two by copying its publication steps
+# would have left three copies of the same hundred lines, diverging from the
+# day they were written, each holding a token that can merge.
+#
+# So the publication half is this file and the collection half stays in the
+# workflow that knows how to collect. A producer runs its collectors with a
+# read-only token, hands over a tar of what its own gate approved, and calls
+# this. Whatever a careers page or a press wire contained, the job that read
+# it could not have pushed a branch, opened a pull request or merged one.
+#
+# WHAT THIS JOB WILL NOT DO
+# -------------------------
+# It runs no collector, fetches no document, calls no model and reads nothing
+# from the internet but GitHub itself. It takes no branch name, no title and
+# no commit message from its caller: those come from the producer's entry in
+# scripts/publication-contracts.mjs, looked up by a producer id that must
+# already be in that table. A caller cannot ask it to publish somewhere else.
+#
+# PERMISSIONS ARE DELIBERATELY ABSENT HERE
+# ----------------------------------------
+# A called workflow may only narrow what its caller granted, never widen it,
+# so a `permissions:` block in this file would be a floor rather than a
+# ceiling and would read as though this file grants itself the right to write.
+# It does not. Each caller grants `contents: write` and `pull-requests: write`
+# on the one job that says `uses:` this file, which is where a reviewer of
+# that workflow will look, and where scripts/__tests__/workflow-permissions.test.mjs
+# reads it from.
+
+on:
+  workflow_call:
+    inputs:
+      producer:
+        description: 'The key in scripts/publication-contracts.mjs whose files are being published'
+        required: true
+        type: string
+      artifact:
+        description: 'The artifact holding publishable.tar, the gate and the pull request body'
+        required: true
+        type: string
+      merge:
+        description: 'Merge the pull request once it is open. false opens it and stops.'
+        required: false
+        default: true
+        type: boolean
+    outputs:
+      number:
+        description: 'The data pull request, if one was opened or updated'
+        value: ${{ jobs.publish.outputs.number }}
+      merged:
+        description: 'true when the pull request was squash-merged into main'
+        value: ${{ jobs.publish.outputs.merged }}
+
+# Repository-wide, across every caller, because they all commit into the same
+# branch's history. Two publishers running at once would each rebuild on the
+# `main` they saw at checkout, and the second to merge would be opening a pull
+# request that predates the first. Serialised, the second rebuilds on the
+# first's result. `cancel-in-progress: false`: a publication half-done is
+# worse than a publication that waits.
+concurrency:
+  group: publish-data
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Open and merge the data pull request
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      number: ${{ steps.pr.outputs.number }}
+      merged: ${{ steps.merge.outputs.merged }}
+    steps:
+      # main, not the ref the run was dispatched on. A data pull request must
+      # carry the collection and nothing else, and starting anywhere else is
+      # how a feature branch's code would ride along inside one.
+      # Pinned by digest rather than by tag. This is the one job in the
+      # repository that can write to `main`, so the actions it runs are worth
+      # holding still: a moved tag here would be a moved tag on the privileged
+      # half of every producer at once.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: main
+
+      # No setup-node. The runner ships Node 20 and the gate imports only
+      # `node:fs` and `node:child_process`, so installing a toolchain would be
+      # the only request this job makes to anything that is not GitHub. Its
+      # whole network surface is the checkout, the artifact download and the
+      # GitHub API.
+
+      # Into the temp directory, deliberately: unpacked inside the working
+      # tree it would be staged by the `git add -A` below and published.
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: ${{ inputs.artifact }}
+          path: ${{ runner.temp }}/handoff
+
+      # Where this producer publishes, read from the contract rather than
+      # taken from the caller. Everything the shell below uses arrives through
+      # the environment; no expression is interpolated into a command.
+      - name: Read the producer's contract
+        id: contract
+        env:
+          PRODUCER: ${{ inputs.producer }}
+        run: |
+          set -euo pipefail
+          node scripts/publication-target.mjs "$PRODUCER" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+
+      - name: Open or update the data pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRODUCER: ${{ inputs.producer }}
+          BRANCH: ${{ steps.contract.outputs.branch }}
+          TITLE: ${{ steps.contract.outputs.title }}
+        run: |
+          set -euo pipefail
+          git config user.name  "l3vlup-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          # Rebuilt on the main this job checked out, every time. A refresh
+          # nobody merged yesterday is replaced rather than stacked behind
+          # today's, and the diff is always against the current default branch.
+          git checkout -q -B "$BRANCH"
+
+          # The archive is read before it is unpacked.
+          #
+          # Its members come from `git diff --cached --name-only` in the
+          # collecting job, and git cannot emit an absolute path, a `..`
+          # segment or a device node. That is an argument about the producer,
+          # though, and this job's whole design is that it takes nothing from
+          # the producer on trust. tar would happily write through `../` or a
+          # symlink into the runner's home directory, before any gate runs, so
+          # the list is checked first and anything that is not a plain file
+          # inside the tree fails the run.
+          archive="$RUNNER_TEMP/handoff/publishable.tar"
+          tar -tf "$archive" > "$RUNNER_TEMP/members.txt"
+          if grep -qE '(^/|^\.\./|/\.\./|/\.\.$|^\.\.$|^~)' "$RUNNER_TEMP/members.txt"; then
+            echo "::error::the archive names a path outside the working tree"
+            sed 's/^/  /' "$RUNNER_TEMP/members.txt"
+            exit 1
+          fi
+          if tar -tvf "$archive" | grep -qvE '^[-d]'; then
+            echo "::error::the archive holds something that is not a plain file or directory"
+            tar -tvf "$archive" | grep -vE '^[-d]' | sed 's/^/  /'
+            exit 1
+          fi
+          tar -xf "$archive" --no-same-owner --no-same-permissions -C .
+          git add -A
+
+          # The check that actually guarantees the pull request's contents.
+          # The collecting job ran the same gate, but this job did not watch it
+          # do so and takes nothing from it on trust: the list checked here is
+          # the diff against main that is about to be committed.
+          git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
+          node "$RUNNER_TEMP/handoff/gate.mjs" \
+            --producer "$PRODUCER" --staged "$RUNNER_TEMP/publishing.txt" > /dev/null
+
+          if git diff --cached --quiet; then
+            echo "main already carries this collection; nothing to publish"
+            echo "number=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -q -m "$TITLE $(date -u +%Y-%m-%d) [skip ci]"
+
+          # Forcing is safe here and only here: the non-fast-forward rule
+          # guards the default branch, and this branch has one author.
+          git push -q --force origin "HEAD:refs/heads/$BRANCH"
+
+          number=$(gh pr list --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')
+          title="$TITLE $(date -u +%Y-%m-%d)"
+          if [ -n "$number" ]; then
+            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md"
+            echo "updated #$number"
+          else
+            if ! gh pr create --base main --head "$BRANCH" \
+                 --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
+              cat "$RUNNER_TEMP/pr.txt"
+              echo "::error::could not open the data pull request. If the message above says GitHub Actions is not permitted to create pull requests, that is a repository setting: Settings, Actions, General, Workflow permissions. Nothing has been published and the collected files are on the $BRANCH branch."
+              exit 1
+            fi
+            number=$(gh pr view "$BRANCH" --json number --jq .number)
+            echo "opened #$number"
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+
+      - name: Merge the data pull request
+        id: merge
+        if: steps.pr.outputs.number != '' && inputs.merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Through the environment rather than into the script text. Nothing
+          # a collector read reaches this job at all, and this is the habit
+          # that keeps it that way.
+          NUMBER: ${{ steps.pr.outputs.number }}
+        run: |
+          set -euo pipefail
+          number="$NUMBER"
+          # Squash, because the ruleset allows nothing else. It requires no
+          # approving review and no status check, so the merge is immediate;
+          # the repository has auto-merge switched off, which is why this is a
+          # direct call rather than --auto. A failure here loses nothing: the
+          # pull request stays open, validated, and mergeable by hand.
+          if ! gh pr merge "$number" --squash > "$RUNNER_TEMP/merge.txt" 2>&1; then
+            cat "$RUNNER_TEMP/merge.txt"
+            echo "::error::data pull request #$number is open and passed every check but could not be merged. Merge it by hand, or re-run once the cause is fixed."
+            exit 1
+          fi
+          echo "merged=true" >> "$GITHUB_OUTPUT"
+          echo "merged #$number"
