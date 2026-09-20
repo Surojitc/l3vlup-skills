@@ -1,0 +1,410 @@
+{
+  "_comment": "Consulting classification fixtures for scripts/__tests__/classify-vertical.test.mjs. Every row is a real title from the step 3 sweep of the five collected consulting boards, or a title the sweep proved was needed to keep an existing vertical intact. `want` is the expected inferVertical answer; `early` is the expected isEarlyCareer answer where the row exists to test that instead. Groups: positive, negative, ambiguous, regression, seniority. Where a negative row expects 'Other' rather than a named vertical, that is a pre-existing gap in another rule: this change owns only that the row is not Consulting, and widening the engineering or operations rules would be a separate change carrying its own regressions.",
+  "positive": [
+    {
+      "why": "explicit, needs no employer",
+      "firm": "Huron Consulting Group",
+      "title": "Consulting Intern - Summer 2027, Chicago (Spring 2028 Graduates)",
+      "want": "Consulting"
+    },
+    {
+      "why": "explicit consultant title",
+      "firm": "Guidehouse",
+      "title": "Consultant - Energy Providers - Campus 2027",
+      "want": "Consulting"
+    },
+    {
+      "why": "public-sector consulting",
+      "firm": "Guidehouse",
+      "title": "Consultant – State and Local Government – Campus 2027",
+      "want": "Consulting"
+    },
+    {
+      "why": "public sector via employer gate",
+      "firm": "Guidehouse",
+      "title": "Public Sector Summer Analyst",
+      "want": "Consulting"
+    },
+    {
+      "why": "economic consulting",
+      "firm": "FTI Consulting",
+      "title": "Graduate Consultant, Economic & Financial Consulting",
+      "want": "Consulting"
+    },
+    {
+      "why": "litigation consulting is consulting, unlike FTI corporate finance",
+      "firm": "FTI Consulting",
+      "title": "2027 Graduate Consultant, Forensic & Litigation Consulting, Construction",
+      "want": "Consulting"
+    },
+    {
+      "why": "economic consulting at a research firm",
+      "firm": "Cornerstone Research",
+      "title": "Analyst - Economic Consulting Campus 2027",
+      "want": "Consulting"
+    },
+    {
+      "why": "life sciences consulting via employer gate",
+      "firm": "Trinity Life Sciences",
+      "title": "Commercial Strategy Summer Associate (SF)",
+      "want": "Consulting"
+    },
+    {
+      "why": "life sciences, value access and pricing",
+      "firm": "Trinity Life Sciences",
+      "title": "VAP Summer Associate (NY)",
+      "want": "Consulting"
+    },
+    {
+      "why": "insights is a practice at a life-sciences consultancy",
+      "firm": "Trinity Life Sciences",
+      "title": "Insights Summer Associate (Waltham, MA)",
+      "want": "Consulting"
+    },
+    {
+      "why": "technology consulting is client-facing consulting",
+      "firm": "Accenture",
+      "title": "Technology Consulting Internship",
+      "want": "Consulting"
+    },
+    {
+      "why": "technology strategy, not engineering",
+      "firm": "Accenture",
+      "title": "Technology Strategy & Advisory - Internship",
+      "want": "Consulting"
+    },
+    {
+      "why": "named practice",
+      "firm": "Accenture",
+      "title": "Internship – Products Strategy & Consulting",
+      "want": "Consulting"
+    },
+    {
+      "why": "business analyst is the consulting entry seat at a consulting firm",
+      "firm": "Accenture",
+      "title": "Business Analyst - Intern",
+      "want": "Consulting"
+    },
+    {
+      "why": "transformation is a practice here",
+      "firm": "Accenture",
+      "title": "Finance Transformation Analyst - Intern",
+      "want": "Consulting"
+    },
+    {
+      "why": "MBB, arriving from a curated row rather than a board",
+      "firm": "McKinsey & Company",
+      "title": "Business Analyst - Summer Intern 2027",
+      "want": "Consulting"
+    },
+    {
+      "why": "MBB associate consultant",
+      "firm": "Bain & Company",
+      "title": "Associate Consultant Intern (London)",
+      "want": "Consulting"
+    },
+    {
+      "why": "Big Four consulting arm",
+      "firm": "Deloitte",
+      "title": "Graduate Consultant - Technology Consulting",
+      "want": "Consulting"
+    },
+    {
+      "why": "advisory alone counts, but only because the employer is a consulting firm",
+      "firm": "Accenture",
+      "title": "Entry Level Advisory Summer Analyst - Various Locations - NAELFY27",
+      "want": "Consulting"
+    }
+  ],
+  "negative": [
+    {
+      "why": "delivery-centre engineering at a consulting firm",
+      "firm": "Accenture",
+      "title": "Java Developer Internship Program (She/He/They)",
+      "want": "Software Engineering"
+    },
+    {
+      "why": "delivery-centre infrastructure. Not Consulting, which is what this rule owns. 'Other' is a pre-existing gap: the engineering rule has no token for administrator",
+      "firm": "Accenture",
+      "title": "Linux Administrator Internship Program (She/He/They)",
+      "want": "Other"
+    },
+    {
+      "why": "delivery-centre ML platform work",
+      "firm": "Accenture",
+      "title": "AI/MLOps Internship Program (She/He/They)",
+      "want": "AI Engineering"
+    },
+    {
+      "why": "delivery-centre QA. Not Consulting. 'Other' is a pre-existing gap: the engineering rule has no token for test automation",
+      "firm": "Accenture",
+      "title": "Test Automation Internship Program (She/He/They)",
+      "want": "Other"
+    },
+    {
+      "why": "BPO. Not Consulting. 'Other' is a pre-existing gap: the operations rule has no token for customer service",
+      "firm": "Accenture",
+      "title": "Customer Service - Korean speaking (Fresh Graduates Welcome)",
+      "want": "Other"
+    },
+    {
+      "why": "BPO content moderation. Not Consulting. 'Other' is a pre-existing gap in the operations rule",
+      "firm": "Accenture",
+      "title": "Trust & Safety New Associate (Malaysian Indonesian Speaker) | Fresh Graduate",
+      "want": "Other"
+    },
+    {
+      "why": "internal corporate, not client work",
+      "firm": "Accenture",
+      "title": "Student Receptionist",
+      "want": "Other"
+    },
+    {
+      "why": "internal corporate support",
+      "firm": "Accenture",
+      "title": "Workplace Support Intern (part-time for students)",
+      "want": "Other"
+    },
+    {
+      "why": "the firm's own HR function",
+      "firm": "Accenture",
+      "title": "Human Resources Talent Accelerator Program (TAP) Summer Analyst - New York",
+      "want": "Other"
+    },
+    {
+      "why": "design is not consulting",
+      "firm": "Accenture",
+      "title": "Industrial Design Internship",
+      "want": "Other"
+    },
+    {
+      "why": "marketing is not consulting",
+      "firm": "Accenture",
+      "title": "Digital Marketing (SEO / Web Analytics) Internship Program",
+      "want": "Other"
+    },
+    {
+      "why": "FTI corporate finance keeps its home beside the banks",
+      "firm": "FTI Consulting",
+      "title": "Intern, Restructuring, Corporate Finance",
+      "want": "Investment Banking"
+    },
+    {
+      "why": "FTI corporate finance, transformation wording notwithstanding",
+      "firm": "FTI Consulting",
+      "title": "Intern, Business Transformation (TMT), Corporate Finance",
+      "want": "Investment Banking"
+    },
+    {
+      "why": "restructuring at a consulting firm is still restructuring",
+      "firm": "Huron Consulting Group",
+      "title": "Turnaround and Restructuring Analyst 2027 Graduates",
+      "want": "Investment Banking"
+    },
+    {
+      "why": "internal strategy at a bank is not consulting",
+      "firm": "Goldman Sachs",
+      "title": "Corporate Strategy Summer Analyst",
+      "want": "Other"
+    },
+    {
+      "why": "a bank's business analyst is not a consultant",
+      "firm": "Citi",
+      "title": "Business Analyst Summer Analyst",
+      "want": "Other"
+    },
+    {
+      "why": "a bank's advisory seat is investment banking",
+      "firm": "Citi",
+      "title": "Corporate Advisory Summer Analyst",
+      "want": "Investment Banking"
+    },
+    {
+      "why": "transformation at a bank is not consulting",
+      "firm": "Barclays",
+      "title": "Finance Transformation Graduate Programme",
+      "want": "Finance & Accounting"
+    },
+    {
+      "why": "a part-time student seat at a delivery centre is not client-facing, whatever the title says",
+      "firm": "Accenture",
+      "title": "Junior Business Analyst (part-time for students)",
+      "want": "Other"
+    },
+    {
+      "why": "Song is a creative practice, and 'business technology' was too weak a token and was removed. The consulting rule correctly declines it; the existing technology rule then claims it on the word technology, which this change does not relitigate",
+      "firm": "Accenture",
+      "title": "Internship Digital Business Technology (Commerce) - Song",
+      "want": "Software Engineering"
+    },
+    {
+      "why": "advisory at a bank is not consulting, because the employer gate does not open",
+      "firm": "Barclays",
+      "title": "Advisory Summer Analyst",
+      "want": "Other"
+    }
+  ],
+  "ambiguous": [
+    {
+      "why": "generic programme naming no practice, even at a consulting firm",
+      "firm": "Accenture",
+      "title": "Accenture Internship Program - May to Aug 2027",
+      "want": "Other"
+    },
+    {
+      "why": "generic postgraduate programme",
+      "firm": "Accenture",
+      "title": "Postgraduate Internship Program (Master's & MBA)",
+      "want": "Other"
+    },
+    {
+      "why": "generic intake",
+      "firm": "Accenture",
+      "title": "New Graduate Talent Intake 2026/2027",
+      "want": "Other"
+    },
+    {
+      "why": "polytechnic programme, no practice",
+      "firm": "Accenture",
+      "title": "Accenture Polytechnic Internship Program 2026",
+      "want": "Other"
+    },
+    {
+      "why": "an unknown employer with a weak title stays Other",
+      "firm": "Unknown Firm Ltd",
+      "title": "Business Analyst Intern",
+      "want": "Other"
+    },
+    {
+      "why": "an unknown employer with an explicit title still qualifies",
+      "firm": "Unknown Firm Ltd",
+      "title": "Management Consulting Intern",
+      "want": "Consulting"
+    }
+  ],
+  "seniority": [
+    {
+      "why": "manager is senior; Student here is the product name Workday Student Financials",
+      "firm": "Huron Consulting Group",
+      "title": "Workday Student Financials - Consulting Manager",
+      "early": false
+    },
+    {
+      "why": "manager is senior",
+      "firm": "Accenture",
+      "title": "Join Halfspace's Strategy & Execution Team: Associate Engagement Manager (Copenhagen)",
+      "early": false
+    },
+    {
+      "why": "APM is a graduate seat and survives the manager rule",
+      "firm": "Google",
+      "title": "Associate Product Manager, Graduate Programme 2027",
+      "early": true
+    },
+    {
+      "why": "an intern token is strong enough to survive the manager rule",
+      "firm": "Accenture",
+      "title": "Project Management Internship Program",
+      "early": true
+    },
+    {
+      "why": "a plain student token is not strong enough",
+      "firm": "Accenture",
+      "title": "Student Engagement Manager",
+      "early": false
+    },
+    {
+      "why": "the existing senior guard still holds",
+      "firm": "Guidehouse",
+      "title": "Senior Consultant - Energy Providers",
+      "early": false
+    },
+    {
+      "why": "genuine campus consulting row is untouched",
+      "firm": "Guidehouse",
+      "title": "Consulting Analyst - Energy Providers - Campus 2027",
+      "early": true
+    }
+  ],
+  "regression": [
+    {
+      "why": "quant still wins over everything",
+      "firm": "Citadel",
+      "title": "Quantitative Research Intern",
+      "want": "Quant"
+    },
+    {
+      "why": "AI research unchanged",
+      "firm": "Anthropic",
+      "title": "Research Engineer Intern",
+      "want": "AI Research"
+    },
+    {
+      "why": "equity research unchanged",
+      "firm": "Goldman Sachs",
+      "title": "Equity Research Summer Analyst",
+      "want": "Equity Research"
+    },
+    {
+      "why": "investment banking unchanged",
+      "firm": "Morgan Stanley",
+      "title": "Investment Banking Summer Analyst",
+      "want": "Investment Banking"
+    },
+    {
+      "why": "sales and trading unchanged",
+      "firm": "Barclays",
+      "title": "Markets Graduate Programme 2027",
+      "want": "Sales & Trading"
+    },
+    {
+      "why": "private equity unchanged",
+      "firm": "Blackstone",
+      "title": "Private Equity Summer Analyst",
+      "want": "Private Equity"
+    },
+    {
+      "why": "software engineering unchanged at a technology employer",
+      "firm": "Stripe",
+      "title": "Software Engineer Intern",
+      "want": "Software Engineering"
+    },
+    {
+      "why": "wealth management unchanged",
+      "firm": "UBS",
+      "title": "Private Wealth Management Internship",
+      "want": "Wealth Management"
+    },
+    {
+      "why": "corporate banking unchanged",
+      "firm": "Citi",
+      "title": "Banking - Corporate Banking Analyst",
+      "want": "Corporate Banking"
+    },
+    {
+      "why": "product management unchanged",
+      "firm": "Meta",
+      "title": "Associate Product Manager Intern",
+      "want": "Product Management"
+    },
+    {
+      "why": "a consulting firm's engineering row does not become consulting",
+      "firm": "Thoughtworks",
+      "title": "Graduate Software Developer",
+      "want": "Software Engineering"
+    }
+  ],
+  "duplicates": [
+    {
+      "why": "same role, three cities: three opportunities, not one",
+      "firm": "Trinity Life Sciences",
+      "titles": [
+        "VAP Summer Associate (NY)",
+        "VAP Summer Associate (SF)",
+        "VAP Summer Associate (Waltham)"
+      ],
+      "want": "Consulting",
+      "distinct": 3
+    }
+  ]
+}
