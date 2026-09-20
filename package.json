@@ -42,6 +42,7 @@
     "test:pilot": "node scripts/__tests__/thesis-pilot.test.mjs",
     "test:publish": "node scripts/__tests__/thesis-publish.test.mjs",
     "test:federation": "node scripts/__tests__/thesis-federation.test.mjs",
+    "test:two-stage": "node scripts/__tests__/thesis-two-stage.test.mjs",
     "auth:check": "node scripts/thesis-auth-check.mjs",
     "test:select": "node scripts/__tests__/letters-select.test.mjs",
     "test:letters": "node scripts/__tests__/letters.test.mjs",

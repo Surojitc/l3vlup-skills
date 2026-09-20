@@ -224,9 +224,14 @@ await test('two runs of the same input produce byte-identical output', async () 
 
 await test('a call is estimated before it is made, and usage is recorded after', async () => {
   const out = await run();
-  assert.equal(out.ledger.calls.length, 1);
+  // One chunk, so one extraction call and one consolidation call.
+  assert.equal(out.ledger.calls.length, 2);
+  const extraction = out.ledger.calls.filter((c) => c.stage === 'extraction');
+  const consolidation = out.ledger.calls.filter((c) => c.stage === 'consolidation');
+  assert.equal(extraction.length, 1, 'extraction calls are not tagged with their stage');
+  assert.equal(consolidation.length, 1, 'the consolidation call is not tagged with its stage');
   assert.ok(out.ledger.estimatedUsd > 0);
-  assert.equal(out.ledger.calls[0].actualUsd, 0.0013, 'actual usage was not recorded');
+  assert.equal(extraction[0].actualUsd, 0.0013, 'actual usage was not recorded');
   assert.ok(out.ledger.estimatedUsd <= PILOT_BUDGET_USD);
   assert.equal(out.ledger.stopped, false);
 });
@@ -248,18 +253,18 @@ await test('the $3 pilot budget stops the run, and the $15 milestone ceiling is 
   assert.equal(LIMITS.hardStopUsd, 15);
 
   const pilot = { ...emptyCostLedger(), estimatedUsd: 2.99 };
-  const stopped = checkBudget(pilot, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd' });
+  const stopped = checkBudget(pilot, { model: 'claude-sonnet-5', inputTokens: LIMITS.maxInputTokensPerCall, outputTokens: LIMITS.maxOutputTokensPerCall, documentId: 'd' });
   assert.equal(stopped.allowed, false);
   assert.match(stopped.reason, /over this run's \$3\.00 budget/);
 
   // A run may not raise its own budget above the milestone ceiling.
   assert.equal(emptyCostLedger({ budgetUsd: 500 }).budgetUsd, LIMITS.hardStopUsd);
   const wide = { ...emptyCostLedger({ budgetUsd: 15 }), estimatedUsd: 14.99 };
-  assert.match(checkBudget(wide, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd' }).reason,
+  assert.match(checkBudget(wide, { model: 'claude-sonnet-5', inputTokens: LIMITS.maxInputTokensPerCall, outputTokens: LIMITS.maxOutputTokensPerCall, documentId: 'd' }).reason,
     /over the \$15\.00 milestone ceiling/);
 
   // And the stop is a stop: no fallback to the cheaper model.
-  const after = recordCall(wide, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd' });
+  const after = recordCall(wide, { model: 'claude-sonnet-5', inputTokens: LIMITS.maxInputTokensPerCall, outputTokens: LIMITS.maxOutputTokensPerCall, documentId: 'd' });
   assert.equal(after.stopped, true);
   assert.equal(checkBudget(after, { model: 'claude-haiku-4-5-20251001', inputTokens: 1, outputTokens: 1, documentId: 'd' }).allowed, false);
   assert.deepEqual(Object.keys(MODEL_ALLOWLIST), ['claude-haiku-4-5-20251001', 'claude-sonnet-5']);

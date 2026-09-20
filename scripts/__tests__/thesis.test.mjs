@@ -386,7 +386,7 @@ test('the budget stops at the cap rather than switching behaviour', () => {
   assert.match(checkBudget(perDoc, { model: 'claude-haiku-4-5-20251001', inputTokens: 39_000, outputTokens: 100, documentId: 'd1' }).reason, /per-document limit/);
 
   // Within every per-call limit, so this one is allowed.
-  ledger = recordCall(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd1' });
+  ledger = recordCall(ledger, { model: 'claude-haiku-4-5-20251001', inputTokens: LIMITS.maxInputTokensPerCall, outputTokens: LIMITS.maxOutputTokensPerCall, documentId: 'd1' });
   assert.equal(ledger.stopped, false);
   assert.ok(ledger.estimatedUsd > 0);
   assert.equal(ledger.documentsProcessed, 1);
@@ -401,7 +401,7 @@ test('the budget stops at the cap rather than switching behaviour', () => {
   // The cap stops; it does not silently downgrade.
   let rich = emptyCostLedger({ budgetUsd: 15 });
   rich.estimatedUsd = 14.99;
-  const over = recordCall(rich, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd1' });
+  const over = recordCall(rich, { model: 'claude-sonnet-5', inputTokens: LIMITS.maxInputTokensPerCall, outputTokens: LIMITS.maxOutputTokensPerCall, documentId: 'd1' });
   assert.equal(over.stopped, true);
   assert.match(over.stopReason, /over the \$15\.00 milestone ceiling/);
   assert.equal(over.calls.length, 0, 'a refused call was still recorded');
