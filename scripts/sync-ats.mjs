@@ -168,14 +168,24 @@ export function inferVertical(title) {
     return 'Other';
   // Payments and treasury services are corporate banking products, sold to
   // the same clients by the same division at most banks.
-  if (/\bpayments?\b|treasury services|cash management|\bmerchant\b/.test(core)) return 'Corporate Banking';
+  // A payments risk or fraud seat at a fintech is a risk seat, and keeps
+  // falling through to the risk rule below.
+  if (/\bpayments?\b|treasury services|cash management|\bmerchant\b/.test(core) && !/\brisk\b|\bfraud\b|\bcompliance\b/.test(core))
+    return 'Corporate Banking';
   // Custody and fund services are an operations business, not a market seat.
   if (/securities services|\bcustody\b|fund services|fund administration/.test(core)) return 'Operations';
   if (/corporate ba?n?king|commercial banking|business banking|wholesale banking|transaction banking|\btrade finance\b|sector lending/.test(core))
     return 'Corporate Banking';
   // Real estate investing is principal investing, whatever the row says about
   // capital markets; property valuation is a surveyor's job, not a banker's.
-  if (/real estate (?:partners|debt|acquisitions|investing|investment|fund|equity|strategies)|private investments?|principal invest/.test(core))
+  // Inside an asset manager's own programme ("Investment Management
+  // Off-Cycle Internship - Real Estate Investing") it stays asset management,
+  // which the rule further down already answers. "Asset management" alone is
+  // not the guard: a real estate fund lists it as one of its activities.
+  if (
+    /real estate (?:partners|debt|acquisitions|investing|investment|fund|equity|strategies)|private investments?|principal invest/.test(core) &&
+    !/investment management|fund management/.test(core)
+  )
     return 'Private Equity';
   if (/property valu|real estate valu|\bvaluer\b/.test(core)) return 'Other';
   // Business transformation is consulting, even when the firm calls the

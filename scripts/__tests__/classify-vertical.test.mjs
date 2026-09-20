@@ -166,6 +166,13 @@ vert('2027 Blackstone Real Estate Partners Summer Analyst – Acquisitions, Asse
 vert('Intern, Business Transformation (TMT), Corporate Finance', 'Other');
 vert('2027 Summer Internship Program - Private Client Banking Strategy, Analytics, & Sales Intern (St. Petersburg, FL)', 'Wealth Management');
 
+// Rows outside banking that the new rules must leave alone, read from a diff
+// of the whole committed feed before and after the change.
+vert('Payment Risk Intern', 'Risk');
+vert('2027 Investment Management Off-Cycle Internship - Real Estate Investing (Frankfurt)', 'Asset Management');
+vert('2027 Global Payments & Liquidity Internship – Early Careers', 'Corporate Banking');
+vert('Intern, Real Estate Investments – London (Off-Cycle January – June 2027)', 'Private Equity');
+
 // ...and the banking rows beside them keep their answer, prefix or not.
 vert('2027 Commercial & Investment Bank - Global Investment Banking Analyst Program - Off-Cycle Internship - Stockholm', 'Investment Banking');
 vert('2027 - Commercial & Investment Bank - Global Investment Banking Summer Associate Program', 'Investment Banking');
