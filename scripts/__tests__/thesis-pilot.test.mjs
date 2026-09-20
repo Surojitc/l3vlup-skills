@@ -12,12 +12,12 @@ import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  actualUsd, anthropicModel, classifyError, MAX_RETRIES, ModelCallError,
-  PROMPT_VERSION, PROPOSAL_TOOL, preflightModel, readProposals, readUsage,
-  REQUEST_TIMEOUT_MS, systemPrompt,
+  actualUsd, anthropicModel, CANDIDATE_TOOL, classifyError, consolidationPrompt, extractionPrompt,
+  MAX_RETRIES, ModelCallError, PROMPT_VERSION, preflightModel, readProposals, readUsage,
+  REQUEST_TIMEOUT_MS, SELECTION_TOOL,
 } from '../../lib/thesis-anthropic.mjs';
 import { parseArgs, resolveDocuments } from '../thesis-pilot.mjs';
-import { checkBudget, emptyCostLedger, LIMITS, MAX_PROPOSALS_PER_CHUNK, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, recordCall, resolveModelId } from '../../lib/thesis-cost.mjs';
+import { checkBudget, emptyCostLedger, LIMITS, MAX_CANDIDATES_PER_CHUNK, MAX_CLAIMS_PER_DOCUMENT, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, recordCall, resolveModelId } from '../../lib/thesis-cost.mjs';
 import { runDocument } from '../../lib/thesis-runner.mjs';
 import { emptyDecisionLog } from '../../lib/thesis-review.mjs';
 
@@ -38,9 +38,25 @@ class RateLimitError extends APIError {}
 const SDK = { APIError, APIConnectionError, AuthenticationError, NotFoundError, RateLimitError };
 
 /** A client whose every response the test dictates. */
-function stubClient(create, { models } = {}) {
+// Two stages means two tools, so a stub that answered every request with the
+// extraction shape would silently return no selections and no claims. Unless a
+// test supplies its own consolidation answer, this ranks whatever it is given.
+function stubClient(create, { models, select } = {}) {
   const c = {
-    messages: { create },
+    messages: {
+      async create(req) {
+        if (req.tools?.[0]?.name === SELECTION_TOOL.name) {
+          if (select) return select(req);
+          const body = req.messages[0].content;
+          const offered = JSON.parse(body.slice(body.indexOf('[')));
+          return {
+            stop_reason: 'tool_use', usage: { input_tokens: 800, output_tokens: 200 },
+            content: [{ type: 'tool_use', name: SELECTION_TOOL.name, input: { selections: offered.map((o, i) => ({ candidateId: o.candidateId, rank: i + 1 })) } }],
+          };
+        }
+        return create(req);
+      },
+    },
     models: { retrieve: models || (async (id) => ({ id, display_name: 'Stub', max_input_tokens: 200_000 })) },
   };
   c.constructor = SDK;
@@ -57,7 +73,7 @@ const goodProposal = {
 };
 const ok = (proposals, usage = { input_tokens: 1200, output_tokens: 300 }) => ({
   stop_reason: 'tool_use', usage,
-  content: [{ type: 'tool_use', name: PROPOSAL_TOOL.name, input: { proposals } }],
+  content: [{ type: 'tool_use', name: CANDIDATE_TOOL.name, input: { candidates: proposals } }],
 });
 
 // ── The client never reaches for a key or a socket ─────────────────────────
@@ -85,7 +101,7 @@ await test('the client module reads no credential, builds no client at import, a
 });
 
 await test('the prompt forbids what the boundary forbids, and carries the closed taxonomy', () => {
-  const p = systemPrompt(TAXONOMY);
+  const p = extractionPrompt(TAXONOMY);
   for (const forbidden of ['ticker', 'CUSIP', 'share class', 'CIK', 'holding size']) {
     assert.ok(p.includes(forbidden), `the prompt does not tell the model to leave ${forbidden} alone`);
   }
@@ -93,8 +109,8 @@ await test('the prompt forbids what the boundary forbids, and carries the closed
   assert.match(p, /Do not invent a tag/);
   assert.match(p, /An empty list is a good answer/);
   for (const t of TAXONOMY.tags.slice(0, 3)) assert.ok(p.includes(t.code), `${t.code} is missing from the prompt`);
-  assert.equal(PROPOSAL_TOOL.strict, true, 'the tool is not strict, so the shape is not enforced server-side');
-  assert.equal(PROPOSAL_TOOL.input_schema.additionalProperties, false);
+  assert.equal(CANDIDATE_TOOL.strict, true, 'the tool is not strict, so the shape is not enforced server-side');
+  assert.equal(CANDIDATE_TOOL.input_schema.additionalProperties, false);
 });
 
 // ── Malformed model output ─────────────────────────────────────────────────
@@ -107,10 +123,10 @@ await test('malformed model output is rejected in every shape it can take', () =
     [null, /not an object/],
     [{ stop_reason: 'tool_use' }, /no content array/],
     [{ stop_reason: 'tool_use', content: 'nope' }, /no content array/],
-    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: PROPOSAL_TOOL.name, input: null }] }, /tool input was not an object/],
-    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: PROPOSAL_TOOL.name, input: { proposals: 'x' } }] }, /no proposals array/],
-    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: PROPOSAL_TOOL.name, input: { proposals: [42] } }] }, /proposal was not an object/],
-    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: PROPOSAL_TOOL.name, input: { proposals: [] } }, { type: 'tool_use', name: PROPOSAL_TOOL.name, input: { proposals: [] } }] }, /2 tool calls where one was expected/],
+    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: CANDIDATE_TOOL.name, input: null }] }, /tool input was not an object/],
+    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: CANDIDATE_TOOL.name, input: { candidates: 'x' } }] }, /no candidates array/],
+    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: CANDIDATE_TOOL.name, input: { candidates: [42] } }] }, /candidate was not an object/],
+    [{ stop_reason: 'tool_use', content: [{ type: 'tool_use', name: CANDIDATE_TOOL.name, input: { candidates: [] } }, { type: 'tool_use', name: CANDIDATE_TOOL.name, input: { candidates: [] } }] }, /2 tool calls where one was expected/],
     [{ stop_reason: 'max_tokens', content: [] }, /hit max_tokens/],
     [{ stop_reason: 'refusal', stop_details: { category: 'cyber' }, content: [] }, /the model declined: cyber/],
   ];
@@ -122,7 +138,7 @@ await test('malformed model output is rejected in every shape it can take', () =
 await test('a truncated tool input is refused rather than parsed', () => {
   // max_tokens is checked before the content, because a truncated strict tool
   // input can still look structurally valid.
-  assert.throws(() => readProposals({ stop_reason: 'max_tokens', usage: {}, content: [{ type: 'tool_use', name: PROPOSAL_TOOL.name, input: { proposals: [goodProposal] } }] }), /hit max_tokens/);
+  assert.throws(() => readProposals({ stop_reason: 'max_tokens', usage: {}, content: [{ type: 'tool_use', name: CANDIDATE_TOOL.name, input: { candidates: [goodProposal] } }] }), /hit max_tokens/);
 });
 
 // ── Missing usage ──────────────────────────────────────────────────────────
@@ -248,8 +264,8 @@ await test('the $3 pilot default and the $15 absolute ceiling both hold', () => 
   assert.match(parseArgs(['--documents', 'x', '--budget', '16']).problems[0], /over the \$15\.00 milestone ceiling/);
 
   const wide = { ...emptyCostLedger({ budgetUsd: 15 }), estimatedUsd: 14.999 };
-  assert.match(checkBudget(wide, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd' }).reason, /milestone ceiling/);
-  const after = recordCall(wide, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: 4_000, documentId: 'd' });
+  assert.match(checkBudget(wide, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: LIMITS.maxOutputTokensPerCall, documentId: 'd' }).reason, /milestone ceiling/);
+  const after = recordCall(wide, { model: 'claude-sonnet-5', inputTokens: 40_000, outputTokens: LIMITS.maxOutputTokensPerCall, documentId: 'd' });
   assert.equal(after.stopped, true);
   assert.equal(checkBudget(after, { model: PILOT_MODEL, inputTokens: 1, outputTokens: 1, documentId: 'd' }).allowed, false, 'the run continued after the stop');
 });
@@ -285,13 +301,23 @@ await test('a run interrupted mid-document resumes without paying for the same c
   const common = { model, modelId: PILOT_MODEL, document, manager: { managerId: 'm' }, sourceText: SOURCE, taxonomy: TAXONOMY, aliases: [] };
 
   const first = await runDocument({ ...common, ledger: emptyCostLedger({ budgetUsd: 3 }), decisionLog: emptyDecisionLog() });
-  const before = first.ledger.calls.length;
-  assert.ok(before > 0);
+  const extractionsBefore = first.ledger.calls.filter((c) => c.stage === 'extraction').length;
+  assert.ok(extractionsBefore > 0);
 
   const resumed = await runDocument({ ...common, ledger: first.ledger, decisionLog: emptyDecisionLog() });
-  assert.equal(resumed.ledger.calls.length, before, 'the resumed run charged for a chunk it had already paid for');
+  const extractionsAfter = resumed.ledger.calls.filter((c) => c.stage === 'extraction').length;
+  assert.equal(extractionsAfter, extractionsBefore, 'the resumed run charged for a chunk it had already paid for');
   assert.match(resumed.notes.join(' '), /already charged for; resuming past it/);
-  assert.equal(seen.length, before, 'the model was asked again about a chunk already in the ledger');
+  assert.equal(seen.length, extractionsBefore, 'the model was asked again about a chunk already in the ledger');
+
+  // And it does not pretend to have produced a document. A resumed run skips
+  // chunks it already paid for, so their candidates are missing and there is
+  // nothing honest to consolidate: the document reports incomplete coverage
+  // and no claims rather than a shorter answer that reads like a whole one.
+  assert.equal(resumed.coverage.complete, false, 'a resumed document claimed complete coverage');
+  assert.equal(resumed.claims.length, 0);
+  assert.match(resumed.coverage.reason, /extracted in an earlier run/);
+  assert.equal(resumed.ledger.calls.filter((c) => c.stage === 'consolidation').length, 1, 'consolidation was paid for twice');
 });
 
 // ── Preflight ──────────────────────────────────────────────────────────────
@@ -449,7 +475,7 @@ await test('the thinking configuration reaches the request, and only when set', 
   const fakeClient = (id) => ({
     constructor: class {},
     messages: { create: async (req) => { sent.push({ id, req }); return {
-      content: [{ type: 'tool_use', name: 'propose_claims', input: { proposals: [] } }],
+      content: [{ type: 'tool_use', name: 'propose_candidates', input: { candidates: [] } }],
       usage: { input_tokens: 10, output_tokens: 5 },
     }; } },
   });
@@ -493,21 +519,25 @@ await test('Sonnet 5 resolves to itself, and no alias can redirect it', () => {
 
 // ── The bounded Sonnet 5 configuration ──────────────────────────────────────
 
-await test('six proposals per chunk is structural, not a request in the prompt', () => {
-  assert.equal(MAX_PROPOSALS_PER_CHUNK, 6);
-  // `strict: true` makes the schema binding, so a seventh is not returnable.
-  assert.equal(PROPOSAL_TOOL.strict, true);
-  assert.equal(PROPOSAL_TOOL.input_schema.properties.proposals.maxItems, 6);
-  // And the instruction says the same number, so the two cannot disagree.
+await test('two candidates per chunk and six claims per document, both structural', () => {
+  assert.equal(MAX_CANDIDATES_PER_CHUNK, 2);
+  assert.equal(MAX_CLAIMS_PER_DOCUMENT, 6);
+  // `strict: true` makes each schema binding, so a third candidate and a
+  // seventh selection are not things a model can return.
+  assert.equal(CANDIDATE_TOOL.strict, true);
+  assert.equal(CANDIDATE_TOOL.input_schema.properties.candidates.maxItems, 2);
+  assert.equal(SELECTION_TOOL.strict, true);
+  assert.equal(SELECTION_TOOL.input_schema.properties.selections.maxItems, 6);
+  // And each instruction says the same number, so the two cannot disagree.
   const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
-  const prompt = systemPrompt(taxonomy);
-  assert.match(prompt, /at most 6 claims/);
-  assert.match(PROPOSAL_TOOL.description, /at most 6 material/);
+  assert.match(extractionPrompt(taxonomy), /at most 2 claims/);
+  assert.match(CANDIDATE_TOOL.description, /at most 2 material/);
+  assert.match(consolidationPrompt(), /at most 6/);
 });
 
 await test('the prompt asks for material claims and names what to leave out', () => {
   const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
-  const prompt = systemPrompt(taxonomy);
+  const prompt = extractionPrompt(taxonomy);
   for (const material of ['thesis', 'driver of value', 'catalyst', 'risk', 'stance', 'conviction']) {
     assert.ok(prompt.includes(material), `the prompt does not ask for ${material}`);
   }
@@ -520,25 +550,25 @@ await test('the request asks for exactly the per-call output ceiling', async () 
   // These had drifted: the ledger priced every call at the ceiling while the
   // request asked for a hardcoded 4,000, so raising the ceiling would have
   // changed the price of a call and nothing about what it could return.
-  assert.equal(LIMITS.maxOutputTokensPerCall, 8_000);
+  assert.equal(LIMITS.maxOutputTokensPerCall, 2_000);
   const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
   const sent = [];
   const client = { constructor: class {}, messages: { create: async (req) => { sent.push(req); return {
-    content: [{ type: 'tool_use', name: 'propose_claims', input: { proposals: [] } }],
+    content: [{ type: 'tool_use', name: 'propose_candidates', input: { candidates: [] } }],
     usage: { input_tokens: 10, output_tokens: 5 },
   }; } } };
   const model = anthropicModel({ modelId: 'claude-sonnet-5', taxonomy, client });
   await model.propose({ chunkId: 'c', text: 'x' });
   assert.equal(sent[0].max_tokens, LIMITS.maxOutputTokensPerCall, 'the request and the ceiling disagree');
   assert.deepEqual(sent[0].thinking, { type: 'disabled' }, 'thinking came back on');
-  assert.equal(sent[0].tools[0].input_schema.properties.proposals.maxItems, 6);
+  assert.equal(sent[0].tools[0].input_schema.properties.candidates.maxItems, 2);
 });
 
-await test('the 8,000-token ceiling is priced, and the pilot still fits the budget', () => {
+await test('the 2,000-token ceiling is priced, and the pilot still fits the budget', () => {
   const p = MODEL_ALLOWLIST['claude-sonnet-5'];
   const usd = (i, o) => (i / 1e6) * p.inputPerMTok + (o / 1e6) * p.outputPerMTok;
   // One call at both ceilings.
-  assert.equal(Number(usd(LIMITS.maxInputTokensPerCall, LIMITS.maxOutputTokensPerCall).toFixed(4)), 0.16);
+  assert.equal(Number(usd(LIMITS.maxInputTokensPerCall, LIMITS.maxOutputTokensPerCall).toFixed(4)), 0.10);
   // Two documents, bounded by the per-document ceilings, well under $3.
   const worstTwoDocuments = usd(2 * LIMITS.maxInputTokensPerDocument, 2 * LIMITS.maxOutputTokensPerDocument);
   assert.ok(worstTwoDocuments < PILOT_BUDGET_USD, `two documents could cost $${worstTwoDocuments.toFixed(2)}`);
@@ -548,6 +578,7 @@ await test('the 8,000-token ceiling is priced, and the pilot still fits the budg
   assert.equal(LIMITS.maxInputTokensPerCall, 40_000);
   assert.equal(LIMITS.maxDocuments, 9);
   assert.equal(LIMITS.maxChunksPerDocument, 12);
+  assert.equal(LIMITS.maxOutputTokensPerDocument, 26_000);
   assert.equal(LIMITS.maxModelCalls, 18);
   assert.equal(MAX_RETRIES, 0);
 });
@@ -557,7 +588,7 @@ await test('a truncated answer aborts with no retry and keeps no partial claim',
   // refused before anything reads it rather than after.
   const truncated = {
     stop_reason: 'max_tokens',
-    content: [{ type: 'tool_use', name: 'propose_claims', input: { proposals: [{ paraphrase: 'half a claim' }] } }],
+    content: [{ type: 'tool_use', name: 'propose_candidates', input: { candidates: [{ paraphrase: 'half a claim' }] } }],
     usage: { input_tokens: 2500, output_tokens: 8000 },
   };
   assert.throws(() => readProposals(truncated), (e) => {

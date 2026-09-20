@@ -122,6 +122,7 @@ jobs:
           npm run test:pilot
           npm run test:publish
           npm run test:federation
+          npm run test:two-stage
 
       # Every ceiling that matters lives in the code, not in this file, so a
       # workflow edit cannot raise one. This checks they are still there.
@@ -134,9 +135,12 @@ jobs:
             if (c.PILOT_BUDGET_USD !== 3) fail(`the pilot budget default is ${c.PILOT_BUDGET_USD}, not 3`);
             if (c.LIMITS.maxDocuments > 9) fail(`the document ceiling is ${c.LIMITS.maxDocuments}`);
             if (c.LIMITS.maxChunksPerDocument > 12) fail(`the chunk ceiling is ${c.LIMITS.maxChunksPerDocument}`);
-            if (c.LIMITS.maxOutputTokensPerCall !== 8000) fail(`the per-call output ceiling is ${c.LIMITS.maxOutputTokensPerCall}, not 8000`);
+            if (c.LIMITS.maxOutputTokensPerCall !== 2000) fail(`the per-call output ceiling is ${c.LIMITS.maxOutputTokensPerCall}, not 2000`);
+            if (c.LIMITS.maxOutputTokensPerDocument !== 26000) fail(`the per-document output ceiling is ${c.LIMITS.maxOutputTokensPerDocument}, not 26000`);
             if (c.LIMITS.maxInputTokensPerCall !== 40000) fail(`the per-call input ceiling is ${c.LIMITS.maxInputTokensPerCall}, not 40000`);
-            if (c.MAX_PROPOSALS_PER_CHUNK !== 6) fail(`the proposal cap is ${c.MAX_PROPOSALS_PER_CHUNK}, not 6`);
+            if (c.MAX_CANDIDATES_PER_CHUNK !== 2) fail(`the candidate cap is ${c.MAX_CANDIDATES_PER_CHUNK}, not 2`);
+            if (c.MAX_CLAIMS_PER_DOCUMENT !== 6) fail(`the claim cap is ${c.MAX_CLAIMS_PER_DOCUMENT}, not 6`);
+            if (!c.canCompleteDocument()) fail(`a document at the chunk ceiling cannot be finished within the output budget`);
             if (c.LIMITS.maxModelCalls > 18) fail(`the call ceiling is ${c.LIMITS.maxModelCalls}`);
             if (c.emptyCostLedger({ budgetUsd: 1e6 }).budgetUsd !== 15) fail("a run can raise its own budget past the ceiling");
             console.log("ceilings intact");

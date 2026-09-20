@@ -23,6 +23,10 @@ import { MAX_DOCUMENT_QUOTED_WORDS } from '../../lib/thesis-evidence.mjs';
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const WF = readFileSync(join(REPO, '.github', 'workflows', 'thesis-pilot.yml'), 'utf8');
 
+// Every feed now has to say it read everything it selected, so the fixtures
+// carry a complete coverage row for the one document they use.
+const COVERAGE = [{ documentId: 'd-1', chunksPlanned: 1, chunksProcessed: 1, complete: true, reason: null }];
+
 let passed = 0;
 function test(name, fn) { fn(); passed += 1; console.log(`  ok  ${name}`); }
 
@@ -275,12 +279,13 @@ test('quotation caps hold on the way out, per excerpt and per document', () => {
   // The cumulative cap is applied across the feed, not per claim.
   const many = Array.from({ length: 6 }, (_, i) => ({ ...claim, claimId: `c-${i}` }));
   const refs = new Map(many.map((c) => [c.claimId, { ...reference, excerpt: 'one two three four five six seven eight nine ten' }]));
-  const feed = buildFeed({ claims: many, references: refs, model: PILOT_MODEL, promptVersion: 'v1' });
+  const feed = buildFeed({ claims: many, references: refs, model: PILOT_MODEL, promptVersion: 'v1', coverage: COVERAGE });
   assert.ok(feed.refused.some((r) => /cumulative cap/.test(r.problems.join(' '))), `${MAX_DOCUMENT_QUOTED_WORDS}-word cap not enforced across the feed`);
 });
 
 test('the feed carries no source text, is ordered, and is re-checked on the way in', () => {
   const feed = buildFeed({
+    coverage: COVERAGE,
     claims: [{ ...claim, claimId: 'c-b' }, { ...claim, claimId: 'c-a' }],
     references: new Map([['c-a', reference], ['c-b', reference]]),
     dropped: [{ chunkId: 'k1', reason: 'evidence: the excerpt does not occur in the source', paraphrase: 'LEAK' }],
@@ -296,6 +301,7 @@ test('the feed carries no source text, is ordered, and is re-checked on the way 
   assert.ok(!serialiseFeed(feed).includes('LEAK'), 'a dropped claim carried its text into the feed');
   // Two builds of the same input are byte-identical.
   assert.equal(serialiseFeed(feed), serialiseFeed(buildFeed({
+    coverage: COVERAGE,
     claims: [{ ...claim, claimId: 'c-a' }, { ...claim, claimId: 'c-b' }],
     references: new Map([['c-a', reference], ['c-b', reference]]),
     dropped: [{ chunkId: 'k1', reason: 'evidence: the excerpt does not occur in the source', paraphrase: 'LEAK' }],
@@ -306,7 +312,7 @@ test('the feed carries no source text, is ordered, and is re-checked on the way 
 });
 
 test('a feed that arrives carrying anything forbidden is refused', () => {
-  const good = buildFeed({ claims: [claim], references: new Map([['c-1', reference]]), model: PILOT_MODEL, promptVersion: 'v1' });
+  const good = buildFeed({ claims: [claim], references: new Map([['c-1', reference]]), model: PILOT_MODEL, promptVersion: 'v1', coverage: COVERAGE });
   assert.deepEqual(validateFeed(good), []);
 
   assert.ok(validateFeed({ ...good, feedVersion: 99 }).some((p) => /feedVersion/.test(p)));
