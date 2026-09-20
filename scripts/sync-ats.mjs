@@ -94,12 +94,33 @@ const SENIOR = /\b(senior|staff|principal|director|distinguished|vp|head\s+of|le
  * early-career token?
  *
  * "Student" and "graduate" alone are not enough, because both appear in product
- * names and in phrases like "graduate of". "Intern", "campus", "APM" and
- * "summer analyst" are, because nothing else in a job title uses those words.
+ * names and in phrases like "graduate of". "Intern", "campus", "early career"
+ * and "summer analyst" are, because nothing else in a job title uses those
+ * words.
+ *
+ * WHAT THE ADVERSARIAL PASS CHANGED. Run across the 1,318 live rows, 18 carry
+ * the word manager and the old filter accepted all 18. Almost every one is a
+ * real graduate seat: five Associate Product Manager rows at Visa, Databricks
+ * and Roblox, three "Area Manager - New Grad" at Flexport, two Account Manager
+ * internships. A bare substring exclusion would have thrown away all of them,
+ * which is why the exception is the rule rather than a footnote to it.
+ *
+ * Two tokens moved as a result. "early career" was added, because Notion's
+ * "Experience Program Manager - EMEA & APAC, Early Career" says so in the
+ * title and was being dropped. Bare "APM" and "RPM" were removed, because
+ * Datadog's "Manager I, Engineering - APM Serverless" is Application
+ * Performance Monitoring rather than a graduate scheme, and it is a genuine
+ * manager the old filter wrongly accepted. "Associate Product Manager" stays
+ * spelled out, which keeps every real APM row.
+ *
+ * Net effect on live data: 1 row of 1,318 changes, and it changes from wrong
+ * to right. A positional rule was tried as the alternative, marking manager
+ * senior only as the head noun of a title segment. It agreed with this one on
+ * all 26 observed cases and was worse on the Datadog row, so it was not kept.
  */
 const MANAGER = /\bmanagers?\b/i;
 const STRONG_EARLY_CAREER =
-  /\b(intern|interns|internship|internships|campus|apprentice|apprenticeship|new[\s-]?grad|newgrad|co-?op|associate\s+product\s+manager|apm|rpm|summer\s+(analyst|associate)|graduate\s+(programme?|scheme|analyst|trainee)|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?)\b/i;
+  /\b(intern|interns|internship|internships|campus|apprentice|apprenticeship|new[\s-]?grad|newgrad|co-?op|early[\s-]?career|associate\s+product\s+manager|summer\s+(analyst|associate)|graduate\s+(programme?|scheme|analyst|trainee)|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?)\b/i;
 
 export function isEarlyCareer(title) {
   if (SENIOR.test(title)) return false;

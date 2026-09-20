@@ -324,6 +324,66 @@
       "firm": "Guidehouse",
       "title": "Consulting Analyst - Energy Providers - Campus 2027",
       "early": true
+    },
+    {
+      "why": "adversarial: Application Performance Monitoring, not a graduate scheme. A genuine manager the old filter accepted",
+      "firm": "Datadog",
+      "title": "Manager I, Engineering - APM Serverless",
+      "early": false
+    },
+    {
+      "why": "adversarial: the title says Early Career, and that is strong enough to survive the manager rule",
+      "firm": "Notion",
+      "title": "Notino Experience Program Manager - EMEA & APAC, Early Career",
+      "early": true
+    },
+    {
+      "why": "adversarial: a real graduate seat at a logistics firm, kept",
+      "firm": "Flexport",
+      "title": "Area Manager - New Grad",
+      "early": true
+    },
+    {
+      "why": "adversarial: manager is not the point of the title, and intern is",
+      "firm": "ING",
+      "title": "Internship - Account Manager",
+      "early": true
+    },
+    {
+      "why": "adversarial: Management is not Manager, so the rule never fires",
+      "firm": "Deloitte",
+      "title": "Management Consultant",
+      "early": false
+    },
+    {
+      "why": "adversarial: Managerial is not Manager either; excluded for having no early-career token at all",
+      "firm": "Unknown Firm Ltd",
+      "title": "Managerial Economics",
+      "early": false
+    },
+    {
+      "why": "adversarial: bare, with no early-career token. Excluded before this change and after it",
+      "firm": "Unknown Firm Ltd",
+      "title": "Associate Product Manager",
+      "early": false
+    },
+    {
+      "why": "adversarial: a mid-level seat with no early-career token",
+      "firm": "Unknown Firm Ltd",
+      "title": "Associate Programme Manager",
+      "early": false
+    },
+    {
+      "why": "adversarial: graduate scheme is strong enough to survive the manager rule",
+      "firm": "Unknown Firm Ltd",
+      "title": "Assistant Manager graduate scheme",
+      "early": true
+    },
+    {
+      "why": "adversarial: the product name alone still reads as early-career. A known residual, and harmless without a manager beside it",
+      "firm": "Huron Consulting Group",
+      "title": "Workday Student Financials",
+      "early": true
     }
   ],
   "regression": [
