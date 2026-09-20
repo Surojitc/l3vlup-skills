@@ -35,6 +35,13 @@ ok('it names the producer that writes it', typeof t.producer === 'string' && t.p
 ok('it carries a generation timestamp', !Number.isNaN(Date.parse(t.generatedAt)));
 
 ok('pending is an array, even when empty', Array.isArray(t.pending));
+// The consumer treats pending as a quarantine rather than a warning, and the
+// file has to say so: a maintainer reading only this side must not conclude
+// that a pending vertical is merely logged.
+ok('the pending comment states that it is a quarantine',
+  /quarantine/i.test(t._pendingComment ?? '') && /withheld/i.test(t._pendingComment ?? ''));
+ok('and that typing a value is not launching it',
+  /not launching it|separate decision/i.test(t._pendingComment ?? ''));
 ok('nothing is both supported and pending', !t.pending.some((v) => t.verticals.includes(v)));
 
 for (const key of ['verticals', 'regions', 'levels', 'programmeTypes']) {
