@@ -59,8 +59,26 @@ exactly the overstatement this step existed to catch.
 | Asia | 3 |
 | **UK** | **0** |
 
-By country: US 19, Italy 8, Netherlands 8, Canada 4, Czechia 2, then one each
-from Belgium, Indonesia, Poland, Luxembourg, Malaysia and the Philippines.
+Raw and qualified by country, every country that appeared:
+
+| Country | Raw | Qualified | Country | Raw | Qualified |
+|---|---|---|---|---|---|
+| US | 24 | **19** | Singapore | 9 | 0 |
+| Italy | 15 | **8** | Portugal | 7 | 0 |
+| Netherlands | 12 | **8** | Norway | 5 | 0 |
+| Canada | 4 | **4** | Slovakia | 4 | 0 |
+| Czechia | 2 | **2** | Thailand | 3 | 0 |
+| Poland | 21 | **1** | Mauritius | 2 | 0 |
+| Malaysia | 6 | **1** | Greece | 1 | 0 |
+| Belgium | 4 | **1** | Switzerland | 1 | 0 |
+| Indonesia | 2 | **1** | India | 1 | 0 |
+| Luxembourg | 1 | **1** | Hungary | 1 | 0 |
+| Philippines | 1 | **1** | Australia | 1 | 0 |
+| | | | Denmark | 1 | 0 |
+
+Poland is the clearest illustration of the gap between raw and qualified: **21
+raw rows, 1 qualified.** Accenture's Warsaw, Łódź and Katowice postings are a
+technology delivery centre, not a consulting practice.
 
 ### By programme and role type
 
@@ -80,16 +98,25 @@ being filed as internships.
 
 Of the 128 raw rows, 41 were excluded on relevance and 36 were ambiguous.
 
-| Exclusion | Rows |
-|---|---|
-| Engineering (Java, Angular, AWS, Linux, SAP ABAP, MLOps, test automation) | 25 |
-| Internal corporate (receptionist, workplace support, HR, procure-to-pay) | 7 |
-| Design and marketing | 5 |
-| Operations and BPO (customer service, trust & safety, insurance operations) | 4 |
+The complete taxonomy, with every reason a row can leave the qualified set:
 
-The 36 ambiguous rows are generic programmes naming no practice, such as
-"Accenture Internship Program - May to Aug 2027". They are held out of the
-qualified count rather than guessed into it.
+| Reason | Rows | Definition | Example |
+|---|---|---|---|
+| **Engineering** | 25 | Build-and-run software, infrastructure or platform work | `Java Developer Internship Program`, `Linux Administrator Internship`, `AI/MLOps Internship` |
+| **Internal corporate** | 7 | A function serving the firm itself rather than a client | `Student Receptionist`, `Workplace Support Intern`, `Human Resources Talent Accelerator` |
+| **Design and marketing** | 5 | Creative and demand-generation work | `Industrial Design Internship`, `Digital Marketing (SEO / Web Analytics)` |
+| **Operations and BPO** | 4 | Service delivery and transaction processing | `Customer Service - Korean speaking`, `Trust & Safety New Associate`, `Insurance Operations Associate` |
+| **Ambiguous: no practice named** | 36 | A real programme that does not say what the work is | `Accenture Internship Program - May to Aug 2027`, `Postgraduate Internship Program` |
+| **Seniority** | 2 | Cleared `isEarlyCareer` but is an experienced hire | `Consulting Manager`, `Associate Engagement Manager` |
+| **Not client-facing** | 1 | Consulting-sounding title inside a delivery centre | `Junior Business Analyst (part-time for students)` |
+| **Stale** | 1 | Advertises a window that has passed | `Summer Internship Program - Consulting (Aug to Dec2024)` |
+
+The first five are applied before the hand review and account for the 128 → 51
+reduction. The last three were found **by** the hand review and account for
+51 → 47.
+
+The 36 ambiguous rows are held out rather than guessed into the qualified
+count. Several are probably consulting; none says so.
 
 ### Seniority
 
@@ -140,6 +167,12 @@ All 51 consulting-relevant rows were read individually, which is more than the
 30 required, and covers all four contributing employers with positive, negative
 and ambiguous examples. Four were rejected:
 
+**Every accepted and rejected row is listed in
+`docs/consulting-inventory-2026-09-rows.md`**, so the counts above can be
+checked rather than taken on trust.
+
+The four rejections:
+
 | Row | Why |
 |---|---|
 | Huron, `Workday Student Financials - Consulting Manager` | Experienced hire; seniority leak |
@@ -147,8 +180,16 @@ and ambiguous examples. Four were rejected:
 | Accenture, `Junior Business Analyst (part-time for students)` | Bratislava shared-services centre, not client-facing |
 | Accenture, `Summer Internship Program - Consulting (Aug to Dec2024)` | Stale: advertises a 2024 window |
 
-**Precision: 47 of 51, or 92%.** Two of the four failures are seniority rather
-than relevance; on relevance alone precision is 96%.
+**Precision: 47 of 51, or 92%.**
+
+**This is precision on the 51-row consulting-relevant set, not on the 128 raw
+records.** It answers "of the rows we would put in front of a candidate as
+consulting, how many genuinely are" — which is the number that matters for gate
+5. It is not a measure of how well anything separates consulting from the other
+77 raw rows; that is the classifier's job and is measured in step 4.
+
+Two of the four failures are seniority rather than relevance. On relevance
+alone, precision is 96%.
 
 Judgement calls worth recording, all resolved as qualifying: Accenture's
 "Business Analyst" is its consulting entry title; "Talent Transformation" and
@@ -172,10 +213,27 @@ Access and Pricing.
 Gates 7 and 8 are sequencing, not evidence: neither step has run. Gate 4 is the
 only one the data refuses.
 
-## Recommendation
+## Recommendation, and the decision taken
 
-**Launch the Consulting filter scoped to the United States, and do not launch a
-global or UK filter yet.**
+> **Decision, 20 September 2026: the US-scoped launch and the 15-row threshold
+> were both declined.** The eight gates stand unchanged, the 15-row figure is
+> recorded as an observation rather than an approved criterion, and the
+> Consulting filter is not exposed publicly until UK coverage improves. The 47
+> qualified rows and the 19-row US subset are preserved as the initial
+> validated inventory, and the content and preparation pathway continue
+> independently of the tracker.
+>
+> The reasoning, which is a standing rule and not a one-off call: revising a
+> threshold from 40 to 15 after seeing a result that failed it makes the gate
+> fit the data. L3VLUP has a meaningful UK audience, and a Consulting vertical
+> opening with zero UK opportunities is a poor first impression that costs more
+> than the delay.
+>
+> The recommendation below is left as written, because a decision record is
+> more useful with the argument it declined still in it.
+
+**Recommendation as submitted: launch the Consulting filter scoped to the United
+States, and do not launch a global or UK filter yet.**
 
 Criterion 4 was written to permit exactly this. The US slice is not merely
 adequate, it is **better balanced than the global set**:
