@@ -1,0 +1,54 @@
+{
+  "_comment": "What the collector SUPPORTS, declared from the classifier rules rather than derived from the rows in any one run. A vertical with zero live opportunities is still supported: hedge funds stood at three rows and private equity at six in the September sweep, and either can reach zero out of season without the taxonomy changing. Counts are deliberately absent, because a contract that read them would drop a vertical on a quiet week and restore it silently when a row came back.",
+  "_pendingComment": "A vertical the producer can emit that consumers have not adopted yet. On the L3VLUP side this is a QUARANTINE, not a warning: rows carrying a pending vertical are accepted into the raw feed so a real feed can be validated, and withheld from every public surface until the vertical is explicitly allowlisted. Typing a value is not launching it. The path is unknown, pending, supported privately, public, and each step is a separate decision.",
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-20T08:18:46.411Z",
+  "producer": "l3vlup-skills/scripts/sync-ats.mjs",
+  "verticals": [
+    "Investment Banking",
+    "Private Equity",
+    "Hedge Fund",
+    "Equity Research",
+    "Corporate Development",
+    "Quant",
+    "FinTech Sales",
+    "Sales & Trading",
+    "Corporate Banking",
+    "Asset Management",
+    "Wealth Management",
+    "Private Credit",
+    "Venture Capital",
+    "Risk",
+    "Compliance & Legal",
+    "Finance & Accounting",
+    "Operations",
+    "Software Engineering",
+    "Product Management",
+    "Data & ML",
+    "AI Research",
+    "AI Engineering",
+    "Other"
+  ],
+  "pending": [],
+  "regions": [
+    "US",
+    "UK",
+    "Europe",
+    "Asia",
+    "Middle East",
+    "Remote"
+  ],
+  "levels": [
+    "Internship",
+    "Graduate",
+    "Experienced"
+  ],
+  "programmeTypes": [
+    "Spring Week",
+    "Insight Program",
+    "Summer Internship",
+    "Graduate Programme",
+    "Off-Cycle Internship",
+    "Placement Year"
+  ]
+}

@@ -27,13 +27,44 @@ import { anthropicModel, preflightModel, realClient } from '../lib/thesis-anthro
 import { emptyCostLedger, LIMITS, MODEL_ALIASES, MODEL_ALLOWLIST, PILOT_BUDGET_USD, PILOT_MODEL, resolveModelId } from '../lib/thesis-cost.mjs';
 import { runDocument } from '../lib/thesis-runner.mjs';
 import { emptyDecisionLog, renderReview, reviewCard } from '../lib/thesis-review.mjs';
-import { buildFeed, serialiseFeed, validateFeed } from '../lib/thesis-publish.mjs';
+import { buildFailureReport, buildFeed, coverageProblems, serialiseFeed, validateFailureReport, validateFeed } from '../lib/thesis-publish.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, '.pilot');
 const SELECTION = join(ROOT, 'data', 'letters.selection.json');
 const TAXONOMY = join(ROOT, 'data', 'letters.taxonomy.json');
 const SOURCES = join(ROOT, 'data', 'letters.sources.json');
+
+/**
+ * What a failed run knows about itself.
+ *
+ * A module-scoped snapshot rather than a return value, because the run can die
+ * anywhere and the cost is worth reporting from every one of those places. It
+ * holds identifiers and numbers only; nothing read from a document ever
+ * reaches it.
+ */
+const runState = { model: null, promptVersion: null, ledger: {}, documentsAttempted: 0, stage: null, coverage: [], documentsSelected: 0 };
+
+/** Write the cost of a run that did not finish, or say why it could not. */
+export function writeFailureReport(reason, detail) {
+  const report = buildFailureReport({
+    reason, detail, ledger: runState.ledger, model: runState.model,
+    promptVersion: runState.promptVersion, runId: process.env.GITHUB_RUN_ID || null,
+    documentsAttempted: runState.documentsAttempted,
+    stage: runState.stage, coverage: runState.coverage,
+  });
+  const problems = validateFailureReport(report);
+  if (problems.length) {
+    // Refuse to write something we cannot vouch for rather than write it and
+    // hope the receiving job catches it.
+    console.error('the failure report is not safe to write:');
+    for (const p of problems) console.error(`  - ${p}`);
+    return null;
+  }
+  writeOut('failure.json', report);
+  console.error(`failure recorded: ${report.reason} · actual $${report.cost.actualUsd.toFixed(4)} of $${report.cost.budgetUsd ?? '?'}`);
+  return report;
+}
 
 /**
  * Slug to the manager's legal name, read from the file that already holds it.
@@ -171,6 +202,7 @@ async function main() {
     process.exit(2);
   }
 
+  runState.documentsSelected = found.length;
   console.log(`pilot: ${found.length} document(s), model ${args.model}, budget $${args.budget.toFixed(2)} of a $${LIMITS.hardStopUsd.toFixed(2)} milestone ceiling`);
   for (const d of found) console.log(`  ${d.fund.padEnd(18)} ${d.form.padEnd(8)} ${d.filingDate}  ${String(d.bytes).padStart(9)} bytes`);
 
@@ -194,6 +226,9 @@ async function main() {
 
   const model = anthropicModel({ modelId: args.model, taxonomy, client });
   let ledger = emptyCostLedger({ budgetUsd: args.budget });
+  runState.model = args.model;
+  runState.promptVersion = model.promptVersion;
+  runState.ledger = ledger;
   const decisionLog = existsSync(join(OUT, 'decisions.json'))
     ? JSON.parse(readFileSync(join(OUT, 'decisions.json'), 'utf8'))
     : emptyDecisionLog();
@@ -226,6 +261,9 @@ async function main() {
         ledger, decisionLog, quotedWordsByDocument: quoted,
       });
       ledger = run.ledger;
+      runState.ledger = ledger;
+      runState.documentsAttempted += 1;
+      if (run.coverage) runState.coverage = [...runState.coverage.filter((c) => c.documentId !== run.coverage.documentId), run.coverage];
       out.push({ document, run });
       console.log(`  ${run.claims.length} claim(s), ${run.dropped.length} dropped, ${run.strippedFields.length} field(s) stripped, $${ledger.estimatedUsd.toFixed(4)} spent`);
       if (ledger.stopped) { console.error(`  STOPPED: ${ledger.stopReason}`); break; }
@@ -265,13 +303,27 @@ async function main() {
     });
   }
   const feed = buildFeed({
-    claims: (results || []).flatMap((r) => r.run.claims.map((c) => ({ ...c.claim, accession: r.document.accession, form: r.document.form, managerName: r.document.managerName }))),
+    claims: (results || []).flatMap((r) => r.run.claims.map((c) => ({ ...c.claim, accession: r.document.accession, form: r.document.form, managerName: r.document.managerName, candidateId: c.candidateId ?? null, rank: c.rank ?? null }))),
+    coverage: runState.coverage,
+    selectionRejects: (results || []).flatMap((r) => r.run.selectionRejects || []),
     references,
     dropped: (results || []).flatMap((r) => r.run.dropped),
     stripped: (results || []).flatMap((r) => r.run.strippedFields),
     ledger, model: args.model, promptVersion: model.promptVersion,
     runId: process.env.GITHUB_RUN_ID || null,
   });
+  // The completion gate, before anything is written. A feed is only ever
+  // produced for a run that read every chunk of every document it selected;
+  // otherwise there is no feed on disk, so there is nothing for the
+  // pull-request job to pick up and nothing that could be merged by mistake.
+  const gaps = coverageProblems(runState.coverage, runState.documentsSelected);
+  if (gaps.length) {
+    console.error('\nIncomplete coverage. No feed is written and no pull request can be opened:');
+    for (const g of gaps) console.error(`  - ${g}`);
+    writeFailureReport('incomplete_coverage', gaps[0]);
+    process.exit(6);
+  }
+
   const feedProblems = validateFeed(feed);
   writeOut('feed.json', serialiseFeed(feed));
   if (feedProblems.length) {
@@ -289,5 +341,12 @@ async function main() {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('thesis-pilot.mjs')) {
-  main().catch((err) => { console.error(err); process.exit(1); });
+  main().catch((err) => {
+    console.error(err);
+    // The cost is the one thing worth keeping from a run that died. It is
+    // written after the workspace has already been torn down by withWorkspace,
+    // so there is nothing left for it to accidentally carry.
+    writeFailureReport(err?.reason ?? 'unknown', err?.detail ?? String(err?.message ?? err));
+    process.exit(1);
+  });
 }
