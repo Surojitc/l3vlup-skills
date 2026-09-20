@@ -305,6 +305,23 @@ check('an existing pull request is found before a new one is opened', publishScr
 check('a pull request that could not be opened stops the run rather than being merged', /if: steps\.pr\.outputs\.number != '' && inputs\.merge/.test(publishText));
 check('a merge that fails leaves the pull request open and fails the run', /could not be merged[\s\S]*?exit 1/.test(publishScripts));
 check('a publication that changes nothing opens no pull request', /nothing to publish[\s\S]*?number=/.test(publishScripts));
+
+// The archive arrives from a job this one did not watch, and tar will write
+// through `../` or a symlink before any gate has run. So it is read first.
+check('the archive is inspected before it is unpacked', publishScripts.indexOf('tar -tf') < publishScripts.indexOf('tar -xf'));
+check('an archive naming a path outside the tree is refused', /grep -qE '\(\^\/\|\^\\\.\\\.[\s\S]*?exit 1/.test(publishScripts), 'no traversal guard');
+check('an archive holding anything but a plain file is refused', /tar -tvf[\s\S]*?grep -qvE '\^\[-d\]'[\s\S]*?exit 1/.test(publishScripts));
+check('extraction claims no ownership or permissions from the archive', /--no-same-owner --no-same-permissions/.test(publishScripts));
+
+// Everything the privileged job reaches for is GitHub's, and both actions are
+// held at a digest. No toolchain download, no third-party action, no wildcard.
+const publishUses = publish.body.filter((l) => /^\s+- uses:/.test(l)).map((l) => l.split('uses:')[1].trim());
+eq('the publisher runs two actions, both pinned by digest', publishUses, [
+  'actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0',
+  'actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0',
+]);
+check('the publisher installs no toolchain', !/setup-node|setup-python|npm (ci|install)|pip install/.test(publishText));
+check('the publisher reaches nothing but GitHub', !/curl|wget|fetch\(/.test(publishScripts));
 // One group across every caller: two producers committing into the same
 // branch history at once is how one of them publishes over the other.
 check('publishers are serialised repository-wide', /^concurrency:\n {2}group: publish-data\n {2}cancel-in-progress: false$/m.test(reusable.text));

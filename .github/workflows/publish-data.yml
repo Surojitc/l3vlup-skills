@@ -80,13 +80,19 @@ jobs:
       # main, not the ref the run was dispatched on. A data pull request must
       # carry the collection and nothing else, and starting anywhere else is
       # how a feature branch's code would ride along inside one.
-      - uses: actions/checkout@v5
+      # Pinned by digest rather than by tag. This is the one job in the
+      # repository that can write to `main`, so the actions it runs are worth
+      # holding still: a moved tag here would be a moved tag on the privileged
+      # half of every producer at once.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           ref: main
 
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 20
+      # No setup-node. The runner ships Node 20 and the gate imports only
+      # `node:fs` and `node:child_process`, so installing a toolchain would be
+      # the only request this job makes to anything that is not GitHub. Its
+      # whole network surface is the checkout, the artifact download and the
+      # GitHub API.
 
       # Into the temp directory, deliberately: unpacked inside the working
       # tree it would be staged by the `git add -A` below and published.
@@ -123,7 +129,30 @@ jobs:
           # nobody merged yesterday is replaced rather than stacked behind
           # today's, and the diff is always against the current default branch.
           git checkout -q -B "$BRANCH"
-          tar -xf "$RUNNER_TEMP/handoff/publishable.tar"
+
+          # The archive is read before it is unpacked.
+          #
+          # Its members come from `git diff --cached --name-only` in the
+          # collecting job, and git cannot emit an absolute path, a `..`
+          # segment or a device node. That is an argument about the producer,
+          # though, and this job's whole design is that it takes nothing from
+          # the producer on trust. tar would happily write through `../` or a
+          # symlink into the runner's home directory, before any gate runs, so
+          # the list is checked first and anything that is not a plain file
+          # inside the tree fails the run.
+          archive="$RUNNER_TEMP/handoff/publishable.tar"
+          tar -tf "$archive" > "$RUNNER_TEMP/members.txt"
+          if grep -qE '(^/|^\.\./|/\.\./|/\.\.$|^\.\.$|^~)' "$RUNNER_TEMP/members.txt"; then
+            echo "::error::the archive names a path outside the working tree"
+            sed 's/^/  /' "$RUNNER_TEMP/members.txt"
+            exit 1
+          fi
+          if tar -tvf "$archive" | grep -qvE '^[-d]'; then
+            echo "::error::the archive holds something that is not a plain file or directory"
+            tar -tvf "$archive" | grep -vE '^[-d]' | sed 's/^/  /'
+            exit 1
+          fi
+          tar -xf "$archive" --no-same-owner --no-same-permissions -C .
           git add -A
 
           # The check that actually guarantees the pull request's contents.
