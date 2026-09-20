@@ -68,20 +68,35 @@ on:
 
 # The collection no longer pushes to the default branch: a ruleset closed that
 # door on 18 September and the right answer was to travel the same road as
-# every other change rather than to be given a way around it. So the token
-# needs to open a pull request as well as write a branch. It still cannot
-# approve one, and nothing here asks it to: the ruleset requires no approvals.
+# every other change rather than to be given a way around it. So something in
+# this file needs a token that can open a pull request, and the question is
+# which part of the run holds it.
+#
+# Not the part that reads the internet. The collection fetches from ninety-odd
+# careers boards and parses whatever comes back, which is the one step here
+# where a hostile page gets a say in what a script sees. So the run is two
+# jobs. The first collects and holds a read-only token; it cannot push a
+# branch, open a pull request or merge one, whatever it reads. It hands the
+# second job a tar of the files the gate approved, and only that job holds a
+# token that can write. The default below is the floor both inherit from: a
+# job that says nothing about permissions gets nothing.
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: build-samples
   cancel-in-progress: false
 
 jobs:
-  samples:
+  # Everything that touches the outside world, with a token that can only read.
+  collect:
+    name: Collect and validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.stage.outputs.changed }}
+      tracker: ${{ steps.stage.outputs.tracker }}
     steps:
       - uses: actions/checkout@v5
 
@@ -117,6 +132,7 @@ jobs:
           node scripts/__tests__/ats-discover.test.mjs
           node scripts/__tests__/slug-registry.test.mjs
           node scripts/__tests__/validate-publication.test.mjs
+          node scripts/__tests__/workflow-permissions.test.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
         # No continue-on-error: the script has its own collapse guard and exits
@@ -248,9 +264,67 @@ jobs:
             --ref "${GITHUB_REF_NAME}" \
             --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
+      # What crosses the line between the two jobs, and nothing else: the
+      # files the gate just approved, the body it wrote, and the gate itself.
+      #
+      # The gate travels because the job on the other side starts from main,
+      # and on a run dispatched from a branch main may not carry it yet. It is
+      # read out of this run's checkout, which is the copy a reviewer of this
+      # run is looking at.
+      - name: Pack what may be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+          cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
+          cp scripts/validate-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
+
+      - name: Upload what may be published
+        if: steps.stage.outputs.changed == 'true'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: daily-data-refresh
+          path: ${{ runner.temp }}/handoff
+          if-no-files-found: error
+          retention-days: 3
+
+  # The only job in this file that can write anything. It runs no collector,
+  # reads no careers board and calls no model: it unpacks a tar, re-checks it
+  # against the same gate, and opens a pull request.
+  publish:
+    name: Open and merge the data pull request
+    needs: collect
+    if: needs.collect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # The least that can open a pull request: a branch to push and the pull
+    # request itself. No packages, no actions, no deployments, no id-token,
+    # and nothing that could approve a review.
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # main, not the dispatch ref. A data pull request must carry the
+      # collection and nothing else, and starting anywhere else is how a
+      # feature branch's code would ride along inside it.
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      # Into the temp directory, deliberately: unpacked inside the working
+      # tree it would be staged by the `git add -A` below and published.
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: daily-data-refresh
+          path: ${{ runner.temp }}/handoff
+
       - name: Open or update the data pull request
         id: pr
-        if: steps.stage.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -259,30 +333,17 @@ jobs:
           git config user.name  "l3vlup-bot"
           git config user.email "actions@users.noreply.github.com"
 
-          # The gate is copied aside first: the reset below puts the working
-          # tree back to main, and on a run dispatched from a branch the gate
-          # itself may not exist there yet.
-          cp scripts/validate-publication.mjs "$RUNNER_TEMP/gate.mjs"
-
-          # The data commit is rebuilt on origin/main whatever ref this run was
-          # dispatched from. Without this a dispatch from a feature branch
-          # would carry that branch's code into a data pull request, and the
-          # allowlist above would not catch it: it checks what this RUN
-          # changed, and those files were changed by the checkout. Tar, reset
-          # to main, restore, so what lands on the branch is the collection and
-          # nothing else.
-          tar -cf "$RUNNER_TEMP/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
-          git reset -q --hard
-          git fetch -q origin main
-          git checkout -q -B "$branch" origin/main
-          tar -xf "$RUNNER_TEMP/publishable.tar"
+          git checkout -q -B "$branch"
+          tar -xf "$RUNNER_TEMP/handoff/publishable.tar"
           git add -A
 
-          # The check that actually guarantees the pull request's contents,
-          # now that the diff is against main rather than against the dispatch
-          # ref. Cheap, and it is the one a reviewer is trusting.
+          # The check that actually guarantees the pull request's contents.
+          # The collecting job ran the same gate, but this job did not watch
+          # it do so and takes nothing from it on trust: the list checked here
+          # is the diff against main that is about to be committed. Cheap, and
+          # it is the one a reviewer is trusting.
           git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
-          node "$RUNNER_TEMP/gate.mjs" --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
+          node "$RUNNER_TEMP/handoff/gate.mjs" --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
 
           if git diff --cached --quiet; then
             echo "main already carries this collection; nothing to publish"
@@ -300,11 +361,11 @@ jobs:
           number=$(gh pr list --head "$branch" --base main --state open --json number --jq '.[0].number // empty')
           title="chore(data): daily collection $(date -u +%Y-%m-%d)"
           if [ -n "$number" ]; then
-            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/pr-body.md"
+            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md"
             echo "updated #$number"
           else
             if ! gh pr create --base main --head "$branch" \
-                 --title "$title" --body-file "$RUNNER_TEMP/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
+                 --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
               cat "$RUNNER_TEMP/pr.txt"
               echo "::error::could not open the data pull request. If the message above says GitHub Actions is not permitted to create pull requests, that is a repository setting: Settings, Actions, General, Workflow permissions. Nothing has been published and the collected files are on the $branch branch."
               exit 1
@@ -319,9 +380,13 @@ jobs:
         if: steps.pr.outputs.number != '' && github.event.inputs.publish != 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Through the environment rather than into the script text. Nothing
+          # a careers board returns reaches this job at all, and this is the
+          # habit that keeps it that way.
+          NUMBER: ${{ steps.pr.outputs.number }}
         run: |
           set -euo pipefail
-          number="${{ steps.pr.outputs.number }}"
+          number="$NUMBER"
           # Squash, because the ruleset allows nothing else. It requires no
           # approving review and no status check, so the merge is immediate;
           # the repository has auto-merge switched off, which is why this is a
@@ -378,7 +443,7 @@ jobs:
         if: |
           github.repository == 'Surojitc/l3vlup-skills' &&
           (
-            (steps.merge.outputs.merged == 'true' && steps.stage.outputs.tracker == 'true') ||
+            (steps.merge.outputs.merged == 'true' && needs.collect.outputs.tracker == 'true') ||
             github.event.inputs.indexnow_force == 'true'
           )
         # A recrawl hint is not worth failing a data collection over, and there
