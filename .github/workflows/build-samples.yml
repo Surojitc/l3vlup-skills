@@ -208,6 +208,12 @@ jobs:
       # allowlist. `git add data/ samples/` would have left such a change
       # uncommitted and unmentioned; this way a run that has edited a script
       # or a workflow fails loudly and publishes nothing.
+      # PROOF ONLY. This branch exists to show the gate refusing a run that
+      # touched something outside the generated-data allowlist. It is never
+      # merged.
+      - name: (proof) touch a file outside the allowlist
+        run: echo "# stray" >> scripts/sync-ats.mjs
+
       - name: Stage the collection
         id: stage
         run: |
