@@ -148,11 +148,47 @@ export function inferVertical(title) {
   // caught by a test the moment the generic rule was added. And Citi files
   // corporate lending as "Banking - Corporate Banking", which is not the same
   // job as advising on deals.
-  if (/wealth management|private bank|private wealth|\bpwm\b/.test(t)) return 'Wealth Management';
-  if (/corporate banking|commercial banking|transaction banking|\btrade finance\b/.test(t))
+  if (/wealth management|private bank|private wealth|\bpwm\b|private client/.test(t)) return 'Wealth Management';
+
+  // The employer's division name is not a signal about the job. J.P. Morgan
+  // files every early-career role under "Commercial & Investment Bank", so
+  // "CIB - Global Payments" and "CIB - Sales" both carried the words
+  // "investment bank" and both landed in Investment Banking, where they made
+  // up a third of the bank's rows on the hub. The prefix is removed and the
+  // rules below read what is left; a title that was only the prefix keeps its
+  // banking reading through the generic rule at the end of this block.
+  const core = t.replace(/\b(?:commercial|corporate|global)\s*(?:&|and)\s*investment\s*bank(?:ing)?\b/g, ' ');
+  const insideBankingDivision = core !== t;
+
+  // A bank's other businesses, each with the word "banking" in its name and
+  // none of them a deal team. Retail, branch and consumer banking have no
+  // vertical of their own, so they fall to Other, where the sweep reports
+  // them, rather than to a seat a candidate would prepare for wrongly.
+  if (/\bretail\b.*\bbanking\b|consumer (?:banking|lending)|branch banking|customer banking|personal banking|daily banking|everyday banking|\be[- ]?banking\b|private individuals/.test(core))
+    return 'Other';
+  // Payments and treasury services are corporate banking products, sold to
+  // the same clients by the same division at most banks.
+  if (/\bpayments?\b|treasury services|cash management|\bmerchant\b/.test(core)) return 'Corporate Banking';
+  // Custody and fund services are an operations business, not a market seat.
+  if (/securities services|\bcustody\b|fund services|fund administration/.test(core)) return 'Operations';
+  if (/corporate ba?n?king|commercial banking|business banking|wholesale banking|transaction banking|\btrade finance\b|sector lending/.test(core))
     return 'Corporate Banking';
+  // Real estate investing is principal investing, whatever the row says about
+  // capital markets; property valuation is a surveyor's job, not a banker's.
+  if (/real estate (?:partners|debt|acquisitions|investing|investment|fund|equity|strategies)|private investments?|principal invest/.test(core))
+    return 'Private Equity';
+  if (/property valu|real estate valu|\bvaluer\b/.test(core)) return 'Other';
+  // Business transformation is consulting, even when the firm calls the
+  // segment corporate finance; the consulting vertical is a separate proposal.
+  if (/business transformation/.test(core)) return 'Other';
+  // With the division prefix gone, a markets or sales seat inside the
+  // investment bank reads as what it is.
+  if (insideBankingDivision && /\bmarkets\b|\bsales\b|\btrading\b|\brisk\b/.test(core)) {
+    return /\brisk\b/.test(core) ? 'Risk' : 'Sales & Trading';
+  }
   if (
-    /investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory|capital markets|restructuring|corporate finance|valuation|debt advisory|capital solutions|\bbanking\b/.test(t)
+    /investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory|capital markets|restructuring|corporate finance|valuation|debt advisory|capital solutions|\bbanking\b/.test(core) ||
+    (insideBankingDivision && !/\b(?:technology|engineer|software|operations|compliance|audit|finance|legal|hr)\b/.test(core))
   )
     return 'Investment Banking';
 

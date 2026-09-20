@@ -137,6 +137,50 @@ vert('Internship Program, Americas, 2027 - Mexico City', 'Other');
 vert('Private Banking Summer Analyst', 'Wealth Management');
 vert('Corporate Banking Graduate Programme', 'Corporate Banking');
 
+// --- a role at an investment bank is not an investment banking role -------
+// Every title here was live under Investment Banking on the 18 September
+// 2026 sweep, and every one of them is another job. The employer-level
+// prefix ("Commercial & Investment Bank") is stripped before the rules run,
+// which is what lets the rest of the title decide.
+vert('2027 Commercial & Investment Bank - Global Payments Analyst Program - Summer Internship - London', 'Corporate Banking');
+vert('2027 Commercial & Investment Bank Global Payments Summer Analyst Program', 'Corporate Banking');
+vert('2027 Commercial & Investment Bank - Securities Services Leadership Programme - Summer Internship - Dublin', 'Operations');
+vert('2027 Commercial & Investment Banking - Sales - Off-cycle Internship - Frankfurt', 'Sales & Trading');
+vert('2027 Commercial & Investment Banking - Markets - Off-cycle Internship – Istanbul', 'Sales & Trading');
+vert('2027 Commercial & Investment Banking - Global Markets - Off-cycle Internship - London', 'Sales & Trading');
+vert('2027 Commercial & Investment Banking - Risk Management Program - Summer Internship - London', 'Risk');
+vert('2027 Retail, Business and Customer Banking Summer Internship Programme London', 'Other');
+vert('2027 Retail, Business and Customer Banking Graduate Programme Northampton', 'Other');
+vert('2027 Business Banking Degree Apprenticeship Programme Manchester', 'Corporate Banking');
+vert('2027 Consumer Banking and Lending Summer Internship – Early Careers', 'Other');
+vert('Branch Banking Management Military Apprentice (SAFE) San Tan Valley District', 'Other');
+vert('Intern Corporate Sector Lending – Wholesale Banking (f/m/x)', 'Corporate Banking');
+vert('Graduate Wholesale Banking - Energy & Infra', 'Corporate Banking');
+vert('Internship Sustainable Finance Business Banking', 'Corporate Banking');
+vert('Intern (Stagiaire) Administrative Support - Daily Banking Private Individuals', 'Other');
+vert('INTERNSHIP - Client Relationship Officer- E Banking', 'Other');
+vert('INTERNSHIP - Real Estate Valuation Expert - Property Valuer', 'Other');
+vert('Banking – Corporate Baking, Internship, Bogotá – Colombia, 2026', 'Corporate Banking');
+vert('2027 Blackstone Real Estate Debt Strategies Summer Analyst - Private Investments & Capital Markets (London)', 'Private Equity');
+vert('2027 Blackstone Real Estate Partners Summer Analyst – Acquisitions, Asset Management, Capital Markets and Core+ (London)', 'Private Equity');
+vert('Intern, Business Transformation (TMT), Corporate Finance', 'Other');
+vert('2027 Summer Internship Program - Private Client Banking Strategy, Analytics, & Sales Intern (St. Petersburg, FL)', 'Wealth Management');
+
+// ...and the banking rows beside them keep their answer, prefix or not.
+vert('2027 Commercial & Investment Bank - Global Investment Banking Analyst Program - Off-Cycle Internship - Stockholm', 'Investment Banking');
+vert('2027 - Commercial & Investment Bank - Global Investment Banking Summer Associate Program', 'Investment Banking');
+vert('2026 Corporate & Investment Banking Summer Internship – Early Careers', 'Investment Banking');
+vert('2027 Global Capital Markets Summer Analyst Programme (London)', 'Investment Banking');
+vert('Capital Markets Off Cycle Internship Programme 2027 Milan', 'Investment Banking');
+vert('Banking Associate Graduate Program 2027 New York City – Real Estate, Gaming and Lodging', 'Investment Banking');
+vert('BMO Capital Markets Winter 2027 Investment Banking Analyst, Real Estate Brokerage, Toronto (Co-op/ Internship)', 'Investment Banking');
+vert('Intern, Restructuring, Corporate Finance', 'Investment Banking');
+vert('2027 Summer Associate – Corporate Finance – Valuation (New York and Boston)', 'Investment Banking');
+vert('Off-Cycle Intern, Financial and Valuation Advisory - London', 'Investment Banking');
+vert('Banking, Financing, Summer Analyst, London - United Kingdom 2027', 'Investment Banking');
+vert('Intern, Asset Securitisation (Global Capital Markets)', 'Investment Banking');
+vert('2027 - Investment Banking Off Cycle Internship – Milan Technology', 'Investment Banking');
+
 // --- the regression that matters: no role is ever dropped ----------------
 const firm = { ats: 'workday', tenant: 'firm', tier: 'Tracked', firm: 'Test Bank' };
 const unclassifiable = toOpportunity(
