@@ -77,11 +77,76 @@ deadline layer's to resolve, not the classifier's.
 
 ## Reconciliation with step 3
 
-Step 3 counted 47 qualified rows by hand. This counts 46 current and
-qualifying. The single difference is the Huron restructuring row, which the
+Step 3 counted 47 qualified rows by hand. Scorecard 2 counts 46 current and
+qualifying, and scorecard 3 counts 47 against the live feed. The single difference is the Huron restructuring row, which the
 hand review counted as consulting and the classifier sends to Investment
 Banking by rule. That is a deliberate disagreement with the hand review and the
 rule is the one that was asked for.
+
+## Scorecard 3: the live feed, after the 20 September collection
+
+The two scorecards above are computed against the 128 records collected by
+hand in step 3. That collection predates the 20 September publication, which
+carries 1,386 rows against the 1,318 step 3 measured, so the rule was run once
+more over every row the site is serving today.
+
+| | |
+|---|---:|
+| Feed rows | 1,386 |
+| Rows the rule claims | **47** |
+| False positives found | **0** (one found and fixed, below) |
+| Rows taken from `Other` | 42 |
+| Rows taken from a named vertical | 5 |
+
+| Firm | Rows |
+|---|---:|
+| Accenture | 19 |
+| Trinity Life Sciences | 8 |
+| Guidehouse | 7 |
+| Huron Consulting Group | 6 |
+| FTI Consulting | 4 |
+| Berkeley Research Group | 2 |
+| Visa | 1 |
+
+| Region | Rows |
+|---|---:|
+| US | 42 |
+| Europe | 3 |
+| Asia | 2 |
+| **UK** | **0** |
+
+Forty-seven, against the forty-seven step 3 qualified by hand. The inventory
+finding is unchanged by a feed sixty-eight rows larger, and so is the release
+blocker: gate 4 asks for UK coverage and the live feed has none.
+
+### The false positive the sweep found
+
+`Consultant AML- (Winter 2027 Co-Op)` at CIBC. The word consultant there is the
+bank's internal grade and the seat is in its anti-money-laundering team, but
+the explicit-consulting token needs no employer and took it.
+
+The repair is not an exclusion. Guidehouse and FTI sell financial-crime
+compliance consulting, so an outright ban would lose real rows. Instead the
+financial-crime subject withdraws the employer-independent token and leaves the
+employer gate standing: CIBC falls through to the ordinary chain, Guidehouse
+does not. Four fixtures pin it, including an explicit consulting title at a
+bank that must still read Consulting.
+
+### The five rows taken from a named vertical
+
+These matter more than the forty-two taken from `Other`, because each is a
+vertical changing its answer.
+
+| Firm | Title | Was | Now |
+|---|---|---|---|
+| FTI Consulting | Risk & Investigations, Forensic and Litigation Consulting | Risk | Consulting |
+| Accenture | Finance Transformation Analyst - Intern | Finance & Accounting | Consulting |
+| Accenture | Finance Transformation - Working Internship | Finance & Accounting | Consulting |
+| Accenture | Technology Consulting Internship | Software Engineering | Consulting |
+| Accenture | Technology Strategy & Advisory - Internship | Software Engineering | Consulting |
+
+All five are correct. The two technology rows are the case the rule ordering
+exists for, and FTI's Forensic and Litigation segment is consulting by name.
 
 ## How to reproduce
 

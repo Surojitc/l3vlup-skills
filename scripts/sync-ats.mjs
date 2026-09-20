@@ -217,12 +217,32 @@ const CONSULTING_AT_CONSULTING_FIRM =
   /\b(business analyst|strategy|transformation|commercial strategy|insights|advisory|\bvap\b|value,? access|market access|operations improvement|performance improvement|public sector|life sciences|economic analysis|associate consultant)\b/i;
 
 /**
+ * Financial-crime work, which is a bank's own compliance function and a
+ * consultancy's practice area, and has to be told apart by employer.
+ *
+ * CIBC posts "Consultant AML- (Winter 2027 Co-Op)". The word consultant there
+ * is an internal grade, not a line of business, and the co-op sits in the
+ * bank's anti-money-laundering team. Guidehouse and FTI genuinely sell
+ * financial-crime compliance consulting, so this cannot be an outright
+ * exclusion: it withdraws only the employer-independent token, leaving the
+ * employer gate to answer for the firms that do sell it.
+ */
+const FINANCIAL_CRIME =
+  /\b(a\.?m\.?l\.?|k\.?y\.?c\.?|anti[\s-]?money[\s-]?laundering|know your customer|financial crime|sanctions screening|suspicious activity)\b/i;
+
+/**
  * 'Consulting', or null to let the ordinary chain decide.
  *
  * Order is the design, as everywhere else in this file. Exclusions first so
  * they cannot be overridden, finance second so FTI's restructuring keeps its
  * home, explicit titles third because they need no employer, and the employer
  * gate last because it is the only rule that can be wrong about a firm.
+ *
+ * Financial crime sits between the third and the fourth rather than with the
+ * exclusions, because it is the one subject where the same words describe a
+ * bank's own compliance seat and a consultancy's practice. Withdrawing the
+ * employer-independent token and keeping the employer gate is what lets
+ * Guidehouse sell it and CIBC not.
  */
 export function consultingVerdict(title, ctx = {}) {
   const t = `${String(title || '')} ${String(ctx.department || '')}`.toLowerCase();
@@ -230,8 +250,8 @@ export function consultingVerdict(title, ctx = {}) {
 
   if (NOT_CONSULTING_WORK.test(t)) return null;
   if (FINANCE_OVERRIDE.test(t)) return null;
-  if (EXPLICIT_CONSULTING.test(t)) return 'Consulting';
-  if (isConsultingFirm(ctx.firm) && CONSULTING_AT_CONSULTING_FIRM.test(t)) return 'Consulting';
+  if (EXPLICIT_CONSULTING.test(t) && !FINANCIAL_CRIME.test(t)) return 'Consulting';
+  if (isConsultingFirm(ctx.firm) && (EXPLICIT_CONSULTING.test(t) || CONSULTING_AT_CONSULTING_FIRM.test(t))) return 'Consulting';
   return null;
 }
 

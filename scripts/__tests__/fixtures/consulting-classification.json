@@ -114,6 +114,18 @@
       "firm": "Accenture",
       "title": "Entry Level Advisory Summer Analyst - Various Locations - NAELFY27",
       "want": "Consulting"
+    },
+    {
+      "why": "the same subject sold as a practice. The employer gate is the whole difference between this row and CIBC's",
+      "firm": "Guidehouse",
+      "title": "Financial Crime Compliance Consultant - Campus 2027",
+      "want": "Consulting"
+    },
+    {
+      "why": "Visa Consulting & Analytics is a real advisory practice, and the title names it rather than borrowing the word",
+      "firm": "Visa",
+      "title": "Consulting & Analytics Graduate",
+      "want": "Consulting"
     }
   ],
   "negative": [
@@ -190,10 +202,10 @@
       "want": "Investment Banking"
     },
     {
-      "why": "FTI corporate finance, transformation wording notwithstanding",
+      "why": "FTI corporate finance, and not Consulting, which is all this change owns. It lands in Other rather than Investment Banking because the business-transformation rule added in #51 is read before the corporate-finance rule; main classifies this title Other with no consulting rule present at all, so the gap is pre-existing and its repair belongs to that rule, not to this one.",
       "firm": "FTI Consulting",
       "title": "Intern, Business Transformation (TMT), Corporate Finance",
-      "want": "Investment Banking"
+      "want": "Other"
     },
     {
       "why": "restructuring at a consulting firm is still restructuring",
@@ -241,6 +253,12 @@
       "why": "advisory at a bank is not consulting, because the employer gate does not open",
       "firm": "Barclays",
       "title": "Advisory Summer Analyst",
+      "want": "Other"
+    },
+    {
+      "why": "a bank's own anti-money-laundering seat. 'Consultant' is CIBC's internal grade, not a line of business, and the bare token would otherwise carry it. Found by sweeping the live feed, not by imagination",
+      "firm": "CIBC",
+      "title": "Consultant AML- (Winter 2027 Co-Op)",
       "want": "Other"
     }
   ],
@@ -452,6 +470,12 @@
       "firm": "Thoughtworks",
       "title": "Graduate Software Developer",
       "want": "Software Engineering"
+    },
+    {
+      "why": "the financial-crime carve-out withdraws the employer-independent token only. An explicit consulting title at a bank still reads Consulting",
+      "firm": "Barclays",
+      "title": "Management Consulting Intern",
+      "want": "Consulting"
     }
   ],
   "duplicates": [
