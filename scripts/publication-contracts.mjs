@@ -64,7 +64,7 @@ export const CONTRACTS = {
     title: 'chore(data): daily collection',
     files: [
       {
-        path: 'data/opportunities.auto.json',
+        path: 'data/opportunities.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' },
         label: 'the tracker feed',
         rows: 'opportunities',
         min: 200,
@@ -75,12 +75,12 @@ export const CONTRACTS = {
         maxAgeHours: 24,
         groups: { by: 'vertical', floor: 20, minRatio: 0.5 },
       },
-      { path: 'data/tracker-slugs.json', label: 'the slug registry', shapeOnly: true },
-      { path: 'data/tracker-archive.json', label: 'the archive of published URLs', shapeOnly: true },
-      { path: 'data/tracker-history.json', label: 'the board history', shapeOnly: true },
-      { path: 'data/deadlines.learned.json', label: 'the deadline ledger', shapeOnly: true },
-      { path: 'data/econ.auto.json', label: 'the economic backdrop', shapeOnly: true },
-      { path: 'data/erp.auto.json', label: 'equity and country risk premiums', shapeOnly: true },
+      { path: 'data/tracker-slugs.json', freshness: { cadence: 'daily', from: 'generatedAt' }, label: 'the slug registry', shapeOnly: true },
+      { path: 'data/tracker-archive.json', freshness: { cadence: 'daily', from: 'generatedAt' }, label: 'the archive of published URLs', shapeOnly: true },
+      { path: 'data/tracker-history.json', freshness: { cadence: 'manual' }, label: 'the board history', shapeOnly: true },
+      { path: 'data/deadlines.learned.json', freshness: { cadence: 'daily', from: 'updatedAt' }, label: 'the deadline ledger', shapeOnly: true },
+      { path: 'data/econ.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'the economic backdrop', shapeOnly: true },
+      { path: 'data/erp.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'equity and country risk premiums', shapeOnly: true },
       { pattern: /^samples\/[A-Za-z0-9._-]+\.xlsx$/, label: 'a sample workbook', binary: true },
     ],
   },
@@ -97,7 +97,7 @@ export const CONTRACTS = {
     title: 'chore(data): open data',
     files: [
       {
-        path: 'data/calendar.auto.json',
+        path: 'data/calendar.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' },
         label: 'the economic calendar',
         rows: 'events',
         min: 8,
@@ -113,7 +113,7 @@ export const CONTRACTS = {
         optional: true,
       },
       {
-        path: 'data/deals.auto.json',
+        path: 'data/deals.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' },
         label: 'the deal tape',
         rows: 'items',
         min: 20,
@@ -127,7 +127,7 @@ export const CONTRACTS = {
         optional: true,
       },
       {
-        path: 'data/newsflow.auto.json',
+        path: 'data/newsflow.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' },
         label: 'the news map',
         rows: 'items',
         min: 40,
@@ -142,7 +142,7 @@ export const CONTRACTS = {
         optional: true,
       },
       {
-        path: 'data/macro.auto.json',
+        path: 'data/macro.auto.json', freshness: { cadence: 'weekly', required: true, from: 'generatedAt' },
         label: 'the macro chartbook',
         rows: 'series',
         min: 8,
@@ -160,7 +160,7 @@ export const CONTRACTS = {
         optional: true,
       },
       {
-        path: 'data/decks.auto.json',
+        path: 'data/decks.auto.json', freshness: { cadence: 'weekly', required: true, from: 'generatedAt' },
         label: 'the board-book index',
         rows: 'transactions',
         min: 100,
@@ -173,7 +173,7 @@ export const CONTRACTS = {
         optional: true,
       },
       {
-        path: 'data/cusip-tickers.auto.json',
+        path: 'data/cusip-tickers.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' },
         label: 'the CUSIP to ticker map',
         // Monthly, and a stale map is still a correct one, so freshness is
         // deliberately not checked here. What matters is that it never
@@ -182,16 +182,16 @@ export const CONTRACTS = {
         optional: true,
       },
       {
-        path: 'data/precedent-transactions.auto.json',
+        path: 'data/precedent-transactions.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' },
         label: 'the precedent transactions database',
         neverShrinks: true,
         optional: true,
       },
-      { path: 'data/funds.auto.json', label: '13F holdings', neverShrinks: true, optional: true },
-      { path: 'data/funds.universe.json', label: 'the 13F manager universe', shapeOnly: true, optional: true },
-      { path: 'data/peers.auto.json', label: 'the industry peer lists', neverShrinks: true, optional: true },
-      { path: 'data/career-snapshots.json', label: 'the careers-page snapshots', shapeOnly: true, optional: true },
-      { path: 'data/career-review-queue.json', label: 'the careers review queue', shapeOnly: true, optional: true },
+      { path: 'data/funds.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' }, label: '13F holdings', neverShrinks: true, optional: true },
+      { path: 'data/funds.universe.json', freshness: { cadence: 'manual' }, label: 'the 13F manager universe', shapeOnly: true, optional: true },
+      { path: 'data/peers.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' }, label: 'the industry peer lists', neverShrinks: true, optional: true },
+      { path: 'data/career-snapshots.json', freshness: { cadence: 'daily', from: 'commit' }, label: 'the careers-page snapshots', shapeOnly: true, optional: true },
+      { path: 'data/career-review-queue.json', freshness: { cadence: 'daily', from: 'generatedAt' }, label: 'the careers review queue', shapeOnly: true, optional: true },
     ],
   },
 
@@ -207,15 +207,158 @@ export const CONTRACTS = {
     title: 'chore(tracker): boards resolved by discovery',
     files: [
       {
-        path: 'lib/sources/ats-registry.json',
+        path: 'lib/sources/ats-registry.json', freshness: { cadence: 'manual' },
         label: 'the board registry',
         neverShrinks: true,
         maxRatio: 1.5,
       },
-      { path: 'data/ats-discovery.json', label: 'the discovery report', shapeOnly: true },
+      { path: 'data/ats-discovery.json', freshness: { cadence: 'manual' }, label: 'the discovery report', shapeOnly: true },
     ],
   },
 };
+
+/**
+ * How old a file of each cadence may be before its collector has stopped
+ * working, in hours.
+ *
+ * A daily source gets 36 hours, which is the number that makes the difference
+ * between one miss and a pattern. A collector that fails this morning and
+ * succeeds tomorrow never trips it; one that fails twice running does. That
+ * is the behaviour asked for and it is the reason the horizon is not 24.
+ *
+ * Weekly gets eight days and a bit, so a run that slips a day is not a
+ * failure. Monthly gets forty-five, which covers a month plus the fortnight a
+ * quarterly filing can take to arrive.
+ *
+ * Weekends and market holidays need no allowance here, and it is worth saying
+ * why rather than leaving it to be rediscovered. These stamps are collection
+ * times, not data times: `sync-calendar` rewrites `generatedAt` on a Sunday
+ * exactly as it does on a Tuesday, whether or not any event moved. A source
+ * that genuinely only publishes on weekdays still gets read daily, so its
+ * file is still rewritten daily. The one place the distinction bites is
+ * `from: 'commit'` below.
+ */
+export const HORIZON_HOURS = { daily: 36, weekly: 200, monthly: 1100 };
+
+/**
+ * What a file's freshness is read from.
+ *
+ *   'generatedAt', 'updatedAt'   the collector's own stamp, rewritten every
+ *                                run. A reliable heartbeat: if the stamp is
+ *                                old, the collector did not run or did not
+ *                                finish.
+ *   'commit'                     the file's last commit date, for the few
+ *                                files that carry no stamp. This conflates
+ *                                "the collector ran" with "the data changed",
+ *                                so a quiet week looks identical to a broken
+ *                                collector. Files read this way are therefore
+ *                                never `required`: they can degrade a run,
+ *                                never fail it.
+ */
+
+/** The five states a source can be in. */
+export const FRESHNESS_STATES = ['fresh', 'degraded', 'stale', 'not-due', 'manual'];
+
+/**
+ * The state of one file, from the copy that is on disk.
+ *
+ * `committedAt` is the file's last commit time, supplied by the caller
+ * because reading it means shelling out to git and this module stays pure.
+ */
+export function fileFreshness(spec, value, committedAt, now = new Date()) {
+  const f = spec.freshness ?? { cadence: 'manual' };
+  const base = { path: spec.path, label: spec.label, cadence: f.cadence, required: Boolean(f.required) };
+
+  if (f.cadence === 'manual') {
+    return { ...base, state: 'manual', note: 'written by hand or on demand; no schedule to be late for' };
+  }
+  if (value === undefined) {
+    // A required file that is not there at all is worse than a stale one.
+    return f.required
+      ? { ...base, state: 'stale', note: 'required, and not present in the repository' }
+      : { ...base, state: 'degraded', note: 'not present in the repository' };
+  }
+  if (value === null) {
+    return { ...base, state: f.required ? 'stale' : 'degraded', note: 'present but not readable JSON' };
+  }
+
+  const raw = f.from === 'commit' ? committedAt : value?.[f.from];
+  const stamp = raw ? new Date(raw) : null;
+  if (!stamp || Number.isNaN(stamp.getTime())) {
+    return { ...base, state: f.required ? 'stale' : 'degraded', note: `no readable ${f.from}` };
+  }
+
+  const ageHours = (now.getTime() - stamp.getTime()) / 3_600_000;
+  const horizon = f.maxAgeHours ?? HORIZON_HOURS[f.cadence];
+  const at = { ...base, lastSuccess: stamp.toISOString(), ageHours: Math.round(ageHours) };
+
+  if (ageHours <= horizon) {
+    // Old and not overdue is worth saying out loud. A 13F file collected
+    // three weeks ago is doing exactly what a monthly source does, and an
+    // operator scanning the table should not have to work that out from the
+    // cadence column. Anything a daily source would already have refreshed,
+    // but a slower one would not, reads as not-due rather than fresh.
+    const notDue = f.cadence !== 'daily' && ageHours > HORIZON_HOURS.daily;
+    return { ...at, state: notDue ? 'not-due' : 'fresh', horizon };
+  }
+  return {
+    ...at,
+    state: f.required ? 'stale' : 'degraded',
+    horizon,
+    note: `${Math.round(ageHours)}h since the last successful collection, past its ${horizon}h horizon`,
+  };
+}
+
+/**
+ * Every file a producer owns, whether or not this run touched it.
+ *
+ * This is the half the publication gate cannot see. The gate checks what is
+ * being published; a collector that fails every morning publishes nothing and
+ * the gate has nothing to object to, while the committed file ages behind a
+ * green tick. That is the same defect as a silently refused push, one step
+ * earlier in the pipeline, and it is what this answers.
+ */
+export function freshnessReport(producer, { read, committedAt }, now = new Date()) {
+  const contract = CONTRACTS[producer];
+  if (!contract) return { sources: [], blocking: true, degraded: false, problems: [`no publication contract named ${producer}`] };
+
+  const sources = contract.files
+    .filter((spec) => spec.path)
+    .map((spec) => fileFreshness(spec, read(spec.path), committedAt(spec.path), now));
+
+  const stale = sources.filter((s) => s.state === 'stale');
+  const degraded = sources.filter((s) => s.state === 'degraded');
+  return {
+    sources,
+    blocking: stale.length > 0,
+    degraded: degraded.length > 0,
+    problems: stale.map((s) => `${s.label} is stale: ${s.note ?? ''}`.trim()),
+  };
+}
+
+/** The operator's table: every source, its state, and when it last worked. */
+export function freshnessSummary(producer, report) {
+  const icon = { fresh: '🟢', degraded: '🟡', stale: '🔴', manual: '⚪', 'not-due': '⚪' };
+  const lines = [
+    `### ${CONTRACTS[producer]?.label ?? producer}: source freshness`,
+    '',
+    report.blocking
+      ? '**A required source is stale.** The healthy sources below are still published; the run is failed so this is not mistaken for a working morning.'
+      : report.degraded
+        ? '**An optional source is degraded.** Publication continues; nothing here blocks it.'
+        : 'Every source is within its horizon.',
+    '',
+    '| | Source | Cadence | State | Last successful collection | Age |',
+    '|---|---|---|---|---|---:|',
+  ];
+  for (const s of report.sources) {
+    lines.push(
+      `| ${icon[s.state] ?? ''} | ${s.label}${s.required ? ' *(required)*' : ''} | ${s.cadence} | ${s.state} | ${s.lastSuccess ?? '—'} | ${s.ageHours === undefined ? '—' : `${s.ageHours}h`} |`,
+    );
+  }
+  if (report.problems.length) lines.push('', ...report.problems.map((p) => `- ${p}`));
+  return lines.join('\n') + '\n';
+}
 
 /** Every path any producer may publish, for the cross-producer overlap check. */
 export function allPaths() {

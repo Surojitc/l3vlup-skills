@@ -67,6 +67,9 @@ function topBlock(lines, key) {
 
 /** `{ contents: 'write', ... }` from the lines under a `permissions:` key. */
 function permissionsUnder(body, keyIndent) {
+  // `permissions: {}` grants nothing and is the right thing for a job that
+  // only reads a step output. It is a block, not an absence.
+  if (body.some((l) => indentOf(l) === keyIndent && l.trim() === 'permissions: {}')) return {};
   const at = body.findIndex((l) => indentOf(l) === keyIndent && l.trim() === 'permissions:');
   if (at === -1) return null;
   const out = {};
@@ -143,9 +146,11 @@ eq('every workflow in the directory is read', files, [
 const allJobs = workflows.flatMap((w) => w.jobs.map((j) => `${w.file}:${j.name}`));
 eq('every job is found, and none has been renamed out from under this test', allJobs.sort(), [
   'build-samples.yml:collect',
+  'build-samples.yml:health',
   'build-samples.yml:notify',
   'build-samples.yml:publish',
   'collect.yml:collect',
+  'collect.yml:health',
   'collect.yml:notify',
   'collect.yml:publish',
   'discover-ats.yml:discover',
@@ -342,6 +347,30 @@ for (const [file, name] of [['build-samples.yml', 'collect'], ['collect.yml', 'c
   // The defect this replaced: a push inside a retry loop left the loop's exit
   // status to whatever ran last, so a refused push reported success.
   check(`${file}:${name} has no retry loop that can swallow a failure`, !/for i in [\s\S]{0,200}?git (push|pull)/.test(text));
+}
+
+// The run's conclusion. A stale required source must not stop a healthy one
+// publishing, and must not let the morning report success either, so this
+// runs after publication and fails the run rather than gating it.
+for (const file of ['build-samples.yml', 'collect.yml']) {
+  const w = workflows.find((x) => x.file === file);
+  const health = w.jobs.find((j) => j.name === 'health');
+  if (!health) {
+    check(`${file} has a health job`, false, 'the run has no way to report a stale source');
+    continue;
+  }
+  const text = health.body.join('\n');
+  eq(`${file}:health holds no token at all`, health.permissions, {});
+  check(`${file}:health runs after publication`, /needs: \[collect, publish\]/.test(text));
+  check(`${file}:health runs even when publication did not`, /if: always\(\)/.test(text));
+  check(`${file}:health fails the run on a stale required source`, /BLOCKING[\s\S]*?= "true"[\s\S]*?exit 1/.test(health.scripts.join('\n')));
+  check(`${file}:health publishes nothing and merges nothing`, !/gh pr |git push/.test(health.scripts.join('\n')));
+  // The sweep reads the working tree after collection and before the gate.
+  const collect = w.jobs.find((j) => j.name === 'collect');
+  const cb = collect.body.join('\n');
+  check(`${file} sweeps every source before it stages anything`, cb.indexOf('check-freshness.mjs') < cb.indexOf('Stage the collection'));
+  check(`${file} writes the freshness table to the job summary`, /--summary "\$GITHUB_STEP_SUMMARY"/.test(cb));
+  check(`${file} never lets the sweep itself fail the collection`, !/check-freshness[\s\S]{0,200}?exit 1/.test(cb));
 }
 
 // A downstream announcement waits for the merge. Announcing a collection that

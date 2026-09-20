@@ -49,6 +49,8 @@ jobs:
     permissions:
       contents: read
     outputs:
+      blocking: ${{ steps.freshness.outputs.blocking }}
+      degraded: ${{ steps.freshness.outputs.degraded }}
       changed: ${{ steps.stage.outputs.changed }}
     steps:
       - uses: actions/checkout@v5
@@ -66,6 +68,7 @@ jobs:
       - name: Test the publication contract
         run: |
           node scripts/__tests__/publication-contracts.test.mjs
+          node scripts/__tests__/publication-freshness.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
 
       - name: Economic calendar
@@ -229,6 +232,27 @@ jobs:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: python3 scripts/sync_peers.py
 
+      # ── freshness ──────────────────────────────────────────────────────
+      # Every source this producer owns, whether or not this run touched it.
+      # The gate below checks what is being published; a collector that fails
+      # every morning publishes nothing, so the gate has nothing to object to
+      # while the committed file ages behind a green tick. That is how two
+      # days of calendar, deal tape and news map went stale under a run that
+      # reported success.
+      #
+      # It never fails here. Publication of the healthy sources goes ahead
+      # first, and the `health` job at the end turns a stale required source
+      # into a failed run, so the data still flows and the morning is still
+      # visibly not fine.
+      - name: Check how fresh every source is
+        id: freshness
+        run: |
+          set -euo pipefail
+          node scripts/check-freshness.mjs \
+            --producer open-data \
+            --summary "$GITHUB_STEP_SUMMARY" \
+            --output "$GITHUB_OUTPUT"
+
       # ── publication ────────────────────────────────────────────────────
       # This used to be a commit and a push, inside a three-attempt retry
       # loop. The ruleset of 18 September refused the push and the loop's exit
@@ -342,3 +366,35 @@ jobs:
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
         run: node scripts/daily-post.mjs
+
+  # The run's conclusion, set after publication rather than before it.
+  #
+  # Splitting these apart is the point: a stale calendar must not stop a
+  # healthy deal tape reaching the site, and a morning where a collector has
+  # been dead for two days must not report success. So publication happens,
+  # and then this fails the run and says which source and since when.
+  #
+  # `if: always()` because the interesting case is the one where publishing
+  # was skipped or failed: a health report that only runs on the happy path
+  # is the defect it was written to catch.
+  health:
+    name: Source health
+    needs: [collect, publish]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Fail the run if a required source is stale
+        env:
+          BLOCKING: ${{ needs.collect.outputs.blocking }}
+          DEGRADED: ${{ needs.collect.outputs.degraded }}
+        run: |
+          set -euo pipefail
+          if [ "${BLOCKING:-}" = "true" ]; then
+            echo "::error::a required source has not been collected inside its horizon; see the freshness table in this run's summary"
+            exit 1
+          fi
+          if [ "${DEGRADED:-}" = "true" ]; then
+            echo "::warning::an optional source is degraded; publication went ahead"
+          fi
+          echo "every required source is within its horizon"
