@@ -245,6 +245,7 @@ jobs:
             --next   data/opportunities.auto.json \
             --report "$RUNNER_TEMP/pr-body.md" \
             --boards "${boards:-unknown}" \
+            --ref "${GITHUB_REF_NAME}" \
             --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
       - name: Open or update the data pull request
@@ -257,6 +258,32 @@ jobs:
           branch=automation/daily-data-refresh
           git config user.name  "l3vlup-bot"
           git config user.email "actions@users.noreply.github.com"
+
+          # The data commit is rebuilt on origin/main whatever ref this run was
+          # dispatched from. Without this a dispatch from a feature branch
+          # would carry that branch's code into a data pull request, and the
+          # allowlist above would not catch it: it checks what this RUN
+          # changed, and those files were changed by the checkout. Tar, reset
+          # to main, restore, so what lands on the branch is the collection and
+          # nothing else.
+          tar -cf "$RUNNER_TEMP/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+          git reset -q --hard
+          git fetch -q origin main
+          git checkout -q -B "$branch" origin/main
+          tar -xf "$RUNNER_TEMP/publishable.tar"
+          git add -A
+
+          # The check that actually guarantees the pull request's contents,
+          # now that the diff is against main rather than against the dispatch
+          # ref. Cheap, and it is the one a reviewer is trusting.
+          git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
+          node scripts/validate-publication.mjs --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
+
+          if git diff --cached --quiet; then
+            echo "main already carries this collection; nothing to publish"
+            echo "number=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git commit -q -m "chore(data): daily collection [skip ci]"
 
           # One branch, rebuilt from today's main on every run, so a refresh
@@ -284,7 +311,7 @@ jobs:
 
       - name: Merge the data pull request
         id: merge
-        if: steps.stage.outputs.changed == 'true' && github.event.inputs.publish != 'false'
+        if: steps.pr.outputs.number != '' && github.event.inputs.publish != 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

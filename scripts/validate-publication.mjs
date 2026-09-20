@@ -172,7 +172,7 @@ export function feedInvariants(next, prev, now = new Date()) {
 }
 
 /** The pull request body: what was collected, what moved, what was checked. */
-export function publicationReport({ stats, staged, boards, runUrl }) {
+export function publicationReport({ stats, staged, boards, runUrl, ref }) {
   const moved = stats.verticals.filter((v) => v.delta !== 0);
   const lines = [
     '## Daily data refresh',
@@ -186,6 +186,7 @@ export function publicationReport({ stats, staged, boards, runUrl }) {
     `| Firms | ${stats.firms} |`,
     `| Rows with a stated deadline | ${stats.dated} |`,
     boards ? `| Boards | ${boards} |` : null,
+    ref ? `| Collected by | \`${ref}\` |` : null,
     `| Investment banking | ${stats.verticals.find((v) => v.name === 'Investment Banking')?.to ?? 0} |`,
     runUrl ? `| Run | ${runUrl} |` : null,
     '',
@@ -283,7 +284,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
   const reportPath = arg('report');
   if (reportPath) {
-    writeFileSync(reportPath, publicationReport({ stats, staged, boards: arg('boards'), runUrl: arg('run-url') }));
+    writeFileSync(
+      reportPath,
+      publicationReport({ stats, staged, boards: arg('boards'), runUrl: arg('run-url'), ref: arg('ref') }),
+    );
     console.log(`report -> ${reportPath}`);
   }
 }
