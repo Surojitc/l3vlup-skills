@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-18T15:28:26.005Z",
-  "count": 1585,
+  "generatedAt": "2026-09-20T08:59:09.511Z",
+  "count": 1685,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -700,6 +700,10 @@
       "slug": "flexport-rotational-development-program",
       "since": "2026-09-18"
     },
+    "greenhouse-flexport-8213734": {
+      "slug": "flexport-area-manager-new-grad-3",
+      "since": "2026-09-20"
+    },
     "greenhouse-flowtraders-4782837": {
       "slug": "flow-traders-graduate-trader",
       "since": "2026-09-18"
@@ -731,6 +735,14 @@
     "greenhouse-gemini-8041452": {
       "slug": "gemini-product-management-intern-fall-2026",
       "since": "2026-08-01"
+    },
+    "greenhouse-gemini-8214272": {
+      "slug": "gemini-software-engineering-intern-winter-2027",
+      "since": "2026-09-20"
+    },
+    "greenhouse-gemini-8214332": {
+      "slug": "gemini-product-management-intern-winter-2027",
+      "since": "2026-09-20"
     },
     "greenhouse-gusto-8001931": {
       "slug": "gusto-future-opportunities-early-career-sales-talent",
@@ -1317,6 +1329,10 @@
       "slug": "point72-point72-academy-investment-analyst-program-for-upcoming-graduates-2027-jp-bcf",
       "since": "2026-09-18"
     },
+    "greenhouse-point72-8811167002": {
+      "slug": "point72-2027-investment-services-internship-pipeline",
+      "since": "2026-09-20"
+    },
     "greenhouse-quberesearchandtechnologies-8052341002": {
       "slug": "qube-research-and-technologies-2026-internship-quantitative-research-trading",
       "since": "2026-09-01"
@@ -1510,6 +1526,10 @@
     "greenhouse-robinhood-8207970": {
       "slug": "robinhood-security-risk-management-intern-summer-2027",
       "since": "2026-09-18"
+    },
+    "greenhouse-robinhood-8214142": {
+      "slug": "robinhood-offensive-security-intern-summer-2027",
+      "since": "2026-09-20"
     },
     "greenhouse-roblox-8072244": {
       "slug": "roblox-2027-software-engineer-early-career",
@@ -2749,6 +2769,10 @@
       "slug": "jpmorgan-chase-2027-quantitative-research-markets-analyst-program-off-cycle-internship-london",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210789075": {
+      "slug": "jpmorgan-chase-2027-trust-management-internship-emerging-talent-summer-experience-program",
+      "since": "2026-09-20"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210790885": {
       "slug": "jpmorgan-chase-2027-asset-wealth-management-machine-learning-engineer-summer-associate",
       "since": "2026-09-18"
@@ -3100,6 +3124,10 @@
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-emerging-markets-trading-london",
       "since": "2026-09-18"
     },
+    "talnet-morganstanley-tal-net-22004": {
+      "slug": "morgan-stanley-2027-strats-internship-program-sao-paulo",
+      "since": "2026-09-20"
+    },
     "talnet-morganstanley-tal-net-22033": {
       "slug": "morgan-stanley-2027-institutional-equities-trading-off-cycle-internship-paris",
       "since": "2026-09-18"
@@ -3108,9 +3136,25 @@
       "slug": "morgan-stanley-2027-isg-central-risk-industrial-placement-internship-london",
       "since": "2026-09-18"
     },
+    "talnet-morganstanley-tal-net-22069": {
+      "slug": "morgan-stanley-2027-investment-banking-industrial-placement-program-taipei",
+      "since": "2026-09-20"
+    },
     "talnet-morganstanley-tal-net-22099": {
       "slug": "morgan-stanley-2026-finance-internship-program-mexico-city",
       "since": "2026-09-18"
+    },
+    "talnet-morganstanley-tal-net-22196": {
+      "slug": "morgan-stanley-2027-spring-investment-management-fixed-income-co-op-program-investment-and-business-analysis",
+      "since": "2026-09-20"
+    },
+    "talnet-morganstanley-tal-net-22198": {
+      "slug": "morgan-stanley-2027-spring-investment-management-fixed-income-co-op-program-quantitative-analytics-and-technology-new-york",
+      "since": "2026-09-20"
+    },
+    "talnet-morganstanley-tal-net-22202": {
+      "slug": "morgan-stanley-2026-human-resources-off-cycle-internship-milan",
+      "since": "2026-09-20"
     },
     "talnet-nomuracampus-tal-net-1426": {
       "slug": "nomura-2027-investment-banking-client-financing-solutions-summer-internship-london",
@@ -3275,6 +3319,254 @@
     "talnet-nomuracampus-tal-net-1549": {
       "slug": "nomura-2027-investment-banking-summer-associate-program-san-francisco",
       "since": "2026-09-18"
+    },
+    "talnet-nomuracampus-tal-net-1558": {
+      "slug": "nomura-2027-global-markets-rates-structuring-off-cycle-internship-paris",
+      "since": "2026-09-20"
+    },
+    "talnet-nomuracampus-tal-net-1562": {
+      "slug": "nomura-2027-investment-management-sustainability-summer-analyst-program",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-13727121-1": {
+      "slug": "accenture-innovation-analyst-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00144534": {
+      "slug": "accenture-software-engineering-new-associate-fresh-diploma-graduate-program",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00212156": {
+      "slug": "accenture-accenture-summer-internship-program-consulting-aug-to-dec2024",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00235221": {
+      "slug": "accenture-graduate-analyst-talent-advancement-program",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00236260": {
+      "slug": "accenture-strategy-and-consulting-fresh-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00238420": {
+      "slug": "accenture-postgraduate-internship-program-master-s-and-mba",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00249196": {
+      "slug": "accenture-accenture-polytechnic-internship-program-2026",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00263654": {
+      "slug": "accenture-software-engineering-new-associate-fresh-diploma-graduate-program-us",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00279776": {
+      "slug": "accenture-business-analyst-intern",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00279783": {
+      "slug": "accenture-financial-services-intern",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00279814": {
+      "slug": "accenture-tech-intern-accenture-customer-innovation-network",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00279839": {
+      "slug": "accenture-junior-sap-analyst-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00288639": {
+      "slug": "accenture-technology-strategy-and-advisory-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00290978-1": {
+      "slug": "accenture-capital-projects-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00306360": {
+      "slug": "accenture-progettista-reti-gas-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00319644": {
+      "slug": "accenture-fresh-graduate-analyst-engineering",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00322620-1": {
+      "slug": "accenture-new-graduate-talent-intake-2026-2027",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00327127": {
+      "slug": "accenture-internship-products-strategy-and-consulting",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00327505": {
+      "slug": "accenture-digital-engineering-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00328773": {
+      "slug": "accenture-thesis-internship-management-consulting-song",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00330079": {
+      "slug": "accenture-accenture-polytechnic-internship-program-2026-us",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00332478": {
+      "slug": "accenture-junior-net-developer-fresh-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00333132": {
+      "slug": "accenture-intellera-public-service-local-digital-transformation-intern",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00333959": {
+      "slug": "accenture-young-graduates-design-and-digital-products-as-of-september-2026",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00335218": {
+      "slug": "accenture-adobe-experience-cloud-intern-analyst-martech-and-digital-experience-internship-program-he-she-they",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00336202": {
+      "slug": "accenture-graduate-analyst-talent-advancement-program-us",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00336967": {
+      "slug": "accenture-finance-transformation-working-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00337268": {
+      "slug": "accenture-technology-graduate-programme-lisbon",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00337269": {
+      "slug": "accenture-technology-graduate-programme-braga",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00337270": {
+      "slug": "accenture-technology-graduate-programme-all-engineering-degrees-lisboa",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00337274": {
+      "slug": "accenture-technology-graduate-programme-coimbra",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00337277": {
+      "slug": "accenture-technology-graduate-programme-all-engineering-degrees-braga",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00337282": {
+      "slug": "accenture-technology-graduate-programme-all-engineering-degrees-coimbra",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00337862": {
+      "slug": "accenture-internship-risk",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00341607": {
+      "slug": "accenture-technology-graduate-programme-french-speaker",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00342490": {
+      "slug": "accenture-maritime-business-analyst-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00343384": {
+      "slug": "accenture-industrial-design-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00345167-1": {
+      "slug": "accenture-insurance-operations-associate-cantonese-speaking-fresh-graduates-are-welcome",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00348064-1": {
+      "slug": "accenture-junior-sap-finance-analyst-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00349345": {
+      "slug": "accenture-management-consulting-master-s-graduate-consulting-program",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00350274": {
+      "slug": "accenture-consulting-internship-prague-czech-republic",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00350278-1": {
+      "slug": "accenture-technology-consulting-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00351141-1": {
+      "slug": "accenture-workplace-support-intern-part-time-for-students",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00351682-1": {
+      "slug": "accenture-trust-and-safety-new-associate-malaysian-indonesian-speaker-fresh-graduates-welcome",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00353462": {
+      "slug": "accenture-apprenticeship-as-it-specialist-efz-application-development-all-genders",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00353670": {
+      "slug": "accenture-bygg-test-og-moderniser-teknologiske-l-sninger-som-graduate-i-accenture-2027",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00354373": {
+      "slug": "accenture-entry-level-advisory-summer-analyst-various-locations-naelfy27",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00354466": {
+      "slug": "accenture-digital-transformation-intern",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00355331": {
+      "slug": "accenture-cloud-transformation-internship",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00355551": {
+      "slug": "accenture-human-resources-talent-accelerator-program-tap-summer-analyst-new-york-naelfy27",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00355667": {
+      "slug": "accenture-thailand-summer-internship-program-2027-jun-jul",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00355981": {
+      "slug": "accenture-entry-level-technology-summer-analyst-various-locations-naelfy27",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00356070": {
+      "slug": "accenture-maryville-tech-strategy-summer-associate-st-louis-naelfy27",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00356105": {
+      "slug": "accenture-entry-level-supply-chain-and-engineering-joshua-tree-group-process-excellence-summer-analyst-houston-naelfy27",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00356184": {
+      "slug": "accenture-customer-service-associate-japanese-speaking-fresh-graduates-welcome",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00356187-1": {
+      "slug": "accenture-customer-service-korean-speaking-fresh-graduates-welcome",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00356463": {
+      "slug": "accenture-talent-transformation-analyst-intern",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00356849": {
+      "slug": "accenture-finance-transformation-analyst-intern",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00357441": {
+      "slug": "accenture-young-graduate-banking-and-capital-market-as-of-january-2027",
+      "since": "2026-09-20"
+    },
+    "workday-accenture-R00357681": {
+      "slug": "accenture-internship-management-consulting-intern-song-services-as-of-february-2027",
+      "since": "2026-09-20"
     },
     "workday-athene-R253683": {
       "slug": "apollo-global-management-2026-summer-associate-treasury-and-business-management",
@@ -4216,6 +4508,10 @@
       "slug": "bmo-capital-markets-quantitative-developer-alpha-research-team-gam-summer-2027-co-op-internship-12-months",
       "since": "2026-09-18"
     },
+    "workday-bmo-R260027197-1": {
+      "slug": "bmo-capital-markets-software-developer-winter-2027-internship-4-months",
+      "since": "2026-09-20"
+    },
     "workday-capitalone-R242577-1": {
       "slug": "capital-one-associate-strategy-analyst-new-grad-2027",
       "since": "2026-09-18"
@@ -4615,6 +4911,10 @@
       "slug": "citi-banking-corporate-banking-internship-s-o-paulo-brazil-2026",
       "since": "2026-09-01"
     },
+    "workday-citi-26987941": {
+      "slug": "citi-young-apprentice-c00-mumbai-3",
+      "since": "2026-09-20"
+    },
     "workday-citi-26988474": {
       "slug": "citi-wealth-citigold-summer-analyst-hong-kong-2027",
       "since": "2026-09-18"
@@ -4831,6 +5131,42 @@
       "slug": "fti-consulting-2027-intern-corporate-finance-europe",
       "since": "2026-09-01"
     },
+    "workday-guidehouse-38913": {
+      "slug": "guidehouse-consultant-state-and-local-government-columbia-sc-market-campus-2026",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-43287": {
+      "slug": "guidehouse-consultant-life-sciences-advisory-health-segment-campus-2027",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-43438": {
+      "slug": "guidehouse-consulting-analyst-state-and-local-government-campus-2027",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-43439": {
+      "slug": "guidehouse-consulting-analyst-energy-providers-campus-2027",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-43483": {
+      "slug": "guidehouse-consultant-energy-providers-campus-2027",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-43903": {
+      "slug": "guidehouse-consultant-health-and-human-services-federal-health-advisory-campus-2027",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-44256": {
+      "slug": "guidehouse-intern-energy-providers-campus-2027",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-44623": {
+      "slug": "guidehouse-intern-state-and-local-government-campus-2027",
+      "since": "2026-09-20"
+    },
+    "workday-guidehouse-44632": {
+      "slug": "guidehouse-consultant-state-and-local-government-campus-2027",
+      "since": "2026-09-20"
+    },
     "workday-hl-R2525": {
       "slug": "houlihan-lokey-3-month-internship-financial-restructuring-q3-2026",
       "since": "2026-09-18"
@@ -4913,6 +5249,34 @@
     "workday-hl-R3599": {
       "slug": "houlihan-lokey-2027-graduate-financial-analyst-corporate-finance-manda",
       "since": "2026-09-18"
+    },
+    "workday-huron-JR-0016124": {
+      "slug": "huron-consulting-group-digital-consulting-intern-summer-2027-montreal-spring-2028-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-huron-JR-0016127-1": {
+      "slug": "huron-consulting-group-digital-consulting-intern-summer-2027-toronto-spring-2028-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-huron-JR-0016130": {
+      "slug": "huron-consulting-group-consulting-analyst-digital-toronto-start-dates-q3-q4-2027-spring-2027-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-huron-JR-0016131": {
+      "slug": "huron-consulting-group-consulting-analyst-digital-montreal-bilingual-french-and-english-start-dates-q3-q4-2027-spring-2027-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-huron-JR-0016166": {
+      "slug": "huron-consulting-group-consulting-analyst-q3-q4-2027-start-dates-spring-2027-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-huron-JR-0016241": {
+      "slug": "huron-consulting-group-consulting-intern-summer-2027-chicago-spring-2028-graduates",
+      "since": "2026-09-20"
+    },
+    "workday-huron-JR-0016390": {
+      "slug": "huron-consulting-group-turnaround-and-restructuring-analyst-2027-graduates-q3-q4-2027-start-dates-chicago-or-ny",
+      "since": "2026-09-20"
     },
     "workday-ing-REQ-10094147": {
       "slug": "ing-ing-wb-capital-markets-and-advisory-internship-program",
@@ -6056,6 +6420,38 @@
       "slug": "berkeley-research-group-intern-economics-disputes-and-investigations",
       "since": "2026-09-18"
     },
+    "workday-trinitylifesciences-JR100749": {
+      "slug": "trinity-life-sciences-commercial-strategy-summer-associate-waltham",
+      "since": "2026-09-20"
+    },
+    "workday-trinitylifesciences-JR100751": {
+      "slug": "trinity-life-sciences-commercial-strategy-summer-associate-sf",
+      "since": "2026-09-20"
+    },
+    "workday-trinitylifesciences-JR100752": {
+      "slug": "trinity-life-sciences-commercial-strategy-summer-associate-ny",
+      "since": "2026-09-20"
+    },
+    "workday-trinitylifesciences-JR100763": {
+      "slug": "trinity-life-sciences-vap-summer-associate-waltham",
+      "since": "2026-09-20"
+    },
+    "workday-trinitylifesciences-JR100764-1": {
+      "slug": "trinity-life-sciences-vap-summer-associate-ny",
+      "since": "2026-09-20"
+    },
+    "workday-trinitylifesciences-JR100765-1": {
+      "slug": "trinity-life-sciences-vap-summer-associate-sf",
+      "since": "2026-09-20"
+    },
+    "workday-trinitylifesciences-JR100784": {
+      "slug": "trinity-life-sciences-insights-summer-associate-waltham-ma",
+      "since": "2026-09-20"
+    },
+    "workday-trinitylifesciences-JR100785": {
+      "slug": "trinity-life-sciences-insights-summer-associate-new-york-ny",
+      "since": "2026-09-20"
+    },
     "workday-vanguard-177644-1": {
       "slug": "vanguard-college-to-corporate-internship-application-development-pa",
       "since": "2026-09-18"
@@ -6319,6 +6715,10 @@
     "workday-wf-R-562586-1": {
       "slug": "wells-fargo-branch-banking-manager-military-apprentice-safe-lexington-nc",
       "since": "2026-09-01"
+    },
+    "workday-wf-R-563208": {
+      "slug": "wells-fargo-branch-banking-management-military-apprentice-safe-inglewood-ca",
+      "since": "2026-09-20"
     },
     "workday-wf-R-563509": {
       "slug": "wells-fargo-branch-banking-management-military-apprentice-safe-san-tan-valley-district",
