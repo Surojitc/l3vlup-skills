@@ -67,6 +67,9 @@ function topBlock(lines, key) {
 
 /** `{ contents: 'write', ... }` from the lines under a `permissions:` key. */
 function permissionsUnder(body, keyIndent) {
+  // `permissions: {}` grants nothing and is the right thing for a job that
+  // only reads a step output. It is a block, not an absence.
+  if (body.some((l) => indentOf(l) === keyIndent && l.trim() === 'permissions: {}')) return {};
   const at = body.findIndex((l) => indentOf(l) === keyIndent && l.trim() === 'permissions:');
   if (at === -1) return null;
   const out = {};
@@ -135,8 +138,10 @@ eq('every workflow in the directory is read', files, [
 const allJobs = workflows.flatMap((w) => w.jobs.map((j) => `${w.file}:${j.name}`));
 eq('every job is found, and none has been renamed out from under this test', allJobs.sort(), [
   'build-samples.yml:collect',
+  'build-samples.yml:health',
   'build-samples.yml:publish',
   'collect.yml:collect',
+  'collect.yml:health',
   'discover-ats.yml:discover',
   'letters-parse.yml:open-pull-request',
   'letters-parse.yml:parse',
@@ -227,6 +232,30 @@ for (const w of workflows) {
     tokens.join(' | '),
   );
   check(`${w.file} runs on no trigger that carries a stranger's code`, !/pull_request_target:|issue_comment:|^\s*pull_request:/m.test(w.text));
+}
+
+// ── 4b. the run's conclusion, and the sweep behind it ───────────────────
+// A stale required source must not stop a healthy one publishing, and must
+// not let the morning report success either, so this runs after publication
+// and fails the run rather than gating it.
+for (const file of ['build-samples.yml', 'collect.yml']) {
+  const w = workflows.find((x) => x.file === file);
+  const health = w.jobs.find((j) => j.name === 'health');
+  if (!health) {
+    check(`${file} has a health job`, false, 'the run has no way to report a stale source');
+    continue;
+  }
+  eq(`${file}:health holds no token at all`, health.permissions, {});
+  check(`${file}:health runs even when publication did not`, /if: always\(\)/.test(health.body.join('\n')));
+  check(`${file}:health fails the run on a stale required source`, /BLOCKING[\s\S]*?= "true"[\s\S]*?exit 1/.test(health.scripts.join('\n')));
+  check(`${file}:health publishes nothing and merges nothing`, !/gh pr |git push/.test(health.scripts.join('\n')));
+
+  const collect = w.jobs.find((j) => j.name === 'collect');
+  const cb = collect.body.join('\n');
+  check(`${file} sweeps every source it owns`, /check-freshness\.mjs/.test(cb));
+  check(`${file} writes the freshness table where an operator will see it`, /--summary "\$GITHUB_STEP_SUMMARY"/.test(cb));
+  check(`${file} never lets the sweep itself fail the collection`, !/check-freshness[\s\S]{0,240}?exit 1/.test(cb));
+  check(`${file} publishes the verdict for the health job to read`, /blocking: \$\{\{ steps\.freshness\.outputs\.blocking \}\}/.test(cb) || /blocking: \$\{\{ steps\.freshness\.outputs\.blocking \}\}/.test(w.text));
 }
 
 // ── 5. the publication path itself ───────────────────────────────────────
