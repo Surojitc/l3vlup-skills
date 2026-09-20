@@ -32,9 +32,17 @@ on:
         type: boolean
         default: false
 
+# The floor every job here inherits, stated rather than left to a repository
+# setting no one reads. A job that says nothing about permissions gets
+# nothing; the one below says what it needs and gets only that.
+permissions:
+  contents: read
+
 jobs:
   collect:
     runs-on: ubuntu-latest
+    # It commits the collected files, and that is all. Notably not
+    # `pull-requests: write`: nothing in this workflow opens or merges one.
     permissions:
       contents: write
     steps:

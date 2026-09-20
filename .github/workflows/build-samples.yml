@@ -13,10 +13,31 @@ name: Collect and build
 # workbook.
 #
 # The last step is the one exception to "nothing in it needs a secret": once the
-# tracker has actually been pushed, it asks the site to work out which programme
-# pages changed and tell Bing. See the note above that step for why it is safe
-# here, and for why it is the step immediately after the push rather than a
-# separate scheduled workflow.
+# tracker has actually landed on main, it asks the site to work out which
+# programme pages changed and tell Bing. See the note above that step for why it
+# is safe here, and for why it lives in this workflow rather than a separate
+# scheduled one.
+#
+# HOW THE COLLECTION IS PUBLISHED, AND WHY IT IS NOT A PUSH
+# ---------------------------------------------------------
+# It used to push to main. A ruleset closed that on 18 September, and every run
+# from the 19th failed at the push with GH013 while the collection itself
+# succeeded, so the site served a feed that quietly stopped moving. The failure
+# mode is the worst kind: green data, red publication, and nothing on the site
+# saying so.
+#
+# The fix is not a bypass. A bypass would have to be granted to an actor, and
+# every workflow running as that actor would inherit it, which is a much larger
+# hole than the one being filled. Instead the collection now travels the same
+# road as every other change: one branch, one pull request, squash merged. That
+# is slower by a few seconds and buys a reviewable record of every dataset
+# change, which a push never gave.
+#
+# What makes it safe to merge unattended is the gate in
+# scripts/validate-publication.mjs. The run stages everything and the gate
+# refuses the lot if a single path falls outside the generated-data allowlist,
+# so a run that has somehow edited a script or a workflow publishes nothing at
+# all rather than smuggling it in beside the data.
 
 on:
   workflow_dispatch:
@@ -37,20 +58,45 @@ on:
         description: 'Call IndexNow even if the tracker file did not change'
         required: false
         default: 'false'
+      publish:
+        description: 'Merge the data pull request after opening it. false opens it and stops.'
+        required: false
+        default: 'true'
   schedule:
     # Daily for the tracker, which is the one that actually moves day to day.
     - cron: '30 6 * * *'
 
+# The collection no longer pushes to the default branch: a ruleset closed that
+# door on 18 September and the right answer was to travel the same road as
+# every other change rather than to be given a way around it. So something in
+# this file needs a token that can open a pull request, and the question is
+# which part of the run holds it.
+#
+# Not the part that reads the internet. The collection fetches from ninety-odd
+# careers boards and parses whatever comes back, which is the one step here
+# where a hostile page gets a say in what a script sees. So the run is two
+# jobs. The first collects and holds a read-only token; it cannot push a
+# branch, open a pull request or merge one, whatever it reads. It hands the
+# second job a tar of the files the gate approved, and only that job holds a
+# token that can write. The default below is the floor both inherit from: a
+# job that says nothing about permissions gets nothing.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: build-samples
   cancel-in-progress: false
 
 jobs:
-  samples:
+  # Everything that touches the outside world, with a token that can only read.
+  collect:
+    name: Collect and validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.stage.outputs.changed }}
+      tracker: ${{ steps.stage.outputs.tracker }}
     steps:
       - uses: actions/checkout@v5
 
@@ -85,6 +131,8 @@ jobs:
           node scripts/__tests__/role-retention.test.mjs
           node scripts/__tests__/ats-discover.test.mjs
           node scripts/__tests__/slug-registry.test.mjs
+          node scripts/__tests__/validate-publication.test.mjs
+          node scripts/__tests__/workflow-permissions.test.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
         # No continue-on-error: the script has its own collapse guard and exits
@@ -97,7 +145,9 @@ jobs:
         # whose roles have left the board. All three are staged and pushed by
         # the existing commit step below, which is what makes them one
         # transaction. There is deliberately no second schedule for any of it.
-        run: node scripts/sync-ats.mjs
+        run: |
+          set -o pipefail
+          node scripts/sync-ats.mjs 2>&1 | tee "$RUNNER_TEMP/collector.log"
 
       - name: Sync the economic backdrop
         continue-on-error: true
@@ -167,40 +217,188 @@ jobs:
             exit 1
           fi
 
-      - name: Commit samples
-        id: commit
+      # ── publication ────────────────────────────────────────────────────
+      # Everything below replaces a push to main, which a ruleset has refused
+      # since 18 September. The shape is deliberate: stage EVERYTHING, then
+      # refuse the run if it touched anything outside the generated-data
+      # allowlist. `git add data/ samples/` would have left such a change
+      # uncommitted and unmentioned; this way a run that has edited a script
+      # or a workflow fails loudly and publishes nothing.
+      - name: Stage the collection
+        id: stage
         run: |
-          git config user.name  "l3vlup-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add samples/ data/ || true
+          set -euo pipefail
+          git add -A
           if git diff --cached --quiet; then
-            echo "no sample changes"
+            echo "the collection changed nothing; there is nothing to publish"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "tracker=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          # Whether the board itself moved, as distinct from a workbook rebuild.
-          # Only data/opportunities.auto.json changes what a /tracker/[slug] page
-          # renders, so only it is worth telling an engine about.
-          if git diff --cached --quiet -- data/opportunities.auto.json; then
-            tracker=false
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          echo "staged:"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+          # Whether the board itself moved, as distinct from a workbook
+          # rebuild. Only data/opportunities.auto.json changes what a
+          # /tracker/[slug] page renders, so only it is worth telling an
+          # engine about, and only once the merge has landed.
+          if git diff --cached --name-only | grep -qx 'data/opportunities.auto.json'; then
+            echo "tracker=true" >> "$GITHUB_OUTPUT"
           else
-            tracker=true
+            echo "tracker=false" >> "$GITHUB_OUTPUT"
           fi
-          git commit -m "chore(data): daily collection [skip ci]"
-          for i in 1 2 3 4 5; do
-            if git push; then
-              # Set only after the push has actually landed. The site reads the
-              # published file, so a commit sitting on the runner is not data
-              # anything downstream can see.
-              echo "tracker=$tracker" >> "$GITHUB_OUTPUT"
-              exit 0
+
+      - name: Check what is about to be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git show HEAD:data/opportunities.auto.json > "$RUNNER_TEMP/prev-feed.json" 2>/dev/null || true
+          boards=$(grep -oE '[0-9]+/[0-9]+ boards( \([0-9]+ failed\))?' "$RUNNER_TEMP/collector.log" | tail -1 || true)
+          node scripts/validate-publication.mjs \
+            --staged "$RUNNER_TEMP/staged.txt" \
+            --prev   "$RUNNER_TEMP/prev-feed.json" \
+            --next   data/opportunities.auto.json \
+            --report "$RUNNER_TEMP/pr-body.md" \
+            --boards "${boards:-unknown}" \
+            --ref "${GITHUB_REF_NAME}" \
+            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+      # What crosses the line between the two jobs, and nothing else: the
+      # files the gate just approved, the body it wrote, and the gate itself.
+      #
+      # The gate travels because the job on the other side starts from main,
+      # and on a run dispatched from a branch main may not carry it yet. It is
+      # read out of this run's checkout, which is the copy a reviewer of this
+      # run is looking at.
+      - name: Pack what may be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+          cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
+          cp scripts/validate-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
+
+      - name: Upload what may be published
+        if: steps.stage.outputs.changed == 'true'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: daily-data-refresh
+          path: ${{ runner.temp }}/handoff
+          if-no-files-found: error
+          retention-days: 3
+
+  # The only job in this file that can write anything. It runs no collector,
+  # reads no careers board and calls no model: it unpacks a tar, re-checks it
+  # against the same gate, and opens a pull request.
+  publish:
+    name: Open and merge the data pull request
+    needs: collect
+    if: needs.collect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # The least that can open a pull request: a branch to push and the pull
+    # request itself. No packages, no actions, no deployments, no id-token,
+    # and nothing that could approve a review.
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # main, not the dispatch ref. A data pull request must carry the
+      # collection and nothing else, and starting anywhere else is how a
+      # feature branch's code would ride along inside it.
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      # Into the temp directory, deliberately: unpacked inside the working
+      # tree it would be staged by the `git add -A` below and published.
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: daily-data-refresh
+          path: ${{ runner.temp }}/handoff
+
+      - name: Open or update the data pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          branch=automation/daily-data-refresh
+          git config user.name  "l3vlup-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          git checkout -q -B "$branch"
+          tar -xf "$RUNNER_TEMP/handoff/publishable.tar"
+          git add -A
+
+          # The check that actually guarantees the pull request's contents.
+          # The collecting job ran the same gate, but this job did not watch
+          # it do so and takes nothing from it on trust: the list checked here
+          # is the diff against main that is about to be committed. Cheap, and
+          # it is the one a reviewer is trusting.
+          git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
+          node "$RUNNER_TEMP/handoff/gate.mjs" --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
+
+          if git diff --cached --quiet; then
+            echo "main already carries this collection; nothing to publish"
+            echo "number=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -q -m "chore(data): daily collection [skip ci]"
+
+          # One branch, rebuilt from today's main on every run, so a refresh
+          # nobody merged yesterday is replaced rather than stacked behind
+          # today's. Forcing is safe here and only here: the non-fast-forward
+          # rule guards the default branch, and this branch has one author.
+          git push -q --force origin "HEAD:refs/heads/$branch"
+
+          number=$(gh pr list --head "$branch" --base main --state open --json number --jq '.[0].number // empty')
+          title="chore(data): daily collection $(date -u +%Y-%m-%d)"
+          if [ -n "$number" ]; then
+            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md"
+            echo "updated #$number"
+          else
+            if ! gh pr create --base main --head "$branch" \
+                 --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
+              cat "$RUNNER_TEMP/pr.txt"
+              echo "::error::could not open the data pull request. If the message above says GitHub Actions is not permitted to create pull requests, that is a repository setting: Settings, Actions, General, Workflow permissions. Nothing has been published and the collected files are on the $branch branch."
+              exit 1
             fi
-            echo "push failed, rebasing (attempt $i)"
-            git pull --rebase origin main || true
-            sleep $((2 ** i))
-          done
-          echo "::error::could not push samples"
-          exit 1
+            number=$(gh pr view "$branch" --json number --jq .number)
+            echo "opened #$number"
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+
+      - name: Merge the data pull request
+        id: merge
+        if: steps.pr.outputs.number != '' && github.event.inputs.publish != 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Through the environment rather than into the script text. Nothing
+          # a careers board returns reaches this job at all, and this is the
+          # habit that keeps it that way.
+          NUMBER: ${{ steps.pr.outputs.number }}
+        run: |
+          set -euo pipefail
+          number="$NUMBER"
+          # Squash, because the ruleset allows nothing else. It requires no
+          # approving review and no status check, so the merge is immediate;
+          # the repository has auto-merge switched off, which is why this is a
+          # direct call rather than --auto. A failure here loses nothing: the
+          # pull request stays open, validated, and mergeable by hand.
+          if ! gh pr merge "$number" --squash > "$RUNNER_TEMP/merge.txt" 2>&1; then
+            cat "$RUNNER_TEMP/merge.txt"
+            echo "::error::data pull request #$number is open and passed every check but could not be merged. Merge it by hand, or re-run once the cause is fixed."
+            exit 1
+          fi
+          echo "merged=true" >> "$GITHUB_OUTPUT"
+          echo "merged #$number"
 
       # Ask the site to work out what changed on the board and tell Bing.
       #
@@ -244,7 +442,10 @@ jobs:
       - name: Tell the site the tracker moved
         if: |
           github.repository == 'Surojitc/l3vlup-skills' &&
-          (steps.commit.outputs.tracker == 'true' || github.event.inputs.indexnow_force == 'true')
+          (
+            (steps.merge.outputs.merged == 'true' && needs.collect.outputs.tracker == 'true') ||
+            github.event.inputs.indexnow_force == 'true'
+          )
         # A recrawl hint is not worth failing a data collection over, and there
         # is nothing downstream of this.
         continue-on-error: true

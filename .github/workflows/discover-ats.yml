@@ -36,8 +36,11 @@ on:
         required: false
         default: false
 
+# The floor every job here inherits, stated rather than left to a repository
+# setting no one reads. Write is granted on the one job that commits, not to
+# the file, so a job added later starts from nothing.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: discover-ats
@@ -46,6 +49,10 @@ concurrency:
 jobs:
   discover:
     runs-on: ubuntu-latest
+    # It commits the registry it discovered, and that is all. Notably not
+    # `pull-requests: write`: nothing in this workflow opens or merges one.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v5
 
