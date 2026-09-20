@@ -77,9 +77,182 @@ const EARLY_CAREER =
   /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?career|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?|placements?\s+(?:year|scheme|programme?|student)|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|summer\s+associate|analyst\s+programme?|off[\s-]?cycle|spring\s+(week|insight))\b/i;
 const SENIOR = /\b(senior|staff|principal|director|distinguished|vp|head\s+of|lead)\b/i;
 
+/**
+ * 'manager' is a seniority signal, and it is the one that needed an exception.
+ *
+ * Two experienced hires reached the consulting inventory through this gap: an
+ * FTI "Workday Student Financials - Consulting Manager" and an Accenture
+ * "Associate Engagement Manager". Neither is an early-career seat. The first is
+ * the more instructive: it matched EARLY_CAREER on the word "Student", which is
+ * not a level here at all but part of the product name *Workday Student
+ * Financials*.
+ *
+ * Adding 'manager' to SENIOR outright would throw away real graduate seats,
+ * because "Associate Product Manager" is a graduate title at every technology
+ * company that runs an APM scheme. So the exception is not a list of job titles
+ * but a question about evidence: does the title ALSO carry an unambiguous
+ * early-career token?
+ *
+ * "Student" and "graduate" alone are not enough, because both appear in product
+ * names and in phrases like "graduate of". "Intern", "campus", "early career"
+ * and "summer analyst" are, because nothing else in a job title uses those
+ * words.
+ *
+ * WHAT THE ADVERSARIAL PASS CHANGED. Run across the 1,318 live rows, 18 carry
+ * the word manager and the old filter accepted all 18. Almost every one is a
+ * real graduate seat: five Associate Product Manager rows at Visa, Databricks
+ * and Roblox, three "Area Manager - New Grad" at Flexport, two Account Manager
+ * internships. A bare substring exclusion would have thrown away all of them,
+ * which is why the exception is the rule rather than a footnote to it.
+ *
+ * Two tokens moved as a result. "early career" was added, because Notion's
+ * "Experience Program Manager - EMEA & APAC, Early Career" says so in the
+ * title and was being dropped. Bare "APM" and "RPM" were removed, because
+ * Datadog's "Manager I, Engineering - APM Serverless" is Application
+ * Performance Monitoring rather than a graduate scheme, and it is a genuine
+ * manager the old filter wrongly accepted. "Associate Product Manager" stays
+ * spelled out, which keeps every real APM row.
+ *
+ * Net effect on live data: 1 row of 1,318 changes, and it changes from wrong
+ * to right. A positional rule was tried as the alternative, marking manager
+ * senior only as the head noun of a title segment. It agreed with this one on
+ * all 26 observed cases and was worse on the Datadog row, so it was not kept.
+ */
+const MANAGER = /\bmanagers?\b/i;
+const STRONG_EARLY_CAREER =
+  /\b(intern|interns|internship|internships|campus|apprentice|apprenticeship|new[\s-]?grad|newgrad|co-?op|early[\s-]?career|associate\s+product\s+manager|summer\s+(analyst|associate)|graduate\s+(programme?|scheme|analyst|trainee)|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?)\b/i;
+
 export function isEarlyCareer(title) {
   if (SENIOR.test(title)) return false;
+  if (MANAGER.test(title) && !STRONG_EARLY_CAREER.test(title)) return false;
   return EARLY_CAREER.test(title);
+}
+
+/* ------------------------- consulting classification ---------------------- */
+
+/**
+ * Consulting needed more than a title, and this is the only rule in the file
+ * that reads the employer.
+ *
+ * WHY. A step 3 sweep of the five collected consulting boards returned 128
+ * early-career rows, of which 47 were consulting. Accenture alone contributed
+ * 103 and kept 25: its board carries a global delivery organisation, so Java
+ * developers in Lodz, Korean-speaking customer service in Bangkok and a student
+ * receptionist in Budapest all sit beside the consulting practice. A title-only
+ * rule cannot tell those apart, because "Analyst" at Accenture means whichever
+ * of the two the reader already had in mind.
+ *
+ * So the employer decides how much a weak title is worth. At a consulting firm,
+ * "Business Analyst" is the consulting entry seat and counts. At a bank it is
+ * not, and does not.
+ *
+ * WHAT IT DELIBERATELY WILL NOT DO. It never rescues a role from the exclusions
+ * below, and it never fires on an employer it does not recognise unless the
+ * title says "consulting" or "consultant" outright. An ambiguous row is left to
+ * fall through to 'Other', which is visible in the sweep report, rather than
+ * being promoted to make a count look better.
+ */
+
+/**
+ * Employers whose primary business is consulting.
+ *
+ * Matched on a normalised substring, so "Accenture Song" and "Accenture" are
+ * the same firm. Kept here rather than read from the registry because a role
+ * can arrive from a curated row or a non-ATS source that never touches it, and
+ * a classifier that behaved differently depending on where a row came from
+ * would be impossible to reason about.
+ */
+const CONSULTING_FIRMS = [
+  'mckinsey', 'boston consulting', 'bain & company', 'bain and company',
+  'accenture', 'deloitte', 'pwc', 'pricewaterhousecoopers', 'kpmg', 'ernst & young',
+  'strategy&', 'monitor deloitte', 'ey-parthenon', 'parthenon',
+  'oliver wyman', 'kearney', 'roland berger', 'l.e.k', 'lek consulting',
+  'occ strategy', 'oc&c', 'arthur d. little', 'simon-kucher', 'zs associates',
+  'alixpartners', 'alvarez & marsal', 'huron', 'guidehouse', 'teneo',
+  'analysis group', 'cornerstone research', 'charles river associates',
+  'brattle', 'frontier economics', 'compass lexecon', 'keystone strategy',
+  'trinity life sciences', 'putnam associates', 'health advances', 'clearview healthcare',
+  'bridgespan', 'dalberg', 'pa consulting', 'newton europe', 'capgemini invent',
+  'west monroe', 'slalom', 'thoughtworks', 'publicis sapient', 'infosys consulting',
+  'fti consulting', 'berkeley research group', 'exponent',
+];
+
+const isConsultingFirm = (firm) => {
+  const f = String(firm || '').toLowerCase();
+  return f ? CONSULTING_FIRMS.some((c) => f.includes(c)) : false;
+};
+
+/**
+ * Work that is not consulting even when the employer is a consulting firm.
+ *
+ * Checked first and never overridden. These are the four families the step 3
+ * review found inside Accenture's board, in the order of how many rows each
+ * accounted for.
+ */
+const NOT_CONSULTING_WORK =
+  /\b(developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students)\b/i;
+
+/**
+ * Finance work that keeps its existing vertical even at a consulting firm.
+ *
+ * FTI Consulting is the case this exists for. Its Corporate Finance segment
+ * runs restructuring and transaction work that belongs beside a bank's, not
+ * beside a strategy practice, and a candidate searching for restructuring
+ * should find it under investment banking where the rest of it is. Its Forensic
+ * and Economic segments are consulting and are not caught here.
+ */
+const FINANCE_OVERRIDE =
+  /\b(restructuring|turnaround|corporate finance|debt advisory|capital markets|\bm&a\b|mergers|valuation|transaction services|due diligence advisory)\b/i;
+
+/** A title that says consulting outright, wherever it is posted. */
+const EXPLICIT_CONSULTING =
+  /\b(consultant|consulting|management consult|strategy (and|&) consulting|economic consulting|litigation consulting|advisory (analyst|associate|consultant)|case team)\b/i;
+
+/**
+ * Titles that mean consulting AT a consulting firm and something else anywhere
+ * else. "Strategy Analyst" at a bank is an internal planning seat; at Bain it
+ * is the job. The employer gate is what separates them.
+ */
+const CONSULTING_AT_CONSULTING_FIRM =
+  /\b(business analyst|strategy|transformation|commercial strategy|insights|advisory|\bvap\b|value,? access|market access|operations improvement|performance improvement|public sector|life sciences|economic analysis|associate consultant)\b/i;
+
+/**
+ * Financial-crime work, which is a bank's own compliance function and a
+ * consultancy's practice area, and has to be told apart by employer.
+ *
+ * CIBC posts "Consultant AML- (Winter 2027 Co-Op)". The word consultant there
+ * is an internal grade, not a line of business, and the co-op sits in the
+ * bank's anti-money-laundering team. Guidehouse and FTI genuinely sell
+ * financial-crime compliance consulting, so this cannot be an outright
+ * exclusion: it withdraws only the employer-independent token, leaving the
+ * employer gate to answer for the firms that do sell it.
+ */
+const FINANCIAL_CRIME =
+  /\b(a\.?m\.?l\.?|k\.?y\.?c\.?|anti[\s-]?money[\s-]?laundering|know your customer|financial crime|sanctions screening|suspicious activity)\b/i;
+
+/**
+ * 'Consulting', or null to let the ordinary chain decide.
+ *
+ * Order is the design, as everywhere else in this file. Exclusions first so
+ * they cannot be overridden, finance second so FTI's restructuring keeps its
+ * home, explicit titles third because they need no employer, and the employer
+ * gate last because it is the only rule that can be wrong about a firm.
+ *
+ * Financial crime sits between the third and the fourth rather than with the
+ * exclusions, because it is the one subject where the same words describe a
+ * bank's own compliance seat and a consultancy's practice. Withdrawing the
+ * employer-independent token and keeping the employer gate is what lets
+ * Guidehouse sell it and CIBC not.
+ */
+export function consultingVerdict(title, ctx = {}) {
+  const t = `${String(title || '')} ${String(ctx.department || '')}`.toLowerCase();
+  if (!t.trim()) return null;
+
+  if (NOT_CONSULTING_WORK.test(t)) return null;
+  if (FINANCE_OVERRIDE.test(t)) return null;
+  if (EXPLICIT_CONSULTING.test(t) && !FINANCIAL_CRIME.test(t)) return 'Consulting';
+  if (isConsultingFirm(ctx.firm) && (EXPLICIT_CONSULTING.test(t) || CONSULTING_AT_CONSULTING_FIRM.test(t))) return 'Consulting';
+  return null;
 }
 
 // Every role that clears the early-career filter gets a vertical. The order of
@@ -96,8 +269,15 @@ export function isEarlyCareer(title) {
 const AI_TOKEN =
   /machine learning|deep learning|reinforcement learning|\bml\b|\bai\b|\bai\/ml\b|\bllm\b|\bnlp\b|gen(erative )?ai|computer vision|applied research/;
 
-export function inferVertical(title) {
+export function inferVertical(title, ctx = {}) {
   const t = String(title || '').toLowerCase();
+
+  // Consulting is asked first because it is the only rule that reads the
+  // employer, and because the generic technology rule below would otherwise
+  // swallow "Technology Consulting Analyst" on the word technology alone.
+  // It answers null for anything it is not sure about, so the chain is intact.
+  const consulting = consultingVerdict(title, ctx);
+  if (consulting) return consulting;
 
   if (/\b(quant|quantitative)\b/.test(t)) return 'Quant';
 
@@ -424,7 +604,11 @@ export function toOpportunity(job, firm) {
   if (!job.title) return null;
   if (!job.earlyCareerConfirmed && !isEarlyCareer(job.title)) return null;
   // No null check: inferVertical always classifies, falling back to 'Other'.
-  const vertical = inferVertical(job.title);
+  const vertical = inferVertical(job.title, {
+    firm: firm.firm,
+    department: job.department,
+    location: job.location,
+  });
   const { programmeType, level } = inferProgrammeAndLevel(job.title);
   const tags = ['Auto-sourced'];
   if (job.department) tags.push(job.department);

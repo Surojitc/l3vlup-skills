@@ -13,7 +13,8 @@
  * The fallback is the load-bearing part. A missing rule should cost accuracy,
  * never inventory.
  */
-import { inferVertical, toOpportunity } from '../sync-ats.mjs';
+import { readFileSync } from 'node:fs';
+import { inferVertical, isEarlyCareer, toOpportunity } from '../sync-ats.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -224,6 +225,54 @@ eq(
 
 // --- every collected role should reach a prep page where one exists --------
 // prepSlugFor was three tech branches, so 24 investment banking rows and 12
+/* ----------------------------- consulting -------------------------------- */
+
+/**
+ * Consulting is the only vertical whose rule reads the employer, so it is the
+ * only one that can be wrong about a firm rather than about a title. The
+ * fixtures are real rows from the step 3 sweep, grouped by what each one is
+ * there to prove, and the reason each exists travels with it.
+ *
+ * The negative group is the load-bearing one. Accenture contributed 103 of the
+ * 128 rows in that sweep and kept 25: everything else was a delivery centre, a
+ * BPO seat or the firm's own back office, and a rule that could not tell those
+ * apart would have put a student receptionist on a consulting board.
+ */
+const FIXTURES = JSON.parse(
+  readFileSync(new URL('./fixtures/consulting-classification.json', import.meta.url), 'utf8')
+);
+
+const cls = (group) => {
+  for (const f of FIXTURES[group] ?? []) {
+    eq(
+      `${group}: ${f.title.slice(0, 46).padEnd(48)} → ${f.want}   (${f.why})`,
+      inferVertical(f.title, { firm: f.firm, department: f.department }),
+      f.want
+    );
+  }
+};
+
+cls('positive');
+cls('negative');
+cls('ambiguous');
+cls('regression');
+
+for (const f of FIXTURES.seniority ?? []) {
+  eq(
+    `seniority: ${f.title.slice(0, 44).padEnd(46)} → ${f.early}   (${f.why})`,
+    isEarlyCareer(f.title),
+    f.early
+  );
+}
+
+// A city variant is a separate opportunity. The step 3 analysis briefly
+// collapsed these on title alone and understated the inventory by five rows.
+for (const f of FIXTURES.duplicates ?? []) {
+  const answers = f.titles.map((t) => inferVertical(t, { firm: f.firm }));
+  eq(`duplicates: ${f.why}`, answers, Array(f.distinct).fill(f.want));
+  eq(`duplicates: ${f.titles.length} titles stay ${f.distinct} rows`, new Set(f.titles).size, f.distinct);
+}
+
 // sales & trading rows pointed nowhere while their prep pages sat written and
 // unlinked. These assert the wiring, not the pages.
 const prep = (title, want) => {
