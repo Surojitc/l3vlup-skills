@@ -43,12 +43,13 @@ on:
           - starboard-value-2026-03-11
           - southeastern-2026-09-04
       model:
-        description: 'Model (extraction only; escalation needs separate approval)'
+        description: 'Model (a fixed list; the run refuses anything not on it)'
         type: choice
         required: true
         default: 'claude-haiku-4-5-20251001'
         options:
           - claude-haiku-4-5-20251001
+          - claude-sonnet-5
       budget_usd:
         description: 'Ceiling for this run, in dollars'
         type: choice

@@ -422,4 +422,73 @@ await test('the workspace is removed however the run ends, and the runner owns t
 });
 
 rmSync(join(REPO, '.pilot'), { recursive: true, force: true });
+await test('every allowlisted model states its thinking configuration', () => {
+  // Thinking tokens count toward max_tokens, which the per-call ceiling pins
+  // at 4,000. A model added without deciding this inherits whatever the API
+  // defaults to, and on a thinking-by-default model that silently shares the
+  // ceiling with the answer.
+  for (const [id, m] of Object.entries(MODEL_ALLOWLIST)) {
+    assert.ok('thinking' in m, `${id} does not say whether it thinks`);
+    if (m.thinking !== null) {
+      assert.equal(typeof m.thinking, 'object');
+      assert.ok(['disabled', 'adaptive'].includes(m.thinking.type), `${id} has an unknown thinking type`);
+    }
+  }
+  // Sonnet 5 thinks by default; under a 4,000-token ceiling it must not.
+  assert.deepEqual(MODEL_ALLOWLIST['claude-sonnet-5'].thinking, { type: 'disabled' });
+  // Haiku 4.5 is an extended-thinking model and does not think unconfigured.
+  assert.equal(MODEL_ALLOWLIST['claude-haiku-4-5-20251001'].thinking, null);
+});
+
+// Awaited: the helper is async and the call sites are not, so an async test
+// left unawaited would print its result after the count and turn a failure
+// into an unhandled rejection rather than a failing suite.
+await test('the thinking configuration reaches the request, and only when set', async () => {
+  const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
+  const sent = [];
+  const fakeClient = (id) => ({
+    constructor: class {},
+    messages: { create: async (req) => { sent.push({ id, req }); return {
+      content: [{ type: 'tool_use', name: 'propose_claims', input: { proposals: [] } }],
+      usage: { input_tokens: 10, output_tokens: 5 },
+    }; } },
+  });
+  for (const id of Object.keys(MODEL_ALLOWLIST)) {
+    const model = anthropicModel({ modelId: id, taxonomy, client: fakeClient(id) });
+    await model.propose({ chunkId: 'c', text: 'x' });
+  }
+  const sonnet = sent.find((r) => r.id === 'claude-sonnet-5').req;
+  const haiku = sent.find((r) => r.id === 'claude-haiku-4-5-20251001').req;
+  assert.deepEqual(sonnet.thinking, { type: 'disabled' }, 'Sonnet 5 was asked to think inside a 4,000-token ceiling');
+  assert.ok(!('thinking' in haiku), 'a thinking key was sent to a model that takes none');
+  // The ceiling itself is unchanged for both.
+  for (const req of [sonnet, haiku]) assert.equal(req.max_tokens, LIMITS.maxOutputTokensPerCall);
+});
+
+await test('the workflow offers Sonnet 5 as a fixed option, never as free text', () => {
+  const wf = readFileSync(join(REPO, '.github', 'workflows', 'thesis-pilot.yml'), 'utf8');
+  const block = wf.slice(wf.indexOf('      model:'), wf.indexOf('      budget_usd:'));
+  assert.match(block, /type: choice/);
+  assert.ok(!/type: string/.test(block), 'the model input accepts free text');
+  const options = [...block.matchAll(/^          - (\S+)$/gm)].map((m) => m[1]);
+  assert.deepEqual(options, ['claude-haiku-4-5-20251001', 'claude-sonnet-5']);
+  // Everything offered is priced and allowlisted, so no dropdown entry can
+  // reach a model the cost ledger cannot cost.
+  for (const o of options) {
+    assert.ok(MODEL_ALLOWLIST[o], `${o} is offered but not on the allowlist`);
+    assert.equal(typeof MODEL_ALLOWLIST[o].inputPerMTok, 'number');
+    assert.equal(typeof MODEL_ALLOWLIST[o].outputPerMTok, 'number');
+  }
+});
+
+await test('Sonnet 5 resolves to itself, and no alias can redirect it', () => {
+  assert.equal(resolveModelId('claude-sonnet-5'), 'claude-sonnet-5');
+  assert.equal(MODEL_ALLOWLIST['claude-sonnet-5'].alias, null);
+  assert.ok(!Object.keys(MODEL_ALIASES).includes('claude-sonnet-5'), 'an alias points at Sonnet 5');
+  assert.ok(!Object.values(MODEL_ALIASES).includes('claude-sonnet-5'), 'an alias resolves to Sonnet 5');
+  // Its published price, checked against the model table.
+  assert.equal(MODEL_ALLOWLIST['claude-sonnet-5'].inputPerMTok, 2.00);
+  assert.equal(MODEL_ALLOWLIST['claude-sonnet-5'].outputPerMTok, 10.00);
+});
+
 console.log(`${passed} passed`);
