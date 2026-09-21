@@ -430,6 +430,48 @@ for (const file of ['build-samples.yml', 'collect.yml']) {
 // that job sits downstream of the gate, so a producer able to supply its own
 // judge could approve of whatever else it supplied. These checks exist so
 // that cannot come back quietly.
+// Every job that unpacks a handoff, not only the shared one. The inline
+// publisher in `build-samples` has the same power and had the same defect.
+const PUBLISHERS = [
+  ['publish-data.yml', 'publish'],
+  ['build-samples.yml', 'publish'],
+];
+for (const [file, name] of PUBLISHERS) {
+  const w = workflows.find((x) => x.file === file);
+  const job = w.jobs.find((j) => j.name === name);
+  const script = job.scripts.join('\n');
+  const where = `${file}:${name}`;
+
+  check(`${where} executes nothing out of the handoff`, !/\b(node|bash|sh|python3?)\s+["'$]*\{?\{?\s*(\$RUNNER_TEMP|\$\{\{ runner\.temp \}\})/.test(script), script.match(/\b(node|bash|sh|python3?)\s+\S*(RUNNER_TEMP|runner\.temp)\S*/g)?.join(' ; '));
+  check(`${where} names no gate.mjs at all`, !/gate\.mjs/.test(w.text));
+  check(`${where} runs every script from its own checkout`, (script.match(/\bnode\s+(\S+)/g) ?? []).every((m) => m.replace(/^node\s+/, '').startsWith('scripts/')), (script.match(/\bnode\s+(\S+)/g) ?? []).join(' ; '));
+  check(`${where} judges the archive members before unpacking`, /validate-archive-members\.mjs/.test(script));
+  check(`${where} reads both the names and the types from the archive`, /tar -tf\s+"\$archive"/.test(script) && /tar -tvf\s+"\$archive" \| cut -c1/.test(script));
+  check(`${where} judges them before tar writes anything`, script.indexOf('validate-archive-members.mjs') < script.indexOf('tar -xf'));
+  check(`${where} claims no ownership or permissions from the archive`, /--no-same-owner --no-same-permissions/.test(script));
+  check(`${where} gates the staged diff, not the archive's own claim`, /--staged "\$RUNNER_TEMP\/publishing\.txt"/.test(script) && /git diff --cached --name-only > "\$RUNNER_TEMP\/publishing\.txt"/.test(script));
+  check(`${where} gates it before committing`, Math.max(script.indexOf('validate-publication.mjs'), script.indexOf('validate-data-publication.mjs')) < script.indexOf('git commit'));
+  check(`${where} gates it before opening a pull request`, Math.max(script.indexOf('validate-publication.mjs'), script.indexOf('validate-data-publication.mjs')) < script.indexOf('gh pr create'));
+  check(`${where} writes the pull request body itself`, /--report "\$RUNNER_TEMP\/pr-body\.md"/.test(script) && !/handoff\/pr-body/.test(w.text));
+  check(`${where} checks out main and nothing else`, /ref: main/.test(w.text));
+  // Nothing a careers board returned may reach the pull request unchecked,
+  // and nothing it returned may decide anything at all. The board count is
+  // the only value the publisher cannot work out for itself, so it is the
+  // only one these rules have to hold.
+  const boardLines = script.split('\n').filter((l) => l.includes('BOARDS'));
+  check(`${where} re-checks the shape of anything the collector passed it`, !boardLines.length || boardLines.some((l) => /grep -qE '\^\[0-9\]\+\/\[0-9\]\+ boards/.test(l)));
+  check(`${where} falls back rather than failing on a malformed one`, !boardLines.length || boardLines.some((l) => /BOARDS=unknown/.test(l)));
+  check(`${where} never lets it end the run`, !boardLines.some((l) => /exit\s+\d/.test(l)));
+  // It may reach the report and nothing else: not the branch, not the title,
+  // not the commit, not the merge, not either validator's arguments.
+  eq(
+    `${where} lets it reach the pull request body and nothing else`,
+    boardLines.filter((l) => /(branch=|git commit|git push|gh pr|validate-archive-members|--staged|--producer|--next)/.test(l)),
+    [],
+  );
+  check(`${where} passes it only as --boards`, !boardLines.some((l) => /\$BOARDS/.test(l) && !/--boards "\$BOARDS"/.test(l) && !/printf '%s' "\$\{BOARDS:-\}"/.test(l)), boardLines.join(' ; '));
+}
+
 const publisher = workflows.find((w) => w.file === 'publish-data.yml');
 const pub = publisher.jobs.find((j) => j.name === 'publish');
 const pubScript = pub.scripts.join('\n');
@@ -469,19 +511,13 @@ for (const w of workflows) {
   for (const j of w.jobs) {
     const body = j.body.join('\n');
     if (!/handoff/.test(body)) continue;
-    // `build-samples` still carries its gate into its own handoff, because
-    // its inline publisher from #57 is the one proven path to `main` and is
-    // not migrated until PR D. The debt is named here rather than left to be
-    // noticed: PR D removes both the copy and this exemption, and until then
-    // a second producer picking the habit up fails this check.
-    // Only the job that builds the handoff can put anything in it.
-    const exempt = w.file === 'build-samples.yml' && /tar -cf/.test(body);
-    const carries = /\bcp\s+\S*scripts\//.test(body) || /\bcp\s+\S+\s+"?\$RUNNER_TEMP\/handoff/.test(body);
+    // No exemptions. `build-samples` held one until its inline publisher
+    // was fixed: it copied its gate in beside the archive and ran that copy,
+    // which is the same defect the shared publisher was corrected for and
+    // sat in the producer that actually feeds the site.
     check(
-      exempt
-        ? `${w.file}:${j.name} still carries a gate in its handoff, and PR D must remove it`
-        : `${w.file}:${j.name} puts only the archive in the handoff`,
-      exempt ? carries : !carries,
+      `${w.file}:${j.name} puts only the archive in the handoff`,
+      !/\bcp\s+\S*scripts\//.test(body) && !/\bcp\s+\S+\s+"?\$RUNNER_TEMP\/handoff/.test(body),
       body.match(/\bcp\s+.*/g)?.join(' ; '),
     );
     check(
@@ -503,17 +539,39 @@ check('the conditions for changing it to true are written down beside it', /WHAT
 // Pinned by digest, on both halves of the first migrated producer. A moved
 // tag on the privileged half would be a moved tag on every producer at once;
 // on the collecting half it is a moved tag in front of 160 careers sites.
+// The rule that matters, applied everywhere: a job that can write must not
+// run an action whose tag could move under it. A moved tag in front of a
+// token that can merge is a different thing from a moved tag in front of a
+// crawler.
+const floating = (lines) =>
+  lines
+    .filter((l) => /^\s*(- )?uses:/.test(l))
+    .map((l) => l.split('uses:')[1].trim())
+    .filter((u) => !u.startsWith('./') && !/@[0-9a-f]{40}\b/.test(u));
+
+const writeJobs = [];
+const stillFloating = [];
+for (const w of workflows) {
+  for (const j of w.jobs) {
+    const perms = j.permissions ?? {};
+    if (perms.contents !== 'write' && perms['pull-requests'] !== 'write') continue;
+    writeJobs.push(`${w.file}:${j.name}`);
+    if (floating(j.body).length) stillFloating.push(`${w.file}:${j.name}`);
+  }
+}
+check('there is more than one job that can write, so this rule has work to do', writeJobs.length >= 2, writeJobs.join(', '));
+// `collect.yml` is the last producer still pushing to `main` itself and is
+// not touched until PR C. Naming it here rather than exempting it silently:
+// any other write-capable job that lets a tag float fails, and PR C has to
+// come back and shorten this list to nothing.
+eq('every job that can write pins its actions, except the one PR C has yet to reach', stillFloating, ['collect.yml:collect']);
+
+// Two workflows pin everything, collecting half included, and are held to it
+// so the discipline cannot quietly retreat to the privileged job alone.
 for (const file of ['discover-ats.yml', 'publish-data.yml']) {
   const w = workflows.find((x) => x.file === file);
-  const external = [...w.text.matchAll(/uses:\s+([^\s]+)/g)]
-    .map((m) => m[1])
-    .filter((u) => !u.startsWith('./'));
-  eq(
-    `${file} pins every action it runs to a commit`,
-    external.filter((u) => !/@[0-9a-f]{40}$/.test(u)),
-    [],
-  );
-  check(`${file} runs at least one action`, external.length > 0);
+  eq(`${file} pins every action it runs to a commit`, floating(w.text.split('\n')), []);
+  check(`${file} runs at least one action`, /uses:/.test(w.text));
 }
 
 

@@ -99,6 +99,7 @@ jobs:
       degraded: ${{ steps.freshness.outputs.degraded }}
       changed: ${{ steps.stage.outputs.changed }}
       tracker: ${{ steps.stage.outputs.tracker }}
+      boards: ${{ steps.gate.outputs.boards }}
     steps:
       - uses: actions/checkout@v5
 
@@ -274,36 +275,52 @@ jobs:
             echo "tracker=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # The same gate the publisher runs, run here too so a bad collection
+      # fails in the job that produced it rather than in the one that can
+      # write. The publisher does not take this run's word for it.
+      #
+      # The board count is the one thing the publisher cannot work out for
+      # itself: it is in this run's collector log. It travels as a job
+      # output rather than inside the artifact, and the publisher checks its
+      # shape again before putting it in anyone's pull request.
       - name: Check what is about to be published
+        id: gate
         if: steps.stage.outputs.changed == 'true'
         run: |
           set -euo pipefail
           git show HEAD:data/opportunities.auto.json > "$RUNNER_TEMP/prev-feed.json" 2>/dev/null || true
           boards=$(grep -oE '[0-9]+/[0-9]+ boards( \([0-9]+ failed\))?' "$RUNNER_TEMP/collector.log" | tail -1 || true)
+          echo "boards=${boards:-unknown}" >> "$GITHUB_OUTPUT"
           node scripts/validate-publication.mjs \
             --staged "$RUNNER_TEMP/staged.txt" \
             --prev   "$RUNNER_TEMP/prev-feed.json" \
             --next   data/opportunities.auto.json \
-            --report "$RUNNER_TEMP/pr-body.md" \
             --boards "${boards:-unknown}" \
             --ref "${GITHUB_REF_NAME}" \
             --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 
-      # What crosses the line between the two jobs, and nothing else: the
-      # files the gate just approved, the body it wrote, and the gate itself.
+      # What crosses the line between the two jobs: generated data, and
+      # nothing else.
       #
-      # The gate travels because the job on the other side starts from main,
-      # and on a run dispatched from a branch main may not carry it yet. It is
-      # read out of this run's checkout, which is the copy a reviewer of this
-      # run is looking at.
+      # This step used to copy the gate in beside the archive, and the
+      # publisher ran that copy. The reason given was that a run dispatched
+      # from a branch would find a `main` that did not carry the gate yet —
+      # which is true, and is the wrong way round. A run dispatched from a
+      # branch is exactly the run that must not publish using that branch's
+      # gate. This job reads 160 third-party careers pages; letting it choose
+      # its own judge put every other control downstream of a file it wrote.
+      #
+      # The publisher now reads the gate from its own checkout of `main` and
+      # writes the pull request body there too, so no prose composed here
+      # describes the change to whoever reviews it.
       - name: Pack what may be published
         if: steps.stage.outputs.changed == 'true'
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/handoff"
           tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
-          cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
-          cp scripts/validate-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
+          echo "the handoff holds:"
+          find "$RUNNER_TEMP/handoff" -type f -printf '  %P\n'
 
       - name: Upload what may be published
         if: steps.stage.outputs.changed == 'true'
@@ -333,11 +350,14 @@ jobs:
       # main, not the dispatch ref. A data pull request must carry the
       # collection and nothing else, and starting anywhere else is how a
       # feature branch's code would ride along inside it.
-      - uses: actions/checkout@v5
+      # Pinned by commit. This is the one job in this file that can write to
+      # `main`, so what it runs is worth holding still; both are the commit
+      # their tag resolves to today, so nothing about the run changes.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: main
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
 
@@ -352,6 +372,9 @@ jobs:
         id: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The board count from this run's collector log, shape-checked
+          # below before it reaches anyone's pull request.
+          BOARDS: ${{ needs.collect.outputs.boards }}
         run: |
           set -euo pipefail
           branch=automation/daily-data-refresh
@@ -359,16 +382,54 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
 
           git checkout -q -B "$branch"
-          tar -xf "$RUNNER_TEMP/handoff/publishable.tar"
+
+          # The archive is read, and judged, before it is unpacked.
+          #
+          # Its members come from `git diff --cached --name-only` in the
+          # collecting job, and git cannot emit an absolute path, a `..`
+          # segment or a device node. That is an argument about the producer,
+          # and this job's design is that it takes nothing from the producer
+          # on trust. tar will write through `../` or a symlink into the
+          # runner's home directory, and a file written outside the working
+          # tree never reaches the git index, so no gate that runs afterwards
+          # can find it. And a path inside the tree that is not data — a
+          # workflow, a script, this gate — would extract cleanly and be
+          # staged by the `git add -A` below.
+          #
+          # The judge is this checkout's copy, from `main`.
+          archive="$RUNNER_TEMP/handoff/publishable.tar"
+          tar -tf  "$archive"           > "$RUNNER_TEMP/members.txt"
+          tar -tvf "$archive" | cut -c1 > "$RUNNER_TEMP/types.txt"
+          node scripts/validate-archive-members.mjs \
+            --producer tracker \
+            --members "$RUNNER_TEMP/members.txt" \
+            --types "$RUNNER_TEMP/types.txt"
+
+          tar -xf "$archive" --no-same-owner --no-same-permissions -C .
           git add -A
 
-          # The check that actually guarantees the pull request's contents.
-          # The collecting job ran the same gate, but this job did not watch
-          # it do so and takes nothing from it on trust: the list checked here
-          # is the diff against main that is about to be committed. Cheap, and
-          # it is the one a reviewer is trusting.
+          # The check that actually guarantees the pull request's contents,
+          # run on a different list from the members: the staged diff against
+          # main that `git add -A` actually produced, which is what is about
+          # to be committed. The collecting job ran the same gate, and this
+          # job did not watch it do so.
+          #
+          # From `scripts/`, never from the handoff, for the reason written
+          # against the pack step. The body is written here for the same
+          # reason, and the previous feed comes out of this checkout's HEAD.
+          if ! printf '%s' "${BOARDS:-}" | grep -qE '^[0-9]+/[0-9]+ boards( \([0-9]+ failed\))?$'; then
+            BOARDS=unknown
+          fi
+          git show HEAD:data/opportunities.auto.json > "$RUNNER_TEMP/prev-feed.json" 2>/dev/null || true
           git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
-          node "$RUNNER_TEMP/handoff/gate.mjs" --staged "$RUNNER_TEMP/publishing.txt" --next data/opportunities.auto.json > /dev/null
+          node scripts/validate-publication.mjs \
+            --staged "$RUNNER_TEMP/publishing.txt" \
+            --prev   "$RUNNER_TEMP/prev-feed.json" \
+            --next   data/opportunities.auto.json \
+            --report "$RUNNER_TEMP/pr-body.md" \
+            --boards "$BOARDS" \
+            --ref main \
+            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" > /dev/null
 
           if git diff --cached --quiet; then
             echo "main already carries this collection; nothing to publish"
@@ -386,11 +447,11 @@ jobs:
           number=$(gh pr list --head "$branch" --base main --state open --json number --jq '.[0].number // empty')
           title="chore(data): daily collection $(date -u +%Y-%m-%d)"
           if [ -n "$number" ]; then
-            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md"
+            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/pr-body.md"
             echo "updated #$number"
           else
             if ! gh pr create --base main --head "$branch" \
-                 --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
+                 --title "$title" --body-file "$RUNNER_TEMP/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
               cat "$RUNNER_TEMP/pr.txt"
               echo "::error::could not open the data pull request. If the message above says GitHub Actions is not permitted to create pull requests, that is a repository setting: Settings, Actions, General, Workflow permissions. Nothing has been published and the collected files are on the $branch branch."
               exit 1
