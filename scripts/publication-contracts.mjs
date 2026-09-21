@@ -395,6 +395,101 @@ function count(value, rowsKey) {
   return null;
 }
 
+/**
+ * Paths no producer may ever publish, whatever its allowlist says.
+ *
+ * The allowlist below is already the decision: a path it does not name is
+ * refused. This is the second lock on the same door, and it exists because
+ * the two are wrong in different ways. An allowlist goes wrong by gaining an
+ * entry nobody thought hard about; this list goes wrong by being too narrow,
+ * which costs a legitimate publication rather than admitting a hostile one.
+ *
+ * What it names is the set of paths that would turn a data publication into a
+ * code or configuration change: the workflows themselves, the scripts they
+ * run, the gate, the manifests, anything executable. No collector has ever
+ * had a reason to write one, and a run that produces one is not a collection.
+ */
+const NEVER_PUBLISHABLE = [
+  { test: (p) => p === '.git' || p.startsWith('.git/'), why: 'the git directory itself' },
+  { test: (p) => p.startsWith('.github/'), why: 'a workflow or repository configuration file' },
+  { test: (p) => p.startsWith('scripts/'), why: 'a script, including the gate that judges this archive' },
+  { test: (p) => /(^|\/)(package|package-lock|tsconfig|jsconfig)\.json$/.test(p), why: 'a package or compiler manifest' },
+  { test: (p) => /\.(mjs|cjs|js|jsx|ts|tsx|sh|bash|zsh|py|rb|pl|php|ps1)$/i.test(p), why: 'executable code' },
+  { test: (p) => /\.(yml|yaml|toml|ini|cfg|conf|env|properties)$/i.test(p), why: 'a configuration file' },
+  { test: (p) => /(^|\/)\.[^/]+$/.test(p), why: 'a dotfile' },
+];
+
+/**
+ * Whether an archive handed over by a collecting job may be unpacked, decided
+ * before a single byte of it is written to disk.
+ *
+ * THE BOUNDARY THIS DEFENDS
+ * -------------------------
+ * The collecting half of a producer runs with a read-only token because it
+ * reads the open internet: a hundred and sixty careers pages, the SEC, a news
+ * wire. It proposes bytes. It does not get a say in whether those bytes are
+ * safe to publish, and "does not get a say" has to include the judge: this
+ * function and the table above it are loaded by the privileged job from its
+ * own checkout of `main`, never from the handoff, so a compromised collector
+ * cannot hand over a gate that approves of it.
+ *
+ * WHY BEFORE EXTRACTION AND NOT AFTER
+ * -----------------------------------
+ * The gate that runs after extraction reads the git index, and a file written
+ * outside the working tree never reaches the index. `tar` will follow a `..`
+ * segment or a symlink out of the tree and write to the runner's home
+ * directory, and by then the damage is done whatever the gate concludes. So
+ * the member list is read first, the archive is refused whole if anything in
+ * it is wrong, and only then is anything unpacked.
+ *
+ * `members` is the output of `tar -tf`, one path per line. `types` is the
+ * first character of each line of `tar -tvf`, in the same order, which is how
+ * a symlink, a hard link or a device node announces itself. Passing the types
+ * is optional only so the policy can be unit-tested on paths alone; the
+ * workflow always passes them.
+ */
+export function archiveMemberProblems(producer, members, types = null) {
+  const problems = [];
+  if (!CONTRACTS[producer]) return [`no publication contract named ${producer}`];
+  if (!members.length) return ['the archive is empty'];
+
+  if (types) {
+    if (types.length !== members.length) {
+      return [`the archive lists ${members.length} member(s) but ${types.length} type(s); it cannot be read reliably`];
+    }
+    members.forEach((p, i) => {
+      // A plain file and nothing else. A directory entry cannot appear in an
+      // archive built from a list of files, a symlink or hard link is how an
+      // archive writes outside itself, and a device node has no business in a
+      // data publication at all.
+      if (types[i] !== '-') {
+        problems.push(`${p} is not a plain file (tar calls it "${types[i]}")`);
+      }
+    });
+  }
+
+  for (const p of members) {
+    if (p.startsWith('/')) problems.push(`${p} is an absolute path`);
+    else if (p.startsWith('~')) problems.push(`${p} starts at a home directory`);
+    else if (p.split('/').includes('..')) problems.push(`${p} traverses out of the working tree`);
+    else if (p.startsWith('./')) problems.push(`${p} is not a plain relative path`);
+    else if (p.includes('//')) problems.push(`${p} has an empty path segment`);
+    else if (/[\\\r\n\0]/.test(p)) problems.push(`${JSON.stringify(p)} contains a character a collected path never has`);
+    else {
+      const banned = NEVER_PUBLISHABLE.find((rule) => rule.test(p));
+      if (banned) problems.push(`${p} is ${banned.why}, which no collection may publish`);
+    }
+  }
+
+  // And finally the producer's own allowlist: everything above is about what
+  // no producer may publish, this is about what this one may.
+  for (const p of unexpectedPaths(producer, members)) {
+    problems.push(`${p} is outside ${producer}'s allowlist`);
+  }
+
+  return problems;
+}
+
 /** The rows of a file, when it has any. */
 function rowsOf(value, rowsKey) {
   if (rowsKey) return Array.isArray(value?.[rowsKey]) ? value[rowsKey] : null;

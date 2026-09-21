@@ -184,11 +184,21 @@ export function publicationReport({ stats, staged, boards, runUrl, ref }) {
     `| Roles | ${stats.rows}${stats.previousRows ? ` (was ${stats.previousRows})` : ''} |`,
     `| Firms | ${stats.firms} |`,
     `| Rows with a stated deadline | ${stats.dated} |`,
-    boards ? `| Boards | ${boards} |` : null,
+    // Every other row in this table is derived here, from the files
+    // themselves. This one is the collecting job's word for how its own run
+    // went, and that job reads 160 third-party careers pages. It is checked
+    // for shape before it arrives and labelled for what it is; nothing in
+    // the verdict, the allowlist, the branch, the title or the merge
+    // decision reads it, and a reviewer should not treat it as checked.
+    boards ? `| Boards *(collector-reported)* | ${boards} |` : null,
     ref ? `| Collected by | \`${ref}\` |` : null,
     `| Investment banking | ${stats.verticals.find((v) => v.name === 'Investment Banking')?.to ?? 0} |`,
     runUrl ? `| Run | ${runUrl} |` : null,
     '',
+    boards
+      ? 'The board result is reported by the collection job rather than measured here. It is checked for shape, not for truth, and no decision in this publication depends on it.'
+      : null,
+    boards ? '' : null,
     '### Files',
     '',
     ...staged.map((p) => `- \`${p}\``),
@@ -221,6 +231,10 @@ export function publicationReport({ stats, staged, boards, runUrl, ref }) {
 // node scripts/validate-publication.mjs --staged <file> --prev <file>
 //                                       --next <file> [--report <file>]
 //                                       [--boards "94/95"] [--run-url <url>]
+//
+// `--boards` is the one value this script does not work out for itself: it
+// comes from the collecting job's log. It reaches the pull request body
+// labelled as collector-reported and is read by nothing else here.
 // Exits non-zero, loudly, on anything the workflow must not publish.
 
 function arg(name) {

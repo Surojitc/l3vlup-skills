@@ -161,5 +161,54 @@ for (const needle of ['Daily data refresh', '| Roles |', 'Investment banking', '
 check('the body names every staged file', generated.every((p) => body.includes(p)));
 check('an unchanged board says so rather than printing an empty table', publicationReport({ stats: feedInvariants(healthy, healthy, now).stats, staged: generated }).includes('None.'));
 
+// ── the board count is the collector's word, and only that ──────────────
+// Every other number in the pull request body is derived here, from the
+// files. This one comes out of the collecting job's log — the job that
+// reads 160 third-party careers pages — so it is checked for shape before
+// it arrives and read by nothing that decides anything. A well-formed lie
+// must be able to reach a reviewer's eye and nothing else.
+
+const truthful = '94/95 boards';
+const lie = '160/160 boards';                 // well-formed, and false
+const hostile = '999999/0 boards (0 failed)'; // well-formed, and absurd
+
+const report = (boards) => publicationReport({ stats, staged: generated, boards, runUrl: 'https://example.invalid/run/1' });
+
+// 1. The verdict does not take it at all. `feedInvariants` decides whether a
+//    feed may be published and its signature has no room for it.
+check('the gate verdict cannot read a board count', feedInvariants.length <= 3);
+eq(
+  'the same feed gets the same verdict whatever the collector claimed',
+  [feedInvariants(afterFix, beforeFix, now).problems, feedInvariants(afterFix, beforeFix, now).problems],
+  [[], []],
+);
+
+// 2. The allowlist does not take it either.
+eq('the allowlist does not consult it', unexpectedPaths(generated), []);
+check('and the allowlist is a function of paths alone', unexpectedPaths.length === 1);
+
+// 3. Two bodies built from the same collection and different claims differ
+//    in exactly one line, and that line is the labelled row.
+const differences = (a, b) => {
+  const A = a.split('\n');
+  const B = b.split('\n');
+  return A.map((l, i) => [l, B[i]]).filter(([x, y]) => x !== y);
+};
+const d = differences(report(truthful), report(lie));
+eq('a false board count changes exactly one line of the body', d.length, 1);
+check('and it is the row that says where the number came from', /Boards \*\(collector-reported\)\*/.test(d[0][0]), d[0].join(' vs '));
+eq('an absurd one changes exactly one line too', differences(report(truthful), report(hostile)).length, 1);
+
+// 4. The label and the caveat are both there, so a reviewer is not invited
+//    to read it as checked.
+check('the row is labelled collector-reported', report(truthful).includes('| Boards *(collector-reported)* | 94/95 boards |'));
+check('and the body says plainly that nothing depends on it', /checked for shape, not for truth/.test(report(truthful)));
+check('a body with no board count carries neither the row nor the caveat', !/Boards|checked for shape/.test(report(undefined)));
+
+// 5. Everything else in the table is still derived here rather than claimed.
+for (const derived of [`| Roles | ${stats.rows}`, `| Firms | ${stats.firms} |`]) {
+  check(`${derived.trim()} is unaffected by what the collector claimed`, report(lie).includes(derived));
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

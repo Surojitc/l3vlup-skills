@@ -274,6 +274,30 @@ for (const w of workflows) {
   check(`${w.file} runs on no trigger that carries a stranger's code`, !/pull_request_target:|issue_comment:|^\s*pull_request:/m.test(w.text));
 }
 
+// ── 4b. the run's conclusion, and the sweep behind it ───────────────────
+// A stale required source must not stop a healthy one publishing, and must
+// not let the morning report success either, so this runs after publication
+// and fails the run rather than gating it.
+for (const file of ['build-samples.yml', 'collect.yml']) {
+  const w = workflows.find((x) => x.file === file);
+  const health = w.jobs.find((j) => j.name === 'health');
+  if (!health) {
+    check(`${file} has a health job`, false, 'the run has no way to report a stale source');
+    continue;
+  }
+  eq(`${file}:health holds no token at all`, health.permissions, {});
+  check(`${file}:health runs even when publication did not`, /if: always\(\)/.test(health.body.join('\n')));
+  check(`${file}:health fails the run on a stale required source`, /BLOCKING[\s\S]*?= "true"[\s\S]*?exit 1/.test(health.scripts.join('\n')));
+  check(`${file}:health publishes nothing and merges nothing`, !/gh pr |git push/.test(health.scripts.join('\n')));
+
+  const collect = w.jobs.find((j) => j.name === 'collect');
+  const cb = collect.body.join('\n');
+  check(`${file} sweeps every source it owns`, /check-freshness\.mjs/.test(cb));
+  check(`${file} writes the freshness table where an operator will see it`, /--summary "\$GITHUB_STEP_SUMMARY"/.test(cb));
+  check(`${file} never lets the sweep itself fail the collection`, !/check-freshness[\s\S]{0,240}?exit 1/.test(cb));
+  check(`${file} publishes the verdict for the health job to read`, /blocking: \$\{\{ steps\.freshness\.outputs\.blocking \}\}/.test(cb) || /blocking: \$\{\{ steps\.freshness\.outputs\.blocking \}\}/.test(w.text));
+}
+
 // ── 5. the publication path itself ───────────────────────────────────────
 const reusable = workflows.find((w) => w.file === REUSABLE);
 const publish = reusable.jobs.find((j) => j.name === 'publish');
@@ -282,7 +306,10 @@ const publishScripts = publish.scripts.join('\n');
 
 check('the publisher starts from main, not from the ref the run was dispatched on', /ref: main/.test(publishText));
 check('the handoff is unpacked outside the working tree', /path: \$\{\{ runner\.temp \}\}\/handoff/.test(publishText));
-check('the publisher re-runs the gate on what it is about to commit', /gate\.mjs["']?[\s\\]*--producer "\$PRODUCER" --staged/.test(publishScripts));
+check(
+  'the publisher re-runs the gate on what it is about to commit',
+  /validate-data-publication\.mjs[\s\\]*--producer "\$PRODUCER"[\s\\]*--staged/.test(publishScripts),
+);
 check('nothing is interpolated into the publisher s shell', !publishScripts.includes('${{'), publishScripts.match(/.*\$\{\{.*/)?.[0]);
 check('the pull request body is a file, never an argument', /--body-file/.test(publishScripts) && !/--body\s+["']/.test(publishScripts));
 // The branch and the title are looked up from the contract by producer id, so
@@ -317,8 +344,19 @@ check('a publication that changes nothing opens no pull request', /nothing to pu
 // The archive arrives from a job this one did not watch, and tar will write
 // through `../` or a symlink before any gate has run. So it is read first.
 check('the archive is inspected before it is unpacked', publishScripts.indexOf('tar -tf') < publishScripts.indexOf('tar -xf'));
-check('an archive naming a path outside the tree is refused', /grep -qE '\(\^\/\|\^\\\.\\\.[\s\S]*?exit 1/.test(publishScripts), 'no traversal guard');
-check('an archive holding anything but a plain file is refused', /tar -tvf[\s\S]*?grep -qvE '\^\[-d\]'[\s\S]*?exit 1/.test(publishScripts));
+// These two used to be shell greps written out here, which meant the policy
+// lived in the workflow and could only be read, never exercised. It is now a
+// function in the contract module with its own suite, and what this file has
+// to pin is that the publisher actually calls it, on both lists tar can give
+// it, before extraction. The refusals themselves are proved against archives
+// tar really wrote, in publication-contracts.test.mjs.
+check('the member names are read from the archive and judged', /tar -tf\s+"\$archive"[\s\S]*?members\.txt/.test(publishScripts));
+check('so are the member types, which is how a symlink announces itself', /tar -tvf\s+"\$archive" \| cut -c1[\s\S]*?types\.txt/.test(publishScripts));
+check(
+  'and both go to the validator, from the checkout, before anything is unpacked',
+  /validate-archive-members\.mjs[\s\S]*?--members[\s\S]*?--types/.test(publishScripts) &&
+    publishScripts.indexOf('validate-archive-members.mjs') < publishScripts.indexOf('tar -xf'),
+);
 check('extraction claims no ownership or permissions from the archive', /--no-same-owner --no-same-permissions/.test(publishScripts));
 
 // Everything the privileged job reaches for is GitHub's, and both actions are
@@ -390,6 +428,160 @@ for (const file of ['build-samples.yml', 'collect.yml']) {
   );
   check(`${file} writes the freshness table to the job summary`, /--summary "\$GITHUB_STEP_SUMMARY"/.test(cb));
   check(`${file} never lets the sweep itself fail the collection`, !/check-freshness[\s\S]{0,200}?exit 1/.test(cb));
+}
+
+
+// ── who decides whether the proposed bytes may be published ─────────────
+// The invariant: unprivileged collection may propose bytes, and only code
+// and policy already on `main` may decide whether those bytes are safe.
+//
+// An earlier draft of the publisher ran `node "$RUNNER_TEMP/handoff/gate.mjs"`
+// — a gate the producer had copied into the artifact. Every other control in
+// that job sits downstream of the gate, so a producer able to supply its own
+// judge could approve of whatever else it supplied. These checks exist so
+// that cannot come back quietly.
+// Every job that unpacks a handoff, not only the shared one. The inline
+// publisher in `build-samples` has the same power and had the same defect.
+const PUBLISHERS = [
+  ['publish-data.yml', 'publish'],
+  ['build-samples.yml', 'publish'],
+];
+for (const [file, name] of PUBLISHERS) {
+  const w = workflows.find((x) => x.file === file);
+  const job = w.jobs.find((j) => j.name === name);
+  const script = job.scripts.join('\n');
+  const where = `${file}:${name}`;
+
+  check(`${where} executes nothing out of the handoff`, !/\b(node|bash|sh|python3?)\s+["'$]*\{?\{?\s*(\$RUNNER_TEMP|\$\{\{ runner\.temp \}\})/.test(script), script.match(/\b(node|bash|sh|python3?)\s+\S*(RUNNER_TEMP|runner\.temp)\S*/g)?.join(' ; '));
+  check(`${where} names no gate.mjs at all`, !/gate\.mjs/.test(w.text));
+  check(`${where} runs every script from its own checkout`, (script.match(/\bnode\s+(\S+)/g) ?? []).every((m) => m.replace(/^node\s+/, '').startsWith('scripts/')), (script.match(/\bnode\s+(\S+)/g) ?? []).join(' ; '));
+  check(`${where} judges the archive members before unpacking`, /validate-archive-members\.mjs/.test(script));
+  check(`${where} reads both the names and the types from the archive`, /tar -tf\s+"\$archive"/.test(script) && /tar -tvf\s+"\$archive" \| cut -c1/.test(script));
+  check(`${where} judges them before tar writes anything`, script.indexOf('validate-archive-members.mjs') < script.indexOf('tar -xf'));
+  check(`${where} claims no ownership or permissions from the archive`, /--no-same-owner --no-same-permissions/.test(script));
+  check(`${where} gates the staged diff, not the archive's own claim`, /--staged "\$RUNNER_TEMP\/publishing\.txt"/.test(script) && /git diff --cached --name-only > "\$RUNNER_TEMP\/publishing\.txt"/.test(script));
+  check(`${where} gates it before committing`, Math.max(script.indexOf('validate-publication.mjs'), script.indexOf('validate-data-publication.mjs')) < script.indexOf('git commit'));
+  check(`${where} gates it before opening a pull request`, Math.max(script.indexOf('validate-publication.mjs'), script.indexOf('validate-data-publication.mjs')) < script.indexOf('gh pr create'));
+  check(`${where} writes the pull request body itself`, /--report "\$RUNNER_TEMP\/pr-body\.md"/.test(script) && !/handoff\/pr-body/.test(w.text));
+  check(`${where} checks out main and nothing else`, /ref: main/.test(w.text));
+  // Nothing a careers board returned may reach the pull request unchecked,
+  // and nothing it returned may decide anything at all. The board count is
+  // the only value the publisher cannot work out for itself, so it is the
+  // only one these rules have to hold.
+  const boardLines = script.split('\n').filter((l) => l.includes('BOARDS'));
+  check(`${where} re-checks the shape of anything the collector passed it`, !boardLines.length || boardLines.some((l) => /grep -qE '\^\[0-9\]\+\/\[0-9\]\+ boards/.test(l)));
+  check(`${where} falls back rather than failing on a malformed one`, !boardLines.length || boardLines.some((l) => /BOARDS=unknown/.test(l)));
+  check(`${where} never lets it end the run`, !boardLines.some((l) => /exit\s+\d/.test(l)));
+  // It may reach the report and nothing else: not the branch, not the title,
+  // not the commit, not the merge, not either validator's arguments.
+  eq(
+    `${where} lets it reach the pull request body and nothing else`,
+    boardLines.filter((l) => /(branch=|git commit|git push|gh pr|validate-archive-members|--staged|--producer|--next)/.test(l)),
+    [],
+  );
+  check(`${where} passes it only as --boards`, !boardLines.some((l) => /\$BOARDS/.test(l) && !/--boards "\$BOARDS"/.test(l) && !/printf '%s' "\$\{BOARDS:-\}"/.test(l)), boardLines.join(' ; '));
+}
+
+const publisher = workflows.find((w) => w.file === 'publish-data.yml');
+const pub = publisher.jobs.find((j) => j.name === 'publish');
+const pubScript = pub.scripts.join('\n');
+const pubText = publisher.text;
+
+check(
+  'the publisher never executes anything out of the handoff',
+  !/\b(node|bash|sh|python3?)\s+["'$]*\{?\{?\s*(\$RUNNER_TEMP|\$\{\{ runner\.temp \}\})/.test(pubScript),
+  pubScript.match(/\b(node|bash|sh|python3?)\s+\S*(RUNNER_TEMP|runner\.temp)\S*/g)?.join(' ; '),
+);
+check('the publisher names no gate.mjs at all', !/gate\.mjs/.test(pubText));
+check(
+  'every script the publisher runs comes from its own checkout',
+  (pubScript.match(/\bnode\s+(\S+)/g) ?? []).every((m) => m.replace(/^node\s+/, '').startsWith('scripts/')),
+  (pubScript.match(/\bnode\s+(\S+)/g) ?? []).join(' ; '),
+);
+check('the publisher checks the archive members before unpacking', /validate-archive-members\.mjs/.test(pubScript));
+check('the publisher gates the staged diff before committing', /validate-data-publication\.mjs/.test(pubScript));
+check(
+  'the member check runs before tar writes anything',
+  pubScript.indexOf('validate-archive-members.mjs') < pubScript.indexOf('tar -xf'),
+);
+check(
+  'the gate runs before the commit',
+  pubScript.indexOf('validate-data-publication.mjs') < pubScript.indexOf('git commit'),
+);
+check(
+  'the pull request body is written by the publisher, not carried in the handoff',
+  /--report "\$RUNNER_TEMP\/pr-body\.md"/.test(pubScript) && !/handoff\/pr-body/.test(pubText),
+);
+check('the publisher checks out main and nothing else', /ref: main/.test(pubText));
+
+// The other half of the same invariant: a producer may hand over generated
+// data, and nothing else. A `cp` of anything into the handoff is how the
+// gate got there the first time.
+for (const w of workflows) {
+  for (const j of w.jobs) {
+    const body = j.body.join('\n');
+    if (!/handoff/.test(body)) continue;
+    // No exemptions. `build-samples` held one until its inline publisher
+    // was fixed: it copied its gate in beside the archive and ran that copy,
+    // which is the same defect the shared publisher was corrected for and
+    // sat in the producer that actually feeds the site.
+    check(
+      `${w.file}:${j.name} puts only the archive in the handoff`,
+      !/\bcp\s+\S*scripts\//.test(body) && !/\bcp\s+\S+\s+"?\$RUNNER_TEMP\/handoff/.test(body),
+      body.match(/\bcp\s+.*/g)?.join(' ; '),
+    );
+    check(
+      `${w.file}:${j.name} builds that archive from the staged list`,
+      !/tar -cf/.test(body) || /tar -cf "\$RUNNER_TEMP\/handoff\/publishable\.tar" -T "\$RUNNER_TEMP\/staged\.txt"/.test(body),
+    );
+  }
+}
+
+// The first producer on the shared publisher opens a pull request and stops.
+// Opening one is reversible by closing it; merging one is not, and a merge in
+// the same minute as the dispatch leaves nothing to inspect in between.
+const ats = workflows.find((w) => w.file === 'discover-ats.yml');
+check('discover-ats delegates publication rather than merging inline', /uses: \.\/\.github\/workflows\/publish-data\.yml/.test(ats.text));
+check('discover-ats does not merge its own data pull request', /merge: false/.test(ats.text));
+check('and the publisher honours that', /if: steps\.pr\.outputs\.number != '' && inputs\.merge/.test(pubText));
+check('the conditions for changing it to true are written down beside it', /WHAT WOULD JUSTIFY `true`/.test(ats.text));
+
+// Pinned by digest, on both halves of the first migrated producer. A moved
+// tag on the privileged half would be a moved tag on every producer at once;
+// on the collecting half it is a moved tag in front of 160 careers sites.
+// The rule that matters, applied everywhere: a job that can write must not
+// run an action whose tag could move under it. A moved tag in front of a
+// token that can merge is a different thing from a moved tag in front of a
+// crawler.
+const floating = (lines) =>
+  lines
+    .filter((l) => /^\s*(- )?uses:/.test(l))
+    .map((l) => l.split('uses:')[1].trim())
+    .filter((u) => !u.startsWith('./') && !/@[0-9a-f]{40}\b/.test(u));
+
+const writeJobs = [];
+const stillFloating = [];
+for (const w of workflows) {
+  for (const j of w.jobs) {
+    const perms = j.permissions ?? {};
+    if (perms.contents !== 'write' && perms['pull-requests'] !== 'write') continue;
+    writeJobs.push(`${w.file}:${j.name}`);
+    if (floating(j.body).length) stillFloating.push(`${w.file}:${j.name}`);
+  }
+}
+check('there is more than one job that can write, so this rule has work to do', writeJobs.length >= 2, writeJobs.join(', '));
+// The list PR B opened and #65 left for this stage to close. `collect.yml`
+// was the last producer pushing to `main` itself; it now delegates, its
+// collecting job is read-only, and nothing that can write runs an action
+// whose tag could move under it.
+eq('every job that can write pins every action it runs', stillFloating, []);
+
+// Two workflows pin everything, collecting half included, and are held to it
+// so the discipline cannot quietly retreat to the privileged job alone.
+for (const file of ['discover-ats.yml', 'publish-data.yml']) {
+  const w = workflows.find((x) => x.file === file);
+  eq(`${file} pins every action it runs to a commit`, floating(w.text.split('\n')), []);
+  check(`${file} runs at least one action`, /uses:/.test(w.text));
 }
 
 
