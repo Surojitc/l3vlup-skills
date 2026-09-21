@@ -359,6 +359,48 @@ writeFileSync(join(tar, 'gate.mjs'), 'process.exit(0)\n');
 sh('mkdir -p scripts && cp gate.mjs scripts/validate-data-publication.mjs && tar -cf gate.tar scripts/validate-data-publication.mjs data/ats-discovery.json');
 eq('a real archive carrying a replacement gate is refused', judge('gate.tar'), 1);
 
+// ── the same archives, judged for the tracker ───────────────────────────
+// `build-samples` publishes the feed a candidate actually acts on, inline,
+// every morning. Its publisher had the same defect and now runs the same
+// check, so it gets the same proof rather than inheriting confidence from
+// the producer next door.
+mkdirSync(join(tar, 'samples'), { recursive: true });
+writeFileSync(join(tar, 'data/opportunities.auto.json'), '{"roles":[]}');
+writeFileSync(join(tar, 'data/tracker-slugs.json'), '{}');
+writeFileSync(join(tar, 'samples/model.xlsx'), 'PK');
+
+function judgeTracker(archive) {
+  try {
+    sh(`tar -tf  ${archive}           > tmembers.txt
+        tar -tvf ${archive} | cut -c1 > ttypes.txt
+        node ${memberCli} --producer tracker --members tmembers.txt --types ttypes.txt`);
+    return 0;
+  } catch (err) {
+    return err.status ?? -1;
+  }
+}
+
+sh('tar -cf t-clean.tar data/opportunities.auto.json data/tracker-slugs.json samples/model.xlsx');
+eq('a real tracker archive of feed, slugs and a workbook is accepted', judgeTracker('t-clean.tar'), 0);
+
+sh('tar -cf t-traverse.tar --transform="s|^data/|../../data/|" data/opportunities.auto.json 2>/dev/null');
+eq('a tracker archive naming ../../data/opportunities.auto.json is refused', judgeTracker('t-traverse.tar'), 1);
+
+sh('ln -sf /etc/passwd data/feedlink.json && tar -cf t-symlink.tar data/feedlink.json');
+eq('a tracker archive holding a symlink is refused', judgeTracker('t-symlink.tar'), 1);
+
+sh('ln -f data/opportunities.auto.json data/feedhard.json && tar -cf t-hardlink.tar data/opportunities.auto.json data/feedhard.json');
+eq('a tracker archive holding a hard link is refused', judgeTracker('t-hardlink.tar'), 1);
+
+sh('tar -cf t-workflow.tar .github/workflows/anything.yml data/opportunities.auto.json');
+eq('a tracker archive smuggling a workflow beside the feed is refused', judgeTracker('t-workflow.tar'), 1);
+
+sh('mkdir -p scripts && cp gate.mjs scripts/validate-publication.mjs && tar -cf t-gate.tar scripts/validate-publication.mjs data/opportunities.auto.json');
+eq('a tracker archive carrying a replacement gate is refused', judgeTracker('t-gate.tar'), 1);
+
+sh('tar -cf t-foreign.tar lib/sources/ats-registry.json');
+eq("a tracker archive carrying another producer's file is refused", judgeTracker('t-foreign.tar'), 1);
+
 // And the refusal happens with nothing written: the CLI only ever reads.
 check(
   'refusing an archive writes nothing to the working tree',
