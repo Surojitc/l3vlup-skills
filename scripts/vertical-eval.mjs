@@ -41,6 +41,7 @@
 import { readFileSync } from 'node:fs';
 import {
   BudgetExceeded,
+  LIMITS,
   ModelCallError,
   ask,
   choiceConfidence,
@@ -49,6 +50,7 @@ import {
   fakeClient,
   liveClient,
   readChoice,
+  readTransport,
   readNoul,
 } from '../lib/typesafe.mjs';
 import {
@@ -252,14 +254,20 @@ async function main() {
   console.log(`judge ${JUDGE_VERSION} · cutoff ${CONFIDENT} · in-scope floor ${IN_SCOPE}`);
   console.log(`feed ${FEED}: ${rows.length} rows, ${other.length} in Other (${pct(other.length / rows.length)})`);
 
+  const ledgerCeiling = LIMITS.maxRequests;
   let client;
   if (LIVE) {
     client = liveClient();
     if (!client) {
-      console.error('\n--live needs TYPESAFE_API_KEY in the environment. Nothing was called.');
+      console.error('\n--live needs a credential. Nothing was called.');
+      console.error('  AI_GATEWAY_API_KEY  preferred: a Vercel AI Gateway key can carry its own');
+      console.error('                      spending limit and expiry, so the cap lives on the');
+      console.error('                      credential rather than on this script.');
+      console.error('  TYPESAFE_API_KEY    the fallback, uncapped unless TypeSafe caps it.');
       process.exit(2);
     }
-    console.log('mode: LIVE — this run calls the API and spends money.');
+    console.log(`mode: LIVE via ${readTransport()} — this run calls the API and spends money.`);
+    console.log(`      ceiling: ${ledgerCeiling} requests, $${LIMITS.hardStopUsd} hard stop, checked before each call.`);
   } else {
     client = stubClient();
     console.log('mode: OFFLINE — answers come from a deterministic stub, not from Jev.');
@@ -284,7 +292,8 @@ async function main() {
 
   if (!LIVE) {
     console.log('\nThis was the offline stub. For a real reading:');
-    console.log('  TYPESAFE_API_KEY=... node scripts/vertical-eval.mjs --live --limit 80');
+    console.log('  AI_GATEWAY_API_KEY=... node scripts/vertical-eval.mjs --live --limit 80');
+    console.log('  (160 requests at that limit: 80 control rows and 80 from Other.)');
   }
 }
 

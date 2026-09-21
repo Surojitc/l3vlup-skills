@@ -23,7 +23,9 @@ import {
   BudgetExceeded,
   LIMITS,
   ModelCallError,
+  GATEWAY_BASE_URL,
   MODEL,
+  MODEL_FOR,
   ask,
   checkBudget,
   choiceConfidence,
@@ -31,7 +33,9 @@ import {
   costUsd,
   emptyLedger,
   fakeClient,
+  liveClient,
   readChoice,
+  readTransport,
   readNoul,
 } from '../../lib/typesafe.mjs';
 import {
@@ -193,6 +197,53 @@ eq('too much state is refused', checkBudget(emptyLedger(), { ...ok, stateChars: 
 eq('the request ceiling is refused at it, not past it', checkBudget({ ...emptyLedger(), requests: LIMITS.maxRequests }, ok).allowed, false);
 eq('a spent budget is refused', checkBudget({ ...emptyLedger(), actualUsd: 5 }, ok).allowed, false);
 eq('a refusal always says why', typeof checkBudget({ ...emptyLedger(), actualUsd: 5 }, ok).reason, 'string');
+
+/* ----------------------------------------------------------- the transport -- */
+// Two ways out, and which one is used follows from which credential exists.
+// The Gateway first, because a key issued there carries its own spending limit
+// and its own expiry, which is what a one-off evaluation wants: the cap lives
+// on the credential rather than on this file's good intentions.
+
+eq('nothing configured has no route out', readTransport({}), 'none');
+eq('a gateway key goes through the gateway', readTransport({ AI_GATEWAY_API_KEY: 'k' }), 'gateway');
+eq('a typesafe key goes direct', readTransport({ TYPESAFE_API_KEY: 'k' }), 'direct');
+eq('with both, the capped one wins', readTransport({ TYPESAFE_API_KEY: 'a', AI_GATEWAY_API_KEY: 'b' }), 'gateway');
+eq('an empty value is not a credential', readTransport({ AI_GATEWAY_API_KEY: '  ' }), 'none');
+eq('no credential means no client, rather than a client that fails later', liveClient({ env: {} }), null);
+
+// Same model, two names: the gateway namespaces model ids, TypeSafe's own
+// endpoint does not take the namespaced form.
+eq('the gateway is asked for the namespaced model', MODEL_FOR.gateway, 'typesafe-ai/jev');
+eq('the direct endpoint is asked for a pinned version', MODEL_FOR.direct, 'jev-1.13.0');
+eq('and the pinned one is not an alias', MODEL.includes('latest'), false);
+eq('the gateway url is the documented one', GATEWAY_BASE_URL, 'https://ai-gateway.vercel.sh/typesafe');
+eq('a ledger records which route it was spent on', emptyLedger({ transport: 'gateway' }).transport, 'gateway');
+eq('and which model that meant', emptyLedger({ transport: 'gateway' }).model, 'typesafe-ai/jev');
+
+// A capped evaluation key is most likely to fail by running out, so that
+// failure has its own name rather than being read as a transport problem.
+eq('a spent budget is named', classify({ status: 402 }), 'budget_exceeded');
+
+// The gateway reports what it billed. Prefer it to arithmetic over a price
+// list that can move without anybody noticing.
+const billed = emptyLedger();
+await ask(
+  fakeClient(() => ({
+    answers: { inScope: { type: 'noul', noul: 0.9 } },
+    usage: { input_tokens: 1000, output_tokens: 0 },
+    provider_metadata: { gateway: { cost: '0.00004200' } },
+  })),
+  billed,
+  { state, questions: judgeQuestions() },
+);
+eq('the reported cost is what the run is charged', billed.actualUsd, 0.000042);
+const computed = emptyLedger();
+await ask(
+  fakeClient(() => ({ answers: {}, usage: { input_tokens: 1000, output_tokens: 0 } })),
+  computed,
+  { state, questions: judgeQuestions() },
+);
+eq('and without a reported cost the arithmetic stands in', computed.actualUsd, costUsd(1000));
 
 /* --------------------------------------------------------------- the cost -- */
 
