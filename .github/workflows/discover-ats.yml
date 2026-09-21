@@ -47,24 +47,31 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # It crawls a hundred and sixty corporate careers sites. A token that can
+  # only read is the whole point.
   discover:
+    name: Discover and validate
     runs-on: ubuntu-latest
-    # It commits the registry it discovered, and that is all. Notably not
-    # `pull-requests: write`: nothing in this workflow opens or merges one.
     permissions:
-      contents: write
+      contents: read
+    outputs:
+      changed: ${{ steps.stage.outputs.changed }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
 
       # Detection decides what goes into the registry, and a wrong tenant does
       # not error — it returns an empty board that looks like a firm with no
       # early-career roles. Gate the run on the tests.
-      - name: Test board detection
-        run: node scripts/__tests__/ats-discover.test.mjs
+      - name: Test board detection and the publication contract
+        run: |
+          node scripts/__tests__/ats-discover.test.mjs
+          node scripts/__tests__/publication-contracts.test.mjs
+          node scripts/__tests__/publication-freshness.test.mjs
+          node scripts/__tests__/workflow-permissions.test.mjs
 
       # Scaffolding: reports the full field set each ATS returns so enrichment
       # is written against observed payloads. Never fails the run.
@@ -103,7 +110,7 @@ jobs:
       # would avoid. If the first run logs the Node 20 notice here, bump it.
       - name: Upload the discovery report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ats-discovery
           path: data/ats-discovery.json
@@ -127,22 +134,101 @@ jobs:
             require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, L.join("\n") + "\n");
           '
 
-      - name: Commit the registry
+      # ── publication ────────────────────────────────────────────────────
+      # This used to push to main, which the ruleset of 18 September refuses.
+      # Unlike collect.yml it at least failed loudly when it did, but a loud
+      # failure is not a publication either. It now travels the same road as
+      # the other two producers.
+      #
+      # A dry run writes data/ats-discovery.json and nothing else, and that
+      # report is the deliverable of a dry run rather than something to
+      # publish; only a `write` run stages anything at all.
+      - name: Stage the registry
+        id: stage
         if: inputs.write
         run: |
-          git config user.name  "l3vlup-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add lib/sources/ats-registry.json data/ats-discovery.json
+          set -euo pipefail
+          git add -A
           if git diff --cached --quiet; then
             echo "nothing new resolved"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git commit -m "chore(tracker): add boards resolved by discovery [skip ci]"
-          for i in 1 2 3 4 5; do
-            git push && exit 0
-            echo "push failed, rebasing (attempt $i)"
-            git pull --rebase origin main || true
-            sleep $((2 ** i))
-          done
-          echo "::error::could not push the registry"
-          exit 1
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          echo "staged:"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+
+      - name: Check what is about to be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          node scripts/validate-data-publication.mjs \
+            --producer ats-registry \
+            --staged "$RUNNER_TEMP/staged.txt"
+
+      # Generated data and nothing else.
+      #
+      # This step used to copy the gate and the contract table in beside the
+      # archive, and the publisher ran those copies. That handed the judge to
+      # the party being judged: this job reads a hundred and sixty careers
+      # sites, and a collector compromised by one of them could have shipped
+      # a gate that approved of whatever else it shipped. The publisher now
+      # reads both from its own checkout of `main`, and writes the pull
+      # request body there too, so nothing a collector composed describes the
+      # change to whoever reviews it.
+      - name: Pack what may be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+          echo "the handoff holds:"
+          find "$RUNNER_TEMP/handoff" -type f -printf '  %P\n'
+
+      - name: Upload what may be published
+        if: steps.stage.outputs.changed == 'true'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: ats-registry-refresh
+          path: ${{ runner.temp }}/handoff
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    name: Publish
+    needs: discover
+    if: needs.discover.outputs.changed == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/publish-data.yml
+    with:
+      producer: ats-registry
+      artifact: ats-registry-refresh
+      # Open the data pull request and stop.
+      #
+      # This is the first producer on the shared publisher and no run of it
+      # has ever reached `main` by this road. Opening a pull request is
+      # reversible by closing it; merging one is not, and a merge that
+      # happens in the same minute as the dispatch leaves nothing to inspect
+      # between the two.
+      #
+      # WHAT WOULD JUSTIFY `true`
+      # -------------------------
+      # Three runs, in this order, each producing the evidence named:
+      #
+      #   1. A dry run (`write: false`) whose discover job completes with
+      #      `contents: read` and stages nothing. Proves the collecting half
+      #      lost its write token without losing its work.
+      #   2. A `write: true` run that opens a pull request containing only
+      #      lib/sources/ats-registry.json and data/ats-discovery.json, whose
+      #      log shows the member check and the gate both running from
+      #      `scripts/` and not from the handoff, and whose diff a human has
+      #      read and merged by hand.
+      #   3. A second `write: true` run against the same branch, proving the
+      #      update path replaces rather than stacks.
+      #
+      # Flip this to `true` only after all three, and only in a pull request
+      # that says which run ids they were.
+      merge: false
