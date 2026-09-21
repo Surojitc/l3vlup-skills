@@ -454,9 +454,22 @@ for (const [file, name] of PUBLISHERS) {
   check(`${where} gates it before opening a pull request`, Math.max(script.indexOf('validate-publication.mjs'), script.indexOf('validate-data-publication.mjs')) < script.indexOf('gh pr create'));
   check(`${where} writes the pull request body itself`, /--report "\$RUNNER_TEMP\/pr-body\.md"/.test(script) && !/handoff\/pr-body/.test(w.text));
   check(`${where} checks out main and nothing else`, /ref: main/.test(w.text));
-  // Nothing a careers board returned may reach the pull request unchecked.
-  const boards = script.match(/BOARDS[\s\S]{0,200}/)?.[0] ?? '';
-  check(`${where} re-checks anything the collector passed it`, !/BOARDS/.test(script) || /grep -qE '\^\[0-9\]\+\/\[0-9\]\+ boards/.test(boards), boards.slice(0, 120));
+  // Nothing a careers board returned may reach the pull request unchecked,
+  // and nothing it returned may decide anything at all. The board count is
+  // the only value the publisher cannot work out for itself, so it is the
+  // only one these rules have to hold.
+  const boardLines = script.split('\n').filter((l) => l.includes('BOARDS'));
+  check(`${where} re-checks the shape of anything the collector passed it`, !boardLines.length || boardLines.some((l) => /grep -qE '\^\[0-9\]\+\/\[0-9\]\+ boards/.test(l)));
+  check(`${where} falls back rather than failing on a malformed one`, !boardLines.length || boardLines.some((l) => /BOARDS=unknown/.test(l)));
+  check(`${where} never lets it end the run`, !boardLines.some((l) => /exit\s+\d/.test(l)));
+  // It may reach the report and nothing else: not the branch, not the title,
+  // not the commit, not the merge, not either validator's arguments.
+  eq(
+    `${where} lets it reach the pull request body and nothing else`,
+    boardLines.filter((l) => /(branch=|git commit|git push|gh pr|validate-archive-members|--staged|--producer|--next)/.test(l)),
+    [],
+  );
+  check(`${where} passes it only as --boards`, !boardLines.some((l) => /\$BOARDS/.test(l) && !/--boards "\$BOARDS"/.test(l) && !/printf '%s' "\$\{BOARDS:-\}"/.test(l)), boardLines.join(' ; '));
 }
 
 const publisher = workflows.find((w) => w.file === 'publish-data.yml');
