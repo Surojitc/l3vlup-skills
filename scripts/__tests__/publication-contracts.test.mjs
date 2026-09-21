@@ -27,6 +27,7 @@ import {
   contractProblems,
   groupMovement,
   publicationReport,
+  archiveMemberProblems,
 } from '../publication-contracts.mjs';
 
 let pass = 0;
@@ -229,6 +230,140 @@ check('a good file in the same place exits zero', run(['--producer', 'open-data'
 // Staged but gone from disk is not "this step did not run this cycle".
 writeFileSync(join(dir, 'cal.txt'), 'data/macro.auto.json\n');
 check('a staged file that is not there exits non-zero', run(['--producer', 'open-data', '--staged', join(dir, 'cal.txt')], dir) === 1);
+
+// ── the archive, judged before it is unpacked ────────────────────────────
+// The boundary this section is about: unprivileged collection may propose
+// bytes, and only code and policy already on `main` may decide whether those
+// bytes are safe to publish. Everything below is that decision, made on the
+// member list alone, before tar has written anything.
+//
+// It matters that this is a separate decision from the gate. The gate reads
+// the git index, and a file tar wrote outside the working tree never reaches
+// the index: by the time the gate has an opinion, the write has happened.
+
+const clean = ['lib/sources/ats-registry.json', 'data/ats-discovery.json'];
+eq('a clean registry archive may be unpacked', archiveMemberProblems('ats-registry', clean, ['-', '-']), []);
+check('an empty archive may not', archiveMemberProblems('ats-registry', []).length === 1);
+check('an archive for a producer nobody declared may not', archiveMemberProblems('invented', clean).length === 1);
+
+const refused = (members, types) => archiveMemberProblems('ats-registry', members, types).join(' | ');
+check('an absolute path is refused', /is an absolute path/.test(refused(['/etc/passwd'], ['-'])));
+check('a home-relative path is refused', /starts at a home directory/.test(refused(['~/.ssh/authorized_keys'], ['-'])));
+check('a traversing path is refused', /traverses out of the working tree/.test(refused(['../../escaped.json'], ['-'])));
+check('a traversal in the middle of a path is refused', /traverses out of the working tree/.test(refused(['data/../../escaped.json'], ['-'])));
+check('a dot-slash path is refused', /not a plain relative path/.test(refused(['./data/ats-discovery.json'], ['-'])));
+check('an empty segment is refused', /empty path segment/.test(refused(['data//ats-discovery.json'], ['-'])));
+check('a newline inside a path is refused', /a character a collected path never has/.test(refused(['data/a\nb.json'], ['-'])));
+check('a symlink is refused', /is not a plain file/.test(refused(['data/ats-discovery.json'], ['l'])));
+check('a hard link is refused', /is not a plain file/.test(refused(['data/ats-discovery.json'], ['h'])));
+check('a device node is refused', /is not a plain file/.test(refused(['data/ats-discovery.json'], ['c'])));
+check('a directory entry is refused', /is not a plain file/.test(refused(['data/ats-discovery.json'], ['d'])));
+check('a member list and a type list of different lengths is refused whole', /cannot be read reliably/.test(refused(clean, ['-'])));
+
+// The finding this section was written for. An in-tree path is not caught by
+// any traversal check, and `git add -A` after extraction would stage it.
+for (const [path, why] of [
+  ['.github/workflows/anything.yml', 'a workflow'],
+  ['.github/dependabot.yml', 'repository configuration'],
+  ['scripts/validate-data-publication.mjs', 'the gate itself'],
+  ['scripts/sync-calendar.mjs', 'a collector'],
+  ['package.json', 'a manifest'],
+  ['data/evil.sh', 'a shell script under data/'],
+  ['data/evil.mjs', 'a module under data/'],
+  ['.npmrc', 'a dotfile'],
+]) {
+  check(`${path} is refused before extraction (${why})`, archiveMemberProblems('ats-registry', [path], ['-']).length > 0);
+}
+check(
+  'and the refusal says it is code or configuration, not merely unexpected',
+  /no collection may publish/.test(refused(['.github/workflows/anything.yml'], ['-'])),
+);
+// The two locks overlap on most paths, which makes it easy to write a test
+// that cannot tell which one is holding: drop the `.github/` rule and a
+// workflow file is still refused, by its `.yml` extension and by the
+// allowlist. These three carry no banned extension and are not dotfiles, so
+// only the directory rules can name them as code or configuration, and a
+// mutation that removes one of those rules shows up here rather than nowhere.
+for (const [path, rule] of [
+  ['.github/CODEOWNERS', 'the .github rule'],
+  ['.github/ISSUE_TEMPLATE/bug', 'the .github rule'],
+  ['scripts/anything.json', 'the scripts rule'],
+]) {
+  check(
+    `${path} is refused as code or configuration by ${rule}, not only as unexpected`,
+    /no collection may publish/.test(refused([path], ['-'])),
+    refused([path], ['-']),
+  );
+}
+
+// Two locks on the same door: the allowlist, and the list of things no
+// producer may publish whatever its allowlist says. A file legitimately
+// inside another producer's allowlist is still refused here.
+check('another producer\'s file is outside this one\'s allowlist', /outside ats-registry's allowlist/.test(refused(['data/calendar.auto.json'], ['-'])));
+eq('every producer can publish its own files and no others', Object.keys(CONTRACTS).map((id) => {
+  const own = CONTRACTS[id].files.filter((f) => f.path).map((f) => f.path);
+  const others = allPaths().filter((x) => x.producer !== id && x.path).map((x) => x.path);
+  return [
+    id,
+    archiveMemberProblems(id, own, own.map(() => '-')).length,
+    archiveMemberProblems(id, others, others.map(() => '-')).length > 0,
+  ];
+}), Object.keys(CONTRACTS).map((id) => [id, 0, true]));
+
+// ── the same policy, on archives tar actually wrote ──────────────────────
+// The checks above are about the decision. These are about the pipeline the
+// workflow runs it through: `tar -tf` for names, `tar -tvf | cut -c1` for
+// types, both fed to the CLI that the publisher invokes from its checkout.
+const memberCli = new URL('../validate-archive-members.mjs', import.meta.url).pathname;
+const tar = mkdtempSync(join(tmpdir(), 'archive-'));
+const sh = (cmd, cwd = tar) => execFileSync('bash', ['-c', cmd], { cwd, encoding: 'utf8', stdio: 'pipe' });
+
+mkdirSync(join(tar, 'lib/sources'), { recursive: true });
+mkdirSync(join(tar, 'data'), { recursive: true });
+writeFileSync(join(tar, 'lib/sources/ats-registry.json'), '{"boards":[]}');
+writeFileSync(join(tar, 'data/ats-discovery.json'), '{"report":[]}');
+
+/** Exactly what the publisher does, on an archive built here. */
+function judge(archive) {
+  try {
+    sh(`tar -tf  ${archive}           > members.txt
+        tar -tvf ${archive} | cut -c1 > types.txt
+        node ${memberCli} --producer ats-registry --members members.txt --types types.txt`);
+    return 0;
+  } catch (err) {
+    return err.status ?? -1;
+  }
+}
+
+sh('tar -cf clean.tar lib/sources/ats-registry.json data/ats-discovery.json');
+eq('a real archive of the two registry files is accepted', judge('clean.tar'), 0);
+
+sh('tar -cf traverse.tar --transform="s|^data/|../../data/|" data/ats-discovery.json 2>/dev/null');
+eq('a real archive naming ../../data/ats-discovery.json is refused', judge('traverse.tar'), 1);
+
+sh('tar -P -cf absolute.tar /etc/hostname 2>/dev/null');
+eq('a real archive naming /etc/hostname is refused', judge('absolute.tar'), 1);
+
+sh('ln -sf /etc/passwd data/link.json && tar -cf symlink.tar data/link.json');
+eq('a real archive holding a symlink to /etc/passwd is refused', judge('symlink.tar'), 1);
+
+sh('ln -f data/ats-discovery.json data/hard.json && tar -cf hardlink.tar data/ats-discovery.json data/hard.json');
+eq('a real archive holding a hard link is refused', judge('hardlink.tar'), 1);
+
+mkdirSync(join(tar, '.github/workflows'), { recursive: true });
+writeFileSync(join(tar, '.github/workflows/anything.yml'), 'on: push\n');
+sh('tar -cf workflow.tar .github/workflows/anything.yml data/ats-discovery.json');
+eq('a real archive smuggling a workflow beside the data is refused', judge('workflow.tar'), 1);
+
+writeFileSync(join(tar, 'gate.mjs'), 'process.exit(0)\n');
+sh('mkdir -p scripts && cp gate.mjs scripts/validate-data-publication.mjs && tar -cf gate.tar scripts/validate-data-publication.mjs data/ats-discovery.json');
+eq('a real archive carrying a replacement gate is refused', judge('gate.tar'), 1);
+
+// And the refusal happens with nothing written: the CLI only ever reads.
+check(
+  'refusing an archive writes nothing to the working tree',
+  !sh('git status --porcelain 2>/dev/null || echo "not a repo"').includes('escaped'),
+);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
