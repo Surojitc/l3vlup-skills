@@ -149,6 +149,7 @@ const allJobs = workflows.flatMap((w) => w.jobs.map((j) => `${w.file}:${j.name}`
 eq('every job is found, and none has been renamed out from under this test', allJobs.sort(), [
   'build-samples.yml:collect',
   'build-samples.yml:health',
+  'build-samples.yml:notify',
   'build-samples.yml:publish',
   'collect.yml:collect',
   'collect.yml:health',
@@ -212,7 +213,7 @@ eq('exactly the same five may write to the repository at all', holding('contents
 // The three that publish data do nothing themselves: they are a `uses:` and a
 // grant. A step added to one of them would be a step running with the only
 // token in the repository that can merge.
-for (const id of ['collect.yml:publish', 'discover-ats.yml:publish']) {
+for (const id of ['build-samples.yml:publish', 'collect.yml:publish', 'discover-ats.yml:publish']) {
   const [file, name] = id.split(':');
   const job = workflows.find((w) => w.file === file).jobs.find((j) => j.name === name);
   eq(`${id} calls the shared publisher and nothing else`, job.uses, `./.github/workflows/${REUSABLE}`);
@@ -243,7 +244,11 @@ const merges = workflows
 // its proven inline publisher until PR D, which is the deliberate cost of
 // not switching every producer at once. PR D deletes the inline one and this
 // list goes back to a single entry.
-eq('two publishers can merge during the migration, and they are these', merges, ['build-samples.yml:publish', 'publish-data.yml:publish']);
+// One job in the repository can merge, and the migration that made it two is
+// over. `build-samples` kept its own publisher through the rollout because it
+// was the one path to `main` with a proven run behind it; that argument
+// expired the moment it moved.
+eq('exactly one job in this repository can merge, and it is the shared publisher', merges, ['publish-data.yml:publish']);
 // Against what the runner executes, not against the prose: these files
 // explain the ruleset at length in comments, and a comment cannot call an API.
 const executable = (w) =>
@@ -444,9 +449,10 @@ for (const file of ['build-samples.yml', 'collect.yml']) {
 // that cannot come back quietly.
 // Every job that unpacks a handoff, not only the shared one. The inline
 // publisher in `build-samples` has the same power and had the same defect.
+// One entry, and a check below that there can only be one: a second workflow
+// growing its own `tar -xf` is a second publisher, whatever the job is called.
 const PUBLISHERS = [
   ['publish-data.yml', 'publish'],
-  ['build-samples.yml', 'publish'],
 ];
 for (const [file, name] of PUBLISHERS) {
   const w = workflows.find((x) => x.file === file);
@@ -596,15 +602,18 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
 {
   const ats = workflows.find((w) => w.file === 'discover-ats.yml').text;
   const col = workflows.find((w) => w.file === 'collect.yml').text;
-  for (const [file, text] of [['collect.yml', col], ['discover-ats.yml', ats]]) {
+  const bs = workflows.find((w) => w.file === 'build-samples.yml').text;
+  for (const [file, text] of [['build-samples.yml', bs], ['collect.yml', col], ['discover-ats.yml', ats]]) {
     const passed = [...text.matchAll(/^\s+merge:\s*(\S+)\s*$/gm)].map((m) => m[1]);
     eq(`${file} passes merge, and passes it as a literal false`, passed, ['false']);
     check(`${file} does not decide it from an input, a secret or an expression`, !/merge:\s*\$\{\{/.test(text));
   }
   // Nor by the back door: a workflow-level input called `merge` or `publish`
   // that a dispatch could set and something downstream could read.
-  const inputs = [...col.matchAll(/^ {6}(\w[\w-]*):\s*$/gm)].map((m) => m[1]);
-  eq('collect.yml offers no dispatch input that could turn merging on', inputs.filter((i) => /^(merge|publish)$/.test(i)), []);
+  for (const [file, text] of [['build-samples.yml', bs], ['collect.yml', col]]) {
+    const inputs = [...text.matchAll(/^ {6}(\w[\w-]*):\s*$/gm)].map((m) => m[1]);
+    eq(`${file} offers no dispatch input that could turn merging on`, inputs.filter((i) => /^(merge|publish)$/.test(i)), []);
+  }
   check('and the conditions for changing it are written down beside it', /WHAT WOULD JUSTIFY `true`/.test(col));
 }
 
@@ -619,7 +628,8 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
 // Run the real script, out of the real workflow, under the situations it has
 // to tell apart.
 {
-  const health = workflows.find((w) => w.file === 'collect.yml').jobs.find((j) => j.name === 'health');
+  for (const file of ['collect.yml', 'build-samples.yml']) {
+  const health = workflows.find((w) => w.file === file).jobs.find((j) => j.name === 'health');
   const script = join(mkdtempSync(join(tmpdir(), 'health-')), 'health.sh');
   writeFileSync(script, health.scripts.join('\n'));
 
@@ -661,7 +671,22 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
     check(`${name}: and the all-clear is stated`, ALL_CLEAR.test(r.out), r.out.trim());
   }
   const degraded = run({ COLLECT: 'success', PUBLISH: 'success', BLOCKING: 'false', DEGRADED: 'true' });
-  check('a degraded optional source is a warning, not a failure', /::warning::/.test(degraded.out));
+  check(`${file}: a degraded optional source is a warning, not a failure`, /::warning::/.test(degraded.out));
+  }
+}
+
+// And the two say it the same way. An operator reading two morning emails
+// should not have to learn two vocabularies.
+{
+  const script = (f) => workflows.find((w) => w.file === f).jobs.find((j) => j.name === 'health').scripts.join('\n');
+  eq('both health jobs run the same script, word for word', script('collect.yml'), script('build-samples.yml'));
+}
+
+// Exactly one workflow unpacks a handoff. A second `tar -xf` anywhere is a
+// second publisher, whatever the job is called.
+{
+  const unpackers = workflows.filter((w) => /tar -xf/.test(w.text)).map((w) => w.file).sort();
+  eq('exactly one workflow unpacks a producer handoff', unpackers, ['publish-data.yml']);
 }
 
 // ── every external action in the migrated workflow is pinned ────────────
@@ -680,7 +705,7 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
     .filter((w) => [...w.text.matchAll(/uses:\s+(\S+)/g)].some((m) => !m[1].startsWith('./') && !/@[0-9a-f]{40}$/.test(m[1])))
     .map((w) => w.file)
     .sort();
-  eq('and the only workflow left with a floating tag is the one this stage does not touch', stillLoose, ['build-samples.yml']);
+  eq('and no workflow anywhere still runs an action on a floating tag', stillLoose, []);
 }
 
 // ── the handoff, once more, for this producer ───────────────────────────
