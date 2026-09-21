@@ -53,13 +53,13 @@ jobs:
       degraded: ${{ steps.freshness.outputs.degraded }}
       changed: ${{ steps.stage.outputs.changed }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
       # For the monthly precedent transactions collector, which is Python and
       # standard library only. Pinned to the version build-samples.yml uses.
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.11'
 
@@ -287,24 +287,24 @@ jobs:
           set -euo pipefail
           node scripts/validate-data-publication.mjs \
             --producer open-data \
-            --staged "$RUNNER_TEMP/staged.txt" \
-            --report "$RUNNER_TEMP/pr-body.md" \
-            --ref "${GITHUB_REF_NAME}" \
-            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            --staged "$RUNNER_TEMP/staged.txt"
 
-      # What crosses the line between the two jobs, and nothing else: the
-      # files the gate approved, the body it wrote, and the gate itself. The
-      # gate travels because the job on the other side starts from main, and
-      # on a run dispatched from a branch main may not carry it yet.
+      # Generated data and nothing else.
+      #
+      # This step was written before the publisher was corrected, and copied
+      # the gate and the contract table in beside the archive. That handed
+      # the judge to the party being judged. The publisher now reads both
+      # from its own checkout of `main` and writes the pull request body
+      # there, so nothing this job produced decides whether this job's output
+      # may be published.
       - name: Pack what may be published
         if: steps.stage.outputs.changed == 'true'
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/handoff"
           tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
-          cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
-          cp scripts/validate-data-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
-          cp scripts/publication-contracts.mjs "$RUNNER_TEMP/handoff/publication-contracts.mjs"
+          echo "the handoff holds:"
+          find "$RUNNER_TEMP/handoff" -type f -printf '  %P\n'
 
       - name: Upload what may be published
         if: steps.stage.outputs.changed == 'true'
@@ -329,6 +329,26 @@ jobs:
     with:
       producer: open-data
       artifact: open-data-refresh
+      # Open the data pull request and stop, on the schedule and by hand
+      # alike. Not an input with a default: an input is a thing somebody can
+      # get wrong at four in the morning, and the point of this stage is that
+      # the automation is *structurally* incapable of merging until it has
+      # shown both halves of the road work.
+      #
+      # WHAT WOULD JUSTIFY `true`
+      # -------------------------
+      # Two runs, in this order:
+      #
+      #   1. A run that opens the data pull request, whose diff carries only
+      #      this producer's files and which a human reads and merges.
+      #   2. A second run proving the same branch and the same pull request
+      #      are updated rather than duplicated.
+      #
+      # Then a separate, narrow pull request changes this one line and says
+      # which two run ids proved it. Not bundled into anything else: the
+      # whole value of the two proofs is that nothing else moved between
+      # them and the change they justify.
+      merge: false
 
   # Downstream notification, and only once the data is actually on main. The
   # post reads the calendar, the deal tape and the chartbook, so announcing a
@@ -341,10 +361,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: main
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
       # Every channel is optional: the script silently skips any channel whose
@@ -384,17 +404,55 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - name: Fail the run if a required source is stale
+      # Three outcomes, and the first of them is the one this job used to get
+      # wrong. `blocking` and `degraded` arrive from a step in the collecting
+      # job; if that job died before reaching it, both are empty strings, and
+      # empty is not false. The old wording read them as an all-clear and
+      # printed "every required source is within its horizon" over a
+      # collection that never happened. The run was still red, because the
+      # collecting job had failed, but an operator reading the conclusion was
+      # told the opposite of the truth about freshness.
+      #
+      # An absent answer is not a good answer. Say which of the three
+      # situations this is, and never claim the third without the evidence
+      # for it.
+      - name: Say what this morning actually was
         env:
+          COLLECT: ${{ needs.collect.result }}
+          PUBLISH: ${{ needs.publish.result }}
           BLOCKING: ${{ needs.collect.outputs.blocking }}
           DEGRADED: ${{ needs.collect.outputs.degraded }}
         run: |
           set -euo pipefail
-          if [ "${BLOCKING:-}" = "true" ]; then
-            echo "::error::a required source has not been collected inside its horizon; see the freshness table in this run's summary"
+
+          # 1. The collection or the publication did not finish. Freshness
+          #    cannot be established either way, and saying so is the whole
+          #    job: `skipped` on publish is the legitimate case where the
+          #    collection changed nothing.
+          if [ "${COLLECT:-}" != "success" ]; then
+            echo "::error::the collection did not finish (${COLLECT:-unknown}); freshness could not establish an all-clear, and nothing was published"
             exit 1
           fi
+          if [ "${PUBLISH:-}" != "success" ] && [ "${PUBLISH:-}" != "skipped" ]; then
+            echo "::error::the collection finished but publication did not (${PUBLISH:-unknown}); freshness could not establish an all-clear for what reached main"
+            exit 1
+          fi
+
+          # 2. The collection finished and a required source is stale.
+          if [ "${BLOCKING:-}" = "true" ]; then
+            echo "::error::the collection finished, and a required source has not been collected inside its horizon; see the freshness table in this run's summary"
+            exit 1
+          fi
+
+          # A verdict the sweep never wrote is not a verdict. If the
+          # collecting job succeeded, both of these are set.
+          if [ -z "${BLOCKING:-}" ]; then
+            echo "::error::the collection reported success but wrote no freshness verdict; freshness could not establish an all-clear"
+            exit 1
+          fi
+
+          # 3. The collection finished and every required source is fresh.
           if [ "${DEGRADED:-}" = "true" ]; then
             echo "::warning::an optional source is degraded; publication went ahead"
           fi
-          echo "every required source is within its horizon"
+          echo "the collection finished and every required source is within its horizon"

@@ -17,6 +17,7 @@
  */
 
 import { unexpectedPaths, feedInvariants, verticalMovement, publicationReport, PUBLISHABLE } from '../validate-publication.mjs';
+import { CONTRACTS, contractProblems } from '../publication-contracts.mjs';
 
 let pass = 0;
 let fail = 0;
@@ -160,6 +161,115 @@ for (const needle of ['Daily data refresh', '| Roles |', 'Investment banking', '
 }
 check('the body names every staged file', generated.every((p) => body.includes(p)));
 check('an unchanged board says so rather than printing an empty table', publicationReport({ stats: feedInvariants(healthy, healthy, now).stats, staged: generated }).includes('None.'));
+
+// ── the board count is the collector's word, and only that ──────────────
+// Every other number in the pull request body is derived here, from the
+// files. This one comes out of the collecting job's log — the job that
+// reads 160 third-party careers pages — so it is checked for shape before
+// it arrives and read by nothing that decides anything. A well-formed lie
+// must be able to reach a reviewer's eye and nothing else.
+
+const truthful = '94/95 boards';
+const lie = '160/160 boards';                 // well-formed, and false
+const hostile = '999999/0 boards (0 failed)'; // well-formed, and absurd
+
+const report = (boards) => publicationReport({ stats, staged: generated, boards, runUrl: 'https://example.invalid/run/1' });
+
+// 1. The verdict does not take it at all. `feedInvariants` decides whether a
+//    feed may be published and its signature has no room for it.
+check('the gate verdict cannot read a board count', feedInvariants.length <= 3);
+eq(
+  'the same feed gets the same verdict whatever the collector claimed',
+  [feedInvariants(afterFix, beforeFix, now).problems, feedInvariants(afterFix, beforeFix, now).problems],
+  [[], []],
+);
+
+// 2. The allowlist does not take it either.
+eq('the allowlist does not consult it', unexpectedPaths(generated), []);
+check('and the allowlist is a function of paths alone', unexpectedPaths.length === 1);
+
+// 3. Two bodies built from the same collection and different claims differ
+//    in exactly one line, and that line is the labelled row.
+const differences = (a, b) => {
+  const A = a.split('\n');
+  const B = b.split('\n');
+  return A.map((l, i) => [l, B[i]]).filter(([x, y]) => x !== y);
+};
+const d = differences(report(truthful), report(lie));
+eq('a false board count changes exactly one line of the body', d.length, 1);
+check('and it is the row that says where the number came from', /Boards \*\(collector-reported\)\*/.test(d[0][0]), d[0].join(' vs '));
+eq('an absurd one changes exactly one line too', differences(report(truthful), report(hostile)).length, 1);
+
+// 4. The label and the caveat are both there, so a reviewer is not invited
+//    to read it as checked.
+check('the row is labelled collector-reported', report(truthful).includes('| Boards *(collector-reported)* | 94/95 boards |'));
+check('and the body says plainly that nothing depends on it', /checked for shape, not for truth/.test(report(truthful)));
+check('a body with no board count carries neither the row nor the caveat', !/Boards|checked for shape/.test(report(undefined)));
+
+// 5. Everything else in the table is still derived here rather than claimed.
+for (const derived of [`| Roles | ${stats.rows}`, `| Firms | ${stats.firms} |`]) {
+  check(`${derived.trim()} is unaffected by what the collector claimed`, report(lie).includes(derived));
+}
+
+// ── the tracker's feed validation, after it moved to the shared road ────
+// `build-samples` used to run this file's CLI from the privileged job. It now
+// travels the same road as the other two producers, and the privileged job
+// runs the contract gate with `--producer tracker`. That is only acceptable
+// if the contract carries what this file holds in its head: the row floor,
+// the ratio band, the required fields, the stamp's age, and the per-vertical
+// collapse check.
+//
+// Asserted rather than asserted-in-prose: both gates, the same feeds, and a
+// requirement that they reach the same verdict on every one.
+
+const TRACKER_PATHS = CONTRACTS.tracker.files.filter((f) => f.path).map((f) => f.path);
+const other = (path) => (path === 'data/deadlines.learned.json' ? { updatedAt: now.toISOString() } : { generatedAt: now.toISOString() });
+
+/** What the contract gate makes of a collection whose feed is `next`. */
+const contractVerdict = (next, previous) =>
+  contractProblems(
+    'tracker',
+    {
+      staged: TRACKER_PATHS,
+      read: (path) => (path === 'data/opportunities.auto.json' ? next : other(path)),
+      readPrev: (path) => (path === 'data/opportunities.auto.json' ? previous : null),
+    },
+    now,
+  ).problems;
+
+const feedVerdict = (next, previous) => feedInvariants(next, previous, now).problems;
+
+const cases = [
+  ['a healthy feed', healthy, null],
+  ['a healthy feed against yesterday', healthy, prev],
+  ['a feed below the row floor', feedOf({ Other: 30 }), null],
+  ['a feed that halved', feedOf({ 'Software Engineering': 200, Other: 150 }), prev],
+  ['a feed that trebled', feedOf({ 'Software Engineering': 1000, Other: 900, 'Investment Banking': 141, Quant: 100 }), prev],
+  ['a feed with a collapsed vertical', feedOf({ 'Software Engineering': 330, Other: 400, 'Investment Banking': 10, Quant: 100 }), prev],
+  ['a feed carrying no stamp', { ...healthy, generatedAt: undefined }, null],
+  ['a feed stamped five days ago', { ...healthy, generatedAt: '2026-09-15T08:00:00Z' }, null],
+  ['a feed stamped in the future', { ...healthy, generatedAt: '2026-09-22T08:00:00Z' }, null],
+  ['a feed with a row missing a field', { ...healthy, opportunities: [...healthy.opportunities, row({ vertical: '' })] }, null],
+  ['no opportunities array at all', { generatedAt: now.toISOString() }, null],
+];
+
+for (const [name, next, previous] of cases) {
+  const byFeed = feedVerdict(next, previous).length > 0;
+  const byContract = contractVerdict(next, previous).length > 0;
+  eq(`${name}: both gates agree on whether it may be published`, [byFeed, byContract], [byFeed, byFeed]);
+}
+check(
+  'and the cases are not all one way, or agreeing would mean nothing',
+  cases.some(([, n, p]) => feedVerdict(n, p).length === 0) && cases.some(([, n, p]) => feedVerdict(n, p).length > 0),
+);
+
+// The numbers themselves, so a later edit to either side has to be deliberate.
+const feedSpec = CONTRACTS.tracker.files.find((f) => f.path === 'data/opportunities.auto.json');
+eq('the contract carries the tracker row floor', feedSpec.min, 200);
+eq('...the ratio band', [feedSpec.minRatio, feedSpec.maxRatio], [0.6, 2.0]);
+eq('...the stamp age', feedSpec.maxAgeHours, 24);
+eq('...and the per-vertical collapse check', feedSpec.groups, { by: 'vertical', floor: 20, minRatio: 0.5 });
+check('...and the required fields', Array.isArray(feedSpec.required) && feedSpec.required.length > 0);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

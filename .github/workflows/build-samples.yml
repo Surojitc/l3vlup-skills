@@ -58,10 +58,6 @@ on:
         description: 'Call IndexNow even if the tracker file did not change'
         required: false
         default: 'false'
-      publish:
-        description: 'Merge the data pull request after opening it. false opens it and stops.'
-        required: false
-        default: 'true'
   schedule:
     # Daily for the tracker, which is the one that actually moves day to day.
     - cron: '30 6 * * *'
@@ -100,13 +96,13 @@ jobs:
       changed: ${{ steps.stage.outputs.changed }}
       tracker: ${{ steps.stage.outputs.tracker }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.11'
 
@@ -223,13 +219,13 @@ jobs:
 
       # ── freshness ──────────────────────────────────────────────────────
       # Every source this producer owns, whether or not this run touched it.
-      # The gate below checks what is being published; a collector that fails
-      # every morning publishes nothing, so the gate has nothing to object to
-      # while the committed file ages behind a green tick. That is how two
-      # days of calendar, deal tape and news map went stale under a run that
-      # reported success.
+      # The publication gate checks what is being published; a collector that
+      # fails every morning publishes nothing, so the gate has nothing to
+      # object to while the committed file ages behind a green tick. That is
+      # how two days of calendar, deal tape and news map went stale under a
+      # run that reported success.
       #
-      # It never fails here. Publication of the healthy sources goes ahead
+      # It never fails here. Publication goes ahead for the healthy sources
       # first, and the `health` job at the end turns a stale required source
       # into a failed run, so the data still flows and the morning is still
       # visibly not fine.
@@ -274,37 +270,63 @@ jobs:
             echo "tracker=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # The same gate the publisher runs, run here too so a bad collection
+      # fails in the job that produced it rather than in the one that can
+      # write. The publisher does not take this run's word for it: it runs
+      # the same check again, from its own checkout of `main`, on the staged
+      # diff it is actually about to commit.
+      #
+      # `--producer tracker` rather than the tracker's own CLI, because this
+      # producer now travels the same road as the other two and the contract
+      # table carries what that CLI held in its head: the two-hundred-row
+      # floor, the 0.6x-2.0x band, the required fields, the twenty-four-hour
+      # stamp and the per-vertical collapse check. A test runs both against
+      # the same feeds and requires the same verdict on every one.
       - name: Check what is about to be published
         if: steps.stage.outputs.changed == 'true'
         run: |
           set -euo pipefail
-          git show HEAD:data/opportunities.auto.json > "$RUNNER_TEMP/prev-feed.json" 2>/dev/null || true
-          boards=$(grep -oE '[0-9]+/[0-9]+ boards( \([0-9]+ failed\))?' "$RUNNER_TEMP/collector.log" | tail -1 || true)
-          node scripts/validate-publication.mjs \
-            --staged "$RUNNER_TEMP/staged.txt" \
-            --prev   "$RUNNER_TEMP/prev-feed.json" \
-            --next   data/opportunities.auto.json \
-            --report "$RUNNER_TEMP/pr-body.md" \
-            --boards "${boards:-unknown}" \
-            --ref "${GITHUB_REF_NAME}" \
-            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          node scripts/validate-data-publication.mjs \
+            --producer tracker \
+            --staged "$RUNNER_TEMP/staged.txt"
 
-      # What crosses the line between the two jobs, and nothing else: the
-      # files the gate just approved, the body it wrote, and the gate itself.
+      # The board result, to the operator reading this run rather than into
+      # the pull request. It is this job's account of its own morning and
+      # nothing derives it, so it stays on this side of the line: written
+      # where it is useful, carried nowhere it could be mistaken for checked.
+      - name: Report the board result
+        if: always()
+        run: |
+          set -euo pipefail
+          boards=$(grep -oE '[0-9]+/[0-9]+ boards( \([0-9]+ failed\))?' "$RUNNER_TEMP/collector.log" | tail -1 || true)
+          {
+            echo "### Collector-reported board result"
+            echo ""
+            echo "\`${boards:-unknown}\` — reported by this job, not measured by the gate."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # What crosses the line between the two jobs: generated data, and
+      # nothing else.
       #
-      # The gate travels because the job on the other side starts from main,
-      # and on a run dispatched from a branch main may not carry it yet. It is
-      # read out of this run's checkout, which is the copy a reviewer of this
-      # run is looking at.
+      # This step used to copy the gate in beside the archive, and the
+      # publisher ran that copy. The reason given was that a run dispatched
+      # from a branch would find a `main` that did not carry the gate yet —
+      # which is true, and is the wrong way round. A run dispatched from a
+      # branch is exactly the run that must not publish using that branch's
+      # gate. This job reads 160 third-party careers pages; letting it choose
+      # its own judge put every other control downstream of a file it wrote.
+      #
+      # The publisher now reads the gate from its own checkout of `main` and
+      # writes the pull request body there too, so no prose composed here
+      # describes the change to whoever reviews it.
       - name: Pack what may be published
         if: steps.stage.outputs.changed == 'true'
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/handoff"
           tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
-          cp "$RUNNER_TEMP/pr-body.md" "$RUNNER_TEMP/handoff/pr-body.md"
-          cp scripts/validate-data-publication.mjs "$RUNNER_TEMP/handoff/gate.mjs"
-          cp scripts/publication-contracts.mjs "$RUNNER_TEMP/handoff/publication-contracts.mjs"
+          echo "the handoff holds:"
+          find "$RUNNER_TEMP/handoff" -type f -printf '  %P\n'
 
       - name: Upload what may be published
         if: steps.stage.outputs.changed == 'true'
@@ -314,11 +336,16 @@ jobs:
           path: ${{ runner.temp }}/handoff
           if-no-files-found: error
           retention-days: 3
-
   # The publication half lives in one file for all three producers, because
   # three copies of it would diverge and each would hold a token that can
   # merge. Granted here, on the one job that says `uses:`, so a reviewer of
-  # this workflow sees what the publisher is trusted with; it cannot widen it.
+  # this workflow sees what the publisher is trusted with; it cannot widen
+  # what it inherits.
+  #
+  # This is the last producer to move, and it was the first to be adapted:
+  # it kept its own publisher through the migration precisely because it was
+  # the one path to `main` with a proven run behind it. With it gone, exactly
+  # one job in the repository can merge.
   publish:
     name: Publish
     needs: collect
@@ -330,7 +357,24 @@ jobs:
     with:
       producer: tracker
       artifact: daily-data-refresh
-      merge: ${{ github.event.inputs.publish != 'false' }}
+      # Open the data pull request and stop, on the schedule and by hand
+      # alike. A literal, not an expression: this producer has never
+      # published through the shared road, and an input is a thing somebody
+      # can get wrong at four in the morning.
+      #
+      # WHAT WOULD JUSTIFY `true`
+      # -------------------------
+      # Two runs, in this order:
+      #
+      #   1. A run that opens the data pull request, whose diff carries only
+      #      this producer's files and which a human reads and merges.
+      #   2. A second run proving the same branch and the same pull request
+      #      are updated rather than duplicated.
+      #
+      # Then a separate, narrow pull request changes this one line and says
+      # which two run ids proved it — the same road open-data is on, and for
+      # the same reason.
+      merge: false
 
   # Ask the site to work out what changed on the board and tell Bing.
   #
@@ -338,12 +382,35 @@ jobs:
   # ---------------------------------
   # The site's detector is a change detector: it diffs the published set
   # against the snapshot it recorded last time and posts only the difference.
-  # Until the merge lands there is nothing on main to recrawl, and a call
-  # before it would spend the delta on data the site cannot yet read.
+  # Until the merge lands there is nothing on `main` to recrawl, and calling
+  # it before would spend the delta on data the site cannot yet read. The
+  # detector reads the feed with `cache: 'no-store'` precisely so that it
+  # sees the merge rather than the site's hourly data cache, and its response
+  # reports the feed's own generatedAt, so a pass that read a stale copy is
+  # visible rather than silent.
   #
   # Gated on the tracker file itself having moved, because only
   # data/opportunities.auto.json changes what a /tracker/[slug] page renders;
   # a workbook rebuild is not news to a search engine.
+  #
+  # WHILE `merge: false` STANDS, THIS JOB DOES NOT RUN, and that is a real
+  # cost stated rather than discovered. The site's own Vercel cron at 20:00
+  # UTC is the fallback and is enough on its own: it sits that late because
+  # GitHub defers this schedule heavily — across twenty consecutive runs the
+  # observed starts ranged from 10:52 to 18:57 UTC — so it clears the tail of
+  # that window rather than its median. Recrawl hints arrive on the cron's
+  # schedule instead of within minutes of the merge. No page is missed.
+  #
+  # WHY IT IS SAFE IN A PUBLIC REPOSITORY
+  # -------------------------------------
+  # `CRON_SECRET` is a repository secret and secrets are never available to a
+  # fork. This workflow has no `pull_request` trigger and deliberately no
+  # `pull_request_target`, so there is no path by which a pull request, from
+  # a fork or otherwise, can run it or read the secret. The secret is never
+  # echoed, never interpolated into a command line, and never written to a
+  # file that survives the step: curl reads it from a config file in the
+  # runner's temporary directory, so it does not reach the process list
+  # either. Absent, the step says so and exits clean.
   notify:
     name: Tell the site the tracker moved
     needs: [collect, publish]
@@ -390,16 +457,17 @@ jobs:
             *)   echo "::warning::unexpected response $code; the site's 20:00 cron will retry" ;;
           esac
 
+
   # The run's conclusion, set after publication rather than before it.
   #
-  # Splitting these apart is the point: a stale calendar must not stop a
+  # Two requirements pull against each other: a stale calendar must not stop a
   # healthy deal tape reaching the site, and a morning where a collector has
   # been dead for two days must not report success. So publication happens,
   # and then this fails the run and says which source and since when.
   #
   # `if: always()` because the interesting case is the one where publishing
-  # was skipped or failed: a health report that only runs on the happy path
-  # is the defect it was written to catch.
+  # was skipped or failed: a health report that only runs on the happy path is
+  # the defect it was written to catch.
   health:
     name: Source health
     needs: [collect, publish]
@@ -407,17 +475,56 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - name: Fail the run if a required source is stale
+      # Three outcomes, and the first of them is the one this job used to get
+      # wrong. `blocking` and `degraded` arrive from a step in the collecting
+      # job; if that job died before reaching it, both are empty strings, and
+      # empty is not false. The old wording read them as an all-clear and
+      # printed "every required source is within its horizon" over a
+      # collection that never happened. The worst case is not a job that
+      # never started but one whose sweep ran and whose later step — the
+      # staging, the gate, the upload — failed: both outputs say everything
+      # is fine, because on that morning's data it was, and nothing was
+      # published all the same.
+      #
+      # Word for word what collect.yml says, because an operator reading two
+      # morning emails should not have to learn two vocabularies.
+      - name: Say what this morning actually was
         env:
+          COLLECT: ${{ needs.collect.result }}
+          PUBLISH: ${{ needs.publish.result }}
           BLOCKING: ${{ needs.collect.outputs.blocking }}
           DEGRADED: ${{ needs.collect.outputs.degraded }}
         run: |
           set -euo pipefail
-          if [ "${BLOCKING:-}" = "true" ]; then
-            echo "::error::a required source has not been collected inside its horizon; see the freshness table in this run's summary"
+
+          # 1. The collection or the publication did not finish. Freshness
+          #    cannot be established either way, and saying so is the whole
+          #    job: `skipped` on publish is the legitimate case where the
+          #    collection changed nothing.
+          if [ "${COLLECT:-}" != "success" ]; then
+            echo "::error::the collection did not finish (${COLLECT:-unknown}); freshness could not establish an all-clear, and nothing was published"
             exit 1
           fi
+          if [ "${PUBLISH:-}" != "success" ] && [ "${PUBLISH:-}" != "skipped" ]; then
+            echo "::error::the collection finished but publication did not (${PUBLISH:-unknown}); freshness could not establish an all-clear for what reached main"
+            exit 1
+          fi
+
+          # 2. The collection finished and a required source is stale.
+          if [ "${BLOCKING:-}" = "true" ]; then
+            echo "::error::the collection finished, and a required source has not been collected inside its horizon; see the freshness table in this run's summary"
+            exit 1
+          fi
+
+          # A verdict the sweep never wrote is not a verdict. If the
+          # collecting job succeeded, both of these are set.
+          if [ -z "${BLOCKING:-}" ]; then
+            echo "::error::the collection reported success but wrote no freshness verdict; freshness could not establish an all-clear"
+            exit 1
+          fi
+
+          # 3. The collection finished and every required source is fresh.
           if [ "${DEGRADED:-}" = "true" ]; then
             echo "::warning::an optional source is degraded; publication went ahead"
           fi
-          echo "every required source is within its horizon"
+          echo "the collection finished and every required source is within its horizon"

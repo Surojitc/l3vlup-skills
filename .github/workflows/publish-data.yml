@@ -24,6 +24,20 @@ name: Publish collected data
 # scripts/publication-contracts.mjs, looked up by a producer id that must
 # already be in that table. A caller cannot ask it to publish somewhere else.
 #
+# WHAT IT TAKES FROM THE HANDOFF, AND WHAT IT REFUSES TO
+# ------------------------------------------------------
+# One invariant holds this whole design up: unprivileged collection may
+# propose bytes, and only code and policy already on `main` may decide
+# whether those bytes are safe to publish.
+#
+# So the artifact holds publishable.tar and nothing else. Every judgement
+# made about it — which paths may be unpacked, which may be committed, what
+# the pull request says about them — is made by files from this job's own
+# checkout of `main`. An earlier draft ran a gate the producer had copied
+# into the artifact, which let a compromised collector bring its own judge
+# and approve of itself; every other control here sits downstream of that
+# one, so it was the only one that really mattered.
+#
 # PERMISSIONS ARE DELIBERATELY ABSENT HERE
 # ----------------------------------------
 # A called workflow may only narrow what its caller granted, never widen it,
@@ -42,7 +56,7 @@ on:
         required: true
         type: string
       artifact:
-        description: 'The artifact holding publishable.tar, the gate and the pull request body'
+        description: 'The artifact holding publishable.tar, which is generated data and nothing else'
         required: true
         type: string
       merge:
@@ -130,38 +144,49 @@ jobs:
           # today's, and the diff is always against the current default branch.
           git checkout -q -B "$BRANCH"
 
-          # The archive is read before it is unpacked.
+          # The archive is read, and judged, before it is unpacked.
           #
           # Its members come from `git diff --cached --name-only` in the
           # collecting job, and git cannot emit an absolute path, a `..`
           # segment or a device node. That is an argument about the producer,
           # though, and this job's whole design is that it takes nothing from
           # the producer on trust. tar would happily write through `../` or a
-          # symlink into the runner's home directory, before any gate runs, so
-          # the list is checked first and anything that is not a plain file
-          # inside the tree fails the run.
+          # symlink into the runner's home directory, before any gate runs,
+          # and a file written outside the working tree never reaches the git
+          # index, so nothing the gate concludes afterwards can find it.
+          #
+          # The judge is this checkout's copy, from `main`, of the validator
+          # and the contract table it reads. Never the handoff's: a producer
+          # that could ship its own gate could approve of itself, and every
+          # other control in this job sits downstream of that one.
           archive="$RUNNER_TEMP/handoff/publishable.tar"
-          tar -tf "$archive" > "$RUNNER_TEMP/members.txt"
-          if grep -qE '(^/|^\.\./|/\.\./|/\.\.$|^\.\.$|^~)' "$RUNNER_TEMP/members.txt"; then
-            echo "::error::the archive names a path outside the working tree"
-            sed 's/^/  /' "$RUNNER_TEMP/members.txt"
-            exit 1
-          fi
-          if tar -tvf "$archive" | grep -qvE '^[-d]'; then
-            echo "::error::the archive holds something that is not a plain file or directory"
-            tar -tvf "$archive" | grep -vE '^[-d]' | sed 's/^/  /'
-            exit 1
-          fi
+          tar -tf  "$archive"           > "$RUNNER_TEMP/members.txt"
+          tar -tvf "$archive" | cut -c1 > "$RUNNER_TEMP/types.txt"
+          node scripts/validate-archive-members.mjs \
+            --producer "$PRODUCER" \
+            --members "$RUNNER_TEMP/members.txt" \
+            --types "$RUNNER_TEMP/types.txt"
+
           tar -xf "$archive" --no-same-owner --no-same-permissions -C .
           git add -A
 
-          # The check that actually guarantees the pull request's contents.
-          # The collecting job ran the same gate, but this job did not watch it
-          # do so and takes nothing from it on trust: the list checked here is
-          # the diff against main that is about to be committed.
+          # The check that actually guarantees the pull request's contents,
+          # run a second time and against a different list. The member check
+          # above judged what the archive claimed to hold; this judges the
+          # staged diff against main that is about to be committed, which is
+          # what `git add -A` actually produced. The collecting job ran the
+          # same gate, and this job did not watch it do so.
+          #
+          # Again from this checkout, not the handoff. The pull request body
+          # is written here for the same reason: prose a collector composed
+          # would otherwise describe the change to whoever reviews it.
           git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
-          node "$RUNNER_TEMP/handoff/gate.mjs" \
-            --producer "$PRODUCER" --staged "$RUNNER_TEMP/publishing.txt" > /dev/null
+          node scripts/validate-data-publication.mjs \
+            --producer "$PRODUCER" \
+            --staged "$RUNNER_TEMP/publishing.txt" \
+            --report "$RUNNER_TEMP/pr-body.md" \
+            --ref main \
+            --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" > /dev/null
 
           if git diff --cached --quiet; then
             echo "main already carries this collection; nothing to publish"
@@ -177,11 +202,11 @@ jobs:
           number=$(gh pr list --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')
           title="$TITLE $(date -u +%Y-%m-%d)"
           if [ -n "$number" ]; then
-            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md"
+            gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/pr-body.md"
             echo "updated #$number"
           else
             if ! gh pr create --base main --head "$BRANCH" \
-                 --title "$title" --body-file "$RUNNER_TEMP/handoff/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
+                 --title "$title" --body-file "$RUNNER_TEMP/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
               cat "$RUNNER_TEMP/pr.txt"
               echo "::error::could not open the data pull request. If the message above says GitHub Actions is not permitted to create pull requests, that is a repository setting: Settings, Actions, General, Workflow permissions. Nothing has been published and the collected files are on the $BRANCH branch."
               exit 1
