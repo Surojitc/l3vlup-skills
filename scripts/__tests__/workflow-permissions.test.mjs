@@ -27,8 +27,10 @@
  * reformatting that defeats it fails the suite rather than passing it vacuously.
  */
 
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { execFileSync } from 'node:child_process';
 
 const DIR = '.github/workflows';
 
@@ -582,6 +584,115 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
   const w = workflows.find((x) => x.file === file);
   eq(`${file} pins every action it runs to a commit`, floating(w.text.split('\n')), []);
   check(`${file} runs at least one action`, /uses:/.test(w.text));
+}
+
+
+// ── the open-data producer cannot merge itself yet ──────────────────────
+// `collect.yml` is the first producer on the shared publisher that runs to a
+// schedule. Until it has shown that both halves of the road work — opening a
+// pull request, and updating that same pull request on a second run — it must
+// be structurally incapable of merging, on every trigger, with no input
+// anybody could set wrong at four in the morning.
+{
+  const ats = workflows.find((w) => w.file === 'discover-ats.yml').text;
+  const col = workflows.find((w) => w.file === 'collect.yml').text;
+  for (const [file, text] of [['collect.yml', col], ['discover-ats.yml', ats]]) {
+    const passed = [...text.matchAll(/^\s+merge:\s*(\S+)\s*$/gm)].map((m) => m[1]);
+    eq(`${file} passes merge, and passes it as a literal false`, passed, ['false']);
+    check(`${file} does not decide it from an input, a secret or an expression`, !/merge:\s*\$\{\{/.test(text));
+  }
+  // Nor by the back door: a workflow-level input called `merge` or `publish`
+  // that a dispatch could set and something downstream could read.
+  const inputs = [...col.matchAll(/^ {6}(\w[\w-]*):\s*$/gm)].map((m) => m[1]);
+  eq('collect.yml offers no dispatch input that could turn merging on', inputs.filter((i) => /^(merge|publish)$/.test(i)), []);
+  check('and the conditions for changing it are written down beside it', /WHAT WOULD JUSTIFY `true`/.test(col));
+}
+
+// ── an absent answer is not an all-clear ────────────────────────────────
+// `blocking` and `degraded` come from a step inside the collecting job. If
+// that job dies before reaching it, both arrive as empty strings, and empty
+// is not false. The health job used to read that as an all-clear and print
+// "every required source is within its horizon" over a collection that never
+// happened. The run was red either way, but the operator was told the
+// opposite of the truth.
+//
+// Run the real script, out of the real workflow, under the situations it has
+// to tell apart.
+{
+  const health = workflows.find((w) => w.file === 'collect.yml').jobs.find((j) => j.name === 'health');
+  const script = join(mkdtempSync(join(tmpdir(), 'health-')), 'health.sh');
+  writeFileSync(script, health.scripts.join('\n'));
+
+  const run = (env) => {
+    try {
+      return { code: 0, out: execFileSync('bash', [script], { env: { PATH: process.env.PATH, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
+    } catch (err) {
+      return { code: err.status ?? -1, out: `${err.stdout ?? ''}${err.stderr ?? ''}` };
+    }
+  };
+  const ALL_CLEAR = /every required source is within its horizon/;
+
+  for (const [name, env, wantCode, wantSays] of [
+    ['the collecting job failed', { COLLECT: 'failure', PUBLISH: 'skipped' }, 1, /could not establish an all-clear/],
+    // The realistic one, and the one an all-clear would be most misleading
+    // over: the sweep ran and wrote its verdict, and a later step — staging,
+    // the gate, the upload — failed. Both outputs are present and both say
+    // everything is fine, because on the morning's data it was; nothing was
+    // published all the same.
+    ['the sweep ran and a later step failed', { COLLECT: 'failure', PUBLISH: 'skipped', BLOCKING: 'false', DEGRADED: 'false' }, 1, /the collection did not finish/],
+    ['the collecting job was cancelled', { COLLECT: 'cancelled', PUBLISH: 'skipped' }, 1, /could not establish an all-clear/],
+    ['the collection finished but publication failed', { COLLECT: 'success', PUBLISH: 'failure', BLOCKING: 'false', DEGRADED: 'false' }, 1, /publication did not/],
+    ['the collection reported success but wrote no verdict', { COLLECT: 'success', PUBLISH: 'success', BLOCKING: '', DEGRADED: '' }, 1, /wrote no freshness verdict/],
+    ['the collection finished and a required source is stale', { COLLECT: 'success', PUBLISH: 'success', BLOCKING: 'true', DEGRADED: 'false' }, 1, /not been collected inside its horizon/],
+  ]) {
+    const r = run(env);
+    eq(`${name}: the run fails`, r.code, wantCode);
+    check(`${name}: and says why`, wantSays.test(r.out), r.out.trim());
+    check(`${name}: and never claims an all-clear`, !ALL_CLEAR.test(r.out), r.out.trim());
+  }
+
+  for (const [name, env] of [
+    ['everything worked', { COLLECT: 'success', PUBLISH: 'success', BLOCKING: 'false', DEGRADED: 'false' }],
+    ['everything worked and there was nothing to publish', { COLLECT: 'success', PUBLISH: 'skipped', BLOCKING: 'false', DEGRADED: 'false' }],
+    ['everything worked and an optional source is degraded', { COLLECT: 'success', PUBLISH: 'success', BLOCKING: 'false', DEGRADED: 'true' }],
+  ]) {
+    const r = run(env);
+    eq(`${name}: the run passes`, r.code, 0);
+    check(`${name}: and the all-clear is stated`, ALL_CLEAR.test(r.out), r.out.trim());
+  }
+  const degraded = run({ COLLECT: 'success', PUBLISH: 'success', BLOCKING: 'false', DEGRADED: 'true' });
+  check('a degraded optional source is a warning, not a failure', /::warning::/.test(degraded.out));
+}
+
+// ── every external action in the migrated workflow is pinned ────────────
+// The rule reaches write-capable jobs everywhere. This workflow is being
+// rewritten anyway, and the repository has taken digest pinning as the
+// invariant rather than the precaution, so its read-only jobs come too.
+{
+  const col = workflows.find((w) => w.file === 'collect.yml');
+  const external = [...col.text.matchAll(/uses:\s+(\S+)/g)].map((m) => m[1]).filter((u) => !u.startsWith('./'));
+  eq('collect.yml pins every action it runs to a commit', external.filter((u) => !/@[0-9a-f]{40}$/.test(u)), []);
+  check('and it runs several', external.length >= 4);
+  // `build-samples.yml`'s collecting job is the last place a tag still
+  // floats. Named rather than forgotten: it is read-only, it is not this
+  // stage's file, and a sweep of its own closes it.
+  const stillLoose = workflows
+    .filter((w) => [...w.text.matchAll(/uses:\s+(\S+)/g)].some((m) => !m[1].startsWith('./') && !/@[0-9a-f]{40}$/.test(m[1])))
+    .map((w) => w.file)
+    .sort();
+  eq('and the only workflow left with a floating tag is the one this stage does not touch', stillLoose, ['build-samples.yml']);
+}
+
+// ── the handoff, once more, for this producer ───────────────────────────
+// Asserted against the file rather than inherited from the loop above, so a
+// reader of this stage can see it stated for the workflow it migrates.
+{
+  const col = workflows.find((w) => w.file === 'collect.yml');
+  const pack = col.jobs.find((j) => j.name === 'collect').body.join('\n');
+  check('collect.yml packs the archive and copies nothing beside it', !/\bcp\s+/.test(pack), pack.match(/\bcp\s+.*/g)?.join(' ; '));
+  check('collect.yml builds that archive from the staged list', /tar -cf "\$RUNNER_TEMP\/handoff\/publishable\.tar" -T "\$RUNNER_TEMP\/staged\.txt"/.test(pack));
+  check('collect.yml writes no pull request body', !/--report/.test(pack));
+  check('collect.yml still runs the gate before the handoff leaves it', pack.indexOf('validate-data-publication.mjs') < pack.indexOf('handoff'));
 }
 
 
