@@ -78,6 +78,9 @@ export const CONTRACTS = {
       { path: 'data/tracker-slugs.json', freshness: { cadence: 'daily', from: 'generatedAt' }, label: 'the slug registry', shapeOnly: true },
       { path: 'data/tracker-archive.json', freshness: { cadence: 'daily', from: 'generatedAt' }, label: 'the archive of published URLs', shapeOnly: true },
       { path: 'data/tracker-history.json', freshness: { cadence: 'manual' }, label: 'the board history', shapeOnly: true },
+      // One file per run day, written once and never rewritten: what each
+      // board check established (ok / partial / failed). See lib/board-checks.mjs.
+      { pattern: /^data\/board-checks\/\d{4}-\d{2}-\d{2}\.json$/, label: 'the day\'s board checks' },
       { path: 'data/deadlines.learned.json', freshness: { cadence: 'daily', from: 'updatedAt' }, label: 'the deadline ledger', shapeOnly: true },
       { path: 'data/econ.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'the economic backdrop', shapeOnly: true },
       { path: 'data/erp.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'equity and country risk premiums', shapeOnly: true },

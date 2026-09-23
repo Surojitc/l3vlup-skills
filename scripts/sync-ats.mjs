@@ -28,6 +28,15 @@ import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
 import { normaliseRoleText } from '../lib/text-normalise.mjs';
 import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
 import {
+  boardRecord,
+  buildCheckFile,
+  checkFilePath,
+  classifyCheck,
+  everyRequestFailed,
+  newRequestStats,
+  worstStatus,
+} from '../lib/board-checks.mjs';
+import {
   ledgerDeadline,
   loadLedger,
   needsCheck,
@@ -736,6 +745,10 @@ export async function paginateWorkday(fetchPage, opts = {}) {
     page: PAGE = WORKDAY_PAGE,
     maxPages = WORKDAY_MAX_PAGES_PER_QUERY,
     maxPostings = WORKDAY_MAX_POSTINGS_PER_FIRM,
+    // Optional request accounting (lib/board-checks.mjs). A page that throws
+    // still ends its query quietly, but it is now counted, so a board whose
+    // every request failed can no longer pass for a board with nothing open.
+    stats,
   } = opts;
   const seen = new Map();
 
@@ -744,9 +757,11 @@ export async function paginateWorkday(fetchPage, opts = {}) {
     for (let page = 0; page < maxPages; page++) {
       if (seen.size >= maxPostings) break;
       let data;
+      if (stats) stats.attempts++;
       try {
         data = await fetchPage(q, offset, PAGE);
       } catch {
+        if (stats) stats.failures++;
         break; // this query failed; move to the next one
       }
 
@@ -775,7 +790,7 @@ export async function paginateWorkday(fetchPage, opts = {}) {
   return seen;
 }
 
-async function fetchWorkday(f) {
+async function fetchWorkday(f, stats = newRequestStats()) {
   // Two shapes live in the registry. Hand-added rows carry `host`; rows written
   // by scripts/discover-ats.mjs carry `tenant` + `shard` and no host at all.
   // Reading f.host alone built 'https://undefined/wday/cxs/...', which threw,
@@ -789,8 +804,10 @@ async function fetchWorkday(f) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ limit, offset, searchText }),
-    })
+    }),
+    { stats }
   );
+  if (everyRequestFailed(stats)) throw new Error(`every Workday request failed (${stats.failures})`);
 
   return [...seen.values()].map((jp) => ({
     id: jp.externalPath.split('_').pop() || jp.externalPath,
@@ -844,6 +861,7 @@ export async function paginateOracle(fetchPage, opts = {}) {
     page: PAGE = ORACLE_PAGE,
     maxPages = ORACLE_MAX_PAGES_PER_QUERY,
     maxPostings = ORACLE_MAX_POSTINGS_PER_FIRM,
+    stats, // see paginateWorkday
   } = opts;
   const seen = new Map();
 
@@ -852,9 +870,11 @@ export async function paginateOracle(fetchPage, opts = {}) {
     for (let page = 0; page < maxPages; page++) {
       if (seen.size >= maxPostings) break;
       let data;
+      if (stats) stats.attempts++;
       try {
         data = await fetchPage(q, offset, PAGE);
       } catch {
+        if (stats) stats.failures++;
         break; // this query failed; move to the next one
       }
 
@@ -900,14 +920,15 @@ export function oracleToJob(r, { host, site }) {
   };
 }
 
-async function fetchOracle(f) {
+async function fetchOracle(f, stats = newRequestStats()) {
   const seen = await paginateOracle((q, offset, limit) => {
     const finder = `findReqs;siteNumber=${f.site},limit=${limit},offset=${offset},sortBy=POSTING_DATES_DESC,keyword=${q}`;
     const url =
       `https://${f.host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions` +
       `?onlyData=true&expand=requisitionList.secondaryLocations&finder=${encodeURIComponent(finder)}`;
     return getJson(url);
-  });
+  }, { stats });
+  if (everyRequestFailed(stats)) throw new Error(`every Oracle request failed (${stats.failures})`);
   return [...seen.values()].map((r) => oracleToJob(r, f));
 }
 
@@ -964,8 +985,17 @@ async function fetchTalnet(f) {
 /* -------------------------------- Eightfold ------------------------------- */
 // Millennium's campus board. See lib/eightfold.mjs for the `num` cap that makes
 // pagination mandatory rather than optional.
-async function fetchEightfold(f) {
-  const seen = await paginateEightfold((start, num) => getJson(eightfoldUrl(f.host, f.domain, start, num)));
+async function fetchEightfold(f, stats = newRequestStats()) {
+  const seen = await paginateEightfold(async (start, num) => {
+    stats.attempts++;
+    try {
+      return await getJson(eightfoldUrl(f.host, f.domain, start, num));
+    } catch (e) {
+      stats.failures++;
+      throw e; // paginateEightfold ends the walk, as before
+    }
+  });
+  if (everyRequestFailed(stats)) throw new Error(`every Eightfold request failed (${stats.failures})`);
   return [...seen.values()].map((p) => eightfoldToJob(p, f));
 }
 
@@ -1083,6 +1113,8 @@ async function main() {
   const emptyFirms = [];
   // Firms whose board did not answer at all.
   const failedFirms = [];
+  // What each check established, for data/board-checks/ (lib/board-checks.mjs).
+  const checks = {};
   // ---------------------------------------------------------------------
   // Enrichment budgets.
   //
@@ -1108,21 +1140,34 @@ async function main() {
   const outOfTime = () => Date.now() - enrichStartedAt > ENRICH_BUDGET_MS;
   for (let i = 0; i < firms.length; i += POOL) {
     const batch = firms.slice(i, i + POOL);
+    const batchStats = batch.map(() => newRequestStats());
     const results = await Promise.allSettled(
-      batch.map(async (f) => {
-        const raw = await FETCHERS[f.ats](f);
+      batch.map(async (f, k) => {
+        const raw = await FETCHERS[f.ats](f, batchStats[k]);
         const opps = raw.map((j) => toOpportunity(j, f)).filter(Boolean);
         // Ceiling, not cap: see PER_FIRM_CEILING. Reaching it means a board is
         // answering with something we did not expect, which is worth saying out
         // loud rather than trimming away.
         if (opps.length > PER_FIRM_CEILING) {
           console.warn(`  !! ${f.firm}: ${opps.length} early-career roles, above the ${PER_FIRM_CEILING} ceiling — truncating; check the board and the filters`);
-          return { firm: f.firm, opps: opps.slice(0, PER_FIRM_CEILING) };
+          return { firm: f.firm, opps: opps.slice(0, PER_FIRM_CEILING), truncated: true };
         }
         return { firm: f.firm, opps };
       })
     );
-    for (const r of results) {
+    for (const [k, r] of results.entries()) {
+      const firm = batch[k];
+      // A truncated board's count is a floor, like a partly answered one.
+      const status =
+        r.status === 'fulfilled' && r.value.truncated
+          ? 'partial'
+          : classifyCheck({ settled: r.status, stats: batchStats[k] });
+      const roles = r.status === 'fulfilled' ? r.value.opps : [];
+      const reason = r.status === 'rejected' ? String(r.reason?.message ?? r.reason) : undefined;
+      const prev = checks[firm.firm];
+      checks[firm.firm] = prev
+        ? { firm, status: worstStatus(prev.status, status), roles: prev.roles.concat(roles), reason: prev.reason ?? reason }
+        : { firm, status, roles, reason };
       if (r.status === 'fulfilled') {
         ok++;
         all.push(...r.value.opps);
@@ -1140,7 +1185,7 @@ async function main() {
         // Named, not just counted. A board that starts failing every run looks
         // identical to a firm with nothing open unless something says which one
         // it was — the same reason emptyFirms is reported below.
-        failedFirms.push({ firm: batch[results.indexOf(r)]?.firm ?? 'unknown', reason: String(r.reason?.message ?? r.reason).slice(0, 80) });
+        failedFirms.push({ firm: firm?.firm ?? 'unknown', reason: String(r.reason?.message ?? r.reason).slice(0, 80) });
       }
     }
   }
@@ -1489,6 +1534,27 @@ async function main() {
   history.push(snapshot);
   history = history.slice(-120);
   await writeAtomic(HISTORY, JSON.stringify({ snapshots: history }, null, 2) + '\n');
+
+  // What each board check established today. Written beside the history, and
+  // after the collapse guard, so an aborted run records nothing.
+  const carriedByFirm = {};
+  for (const r of retained) (carriedByFirm[r.firm] ??= []).push(r);
+  const boards = {};
+  for (const c of Object.values(checks)) {
+    boards[c.firm.firm] = boardRecord({
+      firm: c.firm,
+      status: c.status,
+      roles: c.roles,
+      carried: carriedByFirm[c.firm.firm] ?? [],
+      reason: c.reason,
+    });
+  }
+  const checkFile = buildCheckFile({ date: day, checkedAt: stamp, boards, parked: parked.map((f) => f.firm) });
+  const CHECKS = join(ROOT, checkFilePath(day));
+  await mkdir(dirname(CHECKS), { recursive: true });
+  await writeAtomic(CHECKS, JSON.stringify(checkFile, null, 1) + '\n');
+  const { ok: okN, partial: partialN, failed: failedN } = checkFile.counts;
+  console.log(`board checks: ${okN} ok, ${partialN} partial, ${failedN} failed -> ${CHECKS}`);
 
   // ---------------------------------------------------------------------
   // Canonical URLs.
