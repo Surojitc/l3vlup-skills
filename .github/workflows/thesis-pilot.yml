@@ -123,6 +123,7 @@ jobs:
           npm run test:publish
           npm run test:federation
           npm run test:two-stage
+          npm run test:evidence-location
 
       # Every ceiling that matters lives in the code, not in this file, so a
       # workflow edit cannot raise one. This checks they are still there.
