@@ -109,11 +109,13 @@ await test('a document cannot end with more than six claims', () => {
   const { selected, rejected } = resolveSelections(asked, candidates);
   assert.equal(selected.length, MAX_CLAIMS_PER_DOCUMENT);
   assert.ok(rejected.some((r) => /over the 6-claim cap/.test(r.reason)));
-  // And the schema will not let a model ask for more in the first place.
-  assert.equal(SELECTION_TOOL.input_schema.properties.selections.maxItems, MAX_CLAIMS_PER_DOCUMENT);
-  assert.equal(CANDIDATE_TOOL.input_schema.properties.candidates.maxItems, MAX_CANDIDATES_PER_CHUNK);
+  // The schemas hold no count, because a strict schema may not. Both tools
+  // still state the number in the description the model reads.
+  assert.equal(SELECTION_TOOL.input_schema.properties.selections.maxItems, undefined);
+  assert.equal(CANDIDATE_TOOL.input_schema.properties.candidates.maxItems, undefined);
   assert.equal(SELECTION_TOOL.strict, true);
   assert.equal(CANDIDATE_TOOL.strict, true);
+  assert.match(CANDIDATE_TOOL.description, new RegExp(`at most ${MAX_CANDIDATES_PER_CHUNK}`));
   // The feed is checked independently of the run that produced it.
   const many = Array.from({ length: 7 }, (_, i) => ({ claimId: `c-${i}`, documentId: 'd-1', kind: 'statement', publicationState: 'needs_review', reviewStatus: 'pending' }));
   const feed = buildFeed({ claims: many, model: MODEL, promptVersion: 'v1', coverage: [{ documentId: 'd-1', chunksPlanned: 1, chunksProcessed: 1, complete: true }] });
@@ -263,6 +265,62 @@ await test('an incomplete run reports coverage counts and nothing it read', () =
   assert.equal(r.coverage[0].excerpt, undefined, 'a quotation reached the failure artefact');
   // An unknown stage is dropped rather than carried.
   assert.equal(buildFailureReport({ reason: 'unknown', stage: 'something the model said', ledger: {} }).stage, null);
+});
+
+// ── The schema defect of run 35501855065, and the caps that replaced it ─────
+
+await test('the per-chunk cap holds on the verified list, at the production default', async () => {
+  // The fixture offers nine proposals on one chunk. Four verify; the default
+  // cap keeps two of them and records the rest as drops rather than silence.
+  const lifted = await run({ maxCandidatesPerChunk: 99 });
+  const capped = await run();
+  assert.ok(lifted.claims.length > capped.claims.length, 'the cap changed nothing, so it is not being applied');
+  assert.ok(capped.claims.length <= MAX_CANDIDATES_PER_CHUNK, `${capped.claims.length} candidates survived a ${MAX_CANDIDATES_PER_CHUNK} cap`);
+  assert.ok(capped.dropped.some((d) => /over the 2-candidate cap for one chunk/.test(d.reason)),
+    'candidates past the cap vanished without a reason');
+});
+
+await test('a candidate is only cut after it has been verified, never before', async () => {
+  // The malformed proposals sit first in the fixture. A cap applied to the raw
+  // list would keep two of those and throw away the good claim behind them,
+  // which is how a cap turns into data loss.
+  const out = await run();
+  assert.ok(out.claims.length > 0, 'the cap consumed the whole chunk on malformed proposals');
+  for (const c of out.claims) assert.equal(c.claim.evidenceState, 'verified');
+});
+
+await test('a failed run names the error that caused it, beside the gate that refused', () => {
+  const report = buildFailureReport({
+    reason: 'incomplete_coverage', detail: 'the run reported no coverage at all', ledger: {},
+    documentsSelected: 2, documentsFetched: 1, documentsStarted: 1, documentsCompleted: 0,
+    failure: { reason: 'api_error', detail: 'HTTP 400 invalid_request_error tools.0...', stage: 'extraction' },
+  });
+  assert.deepEqual(validateFailureReport(report), []);
+  // The gate's reason stays the invariant the pull-request job reads.
+  assert.equal(report.reason, 'incomplete_coverage');
+  // The cause rides beside it, so the symptom no longer hides the finding.
+  assert.equal(report.failure.reason, 'api_error');
+  assert.equal(report.failure.stage, 'extraction');
+  // Four counts say how far the run got: fetched one of two, completed none.
+  assert.deepEqual(
+    [report.documentsSelected, report.documentsFetched, report.documentsStarted, report.documentsCompleted],
+    [2, 1, 1, 0],
+  );
+});
+
+await test('the failure field is rebuilt from a closed list, so nothing rides in on it', () => {
+  const report = buildFailureReport({
+    reason: 'unknown', ledger: {},
+    failure: {
+      reason: 'not a reason we know', detail: 'x'.repeat(500), stage: 'whatever the model said',
+      excerpt: 'a sentence from the letter', paraphrase: 'what the manager claims', claims: [{ claimId: 'c1' }],
+    },
+  });
+  assert.deepEqual(validateFailureReport(report), []);
+  assert.deepEqual(Object.keys(report.failure).sort(), ['detail', 'reason', 'stage']);
+  assert.equal(report.failure.reason, 'unknown');
+  assert.equal(report.failure.stage, null);
+  assert.equal(report.failure.detail.length, 200);
 });
 
 console.log(`${passed} passed`);

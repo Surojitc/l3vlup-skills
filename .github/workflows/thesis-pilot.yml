@@ -146,6 +146,22 @@ jobs:
             console.log("ceilings intact");
           '
           grep -q 'MAX_RETRIES = 0' lib/thesis-anthropic.mjs || { echo "::error::retries are no longer disabled"; exit 1; }
+          # A strict tool schema is compiled against a subset that excludes
+          # array-size and range constraints. Sending one is a 400 before any
+          # inference, which is how run 35501855065 died on its first call, so
+          # the request shape is checked here rather than discovered in flight.
+          node -e '
+            const t = await import("./lib/thesis-anthropic.mjs");
+            const banned = ["maxItems", "minItems", "maxLength", "minLength", "minimum", "maximum", "multipleOf", "pattern"];
+            for (const [name, tool] of [["propose_candidates", t.CANDIDATE_TOOL], ["select_claims", t.SELECTION_TOOL]]) {
+              if (tool.strict !== true) { console.error(`::error::${name} is not strict`); process.exit(1); }
+              const json = JSON.stringify(tool.input_schema);
+              for (const k of banned) {
+                if (json.includes(`"${k}"`)) { console.error(`::error::${name} carries ${k}, which a strict schema rejects`); process.exit(1); }
+              }
+            }
+            console.log("both strict schemas are within the supported subset");
+          '
           # Federation is only understood from @anthropic-ai/sdk 0.93.0. An
           # older pin authenticates as nothing at all and the run fails with an
           # error that does not mention federation, so say so here instead.
