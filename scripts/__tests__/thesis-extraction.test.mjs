@@ -54,16 +54,21 @@ await test('a correctly located span verifies and reaches review', async () => {
 
 await test('invented evidence is dropped, not repaired', async () => {
   const out = await run();
-  assert.ok(reason(out, /does not occur in the source/), 'a fabricated quotation survived');
+  assert.ok(reason(out, /does not occur in chunk/), 'a fabricated quotation survived');
   assert.ok(!out.claims.some((c) => /doubling of earnings/.test(c.claim.paraphrase)));
   // Nothing re-asks the model about a dropped claim.
   const source = readFileSync(join(REPO, 'lib', 'thesis-runner.mjs'), 'utf8');
   assert.equal((source.match(/model\.propose\(/g) || []).length, 1, 'the runner calls the model more than once per chunk');
 });
 
-await test('a real sentence at the wrong offsets is dropped', async () => {
+await test('a sentence the passage contains twice is dropped, not guessed at', async () => {
+  // The model no longer says where its excerpt sits, so the failure that
+  // replaced a wrong offset is an excerpt that could sit in two places. There
+  // is no honest way to choose, and choosing the first would attribute a
+  // claim to the wrong sentence, so it is dropped.
   const out = await run();
-  assert.ok(reason(out, /not at the stated offsets/), 'a misplaced offset survived');
+  assert.ok(reason(out, /occurs more than once/), 'an ambiguous excerpt was placed anyway');
+  assert.ok(!out.claims.some((c) => /show in August/.test(c.claim.paraphrase)));
 });
 
 await test('chunk offsets are translated into the document, and a span outside its chunk is refused', () => {
