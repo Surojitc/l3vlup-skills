@@ -50,7 +50,8 @@
     "test:letters": "node scripts/__tests__/letters.test.mjs",
     "precedents": "python3 scripts/sync_precedent_transactions.py precedents",
     "mergers": "python3 scripts/sync_precedent_transactions.py mergers",
-    "test:slugs": "node scripts/__tests__/slug-registry.test.mjs"
+    "test:slugs": "node scripts/__tests__/slug-registry.test.mjs",
+    "test:evidence-location": "node scripts/__tests__/thesis-evidence-location.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.127.0",

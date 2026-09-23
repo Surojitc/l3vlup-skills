@@ -216,27 +216,45 @@ await test('fields the model may not decide are stripped even when it insists on
   assert.equal(out.claims[0].claim.publicationState, 'needs_review', 'the model set the publication state');
 });
 
-// ── Invalid evidence offsets ───────────────────────────────────────────────
+// ── Evidence the model cannot place, because it is no longer asked to ──────
 
-await test('invalid or invented evidence offsets drop the claim', async () => {
-  const bad = [
-    { ...goodProposal, evidenceStartOffset: GOOD_START + 3, evidenceEndOffset: GOOD_END + 3 },
-    { ...goodProposal, evidenceExcerpt: 'Earnings will double by Thursday' },
-    { ...goodProposal, evidenceStartOffset: -5 },
-    { ...goodProposal, evidenceStartOffset: 10, evidenceEndOffset: 5 },
-    { ...goodProposal, evidenceEndOffset: 10 ** 7 },
-    { ...goodProposal, evidenceStartOffset: 1.5 },
-  ];
-  const model = anthropicModel({ modelId: PILOT_MODEL, taxonomy: TAXONOMY, client: stubClient(async () => ok([...bad, goodProposal])) });
+await test('an offset the model volunteers is stripped and never used', async () => {
+  // The model is not asked for a position any more, so one it sends anyway is
+  // not a hint to fall back on: it is stripped like any other field outside
+  // the proposable set, and the strip is reported.
+  const withOffsets = { ...goodProposal, evidenceStartOffset: 99_999, evidenceEndOffset: 1 };
+  const model = anthropicModel({ modelId: PILOT_MODEL, taxonomy: TAXONOMY, client: stubClient(async () => ok([withOffsets])) });
   const out = await runDocument({
     model, modelId: PILOT_MODEL, document: { documentId: 'd1', documentUrl: 'https://www.sec.gov/x', filingDate: '2026-08-14', sha256: 'a'.repeat(64) },
     manager: { managerId: 'm' }, sourceText: SOURCE, taxonomy: TAXONOMY,
     aliases: [{ alias: 'Northwind Components', issuerId: 'i-nwc', reviewState: 'confirmed' }],
     ledger: emptyCostLedger({ budgetUsd: 3 }), decisionLog: emptyDecisionLog(),
   });
-  assert.equal(out.claims.length, 1, 'more than the one good claim survived');
-  assert.equal(out.dropped.length, bad.length, `${out.dropped.length} dropped, expected ${bad.length}`);
-  assert.ok(out.dropped.every((d) => /offsets|evidence/.test(d.reason)));
+  // Nonsense offsets no longer cost a true quotation its claim.
+  assert.equal(out.claims.length, 1, 'a volunteered offset still decided the outcome');
+  const names = out.strippedFields.map((f) => f.field ?? f.name ?? f);
+  for (const f of ['evidenceStartOffset', 'evidenceEndOffset']) {
+    assert.ok(JSON.stringify(names).includes(f), `${f} was not reported as stripped`);
+  }
+  // And the offsets on the claim are the ones found in the text.
+  const ref = out.claims[0].reference;
+  assert.equal(SOURCE.slice(ref.startOffset, ref.endOffset), goodProposal.evidenceExcerpt);
+});
+
+await test('an excerpt that is absent or ambiguous is dropped, with no second call', async () => {
+  const absent = { ...goodProposal, evidenceExcerpt: 'Earnings will double by Thursday' };
+  const model = anthropicModel({ modelId: PILOT_MODEL, taxonomy: TAXONOMY, client: stubClient(async () => ok([absent, goodProposal])) });
+  const out = await runDocument({
+    model, modelId: PILOT_MODEL, document: { documentId: 'd1', documentUrl: 'https://www.sec.gov/x', filingDate: '2026-08-14', sha256: 'a'.repeat(64) },
+    manager: { managerId: 'm' }, sourceText: SOURCE, taxonomy: TAXONOMY,
+    aliases: [{ alias: 'Northwind Components', issuerId: 'i-nwc', reviewState: 'confirmed' }],
+    ledger: emptyCostLedger({ budgetUsd: 3 }), decisionLog: emptyDecisionLog(),
+  });
+  assert.equal(out.claims.length, 1, 'the invented quotation survived');
+  assert.equal(out.dropped.length, 1);
+  assert.match(out.dropped[0].reason, /does not occur/);
+  // One call per chunk, still. Nothing is re-asked.
+  assert.equal(out.ledger.calls.filter((c) => c.stage === 'extraction').length, 1);
 });
 
 // ── Budget ─────────────────────────────────────────────────────────────────

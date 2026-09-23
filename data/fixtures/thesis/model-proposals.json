@@ -21,8 +21,6 @@
         },
         "horizon": "horizon.one_to_three_years",
         "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
-        "evidenceStartOffset": 107,
-        "evidenceEndOffset": 172,
         "ticker": "NWC",
         "cusip": "037833100",
         "issuerCik": "0001111111",
@@ -41,9 +39,7 @@
         "risk": {
           "description": "Two customers are most of revenue"
         },
-        "evidenceExcerpt": "Two customers are 58% of revenue",
-        "evidenceStartOffset": 280,
-        "evidenceEndOffset": 312
+        "evidenceExcerpt": "Two customers are 58% of revenue"
       },
       {
         "issuerMention": "Northwind Components",
@@ -53,21 +49,17 @@
         "tags": [
           "driver.volume_growth"
         ],
-        "evidenceExcerpt": "We expect earnings to double within a year",
-        "evidenceStartOffset": 0,
-        "evidenceEndOffset": 42
+        "evidenceExcerpt": "We expect earnings to double within a year"
       },
       {
         "issuerMention": "Northwind Components",
-        "paraphrase": "Margins should improve.",
+        "paraphrase": "The margin turn should show in August.",
         "kind": "statement",
         "stance": "long",
         "tags": [
           "driver.margin_inflection"
         ],
-        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
-        "evidenceStartOffset": 112,
-        "evidenceEndOffset": 177
+        "evidenceExcerpt": "We expect this to be visible in the August results."
       },
       {
         "issuerMention": "Northwind Components",
@@ -77,9 +69,7 @@
         "tags": [
           "vibes.strong_setup"
         ],
-        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
-        "evidenceStartOffset": 107,
-        "evidenceEndOffset": 172
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills"
       },
       {
         "issuerMention": "Northwind Components",
@@ -87,9 +77,7 @@
         "kind": "inference",
         "stance": "unclear",
         "tags": [],
-        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
-        "evidenceStartOffset": 107,
-        "evidenceEndOffset": 172
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills"
       },
       {
         "issuerMention": "Northwind",
@@ -99,9 +87,7 @@
         "tags": [
           "quality.pricing_power"
         ],
-        "evidenceExcerpt": "Two customers are 58% of revenue",
-        "evidenceStartOffset": 280,
-        "evidenceEndOffset": 312
+        "evidenceExcerpt": "Two customers are 58% of revenue"
       },
       {
         "issuerMention": "Calder Industries",
@@ -109,9 +95,7 @@
         "kind": "statement",
         "stance": "unclear",
         "tags": [],
-        "evidenceExcerpt": "We continue to hold Calder Industries and have nothing to add this quarter",
-        "evidenceStartOffset": 356,
-        "evidenceEndOffset": 430
+        "evidenceExcerpt": "We continue to hold Calder Industries and have nothing to add this quarter"
       },
       {
         "issuerMention": "Northwind Components",
@@ -121,9 +105,7 @@
         "tags": [
           "driver.margin_inflection"
         ],
-        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills",
-        "evidenceStartOffset": 107,
-        "evidenceEndOffset": 172
+        "evidenceExcerpt": "Gross margin should move from 31% to 38% as the second line fills"
       }
     ]
   }
