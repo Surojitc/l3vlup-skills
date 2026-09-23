@@ -1,0 +1,312 @@
+{
+  "feedVersion": 1,
+  "note": "Sanitised claims awaiting human review. No source text, no prompts, no model responses. Every claim is needs_review or issuer_unresolved; nothing here is accepted or published, and only a person can make it so.",
+  "model": "claude-sonnet-5",
+  "promptVersion": "thesis-extract-v1",
+  "runId": "35928409902",
+  "claims": [
+    {
+      "claimId": "c-0000921895-26-000666-11435-11627-eec6bdfe3e",
+      "candidateId": "cand-5d11b65dfec408f7",
+      "rank": 1,
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-26-000666",
+      "accession": "0000921895-26-000666",
+      "filingDate": "2026-03-11",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf",
+      "locator": "chunk 1, characters 11435–11627",
+      "kind": "statement",
+      "stance": "long",
+      "paraphrase": "Starboard argues CarMax should target SG&A at 70-75% of gross profit via zero-based budgeting, restoring cost discipline lost since the pandemic to drive margin expansion.",
+      "excerpt": "we encourage targeting SG&A at 70% to 75% of gross profit, with a strong preference for the achievement of 75% as soon as possible and…",
+      "excerptWithheld": null,
+      "attribution": "Starboard Value LP, 2026-03-11",
+      "tags": [
+        "case.turnaround",
+        "driver.cost_programme"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": null,
+      "issuerResolution": "unresolved",
+      "publicationState": "issuer_unresolved",
+      "evidenceState": "verified",
+      "model": "claude-sonnet-5",
+      "promptVersion": "thesis-extract-v1",
+      "reviewStatus": "pending"
+    },
+    {
+      "claimId": "c-0000921895-26-000666-14315-14460-ba1e843cb2",
+      "candidateId": "cand-a208e86c5e08e919",
+      "rank": 2,
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-26-000666",
+      "accession": "0000921895-26-000666",
+      "filingDate": "2026-03-11",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf",
+      "locator": "chunk 1, characters 14315–14460",
+      "kind": "statement",
+      "stance": "long",
+      "paraphrase": "The manager believes CarMax trades cheaply relative to tangible book value and free cash flow, with room for multiple improvement.",
+      "excerpt": "a structurally strong and durable business that trades at or near tangible book value while producing ~$3 in free cash flow per share in FY…",
+      "excerptWithheld": null,
+      "attribution": "Starboard Value LP, 2026-03-11",
+      "tags": [
+        "case.asset_value_discount",
+        "valuation.fcf_yield_support",
+        "valuation.multiple_rerating"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": null,
+      "issuerResolution": "unresolved",
+      "publicationState": "issuer_unresolved",
+      "evidenceState": "verified",
+      "model": "claude-sonnet-5",
+      "promptVersion": "thesis-extract-v1",
+      "reviewStatus": "pending"
+    },
+    {
+      "claimId": "c-0000921895-26-000666-15592-15712-fe6b82a3d1",
+      "candidateId": "cand-5f6d42ff00addeaa",
+      "rank": 3,
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-26-000666",
+      "accession": "0000921895-26-000666",
+      "filingDate": "2026-03-11",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf",
+      "locator": "chunk 2, characters 15592–15712",
+      "kind": "statement",
+      "stance": "long",
+      "paraphrase": "The manager sees the CEO leadership change as an opportunity to improve governance and restore the company's momentum.",
+      "excerpt": null,
+      "excerptWithheld": "the 50-word cumulative cap for this document is spent",
+      "attribution": null,
+      "tags": [
+        "case.turnaround",
+        "governance.management_change"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": null,
+      "issuerResolution": "unresolved",
+      "publicationState": "issuer_unresolved",
+      "evidenceState": "verified",
+      "model": "claude-sonnet-5",
+      "promptVersion": "thesis-extract-v1",
+      "reviewStatus": "pending"
+    }
+  ],
+  "refused": [],
+  "dropped": [
+    {
+      "chunkId": "0000921895-26-000666#0",
+      "reason": "evidence: the excerpt does not occur in chunk 0000921895-26-000666#0"
+    },
+    {
+      "chunkId": "0000921895-26-000666#0",
+      "reason": "evidence: the excerpt does not occur in chunk 0000921895-26-000666#0"
+    },
+    {
+      "chunkId": "0000921895-26-000666#2",
+      "reason": "evidence: the excerpt does not occur in chunk 0000921895-26-000666#2"
+    },
+    {
+      "chunkId": "0001580642-26-006087#0",
+      "reason": "evidence: the excerpt occurs more than once in chunk 0001580642-26-006087#0, so which one is meant is ambiguous"
+    }
+  ],
+  "stripped": [],
+  "coverage": [
+    {
+      "documentId": "0000921895-26-000666",
+      "chunksPlanned": 3,
+      "chunksProcessed": 3,
+      "complete": true,
+      "reason": null
+    },
+    {
+      "documentId": "0001580642-26-006087",
+      "chunksPlanned": 9,
+      "chunksProcessed": 9,
+      "complete": true,
+      "reason": null
+    }
+  ],
+  "selectionRejects": [],
+  "cost": {
+    "estimatedUsd": 0.075254,
+    "actualUsd": 0.112971,
+    "budgetUsd": 3,
+    "stopped": false,
+    "stopReason": null,
+    "byStage": {
+      "extraction": {
+        "calls": 12,
+        "inputTokens": 24746,
+        "outputTokens": 1904,
+        "actualUsd": 0.105537
+      },
+      "consolidation": {
+        "calls": 2,
+        "inputTokens": 2561,
+        "outputTokens": 160,
+        "actualUsd": 0.007434
+      }
+    },
+    "calls": [
+      {
+        "stage": "extraction",
+        "documentId": "0000921895-26-000666",
+        "chunkId": "0000921895-26-000666#0",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2263,
+        "outputTokens": 405,
+        "estimatedUsd": 0.008576,
+        "actualUsd": 0.016376
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0000921895-26-000666",
+        "chunkId": "0000921895-26-000666#1",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2265,
+        "outputTokens": 415,
+        "estimatedUsd": 0.00868,
+        "actualUsd": 0.010261
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0000921895-26-000666",
+        "chunkId": "0000921895-26-000666#2",
+        "model": "claude-sonnet-5",
+        "inputTokens": 276,
+        "outputTokens": 368,
+        "estimatedUsd": 0.004232,
+        "actualUsd": 0.005309
+      },
+      {
+        "stage": "consolidation",
+        "documentId": "0000921895-26-000666",
+        "chunkId": "0000921895-26-000666:consolidate",
+        "model": "claude-sonnet-5",
+        "inputTokens": 1412,
+        "outputTokens": 126,
+        "estimatedUsd": 0.004084,
+        "actualUsd": 0.0046
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#0",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2281,
+        "outputTokens": 227,
+        "estimatedUsd": 0.0068319999999999995,
+        "actualUsd": 0.010337
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#1",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2248,
+        "outputTokens": 244,
+        "estimatedUsd": 0.0069359999999999995,
+        "actualUsd": 0.010751
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#2",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2281,
+        "outputTokens": 35,
+        "estimatedUsd": 0.004912,
+        "actualUsd": 0.009321
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#3",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2266,
+        "outputTokens": 35,
+        "estimatedUsd": 0.004881999999999999,
+        "actualUsd": 0.007771
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#4",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2240,
+        "outputTokens": 35,
+        "estimatedUsd": 0.004829999999999999,
+        "actualUsd": 0.005911
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#5",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2265,
+        "outputTokens": 35,
+        "estimatedUsd": 0.00488,
+        "actualUsd": 0.007503
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#6",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2055,
+        "outputTokens": 35,
+        "estimatedUsd": 0.0044599999999999996,
+        "actualUsd": 0.006593
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#7",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2273,
+        "outputTokens": 35,
+        "estimatedUsd": 0.004895999999999999,
+        "actualUsd": 0.008343
+      },
+      {
+        "stage": "extraction",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087#8",
+        "model": "claude-sonnet-5",
+        "inputTokens": 2033,
+        "outputTokens": 35,
+        "estimatedUsd": 0.004416,
+        "actualUsd": 0.007061
+      },
+      {
+        "stage": "consolidation",
+        "documentId": "0001580642-26-006087",
+        "chunkId": "0001580642-26-006087:consolidate",
+        "model": "claude-sonnet-5",
+        "inputTokens": 1149,
+        "outputTokens": 34,
+        "estimatedUsd": 0.002638,
+        "actualUsd": 0.002834
+      }
+    ]
+  },
+  "quotedWordsByDocument": {
+    "0000921895-26-000666": 50
+  }
+}
