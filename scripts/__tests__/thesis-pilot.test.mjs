@@ -519,15 +519,22 @@ await test('Sonnet 5 resolves to itself, and no alias can redirect it', () => {
 
 // ── The bounded Sonnet 5 configuration ──────────────────────────────────────
 
-await test('two candidates per chunk and six claims per document, both structural', () => {
+await test('two candidates per chunk and six claims per document, both deterministic', () => {
   assert.equal(MAX_CANDIDATES_PER_CHUNK, 2);
   assert.equal(MAX_CLAIMS_PER_DOCUMENT, 6);
-  // `strict: true` makes each schema binding, so a third candidate and a
-  // seventh selection are not things a model can return.
+  // No array-size constraint anywhere in either strict schema. The API
+  // compiles a strict schema against a subset that excludes them, and sending
+  // one is a 400 before inference rather than a tighter guarantee: run
+  // 35501855065 died on its first call for exactly this. The caps live in
+  // code, where a model's cooperation is not required.
   assert.equal(CANDIDATE_TOOL.strict, true);
-  assert.equal(CANDIDATE_TOOL.input_schema.properties.candidates.maxItems, 2);
   assert.equal(SELECTION_TOOL.strict, true);
-  assert.equal(SELECTION_TOOL.input_schema.properties.selections.maxItems, 6);
+  for (const [name, tool] of [['CANDIDATE_TOOL', CANDIDATE_TOOL], ['SELECTION_TOOL', SELECTION_TOOL]]) {
+    const json = JSON.stringify(tool.input_schema);
+    for (const banned of ['maxItems', 'minItems', 'maxLength', 'minLength', 'minimum', 'maximum', 'multipleOf', 'pattern']) {
+      assert.ok(!json.includes(`"${banned}"`), `${name} carries ${banned}, which a strict schema rejects`);
+    }
+  }
   // And each instruction says the same number, so the two cannot disagree.
   const taxonomy = JSON.parse(readFileSync(join(REPO, 'data', 'letters.taxonomy.json'), 'utf8'));
   assert.match(extractionPrompt(taxonomy), /at most 2 claims/);
@@ -561,7 +568,14 @@ await test('the request asks for exactly the per-call output ceiling', async () 
   await model.propose({ chunkId: 'c', text: 'x' });
   assert.equal(sent[0].max_tokens, LIMITS.maxOutputTokensPerCall, 'the request and the ceiling disagree');
   assert.deepEqual(sent[0].thinking, { type: 'disabled' }, 'thinking came back on');
-  assert.equal(sent[0].tools[0].input_schema.properties.candidates.maxItems, 2);
+  // The strongest form of the guard: what actually goes on the wire carries no
+  // constraint the strict compiler rejects. Asserting on the exported
+  // constant would not have caught this; asserting on the request does.
+  const wire = JSON.stringify(sent[0].tools);
+  for (const banned of ['maxItems', 'minItems', 'maxLength', 'minLength', 'minimum', 'maximum', 'multipleOf', 'pattern']) {
+    assert.ok(!wire.includes(`"${banned}"`), `the request sent ${banned} inside a strict tool schema`);
+  }
+  assert.equal(sent[0].tools[0].strict, true);
 });
 
 await test('the 2,000-token ceiling is priced, and the pilot still fits the budget', () => {

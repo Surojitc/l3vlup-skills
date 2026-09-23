@@ -43,7 +43,14 @@ const SOURCES = join(ROOT, 'data', 'letters.sources.json');
  * holds identifiers and numbers only; nothing read from a document ever
  * reaches it.
  */
-const runState = { model: null, promptVersion: null, ledger: {}, documentsAttempted: 0, stage: null, coverage: [], documentsSelected: 0 };
+// Three counts, not one. `documentsAttempted` alone could not tell a fetch
+// that never returned from a document that was read and produced nothing, and
+// run 35501855065 died between fetched and started with all three reading 0.
+const runState = {
+  model: null, promptVersion: null, ledger: {}, stage: null, coverage: [],
+  documentsSelected: 0, documentsFetched: 0, documentsStarted: 0, documentsCompleted: 0,
+  documentsAttempted: 0, failure: null,
+};
 
 /** Write the cost of a run that did not finish, or say why it could not. */
 export function writeFailureReport(reason, detail) {
@@ -51,6 +58,11 @@ export function writeFailureReport(reason, detail) {
     reason, detail, ledger: runState.ledger, model: runState.model,
     promptVersion: runState.promptVersion, runId: process.env.GITHUB_RUN_ID || null,
     documentsAttempted: runState.documentsAttempted,
+    documentsSelected: runState.documentsSelected,
+    documentsFetched: runState.documentsFetched,
+    documentsStarted: runState.documentsStarted,
+    documentsCompleted: runState.documentsCompleted,
+    failure: runState.failure,
     stage: runState.stage, coverage: runState.coverage,
   });
   const problems = validateFailureReport(report);
@@ -247,6 +259,7 @@ async function main() {
       writeFileSync(scratch, got.body);
       const parsed = await parseDocument(format, scratch, got.body);
       rmSync(scratch, { force: true });
+      runState.documentsFetched += 1;
       if (parsed.status !== 'ok' || !parsed.text) { console.error(`  parse failed (${parsed.status}); skipping`); continue; }
       console.log(`  parsed ${parsed.text.length} characters; extracting`);
 
@@ -255,6 +268,8 @@ async function main() {
         documentId: d.accession, managerId: d.fund, managerName, accession: d.accession, form: d.form,
         filingDate: d.filingDate, documentUrl: d.documentUrl, sha256: got.sha256,
       };
+      runState.documentsStarted += 1;
+      runState.stage = 'extraction';
       const run = await runDocument({
         model, modelId: args.model, document, manager: { managerId: d.fund, legalName: managerName },
         sourceText: parsed.text, taxonomy, aliases: [],
@@ -263,6 +278,8 @@ async function main() {
       ledger = run.ledger;
       runState.ledger = ledger;
       runState.documentsAttempted += 1;
+      runState.documentsCompleted += run.coverage?.complete ? 1 : 0;
+      runState.stage = null;
       if (run.coverage) runState.coverage = [...runState.coverage.filter((c) => c.documentId !== run.coverage.documentId), run.coverage];
       out.push({ document, run });
       console.log(`  ${run.claims.length} claim(s), ${run.dropped.length} dropped, ${run.strippedFields.length} field(s) stripped, $${ledger.estimatedUsd.toFixed(4)} spent`);
@@ -270,6 +287,21 @@ async function main() {
     }
     return out;
   });
+
+  // The primary error first, and before any gate can exit.
+  //
+  // This used to be reported after the completion gate, which meant a run that
+  // threw mid-document exited 6 with `incomplete_coverage` and never printed
+  // the exception that caused it: the coverage gap was the symptom and the
+  // only thing anybody saw. The error is the finding; incomplete coverage is
+  // its consequence.
+  if (error) {
+    const reason = error?.reason ?? (error instanceof FetchRefusal ? 'fetch_refused' : 'unknown');
+    const detail = String(error?.detail ?? error?.message ?? error).slice(0, 200);
+    runState.failure = { reason, detail, stage: runState.stage };
+    console.error(`\nThe run stopped on an error${runState.stage ? ` during ${runState.stage}` : ''}: ${reason}`);
+    console.error(`  ${detail}`);
+  }
 
   console.log(cleanup.clean
     ? `\ncleanup: workspace removed (${cleanup.scratchFilesAtEnd} scratch file(s) at the end); no document or extracted text retained`
@@ -320,6 +352,11 @@ async function main() {
   if (gaps.length) {
     console.error('\nIncomplete coverage. No feed is written and no pull request can be opened:');
     for (const g of gaps) console.error(`  - ${g}`);
+    // The reason stays `incomplete_coverage`, because that is what the gate
+    // refused on and the invariant the pull-request job reads. The error that
+    // caused it rides in the `failure` field beside it, so the report names
+    // both the symptom and the cause without conflating them.
+    if (runState.failure) console.error(`  caused by ${runState.failure.reason}: ${runState.failure.detail}`);
     writeFailureReport('incomplete_coverage', gaps[0]);
     process.exit(6);
   }
@@ -333,7 +370,7 @@ async function main() {
   }
   console.log(`feed: ${feed.claims.length} publishable, ${feed.refused.length} refused`);
 
-  if (error) { console.error(`\n${error instanceof FetchRefusal ? error.message : error}`); process.exit(1); }
+  if (error) process.exit(1);
 
   console.log(`\n${claims.length} claim(s) awaiting review in .pilot/review.md`);
   console.log(`estimated $${ledger.estimatedUsd.toFixed(4)} · actual $${ledger.actualUsd.toFixed(4)} of $${ledger.budgetUsd.toFixed(2)}`);

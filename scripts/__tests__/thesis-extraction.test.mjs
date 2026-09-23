@@ -32,6 +32,10 @@ const run = (over = {}) => runDocument({
   model: fakeModel({ responses: PROPOSALS }), modelId: 'claude-haiku-4-5-20251001',
   document: F.document, manager: F.manager, sourceText: SOURCE,
   taxonomy: TAXONOMY, aliases: F.aliases,
+  // The per-chunk cap is lifted here on purpose. This suite drives one chunk
+  // of nine proposals to check what validation drops and why; the cap itself
+  // is tested against the production default in thesis-two-stage.test.mjs.
+  maxCandidatesPerChunk: 99,
   ledger: emptyCostLedger(), decisionLog: emptyDecisionLog(), ...over,
 });
 
