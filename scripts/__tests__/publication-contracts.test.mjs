@@ -157,6 +157,37 @@ eq(
   [],
 );
 
+// The monthly run of 24 September collected everything and published
+// nothing, because the precedent collector's form-index cache had never been
+// named here. Every monthly file rides on the same publication, so one
+// missing name costs all of them.
+eq(
+  'the open-data collection may publish what its monthly collectors write',
+  unexpectedPaths('open-data', ['data/precedent-transactions.auto.json', 'data/merger-index.auto.json', 'data/cusip-tickers.auto.json', 'data/funds.auto.json', 'data/peers.auto.json', 'data/peers-crawl.auto.json']),
+  [],
+);
+
+// The peer lists and their crawl record are keyed by industry code, so they
+// are counted by industry rather than by their handful of top-level keys.
+const peersSpec = CONTRACTS['open-data'].files.find((f) => f.path === 'data/peers.auto.json');
+const crawlSpec = CONTRACTS['open-data'].files.find((f) => f.path === 'data/peers-crawl.auto.json');
+const keyed = (n, extra = {}) => ({
+  generatedAt: fresh,
+  industries: Object.fromEntries(Array.from({ length: n }, (_, i) => [String(1000 + i), { ciks: [i], listed: [] }])),
+  ...extra,
+});
+eq('a full peer file is published', fileProblems(peersSpec, keyed(444), keyed(444), now).problems, []);
+eq('one industry emptying out is honest and published', fileProblems(peersSpec, keyed(443), keyed(444), now).problems, []);
+refuses('a peer file that lost its crawl record and wrote what it reached is refused', fileProblems(peersSpec, keyed(120), keyed(444), now), 'below its floor');
+refuses('a peer file with no industries object is refused', fileProblems(peersSpec, { generatedAt: fresh, industries: [] }, keyed(444), now), 'no industries object');
+eq('a full crawl record is published', fileProblems(crawlSpec, keyed(444), keyed(444), now).problems, []);
+eq('its first publication has nothing to compare against', fileProblems(crawlSpec, keyed(444), null, now).problems, []);
+refuses('a crawl record that dropped an industry is refused: a failed crawl keeps the last one', fileProblems(crawlSpec, keyed(443), keyed(444), now), 'only ever grows');
+refuses('a crawl record with no stamp is refused', fileProblems(crawlSpec, { industries: keyed(444).industries }, null, now), 'no readable generatedAt');
+const mergerSpec = CONTRACTS['open-data'].files.find((f) => f.path === 'data/merger-index.auto.json');
+eq('the merger-proxy form index is bookkeeping: it must parse, and nothing more', fileProblems(mergerSpec, { generatedAt: fresh, quarters: {} }, null, now).problems, []);
+refuses('...and it must parse', fileProblems(mergerSpec, null, null, now), 'not readable JSON');
+
 // ── 4. a whole producer, and the cadences it really runs at ──────────────
 const world = (files) => ({
   staged: Object.keys(files),

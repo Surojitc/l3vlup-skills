@@ -36,6 +36,8 @@
  *   path         the file, exactly
  *   label        what it is, for the pull request body and the error
  *   rows         the key holding the array, when the file is a list
+ *   keyed        the key holding an object whose entries are the rows, when
+ *                the file is keyed by id rather than listed (counted only)
  *   min          the fewest rows worth publishing over yesterday's copy
  *   minRatio     how far the count may fall in one run, as a fraction
  *   maxRatio     and how far it may rise
@@ -188,8 +190,40 @@ export const CONTRACTS = {
         optional: true,
       },
       { path: 'data/funds.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' }, label: '13F holdings', neverShrinks: true, optional: true },
+      // The quarterly EDGAR form index the precedent collector reads merger
+      // proxies from, kept so a closed quarter is read once. Committed since
+      // #29 and rewritten by every monthly run, but missing from this list,
+      // so every monthly run refused to publish anything at all.
+      { path: 'data/merger-index.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' }, label: 'the merger-proxy form index', shapeOnly: true, optional: true },
       { path: 'data/funds.universe.json', freshness: { cadence: 'manual' }, label: 'the 13F manager universe', shapeOnly: true, optional: true },
-      { path: 'data/peers.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' }, label: 'the industry peer lists', neverShrinks: true, optional: true },
+      {
+        path: 'data/peers.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' },
+        label: 'the industry peer lists',
+        // Counted by industry. This used to say neverShrinks with nothing to
+        // count but the file's five top-level keys, which could never fail.
+        // An industry leaves the file only when a fresh crawl finds no filers
+        // under it at all, which is rare and honest, so the floor is a ratio
+        // rather than a ban: what it catches is a run that lost the crawl
+        // record and wrote the handful of industries it managed to reach.
+        keyed: 'industries',
+        min: 400,
+        minRatio: 0.95,
+        stamp: 'generatedAt',
+        optional: true,
+      },
+      {
+        path: 'data/peers-crawl.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' },
+        label: 'the industry peer crawl record',
+        // What each industry's EDGAR crawl found, so a monthly run re-reads
+        // only the industries most overdue and fits inside its step. An
+        // industry's record is replaced, never removed: a failed crawl keeps
+        // the last one. So the count only grows.
+        keyed: 'industries',
+        min: 400,
+        neverShrinks: true,
+        stamp: 'generatedAt',
+        optional: true,
+      },
       { path: 'data/career-snapshots.json', freshness: { cadence: 'daily', from: 'commit' }, label: 'the careers-page snapshots', shapeOnly: true, optional: true },
       { path: 'data/career-review-queue.json', freshness: { cadence: 'daily', from: 'generatedAt' }, label: 'the careers review queue', shapeOnly: true, optional: true },
     ],
@@ -264,8 +298,17 @@ export const FRESHNESS_STATES = ['fresh', 'degraded', 'stale', 'not-due', 'manua
  *
  * `committedAt` is the file's last commit time, supplied by the caller
  * because reading it means shelling out to git and this module stays pure.
+ *
+ * `expectedSince` is set when this run's collector for the file was due and
+ * ran, and is the time the collection began. The horizon alone answers "has
+ * this been collected lately", which for a monthly source means a collector
+ * can fail on the first of the month and read as not-due for another six
+ * weeks. That is how the peer lists timed out on a green step: ninety minutes,
+ * no file, and a table that said all was well. When a collector was due and
+ * the stamp on disk predates the run, the collector did not finish, and that
+ * is said this morning rather than in November.
  */
-export function fileFreshness(spec, value, committedAt, now = new Date()) {
+export function fileFreshness(spec, value, committedAt, now = new Date(), expectedSince = null) {
   const f = spec.freshness ?? { cadence: 'manual' };
   const base = { path: spec.path, label: spec.label, cadence: f.cadence, required: Boolean(f.required) };
 
@@ -291,6 +334,18 @@ export function fileFreshness(spec, value, committedAt, now = new Date()) {
   const ageHours = (now.getTime() - stamp.getTime()) / 3_600_000;
   const horizon = f.maxAgeHours ?? HORIZON_HOURS[f.cadence];
   const at = { ...base, lastSuccess: stamp.toISOString(), ageHours: Math.round(ageHours) };
+
+  // Degraded, never stale, while the file is inside its horizon: one missed
+  // run is worth a warning, and the horizon is still what decides blocking.
+  // Past the horizon the ordinary verdict below already says more.
+  if (expectedSince && ageHours <= horizon && stamp.getTime() < new Date(expectedSince).getTime()) {
+    return {
+      ...at,
+      state: 'degraded',
+      horizon,
+      note: `due this run and not written by it; the copy on disk is ${Math.round(ageHours)}h old`,
+    };
+  }
 
   if (ageHours <= horizon) {
     // Old and not overdue is worth saying out loud. A 13F file collected
@@ -318,13 +373,15 @@ export function fileFreshness(spec, value, committedAt, now = new Date()) {
  * green tick. That is the same defect as a silently refused push, one step
  * earlier in the pipeline, and it is what this answers.
  */
-export function freshnessReport(producer, { read, committedAt }, now = new Date()) {
+export function freshnessReport(producer, { read, committedAt, expected = [], since = null }, now = new Date()) {
   const contract = CONTRACTS[producer];
   if (!contract) return { sources: [], blocking: true, degraded: false, problems: [`no publication contract named ${producer}`] };
 
   const sources = contract.files
     .filter((spec) => spec.path)
-    .map((spec) => fileFreshness(spec, read(spec.path), committedAt(spec.path), now));
+    .map((spec) =>
+      fileFreshness(spec, read(spec.path), committedAt(spec.path), now, since && expected.includes(spec.path) ? since : null),
+    );
 
   const stale = sources.filter((s) => s.state === 'stale');
   const degraded = sources.filter((s) => s.state === 'degraded');
@@ -388,8 +445,12 @@ export function unexpectedPaths(producer, paths) {
 }
 
 /** How many entries a value holds, whatever shape it is. */
-function count(value, rowsKey) {
+function count(value, rowsKey, keyedKey) {
   if (rowsKey) return Array.isArray(value?.[rowsKey]) ? value[rowsKey].length : null;
+  if (keyedKey) {
+    const o = value?.[keyedKey];
+    return o && typeof o === 'object' && !Array.isArray(o) ? Object.keys(o).length : null;
+  }
   if (Array.isArray(value)) return value.length;
   if (value && typeof value === 'object') return Object.keys(value).length;
   return null;
@@ -542,9 +603,13 @@ export function fileProblems(spec, next, prev, now = new Date()) {
   if (spec.binary || spec.shapeOnly) return { problems, stats: { name, path: spec.path } };
 
   const rows = rowsOf(next, spec.rows);
-  const n = count(next, spec.rows);
+  const n = count(next, spec.rows, spec.keyed);
   if (spec.rows && rows === null) {
     problems.push(`${name} has no ${spec.rows} array`);
+    return { problems, stats: null };
+  }
+  if (spec.keyed && n === null) {
+    problems.push(`${name} has no ${spec.keyed} object`);
     return { problems, stats: null };
   }
   if (n === null) {
@@ -588,7 +653,7 @@ export function fileProblems(spec, next, prev, now = new Date()) {
     }
   }
 
-  const before = prev == null ? null : count(prev, spec.rows);
+  const before = prev == null ? null : count(prev, spec.rows, spec.keyed);
   let movement = null;
   if (before !== null && before > 0) {
     const ratio = n / before;
