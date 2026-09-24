@@ -53,7 +53,8 @@
     "test:screen": "node scripts/__tests__/role-screen.test.mjs",
     "test:duplicates": "node scripts/__tests__/role-duplicates.test.mjs",
     "test:telemetry": "node scripts/__tests__/role-telemetry.test.mjs",
-    "report:lifecycle": "node scripts/report-role-lifecycle.mjs"
+    "report:lifecycle": "node scripts/report-role-lifecycle.mjs",
+    "test:evidence-location": "node scripts/__tests__/thesis-evidence-location.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.127.0",
