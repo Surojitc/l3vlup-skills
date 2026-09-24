@@ -2030,6 +2030,24 @@
       "firstSeen": "2026-09-12",
       "lastConfirmed": "2026-09-12"
     },
+    "workday-trinitylifesciences-JR100826-1": {
+      "closingDate": "2026-10-15",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-24",
+      "lastConfirmed": "2026-09-24"
+    },
+    "workday-trinitylifesciences-JR100827-1": {
+      "closingDate": "2026-10-15",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-24",
+      "lastConfirmed": "2026-09-24"
+    },
+    "workday-trinitylifesciences-JR100828": {
+      "closingDate": "2026-10-15",
+      "source": "workday-detail",
+      "firstSeen": "2026-09-24",
+      "lastConfirmed": "2026-09-24"
+    },
     "workday-vanguard-177644-1": {
       "closingDate": "2026-12-17",
       "source": "workday-detail",
@@ -5014,6 +5032,10 @@
       "checkedAt": "2026-09-24",
       "attempts": 1
     },
+    "talnet-blackrock-tal-net-11984|jsonld": {
+      "checkedAt": "2026-09-24",
+      "attempts": 1
+    },
     "talnet-blackrock-tal-net-11986|jsonld": {
       "checkedAt": "2026-09-24",
       "attempts": 4
@@ -5486,6 +5508,14 @@
       "checkedAt": "2026-09-24",
       "attempts": 2
     },
+    "workday-accenture-R00292740|jsonld": {
+      "checkedAt": "2026-09-24",
+      "attempts": 1
+    },
+    "workday-accenture-R00292740|workday-detail": {
+      "checkedAt": "2026-09-24",
+      "attempts": 1
+    },
     "workday-accenture-R00306360|jsonld": {
       "checkedAt": "2026-09-24",
       "attempts": 2
@@ -5739,6 +5769,14 @@
       "attempts": 1
     },
     "workday-accenture-R00358096-1|workday-detail": {
+      "checkedAt": "2026-09-24",
+      "attempts": 1
+    },
+    "workday-accenture-R00358899|jsonld": {
+      "checkedAt": "2026-09-24",
+      "attempts": 1
+    },
+    "workday-accenture-R00358899|workday-detail": {
       "checkedAt": "2026-09-24",
       "attempts": 1
     },
