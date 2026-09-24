@@ -249,6 +249,31 @@ site-side decision, so it is left as a recommendation: add them to the
 `Opportunity` type and the wire format deliberately, or emit them to a
 separate file the site does not load.
 
+### Three dates, kept apart
+
+Future lifecycle work treats these as separate fields and never lets one
+stand in for another:
+
+| concept | what it answers | where it comes from today |
+|---|---|---|
+| **Posting date** | when the firm published the requisition | `openingDate` for a live row: the ATS list date, or the Workday detail `startDate`, which despite its name is when the posting went live |
+| **Application deadline** | when applications close | `closingDate`: the Workday detail `endDate` (shown to candidates as "time left to apply"), the ledger, or a date parsed from the posting text |
+| **Programme start / cohort year** | when the job itself starts, the intake it belongs to | not collected as a field; only `inferCohortYear(role)` from the title |
+
+Mixing them is how both earlier mistakes happen. An age threshold on the
+posting date would close Palantir postings that are years old and still
+hiring, and a deadline check says nothing about an intake that has already
+started. The Citi 2025 rows are stale in the third sense: the application
+is still open on Workday, but the intake it belongs to was 2025. The honest
+treatment is a label ("2025 intake"; "an earlier cohort, still accepting
+applications"), not deletion.
+
+The most promising signal is the third field, not an age threshold or a
+URL-liveness check. Two concrete steps toward it: persist the Workday detail
+`startDate` as the posting date, so it survives the list endpoint's "30+"
+(see above); and add an explicit cohort or programme-start field, filled
+from the title today and from structured sources where an ATS exposes one.
+
 ### If a closure rule is wanted later
 
 The evidence supports, at most: **a past recruiting year in the title and no
