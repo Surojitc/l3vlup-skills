@@ -1,0 +1,11 @@
+{
+  "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
+  "current": "2026-09-24",
+  "fingerprints": {
+    "99b4a6dabe727975": {
+      "method": "2026-09-24",
+      "note": "First recorded method: board checks with request accounting, budget and ceiling partials, and per-board configuration hashes",
+      "recorded": "2026-09-24"
+    }
+  }
+}

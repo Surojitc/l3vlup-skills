@@ -9,8 +9,12 @@
  * right before any number derived from it can be.
  */
 import {
-  COLLECTION_METHOD,
+  METHOD_FILES,
+  boardConfigHash,
   boardRecord,
+  checkVerdict,
+  methodFingerprint,
+  resolveMethod,
   buildCheckFile,
   checkFilePath,
   classifyCheck,
@@ -19,6 +23,7 @@ import {
   worstStatus,
 } from '../../lib/board-checks.mjs';
 import { paginateWorkday, paginateOracle } from '../sync-ats.mjs';
+import { paginateEightfold } from '../../lib/eightfold.mjs';
 import { CONTRACTS, unexpectedPaths } from '../publication-contracts.mjs';
 
 let pass = 0, fail = 0;
@@ -35,6 +40,13 @@ eq('an answered board with no stats is ok', classifyCheck({ settled: 'fulfilled'
 eq('every page answering is ok', classifyCheck({ settled: 'fulfilled', stats: { attempts: 7, failures: 0 } }), 'ok');
 eq('some pages refusing is partial', classifyCheck({ settled: 'fulfilled', stats: { attempts: 7, failures: 2 } }), 'partial');
 eq('every page refusing is failed, even if the fetcher returned', classifyCheck({ settled: 'fulfilled', stats: { attempts: 5, failures: 5 } }), 'failed');
+eq('our budget ending the walk is partial, and says so',
+  checkVerdict({ settled: 'fulfilled', stats: { attempts: 30, failures: 0, capped: true } }), { status: 'partial', why: 'budget' });
+eq('the per-firm ceiling is partial, and says so',
+  checkVerdict({ settled: 'fulfilled', stats: newRequestStats(), ceiling: true }), { status: 'partial', why: 'ceiling' });
+eq('a failed request outranks the budget as the reason',
+  checkVerdict({ settled: 'fulfilled', stats: { attempts: 5, failures: 1, capped: true } }), { status: 'partial', why: 'failures' });
+eq('a clean walk is ok with no reason', checkVerdict({ settled: 'fulfilled', stats: { attempts: 3, failures: 0 } }), { status: 'ok' });
 eq('everyRequestFailed: all refused', everyRequestFailed({ attempts: 3, failures: 3 }), true);
 eq('everyRequestFailed: one answered', everyRequestFailed({ attempts: 3, failures: 2 }), false);
 eq('two boards for one firm: failed beats ok', worstStatus('ok', 'failed'), 'failed');
@@ -72,6 +84,40 @@ eq('everyRequestFailed: nothing asked', everyRequestFailed({ attempts: 0, failur
   eq('the paginators still work with no stats object', seen.size, 0);
 }
 
+// The budget. A board that still has more when our page or posting budget
+// runs out yields a count set by us, not by its hiring.
+{
+  const full = (n) => ({ total: 10_000, jobPostings: Array.from({ length: 20 }, (_, i) => ({ externalPath: `/job/${n}-${i}` })) });
+  const stats = newRequestStats();
+  await paginateWorkday(async (q, offset) => full(`${q}${offset}`), { queries: ['intern'], maxPages: 3, stats });
+  eq('workday: every page full and the page budget gone is capped', stats.capped, true);
+}
+{
+  const full = (n) => ({ total: 10_000, jobPostings: Array.from({ length: 20 }, (_, i) => ({ externalPath: `/job/${n}-${i}` })) });
+  const stats = newRequestStats();
+  await paginateWorkday(async (q, offset) => full(`${q}${offset}`), { queries: ['intern', 'graduate'], maxPostings: 40, stats });
+  eq('workday: the posting budget reached is capped', stats.capped, true);
+}
+{
+  const stats = newRequestStats();
+  await paginateWorkday(async (q, offset) => ({ total: 30, jobPostings: Array.from({ length: Math.min(20, 30 - offset) }, (_, i) => ({ externalPath: `/j/${offset + i}` })) }), { queries: ['intern'], stats });
+  eq('workday: a board read to its end is not capped', stats.capped ?? false, false);
+}
+{
+  const stats = newRequestStats();
+  const req = (n) => Array.from({ length: 25 }, (_, i) => ({ Id: `${n}-${i}` }));
+  await paginateOracle(async (q, offset) => ({ items: [{ requisitionList: req(offset), TotalJobsCount: 9999 }] }), { queries: ['intern'], maxPages: 2, stats });
+  eq('oracle: the page budget gone with more on the board is capped', stats.capped, true);
+}
+{
+  const stats = newRequestStats();
+  await paginateEightfold(async (start, num) => ({ count: 9999, positions: Array.from({ length: num }, (_, i) => ({ id: start + i })) }), { maxPages: 2, page: 10, stats });
+  eq('eightfold: the page budget gone with more on the board is capped', stats.capped, true);
+  const clean = newRequestStats();
+  await paginateEightfold(async () => ({ count: 5, positions: [{ id: 1 }, { id: 2 }] }), { maxPages: 2, page: 10, stats: clean });
+  eq('eightfold: a short board is not capped', clean.capped ?? false, false);
+}
+
 // ── 3. the record ───────────────────────────────────────────────────────
 const firm = { firm: 'Nomura', ats: 'talnet', tier: 'Bulge Bracket' };
 const roles = [
@@ -79,22 +125,33 @@ const roles = [
   { id: 'a2', vertical: 'Investment Banking' },
   { id: 'a3', vertical: 'Sales & Trading' },
 ];
+const cfg = boardConfigHash(firm);
 eq('an ok board carries its count and its ids by seat',
   boardRecord({ firm, status: 'ok', roles: [roles[1], roles[2], roles[0]] }),
-  { s: 'ok', ats: 'talnet', tier: 'Bulge Bracket', n: 3, roles: { 'Investment Banking': ['a1', 'a2'], 'Sales & Trading': ['a3'] } });
+  { s: 'ok', ats: 'talnet', tier: 'Bulge Bracket', cfg, n: 3, roles: { 'Investment Banking': ['a1', 'a2'], 'Sales & Trading': ['a3'] } });
 eq('an ok board with nothing open is a true zero',
   boardRecord({ firm, status: 'ok', roles: [] }),
-  { s: 'ok', ats: 'talnet', tier: 'Bulge Bracket', n: 0, roles: {} });
+  { s: 'ok', ats: 'talnet', tier: 'Bulge Bracket', cfg, n: 0, roles: {} });
+eq('a partial board says why', boardRecord({ firm, status: 'partial', why: 'budget', roles }).why, 'budget');
+eq('an ok board carries no why', 'why' in boardRecord({ firm, status: 'ok', why: 'budget', roles }), false);
+eq('a changed board (another Workday site) has another configuration',
+  boardConfigHash({ firm: 'Citi', ats: 'workday', tenant: 'citi', site: 'campus' }) === boardConfigHash({ firm: 'Citi', ats: 'workday', tenant: 'citi', site: 'lateral' }), false);
+eq('renaming or re-tiering a firm is not a new board',
+  boardConfigHash({ firm: 'Citi', tier: 'Bulge Bracket', ats: 'workday', site: 'campus' }), boardConfigHash({ firm: 'Citigroup', tier: 'Other', ats: 'workday', site: 'campus' }));
+eq('key order does not change the configuration',
+  boardConfigHash({ ats: 'workday', site: 'a', tenant: 'b' }), boardConfigHash({ tenant: 'b', site: 'a', ats: 'workday' }));
 eq('a role with no seat is filed under Other rather than dropped',
   boardRecord({ firm, status: 'ok', roles: [{ id: 'z' }] }).roles, { Other: ['z'] });
 eq('a failed board has no count, only the carried ids and the reason',
   boardRecord({ firm, status: 'failed', carried: roles.slice(0, 1), reason: 'bot-check interstitial' }),
-  { s: 'failed', ats: 'talnet', tier: 'Bulge Bracket', n: null, reason: 'bot-check interstitial', carried: ['a1'] });
+  { s: 'failed', ats: 'talnet', tier: 'Bulge Bracket', cfg, n: null, reason: 'bot-check interstitial', carried: ['a1'] });
 eq('a firm with no tier records null rather than omitting it',
   boardRecord({ firm: { firm: 'X', ats: 'lever' }, status: 'ok', roles: [] }).tier, null);
 
 // ── 4. the day's file ───────────────────────────────────────────────────
 const file = buildCheckFile({
+  method: '2026-09-24',
+  fingerprint: 'abc',
   date: '2026-09-23',
   checkedAt: '2026-09-23T06:00:00.000Z',
   parked: ['Zeta', 'Alpha'],
@@ -108,8 +165,21 @@ eq('the file counts each status', file.counts, { ok: 1, partial: 1, failed: 1 })
 eq('boards are sorted by firm so a day diffs cleanly', Object.keys(file.boards), ['Citi', 'Nomura', 'Stripe']);
 eq('parked firms are named, sorted', file.parked, ['Alpha', 'Zeta']);
 eq('the file is versioned', file.v, 1);
-eq('the file names the collection method it was made under', file.method, COLLECTION_METHOD);
-eq('the method is a date, so a bump reads as when the change landed', /^\d{4}-\d{2}-\d{2}[a-z]?$/.test(COLLECTION_METHOD), true);
+eq('the file names the collection method and fingerprint it was made under', [file.method, file.fingerprint], ['2026-09-24', 'abc']);
+
+// ── the method, read off the code rather than remembered ─────────────────
+{
+  const files = { a: 'const PAGE = 20;', b: 'x' };
+  const fp = (over = {}) => methodFingerprint((f) => ({ ...files, ...over })[f], ['a', 'b']);
+  eq('the fingerprint is stable', fp(), fp());
+  eq('any edit to a method file changes it', fp({ a: 'const PAGE = 25;' }) === fp(), false);
+  eq('bytes moving between files change it', fp({ a: 'const PAGE = 20;x', b: '' }) === fp(), false);
+  eq('an acknowledged fingerprint resolves to its label', resolveMethod('f1', { fingerprints: { f1: { method: '2026-09-24' } } }), '2026-09-24');
+  eq('an unacknowledged one compares with nothing', resolveMethod('f2', { fingerprints: { f1: { method: '2026-09-24' } } }), 'unacknowledged:f2');
+  eq('no record at all is unacknowledged too', resolveMethod('f3', null), 'unacknowledged:f3');
+  eq('the method files include the collector and the classification rules',
+    ['scripts/sync-ats.mjs', 'lib/board-checks.mjs'].every((f) => METHOD_FILES.includes(f)), true);
+}
 eq('the path is one file per day', checkFilePath('2026-09-23'), 'data/board-checks/2026-09-23.json');
 let threw = false;
 try { checkFilePath('../../etc/passwd'); } catch { threw = true; }

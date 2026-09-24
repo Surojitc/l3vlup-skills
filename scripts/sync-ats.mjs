@@ -15,6 +15,7 @@
  */
 
 import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import {
   extractDeadline,
   applyManualDeadlines,
@@ -31,8 +32,10 @@ import {
   boardRecord,
   buildCheckFile,
   checkFilePath,
-  classifyCheck,
+  checkVerdict,
   everyRequestFailed,
+  methodFingerprint,
+  resolveMethod,
   newRequestStats,
   worstStatus,
 } from '../lib/board-checks.mjs';
@@ -754,19 +757,26 @@ export async function paginateWorkday(fetchPage, opts = {}) {
 
   for (const q of queries) {
     let offset = 0;
+    let finished = false;
     for (let page = 0; page < maxPages; page++) {
-      if (seen.size >= maxPostings) break;
+      if (seen.size >= maxPostings) {
+        // Our budget ended the walk, not the board. The count is a floor.
+        if (stats) stats.capped = true;
+        finished = true;
+        break;
+      }
       let data;
       if (stats) stats.attempts++;
       try {
         data = await fetchPage(q, offset, PAGE);
       } catch {
         if (stats) stats.failures++;
+        finished = true; // counted as a failure, not as a budget
         break; // this query failed; move to the next one
       }
 
       const postings = data?.jobPostings ?? [];
-      if (postings.length === 0) break;
+      if (postings.length === 0) { finished = true; break; }
 
       let added = 0;
       for (const jp of postings) {
@@ -777,15 +787,18 @@ export async function paginateWorkday(fetchPage, opts = {}) {
       }
       // A page that adds nothing new means the board is ignoring our offset and
       // replaying page one. Without this the loop never terminates.
-      if (added === 0) break;
+      if (added === 0) { finished = true; break; }
 
       offset += PAGE;
       // `total` is the count for this search term. Trust it when present, but
       // the two checks above are what actually terminate the loop, because not
       // every deployment returns it.
-      if (typeof data.total === 'number' && offset >= data.total) break;
-      if (postings.length < PAGE) break;
+      if (typeof data.total === 'number' && offset >= data.total) { finished = true; break; }
+      if (postings.length < PAGE) { finished = true; break; }
     }
+    // Every page came back full and the page budget ran out first: there was
+    // more on the board than we read.
+    if (!finished && stats) stats.capped = true;
   }
   return seen;
 }
@@ -867,20 +880,27 @@ export async function paginateOracle(fetchPage, opts = {}) {
 
   for (const q of queries) {
     let offset = 0;
+    let finished = false;
     for (let page = 0; page < maxPages; page++) {
-      if (seen.size >= maxPostings) break;
+      if (seen.size >= maxPostings) {
+        // Our budget ended the walk, not the board. The count is a floor.
+        if (stats) stats.capped = true;
+        finished = true;
+        break;
+      }
       let data;
       if (stats) stats.attempts++;
       try {
         data = await fetchPage(q, offset, PAGE);
       } catch {
         if (stats) stats.failures++;
+        finished = true; // counted as a failure, not as a budget
         break; // this query failed; move to the next one
       }
 
       const bundle = data?.items?.[0];
       const reqs = bundle?.requisitionList ?? [];
-      if (reqs.length === 0) break;
+      if (reqs.length === 0) { finished = true; break; }
 
       let added = 0;
       for (const r of reqs) {
@@ -889,12 +909,13 @@ export async function paginateOracle(fetchPage, opts = {}) {
         added++;
         seen.set(String(id), r);
       }
-      if (added === 0) break;
+      if (added === 0) { finished = true; break; }
 
       offset += PAGE;
-      if (typeof bundle.TotalJobsCount === 'number' && offset >= bundle.TotalJobsCount) break;
-      if (reqs.length < PAGE) break;
+      if (typeof bundle.TotalJobsCount === 'number' && offset >= bundle.TotalJobsCount) { finished = true; break; }
+      if (reqs.length < PAGE) { finished = true; break; }
     }
+    if (!finished && stats) stats.capped = true; // see paginateWorkday
   }
   return seen;
 }
@@ -994,7 +1015,7 @@ async function fetchEightfold(f, stats = newRequestStats()) {
       stats.failures++;
       throw e; // paginateEightfold ends the walk, as before
     }
-  });
+  }, { stats });
   if (everyRequestFailed(stats)) throw new Error(`every Eightfold request failed (${stats.failures})`);
   return [...seen.values()].map((p) => eightfoldToJob(p, f));
 }
@@ -1158,16 +1179,17 @@ async function main() {
     for (const [k, r] of results.entries()) {
       const firm = batch[k];
       // A truncated board's count is a floor, like a partly answered one.
-      const status =
-        r.status === 'fulfilled' && r.value.truncated
-          ? 'partial'
-          : classifyCheck({ settled: r.status, stats: batchStats[k] });
+      const { status, why } = checkVerdict({
+        settled: r.status,
+        stats: batchStats[k],
+        ceiling: r.status === 'fulfilled' && Boolean(r.value.truncated),
+      });
       const roles = r.status === 'fulfilled' ? r.value.opps : [];
       const reason = r.status === 'rejected' ? String(r.reason?.message ?? r.reason) : undefined;
       const prev = checks[firm.firm];
       checks[firm.firm] = prev
-        ? { firm, status: worstStatus(prev.status, status), roles: prev.roles.concat(roles), reason: prev.reason ?? reason }
-        : { firm, status, roles, reason };
+        ? { firm, status: worstStatus(prev.status, status), why: prev.why ?? why, roles: prev.roles.concat(roles), reason: prev.reason ?? reason }
+        : { firm, status, why, roles, reason };
       if (r.status === 'fulfilled') {
         ok++;
         all.push(...r.value.opps);
@@ -1544,17 +1566,44 @@ async function main() {
     boards[c.firm.firm] = boardRecord({
       firm: c.firm,
       status: c.status,
+      why: c.why,
       roles: c.roles,
       carried: carriedByFirm[c.firm.firm] ?? [],
       reason: c.reason,
     });
   }
-  const checkFile = buildCheckFile({ date: day, checkedAt: stamp, boards, parked: parked.map((f) => f.firm) });
+  // The method is read off the code that ran, not a constant someone had to
+  // remember to bump (lib/board-checks.mjs, METHOD_FILES).
+  const fingerprint = methodFingerprint((f) => readFileSync(join(ROOT, f), 'utf8'));
+  let methodRecord = null;
+  try {
+    methodRecord = JSON.parse(await readFile(join(ROOT, 'lib/collection-method.json'), 'utf8'));
+  } catch {
+    /* no record: every run is unacknowledged, which compares with nothing */
+  }
+  const method = resolveMethod(fingerprint, methodRecord);
+  if (method.startsWith('unacknowledged:')) {
+    console.log(
+      `::warning::collection method fingerprint ${fingerprint} is not in lib/collection-method.json; ` +
+        `today's board checks compare with no other day. Run node scripts/collection-method.mjs`
+    );
+  }
+  const checkFile = buildCheckFile({
+    date: day,
+    checkedAt: stamp,
+    boards,
+    parked: parked.map((f) => f.firm),
+    method,
+    fingerprint,
+  });
   const CHECKS = join(ROOT, checkFilePath(day));
   await mkdir(dirname(CHECKS), { recursive: true });
   await writeAtomic(CHECKS, JSON.stringify(checkFile, null, 1) + '\n');
   const { ok: okN, partial: partialN, failed: failedN } = checkFile.counts;
-  console.log(`board checks: ${okN} ok, ${partialN} partial, ${failedN} failed -> ${CHECKS}`);
+  const whys = {};
+  for (const b of Object.values(boards)) if (b.why) whys[b.why] = (whys[b.why] ?? 0) + 1;
+  const whyText = Object.keys(whys).length ? ` (${Object.entries(whys).map(([k, v]) => `${k} ${v}`).join(', ')})` : '';
+  console.log(`board checks: ${okN} ok, ${partialN} partial${whyText}, ${failedN} failed, method ${method} -> ${CHECKS}`);
 
   // ---------------------------------------------------------------------
   // Canonical URLs.
