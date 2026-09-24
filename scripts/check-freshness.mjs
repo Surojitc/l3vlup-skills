@@ -3,7 +3,8 @@
  * Has every source this producer owns actually been collected lately?
  *
  *   node scripts/check-freshness.mjs --producer open-data \
- *        [--summary "$GITHUB_STEP_SUMMARY"] [--output "$GITHUB_OUTPUT"]
+ *        [--summary "$GITHUB_STEP_SUMMARY"] [--output "$GITHUB_OUTPUT"] \
+ *        [--since <when the collection began> --expect <path> ...]
  *
  * WHY THIS IS NOT THE PUBLICATION GATE
  * ------------------------------------
@@ -26,6 +27,14 @@
  * committed state for exactly the sources that did not collect, which is the
  * set it exists to find.
  *
+ * WHAT A RUN WAS DUE TO WRITE
+ * ---------------------------
+ * `--expect` names a file whose collector was due and ran this time, and
+ * `--since` when the collection began. A file so named whose stamp predates
+ * the run is degraded now, even inside its horizon, because its collector
+ * was asked for it and did not deliver. Without this a monthly collector that
+ * times out on the first reads as not-due for six weeks.
+ *
  * WHAT IT DOES ABOUT IT
  * ---------------------
  * Nothing, here. It prints, writes the operator's table to the job summary,
@@ -42,6 +51,14 @@ import { CONTRACTS, freshnessReport, freshnessSummary } from './publication-cont
 function arg(name) {
   const i = process.argv.indexOf(`--${name}`);
   return i > -1 ? process.argv[i + 1] : undefined;
+}
+
+function args(name) {
+  const out = [];
+  process.argv.forEach((a, i) => {
+    if (a === `--${name}` && process.argv[i + 1]) out.push(process.argv[i + 1]);
+  });
+  return out;
 }
 
 const producer = arg('producer');
@@ -78,7 +95,14 @@ function committedAt(path) {
   }
 }
 
-const report = freshnessReport(producer, { read, committedAt });
+const expected = args('expect');
+const since = arg('since');
+if (expected.length && (!since || Number.isNaN(new Date(since).getTime()))) {
+  console.error('--expect needs --since, the time the collection began');
+  process.exit(2);
+}
+
+const report = freshnessReport(producer, { read, committedAt, expected, since });
 
 for (const s of report.sources) {
   const age = s.ageHours === undefined ? '' : ` (${s.ageHours}h)`;

@@ -129,6 +129,8 @@ const feed = (over = {}) => ({
   'data/funds.auto.json': { generatedAt: hoursAgo(300) },
   'data/funds.universe.json': { managers: [] },
   'data/peers.auto.json': { generatedAt: hoursAgo(300) },
+  'data/peers-crawl.auto.json': { generatedAt: hoursAgo(300) },
+  'data/merger-index.auto.json': { generatedAt: hoursAgo(300) },
   'data/career-snapshots.json': { firm: [] },
   'data/career-review-queue.json': { generatedAt: hoursAgo(1) },
   ...over,
@@ -239,6 +241,42 @@ eq(
     .filter((p) => !Object.values(CONTRACTS).flatMap((c) => c.files).some((f) => f.path === p)),
   [],
 );
+
+// ── 9. a collector that was due this run and did not deliver ─────────────
+// The peer lists timed out at ninety minutes on 24 September. The step was
+// continue-on-error, the file on disk was sixteen days old, and a monthly
+// source that age reads as not-due, so the table said all was well and would
+// have gone on saying so until the forty-five-day horizon in late October.
+const PEERS = spec('data/peers.auto.json');
+const RUN = hoursAgo(2); // when this morning's collection began
+
+eq('the peer lists are a monthly source', PEERS.freshness.cadence, 'monthly');
+eq('and optional, so they can degrade a run but never block it', Boolean(PEERS.freshness.required), false);
+eq('a peer file sixteen days old, collector not due, is not-due', state(PEERS, { generatedAt: hoursAgo(385) }), 'not-due');
+eq('the same file past the forty-five-day horizon is degraded', state(PEERS, { generatedAt: hoursAgo(1101) }), 'degraded');
+
+const due = (value, since = RUN) => fileFreshness(PEERS, value, null, NOW, since);
+eq('the collector ran this morning and did not write: degraded now, not in six weeks', due({ generatedAt: hoursAgo(385) }).state, 'degraded');
+check('and says why, with the age of what is on disk', /due this run and not written by it; the copy on disk is 385h old/.test(due({ generatedAt: hoursAgo(385) }).note ?? ''), due({ generatedAt: hoursAgo(385) }).note);
+eq('the collector ran and wrote: fresh', due({ generatedAt: hoursAgo(1) }).state, 'fresh');
+eq('the file is simply not there: degraded, as before', due(undefined).state, 'degraded');
+eq('past the horizon as well: the horizon verdict, which already says more', due({ generatedAt: hoursAgo(1200) }).note?.includes('past its'), true);
+// One miss is a warning. Blocking is still decided by the horizon alone, so a
+// required source missed once this morning does not fail the run.
+eq(
+  'a required daily source due and not written is degraded, not stale',
+  fileFreshness(CALENDAR, { generatedAt: hoursAgo(20) }, null, NOW, RUN).state,
+  'degraded',
+);
+
+const peersMissed = freshnessReport('open-data', { ...world(feed({ 'data/peers.auto.json': { generatedAt: hoursAgo(385) } })), expected: ['data/peers.auto.json'], since: RUN }, NOW);
+eq('in the report, a missed monthly collector degrades the run without blocking it', [peersMissed.blocking, peersMissed.degraded], [false, true]);
+eq('and it is the peer lists that are degraded', peersMissed.sources.filter((x) => x.state === 'degraded').map((x) => x.path), ['data/peers.auto.json']);
+check('the summary marks it for the operator', /🟡 \| the industry peer lists \| monthly \| degraded/.test(freshnessSummary('open-data', peersMissed)));
+const peersSkipped = freshnessReport('open-data', world(feed({ 'data/peers.auto.json': { generatedAt: hoursAgo(385) } })), NOW);
+eq('on a day the collector was not due, the same file is not-due and the run is clean', [peersSkipped.degraded, peersSkipped.sources.find((x) => x.path === 'data/peers.auto.json').state], [false, 'not-due']);
+const noSince = freshnessReport('open-data', { ...world(feed({ 'data/peers.auto.json': { generatedAt: hoursAgo(385) } })), expected: ['data/peers.auto.json'] }, NOW);
+eq('an expectation with no start time expects nothing', noSince.degraded, false);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

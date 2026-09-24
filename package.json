@@ -54,6 +54,8 @@
     "test:duplicates": "node scripts/__tests__/role-duplicates.test.mjs",
     "test:telemetry": "node scripts/__tests__/role-telemetry.test.mjs",
     "report:lifecycle": "node scripts/report-role-lifecycle.mjs",
+    "peers": "python3 scripts/sync_peers.py",
+    "test:peers": "python3 scripts/__tests__/sync-peers.test.py",
     "test:evidence-location": "node scripts/__tests__/thesis-evidence-location.test.mjs"
   },
   "dependencies": {

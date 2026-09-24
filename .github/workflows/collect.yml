@@ -63,6 +63,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      # When this collection began, so the freshness sweep can tell a file a
+      # collector wrote this morning from one it was due to write and did not.
+      - name: Note when the collection began
+        id: began
+        run: echo "at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
       # The gate that decides what this run may publish, checked before the
       # run spends an hour collecting something it would then refuse.
       - name: Test the publication contract
@@ -70,6 +76,7 @@ jobs:
           node scripts/__tests__/publication-contracts.test.mjs
           node scripts/__tests__/publication-freshness.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
+          python3 scripts/__tests__/sync-peers.test.py
 
       - name: Economic calendar
         continue-on-error: true
@@ -209,28 +216,36 @@ jobs:
       # is missing or unreadable costs nothing at all: the lab falls back to
       # asking EDGAR itself, exactly as it did before this existed.
       #
-      # A full crawl is all 444 SIC codes the SEC publishes, which measured 877
-      # requests: two for the code list and the ticker file, 875 pages of
-      # company search. The collector caches per industry under .cache/peers,
-      # which is not committed, so each scheduled run here re-reads every code
-      # and the file is genuinely refreshed rather than carried forward. The
-      # cache is what makes a local re-run, or a run resumed after a failure,
-      # cheap.
+      # A full crawl is all 444 SIC codes the SEC publishes, about 880 pages of
+      # company search, and that page is EDGAR's legacy CGI endpoint: from a
+      # runner it cost seven and a half seconds a page whatever the pace. So a
+      # cold crawl is an hour and fifty minutes, and when every run was cold,
+      # because the cache lived under an uncommitted .cache/peers, run #42 on
+      # 24 September was killed at ninety minutes with 353 codes read and no
+      # file written. It showed green because of continue-on-error.
       #
-      # The timeout is set against the slow case. The seeding run took about an
-      # hour end to end on a link where each SEC request cost roughly four
-      # seconds; a runner talking to EDGAR directly should be several times
-      # quicker. It matters because the file is written once at the end, so a
-      # step killed early writes nothing at all.
+      # Now the collector keeps what each industry's crawl found in
+      # data/peers-crawl.auto.json, published with the output, and stops
+      # crawling at --budget-minutes. It reads the industries it has never
+      # seen, then the ones read longest ago, and writes a complete file every
+      # run from what it read plus what the record already held. Sixty minutes
+      # is roughly 480 pages, so every industry is re-read at least every
+      # second month, and the tickers are re-joined from a fresh ticker file
+      # every run. The thirty minutes between budget and timeout cover the
+      # one page the budget can overrun by, with its retries, and the join.
+      #
+      # If it does still fail, the freshness sweep below is told it was due,
+      # and marks the peer lists degraded on the morning it happened.
       #
       # Public SEC endpoints only. No key, no account, no secret.
       - name: Industry peer lists
+        id: peers
         if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
         continue-on-error: true
         timeout-minutes: 90
         env:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
-        run: python3 scripts/sync_peers.py
+        run: python3 scripts/sync_peers.py --budget-minutes 60
 
       # ── freshness ──────────────────────────────────────────────────────
       # Every source this producer owns, whether or not this run touched it.
@@ -244,14 +259,27 @@ jobs:
       # first, and the `health` job at the end turns a stale required source
       # into a failed run, so the data still flows and the morning is still
       # visibly not fine.
+      #
+      # A monthly collector that was due this run is named with --expect, so a
+      # step that timed out behind continue-on-error reads as degraded today
+      # rather than as not-due until its forty-five-day horizon. Only the peer
+      # lists are named so far, being the one that has done it.
       - name: Check how fresh every source is
         id: freshness
+        env:
+          BEGAN: ${{ steps.began.outputs.at }}
+          PEERS: ${{ steps.peers.outcome }}
         run: |
           set -euo pipefail
+          expect=()
+          if [ -n "${PEERS:-}" ] && [ "$PEERS" != "skipped" ]; then
+            expect+=(--since "$BEGAN" --expect data/peers.auto.json)
+          fi
           node scripts/check-freshness.mjs \
             --producer open-data \
             --summary "$GITHUB_STEP_SUMMARY" \
-            --output "$GITHUB_OUTPUT"
+            --output "$GITHUB_OUTPUT" \
+            "${expect[@]}"
 
       # ── publication ────────────────────────────────────────────────────
       # This used to be a commit and a push, inside a three-attempt retry
