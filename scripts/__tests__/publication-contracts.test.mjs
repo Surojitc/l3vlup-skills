@@ -16,7 +16,7 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { writeFileSync, mkdtempSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdtempSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
@@ -209,9 +209,14 @@ for (const needle of ['The open-data collection', 'the news map', '| Private Equ
 // line. Every refusal above is worthless if the process still exits 0.
 const dir = mkdtempSync(join(tmpdir(), 'pubgate-'));
 const cli = new URL('../validate-data-publication.mjs', import.meta.url).pathname;
-function run(args, cwd) {
+// The CLI is handed this suite's clock. The fixtures are stamped at a fixed
+// instant; judged against the real one they went stale 36 hours later and
+// this section failed every run from 22 September, which failed the
+// pre-flight of both collecting workflows and published nothing.
+function run(args, cwd, { clock = now } = {}) {
+  const withClock = clock === null ? args : [...args, '--now', clock.toISOString()];
   try {
-    execFileSync(process.execPath, [cli, ...args], { cwd, encoding: 'utf8', stdio: 'pipe' });
+    execFileSync(process.execPath, [cli, ...withClock], { cwd, encoding: 'utf8', stdio: 'pipe' });
     return 0;
   } catch (err) {
     return err.status ?? -1;
@@ -227,6 +232,24 @@ writeFileSync(join(dir, 'data/calendar.auto.json'), 'not json at all');
 check('a malformed file exits non-zero', run(['--producer', 'open-data', '--staged', join(dir, 'cal.txt')], dir) === 1);
 writeFileSync(join(dir, 'data/calendar.auto.json'), JSON.stringify(calendar(34)));
 check('a good file in the same place exits zero', run(['--producer', 'open-data', '--staged', join(dir, 'cal.txt')], dir) === 0);
+// The clock is the suite's, and it is really used: the same good file judged
+// three days later is stale and refused, and a clock that is not a date is
+// refused outright rather than falling back to the real one.
+check('the same file judged three days later is refused as stale',
+  run(['--producer', 'open-data', '--staged', join(dir, 'cal.txt')], dir, { clock: new Date(now.getTime() + 3 * 86400000) }) === 1);
+check('a --now that is not a date exits non-zero',
+  run(['--producer', 'open-data', '--staged', join(dir, 'cal.txt'), '--now', 'yesterday'], dir, { clock: null }) === 2);
+check('a --now given as a bare number exits non-zero',
+  run(['--producer', 'open-data', '--staged', join(dir, 'cal.txt'), '--now', '0'], dir, { clock: null }) === 2);
+// And the override never reaches production: no workflow may pass it, so
+// every real run gates on the real time.
+{
+  const wfDir = new URL('../../.github/workflows/', import.meta.url).pathname;
+  const offenders = readdirSync(wfDir)
+    .filter((f) => /\.ya?ml$/.test(f))
+    .filter((f) => /--now\b/.test(readFileSync(join(wfDir, f), 'utf8')));
+  eq('no workflow passes --now to the gate', offenders, []);
+}
 // Staged but gone from disk is not "this step did not run this cycle".
 writeFileSync(join(dir, 'cal.txt'), 'data/macro.auto.json\n');
 check('a staged file that is not there exits non-zero', run(['--producer', 'open-data', '--staged', join(dir, 'cal.txt')], dir) === 1);

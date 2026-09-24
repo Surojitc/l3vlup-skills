@@ -4,6 +4,7 @@
  *
  *   node scripts/validate-data-publication.mjs --producer open-data \
  *        --staged staged.txt [--report body.md] [--ref main] [--run-url URL]
+ *        [--now 2026-09-20T12:00:00Z]   (tests only; see below)
  *
  * Reads the staged list and the working tree, reads the previous copy of each
  * file straight out of `git show HEAD:<path>`, and asks
@@ -33,6 +34,26 @@ function arg(name) {
 const producer = arg('producer');
 if (!producer || !CONTRACTS[producer]) {
   console.error(`--producer must be one of: ${Object.keys(CONTRACTS).join(', ')}`);
+  process.exit(2);
+}
+
+/**
+ * The clock the gate judges freshness against.
+ *
+ * Always the real time in production: no workflow passes --now, and
+ * scripts/__tests__/publication-contracts.test.mjs fails if one ever does. It
+ * exists for the test suite, which runs this CLI as a process against fixtures
+ * stamped at a fixed instant. Without it those fixtures aged past their 36-hour
+ * horizon on 21 September and the pre-flight tests refused every collection,
+ * for both producers, from the 22nd.
+ *
+ * A value that is present but not a date is refused rather than ignored, so a
+ * typo cannot quietly fall back to a different clock than the one asked for.
+ */
+const nowArg = arg('now');
+const now = nowArg === undefined ? new Date() : new Date(nowArg);
+if (Number.isNaN(now.getTime()) || (nowArg !== undefined && !/^\d{4}-\d{2}-\d{2}T/.test(nowArg))) {
+  console.error(`--now must be an ISO timestamp, got ${JSON.stringify(nowArg)}`);
   process.exit(2);
 }
 
@@ -70,7 +91,7 @@ function readPrev(path) {
   }
 }
 
-const { problems, stats } = contractProblems(producer, { staged, read, readPrev });
+const { problems, stats } = contractProblems(producer, { staged, read, readPrev }, now);
 
 if (problems.length) {
   for (const p of problems) console.log(`::error::${p}`);
