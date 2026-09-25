@@ -67,7 +67,13 @@ const state = (s, value, committed = null) => fileFreshness(s, value, committed,
 // One file, one owner: two workflows writing the same path is two workflows
 // racing to publish it, and the loser's copy silently wins.
 const owners = new Map();
-for (const { producer, path } of allPaths()) owners.set(path, [...(owners.get(path) ?? []), producer]);
+// A family of files (samples/*.xlsx, board-checks/<date>.json) has no single
+// path, so it is keyed by its pattern; two families are two owners only if
+// they are the same family.
+for (const { producer, path, pattern } of allPaths()) {
+  const key = path ?? String(pattern);
+  owners.set(key, [...(owners.get(key) ?? []), producer]);
+}
 eq('no file is owned by two producers', [...owners].filter(([, p]) => p.length > 1), []);
 
 for (const [id, c] of Object.entries(CONTRACTS)) {

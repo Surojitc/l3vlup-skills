@@ -15,6 +15,7 @@
  */
 
 import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import {
   extractDeadline,
   applyManualDeadlines,
@@ -27,6 +28,17 @@ import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
 import { normaliseRoleText } from '../lib/text-normalise.mjs';
 import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
+import {
+  boardRecord,
+  buildCheckFile,
+  checkFilePath,
+  checkVerdict,
+  everyRequestFailed,
+  methodFingerprint,
+  resolveMethod,
+  newRequestStats,
+  worstStatus,
+} from '../lib/board-checks.mjs';
 import {
   ledgerDeadline,
   loadLedger,
@@ -736,22 +748,35 @@ export async function paginateWorkday(fetchPage, opts = {}) {
     page: PAGE = WORKDAY_PAGE,
     maxPages = WORKDAY_MAX_PAGES_PER_QUERY,
     maxPostings = WORKDAY_MAX_POSTINGS_PER_FIRM,
+    // Optional request accounting (lib/board-checks.mjs). A page that throws
+    // still ends its query quietly, but it is now counted, so a board whose
+    // every request failed can no longer pass for a board with nothing open.
+    stats,
   } = opts;
   const seen = new Map();
 
   for (const q of queries) {
     let offset = 0;
+    let finished = false;
     for (let page = 0; page < maxPages; page++) {
-      if (seen.size >= maxPostings) break;
+      if (seen.size >= maxPostings) {
+        // Our budget ended the walk, not the board. The count is a floor.
+        if (stats) stats.capped = true;
+        finished = true;
+        break;
+      }
       let data;
+      if (stats) stats.attempts++;
       try {
         data = await fetchPage(q, offset, PAGE);
       } catch {
+        if (stats) stats.failures++;
+        finished = true; // counted as a failure, not as a budget
         break; // this query failed; move to the next one
       }
 
       const postings = data?.jobPostings ?? [];
-      if (postings.length === 0) break;
+      if (postings.length === 0) { finished = true; break; }
 
       let added = 0;
       for (const jp of postings) {
@@ -762,20 +787,23 @@ export async function paginateWorkday(fetchPage, opts = {}) {
       }
       // A page that adds nothing new means the board is ignoring our offset and
       // replaying page one. Without this the loop never terminates.
-      if (added === 0) break;
+      if (added === 0) { finished = true; break; }
 
       offset += PAGE;
       // `total` is the count for this search term. Trust it when present, but
       // the two checks above are what actually terminate the loop, because not
       // every deployment returns it.
-      if (typeof data.total === 'number' && offset >= data.total) break;
-      if (postings.length < PAGE) break;
+      if (typeof data.total === 'number' && offset >= data.total) { finished = true; break; }
+      if (postings.length < PAGE) { finished = true; break; }
     }
+    // Every page came back full and the page budget ran out first: there was
+    // more on the board than we read.
+    if (!finished && stats) stats.capped = true;
   }
   return seen;
 }
 
-async function fetchWorkday(f) {
+async function fetchWorkday(f, stats = newRequestStats()) {
   // Two shapes live in the registry. Hand-added rows carry `host`; rows written
   // by scripts/discover-ats.mjs carry `tenant` + `shard` and no host at all.
   // Reading f.host alone built 'https://undefined/wday/cxs/...', which threw,
@@ -789,8 +817,10 @@ async function fetchWorkday(f) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ limit, offset, searchText }),
-    })
+    }),
+    { stats }
   );
+  if (everyRequestFailed(stats)) throw new Error(`every Workday request failed (${stats.failures})`);
 
   return [...seen.values()].map((jp) => ({
     id: jp.externalPath.split('_').pop() || jp.externalPath,
@@ -844,23 +874,33 @@ export async function paginateOracle(fetchPage, opts = {}) {
     page: PAGE = ORACLE_PAGE,
     maxPages = ORACLE_MAX_PAGES_PER_QUERY,
     maxPostings = ORACLE_MAX_POSTINGS_PER_FIRM,
+    stats, // see paginateWorkday
   } = opts;
   const seen = new Map();
 
   for (const q of queries) {
     let offset = 0;
+    let finished = false;
     for (let page = 0; page < maxPages; page++) {
-      if (seen.size >= maxPostings) break;
+      if (seen.size >= maxPostings) {
+        // Our budget ended the walk, not the board. The count is a floor.
+        if (stats) stats.capped = true;
+        finished = true;
+        break;
+      }
       let data;
+      if (stats) stats.attempts++;
       try {
         data = await fetchPage(q, offset, PAGE);
       } catch {
+        if (stats) stats.failures++;
+        finished = true; // counted as a failure, not as a budget
         break; // this query failed; move to the next one
       }
 
       const bundle = data?.items?.[0];
       const reqs = bundle?.requisitionList ?? [];
-      if (reqs.length === 0) break;
+      if (reqs.length === 0) { finished = true; break; }
 
       let added = 0;
       for (const r of reqs) {
@@ -869,12 +909,13 @@ export async function paginateOracle(fetchPage, opts = {}) {
         added++;
         seen.set(String(id), r);
       }
-      if (added === 0) break;
+      if (added === 0) { finished = true; break; }
 
       offset += PAGE;
-      if (typeof bundle.TotalJobsCount === 'number' && offset >= bundle.TotalJobsCount) break;
-      if (reqs.length < PAGE) break;
+      if (typeof bundle.TotalJobsCount === 'number' && offset >= bundle.TotalJobsCount) { finished = true; break; }
+      if (reqs.length < PAGE) { finished = true; break; }
     }
+    if (!finished && stats) stats.capped = true; // see paginateWorkday
   }
   return seen;
 }
@@ -900,14 +941,15 @@ export function oracleToJob(r, { host, site }) {
   };
 }
 
-async function fetchOracle(f) {
+async function fetchOracle(f, stats = newRequestStats()) {
   const seen = await paginateOracle((q, offset, limit) => {
     const finder = `findReqs;siteNumber=${f.site},limit=${limit},offset=${offset},sortBy=POSTING_DATES_DESC,keyword=${q}`;
     const url =
       `https://${f.host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions` +
       `?onlyData=true&expand=requisitionList.secondaryLocations&finder=${encodeURIComponent(finder)}`;
     return getJson(url);
-  });
+  }, { stats });
+  if (everyRequestFailed(stats)) throw new Error(`every Oracle request failed (${stats.failures})`);
   return [...seen.values()].map((r) => oracleToJob(r, f));
 }
 
@@ -964,8 +1006,17 @@ async function fetchTalnet(f) {
 /* -------------------------------- Eightfold ------------------------------- */
 // Millennium's campus board. See lib/eightfold.mjs for the `num` cap that makes
 // pagination mandatory rather than optional.
-async function fetchEightfold(f) {
-  const seen = await paginateEightfold((start, num) => getJson(eightfoldUrl(f.host, f.domain, start, num)));
+async function fetchEightfold(f, stats = newRequestStats()) {
+  const seen = await paginateEightfold(async (start, num) => {
+    stats.attempts++;
+    try {
+      return await getJson(eightfoldUrl(f.host, f.domain, start, num));
+    } catch (e) {
+      stats.failures++;
+      throw e; // paginateEightfold ends the walk, as before
+    }
+  }, { stats });
+  if (everyRequestFailed(stats)) throw new Error(`every Eightfold request failed (${stats.failures})`);
   return [...seen.values()].map((p) => eightfoldToJob(p, f));
 }
 
@@ -1083,6 +1134,8 @@ async function main() {
   const emptyFirms = [];
   // Firms whose board did not answer at all.
   const failedFirms = [];
+  // What each check established, for data/board-checks/ (lib/board-checks.mjs).
+  const checks = {};
   // ---------------------------------------------------------------------
   // Enrichment budgets.
   //
@@ -1108,21 +1161,35 @@ async function main() {
   const outOfTime = () => Date.now() - enrichStartedAt > ENRICH_BUDGET_MS;
   for (let i = 0; i < firms.length; i += POOL) {
     const batch = firms.slice(i, i + POOL);
+    const batchStats = batch.map(() => newRequestStats());
     const results = await Promise.allSettled(
-      batch.map(async (f) => {
-        const raw = await FETCHERS[f.ats](f);
+      batch.map(async (f, k) => {
+        const raw = await FETCHERS[f.ats](f, batchStats[k]);
         const opps = raw.map((j) => toOpportunity(j, f)).filter(Boolean);
         // Ceiling, not cap: see PER_FIRM_CEILING. Reaching it means a board is
         // answering with something we did not expect, which is worth saying out
         // loud rather than trimming away.
         if (opps.length > PER_FIRM_CEILING) {
           console.warn(`  !! ${f.firm}: ${opps.length} early-career roles, above the ${PER_FIRM_CEILING} ceiling — truncating; check the board and the filters`);
-          return { firm: f.firm, opps: opps.slice(0, PER_FIRM_CEILING) };
+          return { firm: f.firm, opps: opps.slice(0, PER_FIRM_CEILING), truncated: true };
         }
         return { firm: f.firm, opps };
       })
     );
-    for (const r of results) {
+    for (const [k, r] of results.entries()) {
+      const firm = batch[k];
+      // A truncated board's count is a floor, like a partly answered one.
+      const { status, why } = checkVerdict({
+        settled: r.status,
+        stats: batchStats[k],
+        ceiling: r.status === 'fulfilled' && Boolean(r.value.truncated),
+      });
+      const roles = r.status === 'fulfilled' ? r.value.opps : [];
+      const reason = r.status === 'rejected' ? String(r.reason?.message ?? r.reason) : undefined;
+      const prev = checks[firm.firm];
+      checks[firm.firm] = prev
+        ? { firm, status: worstStatus(prev.status, status), why: prev.why ?? why, roles: prev.roles.concat(roles), reason: prev.reason ?? reason }
+        : { firm, status, why, roles, reason };
       if (r.status === 'fulfilled') {
         ok++;
         all.push(...r.value.opps);
@@ -1140,7 +1207,7 @@ async function main() {
         // Named, not just counted. A board that starts failing every run looks
         // identical to a firm with nothing open unless something says which one
         // it was — the same reason emptyFirms is reported below.
-        failedFirms.push({ firm: batch[results.indexOf(r)]?.firm ?? 'unknown', reason: String(r.reason?.message ?? r.reason).slice(0, 80) });
+        failedFirms.push({ firm: firm?.firm ?? 'unknown', reason: String(r.reason?.message ?? r.reason).slice(0, 80) });
       }
     }
   }
@@ -1489,6 +1556,54 @@ async function main() {
   history.push(snapshot);
   history = history.slice(-120);
   await writeAtomic(HISTORY, JSON.stringify({ snapshots: history }, null, 2) + '\n');
+
+  // What each board check established today. Written beside the history, and
+  // after the collapse guard, so an aborted run records nothing.
+  const carriedByFirm = {};
+  for (const r of retained) (carriedByFirm[r.firm] ??= []).push(r);
+  const boards = {};
+  for (const c of Object.values(checks)) {
+    boards[c.firm.firm] = boardRecord({
+      firm: c.firm,
+      status: c.status,
+      why: c.why,
+      roles: c.roles,
+      carried: carriedByFirm[c.firm.firm] ?? [],
+      reason: c.reason,
+    });
+  }
+  // The method is read off the code that ran, not a constant someone had to
+  // remember to bump (lib/board-checks.mjs, METHOD_FILES).
+  const fingerprint = methodFingerprint((f) => readFileSync(join(ROOT, f), 'utf8'));
+  let methodRecord = null;
+  try {
+    methodRecord = JSON.parse(await readFile(join(ROOT, 'lib/collection-method.json'), 'utf8'));
+  } catch {
+    /* no record: every run is unacknowledged, which compares with nothing */
+  }
+  const method = resolveMethod(fingerprint, methodRecord);
+  if (method.startsWith('unacknowledged:')) {
+    console.log(
+      `::warning::collection method fingerprint ${fingerprint} is not in lib/collection-method.json; ` +
+        `today's board checks compare with no other day. Run node scripts/collection-method.mjs`
+    );
+  }
+  const checkFile = buildCheckFile({
+    date: day,
+    checkedAt: stamp,
+    boards,
+    parked: parked.map((f) => f.firm),
+    method,
+    fingerprint,
+  });
+  const CHECKS = join(ROOT, checkFilePath(day));
+  await mkdir(dirname(CHECKS), { recursive: true });
+  await writeAtomic(CHECKS, JSON.stringify(checkFile, null, 1) + '\n');
+  const { ok: okN, partial: partialN, failed: failedN } = checkFile.counts;
+  const whys = {};
+  for (const b of Object.values(boards)) if (b.why) whys[b.why] = (whys[b.why] ?? 0) + 1;
+  const whyText = Object.keys(whys).length ? ` (${Object.entries(whys).map(([k, v]) => `${k} ${v}`).join(', ')})` : '';
+  console.log(`board checks: ${okN} ok, ${partialN} partial${whyText}, ${failedN} failed, method ${method} -> ${CHECKS}`);
 
   // ---------------------------------------------------------------------
   // Canonical URLs.
