@@ -1,6 +1,6 @@
 {
   "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
-  "current": "2026-09-25",
+  "current": "2026-09-25a",
   "fingerprints": {
     "99b4a6dabe727975": {
       "method": "2026-09-24",
@@ -10,6 +10,11 @@
     "284c3170f994573f": {
       "method": "2026-09-25",
       "note": "Non-role records screened out of the feed (information sessions, networking events and similar; lib/role-screen.mjs) and requisition labels cleaned off titles; duplicate groups reported only. Removes rows a healthy board yields, so days either side do not compare (l3vlup-skills#71)",
+      "recorded": "2026-09-25"
+    },
+    "14478f67929b3e92": {
+      "method": "2026-09-25a",
+      "note": "Board-check records describe exactly what the feed publishes: rows the non-role screen drops are counted as screened, not kept, and every row takes its final published seat (IMC networking event, 25 Sep). Changes counts for boards with screened rows.",
       "recorded": "2026-09-25"
     }
   }

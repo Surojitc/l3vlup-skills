@@ -14,6 +14,7 @@ import {
   boardRecord,
   checkVerdict,
   methodFingerprint,
+  publishedView,
   resolveMethod,
   buildCheckFile,
   checkFilePath,
@@ -147,6 +148,30 @@ eq('a failed board has no count, only the carried ids and the reason',
   { s: 'failed', ats: 'talnet', tier: 'Bulge Bracket', cfg, n: null, reason: 'bot-check interstitial', carried: ['a1'] });
 eq('a firm with no tier records null rather than omitting it',
   boardRecord({ firm: { firm: 'X', ats: 'lever' }, status: 'ok', roles: [] }).tier, null);
+
+// ── 3b. the record describes what the feed publishes ─────────────────────
+// The case that found this: on 25 September IMC's board returned an
+// "INVITE ONLY ... London Networking Event", the non-role screen dropped it
+// from the feed, and the day's file still counted it.
+{
+  const captured = [
+    { id: 'imc-1', vertical: 'Quant', role: 'Quant Trader Intern' },
+    { id: 'imc-2', vertical: 'Other', role: 'INVITE ONLY | EU Campus | London Networking Event 1 Oct' },
+    { id: 'imc-3', vertical: 'Other', role: 'Software Engineer Intern [REQ-123]' },
+  ];
+  const published = new Map([
+    ['imc-1', captured[0]],
+    ['imc-3', { id: 'imc-3', vertical: 'Software Engineering', role: 'Software Engineer Intern' }],
+  ]);
+  const view = publishedView(captured, published);
+  eq('a screened row is dropped and counted', view.screened, 1);
+  eq('a kept row is the published version, seat included', view.rows.map((r) => [r.id, r.vertical]), [['imc-1', 'Quant'], ['imc-3', 'Software Engineering']]);
+  const rec = boardRecord({ firm, status: 'ok', roles: view.rows, screened: view.screened });
+  eq('the record counts only what is published', rec.n, 2);
+  eq('and says how many were screened', rec.screened, 1);
+  eq('no screening, no field', 'screened' in boardRecord({ firm, status: 'ok', roles: [] }), false);
+  eq('ids are compared as strings', publishedView([{ id: 7 }], new Map([['7', { id: 7, vertical: 'Quant' }]])).rows.length, 1);
+}
 
 // ── 4. the day's file ───────────────────────────────────────────────────
 const file = buildCheckFile({
