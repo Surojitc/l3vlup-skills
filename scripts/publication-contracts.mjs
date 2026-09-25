@@ -192,14 +192,6 @@ export const CONTRACTS = {
         neverShrinks: true,
         optional: true,
       },
-      // The precedent-transactions collector's cache of EDGAR quarterly form
-      // indexes (scripts/precedent_transactions/formindex.py): a closed
-      // quarter is read once and kept, so the monthly run does not refetch
-      // years of indexes. Nothing renders it, hence shapeOnly and manual. It
-      // was left out of this table when it was written, and the first manual
-      // run afterwards (#42, 24 September) was refused whole for it, taking
-      // the day's calendar, deal tape and news map with it.
-      { path: 'data/merger-index.auto.json', freshness: { cadence: 'manual' }, label: 'the EDGAR merger form-index cache', shapeOnly: true, optional: true },
       { path: 'data/funds.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' }, label: '13F holdings', neverShrinks: true, optional: true },
       // The quarterly EDGAR form index the precedent collector reads merger
       // proxies from, kept so a closed quarter is read once. Committed since
