@@ -127,6 +127,9 @@ jobs:
           node scripts/__tests__/talnet.test.mjs
           node scripts/__tests__/eightfold-janestreet.test.mjs
           node scripts/__tests__/role-retention.test.mjs
+          node scripts/__tests__/role-screen.test.mjs
+          node scripts/__tests__/role-duplicates.test.mjs
+          node scripts/__tests__/role-telemetry.test.mjs
           node scripts/__tests__/board-checks.test.mjs
           node scripts/__tests__/ats-discover.test.mjs
           node scripts/__tests__/slug-registry.test.mjs

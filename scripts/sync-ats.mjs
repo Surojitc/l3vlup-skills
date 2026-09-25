@@ -28,6 +28,8 @@ import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
 import { normaliseRoleText } from '../lib/text-normalise.mjs';
 import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
+import { isNonRoleTitle, screenRoles } from '../lib/role-screen.mjs';
+import { duplicateGroups } from '../lib/role-duplicates.mjs';
 import {
   boardRecord,
   buildCheckFile,
@@ -1073,7 +1075,7 @@ const ARCHIVE_DAYS = 365;
  * Entries carry the durable id and the canonical slug, so a consumer can join
  * them to the registry without re-deriving anything.
  */
-function updateArchive(previous, records, slugs, day) {
+export function updateArchive(previous, records, slugs, day) {
   const roles = { ...previous };
   const KEEP = ['id', 'firm', 'role', 'vertical', 'programmeType', 'tier', 'division', 'location', 'region', 'level', 'applicationUrl', 'recommendedPrepSlug'];
 
@@ -1093,6 +1095,21 @@ function updateArchive(previous, records, slugs, day) {
     };
   }
 
+  // A record that was never a role is not an archived role. Left here, an
+  // information session screened out of the feed would render as a listing
+  // that had closed, indexable for another ninety days and in the sitemap.
+  // Removing the entry makes the site answer 404 for it, which is the truth;
+  // the slug itself stays reserved in the registry, so nothing can reuse it.
+  // Matched on the title the archive holds, so entries written before the
+  // screen existed are caught as well as today's.
+  let screened = 0;
+  for (const [slug, entry] of Object.entries(roles)) {
+    if (isNonRoleTitle(entry?.role)) {
+      delete roles[slug];
+      screened += 1;
+    }
+  }
+
   // A URL nobody has seen in a year is not a listing anyone is still
   // following. Dropping it keeps the file, and the pages built from it,
   // proportional to what is actually tracked.
@@ -1108,7 +1125,7 @@ function updateArchive(previous, records, slugs, day) {
   }
 
   const ordered = Object.fromEntries(Object.entries(roles).sort(([a], [b]) => a.localeCompare(b)));
-  return { roles: ordered, pruned };
+  return { roles: ordered, pruned, screened };
 }
 
 async function main() {
@@ -1254,6 +1271,29 @@ async function main() {
         `(dropped after ${RETENTION_DAYS} days): ` +
         Object.entries(byFirm).map(([f, n]) => `${f} ${n}`).join(', ')
     );
+  }
+
+  // ---------------------------------------------------------------------
+  // Records that are not roles.
+  //
+  // After retention, so a row carried from a failed board is screened by the
+  // same rule as one collected this morning; the first run after this landed
+  // would otherwise have carried yesterday's information session forward for
+  // a week. See lib/role-screen.mjs for what is dropped, what is only cleaned,
+  // and why the rules are phrases rather than words.
+  // ---------------------------------------------------------------------
+  {
+    const { kept, dropped, cleaned } = screenRoles(all);
+    all.length = 0;
+    all.push(...kept);
+    if (dropped.length) {
+      console.log(`\nscreened out ${dropped.length} record(s) that are not roles:`);
+      for (const d of dropped) console.log(`  [${d.reason}] ${d.row.firm} — ${d.row.role.slice(0, 90)}`);
+    }
+    if (cleaned.length) {
+      console.log(`\ncleaned ${cleaned.length} title(s) of a requisition label:`);
+      for (const c of cleaned) console.log(`  ${c.row.firm} — ${c.from.slice(0, 60)} -> ${c.to.slice(0, 60)}`);
+    }
   }
 
   // ---------------------------------------------------------------------
@@ -1638,6 +1678,28 @@ async function main() {
     console.log(`::warning::${unslugged} role(s) produced no slug (blank firm or role after normalisation)`);
   }
 
+  // Apparent duplicates, reported and never collapsed. Every row here already
+  // holds a permanent URL, and removing one would turn a live page into an
+  // archived one rather than remove a duplicate: see lib/role-duplicates.mjs.
+  // One posting arriving twice is a collector bug and is raised as a warning;
+  // the same programme posted per city is the normal case and is only counted.
+  {
+    const dupes = duplicateGroups(all);
+    const rows = (groups) => groups.reduce((n, g) => n + g.rows.length, 0);
+    console.log(
+      `\napparent duplicates: ${dupes.samePosting.length} posting(s) collected twice, ` +
+        `${dupes.sameTitleSameLocation.length} same-title-same-city group(s) (${rows(dupes.sameTitleSameLocation)} rows), ` +
+        `${dupes.sameTitleManyLocations.length} programme(s) posted in several cities (${rows(dupes.sameTitleManyLocations)} rows)`
+    );
+    for (const g of dupes.samePosting) {
+      console.log(`::warning::one posting collected as ${g.rows.length} rows (${g.key}): ${g.rows.map((r) => r.id).join(', ')}`);
+    }
+    for (const g of dupes.sameTitleSameLocation.slice(0, 10)) {
+      console.log(`  ${g.rows[0].firm} — ${g.rows[0].role.slice(0, 60)} @ ${g.rows[0].location.slice(0, 30)}: ${g.rows.map((r) => r.slug ?? r.id).join(', ')}`);
+    }
+    if (dupes.sameTitleSameLocation.length > 10) console.log(`  …and ${dupes.sameTitleSameLocation.length - 10} more`);
+  }
+
   // Departed roles. Their URLs stay published, and the record of them belongs
   // here rather than in a second job reading this same feed.
   let archiveRoles = {};
@@ -1647,7 +1709,7 @@ async function main() {
     /* first run */
   }
   const archivedBefore = Object.keys(archiveRoles).length;
-  const { roles: archived, pruned: archivePruned } = updateArchive(archiveRoles, all, assigned, runDay);
+  const { roles: archived, pruned: archivePruned, screened: archiveScreened } = updateArchive(archiveRoles, all, assigned, runDay);
 
   await writeAtomic(
     SLUGS,
@@ -1672,7 +1734,8 @@ async function main() {
   );
   console.log(
     `archive: ${Object.keys(archived).length} published URLs ` +
-      `(${archivedBefore} before, ${archivePruned} pruned past ${ARCHIVE_DAYS} days) → ${ARCHIVE}`
+      `(${archivedBefore} before, ${archivePruned} pruned past ${ARCHIVE_DAYS} days, ` +
+      `${archiveScreened} removed as not roles) → ${ARCHIVE}`
   );
   if (emptyFirms.length) {
     // Not an error: plenty of firms genuinely have nothing open off-season. It
