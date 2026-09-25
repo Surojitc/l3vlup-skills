@@ -35,6 +35,7 @@ import {
   buildCheckFile,
   checkFilePath,
   checkVerdict,
+  publishedView,
   everyRequestFailed,
   methodFingerprint,
   resolveMethod,
@@ -1601,15 +1602,21 @@ async function main() {
   // after the collapse guard, so an aborted run records nothing.
   const carriedByFirm = {};
   for (const r of retained) (carriedByFirm[r.firm] ??= []).push(r);
+  // What the feed finally publishes, after the non-role screen and title
+  // cleaning above. The day's file describes exactly this (publishedView).
+  const publishedById = new Map(all.map((o) => [String(o.id), o]));
   const boards = {};
   for (const c of Object.values(checks)) {
+    const collected = publishedView(c.roles, publishedById);
+    const carried = publishedView(carriedByFirm[c.firm.firm] ?? [], publishedById);
     boards[c.firm.firm] = boardRecord({
       firm: c.firm,
       status: c.status,
       why: c.why,
-      roles: c.roles,
-      carried: carriedByFirm[c.firm.firm] ?? [],
+      roles: collected.rows,
+      carried: carried.rows,
       reason: c.reason,
+      screened: collected.screened + carried.screened,
     });
   }
   // The method is read off the code that ran, not a constant someone had to
