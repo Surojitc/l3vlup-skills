@@ -103,6 +103,12 @@ console.log(`publishable (${producer}): ${staged.length} generated file(s)`);
 for (const s of stats) {
   const moved = s.before === null || s.before === undefined ? '' : ` (was ${s.before})`;
   console.log(`  ${s.name}: ${s.entries ?? 'ok'}${moved}`);
+  if (s.staleBaseline) {
+    console.log(
+      `::warning::${s.name}: categories not compared for collapse; the last published copy is ` +
+        `${s.staleBaseline.ageHours}h old, past its ${s.staleBaseline.limitHours}h limit, so it is not a baseline`,
+    );
+  }
 }
 
 const reportPath = arg('report');

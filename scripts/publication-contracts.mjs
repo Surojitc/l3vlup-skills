@@ -44,7 +44,10 @@
  *   required     fields every row must carry, because the site indexes by them
  *   stamp        the field carrying the collector's own generation time
  *   maxAgeHours  how old that stamp may be before the file is a leftover
- *   groups       {by, floor, minRatio}: no category of this size may halve
+ *   groups       {by, floor, minRatio}: no category of this size may halve.
+ *                With `freshBaselineOnly`, the comparison is only made when
+ *                the last published copy is itself inside `maxAgeHours`; see
+ *                the note on the news map below
  *   neverShrinks the file is an accumulating index; losing rows is a defect
  *   optional     the producing step does not run every cycle, so absence is
  *                normal and only a file that IS staged is checked
@@ -143,7 +146,19 @@ export const CONTRACTS = {
         maxAgeHours: 36,
         // The map is read by vertical, so one wire going dark and taking a
         // whole vertical with it is the failure worth catching.
-        groups: { by: 'vertical', floor: 15, minRatio: 0.5 },
+        //
+        // Only against a baseline that is itself fresh. The collector builds
+        // its rolling week by merging each run with the last published copy.
+        // After an outage that copy is older than the week, contributes
+        // nothing, and today's map is one day of items judged against a week
+        // of them. On 25 September, a week after the last publication, capital
+        // raises read 26 -> 9 with every capital-raise feed answering, and the
+        // refusal kept the week-old copy as the baseline for the next run too,
+        // so the map could never publish again. A copy older than this file's
+        // own `maxAgeHours` is one the contract would refuse as a leftover; it
+        // is not evidence that a wire went dark. The comparison resumes the
+        // day after the first publication, and every other check still runs.
+        groups: { by: 'vertical', floor: 15, minRatio: 0.5, freshBaselineOnly: true },
         optional: true,
       },
       {
@@ -586,6 +601,13 @@ export function groupMovement(prev, next, spec) {
     .sort((a, b) => b.to - a.to || a.name.localeCompare(b.name));
 }
 
+/** Hours since `obj[field]`, or null when there is no readable stamp. */
+function stampAgeHours(obj, field, now) {
+  const raw = field ? obj?.[field] : null;
+  const t = raw ? new Date(raw).getTime() : Number.NaN;
+  return Number.isNaN(t) ? null : (now.getTime() - t) / 3_600_000;
+}
+
 /**
  * One file against its spec. `prev` may be null on a first publication, in
  * which case the relative checks are skipped rather than failed: "there is
@@ -658,6 +680,10 @@ export function fileProblems(spec, next, prev, now = new Date()) {
 
   const before = prev == null ? null : count(prev, spec.rows, spec.keyed);
   let movement = null;
+  // Set when a `freshBaselineOnly` collapse comparison was skipped, so the
+  // run says so rather than passing quietly.
+  let staleBaseline = false;
+  let baselineAgeHours = null;
   if (before !== null && before > 0) {
     const ratio = n / before;
     if (spec.neverShrinks && n < before) {
@@ -671,7 +697,10 @@ export function fileProblems(spec, next, prev, now = new Date()) {
     }
     if (spec.groups) {
       movement = groupMovement(prev, next, spec);
-      for (const g of movement) {
+      baselineAgeHours = spec.groups.freshBaselineOnly ? stampAgeHours(prev, spec.stamp, now) : null;
+      const judged = !(baselineAgeHours !== null && spec.maxAgeHours !== undefined && baselineAgeHours > spec.maxAgeHours);
+      if (!judged) staleBaseline = true;
+      for (const g of judged ? movement : []) {
         if (g.from >= spec.groups.floor && g.to < g.from * spec.groups.minRatio) {
           problems.push(`${name}: ${g.name} collapsed from ${g.from} to ${g.to}`);
         }
@@ -683,7 +712,15 @@ export function fileProblems(spec, next, prev, now = new Date()) {
 
   return {
     problems,
-    stats: { name, path: spec.path, entries: n, before, stamp: spec.stamp ? (next?.[spec.stamp] ?? null) : null, movement },
+    stats: {
+      name,
+      path: spec.path,
+      entries: n,
+      before,
+      stamp: spec.stamp ? (next?.[spec.stamp] ?? null) : null,
+      movement,
+      ...(staleBaseline ? { staleBaseline: { ageHours: Math.round(baselineAgeHours), limitHours: spec.maxAgeHours } } : {}),
+    },
   };
 }
 
