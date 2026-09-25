@@ -78,7 +78,15 @@ eq(
 // ── 2. the allowlists, per producer ──────────────────────────────────────
 eq(
   'the open-data collection may publish what its collectors write',
-  unexpectedPaths('open-data', ['data/calendar.auto.json', 'data/deals.auto.json', 'data/newsflow.auto.json', 'data/macro.auto.json', 'data/decks.auto.json', 'data/funds.auto.json', 'data/peers.auto.json', 'data/career-snapshots.json']),
+  // Every file the monthly run staged on 24 September (run #42), not only the
+  // daily ones: the monthly collectors are where a missing entry hides, because
+  // a daily run never writes their files.
+  unexpectedPaths('open-data', [
+    'data/calendar.auto.json', 'data/deals.auto.json', 'data/newsflow.auto.json', 'data/macro.auto.json',
+    'data/decks.auto.json', 'data/funds.auto.json', 'data/peers.auto.json', 'data/career-snapshots.json',
+    'data/career-review-queue.json', 'data/cusip-tickers.auto.json', 'data/precedent-transactions.auto.json',
+    'data/merger-index.auto.json',
+  ]),
   [],
 );
 eq(
