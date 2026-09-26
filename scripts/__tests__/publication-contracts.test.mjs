@@ -159,6 +159,59 @@ refuses(
   fileProblems(newsSpec, news({ 'M&A': 90, 'Private Equity': 5, 'Venture Capital': 51 }), news({ 'M&A': 58, 'Private Equity': 44, 'Venture Capital': 44 }), now),
   'Private Equity collapsed from 44 to 5',
 );
+// 25 September: the last published news map was a week old, because
+// publication had failed since the 18th. The collector's rolling week merges
+// with that copy, which by then contributed nothing, so capital raises read
+// 26 -> 9 with every feed answering, and each refusal kept the same week-old
+// copy as the next run's baseline. A baseline the contract would itself call a
+// leftover is not evidence that a wire went dark.
+{
+  const weekOld = '2026-09-13T11:00:00Z';
+  const at = (stamp, counts) => ({ ...news(counts), generatedAt: stamp });
+  const today = news({ 'M&A': 30, 'Private Equity': 30, 'Venture Capital': 30, 'capital-raises': 9 });
+  const lastPublished = (stamp) => at(stamp, { 'M&A': 30, 'Private Equity': 30, 'Venture Capital': 30, 'capital-raises': 26 });
+
+  const stale = fileProblems(newsSpec, today, lastPublished(weekOld), now);
+  eq('after an outage, a week-old copy is not a baseline: the map publishes', stale.problems, []);
+  eq('and the run says the comparison was skipped, and why', stale.stats.staleBaseline, { ageHours: 169, limitHours: 36 });
+  eq('the movement is still reported', stale.stats.movement.find((g) => g.name === 'capital-raises'), { name: 'capital-raises', from: 26, to: 9, delta: -17 });
+
+  refuses(
+    'the same fall against yesterday’s copy is still a collapse',
+    fileProblems(newsSpec, today, lastPublished('2026-09-19T11:00:00Z'), now),
+    'capital-raises collapsed from 26 to 9',
+  );
+  refuses(
+    'a copy exactly at the limit is still a baseline',
+    fileProblems(newsSpec, today, lastPublished('2026-09-19T00:00:00Z'), now),
+    'capital-raises collapsed from 26 to 9',
+  );
+  refuses(
+    'a baseline with no readable stamp is still compared: unknown age is not old age',
+    fileProblems(newsSpec, today, { ...lastPublished(weekOld), generatedAt: undefined }, now),
+    'collapsed',
+  );
+  refuses(
+    'a stale baseline excuses nothing else: a map below its floor is still refused',
+    fileProblems(newsSpec, news({ 'M&A': 10, 'capital-raises': 9 }), lastPublished(weekOld), now),
+    'below its floor',
+  );
+  eq('a fresh baseline carries no skip notice', fileProblems(newsSpec, today, lastPublished('2026-09-20T06:00:00Z'), now).stats.staleBaseline, undefined);
+
+  // Only the news map opts in. The tracker feed's collapse check is the one
+  // its own gate mirrors, and a missed tracker day must not weaken it.
+  const trackerSpec = CONTRACTS.tracker.files.find((f) => f.path === 'data/opportunities.auto.json');
+  eq('the tracker does not opt in', trackerSpec.groups.freshBaselineOnly, undefined);
+  const role = (vertical, i) => ({ id: `${vertical}-${i}`, firm: 'f', role: 'r', vertical, programmeType: 'p', location: 'l', region: 'r', level: 'l', status: 'open' });
+  const board = (stamp, counts) => ({ generatedAt: stamp, opportunities: Object.entries(counts).flatMap(([v, n]) => Array.from({ length: n }, (_, i) => role(v, i))) });
+  refuses(
+    'and a tracker vertical that halves against a week-old copy is still refused',
+    fileProblems(trackerSpec, board(fresh, { 'Software Engineering': 330, Other: 300, 'Investment Banking': 10 }), board(weekOld, { 'Software Engineering': 330, Other: 300, 'Investment Banking': 141 }), now),
+    'Investment Banking collapsed from 141 to 10',
+  );
+  eq('the news map is the only file that does', Object.values(CONTRACTS).flatMap((c) => c.files).filter((f) => f.groups?.freshBaselineOnly).map((f) => f.path), ['data/newsflow.auto.json']);
+}
+
 eq(
   'a small category going to zero is not a collapse: they do that between cycles',
   fileProblems(newsSpec, news({ 'M&A': 60, 'Private Equity': 40, 'Venture Capital': 46, 'Hedge Fund': 0 }), news({ 'M&A': 58, 'Private Equity': 44, 'Venture Capital': 44, 'Hedge Fund': 3 }), now).problems,
