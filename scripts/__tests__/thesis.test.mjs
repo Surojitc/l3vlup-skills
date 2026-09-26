@@ -438,13 +438,21 @@ test('the committed contract carries no model key, no client and no source text'
       assert.ok(!text.includes(forbidden), `${f} contains ${forbidden}`);
     }
   }
-  // The SDK is a dependency of the repository now, for the pilot client
-  // alone. What must stay true is that no contract module imports it: the
-  // schemas, validators and taxonomy are decided without a model in reach.
+  // Two model SDKs are dependencies of the repository now: Anthropic, for the
+  // pilot client alone, and TypeSafe, for the vertical judge in
+  // `scripts/vertical-eval.mjs`, which is an offline evaluation and is wired
+  // into no workflow. The list is asserted so that adding a third is a
+  // deliberate act somebody has to write down here.
+  //
+  // What must stay true either way is that no contract module imports either
+  // of them: the schemas, validators and taxonomy are decided without a model
+  // in reach.
   const pkg = JSON.parse(readFileSync(join(REPO, 'package.json'), 'utf8'));
-  assert.deepEqual(Object.keys(pkg.dependencies).sort(), ['@anthropic-ai/sdk', 'parse5', 'pdfjs-dist']);
+  assert.deepEqual(Object.keys(pkg.dependencies).sort(), ['@anthropic-ai/sdk', '@typesafe-ai/sdk', 'parse5', 'pdfjs-dist']);
   for (const f of files) {
-    assert.ok(!readFileSync(join(REPO, f), 'utf8').includes('@anthropic-ai/sdk'), `${f} imports the SDK`);
+    const text = readFileSync(join(REPO, f), 'utf8');
+    assert.ok(!text.includes('@anthropic-ai/sdk'), `${f} imports the Anthropic SDK`);
+    assert.ok(!text.includes('@typesafe-ai/sdk'), `${f} imports the TypeSafe SDK`);
   }
 
   // The fixture source is invented, and no real filing text is committed.
