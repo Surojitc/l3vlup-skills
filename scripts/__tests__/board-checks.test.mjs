@@ -60,9 +60,10 @@ eq('everyRequestFailed: nothing asked', everyRequestFailed({ attempts: 0, failur
 // empty list and counted as a healthy board with nothing open.
 {
   const stats = newRequestStats();
-  const seen = await paginateWorkday(async () => { throw new Error('503'); }, { queries: ['intern', 'graduate'], stats });
+  const seen = await paginateWorkday(async () => { throw new Error('503'); }, { queries: ['intern', 'graduate'], stats, retry: { delayMs: 0 } });
   eq('workday: a board refusing every query yields nothing', seen.size, 0);
-  eq('workday: and every attempt is counted as failed', stats, { attempts: 2, failures: 2 });
+  // Each refused page is retried once before it counts (retries), and still counts.
+  eq('workday: and every attempt is counted as failed', stats, { attempts: 2, failures: 2, retries: 2 });
   eq('workday: which classifies as failed, not as empty', classifyCheck({ settled: 'fulfilled', stats }), 'failed');
 }
 {
@@ -71,8 +72,8 @@ eq('everyRequestFailed: nothing asked', everyRequestFailed({ attempts: 0, failur
   await paginateWorkday(async (q, offset) => {
     if (q === 'graduate') throw new Error('timeout');
     return page(30, offset);
-  }, { queries: ['intern', 'graduate'], stats });
-  eq('workday: one query refused is counted', stats, { attempts: 3, failures: 1 });
+  }, { queries: ['intern', 'graduate'], stats, retry: { delayMs: 0 } });
+  eq('workday: one query refused is counted', stats, { attempts: 3, failures: 1, retries: 1 });
   eq('workday: which classifies as partial', classifyCheck({ settled: 'fulfilled', stats }), 'partial');
 }
 {

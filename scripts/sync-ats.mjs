@@ -30,6 +30,7 @@ import { normaliseRoleText } from '../lib/text-normalise.mjs';
 import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
 import { isNonRoleTitle, screenRoles } from '../lib/role-screen.mjs';
 import { duplicateGroups } from '../lib/role-duplicates.mjs';
+import { walkCompleteBoard, withRetry } from '../lib/complete-board.mjs';
 import {
   boardRecord,
   buildCheckFile,
@@ -755,12 +756,20 @@ export async function paginateWorkday(fetchPage, opts = {}) {
     // still ends its query quietly, but it is now counted, so a board whose
     // every request failed can no longer pass for a board with nothing open.
     stats,
+    // One retry per page before the page counts as failed (lib/complete-board.mjs).
+    retry,
   } = opts;
   const seen = new Map();
 
   for (const q of queries) {
     let offset = 0;
     let finished = false;
+    // What THIS query has returned. The replay check below must ask whether a
+    // page is new to the query, not to the firm: a later query whose first
+    // page holds only postings an earlier query already collected is not a
+    // board ignoring the offset, and used to end after one page while being
+    // recorded as finished (JPMorgan "graduate", Barclays "new grad").
+    const mine = new Set();
     for (let page = 0; page < maxPages; page++) {
       if (seen.size >= maxPostings) {
         // Our budget ended the walk, not the board. The count is a floor.
@@ -768,15 +777,16 @@ export async function paginateWorkday(fetchPage, opts = {}) {
         finished = true;
         break;
       }
-      let data;
       if (stats) stats.attempts++;
-      try {
-        data = await fetchPage(q, offset, PAGE);
-      } catch {
+      const acc = {};
+      const res = await withRetry(() => fetchPage(q, offset, PAGE), acc, retry);
+      if (stats) stats.retries = (stats.retries ?? 0) + (acc.retries ?? 0);
+      if (!res.ok) {
         if (stats) stats.failures++;
         finished = true; // counted as a failure, not as a budget
         break; // this query failed; move to the next one
       }
+      const data = res.value;
 
       const postings = data?.jobPostings ?? [];
       if (postings.length === 0) { finished = true; break; }
@@ -784,12 +794,13 @@ export async function paginateWorkday(fetchPage, opts = {}) {
       let added = 0;
       for (const jp of postings) {
         const path = jp.externalPath;
-        if (!path || seen.has(path)) continue;
+        if (!path || mine.has(path)) continue;
+        mine.add(path);
         added++;
-        seen.set(path, jp);
+        if (!seen.has(path)) seen.set(path, jp);
       }
-      // A page that adds nothing new means the board is ignoring our offset and
-      // replaying page one. Without this the loop never terminates.
+      // A page that adds nothing new to this query means the board is ignoring
+      // our offset and replaying page one. Without this the loop never ends.
       if (added === 0) { finished = true; break; }
 
       offset += PAGE;
@@ -815,14 +826,24 @@ async function fetchWorkday(f, stats = newRequestStats()) {
   const host = f.host || (f.tenant && f.shard ? `${f.tenant}.${f.shard}.myworkdayjobs.com` : null);
   if (!host) throw new Error(`no Workday host for ${f.firm}`);
 
-  const seen = await paginateWorkday((searchText, offset, limit) =>
+  const search = (searchText, offset, limit) =>
     getJson(`https://${host}/wday/cxs/${f.tenant}/${f.site}/jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ limit, offset, searchText }),
-    }),
-    { stats }
-  );
+    });
+  // Registry `collect: "complete"`: the whole board, empty search, walked to
+  // the board's own total and classified locally (lib/complete-board.mjs).
+  // Workday serves at most 20 a page.
+  const seen = f.collect === 'complete'
+    ? (await walkCompleteBoard(
+        async (offset, limit) => {
+          const d = await search('', offset, limit);
+          return { total: d?.total, rows: d?.jobPostings ?? [] };
+        },
+        { pageSize: WORKDAY_PAGE, idOf: (jp) => jp?.externalPath, stats }
+      )).postings
+    : await paginateWorkday(search, { stats });
   if (everyRequestFailed(stats)) throw new Error(`every Workday request failed (${stats.failures})`);
 
   return [...seen.values()].map((jp) => ({
@@ -878,12 +899,14 @@ export async function paginateOracle(fetchPage, opts = {}) {
     maxPages = ORACLE_MAX_PAGES_PER_QUERY,
     maxPostings = ORACLE_MAX_POSTINGS_PER_FIRM,
     stats, // see paginateWorkday
+    retry, // see paginateWorkday
   } = opts;
   const seen = new Map();
 
   for (const q of queries) {
     let offset = 0;
     let finished = false;
+    const mine = new Set(); // per query; see paginateWorkday
     for (let page = 0; page < maxPages; page++) {
       if (seen.size >= maxPostings) {
         // Our budget ended the walk, not the board. The count is a floor.
@@ -891,15 +914,16 @@ export async function paginateOracle(fetchPage, opts = {}) {
         finished = true;
         break;
       }
-      let data;
       if (stats) stats.attempts++;
-      try {
-        data = await fetchPage(q, offset, PAGE);
-      } catch {
+      const acc = {};
+      const res = await withRetry(() => fetchPage(q, offset, PAGE), acc, retry);
+      if (stats) stats.retries = (stats.retries ?? 0) + (acc.retries ?? 0);
+      if (!res.ok) {
         if (stats) stats.failures++;
         finished = true; // counted as a failure, not as a budget
         break; // this query failed; move to the next one
       }
+      const data = res.value;
 
       const bundle = data?.items?.[0];
       const reqs = bundle?.requisitionList ?? [];
@@ -908,9 +932,10 @@ export async function paginateOracle(fetchPage, opts = {}) {
       let added = 0;
       for (const r of reqs) {
         const id = r?.Id;
-        if (id == null || seen.has(String(id))) continue;
+        if (id == null || mine.has(String(id))) continue;
+        mine.add(String(id));
         added++;
-        seen.set(String(id), r);
+        if (!seen.has(String(id))) seen.set(String(id), r);
       }
       if (added === 0) { finished = true; break; }
 
@@ -944,14 +969,31 @@ export function oracleToJob(r, { host, site }) {
   };
 }
 
+// A complete-board read asks for 200 a page: JPMorgan's 7,500 postings are 38
+// requests rather than 300, and a shorter walk gives the board less time to
+// move under it. The walker advances by what each page returned, so a server
+// that serves fewer than it was asked for costs requests, never postings.
+const ORACLE_COMPLETE_PAGE = 200;
+
 async function fetchOracle(f, stats = newRequestStats()) {
-  const seen = await paginateOracle((q, offset, limit) => {
-    const finder = `findReqs;siteNumber=${f.site},limit=${limit},offset=${offset},sortBy=POSTING_DATES_DESC,keyword=${q}`;
+  const search = (q, offset, limit) => {
+    const keyword = q ? `,keyword=${q}` : '';
+    const finder = `findReqs;siteNumber=${f.site},limit=${limit},offset=${offset},sortBy=POSTING_DATES_DESC${keyword}`;
     const url =
       `https://${f.host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions` +
       `?onlyData=true&expand=requisitionList.secondaryLocations&finder=${encodeURIComponent(finder)}`;
     return getJson(url);
-  }, { stats });
+  };
+  // See fetchWorkday for `collect: "complete"`.
+  const seen = f.collect === 'complete'
+    ? (await walkCompleteBoard(
+        async (offset, limit) => {
+          const b = (await search('', offset, limit))?.items?.[0];
+          return { total: b?.TotalJobsCount, rows: b?.requisitionList ?? [] };
+        },
+        { pageSize: ORACLE_COMPLETE_PAGE, idOf: (r) => (r?.Id == null ? null : String(r.Id)), stats }
+      )).postings
+    : await paginateOracle(search, { stats });
   if (everyRequestFailed(stats)) throw new Error(`every Oracle request failed (${stats.failures})`);
   return [...seen.values()].map((r) => oracleToJob(r, f));
 }
@@ -1204,10 +1246,11 @@ async function main() {
       });
       const roles = r.status === 'fulfilled' ? r.value.opps : [];
       const reason = r.status === 'rejected' ? String(r.reason?.message ?? r.reason) : undefined;
+      const walk = batchStats[k].walk;
       const prev = checks[firm.firm];
       checks[firm.firm] = prev
-        ? { firm, status: worstStatus(prev.status, status), why: prev.why ?? why, roles: prev.roles.concat(roles), reason: prev.reason ?? reason }
-        : { firm, status, why, roles, reason };
+        ? { firm, status: worstStatus(prev.status, status), why: prev.why ?? why, roles: prev.roles.concat(roles), reason: prev.reason ?? reason, walk: prev.walk ?? walk }
+        : { firm, status, why, roles, reason, walk };
       if (r.status === 'fulfilled') {
         ok++;
         all.push(...r.value.opps);
@@ -1617,6 +1660,7 @@ async function main() {
       carried: carried.rows,
       reason: c.reason,
       screened: collected.screened + carried.screened,
+      walk: c.walk,
     });
   }
   // The method is read off the code that ran, not a constant someone had to

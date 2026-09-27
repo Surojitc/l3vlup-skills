@@ -109,5 +109,64 @@ const one = { queries: ['intern'], page: 10 };
   eq('the per-firm budget caps a huge board', seen.size <= 140, true);
 }
 
+// REGRESSION (26 September audit): dedupe state is per firm, the replay check
+// must be per query. A later query whose first page holds only postings an
+// earlier query already collected is NOT a board ignoring the offset. The old
+// loop stopped it after one page and recorded it as finished, so the board
+// read as complete while the rest of that query was never fetched.
+{
+  // "intern" returns postings 0-19; "graduate" returns 0-19 again on its first
+  // page (all already seen) and 20-34 on its second.
+  const byQuery = { intern: 20, graduate: 35 };
+  let calls = 0;
+  const fetchPage = async (q, offset, limit) => {
+    calls++;
+    const total = byQuery[q];
+    const jobPostings = [];
+    for (let i = offset; i < Math.min(offset + limit, total); i++) jobPostings.push({ externalPath: `/job/R-${i}` });
+    return { total, jobPostings };
+  };
+  const stats = { attempts: 0, failures: 0 };
+  const seen = await paginateWorkday(fetchPage, { queries: ['intern', 'graduate'], page: 20, stats, retry: { delayMs: 0 } });
+  eq('a query whose first page overlaps an earlier query still reads its second page', seen.size, 35);
+  eq('...and is not flagged as capped', Boolean(stats.capped), false);
+}
+
+// The replay stop still works per query: a board ignoring the offset for the
+// second query stops it after one repeat, not at maxPages.
+{
+  let calls = 0;
+  const fetchPage = async (q) => {
+    calls++;
+    return { jobPostings: q === 'a' ? [{ externalPath: '/a/1' }] : [{ externalPath: '/b/1' }, { externalPath: '/b/2' }] };
+  };
+  const seen = await paginateWorkday(fetchPage, { queries: ['a', 'b'], page: 2, maxPages: 50, retry: { delayMs: 0 } });
+  eq('a replaying query still stops after its repeat', [seen.size, calls], [3, 3]);
+}
+
+// One retry: a page that fails once and then answers costs a request, not the
+// query. A page that fails twice is a failure, and the board is partial.
+{
+  const b = board(30);
+  let failedOnce = false;
+  const flaky = async (q, offset, limit) => {
+    if (offset === 20 && !failedOnce) { failedOnce = true; throw new Error('timeout'); }
+    return b.fetchPage(q, offset, limit);
+  };
+  const stats = { attempts: 0, failures: 0, retries: 0 };
+  const seen = await paginateWorkday(flaky, { queries: ['intern'], page: 20, stats, retry: { delayMs: 0 } });
+  eq('a page that fails once is retried and the walk completes', [seen.size, stats.failures, stats.retries], [30, 0, 1]);
+}
+{
+  const b = board(30);
+  const dead = async (q, offset, limit) => {
+    if (offset === 20) throw new Error('timeout');
+    return b.fetchPage(q, offset, limit);
+  };
+  const stats = { attempts: 0, failures: 0, retries: 0 };
+  const seen = await paginateWorkday(dead, { queries: ['intern'], page: 20, stats, retry: { delayMs: 0 } });
+  eq('a page that fails twice is one failure after one retry', [seen.size, stats.failures, stats.retries], [20, 1, 1]);
+}
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);
