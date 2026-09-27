@@ -114,5 +114,29 @@ eq('an eightfold domain becomes the key', firmKey({ domain: 'mlp.com' }), 'mlp-c
 eq('a bare firm name is the last resort', firmKey({ firm: 'Jane Street' }), 'jane-street');
 eq('nothing at all still yields a key', firmKey({}), 'unknown');
 
+// REGRESSION (26 September audit): the replay check is per query. JPMorgan's
+// "graduate" search (559 matches) stopped after its eighth page because every
+// posting on it had already come back from "intern", and was recorded as
+// finished. A later query whose page overlaps an earlier query's must still
+// read on to its new postings.
+{
+  const totals = { intern: 4, graduate: 6 };
+  const seen = await paginateOracle(async (q, offset, limit) => {
+    const rows = [];
+    for (let i = offset; i < Math.min(offset + limit, totals[q]); i++) rows.push(req(i));
+    return bundle(rows, totals[q]);
+  }, { queries: ['intern', 'graduate'], page: 2, retry: { delayMs: 0 } });
+  eq('a query overlapping an earlier one still reaches its own new postings', seen.size, 6);
+}
+{
+  let failed = false;
+  const stats = { attempts: 0, failures: 0, retries: 0 };
+  const seen = await paginateOracle(async (q, offset) => {
+    if (offset === 2 && !failed) { failed = true; throw new Error('502'); }
+    return bundle(offset === 0 ? [req(1), req(2)] : [req(3)], 3);
+  }, { queries: ['intern'], page: 2, stats, retry: { delayMs: 0 } });
+  eq('an Oracle page that fails once is retried', [seen.size, stats.failures, stats.retries], [3, 0, 1]);
+}
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);

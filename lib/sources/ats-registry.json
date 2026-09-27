@@ -289,6 +289,7 @@
     },
     {
       "firm": "JPMorgan Chase",
+      "collect": "complete",
       "ats": "oracle",
       "host": "jpmc.fa.oraclecloud.com",
       "site": "CX_1001",
@@ -304,6 +305,7 @@
     },
     {
       "firm": "Barclays",
+      "collect": "complete",
       "ats": "workday",
       "tenant": "barclays",
       "shard": "wd3",
@@ -420,6 +422,7 @@
     },
     {
       "firm": "ING",
+      "collect": "complete",
       "ats": "workday",
       "host": "ing.wd3.myworkdayjobs.com",
       "tenant": "ing",
@@ -428,6 +431,7 @@
     },
     {
       "firm": "Capital One",
+      "collect": "complete",
       "ats": "workday",
       "host": "capitalone.wd12.myworkdayjobs.com",
       "tenant": "capitalone",
