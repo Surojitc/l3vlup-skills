@@ -593,11 +593,10 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
 }
 
 
-// ── the open-data producer cannot merge itself yet ──────────────────────
-// `collect.yml` is the first producer on the shared publisher that runs to a
-// schedule. Until it has shown that both halves of the road work — opening a
-// pull request, and updating that same pull request on a second run — it must
-// be structurally incapable of merging, on every trigger, with no input
+// ── who may merge: a literal in each caller, never an expression ─────────
+// `collect.yml` showed both halves of the road work (runs 36235700643 and
+// 36314107305, #81) and passes `merge: true`. The others must stay
+// structurally incapable of merging, on every trigger, with no input
 // anybody could set wrong at four in the morning.
 {
   const ats = workflows.find((w) => w.file === 'discover-ats.yml').text;
@@ -605,7 +604,8 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
   const bs = workflows.find((w) => w.file === 'build-samples.yml').text;
   for (const [file, text] of [['build-samples.yml', bs], ['collect.yml', col], ['discover-ats.yml', ats]]) {
     const passed = [...text.matchAll(/^\s+merge:\s*(\S+)\s*$/gm)].map((m) => m[1]);
-    eq(`${file} passes merge, and passes it as a literal false`, passed, ['false']);
+    const want = file === 'collect.yml' ? 'true' : 'false';
+    eq(`${file} passes merge, and passes it as a literal ${want}`, passed, [want]);
     check(`${file} does not decide it from an input, a secret or an expression`, !/merge:\s*\$\{\{/.test(text));
   }
   // Nor by the back door: a workflow-level input called `merge` or `publish`
