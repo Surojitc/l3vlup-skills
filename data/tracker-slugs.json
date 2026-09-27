@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-25T23:06:00.092Z",
-  "count": 1820,
+  "generatedAt": "2026-09-27T19:38:30.710Z",
+  "count": 1950,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -2564,25 +2564,385 @@
       "slug": "palantir-software-engineer-internship-infrastructure-uk",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210690282": {
+      "slug": "jpmorgan-chase-2027-markets-summer-analyst-program-research",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210690291": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-summer-analyst-us-private-bank",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210690325": {
+      "slug": "jpmorgan-chase-2027-markets-summer-analyst-program",
+      "since": "2026-09-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210690693": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-summer-analyst-program",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210690743": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-innovation-development-summer-analyst-program-product-track",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210690767": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-securities-services-leadership-program-summer-analyst-program",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210690781": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-risk-management-summer-analyst-program",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210691091": {
       "slug": "jpmorgan-chase-2027-asset-management-client-summer-analyst-program",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210691520": {
+      "slug": "jpmorgan-chase-2027-asset-and-wealth-management-global-private-bank-advisor-program-summer-analyst-global-families-group-asia",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210691719": {
+      "slug": "jpmorgan-chase-2027-asset-and-wealth-management-global-private-bank-advisor-program-summer-analyst-global-families-group",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210691737": {
+      "slug": "jpmorgan-chase-2027-asset-management-product-summer-analyst-program",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210691755": {
+      "slug": "jpmorgan-chase-2027-asset-and-wealth-management-global-private-bank-advisor-program-summer-analyst-latam",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210691905": {
+      "slug": "jpmorgan-chase-2027-asset-and-wealth-management-risk-summer-analyst-program",
+      "since": "2026-09-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210708872": {
       "slug": "jpmorgan-chase-campus-recruiter-associate",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210738469": {
+      "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-brussels",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210739544": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-stockholm",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210741849": {
+      "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-cee-coverage-warsaw",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210741865": {
+      "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-cee-coverage-frankfurt",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210741915": {
+      "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-paris",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742017": {
+      "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-zurich",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742043": {
+      "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-frankfurt",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742404": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-cee-coverage-off-cycle-internship-program-dubai",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742406": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-large-cap-off-cycle-internship-program-saudi-arabia",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742431": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-mid-cap-off-cycle-internship-program-paris",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742441": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-large-cap-off-cycle-internship-program-dubai",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742448": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-mid-cap-off-cycle-internship-program-zurich",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742450": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-mid-cap-off-cycle-internship-program-frankfurt",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210742641": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-large-cap-off-cycle-internship-program-paris",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210743031": {
+      "slug": "jpmorgan-chase-2027-asset-management-program-summer-internship-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210745202": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-summer-internship-singapore",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210745269": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-investment-solutions-program-summer-internship-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210745305": {
+      "slug": "jpmorgan-chase-2027-asset-management-program-summer-internship-singapore",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210745317": {
+      "slug": "jpmorgan-chase-2027-asset-management-program-summer-internship-taipei",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210745323": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-investment-solutions-program-summer-internship-singapore",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210745326": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-summer-internship-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747060": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747391": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-research-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747399": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-research-seoul",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747409": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-research-shanghai",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747413": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-research-taipei",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747420": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-seoul",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747423": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-shanghai",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747429": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-singapore",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747434": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-sales-taipei",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210749749": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-program-summer-analyst-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210749751": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-program-summer-analyst-singapore",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210749752": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-summer-analyst-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210749758": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-summer-analyst-shanghai",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210749762": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-summer-analyst-singapore",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210753819": {
+      "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210754291": {
+      "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-singapore",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210754294": {
+      "slug": "jpmorgan-chase-2027-human-resources-analyst-development-program-summer-analyst-hong-kong",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210761711": {
+      "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-global-corporate-banking",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210761713": {
+      "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-operations",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210761731": {
+      "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-payments",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210761734": {
+      "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-research-and-analytics",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210764354": {
+      "slug": "jpmorgan-chase-fresh-graduates-talent-pooling-entry-level-position",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765224": {
+      "slug": "jpmorgan-chase-2027-human-resources-analyst-development-program-summer-analyst-opportunity",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765276": {
+      "slug": "jpmorgan-chase-2027-global-finance-and-business-management-summer-analyst-oh-il-de-tx",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765289": {
+      "slug": "jpmorgan-chase-2027-global-finance-and-business-management-summer-analyst-new-york-metro",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765547": {
+      "slug": "jpmorgan-chase-2027-internal-audit-analyst-program-summer-intern-opportunity",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765577": {
+      "slug": "jpmorgan-chase-2027-global-finance-and-business-management-corporate-controllers-track-de-summer-analyst",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765712": {
+      "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-chicago",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765749": {
+      "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-new-york-metro",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765753": {
+      "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-columbus",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765772": {
+      "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-de-tx-fl",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765972": {
+      "slug": "jpmorgan-chase-2027-operations-analyst-program-summer-analyst-az-de-fl-oh-tx",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766050": {
+      "slug": "jpmorgan-chase-2027-asia-analyst-development-program-summer-analyst-indonesia",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766057": {
+      "slug": "jpmorgan-chase-2027-asia-analyst-development-program-summer-analyst-malaysia",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766058": {
+      "slug": "jpmorgan-chase-2027-asia-analyst-development-program-summer-analyst-thailand",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766078": {
+      "slug": "jpmorgan-chase-2027-chase-associate-program-summer-associate-opportunity-new-york",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766280": {
+      "slug": "jpmorgan-chase-2027-marketing-leadership-development-program-summer-analyst-opportunity",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766489": {
+      "slug": "jpmorgan-chase-2027-asia-analyst-development-program-summer-analyst-philippines",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766897": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-program-summer-analyst-tokyo",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766900": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-program-research-summer-analyst-tokyo",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766905": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-program-sales-and-marketing-summer-analyst-tokyo",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766907": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-program-trading-summer-analyst-tokyo",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210766911": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-corporate-banking-program-summer-analyst-tokyo",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210767069": {
+      "slug": "jpmorgan-chase-2027-chase-associate-program-summer-associate-opportunity-oh-tx-de",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210768182": {
+      "slug": "jpmorgan-chase-2027-financial-advisor-development-program-summer-analyst-opportunity-oh-tx-az",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210768195": {
+      "slug": "jpmorgan-chase-2027-chase-leadership-development-program-summer-analyst-opportunity-oh-tx-de",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770125": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-operations-part-time",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770134": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-human-resources-part-time",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770146": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-technology-part-time",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770153": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-legal-part-time",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770163": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-finance-part-time",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770249": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-finance-part-time-us",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770259": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-technology-part-time-us",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770278": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-legal-part-time-us",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770287": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-front-office-part-time",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210772336": {
+      "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-january-december-frankfurt-all-genders",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210772872": {
+      "slug": "jpmorgan-chase-2027-asset-management-austria-working-student-january-december-vienna-all-genders",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210772971": {
+      "slug": "jpmorgan-chase-graduating-student-opportunity-internal-strategy-and-process-consulting-associate-i",
+      "since": "2026-09-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210773470": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-london",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773759": {
+      "slug": "jpmorgan-chase-code-for-good-hackathon-software-engineer-program-2027-summer-internship-united-states",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210773761": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-amsterdam",
@@ -2604,9 +2964,29 @@
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-geneva",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210773869": {
+      "slug": "jpmorgan-chase-2027-data-and-ai-program-summer-internship-analyst-united-states",
+      "since": "2026-09-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210773872": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-geneva-latam",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773978": {
+      "slug": "jpmorgan-chase-2027-quantitative-research-risk-and-treasury-summer-internship-associate-united-states",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774038": {
+      "slug": "jpmorgan-chase-2027-quantitative-research-markets-summer-internship-analyst-united-states",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774061": {
+      "slug": "jpmorgan-chase-2027-quantitative-research-markets-summer-internship-associate-united-states",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774074": {
+      "slug": "jpmorgan-chase-2027-quantitative-research-asset-management-summer-internship-analyst-united-states",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210774194": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-luxembourg",
@@ -2664,6 +3044,14 @@
       "slug": "jpmorgan-chase-2027-focused-analytics-solutions-team-fast-intern-associate-program-analytics-solutions",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210774659": {
+      "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-asset-management-research-analyst",
+      "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774661": {
+      "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-asset-management-business-analyst",
+      "since": "2026-09-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210774716": {
       "slug": "jpmorgan-chase-2027-software-engineer-program-summer-internship-glasgow-london",
       "since": "2026-09-18",
@@ -2684,6 +3072,10 @@
       "was": [
         "jpmorgan-chase-2027-data-and-ai-summer-internship-glasgow-and-london"
       ]
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774749": {
+      "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-january-december-berlin-all-genders",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210774757": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-analyst-program-summer-internship-dublin",
@@ -2720,6 +3112,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210774894": {
       "slug": "jpmorgan-chase-2027-asset-management-risk-summer-internship-program-london",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210775223": {
+      "slug": "jpmorgan-chase-data-for-good-hackathon-data-and-ai-program-2027-summer-internship-united-states",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210775228": {
       "slug": "jpmorgan-chase-2027-corporate-functions-corporate-analyst-development-program-summer-internship-bournemouth",
@@ -2761,6 +3157,10 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-banking-risk-management-program-summer-internship-london",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210775736": {
+      "slug": "jpmorgan-chase-2027-firmwide-saudi-arabia-co-op-training-january-june-riyadh",
+      "since": "2026-09-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210775780": {
       "slug": "jpmorgan-chase-2027-quantitative-research-markets-associate-program-off-cycle-internship-london",
       "since": "2026-09-18"
@@ -2788,6 +3188,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210777867": {
       "slug": "jpmorgan-chase-2027-asset-and-wealth-management-u-s-private-bank-mba-summer-associate-program",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210779495": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-large-cap-analyst-program-off-cycle-internship-tel-aviv",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210779577": {
       "slug": "jpmorgan-chase-2027-global-corporate-banking-program-large-cap-off-cycle-internship-april-september-milan",
@@ -2825,6 +3229,10 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-september-december-amsterdam",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210780241": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-analyst-program-innovation-economy-off-cycle-internship-january-june-tel-aviv",
+      "since": "2026-09-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210780476": {
       "slug": "jpmorgan-chase-2027-research-summer-internship-london",
       "since": "2026-09-18"
@@ -2856,6 +3264,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210783071": {
       "slug": "jpmorgan-chase-2027-global-corporate-banking-program-mid-cap-summer-internship-stockholm",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210783522": {
+      "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-january-december-munich-all-genders",
+      "since": "2026-09-27"
     },
     "oracle-jpmc-fa-oraclecloud-com-210784061": {
       "slug": "jpmorgan-chase-2027-markets-quantitative-trading-and-research-associate-program-off-cycle-internship-singapore",
@@ -4068,6 +4480,18 @@
       "slug": "barclays-banking-off-cycle-internship-programme-2027-tel-aviv",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000124643": {
+      "slug": "barclays-private-bank-and-wealth-management-summer-internship-programme-2027-london",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000124665": {
+      "slug": "barclays-private-bank-and-wealth-management-off-cycle-internship-programme-2027-dubai",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000124673": {
+      "slug": "barclays-private-bank-and-wealth-management-off-cycle-internship-programme-2027-geneva",
+      "since": "2026-09-27"
+    },
     "workday-barclays-JR-0000124677": {
       "slug": "barclays-global-transaction-banking-degree-apprenticeship-programme-2027-northampton",
       "since": "2026-09-18"
@@ -4076,9 +4500,17 @@
       "slug": "barclays-quantitative-analytics-associate-graduate-programme-2027-london",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000124680": {
+      "slug": "barclays-private-bank-and-wealth-management-off-cycle-internship-programme-2027-monaco",
+      "since": "2026-09-27"
+    },
     "workday-barclays-JR-0000124681": {
       "slug": "barclays-international-corporate-banking-summer-internship-programme-2027-dublin",
       "since": "2026-09-01"
+    },
+    "workday-barclays-JR-0000124685": {
+      "slug": "barclays-quantitative-finance-associate-off-cycle-internship-programme-2027-london",
+      "since": "2026-09-27"
     },
     "workday-barclays-JR-0000124686": {
       "slug": "barclays-banking-graduate-programme-2027-paris",
@@ -4087,6 +4519,10 @@
     "workday-barclays-JR-0000124692": {
       "slug": "barclays-sales-trading-and-structuring-summer-internship-programme-2027-london",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000124702-1": {
+      "slug": "barclays-banking-off-cycle-internship-programme-2027-frankfurt",
+      "since": "2026-09-27"
     },
     "workday-barclays-JR-0000124706": {
       "slug": "barclays-international-corporate-banking-graduate-programme-2027-paris",
@@ -4108,6 +4544,10 @@
       "slug": "barclays-private-bank-and-wealth-management-graduate-programme-2027-monaco",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000124726": {
+      "slug": "barclays-quantitative-analytics-associate-off-cycle-internship-programme-2027-paris",
+      "since": "2026-09-27"
+    },
     "workday-barclays-JR-0000124736": {
       "slug": "barclays-sales-trading-and-structuring-graduate-programme-2027-milan",
       "since": "2026-09-18"
@@ -4119,6 +4559,22 @@
     "workday-barclays-JR-0000124751": {
       "slug": "barclays-sales-trading-and-structuring-graduate-programme-2027-paris",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000124757-1": {
+      "slug": "barclays-sales-trading-and-structuring-off-cycle-internship-programme-2027-frankfurt",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000124759": {
+      "slug": "barclays-sales-trading-and-structuring-off-cycle-internship-programme-2027-milan",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000124763": {
+      "slug": "barclays-sales-trading-and-structuring-off-cycle-internship-programme-2027-paris",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000124764": {
+      "slug": "barclays-sales-trading-and-structuring-off-cycle-internship-programme-2027-zurich",
+      "since": "2026-09-27"
     },
     "workday-barclays-JR-0000124856": {
       "slug": "barclays-banking-off-cycle-internship-programme-2027-paris",
@@ -4396,9 +4852,33 @@
       "slug": "barclays-2027-business-banking-apprenticeship-programme-manchester",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000130188": {
+      "slug": "barclays-banking-analyst-summer-internship-program-2027-mexico-city",
+      "since": "2026-09-27"
+    },
     "workday-barclays-JR-0000130288-1": {
       "slug": "barclays-sales-trading-and-structuring-graduate-programme-2027-london",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000130414": {
+      "slug": "barclays-us-consumer-bank-analyst-summer-internship-program-2027-wilmington",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000130640": {
+      "slug": "barclays-banking-associate-summer-internship-program-2027-chicago",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000130641": {
+      "slug": "barclays-banking-associate-summer-internship-program-2027-houston",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000130642": {
+      "slug": "barclays-banking-associate-summer-internship-program-2027-san-francisco",
+      "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000130643": {
+      "slug": "barclays-banking-associate-summer-internship-program-2027-new-york",
+      "since": "2026-09-27"
     },
     "workday-barclays-JR-0000131133": {
       "slug": "barclays-investment-banking-graduate-programme-2028-tokyo",
@@ -4820,6 +5300,10 @@
       "slug": "capital-one-business-analyst-intern-summer-2027",
       "since": "2026-09-01"
     },
+    "workday-capitalone-R244323-1": {
+      "slug": "capital-one-current-phd-applied-research-internship-program-summer-2027",
+      "since": "2026-09-27"
+    },
     "workday-capitalone-R246679-1": {
       "slug": "capital-one-mba-investment-banking-summer-associate-summer-2027",
       "since": "2026-09-18"
@@ -4835,6 +5319,10 @@
     "workday-capitalone-R247472": {
       "slug": "capital-one-intern-process-management-summer-2027",
       "since": "2026-09-18"
+    },
+    "workday-capitalone-R247476": {
+      "slug": "capital-one-intern-financial-analyst-january-2027-4-month",
+      "since": "2026-09-27"
     },
     "workday-capitalone-R247643-1": {
       "slug": "capital-one-associate-recruiter-students-and-grads-up-to-25-travel-required",
@@ -5630,6 +6118,10 @@
       "slug": "huron-consulting-group-turnaround-and-restructuring-analyst-2027-graduates-q3-q4-2027-start-dates-chicago-or-ny",
       "since": "2026-09-20"
     },
+    "workday-ing-REQ-10090756": {
+      "slug": "ing-internship-customer-journey-expert",
+      "since": "2026-09-27"
+    },
     "workday-ing-REQ-10094147": {
       "slug": "ing-ing-wb-capital-markets-and-advisory-internship-program",
       "since": "2026-09-01"
@@ -5638,9 +6130,17 @@
       "slug": "ing-internship-sustainable-finance-business-banking",
       "since": "2026-09-18"
     },
+    "workday-ing-REQ-10115027": {
+      "slug": "ing-internship-hr-operations",
+      "since": "2026-09-27"
+    },
     "workday-ing-REQ-10115103": {
       "slug": "ing-intern-social-media",
       "since": "2026-09-18"
+    },
+    "workday-ing-REQ-10115873": {
+      "slug": "ing-internship-securities-europe",
+      "since": "2026-09-27"
     },
     "workday-ing-REQ-10116638": {
       "slug": "ing-talent-and-learning-intern",
@@ -5658,9 +6158,17 @@
       "slug": "ing-internship-trainee-management-team",
       "since": "2026-09-01"
     },
+    "workday-ing-REQ-10117688": {
+      "slug": "ing-internship-it-network-infrastructure-and-cybersecurity",
+      "since": "2026-09-27"
+    },
     "workday-ing-REQ-10118129": {
       "slug": "ing-internship-digital-content-expert",
       "since": "2026-09-01"
+    },
+    "workday-ing-REQ-10118158": {
+      "slug": "ing-internship-business-analyst-kyc-and-customer-data",
+      "since": "2026-09-27"
     },
     "workday-ing-REQ-10118537": {
       "slug": "ing-intern-corporate-sector-lending-wholesale-banking-f-m-x",
@@ -6256,6 +6764,10 @@
       "slug": "psp-investments-intern-external-manager-selection-and-monitoring-may-august-2027",
       "since": "2026-09-18"
     },
+    "workday-mastercard-R-285348": {
+      "slug": "mastercard-intern-product-management-cairo-egypt",
+      "since": "2026-09-27"
+    },
     "workday-mastercard-R-286481": {
       "slug": "mastercard-internship-program-2027-s-o-paulo-brazil",
       "since": "2026-09-01"
@@ -6303,6 +6815,14 @@
     "workday-mastercard-R-291326-1": {
       "slug": "mastercard-program-management-intern-summer-2027-dublin-ireland",
       "since": "2026-09-18"
+    },
+    "workday-mastercard-R-291972-2": {
+      "slug": "mastercard-global-markets-graduate-launch-program-2027-cairo-egypt",
+      "since": "2026-09-27"
+    },
+    "workday-mastercard-R-291975-2": {
+      "slug": "mastercard-global-markets-intern-summer-2027-cairo-egypt",
+      "since": "2026-09-27"
     },
     "workday-mizuho-R6459": {
       "slug": "mizuho-greenhill-off-cycle-analyst-january-june-2026-madrid",
