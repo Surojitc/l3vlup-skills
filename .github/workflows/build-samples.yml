@@ -137,6 +137,7 @@ jobs:
           node scripts/__tests__/validate-publication.test.mjs
           node scripts/__tests__/publication-contracts.test.mjs
           node scripts/__tests__/publication-freshness.test.mjs
+          node scripts/__tests__/publication-persistence.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
@@ -254,6 +255,10 @@ jobs:
         id: stage
         run: |
           set -euo pipefail
+          # A same-day rerun rewrites the day's board-check file. That file
+          # is written once (scripts/publication-contracts.mjs, `immutable`),
+          # so main's copy is put back and the rest of the rerun publishes.
+          node scripts/keep-published-observations.mjs --producer tracker
           git add -A
           if git diff --cached --quiet; then
             echo "the collection changed nothing; there is nothing to publish"

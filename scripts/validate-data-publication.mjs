@@ -91,7 +91,17 @@ function readPrev(path) {
   }
 }
 
-const { problems, stats } = contractProblems(producer, { staged, read, readPrev }, now);
+/** Whether the checkout's HEAD (main, in both jobs that run this) already has the path. */
+function existedBefore(path) {
+  try {
+    execFileSync('git', ['cat-file', '-e', `HEAD:${path}`], { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const { problems, stats } = contractProblems(producer, { staged, read, readPrev, existedBefore }, now);
 
 if (problems.length) {
   for (const p of problems) console.log(`::error::${p}`);
