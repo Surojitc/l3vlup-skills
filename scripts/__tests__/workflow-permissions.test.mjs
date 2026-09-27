@@ -600,8 +600,9 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
 
 // ── who may merge: a literal in each caller, never an expression ─────────
 // `collect.yml` showed both halves of the road work (runs 36235700643 and
-// 36314107305, #81) and passes `merge: true`. The others must stay
-// structurally incapable of merging, on every trigger, with no input
+// 36314107305, #81) and passes `merge: true`, as does `build-samples.yml`
+// (runs 36239658094, 36318725360 and 36345074870, #82). The ATS registry must
+// stay structurally incapable of merging, on every trigger, with no input
 // anybody could set wrong at four in the morning.
 {
   const ats = workflows.find((w) => w.file === 'discover-ats.yml').text;
@@ -609,7 +610,7 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
   const bs = workflows.find((w) => w.file === 'build-samples.yml').text;
   for (const [file, text] of [['build-samples.yml', bs], ['collect.yml', col], ['discover-ats.yml', ats]]) {
     const passed = [...text.matchAll(/^\s+merge:\s*(\S+)\s*$/gm)].map((m) => m[1]);
-    const want = file === 'collect.yml' ? 'true' : 'false';
+    const want = file === 'collect.yml' || file === 'build-samples.yml' ? 'true' : 'false';
     eq(`${file} passes merge, and passes it as a literal ${want}`, passed, [want]);
     check(`${file} does not decide it from an input, a secret or an expression`, !/merge:\s*\$\{\{/.test(text));
   }
