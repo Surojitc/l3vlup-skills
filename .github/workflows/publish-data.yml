@@ -168,6 +168,11 @@ jobs:
             --types "$RUNNER_TEMP/types.txt"
 
           tar -xf "$archive" --no-same-owner --no-same-permissions -C .
+          # Main may have gained today's board-check file while this
+          # collection ran. A dated observation is written once, so main's
+          # copy is put back before staging; the gate below refuses any
+          # rewrite that still reaches it. This checkout's script, from main.
+          node scripts/keep-published-observations.mjs --producer "$PRODUCER"
           git add -A
 
           # The check that actually guarantees the pull request's contents,
@@ -216,9 +221,21 @@ jobs:
           fi
           echo "number=$number" >> "$GITHUB_OUTPUT"
 
+      # G1. Only data collected by main's own code may be merged here. In a
+      # called workflow `github.ref` is the caller's ref: a collection
+      # dispatched from a feature branch ran that branch's collector, which
+      # nobody has reviewed, so its pull request is opened for inspection and
+      # left for a person, whatever the caller passed as `merge`.
+      - name: Leave a collection from another branch for a person
+        if: steps.pr.outputs.number != '' && inputs.merge && github.ref != 'refs/heads/main'
+        env:
+          NUMBER: ${{ steps.pr.outputs.number }}
+          REF: ${{ github.ref }}
+        run: echo "::notice::data pull request #$NUMBER was collected by $REF, not main; it is open for review and will not be merged automatically"
+
       - name: Merge the data pull request
         id: merge
-        if: steps.pr.outputs.number != '' && inputs.merge
+        if: steps.pr.outputs.number != '' && inputs.merge && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Through the environment rather than into the script text. Nothing

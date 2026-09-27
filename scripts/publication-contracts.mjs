@@ -85,7 +85,11 @@ export const CONTRACTS = {
       { path: 'data/tracker-history.json', freshness: { cadence: 'manual' }, label: 'the board history', shapeOnly: true },
       // One file per run day, written once and never rewritten: what each
       // board check established (ok / partial / failed). See lib/board-checks.mjs.
-      { pattern: /^data\/board-checks\/\d{4}-\d{2}-\d{2}\.json$/, label: 'the day\'s board checks' },
+      // `immutable`: once a date is on main it is the day's observation. A
+      // same-day rerun still refreshes the feed, but may not replace the
+      // observation, so the Hiring Pulse never gets to keep the most
+      // favourable of several reads of one day (see immutableProblems).
+      { pattern: /^data\/board-checks\/\d{4}-\d{2}-\d{2}\.json$/, label: 'the day\'s board checks', immutable: true },
       { path: 'data/deadlines.learned.json', freshness: { cadence: 'daily', from: 'updatedAt' }, label: 'the deadline ledger', shapeOnly: true },
       { path: 'data/econ.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'the economic backdrop', shapeOnly: true },
       { path: 'data/erp.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'equity and country risk premiums', shapeOnly: true },
@@ -725,11 +729,78 @@ export function fileProblems(spec, next, prev, now = new Date()) {
 }
 
 /**
+ * The stamp a file carries about its own generation, or null. Only the two
+ * fields collectors write into the file itself: a git commit date or a file's
+ * modification time says when bytes moved, not when the data was collected,
+ * and a file stamped `commit` or with no cadence stamp is simply not judged.
+ */
+const INTRINSIC_STAMPS = new Set(['generatedAt', 'updatedAt']);
+export function intrinsicStamp(spec, obj) {
+  const field = spec.freshness?.from;
+  if (!INTRINSIC_STAMPS.has(field) || spec.binary) return { field: null, time: null };
+  const raw = obj?.[field];
+  const t = typeof raw === 'string' || typeof raw === 'number' ? new Date(raw).getTime() : Number.NaN;
+  return { field, time: Number.isNaN(t) ? null : t };
+}
+
+/**
+ * G2. A staged file may not be older than the copy already on main.
+ *
+ * Two runs of one producer can finish out of order (a rerun started before a
+ * later run published, a queued run released after a newer one), and the
+ * one that publishes last would otherwise roll main back to older data with
+ * every other check passing. Judged on the file's own generation stamp, per
+ * its contract (`freshness.from`), never on git or filesystem times.
+ *
+ * Equal is allowed (a rerun that changed nothing it stamps). A new copy
+ * whose stamp cannot be read, where main's could, is refused: nothing then
+ * shows it is not older. A file with no intrinsic stamp is not judged.
+ */
+export function staleProblems(spec, next, prev) {
+  const { field, time: nextT } = intrinsicStamp(spec, next);
+  if (!field || prev == null) return [];
+  const { time: prevT } = intrinsicStamp(spec, prev);
+  if (prevT === null) return [];
+  const name = spec.label ?? spec.path;
+  if (nextT === null) return [`${name} carries no readable ${field}, so it cannot be shown to be newer than the copy on main`];
+  if (nextT < prevT) {
+    return [`${name} was generated at ${new Date(nextT).toISOString()}, older than the copy on main (${new Date(prevT).toISOString()}); a late or overlapping run may not roll main back`];
+  }
+  return [];
+}
+
+/**
+ * G3. A path the contract marks `immutable` is written once: a staged change
+ * to one that already exists on main is refused. The workflows restore such
+ * a path before staging (scripts/keep-published-observations.mjs), so a
+ * same-day rerun publishes everything else; this is the gate that holds if
+ * that step were ever skipped or wrong.
+ *
+ * @param existedBefore (path) => boolean, whether main already has the path
+ */
+export function immutableProblems(producer, staged, existedBefore) {
+  const contract = CONTRACTS[producer];
+  if (!contract) return [];
+  const specs = contract.files.filter((f) => f.immutable);
+  return staged
+    .filter((p) => specs.some((f) => matches(f, p)) && existedBefore(p))
+    .map((p) => `${p} is already published on main; a dated observation is written once and a rerun may not replace it`);
+}
+
+/** The contract entries marked `immutable`, for the restore step. */
+export function immutablePaths(producer, paths) {
+  const specs = (CONTRACTS[producer]?.files ?? []).filter((f) => f.immutable);
+  return paths.filter((p) => specs.some((f) => matches(f, p)));
+}
+
+/**
  * A whole producer. `read(path)` returns the parsed new file, `undefined` if
  * it is not part of this run, `null` if it did not parse; `readPrev(path)`
- * the same for the copy on `main`.
+ * the same for the copy on `main`. `existedBefore(path)` says whether main
+ * has the path at all; without it nothing can be shown to be new, so every
+ * staged immutable path is treated as already published.
  */
-export function contractProblems(producer, { staged, read, readPrev }, now = new Date()) {
+export function contractProblems(producer, { staged, read, readPrev, existedBefore = () => true }, now = new Date()) {
   const contract = CONTRACTS[producer];
   if (!contract) return { problems: [`no publication contract named ${producer}`], stats: [] };
 
@@ -753,10 +824,17 @@ export function contractProblems(producer, { staged, read, readPrev }, now = new
     // `optional` says the producing step does not run every cycle, not that
     // an unreadable file is acceptable. Once a path is staged it is part of
     // this run and has to stand up like any other.
-    const verdict = fileProblems({ ...spec, optional: false }, read(spec.path), readPrev(spec.path), now);
+    const next = read(spec.path);
+    const prev = readPrev(spec.path);
+    const verdict = fileProblems({ ...spec, optional: false }, next, prev, now);
     problems.push(...verdict.problems);
+    // Separately from fileProblems, because that returns early for
+    // shape-only files, which carry generation stamps too.
+    if (next != null) problems.push(...staleProblems(spec, next, prev));
     if (verdict.stats) stats.push(verdict.stats);
   }
+
+  problems.push(...immutableProblems(producer, staged, existedBefore));
 
   return { problems, stats };
 }

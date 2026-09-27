@@ -38,6 +38,23 @@ on:
 permissions:
   contents: read
 
+# One collection at a time. The daily, Monday and monthly schedules can
+# overlap, and two runs collecting at once would each stage and hand over a
+# copy of the same files. `cancel-in-progress: false`: a run already going is
+# never cancelled for a newer one. Its own group, so it never waits on the
+# tracker; the repository-wide `publish-data` group in the publisher is what
+# orders publications across producers.
+#
+# What this cannot promise: GitHub keeps one waiting run per group, so a
+# third run arriving while one runs and one waits cancels the waiting one.
+# The schedules are an hour apart and a run takes minutes, so that needs a
+# run to hang for an hour. It would show as cancelled and cost that run's
+# collection, never corrupt one; and whichever order runs publish in, a
+# file older than main's copy is refused (publication-contracts, G2).
+concurrency:
+  group: collect-open-data
+  cancel-in-progress: false
+
 jobs:
   # Everything that touches the outside world, with a token that can only
   # read. It fetches government feeds, press wires, SEC endpoints and a
@@ -75,6 +92,7 @@ jobs:
         run: |
           node scripts/__tests__/publication-contracts.test.mjs
           node scripts/__tests__/publication-freshness.test.mjs
+          node scripts/__tests__/publication-persistence.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
           python3 scripts/__tests__/sync-peers.test.py
 
