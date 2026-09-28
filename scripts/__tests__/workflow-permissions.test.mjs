@@ -385,6 +385,11 @@ check('publishers are serialised repository-wide', /^concurrency:\n {2}group: pu
 {
   const job = workflows.find((w) => w.file === 'collect.yml').jobs.find((j) => j.name === 'notify');
   check("collect.yml:notify runs only after a successful merge", /needs\.publish\.outputs\.merged == 'true'/.test(job.body.join('\n')));
+  // And not at all, for now: public posting is switched off independently of
+  // publication, by a literal, so that merging data never starts posting and
+  // turning posting on is its own reviewed change.
+  const cond = job.body.find((l) => /^ {4}if:/.test(l))?.trim();
+  eq('collect.yml:notify is disabled by a literal false, whatever publication does', cond, "if: false && needs.publish.outputs.merged == 'true'");
   eq('collect.yml:notify holds a read-only token', job.permissions, { contents: 'read' });
 }
 

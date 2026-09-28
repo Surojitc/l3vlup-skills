@@ -412,10 +412,17 @@ jobs:
   # Downstream notification, and only once the data is actually on main. The
   # post reads the calendar, the deal tape and the chartbook, so announcing a
   # collection that failed to publish would be announcing yesterday's.
+  #
+  # DISABLED ON PURPOSE, and separately from publication. open-data merging
+  # its own pull request (merge: true) must not by itself start public
+  # posting; posting is its own decision. The job, the script and the secrets
+  # are all kept. To enable it, change the leading `false` below to `true` in
+  # a pull request of its own; scripts/__tests__/workflow-permissions.test.mjs
+  # pins the literal so that change is a visible line in a diff.
   notify:
     name: Daily social post
     needs: publish
-    if: needs.publish.outputs.merged == 'true'
+    if: false && needs.publish.outputs.merged == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
