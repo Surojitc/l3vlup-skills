@@ -216,10 +216,13 @@ const wf = (f) => readFileSync(join(ROOT, '.github', 'workflows', f), 'utf8');
   const groups = ['collect.yml', 'build-samples.yml', 'discover-ats.yml'].map((f) => conc(wf(f))[0]);
   eq('G4: no producer shares the publication queue\'s group (it would deadlock behind itself)', groups.includes('publish-data'), false);
 
-  // This PR establishes the contract only: nothing here turns merging on.
-  for (const f of ['collect.yml', 'build-samples.yml', 'discover-ats.yml']) {
+  // Which producers merge their own publication. open-data does, having
+  // shown both halves of the road (#81); the others do not yet, and the
+  // ATS registry never does, since it steers which hosts are collected.
+  const MERGES = { 'collect.yml': 'true', 'build-samples.yml': 'false', 'discover-ats.yml': 'false' };
+  for (const [f, want] of Object.entries(MERGES)) {
     const passed = [...wf(f).matchAll(/^\s+merge:\s*(\S+)\s*$/gm)].map((m) => m[1]);
-    eq(`${f} still passes merge: false`, passed, ['false']);
+    eq(`${f} passes merge: ${want}`, passed, [want]);
   }
 }
 

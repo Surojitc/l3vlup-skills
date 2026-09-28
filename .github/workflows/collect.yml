@@ -394,7 +394,20 @@ jobs:
       # which two run ids proved it. Not bundled into anything else: the
       # whole value of the two proofs is that nothing else moved between
       # them and the change they justify.
-      merge: false
+      #
+      # PROVED, 26-27 September 2026
+      # ----------------------------
+      #   1. Run 36235700643 (26 Sep) opened #81 with this producer's files
+      #      only; a human read it and merged it (74114bb, 27 Sep).
+      #   2. Run 36314107305 (27 Sep) updated that same pull request, #81,
+      #      rather than opening a second.
+      #
+      # What merging now rests on (l3vlup-skills#84): only a collection run
+      # from main may merge (G1); nothing older than main's copy is published
+      # (G2); the archive and the staged diff are judged by main's own gate
+      # before anything is committed. A merge that the repository refuses
+      # leaves the pull request open and the run red.
+      merge: true
 
   # Downstream notification, and only once the data is actually on main. The
   # post reads the calendar, the deal tape and the chartbook, so announcing a
