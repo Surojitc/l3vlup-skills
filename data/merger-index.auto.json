@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-08T08:37:50Z",
+ "generatedAt": "2026-09-28T13:32:26Z",
  "source": "https://www.sec.gov/Archives/edgar/full-index/<year>/QTR<n>/form.idx, DEFM14A and DEFM14C and SC 13E3 rows only",
  "quarters": {
   "2010Q1": [
@@ -35865,6 +35865,14 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Archimedes Tech SPAC Partners II Co.",
+    "cik": "0002028516",
+    "filed": "2026-09-24",
+    "accession": "0001104659-26-110234",
+    "file": "edgar/data/2028516/0001104659-26-110234.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Arcosa, Inc.",
     "cik": "0001739445",
     "filed": "2026-08-03",
@@ -35897,6 +35905,22 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Atkore Inc.",
+    "cik": "0001666138",
+    "filed": "2026-09-09",
+    "accession": "0001140361-26-035981",
+    "file": "edgar/data/1666138/0001140361-26-035981.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "BEAZER HOMES USA INC",
+    "cik": "0000915840",
+    "filed": "2026-09-15",
+    "accession": "0001104659-26-107656",
+    "file": "edgar/data/915840/0001104659-26-107656.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "BIO-TECHNE Corp",
     "cik": "0000842023",
     "filed": "2026-08-20",
@@ -35918,6 +35942,14 @@
     "filed": "2026-08-06",
     "accession": "0001213900-26-085816",
     "file": "edgar/data/2088295/0001213900-26-085816.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "CBIZ, Inc.",
+    "cik": "0000944148",
+    "filed": "2026-09-21",
+    "accession": "0001193125-26-395819",
+    "file": "edgar/data/944148/0001193125-26-395819.txt"
    },
    {
     "form": "DEFM14A",
@@ -35985,6 +36017,14 @@
    },
    {
     "form": "DEFM14A",
+    "name": "GRAN TIERRA ENERGY INC.",
+    "cik": "0001273441",
+    "filed": "2026-09-15",
+    "accession": "0001193125-26-391062",
+    "file": "edgar/data/1273441/0001193125-26-391062.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Global Business Travel Group, Inc.",
     "cik": "0001820872",
     "filed": "2026-07-06",
@@ -36033,6 +36073,14 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Integer Holdings Corp",
+    "cik": "0001114483",
+    "filed": "2026-09-14",
+    "accession": "0001140361-26-036420",
+    "file": "edgar/data/1114483/0001140361-26-036420.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Iridium Communications Inc.",
     "cik": "0001418819",
     "filed": "2026-08-26",
@@ -36057,6 +36105,30 @@
    },
    {
     "form": "DEFM14A",
+    "name": "LUXFER HOLDINGS PLC",
+    "cik": "0001096056",
+    "filed": "2026-09-17",
+    "accession": "0002077096-26-000260",
+    "file": "edgar/data/1096056/0002077096-26-000260.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "LXP Industrial Trust",
+    "cik": "0000910108",
+    "filed": "2026-09-18",
+    "accession": "0001104659-26-108934",
+    "file": "edgar/data/910108/0001104659-26-108934.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Lantheus Holdings, Inc.",
+    "cik": "0001521036",
+    "filed": "2026-09-08",
+    "accession": "0001193125-26-384284",
+    "file": "edgar/data/1521036/0001193125-26-384284.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "LiveRamp Holdings, Inc.",
     "cik": "0000733269",
     "filed": "2026-07-06",
@@ -36073,11 +36145,27 @@
    },
    {
     "form": "DEFM14A",
+    "name": "MARKETAXESS HOLDINGS INC",
+    "cik": "0001278021",
+    "filed": "2026-09-18",
+    "accession": "0001193125-26-395678",
+    "file": "edgar/data/1278021/0001193125-26-395678.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "McCarthy Finney, Inc.",
     "cik": "0002131882",
     "filed": "2026-08-11",
     "accession": "0001683168-26-006207",
     "file": "edgar/data/2131882/0001683168-26-006207.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "NATHANS FAMOUS, INC.",
+    "cik": "0000069733",
+    "filed": "2026-09-24",
+    "accession": "0001104659-26-110393",
+    "file": "edgar/data/69733/0001104659-26-110393.txt"
    },
    {
     "form": "DEFM14A",
@@ -36113,6 +36201,14 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Pulmatrix, Inc.",
+    "cik": "0001574235",
+    "filed": "2026-09-25",
+    "accession": "0001493152-26-044341",
+    "file": "edgar/data/1574235/0001493152-26-044341.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "RE/MAX Holdings, Inc.",
     "cik": "0001581091",
     "filed": "2026-07-09",
@@ -36129,6 +36225,22 @@
    },
    {
     "form": "DEFM14A",
+    "name": "SAFETY INSURANCE GROUP INC",
+    "cik": "0001172052",
+    "filed": "2026-09-14",
+    "accession": "0001104659-26-107503",
+    "file": "edgar/data/1172052/0001104659-26-107503.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "SUPERNUS PHARMACEUTICALS, INC.",
+    "cik": "0001356576",
+    "filed": "2026-09-11",
+    "accession": "0001104659-26-107109",
+    "file": "edgar/data/1356576/0001104659-26-107109.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Sanara MedTech Inc.",
     "cik": "0000714256",
     "filed": "2026-09-04",
@@ -36137,11 +36249,35 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Senti Biosciences Holdings, Inc.",
+    "cik": "0001854270",
+    "filed": "2026-09-24",
+    "accession": "0001140361-26-037574",
+    "file": "edgar/data/1854270/0001140361-26-037574.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Simulations Plus, Inc.",
     "cik": "0001023459",
     "filed": "2026-07-22",
     "accession": "0001023459-26-000051",
     "file": "edgar/data/1023459/0001023459-26-000051.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Sunrise Realty Trust, Inc.",
+    "cik": "0002012706",
+    "filed": "2026-09-18",
+    "accession": "0001140361-26-037128",
+    "file": "edgar/data/2012706/0001140361-26-037128.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "TRICO BANCSHARES /",
+    "cik": "0000356171",
+    "filed": "2026-09-16",
+    "accession": "0001104659-26-108313",
+    "file": "edgar/data/356171/0001104659-26-108313.txt"
    },
    {
     "form": "DEFM14A",
@@ -36158,6 +36294,22 @@
     "filed": "2026-07-24",
     "accession": "0001213900-26-081091",
     "file": "edgar/data/1970622/0001213900-26-081091.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Varex Imaging Corp",
+    "cik": "0001681622",
+    "filed": "2026-09-21",
+    "accession": "0001104659-26-109351",
+    "file": "edgar/data/1681622/0001104659-26-109351.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Weave Communications, Inc.",
+    "cik": "0001609151",
+    "filed": "2026-09-25",
+    "accession": "0001140361-26-037628",
+    "file": "edgar/data/1609151/0001140361-26-037628.txt"
    },
    {
     "form": "DEFM14A",
@@ -36217,11 +36369,27 @@
    },
    {
     "form": "SC 13E3",
+    "name": "CANADA PENSION PLAN INVESTMENT BOARD",
+    "cik": "0001283718",
+    "filed": "2026-09-23",
+    "accession": "0001193125-26-398221",
+    "file": "edgar/data/1283718/0001193125-26-398221.txt"
+   },
+   {
+    "form": "SC 13E3",
     "name": "Distribution Solutions Group, Inc.",
     "cik": "0000703604",
     "filed": "2026-09-01",
     "accession": "0001193125-26-377697",
     "file": "edgar/data/703604/0001193125-26-377697.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "Herzfeld Credit Income Fund, Inc",
+    "cik": "0000880406",
+    "filed": "2026-09-17",
+    "accession": "0001654954-26-008429",
+    "file": "edgar/data/880406/0001654954-26-008429.txt"
    },
    {
     "form": "SC 13E3",
@@ -36246,6 +36414,30 @@
     "filed": "2026-08-31",
     "accession": "0001193125-26-377066",
     "file": "edgar/data/1527753/0001193125-26-377066.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "ReNew Energy Global plc",
+    "cik": "0001848763",
+    "filed": "2026-09-22",
+    "accession": "0001193125-26-398027",
+    "file": "edgar/data/1848763/0001193125-26-398027.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "ReNew Energy Global plc",
+    "cik": "0001848763",
+    "filed": "2026-09-23",
+    "accession": "0001193125-26-398221",
+    "file": "edgar/data/1848763/0001193125-26-398221.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "UTAH MEDICAL PRODUCTS INC",
+    "cik": "0000706698",
+    "filed": "2026-09-24",
+    "accession": "0001096906-26-001428",
+    "file": "edgar/data/706698/0001096906-26-001428.txt"
    },
    {
     "form": "SC 13E3",
