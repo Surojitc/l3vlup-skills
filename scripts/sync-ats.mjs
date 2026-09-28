@@ -30,7 +30,7 @@ import { normaliseRoleText } from '../lib/text-normalise.mjs';
 import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
 import { isNonRoleTitle, screenRoles } from '../lib/role-screen.mjs';
 import { duplicateGroups } from '../lib/role-duplicates.mjs';
-import { walkCompleteBoard, withRetry } from '../lib/complete-board.mjs';
+import { COMPLETE_TIMEOUT_MS, walkCompleteBoard, withRetry } from '../lib/complete-board.mjs';
 import {
   boardRecord,
   buildCheckFile,
@@ -38,6 +38,7 @@ import {
   checkVerdict,
   publishedView,
   everyRequestFailed,
+  firmsToCarry,
   methodFingerprint,
   resolveMethod,
   newRequestStats,
@@ -667,11 +668,11 @@ export function toOpportunity(job, firm) {
 }
 
 /* ------------------------------- fetchers -------------------------------- */
-async function getJson(url, init) {
+async function getJson(url, init, timeoutMs = TIMEOUT_MS) {
   const res = await fetch(url, {
     ...init,
     headers: { 'User-Agent': UA, Accept: 'application/json', ...(init?.headers || {}) },
-    signal: AbortSignal.timeout(TIMEOUT_MS),
+    signal: AbortSignal.timeout(timeoutMs),
   });
   if (!res.ok) throw new Error(`${res.status}`);
   return res.json();
@@ -826,12 +827,15 @@ async function fetchWorkday(f, stats = newRequestStats()) {
   const host = f.host || (f.tenant && f.shard ? `${f.tenant}.${f.shard}.myworkdayjobs.com` : null);
   if (!host) throw new Error(`no Workday host for ${f.firm}`);
 
+  // A complete read waits longer for each page (COMPLETE_TIMEOUT_MS); a keyword
+  // walk keeps the ordinary timeout.
+  const timeout = f.collect === 'complete' ? COMPLETE_TIMEOUT_MS : TIMEOUT_MS;
   const search = (searchText, offset, limit) =>
     getJson(`https://${host}/wday/cxs/${f.tenant}/${f.site}/jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ limit, offset, searchText }),
-    });
+    }, timeout);
   // Registry `collect: "complete"`: the whole board, empty search, walked to
   // the board's own total and classified locally (lib/complete-board.mjs).
   // Workday serves at most 20 a page.
@@ -976,13 +980,14 @@ export function oracleToJob(r, { host, site }) {
 const ORACLE_COMPLETE_PAGE = 200;
 
 async function fetchOracle(f, stats = newRequestStats()) {
+  const timeout = f.collect === 'complete' ? COMPLETE_TIMEOUT_MS : TIMEOUT_MS;
   const search = (q, offset, limit) => {
     const keyword = q ? `,keyword=${q}` : '';
     const finder = `findReqs;siteNumber=${f.site},limit=${limit},offset=${offset},sortBy=POSTING_DATES_DESC${keyword}`;
     const url =
       `https://${f.host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions` +
       `?onlyData=true&expand=requisitionList.secondaryLocations&finder=${encodeURIComponent(finder)}`;
-    return getJson(url);
+    return getJson(url, undefined, timeout);
   };
   // See fetchWorkday for `collect: "complete"`.
   const seen = f.collect === 'complete'
@@ -1247,6 +1252,15 @@ async function main() {
       const roles = r.status === 'fulfilled' ? r.value.opps : [];
       const reason = r.status === 'rejected' ? String(r.reason?.message ?? r.reason) : undefined;
       const walk = batchStats[k].walk;
+      // A complete read that was not called ok says how its last pass ended,
+      // and why, so a production log shows a timeout from a refusal.
+      if (walk && status !== 'ok') {
+        const last = walk.passes[walk.passes.length - 1];
+        console.log(
+          `  ${firm.firm}: complete read ${walk.verdict}; pass ${walk.passes.length} ended ${last.terminal} after ` +
+            `${last.pages} page(s) of ${last.pageSize}, ${last.raw} postings${last.error ? `: ${last.error}` : ''}`
+        );
+      }
       const prev = checks[firm.firm];
       checks[firm.firm] = prev
         ? { firm, status: worstStatus(prev.status, status), why: prev.why ?? why, roles: prev.roles.concat(roles), reason: prev.reason ?? reason, walk: prev.walk ?? walk }
@@ -1295,25 +1309,31 @@ async function main() {
   for (const o of all) o.lastConfirmedAt = runDay;
 
   // ---------------------------------------------------------------------
-  // Carry forward the roles of boards that failed.
+  // Carry forward the roles of boards that failed, and of complete reads that
+  // stopped part way.
   //
-  // Only failures. A board that answered and returned nothing has told us
+  // Only those. A board that answered and returned nothing has told us
   // something true, and its roles are dropped as before. See
   // lib/role-retention.mjs for why this exists at all — tal.net serves to
   // residential addresses and refuses datacentre ones, so three firms have
-  // never survived a CI run despite collating perfectly by hand.
+  // never survived a CI run despite collating perfectly by hand — and for why
+  // a complete read that stopped part way carries only what it never reached.
+  // A role collected this run is never carried as well.
   // ---------------------------------------------------------------------
-  const retained = retainRoles(previousRoles, failedFirms.map((f) => f.firm), runDay, {
+  const carryFor = firmsToCarry(Object.values(checks));
+  const retained = retainRoles(previousRoles, carryFor, runDay, {
     fallbackConfirmedAt: previousGeneratedAt,
+    collected: new Set(all.map((o) => String(o.id))),
   });
   if (retained.length) {
     all.push(...retained);
     const byFirm = {};
     for (const r of retained) byFirm[r.firm] = (byFirm[r.firm] ?? 0) + 1;
+    const how = (f) => (checks[f]?.status === 'partial' ? ' (read stopped part way)' : '');
     console.log(
-      `\ncarried forward ${retained.length} role(s) from failed boards, marked Unconfirmed ` +
+      `\ncarried forward ${retained.length} role(s) from boards not read in full, marked Unconfirmed ` +
         `(dropped after ${RETENTION_DAYS} days): ` +
-        Object.entries(byFirm).map(([f, n]) => `${f} ${n}`).join(', ')
+        Object.entries(byFirm).map(([f, n]) => `${f} ${n}${how(f)}`).join(', ')
     );
   }
 

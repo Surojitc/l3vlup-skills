@@ -21,6 +21,11 @@
       "method": "2026-09-27",
       "note": "Complete-board collection for boards flagged collect: complete in the registry (JPMorgan Chase, Barclays, ING, Capital One): the whole board read with an empty search to its own stated total and classified locally. ok only when one pass is strictly complete, or two passes of different page sizes agree exactly (lib/complete-board.mjs); otherwise partial, why unstable. Keyword paginators: the replay stop is per query, not per firm, so an overlapping later query is no longer cut short and recorded finished; one bounded retry per page. Changes which roles those four boards yield and can change what other Workday and Oracle boards yield; days either side do not compare.",
       "recorded": "2026-09-27"
+    },
+    "b2179b8069398d72": {
+      "method": "2026-09-27",
+      "note": "Complete-board reads only: a 30 s page timeout and two retries after 5 s then 15 s (was 12 s and one retry after 1.5 s), and a read that stops part way (failures, budget, replay) carries the previously published roles it did not reach, marked Unconfirmed, to the tracker, never into its roles. Same method: every read the previous code called ok is ok with the identical role set (differential run, 3,000 simulated boards), the ok rules are unchanged, and carried ids are never counted; the Hiring Pulse output is byte-identical with and without them. What changes is that some reads that used to stop now finish, and what a stopped read shows the tracker.",
+      "recorded": "2026-09-28"
     }
   }
 }

@@ -93,5 +93,17 @@ eq('undefined previous roles yields nothing', retainRoles(undefined, ['Nomura'],
 eq('a bad run date yields nothing', retainRoles([role()], ['Nomura'], 'today'), []);
 eq('a null row is skipped', retainRoles([null, role()], ['Nomura'], TODAY).length, 1);
 
+// --- a read that stopped part way: what was collected is never carried too --
+{
+  const seen = role({ id: 'oracle-jpm-1', firm: 'JPMorgan Chase' });
+  const unseen = role({ id: 'oracle-jpm-2', firm: 'JPMorgan Chase' });
+  const got = retainRoles([seen, unseen], ['JPMorgan Chase'], TODAY, { collected: new Set(['oracle-jpm-1']) });
+  eq('a role collected this run is not carried as well', got.map((r) => r.id), ['oracle-jpm-2']);
+  eq('collected may be an array, and ids compare as strings',
+     retainRoles([role({ id: 7, firm: 'X' })], ['X'], TODAY, { collected: ['7'] }).length, 0);
+  eq('without collected, a failed board carries exactly as before',
+     retainRoles([seen, unseen], ['JPMorgan Chase'], TODAY).length, 2);
+}
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);
