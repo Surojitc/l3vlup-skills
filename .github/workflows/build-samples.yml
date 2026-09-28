@@ -384,7 +384,22 @@ jobs:
       # Then a separate, narrow pull request changes this one line and says
       # which two run ids proved it — the same road open-data is on, and for
       # the same reason.
-      merge: false
+      #
+      # PROVED, 26-27 September 2026
+      # ----------------------------
+      #   1. Run 36239658094 (26 Sep) opened #82 with this producer's files
+      #      only; a human read it and merged it (c094b82, 27 Sep). Before
+      #      it, run 36199621566 opened #78, also human-merged (5d89274).
+      #   2. Runs 36318725360 and 36345074870 (27 Sep) updated that same pull
+      #      request, #82, rather than opening a second.
+      #
+      # What merging now rests on (l3vlup-skills#84): only a collection run
+      # from main may merge (G1); nothing older than main's copy is published
+      # (G2); a dated board-check observation already on main is never
+      # replaced (G3); the archive and the staged diff are judged by main's
+      # own gate before anything is committed. A merge that the repository
+      # refuses leaves the pull request open and the run red.
+      merge: true
 
   # Ask the site to work out what changed on the board and tell Bing.
   #
