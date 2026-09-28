@@ -8,8 +8,14 @@
  * are applied between page requests, which is when a real board moves under a
  * walk.
  */
-import { walkOnce, walkCompleteBoard, passVerdict, withRetry, passesAgree, secondPageSize } from '../../lib/complete-board.mjs';
-import { checkVerdict, boardRecord, newRequestStats, METHOD_FILES } from '../../lib/board-checks.mjs';
+import { readFileSync } from 'node:fs';
+import {
+  walkOnce, walkCompleteBoard, passVerdict, withRetry, passesAgree, secondPageSize,
+  COMPLETE_RETRY, COMPLETE_TIMEOUT_MS, readWasIncomplete,
+} from '../../lib/complete-board.mjs';
+import { checkVerdict, boardRecord, newRequestStats, METHOD_FILES, firmsToCarry } from '../../lib/board-checks.mjs';
+import { retainRoles, RETENTION_DAYS } from '../../lib/role-retention.mjs';
+import { paginateOracle } from '../sync-ats.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -131,7 +137,8 @@ function liveBoard(n, { before } = {}) {
   const dead = async (o, l) => { if (o === 20) throw new Error('timeout'); return b.fetchPage(o, l); };
   const stats = newRequestStats();
   const { postings, verdict } = await walkCompleteBoard(dead, { pageSize: 20, idOf, stats, retry: NO_WAIT });
-  eq('a page that fails twice ends the walk as a failure', [verdict, stats.failures, stats.retries], ['failures', 1, 1]);
+  // A complete read retries a page twice (COMPLETE_RETRY), so a dead page costs three attempts.
+  eq('a page that never answers ends the walk as a failure', [verdict, stats.failures, stats.retries], ['failures', 1, 2]);
   eq('...it is not re-walked', stats.walk.passes.length, 1);
   eq('...and the check is partial, never ok', checkVerdict({ settled: 'fulfilled', stats }), { status: 'partial', why: 'failures' });
   eq('...keeping what it did read for the tracker', postings.size, 20);
@@ -261,6 +268,168 @@ function liveBoard(n, { before } = {}) {
   const b = boardRecord({ firm: { firm: 'X', ats: 'workday', tenant: 't', site: 's', collect: 'complete' }, status: 'ok' }).cfg;
   eq('switching a board to complete collection changes its configuration hash', a !== b, true);
   eq('the walker is a method file', METHOD_FILES.includes('lib/complete-board.mjs'), true);
+}
+
+
+// ══ A complete read that stops part way (28 September, JPMorgan) ═════════
+//
+// Production run 36460556271: one deep JPMorgan page did not answer inside
+// 12 s, twice, the walk ended there, the tracker got the 31 roles above the
+// stop and lost the rest, and the publication gate refused the feed. Two
+// layers: the transport waits longer on a complete read, and when a read
+// still stops, what it never reached is carried, not closed.
+
+const recordingSleep = () => {
+  const waits = [];
+  return { waits, sleep: async (ms) => { waits.push(ms); } };
+};
+
+// ── transport: complete reads only ───────────────────────────────────────
+eq('complete read: 30 s per page, two retries after 5 s then 15 s',
+   [COMPLETE_TIMEOUT_MS, COMPLETE_RETRY.retries, [...COMPLETE_RETRY.delayMs]], [30000, 2, [5000, 15000]]);
+{
+  // A JPMorgan-like board, 7,500 postings at 200 a page: page 30 is slow
+  // twice (two timeouts) and answers on the third attempt.
+  const b = liveBoard(7500);
+  const slow = new Map();
+  const jpm = async (o, l) => {
+    if (o === 6000) {
+      const n = (slow.get(o) ?? 0) + 1;
+      slow.set(o, n);
+      if (n <= 2) throw new Error('The operation was aborted due to timeout');
+    }
+    return b.fetchPage(o, l);
+  };
+  const { waits, sleep } = recordingSleep();
+  const stats = newRequestStats();
+  const { postings, verdict } = await walkCompleteBoard(jpm, { pageSize: 200, idOf, stats, retry: { sleep } });
+  eq('JPMorgan-like: a deep page timing out twice no longer ends the read', [verdict, postings.size], ['complete', 7500]);
+  eq('...two retries, waiting 5 s then 15 s', [stats.retries, waits], [2, [5000, 15000]]);
+  eq('...an ok check', checkVerdict({ settled: 'fulfilled', stats }).status, 'ok');
+}
+{
+  // Ordinary (keyword) boards keep one retry after 1.5 s, whatever changed above.
+  const { waits, sleep } = recordingSleep();
+  const acc = {};
+  let n = 0;
+  await withRetry(async () => { n++; throw new Error('x'); }, acc, { sleep });
+  eq('ordinary boards: one retry after 1.5 s, unchanged', [n, waits], [2, [1500]]);
+
+  const pw = recordingSleep();
+  let calls = 0;
+  const stats = newRequestStats();
+  await paginateOracle(async () => { calls++; throw new Error('timeout'); }, { queries: ['intern'], page: 2, stats, retry: { sleep: pw.sleep } });
+  eq('...the keyword Oracle walk still gives a page two attempts', [calls, pw.waits], [2, [1500]]);
+
+  const src = readFileSync(new URL('../sync-ats.mjs', import.meta.url), 'utf8');
+  eq('...and the ordinary timeout is still 12 s', /const TIMEOUT_MS = 12000;/.test(src), true);
+  eq('...the longer timeout is chosen only for a complete read, on both platforms',
+     (src.match(/f\.collect === 'complete' \? COMPLETE_TIMEOUT_MS : TIMEOUT_MS/g) ?? []).length, 2);
+  eq('...and no request budget moved',
+     ['WORKDAY_MAX_PAGES_PER_QUERY = 15', 'WORKDAY_MAX_POSTINGS_PER_FIRM = 600', 'ORACLE_MAX_PAGES_PER_QUERY = 8',
+      'ORACLE_MAX_POSTINGS_PER_FIRM = 600', 'const POOL = 8;', 'const ORACLE_COMPLETE_PAGE = 200;'].every((t) => src.includes(t)), true);
+}
+
+// ── which reads carry ────────────────────────────────────────────────────
+{
+  const walk = (verdict) => ({ mode: 'complete', verdict });
+  const checks = [
+    { firm: { firm: 'Ok' }, status: 'ok', walk: walk('complete') },
+    { firm: { firm: 'Agreed' }, status: 'ok', walk: walk('agreed') },
+    { firm: { firm: 'Failed' }, status: 'failed' },
+    { firm: { firm: 'Stopped' }, status: 'partial', why: 'failures', walk: walk('failures') },
+    { firm: { firm: 'Capped' }, status: 'partial', why: 'budget', walk: walk('budget') },
+    { firm: { firm: 'Replayed' }, status: 'partial', why: 'unstable', walk: walk('replay') },
+    { firm: { firm: 'Unstable' }, status: 'partial', why: 'unstable', walk: walk('unstable') },
+    { firm: { firm: 'KeywordPartial' }, status: 'partial', why: 'failures' },
+    { firm: { firm: 'Ceiling' }, status: 'partial', why: 'ceiling', walk: walk('complete') },
+  ];
+  eq('carried: failed boards, and complete reads that stopped part way; nothing else',
+     firmsToCarry(checks), ['Failed', 'Stopped', 'Capped', 'Replayed']);
+  eq('readWasIncomplete needs a complete-board walk', [readWasIncomplete(undefined), readWasIncomplete({ verdict: 'failures' })], [false, false]);
+}
+
+// ── the whole path: walk, verdict, carry, record ─────────────────────────
+//
+// Yesterday's feed held 10 JPMorgan roles. Today the board holds 60 postings;
+// the early-career ones are R-60..R-51 (above the stop) and R-20..R-11
+// (below it). R-55 closed overnight. A page below offset 20 never answers.
+const TODAY = '2026-09-29';
+const pub = (id, o = {}) => ({ id: `oracle-jpm-${id}`, firm: 'JPMorgan Chase', vertical: 'Wealth Management', role: id, lastConfirmedAt: '2026-09-28', tags: ['Auto-sourced'], ...o });
+const yesterday = ['R-58', 'R-56', 'R-55', 'R-52', 'R-19', 'R-17', 'R-15', 'R-14', 'R-12', 'R-11'].map((id) => pub(id));
+const board = (live) => {
+  const ids = Array.from({ length: 60 }, (_, i) => `R-${60 - i}`).filter((id) => live.has(id));
+  return async (offset, limit) => ({ total: ids.length, rows: ids.slice(offset, offset + limit).map((id) => ({ id })) });
+};
+const everything = new Set(Array.from({ length: 60 }, (_, i) => `R-${60 - i}`).filter((id) => id !== 'R-55'));
+const earlyCareer = (id) => { const n = Number(id.slice(2)); return (n >= 51 && n <= 60) || (n >= 11 && n <= 20); };
+
+async function day(fetchPage, previous) {
+  const stats = newRequestStats();
+  const { postings } = await walkCompleteBoard(fetchPage, { pageSize: 20, idOf, stats, retry: { sleep: async () => {} } });
+  const { status, why } = checkVerdict({ settled: 'fulfilled', stats });
+  const collected = [...postings.keys()].filter(earlyCareer).map((id) => pub(id, { lastConfirmedAt: TODAY }));
+  const check = { firm: { firm: 'JPMorgan Chase', ats: 'oracle' }, status, why, walk: stats.walk };
+  const carried = retainRoles(previous, firmsToCarry([check]), TODAY, { collected: new Set(collected.map((o) => o.id)) });
+  const record = boardRecord({ firm: check.firm, status, why, roles: collected, carried, walk: stats.walk });
+  return { status, why, collected, carried, record };
+}
+{
+  const good = board(everything);
+  const stuck = async (o, l) => { if (o >= 20) throw new Error('The operation was aborted due to timeout'); return good(o, l); };
+  const d = await day(stuck, yesterday);
+  const ids = (rows) => rows.map((r) => r.role).sort();
+  eq('stopped read: partial for failures, never ok', [d.status, d.why], ['partial', 'failures']);
+  eq('...roles above the stop are today\'s observation', ids(d.collected), ['R-51', 'R-52', 'R-53', 'R-54', 'R-56', 'R-57', 'R-58', 'R-59', 'R-60']);
+  eq('...previously published roles the read did not see are carried, not closed',
+     ids(d.carried), ['R-11', 'R-12', 'R-14', 'R-15', 'R-17', 'R-19', 'R-55']);
+  // R-55 closed overnight, in the part of the board the read did cover. A
+  // stopped read cannot tell "closed above the stop" from "never reached"
+  // (only posting dates could, and they tie and go missing), so it is carried
+  // too, until the next complete read or RETENTION_DAYS, whichever is first.
+  eq('...including one that closed above the stop: absence proves nothing on a read that stopped', d.carried.some((r) => r.role === 'R-55'), true);
+  const both = d.collected.map((r) => r.id).filter((id) => d.carried.some((c) => c.id === id));
+  eq('...no role is both collected and carried', both, []);
+  eq('...carried rows are marked Unconfirmed and keep their last sighting',
+     d.carried.every((r) => r.tags.includes('Unconfirmed') && r.lastConfirmedAt === '2026-09-28' && r.unconfirmedDays === 1), true);
+  eq('...the day\'s record: partial, n counts only what was seen, carried beside it',
+     [d.record.s, d.record.why, d.record.n, d.record.carried?.length ?? 0, Object.values(d.record.roles).flat().length], ['partial', 'failures', 9, 7, 9]);
+  eq('...and its roles and carried ids never overlap',
+     Object.values(d.record.roles).flat().filter((id) => (d.record.carried ?? []).includes(id)), []);
+
+  // The next day the board reads in full, and R-17 and R-12 have closed.
+  const live = new Set(everything); live.delete('R-17'); live.delete('R-12');
+  const next = await day(board(live), [...d.collected, ...d.carried]);
+  eq('a later complete read is ok and carries nothing', [next.status, next.carried.length], ['ok', 0]);
+  eq('...so the roles that really closed are gone, R-55 included',
+     ['R-17', 'R-12', 'R-55'].some((id) => next.collected.some((r) => r.role === id) || next.carried.some((r) => r.role === id)), false);
+  eq('...and the carried roles still open are observed again', ['R-19', 'R-15', 'R-11'].every((id) => next.collected.some((r) => r.role === id)), true);
+}
+{
+  // Carry expiry: a role last seen more than RETENTION_DAYS ago is dropped
+  // even when the read stopped part way, so a board that keeps stopping cannot
+  // keep a closed role alive.
+  const stale = pub('R-19', { lastConfirmedAt: '2026-09-21' });
+  const edge = pub('R-17', { lastConfirmedAt: '2026-09-22' });
+  const stuck = async (o, l) => { if (o >= 20) throw new Error('timeout'); return board(everything)(o, l); };
+  const d = await day(stuck, [stale, edge]);
+  eq(`carry expiry: ${RETENTION_DAYS} days old is carried, ${RETENTION_DAYS + 1} is dropped`, d.carried.map((r) => r.role), ['R-17']);
+}
+{
+  // Unstable after two passes that both reached the board's end: the tracker
+  // gets their union, and a previously published role neither pass saw is
+  // treated as closed, exactly as before this change.
+  let calls = 0;
+  const moving = async (o, l) => {
+    calls++;
+    const ids = Array.from({ length: 60 }, (_, i) => `R-${60 - i}`).filter((id) => everything.has(id) && id !== 'R-15');
+    if (calls % 2 === 0) ids.unshift(`NEW-${calls}`);
+    return { total: ids.length, rows: ids.slice(o, o + l).map((id) => ({ id })) };
+  };
+  const d = await day(moving, yesterday);
+  eq('unstable two-pass read: partial, unstable', [d.status, d.why, d.record.walk.passes.length], ['partial', 'unstable', 2]);
+  eq('...carries nothing: a role absent from both full passes is not held open', d.carried.length, 0);
+  eq('...and the Pulse still excludes it (partial)', d.record.s, 'partial');
 }
 
 console.log(`\n${pass}/${pass + fail} passed`);
