@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-08T08:57:48Z",
+ "generatedAt": "2026-09-28T13:32:51Z",
  "method": {
   "source": "SEC EDGAR: Schedule 13E-3 transaction statements and the proxy statements attached to or filed with them (dealType take-private), and DEFM14A / DEFM14C definitive merger proxies found through the quarterly form index (dealType public merger); XBRL company facts for the target's financials",
   "acquirer": "for a take-private, the buyer a page names from the 13E-3 filer list; for a merger proxy, the first named party of the merger agreement sentence that is neither the target nor a merger vehicle (acquirerBasis is the sentence), null where the parties are named only by defined term",
@@ -12,20 +12,340 @@
   "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out"
  },
  "counts": {
-  "transactions": 4292,
-  "withOffer": 3192,
-  "withMultiples": 1384,
-  "withRevenueMultiple": 2067,
-  "withPremium": 1741,
-  "flagged": 1469,
-  "noOffer": 938,
+  "transactions": 4314,
+  "withOffer": 3209,
+  "withMultiples": 1392,
+  "withRevenueMultiple": 2082,
+  "withPremium": 1752,
+  "flagged": 1477,
+  "noOffer": 942,
   "noConsideration": 87,
-  "rejected": 129,
+  "rejected": 130,
   "errors": 0,
-  "takePrivates": 792,
-  "publicMergers": 3500
+  "takePrivates": 795,
+  "publicMergers": 3519
  },
  "transactions": [
+  {
+   "id": "0001104659-26-110234",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Archimedes Tech SPAC Partners II Co.",
+    "cik": "0002028516",
+    "sic": "6770",
+    "sicDescription": "Blank Checks",
+    "state": ""
+   },
+   "sector": "Other",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-24",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/2028516/000110465926110234/0001104659-26-110234-index.htm",
+   "announced": "2026-09-24",
+   "announcedBasis": "filing date",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "cash",
+   "acquirer": null,
+   "acquirerBasis": null,
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [],
+   "readErrors": [],
+   "status": "rejected",
+   "error": "blank-check shell",
+   "flags": [],
+   "doubt": []
+  },
+  {
+   "id": "0001096906-26-001428",
+   "target": {
+    "name": "UTAH MEDICAL PRODUCTS INC",
+    "cik": "0000706698",
+    "sic": "3841",
+    "sicDescription": "SURGICAL & MEDICAL INSTRUMENTS & APPARATUS",
+    "state": "UT"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": 49,
+   "filed": "2026-09-24",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/0001096906-26-001428-index.htm",
+   "announced": "2026-09-24",
+   "announcedBasis": "filing date",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "cash",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/utmd_sctoi.htm",
+    "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/utmd_exa1a.htm",
+    "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/utmd_exa1b.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/utmd_sctoi.htm",
+   "statedShares": 3.174,
+   "statedSharesBasis": "3,173,818 shares of the Company\u2019s Common Stock outstanding",
+   "acquirer": null,
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "doubt": []
+  },
+  {
+   "id": "0001193125-26-398027",
+   "target": {
+    "name": "ReNew Energy Global plc",
+    "cik": "0001848763",
+    "sic": "4911",
+    "sicDescription": "ELECTRIC SERVICES",
+    "state": "K7"
+   },
+   "sector": "Utilities",
+   "buyers": [
+    "C/O RENEW PRIVATE LTD",
+    "C/O VISTRA (UK) LTD",
+    "CANADA PENSION PLAN INVESTMENT BOARD",
+    "DYUTI PRIVATE HOLDINGS INC",
+    "MR. SUMANT SINHA"
+   ],
+   "buyerType": "Strategic",
+   "advisers": [
+    "Northland",
+    "Rothschild"
+   ],
+   "dealValue": 625,
+   "filed": "2026-09-22",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1848763/000119312526398027/0001193125-26-398027-index.htm",
+   "announced": "2026-09-22",
+   "announcedBasis": "filing date",
+   "offerPrice": 7.02,
+   "offerBasis": "$7.02 in cash",
+   "consideration": "cash",
+   "premium1Day": 0.125,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "\u2022 the premium over unaffected market price which the Acquisition offers, namely a premium of 12.5% to the unaffected share price of USD 6"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1848763/000119312526398027/d136127dsc13e3.htm",
+    "https://www.sec.gov/Archives/edgar/data/1848763/000119312526398027/d136127dex99a31.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1848763/000119312526398027/d136127dsc13e3.htm",
+   "statedShares": 246.177,
+   "statedSharesBasis": "246,177,372 Class A Ordinary Shares of the Company issued and outstanding",
+   "formsUsed": [],
+   "sharesOut": 246.177,
+   "sharesBasis": {
+    "tag": "stated in the transaction statement",
+    "phrase": "246,177,372 Class A Ordinary Shares of the Company issued and outstanding"
+   },
+   "acquirer": "C/o Renew Private LTD",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [
+    "no balance sheet at announcement: EV = equity value"
+   ],
+   "unaffectedPrice": 6.24,
+   "equityValue": 1728.2,
+   "ev": 1728.2,
+   "dealValueRatio": 2.77,
+   "doubt": [
+    "multiples"
+   ]
+  },
+  {
+   "id": "0002077096-26-000260",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "LUXFER HOLDINGS PLC",
+    "cik": "0001096056",
+    "sic": "2810",
+    "sicDescription": "Industrial Inorganic Chemicals",
+    "state": "X0"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-17",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1096056/000207709626000260/0002077096-26-000260-index.htm",
+   "announced": "2026-09-17",
+   "announcedBasis": "filing date",
+   "offerPrice": 17.37,
+   "offerBasis": "$17.37 in cash",
+   "consideration": "cash",
+   "acquirer": null,
+   "acquirerBasis": null,
+   "premium1Day": 0.31,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "declines prior to the Closing. \u2022 Premium . The Consideration of $17.37 represents a premium of approximately 31% to the closing share price per Company Ordinary Share of $13"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1096056/000207709626000260/ea0303080-02.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1096056/000207709626000260/ea0303080-02.htm",
+   "statedShares": 26.993,
+   "statedSharesBasis": "26,993,204 Company Ordinary Shares outstanding",
+   "sharesOut": 26.759,
+   "ltmRevenue": 365.0,
+   "ltmEbitda": 31.1,
+   "netDebt": 46.8,
+   "ltmPeriodEnd": "2026-06-28",
+   "balanceSheetDate": "2026-06-28",
+   "ebitdaBasis": "FY2025 + Q2 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + Depreciation)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-06-28",
+    "form": "10-Q",
+    "accession": "0001437749-26-024682"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 13.26,
+   "equityValue": 464.8,
+   "ev": 511.6,
+   "evLtmRev": 1.4,
+   "evLtmEbitda": 16.45,
+   "doubt": []
+  },
+  {
+   "id": "0001654954-26-008429",
+   "target": {
+    "name": "Herzfeld Credit Income Fund, Inc",
+    "cik": "0000880406",
+    "sic": null,
+    "sicDescription": null,
+    "state": "MD"
+   },
+   "sector": "Other",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": 2,
+   "filed": "2026-09-17",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/880406/000165495426008429/0001654954-26-008429-index.htm",
+   "announced": "2026-09-17",
+   "announcedBasis": "filing date",
+   "offerPrice": 2.5935,
+   "offerBasis": "purchase price of $2.5935",
+   "consideration": "cash",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/880406/000165495426008429/herz_scto1.htm",
+    "https://www.sec.gov/Archives/edgar/data/880406/000165495426008429/herz_exa1i.htm",
+    "https://www.sec.gov/Archives/edgar/data/880406/000165495426008429/herz_exa1ii.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/880406/000165495426008429/herz_scto1.htm",
+   "statedShares": 2.018,
+   "statedSharesBasis": "2,017,725 Shares that are issued and outstanding",
+   "formsUsed": [],
+   "sharesOut": 2.018,
+   "sharesBasis": {
+    "tag": "stated in the transaction statement",
+    "phrase": "2,017,725 Shares that are issued and outstanding"
+   },
+   "acquirer": null,
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [
+    "no balance sheet at announcement: EV = equity value"
+   ],
+   "equityValue": 5.2,
+   "ev": 5.2,
+   "dealValueRatio": 2.6,
+   "doubt": [
+    "multiples"
+   ]
+  },
+  {
+   "id": "0001193125-26-391062",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "GRAN TIERRA ENERGY INC.",
+    "cik": "0001273441",
+    "sic": "1311",
+    "sicDescription": "Crude Petroleum & Natural Gas",
+    "state": "DE"
+   },
+   "sector": "Energy",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-15",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1273441/000119312526391062/0001193125-26-391062-index.htm",
+   "announced": "2026-09-15",
+   "announcedBasis": "filing date",
+   "offerPrice": 9.73,
+   "offerBasis": "in cash at a price of $9.73",
+   "consideration": "cash",
+   "acquirer": null,
+   "acquirerBasis": null,
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1273441/000119312526391062/d146918ddefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1273441/000119312526391062/d146918ddefm14a.htm",
+   "statedShares": 35.38,
+   "statedSharesBasis": "35,380,429 shares of Common Stock issued and outstanding",
+   "sharesOut": 35.38,
+   "ltmRevenue": 632.9,
+   "netDebt": 470.8,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-07-31",
+    "form": "10-Q",
+    "accession": "0001273441-26-000028"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "equityValue": 344.2,
+   "ev": 815.0,
+   "evLtmRev": 1.29,
+   "doubt": []
+  },
   {
    "id": "0001096906-26-001289",
    "source": "DEFM14A",
@@ -145,6 +465,70 @@
    "doubt": []
   },
   {
+   "id": "0001140361-26-037628",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Weave Communications, Inc.",
+    "cik": "0001609151",
+    "sic": "7372",
+    "sicDescription": "Services-Prepackaged Software",
+    "state": "DE"
+   },
+   "sector": "Technology",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-25",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1609151/000114036126037628/0001140361-26-037628-index.htm",
+   "announced": "2026-08-18",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 7.4,
+   "offerBasis": "$7.40 in cash",
+   "consideration": "cash",
+   "acquirer": "Willow Parent, LLC",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 18, 2026 (the \u201c Merger Agreement \u201d), by and among the Company, Willow Parent, LLC, a Delaware limited liability company (\u201c Parent \u201d), and Willow Merger Sub, Inc., a Delaware corporation and a wholly owned subsidiary of Parent (\u201c Merger Sub \u201d).",
+   "premium1Day": 0.34,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "Company Common Stock? A: The Merger Consideration of $7.40 per share represents a premium of approximately 34 percent over the closing stock price of $5"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1609151/000114036126037628/ny20081403x2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1609151/000114036126037628/ny20081403x2_defm14a.htm",
+   "statedShares": 80.45,
+   "statedSharesBasis": "80,450,446 shares of Company Common Stock outstanding",
+   "sharesOut": 79.999,
+   "ltmRevenue": 257.8,
+   "ltmEbitda": -9.3,
+   "netDebt": -47.6,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "ebitdaBasis": "FY2025 + Q2 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": " - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-08-03",
+    "form": "10-Q",
+    "accession": "0001609151-26-000074"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 5.52,
+   "equityValue": 592.0,
+   "ev": 544.4,
+   "evLtmRev": 2.11,
+   "doubt": []
+  },
+  {
    "id": "0001683168-26-006211",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -261,6 +645,68 @@
    "doubt": []
   },
   {
+   "id": "0001104659-26-109351",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Varex Imaging Corp",
+    "cik": "0001681622",
+    "sic": "3679",
+    "sicDescription": "Electronic Components, NEC",
+    "state": "DE"
+   },
+   "sector": "Technology",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-21",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1681622/000110465926109351/0001104659-26-109351-index.htm",
+   "announced": "2026-08-10",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 18.9,
+   "offerBasis": "$18.90 in cash",
+   "consideration": "cash",
+   "acquirer": "Teledyne Technologies Incorporated",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 10, 2026 (the \u201c Merger Agreement \u201d), by and among the Company, Teledyne Technologies Incorporated, a Delaware corporation (\u201c Parent \u201d), and Detect Merger Sub, Inc., a Delaware corporation and a wholly owned subsidiary of Parent (\u201c Merger Sub \u201d).",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1681622/000110465926109351/tm2622593-5_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1681622/000110465926109351/tm2622593-5_defm14a.htm",
+   "statedShares": 42.463,
+   "statedSharesBasis": "42,463,446 shares of Company Common Stock outstanding",
+   "sharesOut": 42.1,
+   "ltmRevenue": 865.0,
+   "ltmEbitda": 95.1,
+   "netDebt": 247.9,
+   "ltmPeriodEnd": "2026-07-03",
+   "balanceSheetDate": "2026-07-03",
+   "ebitdaBasis": "FY2025 + Q3 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + Depreciation)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-08-03",
+    "form": "10-Q",
+    "accession": "0001681622-26-000063"
+   },
+   "formsUsed": [
+    "10-Q for Q3 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "equityValue": 795.7,
+   "ev": 1043.6,
+   "evLtmRev": 1.21,
+   "evLtmEbitda": 10.97,
+   "doubt": []
+  },
+  {
    "id": "0001193125-26-338993",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -301,6 +747,133 @@
    "doubt": []
   },
   {
+   "id": "0001104659-26-107656",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "BEAZER HOMES USA INC",
+    "cik": "0000915840",
+    "sic": "1531",
+    "sicDescription": "Operative Builders",
+    "state": "DE"
+   },
+   "sector": "Other",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-15",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/915840/000110465926107656/0001104659-26-107656-index.htm",
+   "announced": "2026-08-06",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 33.5,
+   "offerBasis": "$33.50 per share in cash",
+   "consideration": "cash",
+   "acquirer": "Dream Finders Homes, Inc.",
+   "acquirerBasis": "AGREEMENT AND PLAN OF MERGER, dated as of August 6, 2026 (this \u201c Agreement \u201d), is made by and among DREAM FINDERS HOMES, INC., a Texas corporation (\u201c Parent \u201d), BULLDOGS MERGER SUB, INC., a Delaware corporation and a wholly owned Subsidiary of Parent (\u201c Merger Sub \u201d), and BEAZER HOMES USA, INC., a Delaware corporation (the \u201c Company \u201d).",
+   "premium1Day": 0.08,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "Stock for $33.50 per share in cash (the \u201c July 9 Party B Proposal \u201d), representing an 8.0% premium to the closing price for shares of Company 40 TABLE OF CONTENTS Common Stock of $31"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/915840/000110465926107656/tm2622398-15_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/915840/000110465926107656/tm2622398-15_defm14a.htm",
+   "statedShares": 26.68,
+   "statedSharesBasis": "26,679,623 shares of Company Common Stock outstanding",
+   "sharesOut": 26.68,
+   "ltmRevenue": 2081.5,
+   "ltmEbitda": -18.4,
+   "netDebt": -128.1,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "ebitdaBasis": "FY2025 + Q3 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationAndAmortization)",
+   "netDebtBasis": " - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-08-04",
+    "form": "10-Q",
+    "accession": "0000915840-26-000052"
+   },
+   "formsUsed": [
+    "10-Q for Q3 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 31.02,
+   "equityValue": 893.8,
+   "ev": 765.7,
+   "evLtmRev": 0.37,
+   "doubt": []
+  },
+  {
+   "id": "0001140361-26-037128",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Sunrise Realty Trust, Inc.",
+    "cik": "0002012706",
+    "sic": "6798",
+    "sicDescription": "Real Estate Investment Trusts",
+    "state": "MD"
+   },
+   "sector": "Real Estate",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-18",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/2012706/000114036126037128/0001140361-26-037128-index.htm",
+   "announced": "2026-08-05",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 0.05,
+   "offerBasis": "$0.05 in cash",
+   "consideration": "cash and stock",
+   "acquirer": "Southern Realty Trust Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 5, 2026 (the \u201cMerger Agreement\u201d), by and among SUNS, Southern Realty Trust Inc., a Maryland corporation (\u201cSRT\u201d), Sunrise Merger Sub, LLC, a Maryland limited liability company and wholly owned subsidiary of SUNS (\u201cMerger Sub\u201d), and, solely for the limited purposes specified in the Merger Agreement, Sunrise Manager LLC, a Delaware limited liability co",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/2012706/000114036126037128/ny20081383x2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/2012706/000114036126037128/ny20081383x2_defm14a.htm",
+   "statedShares": 100.0,
+   "statedSharesBasis": "100,000,000 shares authorized at June 30, 2026 and 5,824,200 shares issued and outstanding",
+   "sharesOut": 13.516,
+   "ltmRevenue": 24.4,
+   "netDebt": -5.6,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "netDebtBasis": " - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-08-03",
+    "form": "10-Q",
+    "accession": "0001628280-26-053845"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [
+    "consideration includes stock: the cash figure is not the price"
+   ],
+   "equityValue": 0.7,
+   "ev": -4.9,
+   "evLtmRev": -0.2,
+   "doubt": [
+    "multiples"
+   ]
+  },
+  {
    "id": "0002077096-26-000233",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -338,6 +911,202 @@
    "statedShares": 7.482,
    "statedSharesBasis": "7,482,432 Shares issued and outstanding",
    "flags": [],
+   "doubt": []
+  },
+  {
+   "id": "0001193125-26-384284",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Lantheus Holdings, Inc.",
+    "cik": "0001521036",
+    "sic": "2835",
+    "sicDescription": "In Vitro & In Vivo Diagnostic Substances",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-08",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1521036/000119312526384284/0001193125-26-384284-index.htm",
+   "announced": "2026-08-03",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 102.5,
+   "offerBasis": "$102.50 per share in cash",
+   "consideration": "cash",
+   "acquirer": "Curium US Holdings LLC",
+   "acquirerBasis": "Agreement and Plan of Merger (this \u201c Agreement \u201d), dated as of August 3, 2026, is by and among Curium US Holdings LLC, a Delaware limited liability company (\u201c Parent \u201d), Coco Merger Sub Inc., a Delaware corporation and a wholly-owned subsidiary of Parent (\u201c Merger Sub \u201d), and Lantheus Holdings, Inc., a Delaware corporation (the \u201c Company \u201d).",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1521036/000119312526384284/d180727ddefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1521036/000119312526384284/d180727ddefm14a.htm",
+   "statedShares": 65.3,
+   "statedSharesBasis": "65,299,875 shares of Company common stock issued and outstanding",
+   "sharesOut": 65.272,
+   "ltmRevenue": 1556.3,
+   "ltmEbitda": 390.8,
+   "netDebt": -22.2,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "ebitdaBasis": "FY2025 + Q2 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationAmortizationAndAccretionNet)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-08-03",
+    "form": "10-Q",
+    "accession": "0001193125-26-336795"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "equityValue": 6690.4,
+   "ev": 6668.2,
+   "evLtmRev": 4.28,
+   "evLtmEbitda": 17.06,
+   "doubt": []
+  },
+  {
+   "id": "0001140361-26-036420",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Integer Holdings Corp",
+    "cik": "0001114483",
+    "sic": "3845",
+    "sicDescription": "Electromedical & Electrotherapeutic Apparatus",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-14",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1114483/000114036126036420/0001140361-26-036420-index.htm",
+   "announced": "2026-08-02",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 127.0,
+   "offerBasis": "$127.00 in cash",
+   "consideration": "cash and stock",
+   "acquirer": "Armstrong Parent, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger (referred to as the \u201cmerger agreement\u201d), by and among ITGR, Armstrong Parent, Inc., a Delaware corporation (referred to as \u201cParent\u201d), and Armstrong Bidco, Inc., a Delaware corporation and a wholly owned subsidiary of Parent (referred to as \u201cMerger Sub\u201d).",
+   "premium1Day": 0.518,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "(referred to as the \u201cmerger consideration\u201d). The merger consideration represents an approximately 51.8% premium over the unaffected price of ITGR common stock of $83"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1114483/000114036126036420/ny20080277x2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1114483/000114036126036420/ny20080277x2_defm14a.htm",
+   "statedShares": 33.997,
+   "statedSharesBasis": "33,997,068 shares of ITGR common stock outstanding",
+   "sharesOut": 33.992,
+   "ltmRevenue": 1843.4,
+   "ltmEbitda": 316.9,
+   "netDebt": 1216.5,
+   "ltmPeriodEnd": "2026-07-03",
+   "balanceSheetDate": "2026-07-03",
+   "ebitdaBasis": "FY2025 + Q2 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-07-30",
+    "form": "10-Q",
+    "accession": "0001114483-26-000027"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [
+    "consideration includes stock: the cash figure is not the price"
+   ],
+   "unaffectedPrice": 83.66,
+   "equityValue": 4317.0,
+   "ev": 5533.5,
+   "evLtmRev": 3.0,
+   "evLtmEbitda": 17.46,
+   "doubt": [
+    "multiples"
+   ]
+  },
+  {
+   "id": "0001140361-26-035981",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Atkore Inc.",
+    "cik": "0001666138",
+    "sic": "3690",
+    "sicDescription": "Miscellaneous Electrical Machinery, Equipment & Supplies",
+    "state": "DE"
+   },
+   "sector": "Technology",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-09",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1666138/000114036126035981/0001140361-26-035981-index.htm",
+   "announced": "2026-08-02",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 95.0,
+   "offerBasis": "$95.00 in cash",
+   "consideration": "cash",
+   "acquirer": "Prysmian S.p.A.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 2, 2026 (as it may be amended from time to time, the \u201c Merger Agreement \u201d), by and among Atkore, Prysmian S.p.A., a company organized under the laws of the Republic of Italy ( \u201cPrysmian\u201d ), Trinity Merger Sub, Inc., a Delaware corporation and a wholly owned subsidiary of Prysmian ( \u201cMerger Sub\u201d ), and, solely as provided in certain sections of the M",
+   "premium1Day": 0.3,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "the Merger Consideration? A: The Merger Consideration of $95.00 in cash represents a premium of approximately 30% to Atkore\u2019s closing share price of $72"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1666138/000114036126035981/ny20080616x2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1666138/000114036126035981/ny20080616x2_defm14a.htm",
+   "statedShares": 33.773,
+   "statedSharesBasis": "33,773,062 shares of Common Stock were outstanding",
+   "sharesOut": 33.773,
+   "ltmRevenue": 2933.7,
+   "ltmEbitda": 167.2,
+   "netDebt": 414.0,
+   "ltmPeriodEnd": "2026-06-26",
+   "balanceSheetDate": "2026-06-26",
+   "ebitdaBasis": "FY2025 + Q3 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-07-31",
+    "form": "10-Q",
+    "accession": "0001628280-26-052084"
+   },
+   "formsUsed": [
+    "10-Q for Q3 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 73.08,
+   "equityValue": 3208.4,
+   "ev": 3622.4,
+   "evLtmRev": 1.23,
+   "evLtmEbitda": 21.67,
    "doubt": []
   },
   {
@@ -406,6 +1175,44 @@
    "ev": 1124.9,
    "evLtmRev": 1.83,
    "dealValueRatio": 1.1,
+   "doubt": []
+  },
+  {
+   "id": "0001104659-26-107109",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "SUPERNUS PHARMACEUTICALS, INC.",
+    "cik": "0001356576",
+    "sic": "2834",
+    "sicDescription": "Pharmaceutical Preparations",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-11",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1356576/000110465926107109/0001104659-26-107109-index.htm",
+   "announced": "2026-08-01",
+   "announcedBasis": "merger agreement",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "stock",
+   "acquirer": "Indivior Pharmaceuticals, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 1, 2026 (as amended from time to time, the \u201cMerger Agreement\u201d) by and among Supernus, Indivior Pharmaceuticals, Inc., a Delaware corporation (\u201cIndivior\u201d), Artemis Merger Sub Inc., a Delaware corporation and a wholly owned subsidiary of Indivior (\u201cMerger Sub\u201d), pursuant to which Merger Sub will merge with and into Supernus, with Supernus continuing a",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1356576/000110465926107109/tm2625197-1_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1356576/000110465926107109/tm2625197-1_defm14a.htm",
+   "flags": [],
    "doubt": []
   },
   {
@@ -609,6 +1416,204 @@
    "doubt": [
     "multiples"
    ]
+  },
+  {
+   "id": "0001193125-26-395678",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "MARKETAXESS HOLDINGS INC",
+    "cik": "0001278021",
+    "sic": "6211",
+    "sicDescription": "Security Brokers, Dealers & Flotation Companies",
+    "state": ""
+   },
+   "sector": "Financials",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-18",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1278021/000119312526395678/0001193125-26-395678-index.htm",
+   "announced": "2026-07-29",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 167.0,
+   "offerBasis": "$167.00 in cash",
+   "consideration": "cash and stock",
+   "acquirer": "Intercontinental Exchange, Inc.",
+   "acquirerBasis": "AGREEMENT AND PLAN OF MERGER (this \u201c Agreement \u201d), is entered into as of July 29, 2026, by and among MarketAxess Holdings Inc., a Delaware corporation (the \u201c Company \u201d), Intercontinental Exchange, Inc., a Delaware corporation (\u201c Parent \u201d), and Igloo Merger Sub II, Inc., a Delaware corporation and a wholly-owned Subsidiary of Parent (\u201c Merger Sub \u201d).",
+   "premium1Day": 0.33,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "\u2022 the fact that the Merger Consideration of $167.00 per Share in cash represents a premium of approximately 33% to the closing price of the Shares on July 29, 2026, the last full trading day prior to the public announcement of the execution of the Merger Agreement"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1278021/000119312526395678/d171374ddefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1278021/000119312526395678/d171374ddefm14a.htm",
+   "statedShares": 35.197,
+   "statedSharesBasis": "35,197,197 Shares issued and outstanding",
+   "sharesOut": 35.539,
+   "ltmRevenue": 870.0,
+   "ltmEbitda": 430.2,
+   "netDebt": -129.9,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "ebitdaBasis": "FY2025 + Q2 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationAndAmortization)",
+   "netDebtBasis": "shortTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-05-04",
+    "form": "10-Q",
+    "accession": "0001193125-26-212081"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [
+    "consideration includes stock: the cash figure is not the price"
+   ],
+   "unaffectedPrice": 125.56,
+   "equityValue": 5935.0,
+   "ev": 5805.1,
+   "evLtmRev": 6.67,
+   "evLtmEbitda": 13.49,
+   "doubt": [
+    "multiples"
+   ]
+  },
+  {
+   "id": "0001193125-26-395819",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "CBIZ, Inc.",
+    "cik": "0000944148",
+    "sic": "7389",
+    "sicDescription": "Services-Business Services, NEC",
+    "state": "DE"
+   },
+   "sector": "Business Services",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-21",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/944148/000119312526395819/0001193125-26-395819-index.htm",
+   "announced": "2026-07-28",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 55.0,
+   "offerBasis": "$55.00 in cash",
+   "consideration": "cash",
+   "acquirer": "Viking ParentCo, Inc.",
+   "acquirerBasis": "AGREEMENT AND PLAN OF MERGER (this \u201c Agreement \u201d), is entered into as of July 28, 2026, by and among CBIZ, Inc., a Delaware corporation (the \u201c Company \u201d), Viking ParentCo, Inc., a Delaware corporation (\u201c Parent \u201d), and Viking MergerCo, Inc., a Delaware corporation and a direct wholly owned Subsidiary of Parent (\u201c Merger Sub \u201d).",
+   "premium1Day": 0.62,
+   "premium30DayVwap": 0.54,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "\u201cJune 8 Indication of Interest\u201d), which the June 8 Indication of Interest stated was an approximately 62% premium to the Company\u2019s closing Share price of $33",
+    "the fact that the Merger Consideration equals $55.00 per Share, which represents a premium of approximately 54% to the Company\u2019s 30-day volume-weighted average share price as of July 28, 2026 (the day prior to the public announcement of the Merger Agreement)"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/944148/000119312526395819/d181429ddefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/944148/000119312526395819/d181429ddefm14a.htm",
+   "statedShares": 54.94,
+   "statedSharesBasis": "54,940,482 Shares issued and outstanding",
+   "sharesOut": 54.264,
+   "ltmRevenue": 2767.3,
+   "ltmEbitda": 287.8,
+   "netDebt": 1438.8,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "ebitdaBasis": "FY2025 + Q2 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-07-27",
+    "form": "10-Q",
+    "accession": "0000944148-26-000096"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 33.95,
+   "vwap30": 35.71,
+   "equityValue": 2984.5,
+   "ev": 4423.3,
+   "evLtmRev": 1.6,
+   "evLtmEbitda": 15.37,
+   "doubt": []
+  },
+  {
+   "id": "0001104659-26-107503",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "SAFETY INSURANCE GROUP INC",
+    "cik": "0001172052",
+    "sic": "6331",
+    "sicDescription": "Fire, Marine & Casualty Insurance",
+    "state": "DE"
+   },
+   "sector": "Financials",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-14",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1172052/000110465926107503/0001104659-26-107503-index.htm",
+   "announced": "2026-07-23",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 105.0,
+   "offerBasis": "$105.00 in cash",
+   "consideration": "cash",
+   "acquirer": "MAPFRE U.S.A. Corp.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of July 23, 2026 (as it may be amended, supplemented or modified from time to time, the \u201c Merger Agreement \u201d), by and among Safety, MAPFRE U.S.A. Corp., a Massachusetts corporation (\u201c Mapfre \u201d), and Splash Merger Sub, Inc., a Delaware corporation and wholly owned direct subsidiary of Mapfre (\u201c Merger Subsidiary \u201d), and approve the transactions contemplated by",
+   "premium1Day": 0.448,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "not withdrawn your appraisal rights with respect to such shares), which represents a premium of 44.8% to the closing per share price of our Common Stock on July 22, 2026"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1172052/000110465926107503/tm2623530-2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1172052/000110465926107503/tm2623530-2_defm14a.htm",
+   "statedShares": 14.68,
+   "statedSharesBasis": "14,680,482 shares of Common Stock outstanding",
+   "sharesOut": 14.683,
+   "ltmRevenue": 1286.3,
+   "netDebt": -17.9,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "netDebtBasis": "longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-05-01",
+    "form": "10-Q",
+    "accession": "0001172052-26-000015"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 72.51,
+   "equityValue": 1541.7,
+   "ev": 1523.8,
+   "evLtmRev": 1.18,
+   "doubt": []
   },
   {
    "id": "0001193125-26-383837",
@@ -828,6 +1833,74 @@
    ]
   },
   {
+   "id": "0001104659-26-108934",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "LXP Industrial Trust",
+    "cik": "0000910108",
+    "sic": "6798",
+    "sicDescription": "Real Estate Investment Trusts",
+    "state": "MD"
+   },
+   "sector": "Real Estate",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-18",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/910108/000110465926108934/0001104659-26-108934-index.htm",
+   "announced": "2026-07-19",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 61.2,
+   "offerBasis": "$61.20 in cash",
+   "consideration": "cash",
+   "acquirer": "Leopard REIT LLC",
+   "acquirerBasis": "Agreement and Plan of Merger (the \u201cAgreement\u201d), by and among LXP, Leopard REIT LLC (\u201cParent\u201d) and Leopard Merger Sub LLC, a wholly owned subsidiary of Parent (\u201cMerger Sub\u201d), pursuant to which, among other things, LXP will merge with and into Merger Sub (the \u201cMerger\u201d) and each outstanding common share of beneficial interest, par value $0.0001, of LXP (\u201cLXP Common Shares\u201d) (other than the Excluded S",
+   "premium1Day": 0.046,
+   "premium30DayVwap": 0.123,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "proposed Merger Consideration of $61.20 per Company Common Share provides approximately a 4.6% premium over the closing price of Company Common Shares on July 17, 2026, the last trading day before the Company publicly announced the execution of the Merger Agreement, approximately a",
+    "in the cash amount of $61.20 per Company Common Share provides approximately a 12.3% premium to the 30-day volume-weighted average price per Company Common Share ending July 17, 2026, approximately a 19"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/910108/000110465926108934/tm2624432d2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/910108/000110465926108934/tm2624432d2_defm14a.htm",
+   "statedShares": 58.957,
+   "statedSharesBasis": "58,957,264 Company Common Shares outstanding",
+   "sharesOut": 58.953,
+   "ltmRevenue": 4.1,
+   "netDebt": 1345.2,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "netDebtBasis": "longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-04-28",
+    "form": "10-Q",
+    "accession": "0000910108-26-000030"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [
+    "EV / LTM revenue 1208.1x above 60x"
+   ],
+   "unaffectedPrice": 58.51,
+   "vwap30": 54.5,
+   "equityValue": 3607.9,
+   "ev": 4953.1,
+   "evLtmRev": 1208.07,
+   "doubt": [
+    "multiples"
+   ]
+  },
+  {
    "id": "0001193125-26-377697",
    "target": {
     "name": "Distribution Solutions Group, Inc.",
@@ -978,6 +2051,86 @@
    "doubt": [
     "multiples"
    ]
+  },
+  {
+   "id": "0001140361-26-037574",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Senti Biosciences Holdings, Inc.",
+    "cik": "0001854270",
+    "sic": "2836",
+    "sicDescription": "Biological Products, (No Diagnostic Substances)",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Financial sponsor",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-24",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1854270/000114036126037574/0001140361-26-037574-index.htm",
+   "announced": "2026-07-14",
+   "announcedBasis": "merger agreement",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "cash",
+   "acquirer": "Celadon Partners SPV 35 Limited",
+   "acquirerBasis": "AGREEMENT AND PLAN OF MERGER, dated as of July 14, 2026 (this \u201c Agreement \u201d and, such date, the \u201c Agreement Date \u201d), by and among Celadon Partners SPV 35 Limited, an exempted company incorporated under the laws of the Cayman Islands (\u201c Parent \u201d), Senti Merger Sub, Inc., a Delaware corporation (\u201c Merger Sub \u201d), Senti Biosciences Holdings, Inc., a Delaware corporation (the \u201c Company \u201d), Senti Holdin",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1854270/000114036126037574/ny20078262x6_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1854270/000114036126037574/ny20078262x6_defm14a.htm",
+   "statedShares": 31.145,
+   "statedSharesBasis": "31,145,390 shares of our common stock outstanding",
+   "flags": [],
+   "doubt": []
+  },
+  {
+   "id": "0001104659-26-108313",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "TRICO BANCSHARES /",
+    "cik": "0000356171",
+    "sic": "6022",
+    "sicDescription": "State Commercial Banks",
+    "state": "CA"
+   },
+   "sector": "Financials",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-16",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/356171/000110465926108313/0001104659-26-108313-index.htm",
+   "announced": "2026-07-12",
+   "announcedBasis": "merger agreement",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "stock",
+   "acquirer": "First Hawaiian Bank",
+   "acquirerBasis": "Agreement and Plan of Merger (this \u201c Agreement \u201d), dated as of July 12, 2026, is made by and between First Hawaiian Bank, a Hawaii state-chartered non-member bank (\u201c First Hawaiian Bank \u201d), and Tri Counties Bank, a California-chartered non-member bank (\u201c Tri Counties Bank \u201d).",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/356171/000110465926108313/tm2624984-1_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/356171/000110465926108313/tm2624984-1_defm14a.htm",
+   "statedShares": 121.681,
+   "statedSharesBasis": "121,681,352 shares of First Hawaiian common stock outstanding",
+   "flags": [],
+   "doubt": []
   },
   {
    "id": "0001104659-26-089222",
@@ -4582,6 +5735,69 @@
    "doubt": []
   },
   {
+   "id": "0001493152-26-044341",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Pulmatrix, Inc.",
+    "cik": "0001574235",
+    "sic": "2834",
+    "sicDescription": "Pharmaceutical Preparations",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-25",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1574235/000149315226044341/0001493152-26-044341-index.htm",
+   "announced": "2026-03-20",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 17.0,
+   "offerBasis": "purchase price of $17.00",
+   "consideration": "cash and stock",
+   "acquirer": "Eos SENOLYTIX, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger and Reorganization dated as of March 20, 2026, by and among PULM, Eos SENOLYTIX, Inc. (\u201cEos\u201d or the \u201cCompany\u201d), the parties are contemplating a business combination whereby Eos will become a wholly owned subsidiary of PULM at a Share Exchange Ratio of 15.8.",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1574235/000149315226044341/formdefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1574235/000149315226044341/formdefm14a.htm",
+   "statedShares": 3.652,
+   "statedSharesBasis": "3,652,285 shares of Pulmatrix common stock issued and outstanding",
+   "sharesOut": 3.652,
+   "ltmRevenue": 7.8,
+   "ltmEbit": -5.2,
+   "netDebt": -4.1,
+   "ltmPeriodEnd": "2024-12-31",
+   "balanceSheetDate": "2025-12-31",
+   "netDebtBasis": " - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-02-23",
+    "form": "10-K",
+    "accession": "0001493152-26-008130"
+   },
+   "formsUsed": [
+    "10-K for FY2024"
+   ],
+   "flags": [
+    "consideration includes stock: the cash figure is not the price"
+   ],
+   "equityValue": 62.1,
+   "ev": 58.0,
+   "evLtmRev": 7.44,
+   "doubt": [
+    "multiples"
+   ]
+  },
+  {
    "id": "0001104659-26-039765",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -7421,6 +8637,75 @@
    "statedSharesBasis": "161,889,776 Company Shares outstanding",
    "flags": [],
    "doubt": []
+  },
+  {
+   "id": "0001104659-26-110393",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "NATHANS FAMOUS, INC.",
+    "cik": "0000069733",
+    "sic": "5812",
+    "sicDescription": "Retail-Eating  Places",
+    "state": "DE"
+   },
+   "sector": "Consumer & Retail",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-24",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/69733/000110465926110393/0001104659-26-110393-index.htm",
+   "announced": "2026-01-20",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 102.0,
+   "offerBasis": "$102.00 in cash",
+   "consideration": "cash and stock",
+   "acquirer": "Smithfield Foods, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of January 20, 2026 (as it may be amended from time to time, the \u201cMerger Agreement\u201d), by and among Smithfield Foods, Inc., a Virginia corporation (\u201cParent\u201d), Boardwalk Merger Sub Inc., a Delaware corporation and wholly-owned subsidiary of Parent (\u201cMerger Sub\u201d), and the Company, providing for, among other things, the merger of Merger Sub with and into the Comp",
+   "premium1Day": 0.08,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "by Parent\u2019s counsel. The representative of Jefferies noted that such offer implied an 8% premium to an adjusted closing stock price of the Company\u2019s shares of $94"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/69733/000110465926110393/tm267612-2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/69733/000110465926110393/tm267612-2_defm14a.htm",
+   "statedShares": 4.098,
+   "statedSharesBasis": "4,097,661 shares of Common Stock outstanding",
+   "sharesOut": 4.09,
+   "ltmRevenue": 157.8,
+   "ltmEbitda": 32.7,
+   "netDebt": 24.2,
+   "ltmPeriodEnd": "2025-12-28",
+   "balanceSheetDate": "2025-12-28",
+   "ebitdaBasis": "FY2025 + Q3 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2025-11-03",
+    "form": "10-Q",
+    "accession": "0001437749-25-033452"
+   },
+   "formsUsed": [
+    "10-Q for Q3 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [
+    "consideration includes stock: the cash figure is not the price"
+   ],
+   "unaffectedPrice": 94.44,
+   "equityValue": 417.2,
+   "ev": 441.4,
+   "evLtmRev": 2.8,
+   "evLtmEbitda": 13.5,
+   "doubt": [
+    "multiples"
+   ]
   },
   {
    "id": "0001193125-26-053002",
