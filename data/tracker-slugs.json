@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-29T00:12:57.511Z",
-  "count": 1984,
+  "generatedAt": "2026-09-29T13:15:39.782Z",
+  "count": 1997,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -1385,6 +1385,10 @@
       "slug": "man-group-investment-risk-2027-summer-internship",
       "since": "2026-09-29"
     },
+    "greenhouse-mangroup-4989438101": {
+      "slug": "man-group-global-funds-treasury-summer-2027-internship",
+      "since": "2026-09-29"
+    },
     "greenhouse-point72-7297598002": {
       "slug": "point72-cubist-quantitative-researcher-intern",
       "since": "2026-09-18"
@@ -1868,6 +1872,10 @@
     "greenhouse-squarepointcapital-8050436": {
       "slug": "squarepoint-capital-operations-intern-fall",
       "since": "2026-09-01"
+    },
+    "greenhouse-squarepointcapital-8203583": {
+      "slug": "squarepoint-capital-campus-recruitment-specialist",
+      "since": "2026-09-29"
     },
     "greenhouse-stripe-7544547": {
       "slug": "stripe-operations-associate-new-grad-mexico",
@@ -3752,6 +3760,10 @@
       "slug": "morgan-stanley-2027-risk-management-off-cycle-internship-frankfurt",
       "since": "2026-09-18"
     },
+    "talnet-morganstanley-tal-net-21953": {
+      "slug": "morgan-stanley-2027-fixed-income-research-off-cycle-internship-london",
+      "since": "2026-09-29"
+    },
     "talnet-morganstanley-tal-net-21960": {
       "slug": "morgan-stanley-2027-institutional-equity-derivatives-and-trading-co-op-new-york",
       "since": "2026-09-18"
@@ -3815,6 +3827,10 @@
     "talnet-morganstanley-tal-net-22234": {
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-fixed-income-london",
       "since": "2026-09-25"
+    },
+    "talnet-morganstanley-tal-net-22242": {
+      "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-global-sales-amsterdam",
+      "since": "2026-09-29"
     },
     "talnet-nomuracampus-tal-net-1426": {
       "slug": "nomura-2027-investment-banking-client-financing-solutions-summer-internship-london",
@@ -4136,6 +4152,10 @@
       "slug": "accenture-internship-risk",
       "since": "2026-09-20"
     },
+    "workday-accenture-R00340352": {
+      "slug": "accenture-bygg-ekte-l-sninger-med-ekte-innvirkning-summer-internship-for-utviklere",
+      "since": "2026-09-29"
+    },
     "workday-accenture-R00341607": {
       "slug": "accenture-technology-graduate-programme-french-speaker",
       "since": "2026-09-20"
@@ -4155,6 +4175,10 @@
     "workday-accenture-R00348064-1": {
       "slug": "accenture-junior-sap-finance-analyst-internship",
       "since": "2026-09-20"
+    },
+    "workday-accenture-R00349105": {
+      "slug": "accenture-intellera-healthcare-intern-palermo",
+      "since": "2026-09-29"
     },
     "workday-accenture-R00349345": {
       "slug": "accenture-management-consulting-master-s-graduate-consulting-program",
@@ -5835,6 +5859,10 @@
       "slug": "citi-banking-financing-summer-analyst-london-united-kingdom-2027",
       "since": "2026-09-18"
     },
+    "workday-citi-26993300": {
+      "slug": "citi-banking-corporate-baking-internship-bogot-colombia-2027",
+      "since": "2026-09-29"
+    },
     "workday-citi-26993448": {
       "slug": "citi-banking-commercial-banking-summer-analyst-london-united-kingdom-2027",
       "since": "2026-09-18"
@@ -6039,6 +6067,10 @@
       "slug": "guidehouse-consulting-analyst-energy-providers-campus-2027",
       "since": "2026-09-20"
     },
+    "workday-guidehouse-43444": {
+      "slug": "guidehouse-consulting-analyst-federal-civilian-agencies-campus-2027",
+      "since": "2026-09-29"
+    },
     "workday-guidehouse-43483": {
       "slug": "guidehouse-consultant-energy-providers-campus-2027",
       "since": "2026-09-20"
@@ -6058,6 +6090,14 @@
     "workday-guidehouse-44632": {
       "slug": "guidehouse-consultant-state-and-local-government-campus-2027",
       "since": "2026-09-20"
+    },
+    "workday-guidehouse-44902": {
+      "slug": "guidehouse-consultant-federal-civilian-agencies-campus-2027",
+      "since": "2026-09-29"
+    },
+    "workday-guidehouse-44923": {
+      "slug": "guidehouse-intern-federal-civilian-agencies-campus-2027",
+      "since": "2026-09-29"
     },
     "workday-hl-R2525": {
       "slug": "houlihan-lokey-3-month-internship-financial-restructuring-q3-2026",
@@ -6509,6 +6549,10 @@
       "slug": "ing-machine-learning-engineer-intern",
       "since": "2026-09-28"
     },
+    "workday-ing-REQ-10122340": {
+      "slug": "ing-internship-transaction-services-trade-finance-services",
+      "since": "2026-09-29"
+    },
     "workday-intel-JR0281401": {
       "slug": "intel-practical-engineering-student-kiryat-gat",
       "since": "2026-09-28"
@@ -6843,6 +6887,10 @@
     "workday-intel-JR0287596": {
       "slug": "intel-graduate-talent-iscp-soc-front-end-team-asia",
       "since": "2026-09-28"
+    },
+    "workday-intel-JR0287624": {
+      "slug": "intel-graduate-talent-physical-design-engineer-asia",
+      "since": "2026-09-29"
     },
     "workday-investpsp-R4850": {
       "slug": "psp-investments-intern-private-equity-london-6-months-off-cycle-january-june-2027",
@@ -8014,6 +8062,10 @@
     "workday-wf-R-573977": {
       "slug": "wells-fargo-2027-commercial-banking-summer-internship-early-careers-asia",
       "since": "2026-09-18"
+    },
+    "workday-wf-R-574177": {
+      "slug": "wells-fargo-2026-corporate-and-investment-banking-coo-internship-program-early-careers",
+      "since": "2026-09-29"
     },
     "workday-wf-R-574257-1": {
       "slug": "wells-fargo-2027-cib-commercial-real-estate-internship-program-early-careers-toronto",
