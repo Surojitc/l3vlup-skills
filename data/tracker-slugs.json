@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-28T14:22:50.805Z",
-  "count": 1970,
+  "generatedAt": "2026-09-29T00:12:57.511Z",
+  "count": 1984,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -400,6 +400,10 @@
       "slug": "millennium-2026-commodity-research-and-trading-analytics-intern-houston",
       "since": "2026-09-01"
     },
+    "greenhouse-airbnb-8154749": {
+      "slug": "airbnb-early-career-software-engineer-quality-engineering",
+      "since": "2026-09-29"
+    },
     "greenhouse-akunacapital-8018847": {
       "slug": "akuna-capital-software-engineer-intern-c-summer-2027",
       "since": "2026-09-18"
@@ -535,6 +539,10 @@
     "greenhouse-cloudflare-8118855": {
       "slug": "cloudflare-software-engineer-intern-fall-2026-us",
       "since": "2026-08-21"
+    },
+    "greenhouse-cloudflare-8199958": {
+      "slug": "cloudflare-software-engineer-intern-2027-austin-tx",
+      "since": "2026-09-29"
     },
     "greenhouse-coinbase-8168315": {
       "slug": "coinbase-software-engineer-intern",
@@ -1265,6 +1273,10 @@
       "slug": "lincoln-international-uk-summer-internship-programme-2027",
       "since": "2026-09-18"
     },
+    "greenhouse-lincolninternational-8237269": {
+      "slug": "lincoln-international-2027-summer-analyst-intern-valuations-and-opinions-group-us",
+      "since": "2026-09-29"
+    },
     "greenhouse-lyft-8767534002": {
       "slug": "lyft-software-engineer-intern-test-automation-summer-2027",
       "since": "2026-09-18"
@@ -1317,6 +1329,10 @@
       "slug": "lyft-data-analyst-intern-summer-2027",
       "since": "2026-09-18"
     },
+    "greenhouse-lyft-8802222002": {
+      "slug": "lyft-business-systems-engineer-intern-finance-technology-summer-2027",
+      "since": "2026-09-29"
+    },
     "greenhouse-lyft-8802332002": {
       "slug": "lyft-software-engineer-intern-machine-learning-summer-2027-toronto",
       "since": "2026-09-18"
@@ -1324,6 +1340,14 @@
     "greenhouse-lyft-8817900002": {
       "slug": "lyft-content-systems-intern-summer-2027",
       "since": "2026-09-25"
+    },
+    "greenhouse-lyft-8817930002": {
+      "slug": "lyft-industrialization-engineer-intern-summer-2027",
+      "since": "2026-09-29"
+    },
+    "greenhouse-lyft-8843341002": {
+      "slug": "lyft-applied-scientist-intern-summer-2027",
+      "since": "2026-09-29"
     },
     "greenhouse-mangroup-4960444101": {
       "slug": "man-group-systematic-graduate-rotational-quant",
@@ -1352,6 +1376,14 @@
     "greenhouse-mangroup-4982410101": {
       "slug": "man-group-quant-research-analyst-intern",
       "since": "2026-09-24"
+    },
+    "greenhouse-mangroup-4988791101": {
+      "slug": "man-group-trading-summer-2027-internship",
+      "since": "2026-09-29"
+    },
+    "greenhouse-mangroup-4988792101": {
+      "slug": "man-group-investment-risk-2027-summer-internship",
+      "since": "2026-09-29"
     },
     "greenhouse-point72-7297598002": {
       "slug": "point72-cubist-quantitative-researcher-intern",
@@ -5987,6 +6019,10 @@
       "slug": "fti-consulting-graduate-program-corporate-finance-consultant-janvier-2027",
       "since": "2026-09-28"
     },
+    "workday-fticonsulting-JR261446": {
+      "slug": "fti-consulting-intern-consultant-cyber-threat-intelligence-cti-and-investigation-num-rique-dfir",
+      "since": "2026-09-29"
+    },
     "workday-guidehouse-38913": {
       "slug": "guidehouse-consultant-state-and-local-government-columbia-sc-market-campus-2026",
       "since": "2026-09-20"
@@ -6102,6 +6138,14 @@
       "slug": "houlihan-lokey-off-cycle-intern-financial-and-valuation-advisory-london",
       "since": "2026-09-18"
     },
+    "workday-hl-R3584": {
+      "slug": "houlihan-lokey-2027-summer-associate-financial-restructuring-los-angeles",
+      "since": "2026-09-29"
+    },
+    "workday-hl-R3585": {
+      "slug": "houlihan-lokey-2027-summer-associate-financial-restructuring-new-york",
+      "since": "2026-09-29"
+    },
     "workday-hl-R3598": {
       "slug": "houlihan-lokey-off-cycle-internship-primary-capital-advisory-private-equity-fundraising-january-2027",
       "since": "2026-09-18"
@@ -6117,6 +6161,10 @@
     "workday-hl-R3617": {
       "slug": "houlihan-lokey-6-month-off-cycle-intern-capital-solutions-secondary-advisory-january-2027",
       "since": "2026-09-28"
+    },
+    "workday-hl-R3621": {
+      "slug": "houlihan-lokey-2027-summer-associate-real-estate-lodging-and-leisure-new-york",
+      "since": "2026-09-29"
     },
     "workday-huron-JR-0016124": {
       "slug": "huron-consulting-group-digital-consulting-intern-summer-2027-montreal-spring-2028-graduates",
@@ -6940,6 +6988,10 @@
       "slug": "mizuho-2027-summer-associate-houston",
       "since": "2026-09-18"
     },
+    "workday-mizuho-R7418": {
+      "slug": "mizuho-2027-summer-operations-internship",
+      "since": "2026-09-29"
+    },
     "workday-northwesternmutual-JR-45580-1": {
       "slug": "northwestern-mutual-actuarial-intern-summer-2027",
       "since": "2026-09-18"
@@ -7007,6 +7059,10 @@
     "workday-nvidia-JR2018685": {
       "slug": "nvidia-research-scientist-deep-learning-and-computer-vision-new-college-graduate",
       "since": "2026-09-18"
+    },
+    "workday-nvidia-JR2020544": {
+      "slug": "nvidia-automation-infrastructure-student",
+      "since": "2026-09-29"
     },
     "workday-nvidia-JR2020781": {
       "slug": "nvidia-system-software-engineer-soc-new-college-graduate",
