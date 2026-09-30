@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-29T13:15:39.782Z",
-  "count": 1997,
+  "generatedAt": "2026-09-30T12:56:25.974Z",
+  "count": 2016,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -1473,6 +1473,10 @@
       "slug": "point72-2027-investment-services-internship-pipeline",
       "since": "2026-09-20"
     },
+    "greenhouse-point72-8845395002": {
+      "slug": "point72-2027-point72-academy-spring-insight-programme-uk",
+      "since": "2026-09-30"
+    },
     "greenhouse-quberesearchandtechnologies-8052341002": {
       "slug": "qube-research-and-technologies-2026-internship-quantitative-research-trading",
       "since": "2026-09-01"
@@ -1671,6 +1675,10 @@
       "slug": "robinhood-offensive-security-intern-summer-2027",
       "since": "2026-09-20"
     },
+    "greenhouse-robinhood-8241738": {
+      "slug": "robinhood-data-science-intern-summer-2027",
+      "since": "2026-09-30"
+    },
     "greenhouse-roblox-8072244": {
       "slug": "roblox-2027-software-engineer-early-career",
       "since": "2026-09-18"
@@ -1836,6 +1844,14 @@
     "greenhouse-schonfeld-8220506": {
       "slug": "schonfeld-2027-emerging-markets-and-delta-one-investment-analyst-internship",
       "since": "2026-09-24"
+    },
+    "greenhouse-schonfeld-8238448": {
+      "slug": "schonfeld-2027-quantitative-research-intern",
+      "since": "2026-09-30"
+    },
+    "greenhouse-schonfeld-8238451": {
+      "slug": "schonfeld-2027-quantitative-c-developer-intern",
+      "since": "2026-09-30"
     },
     "greenhouse-squarepointcapital-243853": {
       "slug": "squarepoint-capital-intern-quant-researcher",
@@ -5304,6 +5320,10 @@
       "slug": "bmo-capital-markets-private-wealth-administrative-assistant-winter-2027-co-op-internship-4-months",
       "since": "2026-09-18"
     },
+    "workday-bmo-R260025805": {
+      "slug": "bmo-capital-markets-business-analyst-winter-2027-co-op-internship-8-month",
+      "since": "2026-09-30"
+    },
     "workday-bmo-R260025826": {
       "slug": "bmo-capital-markets-software-engineer-winter-2027-co-op-internship-4-month",
       "since": "2026-09-18"
@@ -5355,6 +5375,10 @@
     "workday-bmo-R260027626": {
       "slug": "bmo-capital-markets-accounting-analyst-cpa-trainee-new-or-recent-graduate-opportunity",
       "since": "2026-09-25"
+    },
+    "workday-bmo-R260027807": {
+      "slug": "bmo-capital-markets-investment-intern-gam-summer-2027-co-op-internship-4-months",
+      "since": "2026-09-30"
     },
     "workday-capitalone-R242577-1": {
       "slug": "capital-one-associate-strategy-analyst-new-grad-2027",
@@ -5531,6 +5555,10 @@
     "workday-cibc-2619727-1": {
       "slug": "cibc-career-programs-networking-event-october-28th-2026-graduate-leadership-development-program-gldp-risk-management",
       "since": "2026-09-25"
+    },
+    "workday-cibc-2620020-1": {
+      "slug": "cibc-administrative-assistant-co-op-vancouver-bc-winter-2027",
+      "since": "2026-09-30"
     },
     "workday-citi-24743918-1": {
       "slug": "citi-fresh-graduate-finance-economics-mathematics-accounting-business-administration-commerce",
@@ -5939,9 +5967,17 @@
       "slug": "citi-services-summer-analyst-ireland-dublin-2027",
       "since": "2026-09-24"
     },
+    "workday-citi-26997257": {
+      "slug": "citi-functions-finance-summer-associate-new-york-usa-2027",
+      "since": "2026-09-30"
+    },
     "workday-citi-26997993": {
       "slug": "citi-young-apprentice-c00",
       "since": "2026-09-25"
+    },
+    "workday-citi-26998100": {
+      "slug": "citi-functions-enterprise-services-and-public-affairs-summer-analyst-new-york-usa-2027",
+      "since": "2026-09-30"
     },
     "workday-fticonsulting-JR250SB-TEE": {
       "slug": "fti-consulting-2027-internship-risk-and-investigations-forensic-and-litigation-consulting",
@@ -6205,6 +6241,10 @@
     "workday-hl-R3621": {
       "slug": "houlihan-lokey-2027-summer-associate-real-estate-lodging-and-leisure-new-york",
       "since": "2026-09-29"
+    },
+    "workday-hl-R3626": {
+      "slug": "houlihan-lokey-2027-corporate-finance-internship-4-6-months-zurich",
+      "since": "2026-09-30"
     },
     "workday-huron-JR-0016124": {
       "slug": "huron-consulting-group-digital-consulting-intern-summer-2027-montreal-spring-2028-graduates",
@@ -6541,6 +6581,10 @@
       "slug": "ing-lending-intern-corporate-transaction-management",
       "since": "2026-09-25"
     },
+    "workday-ing-REQ-10122247": {
+      "slug": "ing-intern-social-media-europe",
+      "since": "2026-09-30"
+    },
     "workday-ing-REQ-10122299": {
       "slug": "ing-intern",
       "since": "2026-09-28"
@@ -6552,6 +6596,22 @@
     "workday-ing-REQ-10122340": {
       "slug": "ing-internship-transaction-services-trade-finance-services",
       "since": "2026-09-29"
+    },
+    "workday-ing-REQ-10122343": {
+      "slug": "ing-internship-fund-operation-oversight",
+      "since": "2026-09-30"
+    },
+    "workday-ing-REQ-10122371": {
+      "slug": "ing-intern-sustainable-solutions-group-apac",
+      "since": "2026-09-30"
+    },
+    "workday-ing-REQ-10122452": {
+      "slug": "ing-human-resources-internship-recruitment-area-ing-bank",
+      "since": "2026-09-30"
+    },
+    "workday-ing-REQ-10122484": {
+      "slug": "ing-internship-sales-support",
+      "since": "2026-09-30"
     },
     "workday-intel-JR0281401": {
       "slug": "intel-practical-engineering-student-kiryat-gat",
@@ -6744,6 +6804,10 @@
       "slug": "intel-intel-npu-internship",
       "since": "2026-09-18"
     },
+    "workday-intel-JR0286916": {
+      "slug": "intel-module-engineering-phd-intern-summer-2027",
+      "since": "2026-09-30"
+    },
     "workday-intel-JR0286932": {
       "slug": "intel-module-engineering-phd-intern-2",
       "since": "2026-09-18"
@@ -6916,6 +6980,10 @@
       "slug": "mastercard-intern-product-management-cairo-egypt",
       "since": "2026-09-27"
     },
+    "workday-mastercard-R-285384-2": {
+      "slug": "mastercard-associate-product-specialist-graduate-launch-program-cairo-egypt",
+      "since": "2026-09-30"
+    },
     "workday-mastercard-R-286481": {
       "slug": "mastercard-internship-program-2027-s-o-paulo-brazil",
       "since": "2026-09-01"
@@ -6967,6 +7035,10 @@
     "workday-mastercard-R-287715-1": {
       "slug": "mastercard-associate-consultant-intern-summer-2027-milan-italy",
       "since": "2026-09-24"
+    },
+    "workday-mastercard-R-287716-1": {
+      "slug": "mastercard-associate-consultant-intern-2027-warsaw-poland",
+      "since": "2026-09-30"
     },
     "workday-mastercard-R-287717-2": {
       "slug": "mastercard-global-markets-intern-2027-warsaw-poland",
@@ -7811,6 +7883,10 @@
     "workday-visa-REF086805W": {
       "slug": "visa-marketing-services-intern-students-graduating-summer-2028-or-december-2027-us",
       "since": "2026-09-18"
+    },
+    "workday-visa-REF088350W": {
+      "slug": "visa-controllership-intern",
+      "since": "2026-09-30"
     },
     "workday-visa-REF088379W": {
       "slug": "visa-software-engineer-placement-year",
