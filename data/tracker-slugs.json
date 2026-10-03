@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-02T13:04:16.652Z",
-  "count": 2106,
+  "generatedAt": "2026-10-03T11:56:46.780Z",
+  "count": 2142,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -24,9 +24,29 @@
         "cohere-software-engineer-intern-fall-winter-2026"
       ]
     },
+    "ashby-harvey-06d64648-b84b-48ae-94a2-d9c06dfdcb5d": {
+      "slug": "harvey-software-engineering-intern-summer-2027",
+      "since": "2026-10-03"
+    },
+    "ashby-harvey-3a34578d-d42e-45bb-ac5c-0c3357e8cbb7": {
+      "slug": "harvey-software-engineering-intern-summer-2027-us",
+      "since": "2026-10-03"
+    },
+    "ashby-harvey-4d8dc9ba-eb86-4d88-af7d-65d2fdaf3fdc": {
+      "slug": "harvey-software-engineer-new-grad-2027",
+      "since": "2026-10-03"
+    },
     "ashby-harvey-a194c24f-38ee-4c7e-908b-060a16dfaa9d": {
       "slug": "harvey-law-school-student-ambassador",
       "since": "2026-09-18"
+    },
+    "ashby-harvey-b0996df6-6b6e-42be-a4f9-0084536068f5": {
+      "slug": "harvey-software-engineer-new-grad-2027-us",
+      "since": "2026-10-03"
+    },
+    "ashby-harvey-d40e15aa-2351-4be8-ac8f-1faf60bfcdbf": {
+      "slug": "harvey-software-engineering-intern-winter-2027",
+      "since": "2026-10-03"
     },
     "ashby-modal-38888294-6bc7-4dab-b072-6d0f0c2ed79a": {
       "slug": "modal-ml-research-intern",
@@ -408,6 +428,14 @@
       "slug": "millennium-2026-commodity-research-and-trading-analytics-intern-houston",
       "since": "2026-09-01"
     },
+    "greenhouse-affirm-8008645003": {
+      "slug": "affirm-software-engineer-machine-learning-intern-summer-2027",
+      "since": "2026-10-03"
+    },
+    "greenhouse-affirm-8011590003": {
+      "slug": "affirm-software-engineer-intern-summer-2027",
+      "since": "2026-10-03"
+    },
     "greenhouse-airbnb-8154749": {
       "slug": "airbnb-early-career-software-engineer-quality-engineering",
       "since": "2026-09-29"
@@ -503,6 +531,18 @@
     "greenhouse-aqr-8224708": {
       "slug": "aqr-capital-management-2027-phd-summer-associate-machine-learning-research",
       "since": "2026-09-24"
+    },
+    "greenhouse-brex-8864170002": {
+      "slug": "brex-brex-rotational-program",
+      "since": "2026-10-03"
+    },
+    "greenhouse-brex-8864174002": {
+      "slug": "brex-brex-rotational-program-us",
+      "since": "2026-10-03"
+    },
+    "greenhouse-brex-8864176002": {
+      "slug": "brex-brex-rotational-program-2",
+      "since": "2026-10-03"
     },
     "greenhouse-cloudflare-7838607": {
       "slug": "cloudflare-marketing-campaigns-and-account-based-marketing-abm-intern-fall-2026",
@@ -660,6 +700,14 @@
       "slug": "coinbase-tax-information-reporting-intern",
       "since": "2026-09-24"
     },
+    "greenhouse-databricks-6866531002": {
+      "slug": "databricks-software-engineering-intern-2027-start-berlin",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-6866534002": {
+      "slug": "databricks-software-engineering-intern-2027-start-amsterdam",
+      "since": "2026-10-03"
+    },
     "greenhouse-databricks-6883068002": {
       "slug": "databricks-product-management-intern-summer-2027",
       "since": "2026-09-18"
@@ -672,9 +720,45 @@
       "slug": "databricks-associate-product-manager-new-grad-2027-start",
       "since": "2026-09-18"
     },
+    "greenhouse-databricks-7640764002": {
+      "slug": "databricks-software-engineering-intern-2027-start-belgrade",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8133710002": {
+      "slug": "databricks-software-engineering-intern-2027-start-aarhus",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8133715002": {
+      "slug": "databricks-product-management-intern-2026-amsterdam",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8133727002": {
+      "slug": "databricks-product-manager-new-grad-2026-amsterdam",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8145776002": {
+      "slug": "databricks-product-management-intern-2026-berlin",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8145800002": {
+      "slug": "databricks-product-manager-new-grad-2026-berlin",
+      "since": "2026-10-03"
+    },
     "greenhouse-databricks-8732364002": {
       "slug": "databricks-software-engineering-intern-2027-start-winter",
       "since": "2026-09-18"
+    },
+    "greenhouse-databricks-8847738002": {
+      "slug": "databricks-software-engineering-intern-2027-start-london",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8863326002": {
+      "slug": "databricks-product-manager-new-grad-2026-belgrade",
+      "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8863328002": {
+      "slug": "databricks-product-management-intern-2026-belgrade",
+      "since": "2026-10-03"
     },
     "greenhouse-datadog-8002922": {
       "slug": "datadog-product-marketing-manager-apm",
@@ -843,6 +927,14 @@
     "greenhouse-gemini-8214332": {
       "slug": "gemini-product-management-intern-winter-2027",
       "since": "2026-09-20"
+    },
+    "greenhouse-gemini-8240204": {
+      "slug": "gemini-prediction-markets-operations-intern-winter-2027",
+      "since": "2026-10-03"
+    },
+    "greenhouse-gemini-8243097": {
+      "slug": "gemini-brand-design-intern-winter-2027",
+      "since": "2026-10-03"
     },
     "greenhouse-gusto-8001931": {
       "slug": "gusto-future-opportunities-early-career-sales-talent",
@@ -1372,6 +1464,10 @@
     "greenhouse-lyft-8843341002": {
       "slug": "lyft-applied-scientist-intern-summer-2027",
       "since": "2026-09-29"
+    },
+    "greenhouse-lyft-8862215002": {
+      "slug": "lyft-hardware-field-quality-engineer-intern-summer-2027",
+      "since": "2026-10-03"
     },
     "greenhouse-mangroup-4960444101": {
       "slug": "man-group-systematic-graduate-rotational-quant",
@@ -4012,6 +4108,10 @@
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-global-sales-amsterdam",
       "since": "2026-09-29"
     },
+    "talnet-morganstanley-tal-net-22262": {
+      "slug": "morgan-stanley-2027-investment-management-summer-analyst-programme-global-sales-and-marketing-london",
+      "since": "2026-10-03"
+    },
     "talnet-nomuracampus-tal-net-1426": {
       "slug": "nomura-2027-investment-banking-client-financing-solutions-summer-internship-london",
       "since": "2026-09-18"
@@ -4472,6 +4572,10 @@
       "slug": "accenture-graduate-and-junior-strategy-professionals",
       "since": "2026-09-24"
     },
+    "workday-accenture-R00358098": {
+      "slug": "accenture-public-services-strategy-and-consulting-internship",
+      "since": "2026-10-03"
+    },
     "workday-accenture-R00358147": {
       "slug": "accenture-accenture-spring-internship-2027",
       "since": "2026-09-24"
@@ -4487,6 +4591,10 @@
     "workday-accenture-R00360523": {
       "slug": "accenture-partners-in-performance-performance-strategy-associate-current-masters-degree-students-canada-naelfy27",
       "since": "2026-10-02"
+    },
+    "workday-accenture-R00361148": {
+      "slug": "accenture-strategy-summer-consultant-mba-internship-naelfy27",
+      "since": "2026-10-03"
     },
     "workday-accenture-R00361150": {
       "slug": "accenture-cv-workshop-get-your-cv-ready-for-accenture-s-graduate-hiring-round",
@@ -5188,6 +5296,10 @@
       "slug": "barclays-sales-trading-and-structuring-graduate-programme-2027-zurich",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000134430": {
+      "slug": "barclays-trading-analyst-summer-internship-program-2027-mexico-city",
+      "since": "2026-10-03"
+    },
     "workday-blackstone-40628": {
       "slug": "blackstone-2027-blackstone-real-estate-summer-analyst-tokyo",
       "since": "2026-09-18"
@@ -5747,6 +5859,10 @@
     "workday-cibc-2620020-1": {
       "slug": "cibc-administrative-assistant-co-op-vancouver-bc-winter-2027",
       "since": "2026-09-30"
+    },
+    "workday-cibc-2620365-1": {
+      "slug": "cibc-branch-assistant-co-op-thornhill-on-winter-2027",
+      "since": "2026-10-03"
     },
     "workday-citi-24743918-1": {
       "slug": "citi-fresh-graduate-finance-economics-mathematics-accounting-business-administration-commerce",
@@ -6549,6 +6665,10 @@
     "workday-huron-JR-0016390": {
       "slug": "huron-consulting-group-turnaround-and-restructuring-analyst-2027-graduates-q3-q4-2027-start-dates-chicago-or-ny",
       "since": "2026-09-20"
+    },
+    "workday-huron-JR-0016746": {
+      "slug": "huron-consulting-group-it-contact-support-intern-pensacola-florida-onsite-opportunity",
+      "since": "2026-10-03"
     },
     "workday-ing-REQ-10090756": {
       "slug": "ing-internship-customer-journey-expert",
@@ -7496,6 +7616,10 @@
       "slug": "northwestern-mutual-actuarial-systems-intern-summer-2027",
       "since": "2026-09-25"
     },
+    "workday-northwesternmutual-JR-46144": {
+      "slug": "northwestern-mutual-risk-product-accounting-intern-year-round",
+      "since": "2026-10-03"
+    },
     "workday-nvidia-JR2008771": {
       "slug": "nvidia-formal-verification-engineer-new-college-graduate",
       "since": "2026-09-18"
@@ -8191,6 +8315,26 @@
     "workday-vanguard-182371-1": {
       "slug": "vanguard-2027-spring-summer-co-op-opportunities-malvern-philly",
       "since": "2026-09-18"
+    },
+    "workday-vanguard-182757": {
+      "slug": "vanguard-college-to-corporate-it-internship-application-development-pa",
+      "since": "2026-10-03"
+    },
+    "workday-vanguard-182781": {
+      "slug": "vanguard-college-to-corporate-it-internship-application-development-nc-us",
+      "since": "2026-10-03"
+    },
+    "workday-vanguard-182782": {
+      "slug": "vanguard-college-to-corporate-it-internship-investment-systems-pa-us",
+      "since": "2026-10-03"
+    },
+    "workday-vanguard-182784": {
+      "slug": "vanguard-college-to-corporate-it-internship-risk-and-security-engineer-pa-us",
+      "since": "2026-10-03"
+    },
+    "workday-vanguard-182785": {
+      "slug": "vanguard-college-to-corporate-it-internship-risk-and-security-engineer-nc-us",
+      "since": "2026-10-03"
     },
     "workday-visa-REF080346W-1": {
       "slug": "visa-consulting-and-analytics-graduate",
