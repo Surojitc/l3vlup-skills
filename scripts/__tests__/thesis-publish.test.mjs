@@ -147,6 +147,9 @@ test('an input the dropdown could not have produced resolves to nothing', () => 
   assert.ok(parseArgs(['--from-env'], { DOCUMENT_SET: 'pilot-two', BUDGET_USD: '3', MODEL: 'gpt-x' }).problems.some((p) => /not on the allowlist/.test(p)));
   // The default set is the two-document pilot.
   assert.deepEqual(DOCUMENT_SETS['pilot-two'].length, 2);
+  // The launch set is four named documents, and every one is offered by the dropdown.
+  assert.deepEqual(DOCUMENT_SETS['launch-four'].length, 4);
+  for (const set of Object.keys(DOCUMENT_SETS)) assert.match(WF, new RegExp(`- ${set}\\n`), `${set} is not in the workflow dropdown`);
   assert.match(WF, /document_set:[\s\S]*?default: 'pilot-two'/);
 });
 

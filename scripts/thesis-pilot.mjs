@@ -105,6 +105,12 @@ export const DOCUMENT_SETS = Object.freeze({
   'pilot-two': ['starboard-value-2026-03-11', 'southeastern-2026-09-04'],
   'starboard-value-2026-03-11': ['starboard-value-2026-03-11'],
   'southeastern-2026-09-04': ['southeastern-2026-09-04'],
+  // The launch corpus: the four short documents on Suro's 17 September
+  // approval list that fit inside one run's 18-call ceiling (about 16 calls).
+  // With pilot-two's Starboard/CarMax claims this is three managers, four
+  // companies and a manager writing twice. The two Oakmark reports and the
+  // 2025 Longleaf report exceed the 12-chunk ceiling and are not here.
+  'launch-four': ['elliott-2025-04-09', 'starboard-value-2025-03-19', 'ruane-cunniff-2025-03-04', 'ruane-cunniff-2026-02-26'],
 });
 
 export function parseArgs(argv, env = {}) {
