@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-04T12:47:39.061Z",
-  "count": 2143,
+  "generatedAt": "2026-10-05T15:11:54.020Z",
+  "count": 2160,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -3689,6 +3689,10 @@
       "slug": "jpmorgan-chase-relationship-banker-campus-irvine-ca",
       "since": "2026-10-02"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210795737": {
+      "slug": "jpmorgan-chase-2027-global-corporate-banking-cee-team-off-cycle-internship-program-warsaw",
+      "since": "2026-10-05"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210796243": {
       "slug": "jpmorgan-chase-2027-firmwide-switzerland-working-student-asset-management-sales-support-zurich",
       "since": "2026-10-01"
@@ -4008,6 +4012,10 @@
       "slug": "morgan-stanley-2027-investment-banking-off-cycle-internship-london",
       "since": "2026-09-18"
     },
+    "talnet-morganstanley-tal-net-21791": {
+      "slug": "morgan-stanley-2027-investment-banking-off-cycle-internship-tel-aviv",
+      "since": "2026-10-05"
+    },
     "talnet-morganstanley-tal-net-21794": {
       "slug": "morgan-stanley-2027-investment-banking-off-cycle-internship-stockholm",
       "since": "2026-09-18"
@@ -4103,6 +4111,10 @@
     "talnet-morganstanley-tal-net-22234": {
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-fixed-income-london",
       "since": "2026-09-25"
+    },
+    "talnet-morganstanley-tal-net-22238": {
+      "slug": "morgan-stanley-2027-operations-off-cycle-internship-paris",
+      "since": "2026-10-05"
     },
     "talnet-morganstanley-tal-net-22242": {
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-global-sales-amsterdam",
@@ -4587,6 +4599,10 @@
     "workday-accenture-R00359243": {
       "slug": "accenture-consulting-graduate-programme-january-2027",
       "since": "2026-09-25"
+    },
+    "workday-accenture-R00359932": {
+      "slug": "accenture-resources-strategy-and-consulting-working-internship",
+      "since": "2026-10-05"
     },
     "workday-accenture-R00360523": {
       "slug": "accenture-partners-in-performance-performance-strategy-associate-current-masters-degree-students-canada-naelfy27",
@@ -5676,6 +5692,10 @@
       "slug": "bmo-capital-markets-investment-intern-gam-summer-2027-co-op-internship-4-months",
       "since": "2026-09-30"
     },
+    "workday-capitalone-R1002165-1": {
+      "slug": "capital-one-intern-data-scientist-summer-2027",
+      "since": "2026-10-05"
+    },
     "workday-capitalone-R242577-1": {
       "slug": "capital-one-associate-strategy-analyst-new-grad-2027",
       "since": "2026-09-18"
@@ -5863,6 +5883,10 @@
     "workday-cibc-2620365-1": {
       "slug": "cibc-branch-assistant-co-op-thornhill-on-winter-2027",
       "since": "2026-10-03"
+    },
+    "workday-cibc-2620494-1": {
+      "slug": "cibc-investment-strategy-analyst-wealth-solutions-winter-co-op-2027",
+      "since": "2026-10-05"
     },
     "workday-citi-24743918-1": {
       "slug": "citi-fresh-graduate-finance-economics-mathematics-accounting-business-administration-commerce",
@@ -6135,6 +6159,10 @@
         "citi-young-apprentice-c00-chennai-us"
       ]
     },
+    "workday-citi-26986350": {
+      "slug": "citi-young-apprentice-c00-mumbai-5",
+      "since": "2026-10-05"
+    },
     "workday-citi-26987934": {
       "slug": "citi-banking-corporate-banking-internship-s-o-paulo-brazil-2026",
       "since": "2026-09-01"
@@ -6142,6 +6170,10 @@
     "workday-citi-26987941": {
       "slug": "citi-young-apprentice-c00-mumbai-3",
       "since": "2026-09-20"
+    },
+    "workday-citi-26988154": {
+      "slug": "citi-young-apprentice-c00-mumbai-6",
+      "since": "2026-10-05"
     },
     "workday-citi-26988474": {
       "slug": "citi-wealth-citigold-summer-analyst-hong-kong-2027",
@@ -6374,6 +6406,10 @@
     "workday-fticonsulting-JR260677": {
       "slug": "fti-consulting-2027-business-analyst-intern-strategy-and-transformation",
       "since": "2026-10-01"
+    },
+    "workday-fticonsulting-JR260682": {
+      "slug": "fti-consulting-intern-economic-and-financial-consulting",
+      "since": "2026-10-05"
     },
     "workday-fticonsulting-JR260691": {
       "slug": "fti-consulting-2027-intern-human-resources",
@@ -6786,6 +6822,10 @@
       "slug": "ing-intern-sales-ai-adoption-support-f-m-x",
       "since": "2026-09-01"
     },
+    "workday-ing-REQ-10120029": {
+      "slug": "ing-intern-trade-sales-account-management",
+      "since": "2026-10-05"
+    },
     "workday-ing-REQ-10120094": {
       "slug": "ing-wb-client-services-account-manager-intern-wholesale-banking-operations-coo",
       "since": "2026-09-18"
@@ -6953,6 +6993,10 @@
       "slug": "ing-intern-financial-market-sales-shanghai",
       "since": "2026-09-24"
     },
+    "workday-ing-REQ-10121923": {
+      "slug": "ing-power-platform-intern",
+      "since": "2026-10-05"
+    },
     "workday-ing-REQ-10121932": {
       "slug": "ing-internship-data-and-ai-engineering",
       "since": "2026-09-24"
@@ -7025,9 +7069,17 @@
       "slug": "ing-internship-sales-support",
       "since": "2026-09-30"
     },
+    "workday-ing-REQ-10122531": {
+      "slug": "ing-intern-transaction-services-sales",
+      "since": "2026-10-05"
+    },
     "workday-ing-REQ-10122546": {
       "slug": "ing-internship-portfolio-management-project-finance-nl",
       "since": "2026-10-02"
+    },
+    "workday-ing-REQ-10122693": {
+      "slug": "ing-hr-intern-internal-communications-learning-and-engagement-hr4hr",
+      "since": "2026-10-05"
     },
     "workday-intel-JR0281401": {
       "slug": "intel-practical-engineering-student-kiryat-gat",
@@ -7460,6 +7512,10 @@
       "slug": "mastercard-associate-consultant-intern-winter-2027-morocco",
       "since": "2026-10-01"
     },
+    "workday-mastercard-R-287599-1": {
+      "slug": "mastercard-product-management-intern-summer-2027-dubai-uae-uae-nationals-preferred",
+      "since": "2026-10-05"
+    },
     "workday-mastercard-R-287624-1": {
       "slug": "mastercard-product-management-intern-summer-2027-united-states",
       "since": "2026-09-24"
@@ -7535,6 +7591,10 @@
     "workday-mastercard-R-292561-2": {
       "slug": "mastercard-global-markets-account-management-and-product-management-summer-internship-program-2027-istanbul-t-rkiye",
       "since": "2026-10-01"
+    },
+    "workday-mastercard-R-292816-2": {
+      "slug": "mastercard-global-markets-launch-graduate-rotational-program-2027-associate-product-specialist-and-associate-analyst-account-management-dubai-uae-uae-nationals-preferred",
+      "since": "2026-10-05"
     },
     "workday-mizuho-R6459": {
       "slug": "mizuho-greenhill-off-cycle-analyst-january-june-2026-madrid",
@@ -8040,6 +8100,10 @@
       "slug": "harris-williams-2027-manda-summer-associate-boston",
       "since": "2026-09-18"
     },
+    "workday-raymondjames-R-0012141": {
+      "slug": "raymond-james-2027-investment-banking-summer-analyst-financial-services-chicago-il",
+      "since": "2026-10-05"
+    },
     "workday-raymondjames-R-0012143": {
       "slug": "raymond-james-2027-investment-banking-summer-analyst-private-capital-advisory-new-york-ny",
       "since": "2026-09-18"
@@ -8107,6 +8171,10 @@
     "workday-raymondjames-R-0013001": {
       "slug": "raymond-james-2027-summer-internship-program-private-client-banking-strategy-analytics-and-sales-intern-st-petersburg-fl",
       "since": "2026-09-18"
+    },
+    "workday-raymondjames-R-0013018": {
+      "slug": "raymond-james-2026-fall-virtual-sophomore-program-investment-banking-bootcamp-for-2028-summer-analyst-opportunities",
+      "since": "2026-10-05"
     },
     "workday-raymondjames-R-0013026": {
       "slug": "raymond-james-2027-summer-internship-program-hr-support-services-intern-st-petersburg-fl",
