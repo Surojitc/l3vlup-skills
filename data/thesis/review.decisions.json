@@ -1,0 +1,73 @@
+{
+  "reviewVersion": 1,
+  "runId": "37377940091 + 35928409902",
+  "reviewedBy": "Suro",
+  "reviewedOn": "2026-10-06",
+  "instructions": "For each claim set \"decision\" to \"accept\", \"edit\" (and write \"editedParaphrase\") or \"reject\". Name the company and ticker. Leave \"transition\" as \"initiated\" for a first observation. A claim left null stays out of the feed.",
+  "decisions": [
+    {
+      "claimId": "c-0000921895-25-000816-10969-11198-abff0c229b",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Autodesk, Inc.",
+      "ticker": "ADSK",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-25-000816-4548-4693-5daec08364",
+      "decision": "reject",
+      "editedParaphrase": null,
+      "issuerName": null,
+      "ticker": null,
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-25-000816-9773-9909-b78df6f482",
+      "decision": "edit",
+      "editedParaphrase": "Starboard argues Autodesk's margin guidance understates the scope for improvement because announced cost savings and incremental margins on revenue growth should support greater margin expansion.",
+      "issuerName": "Autodesk, Inc.",
+      "ticker": "ADSK",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-25-001028-4314-4417-e1ef594557",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Phillips 66",
+      "ticker": "PSX",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-25-001028-5015-5198-5a2f72d21f",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Phillips 66",
+      "ticker": "PSX",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-26-000666-11435-11627-eec6bdfe3e",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "CarMax, Inc.",
+      "ticker": "KMX",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-26-000666-14315-14460-ba1e843cb2",
+      "decision": "reject",
+      "editedParaphrase": null,
+      "issuerName": null,
+      "ticker": null,
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-26-000666-15592-15712-fe6b82a3d1",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "CarMax, Inc.",
+      "ticker": "KMX",
+      "transition": "initiated"
+    }
+  ]
+}
