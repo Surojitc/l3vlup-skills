@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-05T15:11:54.020Z",
-  "count": 2160,
+  "generatedAt": "2026-10-06T13:33:35.266Z",
+  "count": 2193,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -592,6 +592,18 @@
       "slug": "cloudflare-software-engineer-intern-2027-austin-tx",
       "since": "2026-09-29"
     },
+    "greenhouse-cloudflare-8241790": {
+      "slug": "cloudflare-people-analytics-data-engineering-intern-winter-spring-2027",
+      "since": "2026-10-06"
+    },
+    "greenhouse-cloudflare-8245197": {
+      "slug": "cloudflare-software-engineer-intern-2027",
+      "since": "2026-10-06"
+    },
+    "greenhouse-cloudflare-8245211": {
+      "slug": "cloudflare-software-engineer-intern-2027-us",
+      "since": "2026-10-06"
+    },
     "greenhouse-coinbase-8168315": {
       "slug": "coinbase-software-engineer-intern",
       "since": "2026-09-18"
@@ -843,6 +855,10 @@
     "greenhouse-figma-6200626004": {
       "slug": "figma-phd-intern-data-science-2027",
       "since": "2026-09-24"
+    },
+    "greenhouse-figma-6207801004": {
+      "slug": "figma-phd-intern-ai-applied-scientist-2027",
+      "since": "2026-10-06"
     },
     "greenhouse-flexport-5850324": {
       "slug": "flexport-inbound-sales-development-representative-new-grad",
@@ -1393,6 +1409,10 @@
       "slug": "lincoln-international-2027-summer-analyst-intern-valuations-and-opinions-group-us",
       "since": "2026-09-29"
     },
+    "greenhouse-lincolninternational-8255813": {
+      "slug": "lincoln-international-debt-advisory-internship-march-2027",
+      "since": "2026-10-06"
+    },
     "greenhouse-lyft-8767534002": {
       "slug": "lyft-software-engineer-intern-test-automation-summer-2027",
       "since": "2026-09-18"
@@ -1588,6 +1608,10 @@
     "greenhouse-pinterest-8214757": {
       "slug": "pinterest-machine-learning-intern-2027-zurich",
       "since": "2026-10-02"
+    },
+    "greenhouse-pinterest-8244922": {
+      "slug": "pinterest-machine-learning-intern-2027-dublin",
+      "since": "2026-10-06"
     },
     "greenhouse-point72-7297598002": {
       "slug": "point72-cubist-quantitative-researcher-intern",
@@ -4120,6 +4144,10 @@
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-global-sales-amsterdam",
       "since": "2026-09-29"
     },
+    "talnet-morganstanley-tal-net-22261": {
+      "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-institutional-sales-milan",
+      "since": "2026-10-06"
+    },
     "talnet-morganstanley-tal-net-22262": {
       "slug": "morgan-stanley-2027-investment-management-summer-analyst-programme-global-sales-and-marketing-london",
       "since": "2026-10-03"
@@ -4616,6 +4644,10 @@
       "slug": "accenture-cv-workshop-get-your-cv-ready-for-accenture-s-graduate-hiring-round",
       "since": "2026-10-01"
     },
+    "workday-accenture-R00362198": {
+      "slug": "accenture-accenture-strategy-summer-analyst-may-to-aug-2027",
+      "since": "2026-10-06"
+    },
     "workday-athene-R253683": {
       "slug": "apollo-global-management-2026-summer-associate-treasury-and-business-management",
       "since": "2026-09-18"
@@ -5024,9 +5056,17 @@
       "slug": "barclays-2027-retail-business-and-customer-banking-graduate-programme-northampton",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000129097-1": {
+      "slug": "barclays-2027-operations-analyst-graduate-programme-glasgow",
+      "since": "2026-10-06"
+    },
     "workday-barclays-JR-0000129101": {
       "slug": "barclays-2027-risk-analyst-graduate-programme-london",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000129104-1": {
+      "slug": "barclays-2027-operations-analyst-graduate-programme-knutsford",
+      "since": "2026-10-06"
     },
     "workday-barclays-JR-0000129105": {
       "slug": "barclays-2027-retail-business-and-customer-banking-summer-internship-programme-northampton",
@@ -5040,9 +5080,17 @@
       "slug": "barclays-2027-risk-analyst-summer-internship-programme-glasgow",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000129111": {
+      "slug": "barclays-2027-operations-analyst-summer-internship-programme-glasgow",
+      "since": "2026-10-06"
+    },
     "workday-barclays-JR-0000129118": {
       "slug": "barclays-2027-operations-analyst-summer-internship-programme-london",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000129124": {
+      "slug": "barclays-2027-operations-analyst-summer-internship-programme-knutsford",
+      "since": "2026-10-06"
     },
     "workday-barclays-JR-0000129125": {
       "slug": "barclays-2027-risk-analyst-higher-apprenticeship-programme-northampton",
@@ -6491,6 +6539,10 @@
       "slug": "fti-consulting-et-2027-graduate-scheme-digital-forensics",
       "since": "2026-10-01"
     },
+    "workday-fticonsulting-JR261035": {
+      "slug": "fti-consulting-analyst-intern-investment-banking",
+      "since": "2026-10-06"
+    },
     "workday-fticonsulting-JR261122": {
       "slug": "fti-consulting-intern-legal-and-compliance-technology",
       "since": "2026-09-01"
@@ -6514,6 +6566,14 @@
     "workday-guidehouse-43287": {
       "slug": "guidehouse-consultant-life-sciences-advisory-health-segment-campus-2027",
       "since": "2026-09-20"
+    },
+    "workday-guidehouse-43429": {
+      "slug": "guidehouse-consultant-centers-for-disease-control-and-prevention-federal-health-advisory-campus-2027",
+      "since": "2026-10-06"
+    },
+    "workday-guidehouse-43433-1": {
+      "slug": "guidehouse-consulting-analyst-centers-for-disease-control-and-prevention-federal-health-advisory-campus-2027",
+      "since": "2026-10-06"
     },
     "workday-guidehouse-43438": {
       "slug": "guidehouse-consulting-analyst-state-and-local-government-campus-2027",
@@ -6562,6 +6622,18 @@
     "workday-guidehouse-45153": {
       "slug": "guidehouse-intern-health-and-human-services-federal-health-advisory-campus-2027",
       "since": "2026-10-02"
+    },
+    "workday-guidehouse-45239": {
+      "slug": "guidehouse-intern-centers-for-disease-control-and-prevention-federal-health-advisory-campus-2027",
+      "since": "2026-10-06"
+    },
+    "workday-guidehouse-45252": {
+      "slug": "guidehouse-consultant-life-sciences-advisory-health-segment-campus-2027-us",
+      "since": "2026-10-06"
+    },
+    "workday-guidehouse-45253": {
+      "slug": "guidehouse-consulting-analyst-life-sciences-advisory-health-segment-campus-2027",
+      "since": "2026-10-06"
     },
     "workday-hl-R2525": {
       "slug": "houlihan-lokey-3-month-internship-financial-restructuring-q3-2026",
@@ -6705,6 +6777,10 @@
     "workday-huron-JR-0016746": {
       "slug": "huron-consulting-group-it-contact-support-intern-pensacola-florida-onsite-opportunity",
       "since": "2026-10-03"
+    },
+    "workday-huron-JR-0016772": {
+      "slug": "huron-consulting-group-it-contact-support-intern-chicago-il-onsite-opportunity",
+      "since": "2026-10-06"
     },
     "workday-ing-REQ-10090756": {
       "slug": "ing-internship-customer-journey-expert",
@@ -7081,6 +7157,10 @@
       "slug": "ing-hr-intern-internal-communications-learning-and-engagement-hr4hr",
       "since": "2026-10-05"
     },
+    "workday-ing-REQ-10122759": {
+      "slug": "ing-intern-financial-markets-business-management",
+      "since": "2026-10-06"
+    },
     "workday-intel-JR0281401": {
       "slug": "intel-practical-engineering-student-kiryat-gat",
       "since": "2026-09-28"
@@ -7412,9 +7492,21 @@
       "slug": "intel-finance-intern-asia",
       "since": "2026-09-25"
     },
+    "workday-intel-JR0287524": {
+      "slug": "intel-ai-solution-architect-graduate-intern",
+      "since": "2026-10-06"
+    },
     "workday-intel-JR0287525": {
       "slug": "intel-research-scientist-intern-graphics-ml",
       "since": "2026-10-01"
+    },
+    "workday-intel-JR0287530": {
+      "slug": "intel-ai-solution-architect-graduate-intern-us",
+      "since": "2026-10-06"
+    },
+    "workday-intel-JR0287531": {
+      "slug": "intel-ai-solution-architect-undergraduate-intern",
+      "since": "2026-10-06"
     },
     "workday-intel-JR0287532": {
       "slug": "intel-gpu-physical-design-engineer-intern",
@@ -7440,6 +7532,10 @@
       "slug": "intel-graduate-talent-iscp-soc-front-end-team-asia",
       "since": "2026-09-28"
     },
+    "workday-intel-JR0287613": {
+      "slug": "intel-cpu-core-physical-design-technical-graduate-intern-spring",
+      "since": "2026-10-06"
+    },
     "workday-intel-JR0287624": {
       "slug": "intel-graduate-talent-physical-design-engineer-asia",
       "since": "2026-09-29"
@@ -7448,9 +7544,17 @@
       "slug": "intel-platform-validation-intern",
       "since": "2026-10-02"
     },
+    "workday-intel-JR0287683": {
+      "slug": "intel-module-engineering-phd-intern-3",
+      "since": "2026-10-06"
+    },
     "workday-intel-JR0287787": {
       "slug": "intel-haifa-lab-technician-student",
       "since": "2026-10-04"
+    },
+    "workday-intel-JR0287840": {
+      "slug": "intel-project-analyst-student",
+      "since": "2026-10-06"
     },
     "workday-investpsp-R4850": {
       "slug": "psp-investments-intern-private-equity-london-6-months-off-cycle-january-june-2027",
@@ -7511,6 +7615,14 @@
     "workday-mastercard-R-287592-2": {
       "slug": "mastercard-associate-consultant-intern-winter-2027-morocco",
       "since": "2026-10-01"
+    },
+    "workday-mastercard-R-287594-2": {
+      "slug": "mastercard-associate-consultant-intern-summer-2027-saudi-arabia",
+      "since": "2026-10-06"
+    },
+    "workday-mastercard-R-287598-2": {
+      "slug": "mastercard-global-markets-summer-internship-2027-product-management-intern-and-sales-analyst-intern-dubai-uae-uae-nationals-preferred",
+      "since": "2026-10-06"
     },
     "workday-mastercard-R-287599-1": {
       "slug": "mastercard-product-management-intern-summer-2027-dubai-uae-uae-nationals-preferred",
@@ -7596,6 +7708,10 @@
       "slug": "mastercard-global-markets-launch-graduate-rotational-program-2027-associate-product-specialist-and-associate-analyst-account-management-dubai-uae-uae-nationals-preferred",
       "since": "2026-10-05"
     },
+    "workday-mastercard-R-292933-2": {
+      "slug": "mastercard-global-markets-summer-internship-2027-product-management-intern-and-sales-analyst-intern-riyadh-saudi-arabia",
+      "since": "2026-10-06"
+    },
     "workday-mizuho-R6459": {
       "slug": "mizuho-greenhill-off-cycle-analyst-january-june-2026-madrid",
       "since": "2026-09-18"
@@ -7643,6 +7759,10 @@
     "workday-mizuho-R7435": {
       "slug": "mizuho-2027-manda-summer-associate-us",
       "since": "2026-10-01"
+    },
+    "workday-mizuho-R7442": {
+      "slug": "mizuho-mizuho-greenhill-investment-banking-off-cycle-internship-january-june-2027-singapore",
+      "since": "2026-10-06"
     },
     "workday-northwesternmutual-JR-45580-1": {
       "slug": "northwestern-mutual-actuarial-intern-summer-2027",
@@ -8080,6 +8200,10 @@
       "slug": "omers-student-ai-enablement-and-adoption-specialist-winter-2027-8-months-toronto",
       "since": "2026-10-02"
     },
+    "workday-omers-JR-8488": {
+      "slug": "omers-intern-real-estate-investments",
+      "since": "2026-10-06"
+    },
     "workday-pjtpartners-R0003456": {
       "slug": "pjt-partners-associate-campus-recruiter",
       "since": "2026-09-18"
@@ -8211,6 +8335,10 @@
     "workday-santander-Req1615122": {
       "slug": "santander-intern-it-governance",
       "since": "2026-09-25"
+    },
+    "workday-santander-Req1623015": {
+      "slug": "santander-intern-csu-mexico",
+      "since": "2026-10-06"
     },
     "workday-thinkbrg-JR100655": {
       "slug": "berkeley-research-group-internship-competition-economics-october-2026-start-europe",
@@ -8746,6 +8874,10 @@
     "workday-wf-R-577361": {
       "slug": "wells-fargo-commercial-real-estate-early-career-program",
       "since": "2026-09-24"
+    },
+    "workday-wf-R-578899": {
+      "slug": "wells-fargo-off-cycle-manda-intern-analyst",
+      "since": "2026-10-06"
     }
   }
 }
