@@ -1,0 +1,162 @@
+{
+  "id": "lbo-sanity-check",
+  "name": "LBO Sanity Check",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "banking",
+  "roles": [
+    "PE",
+    "IB"
+  ],
+  "difficulty": "Intermediate",
+  "inputs": [
+    {
+      "name": "LBO model or headline assumptions (entry/exit multiple, leverage, growth, margins, hold)",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "Context: live deal review, screening or interview case",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Decompose returns",
+      "primitive": "calculate",
+      "detail": "Bridge from entry equity to exit equity: deleveraging, EBITDA growth, margin change, multiple change. Attribute the MOIC."
+    },
+    {
+      "title": "Name the load-bearing driver",
+      "primitive": "reason",
+      "detail": "Every LBO has one assumption doing most of the work. Find it."
+    },
+    {
+      "title": "Benchmark the assumptions",
+      "primitive": "calculate",
+      "detail": "Entry vs comparable deals, growth vs company history, exit multiple vs entry (expansion needs a story)."
+    },
+    {
+      "title": "Test the downside",
+      "primitive": "calculate",
+      "detail": "Flat EBITDA, exit at entry multiple, one turn less leverage — does the deal still clear the hurdle?"
+    },
+    {
+      "title": "Write the challenges",
+      "primitive": "draft",
+      "detail": "The 3-5 questions the IC will ask, with the numbers that answer them."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Computing the returns attribution bridge from the model"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Building the sensitivity grid (exit multiple × growth)"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Pulling comparable-deal entry multiples where public"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_lbo-sanity-check.md",
+      "sections": [
+        {
+          "name": "Returns-driver decomposition + challenge list",
+          "detail": "Decompose an LBO’s returns into leverage, EBITDA growth, margin change and multiple expansion — then interrogate whichever driver carries the deal. The fastest way to look sharp in a PE seat or interview."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "lbo-sanity-check-verify-1",
+      "kind": "human",
+      "description": "The bridge actually reconciles to the model’s MOIC/IRR"
+    },
+    {
+      "id": "lbo-sanity-check-verify-2",
+      "kind": "human",
+      "description": "Debt paydown in the bridge matches the model’s FCF sweep"
+    },
+    {
+      "id": "lbo-sanity-check-verify-3",
+      "kind": "human",
+      "description": "Sensitivities flex the right cells (no dead inputs)"
+    },
+    {
+      "id": "lbo-sanity-check-quality-1",
+      "kind": "human",
+      "description": "MOIC attribution sums to total MOIC"
+    },
+    {
+      "id": "lbo-sanity-check-quality-2",
+      "kind": "human",
+      "description": "Every challenged assumption has a benchmark"
+    },
+    {
+      "id": "lbo-sanity-check-quality-3",
+      "kind": "human",
+      "description": "Downside case is stated with its return, not just direction"
+    }
+  ],
+  "humanCheckpoints": [
+    "Whether the load-bearing assumption is believable",
+    "What downside case is the honest one for THIS business",
+    "Deal-breaker vs negotiating point vs acceptable risk"
+  ],
+  "dependencies": [
+    "paper-lbo-mechanics",
+    "debt-schedules"
+  ],
+  "runtime": {
+    "primitives": [
+      "calculate",
+      "reason",
+      "draft",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/private-equity/lbo-sanity-check"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Review an LBO’s returns drivers and catch the assumptions doing the heavy lifting."
+  }
+}

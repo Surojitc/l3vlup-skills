@@ -1,0 +1,157 @@
+{
+  "id": "diligence-question-builder",
+  "name": "Diligence Question Builder",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "banking",
+  "roles": [
+    "PE",
+    "IB"
+  ],
+  "difficulty": "Intermediate",
+  "inputs": [
+    {
+      "name": "Thesis pillars and key risks (or the teaser/CIM)",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Process stage and access level (management meeting, data room, expert calls)",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Map thesis to evidence",
+      "primitive": "reason",
+      "detail": "For each pillar: what would have to be true, and what data proves it?"
+    },
+    {
+      "title": "Map risks to tests",
+      "primitive": "reason",
+      "detail": "For each risk: what’s the cheapest fastest way to size it?"
+    },
+    {
+      "title": "Rank by kill-power",
+      "primitive": "rank",
+      "detail": "Questions that could kill the deal go first — you want bad news early and cheap."
+    },
+    {
+      "title": "Route by source",
+      "primitive": "compare",
+      "detail": "Management vs data room vs experts vs desktop. Don’t burn a management meeting on data-room questions."
+    },
+    {
+      "title": "Draft the asks",
+      "primitive": "draft",
+      "detail": "Specific, answerable questions — \"walk me through churn by cohort for FY24-26\", not \"tell us about retention\"."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Generating candidate questions per workstream from the thesis"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Grouping and deduplicating into a tracker format"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Drafting data-request lists in standard form"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_diligence-question-builder.md",
+      "sections": [
+        {
+          "name": "Prioritised diligence question list by workstream",
+          "detail": "Generate and rank diligence questions from the investment thesis: for each pillar and each key risk, what evidence would confirm or kill it, who has that evidence, and what to ask first when management time is scarce."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "diligence-question-builder-verify-1",
+      "kind": "human",
+      "description": "Questions are answerable from the named source"
+    },
+    {
+      "id": "diligence-question-builder-verify-2",
+      "kind": "human",
+      "description": "No question already answered in materials you hold — that costs credibility"
+    },
+    {
+      "id": "diligence-question-builder-quality-1",
+      "kind": "human",
+      "description": "Every thesis pillar has at least one confirming and one killing test"
+    },
+    {
+      "id": "diligence-question-builder-quality-2",
+      "kind": "human",
+      "description": "Top-5 list fits a 45-minute management meeting"
+    },
+    {
+      "id": "diligence-question-builder-quality-3",
+      "kind": "human",
+      "description": "Each question names its source and owner"
+    }
+  ],
+  "humanCheckpoints": [
+    "Which three questions matter most — the kill-power ranking",
+    "What you’re willing to take on trust vs must verify",
+    "When you have enough to advance vs walk"
+  ],
+  "dependencies": [
+    "thesis-structuring-basics"
+  ],
+  "runtime": {
+    "primitives": [
+      "reason",
+      "rank",
+      "compare",
+      "draft",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/private-equity/diligence-question-builder"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "pro",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Build a prioritised diligence list that attacks the thesis, not a generic checklist."
+  }
+}
