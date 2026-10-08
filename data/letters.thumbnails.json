@@ -1,0 +1,871 @@
+{
+  "_comment": [
+    "Source previews for the Letters archive, written by scripts/letters-thumbnails.mjs from",
+    "data/letters.thumbnail-sources.json. Only records whose rights are sec-public have files.",
+    "Each src is relative to the published data directory (DATA_BASE_URL). No source document is kept.",
+    "Validate with: node scripts/letters-validate-thumbnails.mjs"
+  ],
+  "version": 1,
+  "records": {
+    "berkshire-2025-letter-greg-abel": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526106284/d948018dars.pdf",
+      "sourceSha256": "7e3dff35920f2fd4c172fc8ce76e1ea6a32208ad51b39ee75f68e964bbe22da6",
+      "sourceBytes": 9884526,
+      "sourcePages": 154,
+      "renderKey": "29bee741f33742d9",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/berkshire-2025-letter-greg-abel-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 13872,
+        "sha256": "d2692eb0a1bc98400cf295ee3832d17c37d933a7d50a2b7c4a2953e22c5845ec",
+        "quality": 70,
+        "page": 5,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/berkshire-2025-letter-greg-abel-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 30836,
+        "sha256": "e1fe26ae87dc289bf393694c21e2103eeca74795dc527689ec75966f4a97a5b8",
+        "quality": 70,
+        "page": 5,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/berkshire-2025-letter-greg-abel-detail.webp",
+        "w": 480,
+        "h": 626,
+        "bytes": 42026,
+        "sha256": "917da46aa74a976ef55dc0228e9133d591955ec3915a907a1aead76f4b7f40fb",
+        "quality": 70,
+        "page": 5
+      },
+      "notes": []
+    },
+    "blackrock-2023-chairmans-letter-to-investors": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1364742/000119312523101952/d366149dars.pdf",
+      "sourceSha256": "67fcf21276fac6f0ac68e9ff5baa886ea0f64afe462ee2308141fa4dc435072d",
+      "sourceBytes": 2199272,
+      "sourcePages": 72,
+      "renderKey": "93fc695a6cb66a35",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/blackrock-2023-chairmans-letter-to-investors-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 18544,
+        "sha256": "c3935b9ea321e644d11bdc4b5a4e945a2bc3195b266f14d4045519ec3a1a1bf5",
+        "quality": 70,
+        "page": 8,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/blackrock-2023-chairmans-letter-to-investors-detail.webp",
+        "w": 480,
+        "h": 360,
+        "bytes": 29978,
+        "sha256": "df231dc27422930019483c24774793e05b43117cf22702f8379a3ec23368cc60",
+        "quality": 70,
+        "page": 8
+      },
+      "notes": [
+        "card2x: over budget at every quality",
+        "card: p7 skipped (no text window clear of photographs)",
+        "detail: p7 skipped (page is 11% photograph)"
+      ]
+    },
+    "brookfield-2020-03-update-for-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1001085/000117184320001900/exh_992.htm",
+      "sourceSha256": "d51b846ad85fceef435b8f5d42ed41bdf6e43b6a8b8ecfe6c6f01f530140c7c8",
+      "sourceBytes": 19067,
+      "renderKey": "853ab0824b6ee2e9",
+      "renderer": "chromium + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "detail": {
+        "src": "letters/thumbs/brookfield-2020-03-update-for-shareholders-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 35168,
+        "sha256": "b00ceb34fd0b4925a416bec0aa6204846b206d5ffb7dd9e1b53cb1120786d8f0",
+        "quality": 70
+      },
+      "notes": [
+        "html: 8 sec.gov requests",
+        "detail: scrolled 0.25 viewport(s) past photographs",
+        "card: identity cover (an HTML filing renders as grey text on a card)"
+      ]
+    },
+    "capital-one-2024-letter-rich-fairbank": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/927628/000119312525065538/d819004dars.pdf",
+      "sourceSha256": "4d766088eae75605e29769a7037b357d0d67588eec2e14b564f6815161e4c7b3",
+      "sourceBytes": 9876856,
+      "sourcePages": 252,
+      "renderKey": "1d4fc16673dccae9",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/capital-one-2024-letter-rich-fairbank-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 12820,
+        "sha256": "fcb33be0b52d313261c7ea0b95e7b097ec0d7a95b6852fde8aa061a6069353d3",
+        "quality": 70,
+        "page": 4,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/capital-one-2024-letter-rich-fairbank-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 31912,
+        "sha256": "d04ffae9addbf60bc3af20e6b4e38b05e1826d863852a6a91ecebece21e766a9",
+        "quality": 70,
+        "page": 4,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/capital-one-2024-letter-rich-fairbank-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 40550,
+        "sha256": "fe4611494c814acabdbe6ec69680c10ad6b798378dadc899aaa5324b92ce8273",
+        "quality": 70,
+        "page": 4
+      },
+      "notes": [
+        "card: p3 skipped (no text window clear of photographs)",
+        "detail: p3 skipped (page is 44% photograph)"
+      ]
+    },
+    "citigroup-2023-letter-jane-fraser": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/831001/000120677424000274/citi428496-3_ars.pdf",
+      "sourceSha256": "bbc10a4ef9fe2c3997a7c96429080ade68c580dacfd26cb7bbe4ba03f0f3f5ac",
+      "sourceBytes": 4157058,
+      "sourcePages": 342,
+      "renderKey": "6e6c504af5b0ed83",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/citigroup-2023-letter-jane-fraser-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 11486,
+        "sha256": "ef86c8cd50a73ee387ecc01522ca26ccf0d14474ae68bf4eb51339b5625b7b32",
+        "quality": 70,
+        "page": 5,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/citigroup-2023-letter-jane-fraser-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 30328,
+        "sha256": "e7fca33fccbe691de58cc8ea8bce97a0fc33b740933822cd1e18c7b66fad382c",
+        "quality": 70,
+        "page": 5,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/citigroup-2023-letter-jane-fraser-detail.webp",
+        "w": 480,
+        "h": 699,
+        "bytes": 40604,
+        "sha256": "26c74e07737c6824f35cbc582a9cdb1aca582704d8e4c2a96f1f500e3f135727",
+        "quality": 70,
+        "page": 5
+      },
+      "notes": [
+        "card: p4 skipped (no text window clear of photographs)",
+        "detail: p4 skipped (page is 31% photograph)"
+      ]
+    },
+    "elliott-cdk-global-2016-05": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf",
+      "sourceSha256": "8ee3bed46fd7bab988179ecaa5d6659f55ec2b702322e63d3c2f281d0cc23567",
+      "sourceBytes": 313754,
+      "sourcePages": 13,
+      "renderKey": "7093d1123c8dcbc8",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/elliott-cdk-global-2016-05-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 7140,
+        "sha256": "f5e581a47a76aaea0025ec5370a7372d50e5f16410d145351d35f4337da86572",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/elliott-cdk-global-2016-05-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 15536,
+        "sha256": "884cd9e4ce0aa183e47dbfe8edd111e30cfc85bfef58c4e1afaded60cc952509",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/elliott-cdk-global-2016-05-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 32826,
+        "sha256": "58d878e77350b5447f94530a1e06271613c933fccfe8b5ea9efb7924d827a009",
+        "quality": 70,
+        "page": 1
+      },
+      "notes": []
+    },
+    "goldman-sachs-2022-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/886982/000119312523073310/d439331dars.pdf",
+      "sourceSha256": "e793d4c8d199259157cade88fc979f539bbdc6338047d5746569e97a792ba1f4",
+      "sourceBytes": 5809793,
+      "sourcePages": 264,
+      "renderKey": "ef015c7abce25d22",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/goldman-sachs-2022-letter-to-shareholders-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 11584,
+        "sha256": "520ea11fa60ad8c1dbe8ffb912ceb3d17cdde68257257e6f1ccc1d9a2d07c886",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/goldman-sachs-2022-letter-to-shareholders-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 21466,
+        "sha256": "7fe356e98542b52249aae9339d9288be1e4bb535c97d7e7bc910f3c0f2e059da",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/goldman-sachs-2022-letter-to-shareholders-detail.webp",
+        "w": 480,
+        "h": 626,
+        "bytes": 31294,
+        "sha256": "567c9dcc574356062da58b8a8968ada0289eea9dfca2eb83f18989e5780ec665",
+        "quality": 70,
+        "page": 3
+      },
+      "notes": []
+    },
+    "goldman-sachs-2025-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/886982/000119312526116310/d106738dars.pdf",
+      "sourceSha256": "3dd02bad050d8d44f6901f98b6851a20fffe6895efbb36002519f537ed02fd04",
+      "sourceBytes": 2937572,
+      "sourcePages": 274,
+      "renderKey": "e6242a3c06d1ab31",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/goldman-sachs-2025-letter-to-shareholders-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 12794,
+        "sha256": "4b3fee98b0bbdbb5419eb74150a00cfe91ad4719780a4b681bcb7a022ec23907",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/goldman-sachs-2025-letter-to-shareholders-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 28758,
+        "sha256": "934ce336573ab79e30f63678e826697c0ae79aa7b70acf0448a2c325a961ebb6",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/goldman-sachs-2025-letter-to-shareholders-detail.webp",
+        "w": 480,
+        "h": 626,
+        "bytes": 30528,
+        "sha256": "0c81fe46227f1db11f1a9d9541c9837c99315b2763a3b9edde2d0b8ab5feca2f",
+        "quality": 70,
+        "page": 3
+      },
+      "notes": []
+    },
+    "impactive-wex-2026-04": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1309108/000092189526000956/ex991dfan14a12236009_041026.pdf",
+      "sourceSha256": "9a4b811d3ecfcfa121a52b617f0e0da8cb59ee1fd1857dc19f78172ca427fcf6",
+      "sourceBytes": 619557,
+      "sourcePages": 14,
+      "renderKey": "3813f9c64c248c90",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/impactive-wex-2026-04-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 23814,
+        "sha256": "caa9f18126c9e555c155f92a4e37279d17e4071ac41b639667de215a50caef0b",
+        "quality": 70,
+        "page": 2,
+        "top": 0.139
+      },
+      "detail": {
+        "src": "letters/thumbs/impactive-wex-2026-04-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 46522,
+        "sha256": "2903c4ae27b9dc69fb9d353d6cb1b25c92a66f56c1630198ac210ecf04d986a5",
+        "quality": 70,
+        "page": 2
+      },
+      "notes": [
+        "card2x: over budget at every quality"
+      ]
+    },
+    "jpmorgan-2022-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/19617/000001961723000286/jpmc2022ar.pdf",
+      "sourceSha256": "1ce4b39a30f66676cc1d845ce2758cdcc3bb7db9f43b8bf4a635986f424882ae",
+      "sourceBytes": 15282296,
+      "sourcePages": 328,
+      "renderKey": "3678f02d9818d72f",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/jpmorgan-2022-letter-to-shareholders-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 8436,
+        "sha256": "1244115436d3dd5e0290d91b6e669ec634149b522625fc8324ffdcf2ccb5cd08",
+        "quality": 70,
+        "page": 4,
+        "top": 0.529
+      },
+      "card2x": {
+        "src": "letters/thumbs/jpmorgan-2022-letter-to-shareholders-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 19552,
+        "sha256": "76250c94b6e32f4cd7ee5eb2810110e3c1d7aacadd767dbb3f11edc6e5ccb7b5",
+        "quality": 70,
+        "page": 4,
+        "top": 0.529
+      },
+      "detail": {
+        "src": "letters/thumbs/jpmorgan-2022-letter-to-shareholders-detail.webp",
+        "w": 480,
+        "h": 653,
+        "bytes": 22006,
+        "sha256": "aa7b52a9e987440f12d89f94308a6f4ebe8123f78944fa2239a65f8b1259b1a9",
+        "quality": 70,
+        "page": 5
+      },
+      "notes": [
+        "detail: p4 skipped (page is 23% photograph)"
+      ]
+    },
+    "markel-2023-letter-orange-and-blue": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1096343/000109634324000042/mkl12312023_ars.pdf",
+      "sourceSha256": "d0ec21978ab7fbe21abe2cdeba32bf97d8a49ea57345439fcc098d883192fed8",
+      "sourceBytes": 21421595,
+      "sourcePages": 155,
+      "renderKey": "6a8c99e5b31cd3b9",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/markel-2023-letter-orange-and-blue-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 14608,
+        "sha256": "8e57a112171a2755e21c0c5eaebaffb78d5acb2dc5a8be2d39cc1c25dbaf19ad",
+        "quality": 70,
+        "page": 5,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/markel-2023-letter-orange-and-blue-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 31320,
+        "sha256": "6994ce4af8aab91ebe5d60960d29a81194830ab421f391c65255c967cb459845",
+        "quality": 70,
+        "page": 5,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/markel-2023-letter-orange-and-blue-detail.webp",
+        "w": 480,
+        "h": 626,
+        "bytes": 39188,
+        "sha256": "3ebe2a3943ec64601478c91ea19c31132d71c1a024b0f5dc9e16acff22b543ee",
+        "quality": 70,
+        "page": 5
+      },
+      "notes": []
+    },
+    "microsoft-fy2023-shareholder-letter": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/789019/000119312523259254/d506673dars.pdf",
+      "sourceSha256": "5eba1f84118d8ef4ba383e5fa57a03b61224a146cacb2b35197ab6f508784e02",
+      "sourceBytes": 480171,
+      "sourcePages": 96,
+      "renderKey": "3b1fb04dfee81e2a",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/microsoft-fy2023-shareholder-letter-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 14466,
+        "sha256": "4c21ba3d19fbf830b1dc193499360a979f0c635fc8f87edbc450653a3d776a09",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/microsoft-fy2023-shareholder-letter-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 33512,
+        "sha256": "ee3abf71dd92855e70594ebb1d4cc84cb5d750216d66992dab7c0083919e4a8a",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/microsoft-fy2023-shareholder-letter-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 40404,
+        "sha256": "2bebfc6dff0221db69108c8a6ba591b809b261cf39edb50b26317417e15ce144",
+        "quality": 70,
+        "page": 3
+      },
+      "notes": []
+    },
+    "morgan-stanley-2024-letter-ted-pick": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/895421/000114036124018317/ny20020759x4_ars.pdf",
+      "sourceSha256": "c62b056d1f3c792ce3d1080ed26ac31c0983cc8d4c355ef61e6ba5c5d8e3a309",
+      "sourceBytes": 3032767,
+      "sourcePages": 176,
+      "renderKey": "f18e0e1e6cfe0eb3",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/morgan-stanley-2024-letter-ted-pick-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 6128,
+        "sha256": "7cc30b4d875ba9d882e7d9cd1920dc910a1c1b45e2e229ebbade368632ebab85",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/morgan-stanley-2024-letter-ted-pick-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 12238,
+        "sha256": "fe11f1017d042e29c10d37fae6b78b0cca8bd8b5550d8a6d8df7998dd602c0da",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/morgan-stanley-2024-letter-ted-pick-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 21444,
+        "sha256": "55721d8308a0d97ae2f76b17ac1dd67888651ff968eddf0be3fa91956d7b0822",
+        "quality": 70,
+        "page": 3
+      },
+      "notes": [
+        "detail: p1 skipped (page is 45% photograph)",
+        "detail: p2 skipped (page is 14% photograph)"
+      ]
+    },
+    "nvidia-fy2026-letter-jensen-huang": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000038/a2026-annualxreportxwebxfi.pdf",
+      "sourceSha256": "510a0b90a6ae3751842c5cdcfcf2ca3683e663e718e118c171da190817cfdde1",
+      "sourceBytes": 24481462,
+      "sourcePages": 175,
+      "renderKey": "a0d473bb6aea4a9f",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/nvidia-fy2026-letter-jensen-huang-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 14098,
+        "sha256": "44e91f572b3522361114d961a288146c77c08f739c16c055651434dc4ac2d98f",
+        "quality": 70,
+        "page": 12,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/nvidia-fy2026-letter-jensen-huang-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 31022,
+        "sha256": "552f24255b4b327e3a00dfec2c0e594ec332ed60563d7ed3899ce3a0271a8b9e",
+        "quality": 70,
+        "page": 12,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/nvidia-fy2026-letter-jensen-huang-detail.webp",
+        "w": 480,
+        "h": 626,
+        "bytes": 38888,
+        "sha256": "22ffe5fa75925c445374c3232acd9fc2d03768f2c3e002976bbb35b1510d3ff1",
+        "quality": 70,
+        "page": 13
+      },
+      "notes": [
+        "detail: p12 skipped (page is 16% photograph)"
+      ]
+    },
+    "sachem-head-us-foods-2022-04": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf",
+      "sourceSha256": "07b3ddc71b50a9c717cfb38bb9b35da02a91197f08888c7302bb0d3c5c44697d",
+      "sourceBytes": 522739,
+      "sourcePages": 8,
+      "renderKey": "609a013cddbd368f",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/sachem-head-us-foods-2022-04-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 10114,
+        "sha256": "7c796ac61a0dd939cd6b0abb7e4f2e914e3c172bbd33bf1dd239705c0d258b0b",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/sachem-head-us-foods-2022-04-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 22508,
+        "sha256": "c6e1555f190eaebecfe80f550eef705265e1043444d6fd0ecbc4bdd318ce7110",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/sachem-head-us-foods-2022-04-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 33048,
+        "sha256": "cb1f81ff706348db2d9eff76871a2eca0d1f1a279cccad34e97b20d69d01c3df",
+        "quality": 70,
+        "page": 1
+      },
+      "notes": []
+    },
+    "schwab-2025-letter-rick-wurster": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/316709/000031670926000012/a2025schwabannualreport.pdf",
+      "sourceSha256": "6e5541ed7085c6378e07891dd53dc2f5fc97e5923a7c2f96f6225733a241e768",
+      "sourceBytes": 17307472,
+      "sourcePages": 163,
+      "renderKey": "ed31c643588660aa",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/schwab-2025-letter-rick-wurster-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 19640,
+        "sha256": "e690f624895b72213101693944cdf1fd95b338c7594a65a6f99fa826ce2d958f",
+        "quality": 70,
+        "page": 4,
+        "top": 0.402
+      },
+      "card2x": {
+        "src": "letters/thumbs/schwab-2025-letter-rick-wurster-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 40644,
+        "sha256": "89fcc2d04f9a2ec7db25ea98162acb71bad2e22b103db463ad9c69608a2def4d",
+        "quality": 46,
+        "page": 4,
+        "top": 0.402
+      },
+      "detail": {
+        "src": "letters/thumbs/schwab-2025-letter-rick-wurster-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 26964,
+        "sha256": "6ee9c4313eed2c451da1eca0f21514146a56995aecb52bf9744e00597c81f60c",
+        "quality": 70,
+        "page": 5
+      },
+      "notes": [
+        "detail: p4 skipped (page is 30% photograph)"
+      ]
+    },
+    "source-capital-h1-2026-letter": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465926105793/tm2622114d1_ncsrs.htm",
+      "sourceSha256": "909770c65651fce8672447cb66f5167f3a7ce42b292db2f188fb4b2425e1a86d",
+      "sourceBytes": 1573483,
+      "renderKey": "2eac6c416f2aeef1",
+      "renderer": "chromium + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "detail": {
+        "src": "letters/thumbs/source-capital-h1-2026-letter-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 20268,
+        "sha256": "62c3ae20b12fb390505f82670d068146de63236076fab94150c4a0db66924343",
+        "quality": 70
+      },
+      "notes": [
+        "html: 17 sec.gov requests",
+        "card: identity cover (an HTML filing renders as grey text on a card)"
+      ]
+    },
+    "starboard-autodesk-2025-03": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000816/ex1todfan14a06297347_031925.pdf",
+      "sourceSha256": "ab4058f895a331982d7ead3dde3bd17f2fdd53f14bfc1baeb2d03d14b18678a0",
+      "sourceBytes": 648284,
+      "sourcePages": 8,
+      "renderKey": "069fd74bf6a809fb",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/starboard-autodesk-2025-03-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 11084,
+        "sha256": "de962aa46e610d39df97ace52b1caf3f7f8bd2dbf37aae63487f4ef8a5a8c949",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/starboard-autodesk-2025-03-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 24254,
+        "sha256": "6b02087003c0bf2368439ef6ae97a4bd5503a77eb6792150d9af14ead8b7ee6d",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/starboard-autodesk-2025-03-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 34732,
+        "sha256": "6b113fedab5aea936e274382103773966e3fad4e2def375d0b6fecec256c68dd",
+        "quality": 70,
+        "page": 1
+      },
+      "notes": []
+    },
+    "starboard-bristol-myers-2019-02": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "sourceSha256": "94ab5bcde35505b9ed12341c42763817fe17f0f420c481cb2b96fcc179909b50",
+      "sourceBytes": 2775427,
+      "sourcePages": 16,
+      "renderKey": "fbced695681553b0",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/starboard-bristol-myers-2019-02-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 13582,
+        "sha256": "a192a60a911f106ad74c1c867be48b12a90de21685c11650c914b61ab6c465fd",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/starboard-bristol-myers-2019-02-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 28728,
+        "sha256": "c035dd85050df4444834af3099da5fbb882d72d40a4fa2e1fb16568f499c6cae",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/starboard-bristol-myers-2019-02-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 38374,
+        "sha256": "a127b1c79672a3cbdcf0a9bf7e2e7b08d960f57184795eb180b3d1481338c2d4",
+        "quality": 70,
+        "page": 1
+      },
+      "notes": []
+    },
+    "starboard-carmax-2026-03": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf",
+      "sourceSha256": "757bfa660d3186a99f4ca1ef3807c01af6207472c0bd20e5244c7c06983926eb",
+      "sourceBytes": 145421,
+      "sourcePages": 6,
+      "renderKey": "b494dc50a9fda37d",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/starboard-carmax-2026-03-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 11468,
+        "sha256": "25365ea1dd455544cbb0975527a83ce5091c79c4997c668f21e9a752e79ee875",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/starboard-carmax-2026-03-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 24628,
+        "sha256": "c7cdff43bb79d8ae1d5d3e574627accb375eb843ab723659405bd58f8613a38e",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/starboard-carmax-2026-03-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 36822,
+        "sha256": "ff449ff67defd0082f9ed3cceee85515c84dd7d2ff14c344d6ad9587f717f6a8",
+        "quality": 70,
+        "page": 1
+      },
+      "notes": []
+    },
+    "starboard-darden-2014-07": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf",
+      "sourceSha256": "3cdf4833d78d0f78026a3daf6c64a91bc8a1bb36395d64b935941755d1d465b0",
+      "sourceBytes": 537553,
+      "sourcePages": 7,
+      "renderKey": "58de2111c883ad3b",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/starboard-darden-2014-07-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 7772,
+        "sha256": "c845ea434ff65a9ec3bf11614564b758c521cecc63c1aee90b01ce2a2a6f84dd",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/starboard-darden-2014-07-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 17074,
+        "sha256": "536b1f84873a70180ee22de3a328ea65a89dd30f64b8b38b47bc03a0c5e69a69",
+        "quality": 70,
+        "page": 1,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/starboard-darden-2014-07-detail.webp",
+        "w": 480,
+        "h": 621,
+        "bytes": 33112,
+        "sha256": "3403bb67e853b564d4ab196ac019d2443729602662fefce4adce0870bb7cd64b",
+        "quality": 70,
+        "page": 1
+      },
+      "notes": []
+    },
+    "wells-fargo-2025-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/72971/000007297126000202/wfc2025annualreport-arsfil.pdf",
+      "sourceSha256": "c36b31c99cc63d3946197d814afb4a5a2db65aaf476768440d4351733c3dca24",
+      "sourceBytes": 10372148,
+      "sourcePages": 200,
+      "renderKey": "7aa8d44489fff3f1",
+      "renderer": "pdftoppm + Pillow 12.3.0, v2",
+      "generatedOn": "2026-10-08",
+      "card": {
+        "src": "letters/thumbs/wells-fargo-2025-letter-to-shareholders-card.webp",
+        "w": 400,
+        "h": 250,
+        "bytes": 13986,
+        "sha256": "911e32c81afb9e6cb119eb491c4626b6e01be627b6f930c221082cd3ef490ee3",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "card2x": {
+        "src": "letters/thumbs/wells-fargo-2025-letter-to-shareholders-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 33512,
+        "sha256": "c50ca27374c52393acb110aa09f9731f7f886085ba8fb4d430c8c408c8af306d",
+        "quality": 70,
+        "page": 3,
+        "top": 0
+      },
+      "detail": {
+        "src": "letters/thumbs/wells-fargo-2025-letter-to-shareholders-detail.webp",
+        "w": 480,
+        "h": 615,
+        "bytes": 40124,
+        "sha256": "d16d14bc0fd593c35d8ff17d3f92d971ecf3d7b21de47f7cb378b160c0c50185",
+        "quality": 70,
+        "page": 3
+      },
+      "notes": []
+    }
+  },
+  "skipped": {
+    "exor-2025-letter-to-shareholders": {
+      "reason": "rights: first-party-restrictive (identity cover only)",
+      "renderKey": "716984f879b073ff"
+    },
+    "fairfax-1985-letter-prem-watsa": {
+      "reason": "rights: first-party-restrictive (identity cover only)",
+      "renderKey": "252d147015929b07"
+    },
+    "giverny-capital-2025-annual-letter": {
+      "reason": "rights: first-party-restrictive (identity cover only)",
+      "renderKey": "0e645cc68c7c10ae"
+    },
+    "greenhaven-road-q2-2026-letter": {
+      "reason": "rights: first-party-restrictive (identity cover only)",
+      "renderKey": "2093caa0ca8ad28b"
+    },
+    "hayden-capital-q2-2026-letter": {
+      "reason": "rights: first-party-link-only (identity cover only)",
+      "renderKey": "4f4e5f27b56e78e2"
+    },
+    "hussman-2008-10-four-magic-words": {
+      "reason": "rights: first-party-link-only (identity cover only)",
+      "renderKey": "e2f1912d6cb053d3"
+    },
+    "muddy-waters-sino-forest-2011-06": {
+      "reason": "rights: first-party-link-only (identity cover only)",
+      "renderKey": "0a84a476876c33e7"
+    },
+    "ruane-sequoia-fy2001-letter": {
+      "reason": "mode: identity-cover",
+      "renderKey": "b50ea8d04711e562"
+    },
+    "third-point-star-gas-2005-02": {
+      "reason": "mode: identity-cover",
+      "renderKey": "6e49e8c5a8a44edb"
+    }
+  }
+}
