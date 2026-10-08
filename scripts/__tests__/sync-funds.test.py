@@ -276,7 +276,126 @@ check("build: a notice is not a holdings report (latest stays Q1)", m["latest"][
 check("build: not-current managers listed in the run", len(stats["notCurrent"]) == 1)
 check("filings_13f ignores notices", all(f["form"].startswith("13F-HR") for f in sf.filings_13f(sub)))
 
-# ── 5. the user agent ────────────────────────────────────────────────────────
+# ── 5. real shapes ───────────────────────────────────────────────────────────
+# Every NEW HOLDINGS amendment for periods 2024 Q2 to 2026 Q2 across the 26
+# managers that filed any 13F-HR/A (81 filings) was measured against the table
+# it amends: extra/base value, the share of its value on lines the base carries
+# at identical share counts, and the share on securities the base holds. The
+# two populations are far apart: 79 genuine additions with 0% identical-share
+# overlap (77 of them on securities the base did not hold at all, at most 16.6%
+# of the base), and 2 whole tables at 90% and 99% identical. The cases below
+# rebuild those shapes with synthetic CUSIPs and the real line counts, ratios
+# and totals, so a change to the thresholds that would flip a real filing fails
+# here first.
+
+def book(prefix, n, total, *, shares=1000, cls="COM"):
+    """n positions summing to total dollars, descending, distinct CUSIPs."""
+    weights = [n - i for i in range(n)]
+    s = sum(weights)
+    return [pos(f"{prefix}{i:05d}", total * w / s, shares + i, cls=cls) for i, w in enumerate(weights)]
+
+
+def scaled(rows, total):
+    s = sum(p["value"] for p in rows)
+    return [dict(p, value=p["value"] * total / s) for p in rows]
+
+
+# ValueAct 2024 Q3 (0001418812-24-000022): base 10 positions, $3,935.7m; the
+# "NEW HOLDINGS" amendment is 11 lines, $4,374.0m (111% of the base), 89.98% of
+# its value on the base's lines at identical shares, plus one new name.
+va_base = book("VA", 10, 3935.7e6)
+va_same = scaled([dict(p) for p in va_base], 0.8998 * 4374.0e6)
+va_extra = va_same + [pos("VANEW0001", 0.1002 * 4374.0e6, 777)]
+got, mode = sf.merge_amendment(filing("VA0", va_base), filing("VA1", va_extra))
+check("ValueAct shape (11 lines, 111%, 90% identical shares): replaced", mode == "replaced", mode)
+check("ValueAct shape: aum is the amendment's $4,374.0m, not $8,309.7m", got["aum"] == 4374.0, got["aum"])
+check("ValueAct shape: positions are the amendment's 11", got["positions"] == 11, got["positions"])
+
+# First Eagle 2026 Q2 (0001325447-26-000033): base 424 positions, $59,922.9m;
+# amendment 616 lines aggregating to 425 positions, $60,751.0m (101.4%), 98.64%
+# of its value at identical shares.
+fe_base = book("FE", 424, 59922.9e6)
+fe_same = scaled([dict(p) for p in fe_base], 0.9864 * 60751.0e6)
+fe_extra = fe_same + [pos("FENEW0001", 0.0136 * 60751.0e6, 555)]
+got, mode = sf.merge_amendment(filing("FE0", fe_base), filing("FE1", fe_extra))
+check("First Eagle shape (425 positions, 101%, 99% identical shares): replaced", mode == "replaced", mode)
+check("First Eagle shape: aum $60,751.0m, not doubled", got["aum"] == 60751.0, got["aum"])
+check("First Eagle shape: the original's accession stands on the record", got["accession"] == "FE0")
+
+# Invesco 2025 Q4 (0000914208-26-000214): base 3,745 positions, $652,195.1m;
+# 101 lines, $407,450.4m (62.5%), every CUSIP already in the base (other
+# sleeves), not one at the base's share count. Re-summed independently from
+# the information tables and from SEC's bulk data set: $1,059.6bn.
+iv_base = book("IV", 3745, 652195.1e6)
+iv_extra = scaled([dict(p, shares=p["shares"] * 3) for p in iv_base[:101]], 407450.4e6)
+got, mode = sf.merge_amendment(filing("IV0", iv_base), filing("IV1", iv_extra))
+check("Invesco shape (101 lines, 62.5%, all known, none identical): appended", mode == "appended", mode)
+check("Invesco shape: aum $1,059,645.5m", got["aum"] == 1059645.5, got["aum"])
+check("Invesco shape: positions unchanged at 3,745 (lines summed into held names)", got["positions"] == 3745, got["positions"])
+# 2026 Q1 (0000914208-26-000216): $653,293.9m + $370,669.4m (56.7%).
+iv1 = book("IV", 3739, 653293.9e6)
+got, mode = sf.merge_amendment(filing("IQ0", iv1), filing("IQ1", scaled([dict(p, shares=p["shares"] * 3) for p in iv1[:101]], 370669.4e6)))
+check("Invesco 2026 Q1 shape: appended, aum $1,023,963.3m", mode == "appended" and abs(got["aum"] - 1023963.3) <= 0.1, (mode, got["aum"]))
+
+# The size rule's edge, on the Invesco shape. A sleeve addition of 101 lines
+# against 3,745 is never a whole table, however large: the line-count guard
+# keeps it appended even at 90% and 150% of the base's value, where size and
+# known-security overlap alone would have dropped the original.
+_, mode = sf.merge_amendment(filing("E0", iv_base), filing("E1", scaled(iv_extra, 0.89 * 652195.1e6)))
+check("size edge: all-known addition at 89% of the base is appended", mode == "appended", mode)
+_, mode = sf.merge_amendment(filing("E0", iv_base), filing("E2", scaled(iv_extra, 0.90 * 652195.1e6)))
+check("size edge: a 101-line addition at 90% of a 3,745-line base stays appended", mode == "appended", mode)
+_, mode = sf.merge_amendment(filing("E0", iv_base), filing("E3", scaled(iv_extra, 1.5 * 652195.1e6)))
+check("size edge: a 101-line addition at 150% of the base stays appended", mode == "appended", mode)
+
+# The identical-share rule's edge: exactly half is not "more than half".
+half = [pos("AAA", 500e6, 100), pos("HNEW", 500e6, 7)]
+_, mode = sf.merge_amendment(base, filing("H1", half))
+check("identical-share edge: 50% identical is appended", mode == "appended", mode)
+_, mode = sf.merge_amendment(base, filing("H2", [pos("AAA", 510e6, 100), pos("HNEW", 490e6, 7)]))
+check("identical-share edge: 51% identical is replaced", mode == "replaced", mode)
+
+# Davidson Kempner 2025 Q1 (0001595082-25-000075), the largest genuine
+# addition by ratio: base 190 positions, $4,861.6m; 5 new names, $804.8m (16.6%).
+dk_base = book("DK", 190, 4861.6e6)
+got, mode = sf.merge_amendment(filing("DK0", dk_base), filing("DK1", book("DKN", 5, 804.8e6)))
+check("Davidson Kempner shape (5 new names, 16.6%): appended, $5,666.4m, 195 positions",
+      mode == "appended" and got["aum"] == 5666.4 and got["positions"] == 195, (mode, got["aum"], got["positions"]))
+
+# Farallon 2025 Q1 (0000908834-25-000247): base 135 positions, $17,935.8m;
+# 7 new names, $2,225.8m (12.4%). And 2026 Q1 (0000908834-26-000434): one line,
+# $1,522.9m (8.7% of $17,542.7m), confidential treatment expired.
+got, mode = sf.merge_amendment(filing("FA0", book("FA", 135, 17935.8e6)), filing("FA1", book("FAN", 7, 2225.8e6)))
+check("Farallon shape (7 new names, 12.4%): appended, $20,161.6m", mode == "appended" and got["aum"] == 20161.6, (mode, got["aum"]))
+got, mode = sf.merge_amendment(filing("FB0", book("FB", 89, 17542.7e6)), filing("FB1", [pos("EAEAEA001", 1522.9e6, 7)]))
+check("Farallon shape (1 line, 8.7%): appended, $19,065.6m", mode == "appended" and got["aum"] == 19065.6, (mode, got["aum"]))
+
+# Davidson Kempner 2024 Q4: ten NEW HOLDINGS amendments to one quarter, filed
+# from May 2025 to February 2026 (0001595082-25-000038 to -26-000021), each a
+# handful of new names on a 189-position, $4,356.0m base. All ten apply, in
+# filing order, and the quarter becomes the base plus every declared addition.
+dk_amends = [("2025-05-15", 2, 273.2e6), ("2025-05-15", 2, 180.1e6), ("2025-05-15", 1, 21.0e6),
+             ("2025-08-14", 1, 31.3e6), ("2025-08-14", 4, 266.2e6), ("2025-08-14", 2, 116.4e6),
+             ("2025-11-14", 1, 78.2e6), ("2026-02-17", 1, 530.2e6), ("2026-02-17", 1, 19.8e6),
+             ("2026-02-17", 1, 100.0e6)]
+rows = [("13F-HR", "2024-12-31", "2025-02-14", "DKQ4")]
+tables = {"DKQ4": book("DQ", 189, 4356.0e6)}
+covers = {}
+for i, (filed, n, v) in enumerate(dk_amends):
+    acc = f"DKA{i:02d}"
+    rows.append(("13F-HR/A", "2024-12-31", filed, acc))
+    tables[acc] = book(f"D{i:02d}N", n, v)
+    covers[acc] = {"amendmentType": "NEW HOLDINGS"}
+m, stats = run_build(sub_of(rows), tables, covers, today="2025-03-01")
+want = round((4356.0e6 + sum(v for _, _, v in dk_amends)) / 1e6, 1)
+check("ten amendments to one quarter: all appended", stats["amendmentsApplied"] == 10 and len(m["latest"]["amendedBy"]) == 10, stats)
+check("ten amendments to one quarter: aum is the base plus every declared addition ($5,972.4m)",
+      m["latest"]["aum"] == want == 5972.4, (m["latest"]["aum"], want))
+check("ten amendments to one quarter: 189 + 16 new positions", m["latest"]["positions"] == 205, m["latest"]["positions"])
+check("ten amendments to one quarter: applied in filing order",
+      [a["filed"] for a in m["latest"]["amendedBy"]] == sorted(a["filed"] for a in m["latest"]["amendedBy"]))
+
+# ── 6. the user agent ────────────────────────────────────────────────────────
 check("user agent: fallback contact without the environment", "contact@l3vlup.com" in sf.UA, sf.UA)
 sf_env = load("L3VLUP data desk data@example.com")
 check("user agent: SEC_USER_AGENT wins", sf_env.UA == "L3VLUP data desk data@example.com", sf_env.UA)

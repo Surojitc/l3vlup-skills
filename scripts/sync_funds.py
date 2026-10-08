@@ -726,9 +726,15 @@ def read_notice(cik: str, accession: str, *, use_cache: bool = True) -> dict:
 #: Size alone is not enough: Farallon's single late EA line for 2026 Q1 was
 #: $1.5bn, and a smaller manager's genuine addition can outweigh its original.
 #: Overlap by security alone is not enough either: Invesco's omitted lines were
-#: more shares of names other sleeves already reported.
+#: more shares of names other sleeves already reported. And a whole table has
+#: about as many lines as the original, so the size signal also needs at least
+#: RESTATED_BY_LINES of the original's positions: Invesco's 101 lines against
+#: 3,745 stay an addition however large their value. (Across all 81 NEW
+#: HOLDINGS amendments filed 2024 Q2 to 2026 Q2 the two whole tables carry 90%
+#: and 99% of their value on identical lines, and every addition 0%.)
 RESTATED_BY_SIZE = 0.9
 RESTATED_BY_OVERLAP = 0.5
+RESTATED_BY_LINES = 0.5
 
 
 def merge_amendment(base: dict, extra: dict) -> tuple[dict, str]:
@@ -766,6 +772,7 @@ def merge_amendment(base: dict, extra: dict) -> tuple[dict, str]:
             base_total > 0
             and extra_total >= RESTATED_BY_SIZE * base_total
             and known > RESTATED_BY_OVERLAP * extra_total
+            and len(extra_pos) >= RESTATED_BY_LINES * len(base_pos)
         )
     )
     if whole_table:
