@@ -59,6 +59,7 @@ import gzip
 import html
 import io
 import json
+import os
 import re
 import statistics
 import sys
@@ -76,7 +77,9 @@ OUT = ROOT / "data" / "funds.auto.json"
 CACHE = ROOT / ".cache" / "funds"
 
 #: A contact in the user agent is what EDGAR asks for in return for no API key.
-UA = "L3VLUP open skills contact@l3vlup.com"
+#: The workflow sets SEC_USER_AGENT so the contact can change without a code
+#: change; the literal is the fallback for a run on someone's own machine.
+UA = os.environ.get("SEC_USER_AGENT", "").strip() or "L3VLUP open skills contact@l3vlup.com"
 ARCHIVES = "https://www.sec.gov/Archives/edgar"
 
 #: Holdings written per manager. The cap is a file-size budget, not an opinion:
@@ -372,17 +375,44 @@ def filings_13f(sub: dict) -> list[dict]:
     """
     The manager's 13F holdings reports, newest period first, one per period.
 
-    Where a period has both an original and a later amendment, the amendment is
-    taken only when it restates the whole table. EDGAR's other amendment types add
-    holdings previously withheld under confidential treatment rather than replacing
-    what was filed, and merging those correctly needs both documents; taking the
-    original is the conservative reading and the run says when it did.
+    Amendments are returned beside the originals; build_manager decides what each
+    one does to its period (a restatement replaces the table, a NEW HOLDINGS
+    amendment adds to it). Notices (13F-NT) are not holdings reports and are read
+    separately by filings_notices().
     """
     r = sub.get("filings", {}).get("recent", {})
     forms = r.get("form", [])
     out = []
     for i, form in enumerate(forms):
         if form not in ("13F-HR", "13F-HR/A"):
+            continue
+        period = r["reportDate"][i]
+        if not period:
+            continue
+        out.append({
+            "form": form,
+            "periodOfReport": period,
+            "quarter": quarter_of(period),
+            "filed": r["filingDate"][i],
+            "accession": r["accessionNumber"][i],
+        })
+    out.sort(key=lambda f: (f["periodOfReport"], f["filed"]), reverse=True)
+    return out
+
+
+def filings_notices(sub: dict) -> list[dict]:
+    """
+    The manager's 13F notices, newest period first.
+
+    A 13F-NT says "my holdings for this quarter are in somebody else's report".
+    It is how Pershing Square Capital Management told EDGAR, for 2026 Q2, that its
+    positions now sit in the filing of its listed parent. Ignoring notices made
+    such a manager look merely late, with last year's book shown as current.
+    """
+    r = sub.get("filings", {}).get("recent", {})
+    out = []
+    for i, form in enumerate(r.get("form", [])):
+        if form not in ("13F-NT", "13F-NT/A"):
             continue
         period = r["reportDate"][i]
         if not period:
@@ -441,6 +471,27 @@ def parse_primary(xml: str) -> dict:
         "entryTotal": num(summary, "tableEntryTotal"),
         "valueTotal": num(summary, "tableValueTotal"),
     }
+
+
+def parse_notice(xml: str) -> dict:
+    """
+    A 13F-NT cover page: which other manager reports this one's holdings.
+
+    The otherManager block names the filer whose report carries the positions,
+    by CIK and 13F file number. Only the first is kept; a notice naming several
+    is rare and the first is the one a reader would follow.
+    """
+    root = ET.fromstring(xml)
+    other = next((e for e in root.iter() if _tag(e) == "otherManager"), None)
+    if other is None:
+        return {}
+    cik = _text(other, "cik")
+    out = {
+        "cik": cik.zfill(10) if cik and cik.isdigit() else None,
+        "name": _text(other, "name"),
+        "fileNumber": _text(other, "form13FFileNumber"),
+    }
+    return {k: v for k, v in out.items() if v}
 
 
 def parse_infotable(xml: bytes) -> list[dict]:
@@ -647,6 +698,150 @@ def read_filing(cik: str, f: dict, *, use_cache: bool = True) -> dict | None:
     return out
 
 
+def read_notice(cik: str, accession: str, *, use_cache: bool = True) -> dict:
+    """A notice's cover page, cached by accession like everything else."""
+    path = CACHE / cik / f"{accession}.notice.json"
+    if use_cache and path.exists():
+        try:
+            return json.loads(path.read_text())
+        except Exception:
+            path.unlink(missing_ok=True)
+    meta = parse_notice(
+        get_text(f"{filing_dir(cik, accession)}/primary_doc.xml", accept="application/xml")
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(meta, separators=(",", ":")))
+    return meta
+
+
+# ── amendments ───────────────────────────────────────────────────────────────
+
+#: Some NEW HOLDINGS amendments are the whole table again under the wrong label:
+#: ValueAct (2024 Q3, 111% of the original) and First Eagle (2026 Q2, 101%).
+#: Appending those would double the book. Two signals, either sufficient:
+#:   - most of the amendment's value is on lines the original reported at
+#:     identical share counts (it repeats the table), or
+#:   - it is at least RESTATED_BY_SIZE of the original AND most of its value is
+#:     on securities the original already carried (a corrected whole table).
+#: Size alone is not enough: Farallon's single late EA line for 2026 Q1 was
+#: $1.5bn, and a smaller manager's genuine addition can outweigh its original.
+#: Overlap by security alone is not enough either: Invesco's omitted lines were
+#: more shares of names other sleeves already reported.
+RESTATED_BY_SIZE = 0.9
+RESTATED_BY_OVERLAP = 0.5
+
+
+def merge_amendment(base: dict, extra: dict) -> tuple[dict, str]:
+    """
+    One NEW HOLDINGS amendment applied to its period's filing.
+
+    The form says the amendment "adds new holdings entries": lines withheld under
+    confidential treatment, or simply left out, now disclosed. So its positions
+    join the original's, summed where the same security and class appear in both.
+    Invesco's late Nasdaq-100 lines for 2025 Q4 ($407bn, 101 lines) are the case
+    that matters: without them the next quarter read as $583bn of buying.
+
+    Returns the merged filing and 'appended', or the amendment itself and
+    'replaced' when it is plainly a whole table under the wrong label (see the
+    two thresholds above). Both inputs are read_filing() results in dollars; the
+    base is not mutated.
+    """
+    base_pos = base.get("holdings") or []
+    extra_pos = extra.get("holdings") or []
+    base_total = sum(p["value"] for p in base_pos)
+    extra_total = sum(p["value"] for p in extra_pos)
+
+    by_key = {(p["cusip"], p["class"].upper()): p for p in base_pos}
+    known = repeated = 0.0
+    for p in extra_pos:
+        q = by_key.get((p["cusip"], p["class"].upper()))
+        if q is None:
+            continue
+        known += p["value"]
+        if q["shares"] == p["shares"]:
+            repeated += p["value"]
+    whole_table = extra_total > 0 and (
+        repeated > RESTATED_BY_OVERLAP * extra_total
+        or (
+            base_total > 0
+            and extra_total >= RESTATED_BY_SIZE * base_total
+            and known > RESTATED_BY_OVERLAP * extra_total
+        )
+    )
+    if whole_table:
+        out = dict(extra)
+        out["accession"] = base["accession"]
+        out["filingUrl"] = base["filingUrl"]
+        out["filed"] = base["filed"]
+        out["form"] = base.get("form", "13F-HR")
+        out.pop("fromCache", None)
+        return out, "replaced"
+
+    merged = {k: dict(v) for k, v in by_key.items()}
+    for p in extra_pos:
+        key = (p["cusip"], p["class"].upper())
+        if key in merged:
+            merged[key]["value"] += p["value"]
+            merged[key]["shares"] += p["shares"]
+        else:
+            merged[key] = dict(p)
+    positions = sorted(merged.values(), key=lambda p: p["value"], reverse=True)
+    total = sum(p["value"] for p in positions)
+    out = dict(base)
+    out.pop("fromCache", None)
+    out["holdings"] = positions
+    out["positions"] = len(positions)
+    out["aum"] = round(total / 1e6, 1)
+    out["top10Pct"] = round(sum(p["value"] for p in positions[:10]) / total, 4) if total else None
+    return out, "appended"
+
+
+# ── whether a manager is current ─────────────────────────────────────────────
+
+#: A 13F is due 45 days after the quarter ends. A few days' grace covers a
+#: deadline that falls on a weekend and the day EDGAR takes to index a filing.
+DUE_DAYS = 45
+GRACE_DAYS = 4
+
+
+def latest_due_period(today: str) -> str:
+    """The most recent quarter end whose 13F deadline (plus grace) has passed."""
+    from datetime import date, timedelta
+    d = date.fromisoformat(today)
+    ends = []
+    for y in (d.year - 1, d.year):
+        for m, day in ((3, 31), (6, 30), (9, 30), (12, 31)):
+            ends.append(date(y, m, day))
+    due = [e for e in ends if e + timedelta(days=DUE_DAYS + GRACE_DAYS) <= d]
+    return max(due).isoformat()
+
+
+def filer_status(latest_period: str, notices: list[dict], today: str) -> dict:
+    """
+    Whether the latest holdings report is the latest the manager owes.
+
+      current   the manager has reported every quarter now due
+      notice    a 13F-NT for a later quarter says another filer reports its
+                holdings; `reportedBy` names that filer when the notice does
+      overdue   a later quarter is due and nothing at all has been filed for it
+
+    Pure: the notice's cover page is read by the caller and passed in on the
+    notice as `reportedBy`. The site reads this to date a page honestly instead
+    of heading a year-old book with the current quarter.
+    """
+    due = latest_due_period(today)
+    later = [n for n in notices if n["periodOfReport"] > latest_period]
+    if later:
+        n = max(later, key=lambda n: (n["periodOfReport"], n["filed"]))
+        out = {"status": "notice", "period": n["quarter"], "filed": n["filed"]}
+        if n.get("reportedBy"):
+            out["reportedBy"] = n["reportedBy"]
+        return out
+    if latest_period < due:
+        return {"status": "overdue", "period": quarter_of(due)}
+    return {"status": "current"}
+
+
 # ── tickers ──────────────────────────────────────────────────────────────────
 
 _STRIP_WORDS = {
@@ -709,14 +904,13 @@ def action_for(shares: float, prev: float | None) -> str:
 
 
 def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache: bool,
-                  tickers: dict[str, str], stats: dict) -> dict | None:
+                  tickers: dict[str, str], stats: dict, today: str | None = None) -> dict | None:
     filings = filings_13f(sub)
     if not filings:
         print("    no 13F-HR filings on file")
         return None
 
-    # One filing per period: the latest original, replaced by a later amendment only
-    # when that amendment restates the table.
+    # One filing per period: the latest original. Amendments are applied to it below.
     by_period: dict[str, dict] = {}
     for f in filings:
         p = f["periodOfReport"]
@@ -734,14 +928,22 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
             and a["filed"] >= f["filed"]
             and a["accession"] != f["accession"]
         ]
-        for a in sorted(later, key=lambda a: a["filed"]):
+        # In filing order: a restatement replaces the table and everything added
+        # to it before; a NEW HOLDINGS amendment adds to whatever stands.
+        f["extras"] = []
+        for a in sorted(later, key=lambda a: (a["filed"], a["accession"])):
             try:
                 meta = read_cover(cik, a["accession"], use_cache=use_cache)
             except Exception:
+                stats["filingErrors"] += 1
                 continue
-            if meta.get("amendmentType", "").upper().startswith("RESTAT"):
+            kind = meta.get("amendmentType", "").upper()
+            if kind.startswith("RESTAT"):
                 f.update(a)
-            elif meta.get("amendmentType"):
+                f["extras"] = []
+            elif kind.startswith("NEW HOLDINGS"):
+                f["extras"].append(a)
+            elif kind:
                 stats["amendmentsSkipped"] += 1
 
     parsed: list[dict] = []
@@ -756,6 +958,21 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
             stats["filingsEmpty"] += 1
             continue
         stats["cached" if got.get("fromCache") else "fetched"] += 1
+        amended = []
+        for a in f.get("extras", []):
+            try:
+                extra = read_filing(cik, a, use_cache=use_cache)
+            except Exception as e:
+                print(f"    {a['quarter']} {a['accession']} (amendment): {type(e).__name__}: {e}")
+                stats["filingErrors"] += 1
+                continue
+            if not extra or not extra.get("holdings"):
+                continue
+            got, mode = merge_amendment(got, extra)
+            stats["amendmentsApplied" if mode == "appended" else "amendmentsTreatedAsRestated"] += 1
+            amended.append({"accession": a["accession"], "filed": a["filed"], "mode": mode})
+        if amended:
+            got["amendedBy"] = amended
         delta = (got.get("checks") or {}).get("valueTotalDeltaPct")
         if delta is not None and abs(delta) > 0.5:
             stats["totalMismatch"].append(
@@ -776,6 +993,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
         "aum": p["aum"],
         "positions": p["positions"],
         "top10Pct": p["top10Pct"],
+        **({"amendedBy": p["amendedBy"]} if p.get("amendedBy") else {}),
     } for p in parsed]
 
     latest = parsed[0]
@@ -836,6 +1054,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
     # a CUSIP leaves only when no class of it is reported any more, and the
     # classes it did hold are added together.
     exited = []
+    exited_total = 0
     if prior:
         still_held = {p["cusip"] for p in latest["holdings"]}
         gone: dict[str, dict] = {}
@@ -851,9 +1070,32 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
             })
             row["prevValue"] += p["value"]
             row["prevShares"] += p["shares"]
+        exited_total = len(gone)
         for row in sorted(gone.values(), key=lambda r: -r["prevValue"])[:EXITED_CAP]:
             row["prevValue"] = round(row["prevValue"] / 1e6, 1)
             exited.append(row)
+
+    # Whether this is the manager's current book. A notice is read for the
+    # filer it names; one small request, cached by accession.
+    notices = filings_notices(sub)
+    for n in notices:
+        if n["periodOfReport"] > latest["periodOfReport"]:
+            try:
+                other = read_notice(cik, n["accession"], use_cache=use_cache)
+            except Exception:
+                other = {}
+            if other:
+                n["reportedBy"] = other
+    status = filer_status(
+        latest["periodOfReport"], notices,
+        today or datetime.now(timezone.utc).date().isoformat(),
+    )
+    if status["status"] != "current":
+        stats["notCurrent"].append(f"{entry.get('name') or cik}: {status['status']} {status.get('period', '')}")
+
+    # The holdings list is capped (HOLDINGS_CAP); say how much of the book it covers.
+    shown_value = sum(p["value"] for p in latest["holdings"][:HOLDINGS_CAP])
+    all_value = sum(p["value"] for p in latest["holdings"])
 
     business = sub.get("addresses", {}).get("business", {}) or {}
     return {
@@ -862,6 +1104,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
         "slug": slugify(entry.get("name") or sub.get("name", "") or cik),
         "strategy": entry.get("strategy") or "Unclassified",
         "state": place((business.get("stateOrCountry") or "").strip()),
+        "status": status,
         "history": history,
         "latest": {
             "quarter": latest["quarter"],
@@ -872,7 +1115,11 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
             "positions": latest["positions"],
             "top10Pct": latest["top10Pct"],
             "holdings": holdings,
+            "holdingsCapped": len(latest["holdings"]) > HOLDINGS_CAP,
+            "holdingsValuePct": round(shown_value / all_value, 4) if all_value else None,
             "exited": exited,
+            "exitedTotal": exited_total,
+            **({"amendedBy": latest["amendedBy"]} if latest.get("amendedBy") else {}),
         },
     }
 
@@ -976,8 +1223,9 @@ def main() -> None:
 
     stats = {
         "fetched": 0, "cached": 0, "filingErrors": 0, "filingsEmpty": 0,
-        "amendmentsSkipped": 0, "tickerTried": 0, "tickerHit": 0,
-        "totalMismatch": [], "failed": [],
+        "amendmentsSkipped": 0, "amendmentsApplied": 0, "amendmentsTreatedAsRestated": 0,
+        "tickerTried": 0, "tickerHit": 0,
+        "totalMismatch": [], "failed": [], "notCurrent": [],
     }
     out: list[dict] = []
 
@@ -1058,7 +1306,11 @@ def main() -> None:
           f"read this run · quarters {len(quarters)} · positions {payload['counts']['positions']:,}")
     print(f"filings fetched {stats['fetched']} · from cache {stats['cached']} · "
           f"errors {stats['filingErrors']} · no table {stats['filingsEmpty']} · "
-          f"non-restating amendments skipped {stats['amendmentsSkipped']}")
+          f"NEW HOLDINGS amendments applied {stats['amendmentsApplied']} · "
+          f"treated as restated {stats['amendmentsTreatedAsRestated']} · "
+          f"other amendments skipped {stats['amendmentsSkipped']}")
+    for msg in stats["notCurrent"]:
+        print(f"  not current: {msg}")
     print(f"tickers resolved {stats['tickerHit']:,}/{stats['tickerTried']:,} ({hit:.1f}%)")
     for msg in stats["totalMismatch"][:20]:
         print(f"  value total: {msg}")
