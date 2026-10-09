@@ -36,16 +36,22 @@ const rows = Object.entries(registry).map(([slug, e]) => {
   const m = manifest.records[slug];
   const s = manifest.skipped?.[slug];
   const head = `<h2>${esc(slug)}</h2><p class="meta">${esc(e.rights)} · ${esc(e.thumbnailMode)}${e.takedown ? ' · <b>takedown</b>' : ''} · <a href="${esc(e.sourceUrl)}">source</a> · route ${esc(e.letterRoute.method)}${e.letterRoute.page ? ` p${e.letterRoute.page}` : ''}</p>`;
-  if (!m) return `<section class="skip">${head}<p>No preview: ${esc(s?.reason ?? 'not rendered yet')}</p></section>`;
+  const hints = [
+    e.crop && (e.crop.half || e.crop.region || e.crop.above !== undefined)
+      ? `<p class="hint">Crop hint: ${esc(e.crop.half ? `${e.crop.half} half of the spread` : e.crop.region ? `region ${JSON.stringify(e.crop.region)}` : `above ${e.crop.above} of a viewport`)}. ${esc(e.crop.reason)} Review by ${esc(e.crop.reviewBy)}.</p>`
+      : '',
+    e.guardOverride ? `<p class="hint">Guard override (${esc(e.guardOverride)}): ${esc(e.guardNote)} Review by ${esc(e.guardReviewBy)}.</p>` : '',
+  ].join('');
+  if (!m) return `<section class="skip">${head}${hints}<p>No preview: ${esc(s?.reason ?? 'not rendered yet')}</p></section>`;
   const notes = (m.notes ?? []).map((n) => `<li>${esc(n)}</li>`).join('');
-  return `<section>${head}<div class="imgs">${img(m.card, 'card')}${img(m.card2x, 'card2x')}${img(m.detail, 'detail')}</div>${notes ? `<ul>${notes}</ul>` : ''}<p class="meta">source ${kb(m.sourceBytes)}${m.sourcePages ? `, ${m.sourcePages} pages` : ''}, ${esc(m.renderer)}, ${esc(m.generatedOn)}</p></section>`;
+  return `<section>${head}${hints}<div class="imgs">${img(m.card, 'card')}${img(m.card2x, 'card2x')}${img(m.detail, 'detail')}</div>${notes ? `<ul>${notes}</ul>` : ''}<p class="meta">source ${kb(m.sourceBytes)}${m.sourcePages ? `, ${m.sourcePages} pages` : ''}, ${esc(m.renderer)}, ${esc(m.generatedOn)}</p></section>`;
 });
 
 const total = Object.values(manifest.records).reduce((n, m) => n + ['card', 'card2x', 'detail'].reduce((k, s) => k + (m[s]?.bytes ?? 0), 0), 0);
 const html = `<!doctype html><meta charset="utf-8"><title>Letters previews: review</title>
 <style>body{font:14px/1.4 system-ui,sans-serif;margin:24px;color:#0f172a;background:#fafbff}section{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin:0 0 16px}
 section.skip{opacity:.75}h2{font-size:15px;margin:0}.meta{color:#64748b;margin:4px 0}.imgs{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
-figure{margin:8px 0}img{border:1px solid #cbd5e1;display:block;height:auto}figcaption{font-size:12px;color:#475569}.over{color:#b91c1c;font-weight:600}.none{color:#94a3b8;padding:8px}ul{margin:4px 0;color:#92400e}</style>
+figure{margin:8px 0}img{border:1px solid #cbd5e1;display:block;height:auto}figcaption{font-size:12px;color:#475569}.over{color:#b91c1c;font-weight:600}.none{color:#94a3b8;padding:8px}ul{margin:4px 0;color:#92400e}.hint{margin:4px 0;color:#1e40af;font-size:13px}</style>
 <h1>Letters source previews</h1>
 <p>${Object.keys(manifest.records).length} records with previews, ${kb(total)} in all. Approve each crop, or set <code>takedown: true</code> or a <code>crop</code> hint in data/letters.thumbnail-sources.json and run the renderer again.</p>
 ${rows.join('\n')}`;

@@ -15,21 +15,37 @@
 //     and neither a solid band nor a bold heading is mistaken for a photograph;
 //   - the manifest's shape and the byte budgets (card 40 KB, detail 60 KB),
 //     WebP only, no stray file;
+//   - crop hints: a half or a region of a two-page spread is judged alone by
+//     the unchanged guard (it can leave a photograph out, never let one in),
+//     holds the preview to its page, and needs a reason and a review date;
+//     the guard's thresholds are pinned;
 //   - the committed registry and manifest: every entry well formed, the
-//     twelve seeds present, Greenhaven Road identity cover with no files.
+//     twelve seeds present, Greenhaven Road identity cover with no files, the
+//     graphics override on the one reviewed record only.
 
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
+  BLOCK,
+  MIN_REGION_BLOCKS,
+  PAGE_PHOTO_LIMIT,
+  REGION_TONE_SHARE,
   SIZES,
   THUMBS_DIR,
+  WINDOW_MIN_INK,
+  WINDOW_PHOTO_LIMIT,
   blockGrid,
   candidatePages,
   cardBox,
   choosePages,
+  cropGeometry,
+  cropImage,
+  cropProblems,
+  cropRegion,
   entryProblems,
+  regionBox,
   isWebp,
   judgePage,
   manifestProblems,
@@ -149,7 +165,8 @@ test('a takedown is read before anything else', () => {
 test('a guard override needs the reviewed wording and a note', () => {
   assert.ok(entryProblems('fixture', { ...SEC, guardOverride: 'skip' }).some((p) => /guardOverride/.test(p)));
   assert.ok(entryProblems('fixture', { ...SEC, guardOverride: 'graphics-not-photographs' }).some((p) => /guardNote/.test(p)));
-  assert.deepEqual(entryProblems('fixture', { ...SEC, guardOverride: 'graphics-not-photographs', guardNote: 'Looked on 8 Oct: a gradient band.' }), []);
+  assert.ok(entryProblems('fixture', { ...SEC, guardOverride: 'graphics-not-photographs', guardNote: 'Looked on 8 Oct: a gradient band.' }).some((p) => /guardReviewBy/.test(p)));
+  assert.deepEqual(entryProblems('fixture', { ...SEC, guardOverride: 'graphics-not-photographs', guardNote: 'Looked on 8 Oct: a gradient band.', guardReviewBy: '2027-04-09' }), []);
 });
 
 test('the render key changes with the source, the route and the hints, and nothing else', () => {
@@ -231,6 +248,127 @@ test('the card box is a 16:10 window inside the page', () => {
   assert.equal(b.h, 800);
   assert.ok(b.y + b.h <= 1656);
   assert.deepEqual(cardBox(1280, 1656, { left: 0.5, right: 1 }), { x: 640, y: 0, w: 640, h: 400 });
+});
+
+test('the photo guard\'s thresholds are the reviewed ones', () => {
+  // A change here is a change to what may be published: it belongs in its
+  // own reviewed change, never inside a fix for one record.
+  assert.equal(BLOCK, 12);
+  assert.equal(MIN_REGION_BLOCKS, 5);
+  assert.equal(REGION_TONE_SHARE, 0.25);
+  assert.equal(PAGE_PHOTO_LIMIT, 0.04);
+  assert.equal(WINDOW_PHOTO_LIMIT, 0.02);
+  assert.equal(WINDOW_MIN_INK, 0.12);
+});
+
+/* ------------------------------------------------------------ crop hints -- */
+
+/** A landscape two-page spread: type on both pages, a photograph on the left page's top right. */
+function spread() {
+  const SW = 1200;
+  const SH = 450;
+  const data = new Uint8Array(SW * SH).fill(255);
+  for (let y = 30; y < SH - 30; y += 14) {
+    for (const [x0, x1] of [[40, 560], [640, 1160]]) {
+      for (let x = x0; x < x1; x += 1) {
+        if ((x >> 2) % 3 !== 0) {
+          data[y * SW + x] = 20;
+          data[(y + 1) * SW + x] = 20;
+          data[(y + 2) * SW + x] = 120;
+        }
+      }
+    }
+  }
+  let seed = 11;
+  const rand = () => {
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+    return seed / 0x7fffffff;
+  };
+  for (let y = 20; y < 150; y += 1) for (let x = 330; x < 580; x += 1) data[y * SW + x] = Math.max(0, Math.min(255, 70 + ((x + y) % 120) + Math.round(rand() * 50 - 25)));
+  return { w: SW, h: SH, data };
+}
+
+const HINTED = { reason: 'Fixture: the spread is too small to read whole.', reviewBy: '2027-04-09' };
+
+test('a half or a region needs a reason and a review date, and stays on a PDF page', () => {
+  assert.deepEqual(cropProblems({ half: 'right', ...HINTED }, 'pdf'), []);
+  assert.deepEqual(cropProblems({ region: { left: 0, top: 0.3, right: 0.5, bottom: 1 }, ...HINTED }, 'pdf'), []);
+  assert.ok(cropProblems({ half: 'right' }, 'pdf').some((p) => /reason/.test(p)));
+  assert.ok(cropProblems({ half: 'right', reason: 'x' }, 'pdf').some((p) => /reviewBy/.test(p)));
+  assert.ok(cropProblems({ half: 'middle', ...HINTED }, 'pdf').some((p) => /crop.half/.test(p)));
+  assert.ok(cropProblems({ half: 'left', region: { left: 0, top: 0, right: 0.5, bottom: 1 }, ...HINTED }, 'pdf').some((p) => /both/.test(p)));
+  assert.ok(cropProblems({ region: { left: 0.6, top: 0, right: 0.5, bottom: 1 }, ...HINTED }, 'pdf').some((p) => /left of/.test(p)));
+  assert.ok(cropProblems({ region: { left: 0, top: 0.5, right: 0.5, bottom: 0.4 }, ...HINTED }, 'pdf').some((p) => /above crop.region.bottom/.test(p)));
+  assert.ok(cropProblems({ region: { left: 0, top: 0, right: 0.1, bottom: 1 }, ...HINTED }, 'pdf').some((p) => /under 15%/.test(p)));
+  assert.ok(cropProblems({ region: { left: 0, top: 0, right: 1.2, bottom: 1 }, ...HINTED }, 'pdf').some((p) => /not a fraction/.test(p)));
+  assert.ok(cropProblems({ half: 'left', ...HINTED }, 'html').some((p) => /for a PDF page/.test(p)));
+  assert.ok(entryProblems('fixture', { ...SEC, crop: { half: 'left' } }).some((p) => /reason/.test(p)));
+  // The card-window hints alone are what they were: no reason needed.
+  assert.deepEqual(cropProblems({ top: 0.1 }, 'pdf'), []);
+});
+
+test('above is for an HTML filing only, bounded, and documented', () => {
+  assert.deepEqual(cropProblems({ above: 0.06, ...HINTED }, 'html'), []);
+  assert.ok(cropProblems({ above: 0.06 }, 'html').some((p) => /reason/.test(p)));
+  assert.ok(cropProblems({ above: 0.8, ...HINTED }, 'html').some((p) => /between 0 and 0.5/.test(p)));
+  assert.ok(cropProblems({ above: 0.06, ...HINTED }, 'pdf').some((p) => /for an HTML filing/.test(p)));
+});
+
+test('a half is the page of the spread, and a region is the box it names', () => {
+  assert.deepEqual(cropRegion(undefined), { left: 0, top: 0, right: 1, bottom: 1 });
+  assert.deepEqual(cropRegion({ top: 0.2 }), { left: 0, top: 0, right: 1, bottom: 1 });
+  assert.deepEqual(cropRegion({ half: 'left' }), { left: 0, top: 0, right: 0.5, bottom: 1 });
+  assert.deepEqual(cropRegion({ half: 'right' }), { left: 0.5, top: 0, right: 1, bottom: 1 });
+  assert.deepEqual(cropRegion({ region: { left: 0.1, top: 0.2, right: 0.4, bottom: 0.9 } }), { left: 0.1, top: 0.2, right: 0.4, bottom: 0.9 });
+  assert.deepEqual(regionBox(2000, 1500, cropRegion({ half: 'right' })), { x: 1000, y: 0, w: 1000, h: 1500 });
+  assert.deepEqual(regionBox(4000, 3000, { left: 0.025, top: 0.3, right: 0.32, bottom: 0.92 }), { x: 100, y: 900, w: 1180, h: 1860 });
+});
+
+test('cropImage cuts exactly the region\'s pixels', () => {
+  const im = spread();
+  const r = cropImage(im, { left: 0.5, top: 0.2, right: 1, bottom: 1 });
+  assert.equal(r.w, 600);
+  assert.equal(r.h, 360);
+  for (const [x, y] of [[0, 0], [37, 11], [599, 359], [140, 200]]) assert.equal(r.data[y * r.w + x], im.data[(90 + y) * im.w + 600 + x]);
+});
+
+test('on a spread, the guard judges the region alone, and a region can leave a photograph out but never let one in', () => {
+  const im = spread();
+  const whole = judgePage(im);
+  assert.ok(whole.pagePhotoShare > PAGE_PHOTO_LIMIT, `whole spread ${whole.pagePhotoShare}`);
+  assert.equal(whole.detail.ok, false);
+  // The right page carries no photograph: both uses pass, the card at its top.
+  const right = judgePage(cropImage(im, cropRegion({ half: 'right' })));
+  assert.equal(right.pagePhotoShare, 0);
+  assert.equal(right.detail.ok, true);
+  assert.equal(right.card.ok, true);
+  assert.equal(right.card.top, 0);
+  // The left page holds the photograph and is still refused, at the same threshold.
+  const left = judgePage(cropImage(im, cropRegion({ half: 'left' })));
+  assert.ok(left.pagePhotoShare > whole.pagePhotoShare);
+  assert.equal(left.detail.ok, false);
+  // A region of the left page below the photograph is accepted.
+  const below = judgePage(cropImage(im, { left: 0, top: 0.4, right: 0.5, bottom: 1 }));
+  assert.equal(below.pagePhotoShare, 0);
+  assert.equal(below.detail.ok, true);
+});
+
+test('a region holds the preview to the render page; the card window sits inside it', () => {
+  assert.deepEqual(candidatePages({ renderPage: 7, lastPage: 13, crop: { half: 'right', ...HINTED } }), [7]);
+  assert.deepEqual(candidatePages({ renderPage: 7, lastPage: 13, crop: { top: 0.2 } }), [7, 8, 9]);
+  const rb = regionBox(2560, 1920, cropRegion({ half: 'right' }));
+  const inner = cardBox(rb.w, rb.h, { top: 0 });
+  assert.deepEqual({ ...inner, x: rb.x + inner.x, y: rb.y + inner.y }, { x: 1280, y: 0, w: 1280, h: 800 });
+});
+
+test('the render key follows the crop\'s geometry, not its reason or review date', () => {
+  const a = { ...SEC, crop: { half: 'right', ...HINTED } };
+  assert.equal(renderKey({ ...a, crop: { ...a.crop, reason: 'reworded', reviewBy: '2028-01-01' } }), renderKey(a));
+  assert.notEqual(renderKey({ ...a, crop: { ...a.crop, half: 'left' } }), renderKey(a));
+  assert.notEqual(renderKey(a), renderKey(SEC));
+  // No crop at all keys exactly as before the hints existed.
+  assert.equal(cropGeometry(undefined), null);
+  assert.equal(renderKey({ ...SEC, guardReviewBy: '2027-04-09' }), renderKey(SEC));
 });
 
 /* ------------------------------------------------------------ the manifest -- */
@@ -339,6 +477,27 @@ test('Greenhaven Road: restrictive, identity cover, no files and no manifest ent
   const dir = join(ROOT, 'data', THUMBS_DIR);
   const files = existsSync(dir) ? readdirSync(dir) : [];
   assert.ok(!files.some((f) => f.startsWith('greenhaven')));
+});
+
+test('the graphics override is held to the one reviewed record, with a reason and a review date', () => {
+  const overridden = Object.entries(registry).filter(([, e]) => e.guardOverride !== undefined).map(([slug]) => slug);
+  assert.deepEqual(overridden, ['impactive-wex-2026-04']);
+  const e = registry['impactive-wex-2026-04'];
+  assert.equal(e.guardOverride, 'graphics-not-photographs');
+  assert.ok(e.guardNote.trim().length > 40);
+  assert.match(e.guardReviewBy, /^\d{4}-\d{2}-\d{2}$/);
+});
+
+test('every reviewed crop carries its reason and review date', () => {
+  for (const [slug, e] of Object.entries(registry)) {
+    if (!e.crop || !(e.crop.half || e.crop.region || e.crop.above !== undefined)) continue;
+    assert.ok(e.crop.reason?.trim(), slug);
+    assert.match(e.crop.reviewBy, /^\d{4}-\d{2}-\d{2}$/, slug);
+  }
+});
+
+test('every committed manifest entry is current for its registry entry (no record would re-render)', () => {
+  for (const [slug, m] of Object.entries(manifest.records)) assert.equal(m.renderKey, renderKey(registry[slug]), slug);
 });
 
 test('only sec-public records have manifest entries, and the committed files match it', () => {

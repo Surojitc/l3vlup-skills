@@ -5,7 +5,12 @@
     "",
     "sourceUrl is the immutable source of record. letterRoute says where the letter starts in it. renderPage is",
     "the page a preview is taken from, and lastPage the last page of the letter (the photo guard may move on to",
-    "the next page, never past it). crop is an optional hint in fractions of the page: top, left, right.",
+    "the next page, never past it). crop is an optional hint: top, left, right (the card window, in fractions);",
+    "half ('left' or 'right' page of a two-page spread) or region ({left, top, right, bottom} fractions of the page:",
+    "the detail is the region, the card a window in it, and the preview stays on renderPage); above (HTML only: the",
+    "share of a viewport shown above the letter's route). A half, region or above needs a reason and a reviewBy date.",
+    "guardOverride (graphics-not-photographs only) needs a guardNote and a guardReviewBy date, and lifts the photo",
+    "guard's page limit for that record's detail image alone.",
     "",
     "rights: sec-public (a public SEC filing: a preview of the letter page is allowed, credited and linked),",
     "first-party-link-only, or first-party-restrictive (identity cover only: nothing is fetched, rendered or kept).",
@@ -42,7 +47,17 @@
       "thumbnailMode": "source-preview",
       "takedown": false,
       "verifiedOn": "2026-10-07",
-      "provenance": "EDGAR accession 0001193125-23-101952 (CIK 1364742), ARS, filed 2023-04-14"
+      "provenance": "EDGAR accession 0001193125-23-101952 (CIK 1364742), ARS, filed 2023-04-14",
+      "crop": {
+        "region": {
+          "left": 0.025,
+          "top": 0.3,
+          "right": 0.32,
+          "bottom": 0.92
+        },
+        "reason": "PDF page 7 is the two-page spread where the letter opens (report pages 10 and 11); a 480 px preview of the whole spread set the type too small to read. The region is the first two text columns of page 10, from the opening sentence ('Music plays a big role in my life') down, below the portrait and the 'To our shareholders,' band, which the photo guard refuses as photograph. The letter's own words, uncut and unreordered, at about twice the previous size.",
+        "reviewBy": "2027-04-09"
+      }
     },
     "brookfield-2020-03-update-for-shareholders": {
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1001085/000117184320001900/exh_992.htm",
@@ -231,7 +246,8 @@
       "verifiedOn": "2026-10-08",
       "provenance": "EDGAR accession 0000921895-26-000956 (CIK 1309108), Exhibit 99.1 to DFAN14A, filed 2026-04-10",
       "guardOverride": "graphics-not-photographs",
-      "guardNote": "Reviewed 2026-10-08 on the contact sheet: the tone on pages 2 to 14 is Impactive's orange 'Wake Up WEX' letterhead band and footer rule, a designed gradient, not a photograph."
+      "guardNote": "Reviewed 2026-10-08 on the contact sheet: the tone on pages 2 to 14 is Impactive's orange 'Wake Up WEX' letterhead band and footer rule, a designed gradient, not a photograph.",
+      "guardReviewBy": "2027-04-09"
     },
     "jpmorgan-2022-letter-to-shareholders": {
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/19617/000001961723000286/jpmc2022ar.pdf",
@@ -375,7 +391,12 @@
       "thumbnailMode": "source-preview",
       "takedown": false,
       "verifiedOn": "2026-10-08",
-      "provenance": "EDGAR accession 0001104659-26-105793 (CIK 91847), N-CSRS, filed 2026-09-08"
+      "provenance": "EDGAR accession 0001104659-26-105793 (CIK 91847), N-CSRS, filed 2026-09-08",
+      "crop": {
+        "above": 0.06,
+        "reason": "The route lands on 'DEAR SHAREHOLDER:', and the default 56 px lead clipped the top of the 'SOURCE CAPITAL / LETTER TO SHAREHOLDERS' heading above it. The viewport now starts a little higher so the whole heading and the top of the page frame show; the scale is unchanged.",
+        "reviewBy": "2027-04-09"
+      }
     },
     "starboard-autodesk-2025-03": {
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000816/ex1todfan14a06297347_031925.pdf",

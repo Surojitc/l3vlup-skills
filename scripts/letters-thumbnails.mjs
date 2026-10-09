@@ -6,6 +6,7 @@
 //   node scripts/letters-thumbnails.mjs --only a,b      just these slugs
 //   node scripts/letters-thumbnails.mjs --dry-run       say what would happen
 //   node scripts/letters-thumbnails.mjs --force         re-render even if current
+//                                                       (with --only, just those)
 //   node scripts/letters-thumbnails.mjs --html          also render SEC HTML letters
 //                                                       (detail size only; needs
 //                                                       playwright-core and Chromium)
@@ -59,10 +60,14 @@ import {
   candidatePages,
   cardBox,
   choosePages,
+  cropImage,
+  cropRegion,
   entryProblems,
+  hasRegion,
   isWebp,
   judgePage,
   parsePgm,
+  regionBox,
   renderDecision,
   renderKey,
   sha256,
@@ -197,8 +202,8 @@ async function download(entry) {
 }
 
 /** pdftoppm one page: grey PGM for the guard, or PNG for the crops. */
-function renderPdfPage(pdf, page, outBase, { gray }) {
-  const args = ['-f', String(page), '-l', String(page), '-singlefile', '-scale-to-x', String(gray ? ANALYSIS_W : RENDER_W), '-scale-to-y', '-1'];
+function renderPdfPage(pdf, page, outBase, { gray, width = RENDER_W }) {
+  const args = ['-f', String(page), '-l', String(page), '-singlefile', '-scale-to-x', String(gray ? ANALYSIS_W : width), '-scale-to-y', '-1'];
   if (gray) args.push('-gray');
   else args.push('-png');
   run('pdftoppm', [...args, pdf, outBase]);
@@ -217,23 +222,37 @@ async function renderPdfRecord(slug, entry, enc, dir) {
   writeFileSync(pdf, got.body);
   const pages = pdfPageCount(pdf);
   const crop = entry.crop ?? {};
+  // A region (or a half of a spread) is judged alone, at the page's own
+  // analysis scale, and cut from a render wide enough that the region itself
+  // is RENDER_W across: the type is enlarged from the source, never upscaled.
+  const region = cropRegion(crop);
+  const regioned = hasRegion(crop);
+  const hints = { top: crop.top, left: crop.left, right: crop.right };
+  const pngWidth = regioned ? Math.min(4096, Math.round(RENDER_W / (region.right - region.left))) : RENDER_W;
   const judged = [];
   for (const page of candidatePages(entry)) {
     if (pages && page > pages) break;
     const pgm = renderPdfPage(pdf, page, join(dir, `g${page}`), { gray: true });
-    judged.push({ page, verdict: judgePage(parsePgm(readFileSync(pgm)), { ...crop, graphicsReviewed: entry.guardOverride === 'graphics-not-photographs' }) });
+    const grey = parsePgm(readFileSync(pgm));
+    judged.push({ page, verdict: judgePage(regioned ? cropImage(grey, region) : grey, { ...hints, graphicsReviewed: entry.guardOverride === 'graphics-not-photographs' }) });
   }
   const choice = choosePages(judged);
   const out = { source: { sha256: got.sha256, bytes: got.bytes, pages }, files: {}, notes: [] };
+  if (regioned) out.notes.push(`region: ${crop.half ? `${crop.half} half of the spread` : `${region.left}-${region.right} across, ${region.top}-${region.bottom} down`}; review by ${crop.reviewBy}`);
   const pngs = new Map();
   const pagePng = (page) => {
-    if (!pngs.has(page)) pngs.set(page, renderPdfPage(pdf, page, join(dir, `p${page}`), { gray: false }));
+    if (!pngs.has(page)) pngs.set(page, renderPdfPage(pdf, page, join(dir, `p${page}`), { gray: false, width: pngWidth }));
     return pngs.get(page);
+  };
+  const regionOf = (png) => {
+    const { W, H } = pngSize(png);
+    return regionBox(W, H, region);
   };
   if (choice.card) {
     const png = pagePng(choice.card.page);
-    const { W, H } = pngSize(png);
-    const box = cardBox(W, H, { ...crop, top: choice.card.top });
+    const rb = regionOf(png);
+    const inner = cardBox(rb.w, rb.h, { ...hints, top: choice.card.top });
+    const box = { ...inner, x: rb.x + inner.x, y: rb.y + inner.y };
     for (const slot of ['card', 'card2x']) {
       const file = join(DATA, thumbPath(slug, slot));
       const r = await encodeSlot(enc, png, box, slot, file);
@@ -244,9 +263,8 @@ async function renderPdfRecord(slug, entry, enc, dir) {
   } else out.notes.push(`card: identity cover (${choice.cardRefused})`);
   if (choice.detail) {
     const png = pagePng(choice.detail.page);
-    const { W, H } = pngSize(png);
     const file = join(DATA, thumbPath(slug, 'detail'));
-    const r = await encodeSlot(enc, png, { x: 0, y: 0, w: W, h: H }, 'detail', file);
+    const r = await encodeSlot(enc, png, regionOf(png), 'detail', file);
     if (r) out.files.detail = { ...r, page: choice.detail.page };
     else out.notes.push('detail: over budget at every quality');
     for (const s of choice.detail.skipped) out.notes.push(`detail: p${s.page} skipped (${s.reason})`);
@@ -318,7 +336,9 @@ async function renderHtmlRecord(slug, entry, enc, dir) {
     // The letter's viewport, then a quarter of a viewport at a time below it,
     // so a photograph banner is cleared without skipping the letter's opening.
     for (let k = 0; k < 8; k += 1) {
-      const at = Math.max(0, Math.round(y - 56 + (k / 4) * vh + (crop.top ?? 0) * vh));
+      // crop.above, a reviewed per-record hint, shows more of the page above
+      // the route (a heading over the salutation); 56 px is the default lead.
+      const at = Math.max(0, Math.round(y - 56 - (crop.above ?? 0) * vh + (k / 4) * vh + (crop.top ?? 0) * vh));
       if (at > scrollable) break;
       await page.evaluate((v) => window.scrollTo(0, v), at);
       await sleep(300);
@@ -452,6 +472,7 @@ async function main() {
           quality: f.quality,
           ...(f.page ? { page: f.page } : {}),
           ...(f.top !== undefined ? { top: f.top } : {}),
+          ...(hasRegion(e.crop) && !d.html ? { region: cropRegion(e.crop) } : {}),
         };
       }
       if (!files.card && !files.detail) {

@@ -51,32 +51,58 @@
       "sourceSha256": "67fcf21276fac6f0ac68e9ff5baa886ea0f64afe462ee2308141fa4dc435072d",
       "sourceBytes": 2199272,
       "sourcePages": 72,
-      "renderKey": "93fc695a6cb66a35",
+      "renderKey": "428f84e88b77188a",
       "renderer": "pdftoppm + Pillow 12.3.0, v2",
-      "generatedOn": "2026-10-08",
+      "generatedOn": "2026-10-09",
       "card": {
         "src": "letters/thumbs/blackrock-2023-chairmans-letter-to-investors-card.webp",
         "w": 400,
         "h": 250,
-        "bytes": 18544,
-        "sha256": "c3935b9ea321e644d11bdc4b5a4e945a2bc3195b266f14d4045519ec3a1a1bf5",
+        "bytes": 21172,
+        "sha256": "4b45127ceef5511d30e110d85b85679dfea8ee71ec0d698e45cf777b835c5305",
         "quality": 70,
-        "page": 8,
-        "top": 0
+        "page": 7,
+        "top": 0,
+        "region": {
+          "left": 0.025,
+          "top": 0.3,
+          "right": 0.32,
+          "bottom": 0.92
+        }
+      },
+      "card2x": {
+        "src": "letters/thumbs/blackrock-2023-chairmans-letter-to-investors-card-640.webp",
+        "w": 640,
+        "h": 400,
+        "bytes": 39286,
+        "sha256": "5518a8bc9e7d5509bada6ce48e919b05f57fda710cb8b1733d39ec7784a4f6d1",
+        "quality": 70,
+        "page": 7,
+        "top": 0,
+        "region": {
+          "left": 0.025,
+          "top": 0.3,
+          "right": 0.32,
+          "bottom": 0.92
+        }
       },
       "detail": {
         "src": "letters/thumbs/blackrock-2023-chairmans-letter-to-investors-detail.webp",
         "w": 480,
-        "h": 360,
-        "bytes": 29978,
-        "sha256": "df231dc27422930019483c24774793e05b43117cf22702f8379a3ec23368cc60",
-        "quality": 70,
-        "page": 8
+        "h": 756,
+        "bytes": 59108,
+        "sha256": "aa5dfd0dc1dab9804633563c0138fdd773939aaccabb1d5f6513c2837e899ce7",
+        "quality": 46,
+        "page": 7,
+        "region": {
+          "left": 0.025,
+          "top": 0.3,
+          "right": 0.32,
+          "bottom": 0.92
+        }
       },
       "notes": [
-        "card2x: over budget at every quality",
-        "card: p7 skipped (no text window clear of photographs)",
-        "detail: p7 skipped (page is 11% photograph)"
+        "region: 0.025-0.32 across, 0.3-0.92 down; review by 2027-04-09"
       ]
     },
     "brookfield-2020-03-update-for-shareholders": {
@@ -616,17 +642,17 @@
     },
     "source-capital-h1-2026-letter": {
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465926105793/tm2622114d1_ncsrs.htm",
-      "sourceSha256": "909770c65651fce8672447cb66f5167f3a7ce42b292db2f188fb4b2425e1a86d",
-      "sourceBytes": 1573483,
-      "renderKey": "2eac6c416f2aeef1",
+      "sourceSha256": "f09161977d311dc5ef6bde1d472ec6a1429e8f91bbb7012c330e7f8d5805e7fa",
+      "sourceBytes": 1573489,
+      "renderKey": "3983230e6c9e8235",
       "renderer": "chromium + Pillow 12.3.0, v2",
-      "generatedOn": "2026-10-08",
+      "generatedOn": "2026-10-09",
       "detail": {
         "src": "letters/thumbs/source-capital-h1-2026-letter-detail.webp",
         "w": 480,
         "h": 621,
-        "bytes": 20268,
-        "sha256": "62c3ae20b12fb390505f82670d068146de63236076fab94150c4a0db66924343",
+        "bytes": 19496,
+        "sha256": "a83e621e18a0d2e9e7f20390de21ccba9bea3cf8edb27c1b2b3320058bf94fbc",
         "quality": 70
       },
       "notes": [
