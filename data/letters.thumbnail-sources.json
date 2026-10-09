@@ -1,0 +1,502 @@
+{
+  "_comment": [
+    "Letters: where each record's source lives and what may be shown of it, keyed by the L3VLUP record slug",
+    "(data/letters.catalogue.json in the site repo). Read by scripts/letters-thumbnails.mjs.",
+    "",
+    "sourceUrl is the immutable source of record. letterRoute says where the letter starts in it. renderPage is",
+    "the page a preview is taken from, and lastPage the last page of the letter (the photo guard may move on to",
+    "the next page, never past it). crop is an optional hint: top, left, right (the card window, in fractions);",
+    "half ('left' or 'right' page of a two-page spread) or region ({left, top, right, bottom} fractions of the page:",
+    "the detail is the region, the card a window in it, and the preview stays on renderPage); above (HTML only: the",
+    "share of a viewport shown above the letter's route). A half, region or above needs a reason and a reviewBy date.",
+    "guardOverride (graphics-not-photographs only) needs a guardNote and a guardReviewBy date, and lifts the photo",
+    "guard's page limit for that record's detail image alone.",
+    "",
+    "rights: sec-public (a public SEC filing: a preview of the letter page is allowed, credited and linked),",
+    "first-party-link-only, or first-party-restrictive (identity cover only: nothing is fetched, rendered or kept).",
+    "thumbnailMode: source-preview, identity-cover or disabled. takedown: true withdraws a preview at the next run,",
+    "whatever the mode says. Edit this file, not the script."
+  ],
+  "version": 1,
+  "review": {
+    "status": "approved",
+    "reviewedOn": "2026-10-09",
+    "reviewer": "owner (Suro)",
+    "method": "Human review of the contact sheet (npm run review:thumbnails) and of the committed preview files.",
+    "corrections": [
+      "blackrock-2023-chairmans-letter-to-investors: two-page spread replaced by a region of PDF page 7 holding the letter's opening columns (crop.region), corrected before approval.",
+      "source-capital-h1-2026-letter: detail crop raised (crop.above 0.06) so the full heading and salutation show, corrected before approval."
+    ],
+    "overridesApproved": [
+      "impactive-wex-2026-04: graphics-not-photographs (designed letterhead gradient, not photography)"
+    ],
+    "unchangedDuringCorrection": "Every other preview file was byte-identical (sha256) before and after the final correction pass.",
+    "approvedSet": {
+      "records": 22,
+      "files": 61,
+      "sha256": "9d9385d2fe7d611e72dc9a1e9daa87a41a432ac060a05f656b0d79c8744c6cd4"
+    },
+    "note": "If any preview is added, re-rendered or withdrawn, previewSetDigest(manifest) no longer matches approvedSet.sha256 and the test fails until the set is reviewed again and this block is updated."
+  },
+  "records": {
+    "berkshire-2025-letter-greg-abel": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526106284/d948018dars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 5
+      },
+      "renderPage": 5,
+      "lastPage": 22,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001193125-26-106284 (CIK 1067983), ARS, filed 2026-03-13"
+    },
+    "blackrock-2023-chairmans-letter-to-investors": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1364742/000119312523101952/d366149dars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 7
+      },
+      "renderPage": 7,
+      "lastPage": 13,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001193125-23-101952 (CIK 1364742), ARS, filed 2023-04-14",
+      "crop": {
+        "region": {
+          "left": 0.025,
+          "top": 0.3,
+          "right": 0.32,
+          "bottom": 0.92
+        },
+        "reason": "PDF page 7 is the two-page spread where the letter opens (report pages 10 and 11); a 480 px preview of the whole spread set the type too small to read. The region is the first two text columns of page 10, from the opening sentence ('Music plays a big role in my life') down, below the portrait and the 'To our shareholders,' band, which the photo guard refuses as photograph. The letter's own words, uncut and unreordered, at about twice the previous size.",
+        "reviewBy": "2027-04-09"
+      }
+    },
+    "brookfield-2020-03-update-for-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1001085/000117184320001900/exh_992.htm",
+      "format": "html",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0001171843-20-001900 (CIK 1001085), Exhibit 99.2 to 6-K, filed 2020-03-23",
+      "note": "Page images over a hidden text layer, with a photograph banner at the top: the detail render scrolls below it (photo guard)."
+    },
+    "capital-one-2024-letter-rich-fairbank": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/927628/000119312525065538/d819004dars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 3
+      },
+      "renderPage": 3,
+      "lastPage": 8,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001193125-25-065538 (CIK 927628), ARS, filed 2025-03-27"
+    },
+    "citigroup-2023-letter-jane-fraser": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/831001/000120677424000274/citi428496-3_ars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 4
+      },
+      "renderPage": 4,
+      "lastPage": 9,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001206774-24-000274 (CIK 831001), ARS, filed 2024-03-19"
+    },
+    "elliott-cdk-global-2016-05": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0001013594-16-001033 (CIK 1609702), SC 13D, filed 2016-05-04"
+    },
+    "exor-2025-letter-to-shareholders": {
+      "sourceUrl": "https://www.exor.com/sites/default/files/2026/page-documents/EXOR%202025%20Letter%20to%20Shareholders.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 2
+      },
+      "renderPage": 2,
+      "lastPage": 17,
+      "rights": "first-party-restrictive",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "Exor first-party file under /files/2026/page-documents/ naming the year; Last-Modified 2026-03-23. Not the rolling letter-shareholders page."
+    },
+    "fairfax-1985-letter-prem-watsa": {
+      "sourceUrl": "https://www.fairfax.ca/wp-content/uploads/1985-Letter.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "rights": "first-party-restrictive",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "Fairfax first-party archive: a fixed path named by year (1985-Letter.pdf). Not on EDGAR.",
+      "note": "Fairfax's site notice bars reproduction: identity cover, link only."
+    },
+    "giverny-capital-2025-annual-letter": {
+      "sourceUrl": "https://givernycapital.com/wp-content/uploads/2026/03/giverny-capital-annual-letter-2025-1.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 2
+      },
+      "renderPage": 2,
+      "lastPage": 20,
+      "rights": "first-party-restrictive",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "Giverny first-party upload under /2026/03/ with a filename naming the year; PDF created 2026-03-10.",
+      "note": "Site notice bars reproduction, and page 1 is a painting: never rendered."
+    },
+    "goldman-sachs-2022-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/886982/000119312523073310/d439331dars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 3
+      },
+      "renderPage": 3,
+      "lastPage": 16,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001193125-23-073310 (CIK 886982), ARS, filed 2023-03-17"
+    },
+    "goldman-sachs-2025-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/886982/000119312526116310/d106738dars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 3
+      },
+      "renderPage": 3,
+      "lastPage": 15,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0001193125-26-116310 (CIK 886982), ARS, filed 2026-03-20"
+    },
+    "greenhaven-road-q2-2026-letter": {
+      "sourceUrl": "https://www.greenhavenroad.com/s/Greenhaven-Road-Q2-2026-Final.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "lastPage": 9,
+      "rights": "first-party-restrictive",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "First-party Squarespace alias /s/Greenhaven-Road-Q2-2026-Final.pdf, named by period; resolves to static1.squarespace.com/static/5498841ce4b0311b8ddc012b/t/6a7b3b50605fcd64fc1b4eaa/1786461008332/Greenhaven+Road+Q2+2026+Final.pdf (uploaded 2026-08-11).",
+      "note": "The PDF calls itself confidential and not to be reproduced or redistributed: links to the public first-party URL only, identity cover, no thumbnail, nothing cached. If the source stops being public, the record keeps no copy."
+    },
+    "hayden-capital-q2-2026-letter": {
+      "sourceUrl": "https://content.haydencapital.com/Hayden-Capital-Quarterly-Letter-2026-Q2.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 2
+      },
+      "renderPage": 2,
+      "rights": "first-party-link-only",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "Hayden first-party content host; the filename names the period (2026-Q2); letter dated 2026-08-27."
+    },
+    "hussman-2008-10-four-magic-words": {
+      "sourceUrl": "https://www.hussmanfunds.com/wmc/wmc081013.htm",
+      "format": "html",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "rights": "first-party-link-only",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "Hussman first-party archive: the page is named by date (wmc081013 = 2008-10-13).",
+      "note": "The site grants redistribution with attribution, but under the owner policy previews are for SEC filings only: identity cover, link only."
+    },
+    "impactive-wex-2026-04": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1309108/000092189526000956/ex991dfan14a12236009_041026.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 2
+      },
+      "renderPage": 2,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000921895-26-000956 (CIK 1309108), Exhibit 99.1 to DFAN14A, filed 2026-04-10",
+      "guardOverride": "graphics-not-photographs",
+      "guardNote": "Reviewed 2026-10-08 on the contact sheet: the tone on pages 2 to 14 is Impactive's orange 'Wake Up WEX' letterhead band and footer rule, a designed gradient, not a photograph.",
+      "guardReviewBy": "2027-04-09"
+    },
+    "jpmorgan-2022-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/19617/000001961723000286/jpmc2022ar.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 4
+      },
+      "renderPage": 4,
+      "lastPage": 44,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0000019617-23-000286 (CIK 19617), ARS, filed 2023-04-04"
+    },
+    "markel-2023-letter-orange-and-blue": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1096343/000109634324000042/mkl12312023_ars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 5
+      },
+      "renderPage": 5,
+      "lastPage": 15,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001096343-24-000042 (CIK 1096343), ARS, filed 2024-03-06"
+    },
+    "microsoft-fy2023-shareholder-letter": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/789019/000119312523259254/d506673dars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 3
+      },
+      "renderPage": 3,
+      "lastPage": 10,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001193125-23-259254 (CIK 789019), ARS, filed 2023-10-19"
+    },
+    "morgan-stanley-2024-letter-ted-pick": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/895421/000114036124018317/ny20020759x4_ars.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 1
+      },
+      "renderPage": 1,
+      "lastPage": 13,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001140361-24-018317 (CIK 895421), ARS, filed 2024-04-05"
+    },
+    "muddy-waters-sino-forest-2011-06": {
+      "sourceUrl": "https://muddywatersresearch.com/wp-content/uploads/2011/06/MW_TRE_060211.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 2
+      },
+      "renderPage": 2,
+      "rights": "first-party-link-only",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "Muddy Waters first-party upload under /2011/06/ with a dated filename (060211)."
+    },
+    "nvidia-fy2026-letter-jensen-huang": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000038/a2026-annualxreportxwebxfi.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 12
+      },
+      "renderPage": 12,
+      "lastPage": 18,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0001045810-26-000038 (CIK 1045810), ARS, filed 2026-05-12"
+    },
+    "ruane-sequoia-fy2001-letter": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/89043/000008904302000001/n30d.txt",
+      "format": "text",
+      "letterRoute": {
+        "method": "text-fragment",
+        "phrase": "Dear Shareholder"
+      },
+      "rights": "sec-public",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000089043-02-000001 (CIK 89043), N-30D, filed 2002-02-28",
+      "note": "A plain-text filing: a render is monospaced grey text, so the identity cover reads better."
+    },
+    "sachem-head-us-foods-2022-04": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000921895-22-001376 (CIK 1665918), DFAN14A, filed 2022-04-26"
+    },
+    "schwab-2025-letter-rick-wurster": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/316709/000031670926000012/a2025schwabannualreport.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 4
+      },
+      "renderPage": 4,
+      "lastPage": 8,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0000316709-26-000012 (CIK 316709), ARS, filed 2026-04-06"
+    },
+    "source-capital-h1-2026-letter": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465926105793/tm2622114d1_ncsrs.htm",
+      "format": "html",
+      "letterRoute": {
+        "method": "text-fragment",
+        "phrase": "Dear Shareholder"
+      },
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0001104659-26-105793 (CIK 91847), N-CSRS, filed 2026-09-08",
+      "crop": {
+        "above": 0.06,
+        "reason": "The route lands on 'DEAR SHAREHOLDER:', and the default 56 px lead clipped the top of the 'SOURCE CAPITAL / LETTER TO SHAREHOLDERS' heading above it. The viewport now starts a little higher so the whole heading and the top of the page frame show; the scale is unchanged.",
+        "reviewBy": "2027-04-09"
+      }
+    },
+    "starboard-autodesk-2025-03": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000816/ex1todfan14a06297347_031925.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000921895-25-000816 (CIK 769397), DFAN14A, filed 2025-03-19"
+    },
+    "starboard-bristol-myers-2019-02": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000921895-19-000610 (CIK 14272), DFAN14A, filed 2019-02-28"
+    },
+    "starboard-carmax-2026-03": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000921895-26-000666 (CIK 1170010), DFAN14A, filed 2026-03-11"
+    },
+    "starboard-darden-2014-07": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "renderPage": 1,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000921895-14-001551 (CIK 940944), DFAN14A, filed 2014-07-15"
+    },
+    "third-point-star-gas-2005-02": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1002590/000089914005000128/t2774169.txt",
+      "format": "text",
+      "letterRoute": {
+        "method": "direct"
+      },
+      "rights": "sec-public",
+      "thumbnailMode": "identity-cover",
+      "takedown": false,
+      "verifiedOn": "2026-10-08",
+      "provenance": "EDGAR accession 0000899140-05-000128 (CIK 1002590), Exhibit 2 to SC 13D, filed 2005-02-14",
+      "note": "A plain-text filing: the identity cover reads better."
+    },
+    "wells-fargo-2025-letter-to-shareholders": {
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/72971/000007297126000202/wfc2025annualreport-arsfil.pdf",
+      "format": "pdf",
+      "letterRoute": {
+        "method": "pdf-page",
+        "page": 3
+      },
+      "renderPage": 3,
+      "lastPage": 12,
+      "rights": "sec-public",
+      "thumbnailMode": "source-preview",
+      "takedown": false,
+      "verifiedOn": "2026-10-07",
+      "provenance": "EDGAR accession 0000072971-26-000202 (CIK 72971), ARS, filed 2026-03-18"
+    }
+  }
+}
