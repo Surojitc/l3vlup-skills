@@ -95,6 +95,7 @@ jobs:
           node scripts/__tests__/publication-persistence.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
           python3 scripts/__tests__/sync-peers.test.py
+          python3 scripts/__tests__/sync-funds.test.py
 
       - name: Economic calendar
         continue-on-error: true
