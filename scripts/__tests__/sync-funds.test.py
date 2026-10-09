@@ -398,7 +398,7 @@ check("ten amendments to one quarter: applied in filing order",
 # ── 6. one manager, several filers ──────────────────────────────────────────
 # Pershing Square's 2026 Q2 book is in its listed parent's report; the parent also
 # filed a one-line report of its own for Q1, which must not displace the manager's.
-def run_multi(sources, tables, notices_meta=None, today="2026-10-08", entry=None):
+def run_multi(sources, tables, notices_meta=None, today="2026-10-08", entry=None, covers=None):
     seen_ciks = []
     def fake_read_filing(cik, f, use_cache=True):
         seen_ciks.append((cik, f["accession"]))
@@ -408,7 +408,7 @@ def run_multi(sources, tables, notices_meta=None, today="2026-10-08", entry=None
         return filing(f["accession"], [dict(p) for p in t],
                       quarter=f["quarter"], period=f["periodOfReport"], filed=f["filed"])
     sf.read_filing = fake_read_filing
-    sf.read_cover = lambda cik, acc, use_cache=True: {}
+    sf.read_cover = lambda cik, acc, use_cache=True: (covers or {}).get(acc, {})
     sf.read_notice = lambda cik, acc, use_cache=True: (notices_meta or {}).get(acc, {})
     stats = {k: 0 for k in ("fetched", "cached", "filingErrors", "filingsEmpty", "amendmentsSkipped",
                             "amendmentsApplied", "amendmentsTreatedAsRestated", "tickerTried", "tickerHit")}
@@ -439,7 +439,9 @@ tables = {
     "N-Q4": [pos("HHH", 500e6, 7)],
     "N-Q2": [pos("HLT", 2300e6, 22), pos("UBER", 800e6, 8), pos("HHH", 600e6, 7)],
 }
-m, stats, seen = run_multi([(pscm, old_sub), (psi, new_sub)], tables)
+m, stats, seen = run_multi([(pscm, old_sub), (psi, new_sub)], tables,
+                           covers={"N-Q2": {"otherManagers": ["Pershing Square Capital Management, L.P.",
+                                                              "Pershing Square HHH Holdings, LLC"]}})
 qs = [(h["quarter"], h["cik"], h["accession"]) for h in m["history"]]
 check("identity: one manager across the filer change (three quarters, one row)",
       [q for q, _, _ in qs] == ["2026Q2", "2026Q1", "2025Q4"], qs)
@@ -462,7 +464,32 @@ check("identity: filers listed with their windows",
       == [(old_cik, None, "2026-03-31"), (new_cik, "2026-06-30", None)], m.get("filers"))
 fc = m["filerChanges"]
 check("identity: the change is recorded with the book's ratio",
-      fc == [{"quarter": "2026Q2", "fromCik": old_cik, "toCik": new_cik, "aumRatio": round(3700 / 3500, 3), "checked": True}], fc)
+      fc == [{"quarter": "2026Q2", "fromCik": old_cik, "toCik": new_cik, "aumRatio": round(3700 / 3500, 3), "checked": True,
+              "includedManagers": ["Pershing Square Capital Management, L.P.", "Pershing Square HHH Holdings, LLC"]}], fc)
+
+# The successor's cover names the other managers its report includes.
+cover_xml = """<edgarSubmission xmlns="http://www.sec.gov/edgar/thirteenffiler">
+  <schemaVersion>X0202</schemaVersion>
+  <formData>
+    <coverPage><filingManager><name>PERSHING SQUARE INC.</name></filingManager></coverPage>
+    <summaryPage>
+      <otherIncludedManagersCount>2</otherIncludedManagersCount>
+      <tableEntryTotal>15</tableEntryTotal><tableValueTotal>19465692772</tableValueTotal>
+      <otherManagers2Info>
+        <otherManager2><sequenceNumber>1</sequenceNumber>
+          <otherManager><form13FFileNumber>028-11694</form13FFileNumber><name>Pershing Square Capital Management, L.P.</name></otherManager>
+        </otherManager2>
+        <otherManager2><sequenceNumber>2</sequenceNumber>
+          <otherManager><name>Pershing Square HHH Holdings, LLC</name></otherManager>
+        </otherManager2>
+      </otherManagers2Info>
+    </summaryPage>
+  </formData>
+</edgarSubmission>"""
+cov = sf.parse_primary(cover_xml)
+check("cover: the other managers a report includes are read",
+      cov["otherManagers"] == ["Pershing Square Capital Management, L.P.", "Pershing Square HHH Holdings, LLC"], cov)
+check("cover: a report with none says so", sf.parse_primary(cover_xml.replace("otherManager>", "x>"))["otherManagers"] == [])
 
 # Before the successor has filed, the predecessor's notice still dates the page.
 m2, _, _ = run_multi([(pscm, old_sub), (psi, sub_of([]))], tables,

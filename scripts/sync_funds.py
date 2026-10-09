@@ -470,6 +470,13 @@ def parse_primary(xml: str) -> dict:
         "managerName": (_text(manager, "name") if manager is not None else None) or "",
         "entryTotal": num(summary, "tableEntryTotal"),
         "valueTotal": num(summary, "tableValueTotal"),
+        # The other managers whose holdings this report includes. A report that
+        # consolidates several entities is not the same book as one entity's,
+        # which matters when it succeeds that entity's own report.
+        "otherManagers": [
+            n for e in (summary.iter() if summary is not None else [])
+            if _tag(e) == "otherManager" and (n := (_text(e, "name") or "").strip())
+        ],
     }
 
 
@@ -599,7 +606,9 @@ def read_cover(cik: str, accession: str, *, use_cache: bool = True) -> dict:
     path = CACHE / cik / f"{accession}.cover.json"
     if use_cache and path.exists():
         try:
-            return json.loads(path.read_text())
+            cached = json.loads(path.read_text())
+            if "otherManagers" in cached:  # a cover cached before the field existed is read again
+                return cached
         except Exception:
             path.unlink(missing_ok=True)
     meta = parse_primary(
@@ -1201,6 +1210,14 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
             **({"to": filer["to"]} if filer.get("to") else {}),
         } for filer, s in sources]
         changes = filer_changes(history, [f for f, _ in sources])
+        by_quarter = {h["quarter"]: h for h in history}
+        for c in changes:
+            # Whose holdings the successor's first report includes besides its own.
+            try:
+                cover = read_cover(c["toCik"], by_quarter[c["quarter"]]["accession"], use_cache=use_cache)
+                c["includedManagers"] = cover.get("otherManagers", [])
+            except Exception:
+                c["includedManagers"] = None
         for c in changes:
             msg = (f"{entry.get('name')}: {c['quarter']} reported by {c['toCik']} "
                    f"(was {c['fromCik']}), book x{c['aumRatio']}")
@@ -1211,8 +1228,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
         "cik": latest["cik"],
         "name": entry.get("name") or title_case(sub.get("name", "")),
         "slug": entry.get("id") or slugify(entry.get("name") or sub.get("name", "") or cik),
-        **({"filers": filers_out, "filerChanges": filer_changes(history, [f for f, _ in sources])}
-           if filers_out else {}),
+        **({"filers": filers_out, "filerChanges": changes} if filers_out else {}),
         "strategy": entry.get("strategy") or "Unclassified",
         "state": place((business.get("stateOrCountry") or "").strip()),
         "status": status,
