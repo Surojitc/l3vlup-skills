@@ -154,6 +154,56 @@ test('when the text does not say who wrote it, the exhibit is left unattributed 
   assert.deepEqual(detectAdvisers('Process update. Lazard outreach to 30 parties. Lazard discussions continue.'), []);
 });
 
+// Forms the full-corpus re-scan found real authors using, each of which the
+// first version of this rule missed, so their decks lost a correct credit.
+
+test('the client\'s own adviser is not mistaken for the other side', () => {
+  // "Lazard, financial advisor to the Special Committee" is own side; only "to <another party>" is the other side.
+  assert.deepEqual(detectAdvisers('Lazard, financial advisor to the Special Committee, met the Board. Lazard reviewed the forecast.'), ['Lazard']);
+  assert.deepEqual(detectAdvisers('The Board engaged BMO Capital Markets as its independent financial advisor. BMO Capital Markets reviewed the proposal.'), ['BMO Capital Markets']);
+  assert.deepEqual(detectAdvisers('The Conflicts Committee hired Evercore Group L.L.C. as financial advisor. Evercore received projections.'), ['Evercore']);
+  // The other side stays excluded.
+  assert.deepEqual(detectAdvisers('Lazard, financial advisor to Parent, sent a revised bid. Lazard asked for diligence.'), []);
+  assert.deepEqual(detectAdvisers('Moelis held a call with Jefferies, Jay Stein\'s investment bank. Jefferies relayed the offer.'), []);
+});
+
+test('legal-name suffixes do not hide the author\'s own voice', () => {
+  assert.deepEqual(detectAdvisers('PJ Solomon, L.P. and its affiliates provide services. Solomon Partners reviewed the plan.'), ['Solomon Partners']);
+  assert.deepEqual(detectAdvisers('Credit Suisse Securities (USA) LLC understands that the Company. Credit Suisse reviewed the plan.'), ['Credit Suisse']);
+  assert.deepEqual(detectAdvisers('Evercore Group L.L.C. and/or its affiliates may hold positions. Evercore reviewed the plan.'), ['Evercore']);
+  assert.deepEqual(detectAdvisers('This document is for the internal use of the Stifel client to whom it is addressed. Stifel reviewed the plan.'), ['Stifel']);
+});
+
+test('the author\'s defined name and its own header count, with or without quote marks', () => {
+  assert.deepEqual(detectAdvisers('Credit Suisse Securities (USA) LLC (hereafter "Credit Suisse") has acted for the Board. Credit Suisse reviewed the plan.'), ['Credit Suisse']);
+  assert.deepEqual(detectAdvisers('Rothschild & Co (&#x201C;R&Co&#x201D;) was asked to review. Rothschild met management.'), ['Rothschild']);
+  assert.deepEqual(detectAdvisers('Wells Fargo Securities ( WFS ) was asked to review. Wells Fargo met management.'), ['Wells Fargo']);
+  assert.deepEqual(detectAdvisers('Citigroup Global Markets Inc. | Corporate and Investment Banking. Citi reviewed the plan.'), ['Citi']);
+  assert.deepEqual(detectAdvisers('2 Morgan Stanley PROJECT QUARTZ Overview. 3 Morgan Stanley PROJECT QUARTZ Valuation.'), ['Morgan Stanley']);
+});
+
+test('a definition is read inside one sentence, never borrowed from the next', () => {
+  // PJT is named; the next sentence defines Houlihan Lokey's short name. PJT gets no credit from it.
+  assert.deepEqual(detectAdvisers('PJT ran the outreach. Houlihan Lokey Capital, Inc. ("HL") advised the Committee. PJT contacted 30 parties. Houlihan Lokey met management.'), ['Houlihan Lokey']);
+});
+
+test('own-side role statements: retained by the company, the board\'s request', () => {
+  assert.deepEqual(detectAdvisers('TD Securities was retained by the Board to provide an opinion. TD Securities reviewed the plan.'), ['TD Cowen']);
+  assert.deepEqual(detectAdvisers('The Board of Directors subsequently requested that Houlihan Lokey review the proposal. Houlihan Lokey met management.'), ['Houlihan Lokey']);
+  assert.deepEqual(detectAdvisers('The Special Committee has retained Sidley Austin as its legal counsel and Barclays as its financial advisor. Barclays met management.'), ['Barclays']);
+});
+
+test('where one bank wrote the deck, a bank named only by its role is another adviser in the story', () => {
+  // The buyer's adviser authored it; the committee's adviser is mentioned by role and is not a co-author.
+  const opening = 'These materials were prepared by Barclays. Barclays does not provide tax advice. The Conflicts Committee hired Evercore Group L.L.C. as financial advisor. Evercore provided an information request list.';
+  assert.deepEqual(detectAdvisers(opening), ['Barclays']);
+});
+
+test('materials for a committee prefer the committee\'s adviser over the company\'s, named in passing', () => {
+  const opening = 'Discussion materials for the Special Committee. Houlihan Lokey was engaged as the financial advisor to the Special Committee. Houlihan Lokey contacted 11 parties. The Company retained PJT as its financial advisor in 2023. PJT outreach to 30 parties.';
+  assert.deepEqual(detectAdvisers(opening), ['Houlihan Lokey']);
+});
+
 // ── Cuts ────────────────────────────────────────────────────────────────────
 
 test('industry codes map to sectors', () => {
