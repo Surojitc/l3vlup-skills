@@ -395,7 +395,117 @@ check("ten amendments to one quarter: 189 + 16 new positions", m["latest"]["posi
 check("ten amendments to one quarter: applied in filing order",
       [a["filed"] for a in m["latest"]["amendedBy"]] == sorted(a["filed"] for a in m["latest"]["amendedBy"]))
 
-# ── 6. the user agent ────────────────────────────────────────────────────────
+# ── 6. one manager, several filers ──────────────────────────────────────────
+# Pershing Square's 2026 Q2 book is in its listed parent's report; the parent also
+# filed a one-line report of its own for Q1, which must not displace the manager's.
+def run_multi(sources, tables, notices_meta=None, today="2026-10-08", entry=None):
+    seen_ciks = []
+    def fake_read_filing(cik, f, use_cache=True):
+        seen_ciks.append((cik, f["accession"]))
+        t = tables.get(f["accession"])
+        if t is None:
+            return None
+        return filing(f["accession"], [dict(p) for p in t],
+                      quarter=f["quarter"], period=f["periodOfReport"], filed=f["filed"])
+    sf.read_filing = fake_read_filing
+    sf.read_cover = lambda cik, acc, use_cache=True: {}
+    sf.read_notice = lambda cik, acc, use_cache=True: (notices_meta or {}).get(acc, {})
+    stats = {k: 0 for k in ("fetched", "cached", "filingErrors", "filingsEmpty", "amendmentsSkipped",
+                            "amendmentsApplied", "amendmentsTreatedAsRestated", "tickerTried", "tickerHit")}
+    stats.update({"totalMismatch": [], "failed": [], "notCurrent": [], "filerChanges": []})
+    e = entry or {"name": "Pershing Square Capital Management LP", "id": "pershing-square-capital-management"}
+    with redirect_stdout(io.StringIO()):
+        m = sf.build_manager(e, sources[-1][0]["cik"], sources[-1][1], 8, use_cache=False,
+                             tickers={}, stats=stats, today=today, sources=sources)
+    return m, stats, seen_ciks
+
+
+old_cik, new_cik = "0001336528", "0002026053"
+pscm = {"cik": old_cik, "edgarName": "Pershing Square Capital Management, L.P.", "to": "2026-03-31"}
+psi = {"cik": new_cik, "edgarName": "PERSHING SQUARE INC.", "from": "2026-06-30", "check": "compared"}
+old_sub = sub_of(
+    [("13F-HR", "2026-03-31", "2026-05-15", "O-Q1"), ("13F-HR", "2025-12-31", "2026-02-17", "O-Q4")],
+    notices=[("13F-NT", "2026-06-30", "2026-08-14", "O-NT")],
+)
+new_sub = sub_of([
+    ("13F-HR", "2026-06-30", "2026-08-14", "N-Q2"),
+    ("13F-HR", "2026-03-31", "2026-05-15", "N-Q1"),   # the parent's own one-line report
+    ("13F-HR", "2025-12-31", "2026-02-17", "N-Q4"),
+])
+tables = {
+    "O-Q4": [pos("HLT", 2000e6, 20), pos("CMG", 1000e6, 10)],
+    "O-Q1": [pos("HLT", 2100e6, 20), pos("CMG", 900e6, 9), pos("UBER", 500e6, 5)],
+    "N-Q1": [pos("HHH", 569e6, 7)],
+    "N-Q4": [pos("HHH", 500e6, 7)],
+    "N-Q2": [pos("HLT", 2300e6, 22), pos("UBER", 800e6, 8), pos("HHH", 600e6, 7)],
+}
+m, stats, seen = run_multi([(pscm, old_sub), (psi, new_sub)], tables)
+qs = [(h["quarter"], h["cik"], h["accession"]) for h in m["history"]]
+check("identity: one manager across the filer change (three quarters, one row)",
+      [q for q, _, _ in qs] == ["2026Q2", "2026Q1", "2025Q4"], qs)
+check("identity: each quarter keeps the CIK and accession that actually filed it",
+      qs == [("2026Q2", new_cik, "N-Q2"), ("2026Q1", old_cik, "O-Q1"), ("2025Q4", old_cik, "O-Q4")], qs)
+check("identity: the successor's reports outside its window are never read",
+      not any(acc in ("N-Q1", "N-Q4") for _, acc in seen), seen)
+check("identity: each filing is read under its own filer's CIK",
+      all((c == new_cik) == acc.startswith("N-") for c, acc in seen), seen)
+check("identity: the slug is the manager's id, not the filer's", m["slug"] == "pershing-square-capital-management")
+check("identity: the row's CIK is the filer reporting now", m["cik"] == new_cik)
+check("identity: status is current once the successor reports", m["status"] == {"status": "current"}, m["status"])
+hold = {h["cusip"]: h for h in m["latest"]["holdings"]}
+check("identity: the diff runs across the filer change (HLT added)", hold["HLT"]["action"] == "added", hold["HLT"])
+check("identity: a security the successor adds is new", hold["HHH"]["action"] == "new", hold["HHH"])
+check("identity: an exit is measured against the predecessor's last book",
+      [e["cusip"] for e in m["latest"]["exited"]] == ["CMG"] and m["latest"]["exitedTotal"] == 1, m["latest"]["exited"])
+check("identity: filers listed with their windows",
+      [(f["cik"], f.get("from"), f.get("to")) for f in m["filers"]]
+      == [(old_cik, None, "2026-03-31"), (new_cik, "2026-06-30", None)], m.get("filers"))
+fc = m["filerChanges"]
+check("identity: the change is recorded with the book's ratio",
+      fc == [{"quarter": "2026Q2", "fromCik": old_cik, "toCik": new_cik, "aumRatio": round(3700 / 3500, 3), "checked": True}], fc)
+
+# Before the successor has filed, the predecessor's notice still dates the page.
+m2, _, _ = run_multi([(pscm, old_sub), (psi, sub_of([]))], tables,
+                     notices_meta={"O-NT": {"cik": new_cik, "name": "PERSHING SQUARE INC."}})
+check("identity: no successor report yet, the notice stands",
+      m2["status"].get("status") == "notice" and m2["latest"]["quarter"] == "2026Q1", m2["status"])
+
+# A successor whose book is a different size, not confirmed by an editor, is flagged.
+big = dict(psi); big.pop("check")
+tables_big = dict(tables, **{"N-Q2": [pos("HLT", 9000e6, 90)]})
+_, stats3, _ = run_multi([(pscm, old_sub), (big, new_sub)], tables_big)
+check("identity: an unchecked successor with a different-sized book is flagged",
+      any("UNCHECKED" in s for s in stats3["filerChanges"]), stats3["filerChanges"])
+
+# A bare cik is one filer for all time, exactly as before.
+plain = sf.entry_filers({"name": "X", "cik": "914208"})
+check("filers: a bare cik is one open filer", plain == [{"cik": "0000914208"}], plain)
+check("filers: windows are inclusive of their end dates",
+      sf.in_window(pscm, "2026-03-31") and not sf.in_window(pscm, "2026-06-30")
+      and sf.in_window(psi, "2026-06-30") and not sf.in_window(psi, "2026-03-31"))
+check("filers: overlapping windows are refused",
+      sf.filer_problems({"name": "X", "filers": [{"cik": "1", "to": "2026-06-30"}, {"cik": "2", "from": "2026-06-30"}]}) != [])
+check("filers: an open predecessor is refused",
+      sf.filer_problems({"name": "X", "filers": [{"cik": "1"}, {"cik": "2", "from": "2026-06-30"}]}) != [])
+
+# The real universe: every id unique and fixed, every filer list consistent.
+import json as _json
+uni = _json.loads((ROOT / "data" / "funds.universe.json").read_text())
+ids = [m_["id"] for m_ in uni["managers"]]
+check("universe: every manager has an id", all(ids) and len(ids) == len(uni["managers"]))
+check("universe: ids are unique", len(set(ids)) == len(ids))
+check("universe: no filer list is inconsistent",
+      [p_ for m_ in uni["managers"] for p_ in sf.filer_problems(m_)] == [])
+check("universe: an entry's cik is its current filer",
+      all(m_["cik"] == sf.entry_filers(m_)[-1]["cik"] for m_ in uni["managers"] if m_.get("filers")))
+multi = {m_["id"] for m_ in uni["managers"] if m_.get("filers")}
+check("universe: Pershing, Janus, Caxton, Eisler and Elliott carry their filers",
+      {"pershing-square-capital-management", "janus-henderson-group", "caxton-associates",
+       "eisler-capital-management", "elliott-investment-management"} <= multi, multi)
+check("universe: a successor that changed reporting entity carries evidence",
+      all(f.get("evidence") for m_ in uni["managers"] for f in sf.entry_filers(m_)[1:]))
+
+# ── 7. the user agent ────────────────────────────────────────────────────────
 check("user agent: fallback contact without the environment", "contact@l3vlup.com" in sf.UA, sf.UA)
 sf_env = load("L3VLUP data desk data@example.com")
 check("user agent: SEC_USER_AGENT wins", sf_env.UA == "L3VLUP data desk data@example.com", sf_env.UA)

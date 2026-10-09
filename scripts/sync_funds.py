@@ -849,6 +849,78 @@ def filer_status(latest_period: str, notices: list[dict], today: str) -> dict:
     return {"status": "current"}
 
 
+# ── one manager, several filers over time ────────────────────────────────────
+#
+# A manager on the site is a firm, not a CIK. The firm can move its 13F to a new
+# reporting entity (Pershing Square into its listed parent in 2026 Q2, Janus
+# Henderson into Jupiter Topco on going private) or re-register under a new CIK
+# (Caxton, Eisler, Elliott). The universe entry lists those filers with the
+# periods each one reports, and every quarter is read from the filer whose window
+# covers it. The predecessor's quarters keep the predecessor's CIK and
+# accession; nothing is copied or rewritten, and the manager keeps one slug.
+#
+# A filer is adopted by an editor, never automatically: a notice naming a filer
+# not yet listed is printed as a candidate, nothing more.
+
+def entry_filers(entry: dict, cik: str | None = None) -> list[dict]:
+    """The entry's filers, oldest window first. A bare `cik` is one filer for all time."""
+    listed = entry.get("filers") or []
+    if listed:
+        out = [dict(f, cik=str(f["cik"]).zfill(10)) for f in listed]
+        return sorted(out, key=lambda f: f.get("from") or "")
+    one = cik or entry.get("cik")
+    return [{"cik": str(one).zfill(10)}] if one else []
+
+
+def in_window(filer: dict, period: str) -> bool:
+    """Whether this filer reports the manager for the quarter ending `period`."""
+    if filer.get("from") and period < filer["from"]:
+        return False
+    if filer.get("to") and period > filer["to"]:
+        return False
+    return True
+
+
+def filer_problems(entry: dict) -> list[str]:
+    """What is wrong with an entry's filer list: overlapping or unordered windows, a missing CIK."""
+    out = []
+    filers = entry_filers(entry)
+    for f in filers:
+        if not f.get("cik") or f["cik"] == "0000000000":
+            out.append(f"{entry.get('name')}: a filer with no CIK")
+        if f.get("from") and f.get("to") and f["from"] > f["to"]:
+            out.append(f"{entry.get('name')}: {f['cik']} window ends before it starts")
+    for a, b in zip(filers, filers[1:]):
+        if not a.get("to") or not b.get("from") or a["to"] >= b["from"]:
+            out.append(f"{entry.get('name')}: windows of {a['cik']} and {b['cik']} overlap or are open")
+    return out
+
+
+def filer_changes(history: list[dict], filers: list[dict]) -> list[dict]:
+    """
+    Every quarter where the reporting filer changed, with the book's size either side.
+
+    A successor's report can carry more than the firm it succeeds (a holding
+    company reporting for several managers), so the ratio is published beside
+    the change and an editor's `check` on the filer says it was looked at.
+    """
+    by_cik = {f["cik"]: f for f in filers}
+    out = []
+    oldest_first = list(reversed(history))
+    for prev, cur in zip(oldest_first, oldest_first[1:]):
+        if prev.get("cik") == cur.get("cik"):
+            continue
+        ratio = round(cur["aum"] / prev["aum"], 3) if prev.get("aum") else None
+        out.append({
+            "quarter": cur["quarter"],
+            "fromCik": prev.get("cik"),
+            "toCik": cur.get("cik"),
+            "aumRatio": ratio,
+            "checked": bool(by_cik.get(cur.get("cik"), {}).get("check")),
+        })
+    return out
+
+
 # ── tickers ──────────────────────────────────────────────────────────────────
 
 _STRIP_WORDS = {
@@ -911,8 +983,16 @@ def action_for(shares: float, prev: float | None) -> str:
 
 
 def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache: bool,
-                  tickers: dict[str, str], stats: dict, today: str | None = None) -> dict | None:
-    filings = filings_13f(sub)
+                  tickers: dict[str, str], stats: dict, today: str | None = None,
+                  sources: list[tuple[dict, dict]] | None = None) -> dict | None:
+    # Each filer's filings, kept only for the periods that filer reports the
+    # manager, and tagged with the CIK that filed them.
+    sources = sources or [({"cik": cik}, sub)]
+    filings = sorted(
+        (dict(f, cik=filer["cik"]) for filer, s in sources for f in filings_13f(s)
+         if in_window(filer, f["periodOfReport"])),
+        key=lambda f: (f["periodOfReport"], f["filed"]), reverse=True,
+    )
     if not filings:
         print("    no 13F-HR filings on file")
         return None
@@ -940,7 +1020,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
         f["extras"] = []
         for a in sorted(later, key=lambda a: (a["filed"], a["accession"])):
             try:
-                meta = read_cover(cik, a["accession"], use_cache=use_cache)
+                meta = read_cover(a["cik"], a["accession"], use_cache=use_cache)
             except Exception:
                 stats["filingErrors"] += 1
                 continue
@@ -956,7 +1036,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
     parsed: list[dict] = []
     for f in chosen:
         try:
-            got = read_filing(cik, f, use_cache=use_cache)
+            got = read_filing(f["cik"], f, use_cache=use_cache)
         except Exception as e:
             print(f"    {f['quarter']} {f['accession']}: {type(e).__name__}: {e}")
             stats["filingErrors"] += 1
@@ -968,7 +1048,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
         amended = []
         for a in f.get("extras", []):
             try:
-                extra = read_filing(cik, a, use_cache=use_cache)
+                extra = read_filing(a["cik"], a, use_cache=use_cache)
             except Exception as e:
                 print(f"    {a['quarter']} {a['accession']} (amendment): {type(e).__name__}: {e}")
                 stats["filingErrors"] += 1
@@ -980,6 +1060,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
             amended.append({"accession": a["accession"], "filed": a["filed"], "mode": mode})
         if amended:
             got["amendedBy"] = amended
+        got["cik"] = f["cik"]
         delta = (got.get("checks") or {}).get("valueTotalDeltaPct")
         if delta is not None and abs(delta) > 0.5:
             stats["totalMismatch"].append(
@@ -996,6 +1077,7 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
         "periodOfReport": p["periodOfReport"],
         "filed": p["filed"],
         "accession": p["accession"],
+        "cik": p["cik"],
         "filingUrl": p["filingUrl"],
         "aum": p["aum"],
         "positions": p["positions"],
@@ -1084,11 +1166,14 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
 
     # Whether this is the manager's current book. A notice is read for the
     # filer it names; one small request, cached by accession.
-    notices = filings_notices(sub)
+    # Notices are read from every filer, not only inside its window: a predecessor's
+    # notice is what dates the page between the hand-over and the successor's
+    # first report, and any notice older than the latest report counts for nothing.
+    notices = [dict(n, cik=filer["cik"]) for filer, s in sources for n in filings_notices(s)]
     for n in notices:
         if n["periodOfReport"] > latest["periodOfReport"]:
             try:
-                other = read_notice(cik, n["accession"], use_cache=use_cache)
+                other = read_notice(n["cik"], n["accession"], use_cache=use_cache)
             except Exception:
                 other = {}
             if other:
@@ -1104,11 +1189,30 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
     shown_value = sum(p["value"] for p in latest["holdings"][:HOLDINGS_CAP])
     all_value = sum(p["value"] for p in latest["holdings"])
 
-    business = sub.get("addresses", {}).get("business", {}) or {}
+    # The address and the CIK shown are the filer reporting the latest quarter.
+    latest_sub = next((s for filer, s in sources if filer["cik"] == latest["cik"]), sub)
+    business = latest_sub.get("addresses", {}).get("business", {}) or {}
+    filers_out = None
+    if len(sources) > 1:
+        filers_out = [{
+            "cik": filer["cik"],
+            "name": filer.get("edgarName") or title_case(s.get("name", "")),
+            **({"from": filer["from"]} if filer.get("from") else {}),
+            **({"to": filer["to"]} if filer.get("to") else {}),
+        } for filer, s in sources]
+        changes = filer_changes(history, [f for f, _ in sources])
+        for c in changes:
+            msg = (f"{entry.get('name')}: {c['quarter']} reported by {c['toCik']} "
+                   f"(was {c['fromCik']}), book x{c['aumRatio']}")
+            if not c["checked"] and c["aumRatio"] and not 0.5 <= c["aumRatio"] <= 2:
+                msg += " UNCHECKED: the successor's book is a different size; confirm and add `check`"
+            stats.setdefault("filerChanges", []).append(msg)
     return {
-        "cik": cik,
+        "cik": latest["cik"],
         "name": entry.get("name") or title_case(sub.get("name", "")),
-        "slug": slugify(entry.get("name") or sub.get("name", "") or cik),
+        "slug": entry.get("id") or slugify(entry.get("name") or sub.get("name", "") or cik),
+        **({"filers": filers_out, "filerChanges": filer_changes(history, [f for f, _ in sources])}
+           if filers_out else {}),
         "strategy": entry.get("strategy") or "Unclassified",
         "state": place((business.get("stateOrCountry") or "").strip()),
         "status": status,
@@ -1218,7 +1322,13 @@ def main() -> None:
 
     if args.manager:
         want = args.manager.zfill(10)
-        managers = [m for m in managers if (m.get("cik") or "").zfill(10) == want]
+        managers = [m for m in managers if want in {f["cik"] for f in entry_filers(m)}]
+
+    problems = [msg for m in managers for msg in filer_problems(m)]
+    if problems:
+        for msg in problems:
+            print(f"universe: {msg}")
+        raise SystemExit("the universe's filer windows are inconsistent; fix data/funds.universe.json")
     if args.limit:
         managers = managers[: args.limit]
 
@@ -1232,7 +1342,7 @@ def main() -> None:
         "fetched": 0, "cached": 0, "filingErrors": 0, "filingsEmpty": 0,
         "amendmentsSkipped": 0, "amendmentsApplied": 0, "amendmentsTreatedAsRestated": 0,
         "tickerTried": 0, "tickerHit": 0,
-        "totalMismatch": [], "failed": [], "notCurrent": [],
+        "totalMismatch": [], "failed": [], "notCurrent": [], "filerChanges": [],
     }
     out: list[dict] = []
 
@@ -1246,9 +1356,12 @@ def main() -> None:
                     stats["failed"].append(f"{label}: unresolved CIK")
                     continue
                 cik = got[0]
-            sub = submissions(cik, quarters=args.quarters)
+            filers = entry_filers(entry, cik)
+            sources = [(f, submissions(f["cik"], quarters=args.quarters)) for f in filers]
+            sub = sources[-1][1]
             m = build_manager(entry, cik, sub, args.quarters,
-                              use_cache=not args.full, tickers=tickers, stats=stats)
+                              use_cache=not args.full, tickers=tickers, stats=stats,
+                              sources=sources)
         except Exception as e:
             print(f"[{i:>3}/{len(managers)}] {label}: {type(e).__name__}: {e}")
             stats["failed"].append(f"{label}: {type(e).__name__}: {e}")
@@ -1273,8 +1386,10 @@ def main() -> None:
             kept = json.loads(OUT.read_text()).get("managers", [])
         except Exception:
             kept = []
-        fresh = {m["cik"] for m in out}
-        out = out + [m for m in kept if m["cik"] not in fresh]
+        # Keyed on the slug, the manager's identity: a manager whose latest
+        # quarter moved to a successor filer has a new CIK but is the same row.
+        fresh = {m["slug"] for m in out}
+        out = out + [m for m in kept if m["slug"] not in fresh]
         print(f"merged {len(fresh)} rebuilt manager(s) into {len(out)} already in {OUT.name}")
 
     # Slugs are what the page routes on, so a collision would silently merge two
@@ -1318,6 +1433,8 @@ def main() -> None:
           f"other amendments skipped {stats['amendmentsSkipped']}")
     for msg in stats["notCurrent"]:
         print(f"  not current: {msg}")
+    for msg in stats["filerChanges"]:
+        print(f"  filer change: {msg}")
     print(f"tickers resolved {stats['tickerHit']:,}/{stats['tickerTried']:,} ({hit:.1f}%)")
     for msg in stats["totalMismatch"][:20]:
         print(f"  value total: {msg}")
