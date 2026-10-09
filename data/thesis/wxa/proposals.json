@@ -1,0 +1,626 @@
+{
+  "_comment": [
+    "Proposals from the editor working session for the Words × Actions pilot (data/thesis/wxa/selection.json).",
+    "Replayed through runDocument by scripts/thesis-session.mjs: every excerpt is located and verified in the source,",
+    "and every claim leaves pending review. sha256 pins each document the proposals were written against."
+  ],
+  "documents": {
+    "elliott-cdk-global-2016-05": {
+      "sha256": "8ee3bed46fd7bab988179ecaa5d6659f55ec2b702322e63d3c2f281d0cc23567",
+      "chunks": {
+        "0001013594-16-001033#0": [
+          {
+            "issuerMention": "CDK",
+            "paraphrase": "Elliott argues CDK can lift its EBITDA margin from about 24% today to 42% by fiscal 2018.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "driver.margin_inflection",
+              "horizon.one_to_three_years"
+            ],
+            "evidenceExcerpt": "CDK has the opportunity to enhance its EBITDA margin profile to 42% in FY2018"
+          },
+          {
+            "issuerMention": "CDK",
+            "paraphrase": "Elliott says the optimisation plan, if executed, should take the share price to about $81 within 14 months.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "horizon.one_to_three_years"
+            ],
+            "evidenceExcerpt": "should yield a stock price of ~$81 within 14 months",
+            "risk": {
+              "description": "Upside depends on the plan being executed correctly"
+            }
+          }
+        ],
+        "0001013594-16-001033#2": [
+          {
+            "issuerMention": "CDK",
+            "paraphrase": "Elliott notes CDK carries only 1.8x net debt to EBITDA and argues for a 3.0x leverage target to fund buybacks.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "capital.buyback",
+              "risk.leverage_risk"
+            ],
+            "evidenceExcerpt": "CDK is currently only levered at 1.8x net debt / LTM EBITDA"
+          }
+        ],
+        "0001013594-16-001033#3": [
+          {
+            "issuerMention": "CDK",
+            "paraphrase": "Elliott asks CDK to commit to $1.0 billion of share repurchases by the end of 2016, funded with new debt and cash.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "capital.buyback"
+            ],
+            "evidenceExcerpt": "repurchase $1.0 billion of stock through the end of calendar year 2016",
+            "catalyst": {
+              "description": "$1.0bn debt-funded buyback",
+              "expectedBy": "end of calendar year 2016",
+              "dateIsExplicit": true
+            }
+          }
+        ]
+      }
+    },
+    "elliott-athenahealth-2018-05": {
+      "sha256": "f658d444b34028475d2fef7af2e57ce3627aac32c62addf4f67c7395e6b53b19",
+      "chunks": {
+        "0000902664-18-002117#1": [
+          {
+            "issuerMention": "athenahealth",
+            "paraphrase": "Elliott proposes to buy athenahealth for $160 per share in cash, a 27% premium to the current price.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "case.special_situation",
+              "catalyst.corporate_action"
+            ],
+            "evidenceExcerpt": "Proposes to acquire athenahealth for $160 per share in cash",
+            "catalyst": {
+              "description": "Take-private proposal at $160 per share",
+              "expectedBy": null,
+              "dateIsExplicit": false
+            }
+          }
+        ],
+        "0000902664-18-002117#2": [
+          {
+            "issuerMention": "athenahealth",
+            "paraphrase": "Elliott says 2017 operating margins were 14%, far below the company's 30% long-term target and its peers.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "risk.execution_risk",
+              "driver.margin_inflection"
+            ],
+            "evidenceExcerpt": "margins for 2017 were just 14%, well below the Company’s peers",
+            "risk": {
+              "description": "Repeated failure to execute on margin and growth targets"
+            }
+          },
+          {
+            "issuerMention": "athenahealth",
+            "paraphrase": "Elliott cites unstable leadership, with five CFOs in four years.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.management_change"
+            ],
+            "evidenceExcerpt": "with five CFOs over the last four years"
+          }
+        ],
+        "0000902664-18-002117#3": [
+          {
+            "issuerMention": "athenahealth",
+            "paraphrase": "Elliott values its $160 offer at an enterprise value of about $6.9 billion.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "case.special_situation"
+            ],
+            "evidenceExcerpt": "representing an enterprise value of ~$6.9 billion"
+          },
+          {
+            "issuerMention": "athenahealth",
+            "paraphrase": "Elliott argues that, given its execution problems and a difficult growth transition, athenahealth should go private.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "case.turnaround",
+              "catalyst.corporate_action"
+            ],
+            "evidenceExcerpt": "the case for going private is compelling and cannot be ignored"
+          }
+        ]
+      }
+    },
+    "elliott-phillips66-2025-04": {
+      "sha256": "3e4599e0f4ca76128f8dd78253287fe4815ddd7449539796d857d97361d803ce",
+      "chunks": {
+        "0000921895-25-001028#0": [
+          {
+            "issuerMention": "Phillips 66",
+            "paraphrase": "The letter argues that combining midstream and refining traps value because the businesses trade at different multiples.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "valuation.sum_of_parts"
+            ],
+            "evidenceExcerpt": "which trade at different multiples, trapping shareholder value and diluting management focus"
+          },
+          {
+            "issuerMention": "Phillips 66",
+            "paraphrase": "The release says Elliott's board nominees would bring independence and expertise and hold management to account.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.board_change",
+              "governance.activist_engagement"
+            ],
+            "evidenceExcerpt": "Elliott’s nominees will provide an infusion of independence and expertise in the Phillips 66 boardroom",
+            "catalyst": {
+              "description": "Director election at the 2025 annual meeting",
+              "expectedBy": "2025 annual meeting of stockholders",
+              "dateIsExplicit": false
+            }
+          }
+        ]
+      }
+    },
+    "starboard-darden-2014-07": {
+      "sha256": "3cdf4833d78d0f78026a3daf6c64a91bc8a1bb36395d64b935941755d1d465b0",
+      "chunks": {
+        "0000921895-14-001551#0": [
+          {
+            "issuerMention": "Darden",
+            "paraphrase": "Starboard states that it believes Darden is substantially undervalued given its strategic and operational opportunities.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "case.turnaround",
+              "governance.activist_engagement"
+            ],
+            "evidenceExcerpt": "We believe that Darden is substantially undervalued"
+          },
+          {
+            "issuerMention": "Darden",
+            "paraphrase": "Starboard argues the Specialty Restaurant Group should be spun off and would trade at a premium to casual dining averages.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "valuation.sum_of_parts",
+              "catalyst.corporate_action"
+            ],
+            "catalyst": {
+              "description": "Spin-off of the Specialty Restaurant Group",
+              "expectedBy": null,
+              "dateIsExplicit": false
+            },
+            "evidenceExcerpt": "spun-off and would trade at a substantial premium to casual dining averages"
+          }
+        ],
+        "0000921895-14-001551#1": [
+          {
+            "issuerMention": "Darden",
+            "paraphrase": "Starboard argues that after its proposed strategic and operational changes Darden would trade at less than half the peer group's pro forma EBITDA multiple.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "valuation.sum_of_parts",
+              "valuation.multiple_rerating"
+            ],
+            "evidenceExcerpt": "own several leading casual dining concepts at a multiple of pro forma EBITDA"
+          },
+          {
+            "issuerMention": "Darden",
+            "paraphrase": "Starboard asks the board to let its nominated slate begin a turnaround of Darden.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "governance.board_change",
+              "case.turnaround"
+            ],
+            "catalyst": {
+              "description": "Election of Starboard's director slate at the 2014 annual meeting",
+              "expectedBy": "2014 annual meeting",
+              "dateIsExplicit": true
+            },
+            "risk": {
+              "description": "Result depends on leadership and execution"
+            },
+            "evidenceExcerpt": "allow Darden’s long-overdue turnaround to begin today"
+          }
+        ]
+      }
+    },
+    "starboard-bristol-myers-2019-02": {
+      "sha256": "94ab5bcde35505b9ed12341c42763817fe17f0f420c481cb2b96fcc179909b50",
+      "chunks": {
+        "0000921895-19-000610#0": [
+          {
+            "issuerMention": "Bristol-Myers",
+            "paraphrase": "Starboard states that Bristol-Myers is deeply undervalued while opposing its proposed acquisition of Celgene.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.activist_engagement",
+              "case.special_situation"
+            ],
+            "evidenceExcerpt": "Bristol-Myers is deeply undervalued"
+          },
+          {
+            "issuerMention": "Bristol-Myers",
+            "paraphrase": "Starboard intends to vote against the Celgene acquisition proposals at the special meeting set for April 12, 2019.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "catalyst.corporate_action",
+              "governance.activist_engagement"
+            ],
+            "catalyst": {
+              "description": "Shareholder vote on the Celgene acquisition at the Special Meeting",
+              "expectedBy": "April 12, 2019",
+              "dateIsExplicit": true
+            },
+            "evidenceExcerpt": "Shareholders scheduled to be held on April 12, 2019"
+          }
+        ],
+        "0000921895-19-000610#1": [
+          {
+            "issuerMention": "REVLIMID",
+            "paraphrase": "Starboard argues that REVLIMID made up 63% of Celgene revenue at loss of exclusivity, far above typical blockbusters, which it says poses tremendous risk.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "risk.competitive_erosion",
+              "risk.execution_risk"
+            ],
+            "risk": {
+              "description": "Generic competition to REVLIMID creating a patent cliff in the acquired business"
+            },
+            "evidenceExcerpt": "REVLIMID at 63% of revenue at LOE is essentially"
+          }
+        ],
+        "0000921895-19-000610#3": [
+          {
+            "issuerMention": "Bristol-Myers",
+            "paraphrase": "Starboard states that Bristol-Myers trades at its lowest P/E in years and below peers despite a growing franchise and net cash.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "valuation.multiple_rerating"
+            ],
+            "evidenceExcerpt": "P/E ratio is now at its lowest level in years and below its peer group"
+          },
+          {
+            "issuerMention": "Bristol-Myers",
+            "paraphrase": "Starboard argues Bristol-Myers has significant room to improve margins as a standalone company, while remaining open to a sale.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "driver.margin_inflection",
+              "driver.cost_programme"
+            ],
+            "evidenceExcerpt": "significant room for improvement in Bristol-Myers’ margins"
+          }
+        ]
+      }
+    },
+    "starboard-autodesk-2025-03": {
+      "sha256": "ab4058f895a331982d7ead3dde3bd17f2fdd53f14bfc1baeb2d03d14b18678a0",
+      "chunks": {
+        "0000921895-25-000816#0": [
+          {
+            "issuerMention": "Autodesk",
+            "paraphrase": "Starboard says it invested because Autodesk is among the highest-quality subscription software businesses but has severely underperformed its potential.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "quality.durable_moat",
+              "case.turnaround"
+            ],
+            "evidenceExcerpt": "subscription-based software businesses in the world, but one that has severely underperformed its"
+          },
+          {
+            "issuerMention": "Autodesk",
+            "paraphrase": "Starboard argues Autodesk can generate at least 55% incremental adjusted operating margins on revenue growth.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "driver.margin_inflection"
+            ],
+            "evidenceExcerpt": "Autodesk can generate at least 55% incremental adjusted operating margins on"
+          }
+        ],
+        "0000921895-25-000816#1": [
+          {
+            "issuerMention": "the Company",
+            "paraphrase": "Starboard argues Autodesk should target underlying adjusted operating margins of about 45% by FY2028.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "driver.margin_inflection",
+              "driver.cost_programme",
+              "horizon.one_to_three_years"
+            ],
+            "catalyst": {
+              "description": "Investor Day where margin targets are expected",
+              "expectedBy": "Q3",
+              "dateIsExplicit": true
+            },
+            "evidenceExcerpt": "We Believe the Company Should Target 45% Underlying Adjusted Operating Margins by"
+          },
+          {
+            "issuerMention": "Autodesk",
+            "paraphrase": "Starboard states that board change is necessary and that it intends to nominate a minority slate at the 2025 Annual Meeting.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.board_change",
+              "governance.activist_engagement"
+            ],
+            "catalyst": {
+              "description": "Director election at the 2025 Annual Meeting",
+              "expectedBy": "2025 Annual Meeting",
+              "dateIsExplicit": true
+            },
+            "evidenceExcerpt": "Board change is necessary at Autodesk"
+          }
+        ]
+      }
+    },
+    "starboard-carmax-2026-03": {
+      "sha256": "757bfa660d3186a99f4ca1ef3807c01af6207472c0bd20e5244c7c06983926eb",
+      "chunks": {
+        "0000921895-26-000666#0": [
+          {
+            "issuerMention": "Company",
+            "paraphrase": "Starboard states that CarMax's recent performance has fallen well short of its potential and believes the problems are fixable under the new CEO.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "case.turnaround",
+              "governance.management_change"
+            ],
+            "catalyst": {
+              "description": "Keith Barr taking over as President and CEO",
+              "expectedBy": null,
+              "dateIsExplicit": false
+            },
+            "evidenceExcerpt": "recent performance has fallen well  short of its underlying potential"
+          },
+          {
+            "issuerMention": "CarMax",
+            "paraphrase": "Starboard estimates reconditioning efficiency improvements could exceed $300 in savings per unit.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "driver.cost_programme"
+            ],
+            "evidenceExcerpt": "these opportunities are considerable and could exceed $300 in per-unit savings"
+          }
+        ],
+        "0000921895-26-000666#1": [
+          {
+            "issuerMention": "CarMax",
+            "paraphrase": "Starboard encourages CarMax to target SG&A at 70% to 75% of gross profit.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "driver.cost_programme",
+              "driver.margin_inflection"
+            ],
+            "evidenceExcerpt": "we encourage targeting SG&A at 70% to 75% of gross profit"
+          },
+          {
+            "issuerMention": "CarMax",
+            "paraphrase": "Starboard states that CarMax trades at or near tangible book value while producing about $3 of free cash flow per share in FY2027 estimates.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "valuation.fcf_yield_support",
+              "case.asset_value_discount"
+            ],
+            "evidenceExcerpt": "trades at or near tangible book value while producing ~$3 in free cash flow per share"
+          }
+        ]
+      }
+    },
+    "trian-procter-gamble-2017-07": {
+      "sha256": "2ff940aa23eddeb48f9571650db75f47e941ea234b137f36ad91e0bf6e96a247",
+      "chunks": {
+        "0000902664-17-003106#0": [
+          {
+            "issuerMention": "P&G",
+            "paraphrase": "Trian asks shareholders to elect its co-founder Nelson Peltz to the Procter & Gamble board.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.board_change",
+              "governance.activist_engagement"
+            ],
+            "catalyst": {
+              "description": "Shareholder vote on Nelson Peltz's election to the board",
+              "expectedBy": null,
+              "dateIsExplicit": false
+            },
+            "evidenceExcerpt": "voting to elect our co-founder Nelson Peltz to the P&G Board"
+          },
+          {
+            "issuerMention": "P&G’s",
+            "paraphrase": "Trian argues that the company's 2012 cost-cutting programme of 10 billion dollars did not visibly lift profit or sales growth.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "driver.cost_programme",
+              "risk.execution_risk"
+            ],
+            "risk": {
+              "description": "New cost-saving plan may again fail to drive growth"
+            },
+            "evidenceExcerpt": "$10 billion cost-cutting program launched in 2012 has had no discernible impact"
+          }
+        ],
+        "0000902664-17-003106#1": [
+          {
+            "issuerMention": "P&G",
+            "paraphrase": "Trian states that from fiscal 2012 to 2016 the company grew sales volumes at a compound annual rate of 0.6%.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "case.turnaround"
+            ],
+            "evidenceExcerpt": "grew sales volumes at a compound annual growth rate of 0.6%"
+          }
+        ]
+      }
+    },
+    "trian-disney-2024-03": {
+      "sha256": "c9dddd7f146a9ae72fe859047169d2501e26a49e3d6515126c9c4159e8a2ebea",
+      "chunks": {
+        "0000902664-24-002482#0": [
+          {
+            "issuerMention": "Disney",
+            "paraphrase": "Trian has nominated Nelson Peltz and Jay Rasulo as independent directors at Disney.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.board_change",
+              "governance.activist_engagement"
+            ],
+            "catalyst": {
+              "description": "Disney 2024 annual meeting vote",
+              "expectedBy": "April 3, 2024",
+              "dateIsExplicit": true
+            },
+            "evidenceExcerpt": "We have nominated two such candidates: Nelson Peltz and Jay Rasulo"
+          },
+          {
+            "issuerMention": "Disney’s",
+            "paraphrase": "Trian's nominees would push to raise media profitability, review the creative engine and clarify strategic focus.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "case.turnaround",
+              "driver.margin_inflection"
+            ],
+            "evidenceExcerpt": "accelerate media profitability, review Disney’s creative engine and clarify the Company’s strategic focus"
+          }
+        ],
+        "0000902664-24-002482#2": [
+          {
+            "issuerMention": "Disney’s",
+            "paraphrase": "Trian notes that Disney's say-on-pay votes have averaged 73% since Ms. Lagomasino chaired the compensation committee.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.board_change"
+            ],
+            "evidenceExcerpt": "say-on-pay votes have averaged just 73%"
+          }
+        ]
+      }
+    },
+    "jana-eqt-2017-10": {
+      "sha256": "a24d40057f2e0c7847c1b17c5212e966f48131a4fc73a09994a0cfffdf4191ee",
+      "chunks": {
+        "0001047469-17-006378#0": [
+          {
+            "issuerMention": "EQT",
+            "paraphrase": "JANA argues EQT would pay a 1.8 billion dollar premium for Rice, about three times the synergies JANA expects.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "catalyst.corporate_action",
+              "case.special_situation"
+            ],
+            "catalyst": {
+              "description": "EQT stockholder vote on issuing shares to acquire Rice",
+              "expectedBy": null,
+              "dateIsExplicit": false
+            },
+            "risk": {
+              "description": "Overpaying for Rice destroys EQT stockholder value"
+            },
+            "evidenceExcerpt": "acquisition premium of $1.8 billion, approximately three times the amount of actual synergies"
+          },
+          {
+            "issuerMention": "EQT",
+            "paraphrase": "JANA notes EQT management has promised to address the sum-of-the-parts discount by the first quarter of 2018, and argues the Rice share issuance would dilute that gain.",
+            "kind": "paraphrase",
+            "stance": "long",
+            "tags": [
+              "valuation.sum_of_parts",
+              "case.asset_value_discount"
+            ],
+            "catalyst": {
+              "description": "Management action on the sum-of-the-parts discount",
+              "expectedBy": "first quarter of 2018",
+              "dateIsExplicit": true
+            },
+            "evidenceExcerpt": "promised to address this sum of the parts discount by the first quarter of 2018"
+          }
+        ]
+      }
+    },
+    "sachem-head-us-foods-2022-04": {
+      "sha256": "07b3ddc71b50a9c717cfb38bb9b35da02a91197f08888c7302bb0d3c5c44697d",
+      "chunks": {
+        "0000921895-22-001376#0": [
+          {
+            "issuerMention": "US Foods",
+            "paraphrase": "Sachem Head has nominated five candidates to the US Foods board.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "governance.board_change",
+              "governance.activist_engagement"
+            ],
+            "evidenceExcerpt": "we have nominated five highly qualified individuals"
+          },
+          {
+            "issuerMention": "US Foods",
+            "paraphrase": "Sachem Head states US Foods trades at about 11 times earnings against about 17 times for Sysco despite similar models.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "valuation.multiple_rerating"
+            ],
+            "evidenceExcerpt": "trades at ~ 11x earnings per share , while Sysco trades at ~ 17x earnings per share"
+          }
+        ],
+        "0000921895-22-001376#1": [
+          {
+            "issuerMention": "Company",
+            "paraphrase": "Sachem Head believes the company can realise 300 million dollars of profit upside over consensus EBITDA estimates.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "driver.margin_inflection",
+              "driver.cost_programme"
+            ],
+            "risk": {
+              "description": "Management may not deliver on targets, as with missed 2018 guidance"
+            },
+            "evidenceExcerpt": "realize $300 million in profit upside over consensus EBITDA estimates"
+          },
+          {
+            "issuerMention": "Company",
+            "paraphrase": "Sachem Head believes the stock could rise 100% if it returns to valuation levels close to peers.",
+            "kind": "statement",
+            "stance": "long",
+            "tags": [
+              "valuation.multiple_rerating",
+              "case.turnaround"
+            ],
+            "evidenceExcerpt": "100% upside from current stock price levels"
+          }
+        ]
+      }
+    }
+  }
+}

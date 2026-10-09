@@ -1,0 +1,169 @@
+{
+  "_comment": [
+    "The Words × Actions pilot: eleven activist documents already in the curated Letters",
+    "catalogue (L3vlup data/letters.catalogue.json), every one an SEC copy, from managers whose",
+    "13F history reaches back to 2013. Chosen under the brief of 9 October 2026. Separate from",
+    "data/letters.selection.json, the approved extraction list, which this does not change.",
+    "Candidates from this set are proposals for review; nothing from it publishes unreviewed."
+  ],
+  "selection": [
+    {
+      "id": "elliott-cdk-global-2016-05",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "fundSlug": "elliott-investment-management",
+      "form": "SC 13D",
+      "accession": "0001013594-16-001033",
+      "filingDate": "2016-05-04",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf",
+      "format": "pdf",
+      "companies": [
+        "CDK Global, Inc."
+      ]
+    },
+    {
+      "id": "elliott-athenahealth-2018-05",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "fundSlug": "elliott-investment-management",
+      "form": "SC 13D/A",
+      "accession": "0000902664-18-002117",
+      "filingDate": "2018-05-07",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/1131096/000090266418002117/p18-1092sc13da.htm",
+      "format": "html",
+      "companies": [
+        "athenahealth"
+      ]
+    },
+    {
+      "id": "elliott-phillips66-2025-04",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "fundSlug": "elliott-investment-management",
+      "form": "DFAN14A",
+      "accession": "0000921895-25-001028",
+      "filingDate": "2025-04-09",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/1534701/000092189525001028/e664374_dfan14a-phillips66.htm",
+      "format": "html",
+      "companies": [
+        "Phillips 66"
+      ]
+    },
+    {
+      "id": "jana-eqt-2017-10",
+      "managerId": "jana",
+      "managerName": "JANA Partners",
+      "fundSlug": "jana-partners",
+      "form": "DFAN14A",
+      "accession": "0001047469-17-006378",
+      "filingDate": "2017-10-16",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/33213/000104746917006378/a2233546zdfan14a.htm",
+      "format": "html",
+      "companies": [
+        "EQT Corporation",
+        "Rice Energy"
+      ]
+    },
+    {
+      "id": "sachem-head-us-foods-2022-04",
+      "managerId": "sachem-head",
+      "managerName": "Sachem Head Capital Management",
+      "fundSlug": "sachem-head-capital-management",
+      "form": "DFAN14A",
+      "accession": "0000921895-22-001376",
+      "filingDate": "2022-04-26",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf",
+      "format": "pdf",
+      "companies": [
+        "US Foods Holding Corp.",
+        "Sysco Corporation"
+      ]
+    },
+    {
+      "id": "starboard-darden-2014-07",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "fundSlug": "starboard-value",
+      "form": "DFAN14A",
+      "accession": "0000921895-14-001551",
+      "filingDate": "2014-07-15",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf",
+      "format": "pdf",
+      "companies": [
+        "Darden Restaurants",
+        "Red Lobster"
+      ]
+    },
+    {
+      "id": "starboard-bristol-myers-2019-02",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "fundSlug": "starboard-value",
+      "form": "DFAN14A",
+      "accession": "0000921895-19-000610",
+      "filingDate": "2019-02-28",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "format": "pdf",
+      "companies": [
+        "Bristol-Myers Squibb Company",
+        "Celgene Corporation"
+      ]
+    },
+    {
+      "id": "starboard-autodesk-2025-03",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "fundSlug": "starboard-value",
+      "form": "DFAN14A",
+      "accession": "0000921895-25-000816",
+      "filingDate": "2025-03-19",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000816/ex1todfan14a06297347_031925.pdf",
+      "format": "pdf",
+      "companies": [
+        "Autodesk"
+      ]
+    },
+    {
+      "id": "starboard-carmax-2026-03",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "fundSlug": "starboard-value",
+      "form": "DFAN14A",
+      "accession": "0000921895-26-000666",
+      "filingDate": "2026-03-11",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf",
+      "format": "pdf",
+      "companies": [
+        "CarMax"
+      ]
+    },
+    {
+      "id": "trian-procter-gamble-2017-07",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "fundSlug": "trian-fund-management",
+      "form": "DFAN14A",
+      "accession": "0000902664-17-003106",
+      "filingDate": "2017-07-31",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/80424/000090266417003106/p17-1618dfan14a.htm",
+      "format": "html",
+      "companies": [
+        "The Procter & Gamble Company"
+      ]
+    },
+    {
+      "id": "trian-disney-2024-03",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "fundSlug": "trian-fund-management",
+      "form": "DFAN14A",
+      "accession": "0000902664-24-002482",
+      "filingDate": "2024-03-18",
+      "documentUrl": "https://www.sec.gov/Archives/edgar/data/1744489/000090266424002482/p24-1231dfan14a.htm",
+      "format": "html",
+      "companies": [
+        "The Walt Disney Company"
+      ]
+    }
+  ]
+}
