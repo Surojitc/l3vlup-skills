@@ -18,6 +18,26 @@
     "whatever the mode says. Edit this file, not the script."
   ],
   "version": 1,
+  "review": {
+    "status": "approved",
+    "reviewedOn": "2026-10-09",
+    "reviewer": "owner (Suro)",
+    "method": "Human review of the contact sheet (npm run review:thumbnails) and of the committed preview files.",
+    "corrections": [
+      "blackrock-2023-chairmans-letter-to-investors: two-page spread replaced by a region of PDF page 7 holding the letter's opening columns (crop.region), corrected before approval.",
+      "source-capital-h1-2026-letter: detail crop raised (crop.above 0.06) so the full heading and salutation show, corrected before approval."
+    ],
+    "overridesApproved": [
+      "impactive-wex-2026-04: graphics-not-photographs (designed letterhead gradient, not photography)"
+    ],
+    "unchangedDuringCorrection": "Every other preview file was byte-identical (sha256) before and after the final correction pass.",
+    "approvedSet": {
+      "records": 22,
+      "files": 61,
+      "sha256": "9d9385d2fe7d611e72dc9a1e9daa87a41a432ac060a05f656b0d79c8744c6cd4"
+    },
+    "note": "If any preview is added, re-rendered or withdrawn, previewSetDigest(manifest) no longer matches approvedSet.sha256 and the test fails until the set is reviewed again and this block is updated."
+  },
   "records": {
     "berkshire-2025-letter-greg-abel": {
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526106284/d948018dars.pdf",

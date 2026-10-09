@@ -49,6 +49,7 @@ import {
   isWebp,
   judgePage,
   manifestProblems,
+  previewSetDigest,
   parsePgm,
   photoMask,
   photoShare,
@@ -509,6 +510,20 @@ test('only sec-public records have manifest entries, and the committed files mat
     list: () => (existsSync(dir) ? readdirSync(dir).map((f) => `${THUMBS_DIR}/${f}`) : []),
   };
   assert.deepEqual(manifestProblems(manifest, registry, io), []);
+});
+
+test('the committed previews are exactly the set a person last approved', () => {
+  const review = JSON.parse(readFileSync(join(ROOT, 'data', 'letters.thumbnail-sources.json'), 'utf8')).review;
+  assert.equal(review?.status, 'approved');
+  assert.match(review.reviewedOn, /^\d{4}-\d{2}-\d{2}$/);
+  const files = Object.values(manifest.records).reduce((t, m) => t + ['card', 'card2x', 'detail'].filter((k) => m[k]).length, 0);
+  assert.equal(review.approvedSet.records, Object.keys(manifest.records).length);
+  assert.equal(review.approvedSet.files, files);
+  assert.equal(
+    previewSetDigest(manifest),
+    review.approvedSet.sha256,
+    'previews changed since the last human review: regenerate the contact sheet, have it reviewed, then update the review block',
+  );
 });
 
 console.log(`\n${passed} passed`);
