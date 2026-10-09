@@ -21,7 +21,11 @@
     "entity (a listed parent, a holding company after a take-private) or a re-registration.",
     "Each filer reports the quarters ending between its 'from' and 'to' dates, and the",
     "windows may not overlap. 'evidence' says how the hand-over is known; 'check' says what",
-    "an editor compared before adopting a successor whose book could differ in size."
+    "an editor compared before adopting a successor whose book could differ in size.",
+    "",
+    "'notes' is an editor's note on a quarter that the numbers alone would mislead about, such",
+    "as a change in what the report covers. Each carries the quarter, the text shown beside it,",
+    "and the filings that show it. It explains a figure; it never changes one."
   ],
   "strategies": [
     "Multistrategy",
@@ -822,7 +826,14 @@
       "strategy": "Long-only",
       "search": "invesco ltd",
       "cik": "0000914208",
-      "edgarName": "Invesco Ltd."
+      "edgarName": "Invesco Ltd.",
+      "notes": [
+        {
+          "quarter": "2025Q4",
+          "text": "From Q4 2025 Invesco's reports include 101 Nasdaq-100 lines, added for Q4 2025 and Q1 2026 by NEW HOLDINGS amendments and reported under one further included manager, worth about $400bn. The step in the book that quarter is that change in what the report covers, not purchases of that size.",
+          "evidence": "13F-HR/A 0000914208-26-000214 (2025 Q4) and 0000914208-26-000216 (2026 Q1), filed 15 July 2026"
+        }
+      ]
     },
     {
       "name": "Neuberger Berman Group LLC",

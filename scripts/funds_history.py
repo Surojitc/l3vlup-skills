@@ -396,6 +396,7 @@ def build_history(entry: dict, sources: list[tuple[dict, dict]], *, since: str, 
         "complete": not pending,
         **({"pending": sorted(pending)} if pending else {}),
         **({"unreadable": sorted(unreadable)} if unreadable else {}),
+        **({"notes": entry["notes"]} if entry.get("notes") else {}),
         "names": {c: n for c, n in sorted(names.items()) if c in listed},
         "quarters": quarters,
     }

@@ -529,6 +529,9 @@ multi = {m_["id"] for m_ in uni["managers"] if m_.get("filers")}
 check("universe: Pershing, Janus, Caxton, Eisler and Elliott carry their filers",
       {"pershing-square-capital-management", "janus-henderson-group", "caxton-associates",
        "eisler-capital-management", "elliott-investment-management"} <= multi, multi)
+check("universe: every editor's note names its quarter, its text and its evidence",
+      all(n.get("quarter") and n.get("text") and n.get("evidence")
+          for m_ in uni["managers"] for n in m_.get("notes", [])))
 check("universe: a successor that changed reporting entity carries evidence",
       all(f.get("evidence") for m_ in uni["managers"] for f in sf.entry_filers(m_)[1:]))
 
