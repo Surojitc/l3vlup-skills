@@ -35,6 +35,11 @@ What each quarter carries
   reductions and exits. A manager with more positions than that has the rest
   counted but not listed, and the quarter says so (`listed`, `listedValuePct`).
 
+Written beside the histories, from them and with no further request:
+data/funds/by-ticker/<SYMBOL>.json (who held each symbol, quarter by quarter)
+and data/funds/overlap/<id>.json (the managers whose books are most like this
+one's, by the sum of the smaller of each shared position's two weights).
+
 A quarter is compared only with the quarter immediately before it on file. A
 gap (a quarter the manager did not file) is never read as a hundred exits.
 
@@ -516,7 +521,10 @@ def build_by_ticker(docs: list[dict], tickers: dict[str, str], *, min_managers: 
             prev_q = q
     # Compact on purpose: one file per symbol across ninety-odd managers and a
     # decade of quarters. A manager is an index into `managers`; a holding is
-    # [manager, value $k, action]; an exit is [manager, value $k the quarter before].
+    # [manager, value $k, action, shares]; an exit is [manager, value $k the
+    # quarter before]. Shares came fourth, later: a reader of the first three
+    # still reads the file, and a change in shares is the only way to say who
+    # bought more without the price moving the answer.
     files = {}
     for t, rec in out.items():
         if len(rec["managers"]) < min_managers:
@@ -530,10 +538,121 @@ def build_by_ticker(docs: list[dict], tickers: dict[str, str], *, min_managers: 
             "name": rec.get("name"),
             "cusips": sorted(rec["cusips"]),
             "managers": [[mid, name] for mid, name in managers],
-            "quarters": {q: [[index[r[0]], r[2], r[3]] for r in sorted(v, key=lambda r: -r[2])] for q, v in by_q(rec["quarters"])},
+            "quarters": {q: [[index[r[0]], r[2], r[3], r[1]] for r in sorted(v, key=lambda r: -r[2])] for q, v in by_q(rec["quarters"])},
             "exits": {q: [[index[r[0]], r[1]] for r in sorted(v, key=lambda r: -r[1])] for q, v in by_q(rec["exits"])},
         }
     return files
+
+
+# ── how much of two books is the same ───────────────────────────────────────
+
+OVERLAP_PEERS = 25    # peers listed per manager, most in common first
+OVERLAP_SERIES = 10   # of those, how many carry their overlap through time
+
+
+def book_weights(q: dict) -> dict[str, float]:
+    """
+    Each security's share of the manager's reported book, by CUSIP.
+
+    Share classes of one CUSIP are summed; puts and calls are left out, because
+    a right on a name is not a position in it. The denominator is the whole
+    reported value, so where a quarter lists only the largest positions the
+    weights still mean "share of the book" and the overlap is a floor.
+    """
+    total = q.get("aumK") or 0
+    if total <= 0:
+        return {}
+    w: dict[str, float] = {}
+    for cusip, cls, _shares, value_k, _code in q["holdings"]:
+        if cls.upper().endswith(RIGHTS) or value_k <= 0:
+            continue
+        w[cusip] = w.get(cusip, 0.0) + value_k / total
+    return w
+
+
+def overlap(a: dict[str, float], b: dict[str, float]) -> tuple[float, int]:
+    """
+    The share of two books that is the same, and how many securities they share.
+
+    The sum, over every security both hold, of the smaller of its two weights:
+    0 where the books share nothing, 1 where they are identical. Read as "this
+    much of each book could be swapped for the other's without a trade". It is
+    symmetric and needs no model, so a reader can check it by hand.
+    """
+    if len(b) < len(a):
+        a, b = b, a
+    total = 0.0
+    shared = 0
+    for c, wa in a.items():
+        wb = b.get(c)
+        if wb is not None:
+            total += min(wa, wb)
+            shared += 1
+    return total, shared
+
+
+def build_overlap(docs: list[dict], *, peers: int = OVERLAP_PEERS, series: int = OVERLAP_SERIES) -> dict[str, dict]:
+    """
+    For every manager, the managers whose books are most like its own.
+
+    Compared at the manager's latest quarter, and only with managers that filed
+    for that same quarter: a peer's older book is not compared with a newer
+    one. The leading peers also carry the overlap for every quarter both filed,
+    so a page can say whether two books are converging or drifting apart.
+    """
+    weights = {d["id"]: {q["quarter"]: book_weights(q) for q in d["quarters"]} for d in docs}
+    whole = {d["id"]: {q["quarter"]: q.get("listed", 0) >= q.get("positions", 0) for q in d["quarters"]} for d in docs}
+    names = {d["id"]: d.get("name") for d in docs}
+    out: dict[str, dict] = {}
+    for d in docs:
+        mid = d["id"]
+        if not d["quarters"]:
+            continue
+        latest = max(d["quarters"], key=lambda q: sf.quarter_key(q["quarter"]))["quarter"]
+        mine = weights[mid].get(latest) or {}
+        if not mine:
+            continue
+        rows = []
+        for other in docs:
+            oid = other["id"]
+            theirs = weights[oid].get(latest)
+            if oid == mid or not theirs:
+                continue
+            ov, shared = overlap(mine, theirs)
+            if shared:
+                rows.append({"id": oid, "name": names[oid], "overlap": round(ov, 4), "shared": shared,
+                             "wholeBooks": bool(whole[mid].get(latest) and whole[oid].get(latest))})
+        rows.sort(key=lambda r: (-r["overlap"], r["id"]))
+        rows = rows[:peers]
+        through: dict[str, list] = {}
+        for r in rows[:series]:
+            pts = []
+            for q in sorted(weights[mid], key=sf.quarter_key):
+                theirs = weights[r["id"]].get(q)
+                if theirs is None or not weights[mid][q]:
+                    continue
+                ov, shared = overlap(weights[mid][q], theirs)
+                pts.append([q, round(ov, 4), shared])
+            through[r["id"]] = pts
+        out[mid] = {"schema": SCHEMA, "id": mid, "name": names[mid], "quarter": latest,
+                    "measure": "sum-of-min-weights", "peers": rows, "series": through}
+    return out
+
+
+def write_overlap(files: dict[str, dict], out: Path) -> int:
+    """Write one overlap file per manager, rewriting only those whose content changed. Returns files written."""
+    out.mkdir(parents=True, exist_ok=True)
+    written = 0
+    for mid, body in files.items():
+        if not re.match(r"^[a-z0-9-]{1,80}$", mid):
+            continue
+        text = json.dumps(body, separators=(",", ":")) + "\n"
+        path = out / f"{mid}.json"
+        if path.exists() and same_content(path.read_text(), text):
+            continue
+        path.write_text(text)
+        written += 1
+    return written
 
 
 def write_by_ticker(files: dict[str, dict], out: Path, *, on_file: list[str]) -> int:
@@ -626,6 +745,10 @@ def main() -> None:
     by_ticker = build_by_ticker(docs, tickers)
     tickers_written = write_by_ticker(by_ticker, args.out.parent / "by-ticker", on_file=[d["id"] for d in docs])
     print(f"symbols with two or more managers: {len(by_ticker):,} · files written {tickers_written:,}")
+
+    overlaps = build_overlap(docs)
+    overlaps_written = write_overlap(overlaps, args.out.parent / "overlap")
+    print(f"overlap files: {len(overlaps):,} · written {overlaps_written:,}")
 
     print(f"\nwrote {written} manager histories · {incomplete} unfinished · securities {len(register):,}")
     print(f"filings fetched {stats['fetched']} · from cache {stats['cached']} · errors {stats['filingErrors']} · "
