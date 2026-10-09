@@ -9,8 +9,8 @@
   "storedCreditsReproducedByPreviousRule": true
  },
  "counts": {
-  "removals": 103,
-  "review": 162,
+  "removals": 107,
+  "review": 158,
   "additions": 0
  },
  "removals": [
@@ -193,6 +193,48 @@
    "confidence": "medium",
    "anotherAdviserRemains": true,
    "excerpt": "mmunicated the counteroffer of $39.50 to CY 2026E Adj. EBITDA (Consensus) - $186M(3) 11.5x representatives of JP Morgan on April 27 CY 2026E Adj. EBITDA (Management) - $203M 10.5x Implied Premiums(4) Representatives of J"
+  },
+  {
+   "company": "Distribution Solutions Group, Inc.",
+   "announced": "2026-09-01",
+   "accession": "0001193125-26-377697",
+   "exhibit": "EX-99.(C)(VI)",
+   "url": "https://www.sec.gov/Archives/edgar/data/703604/000119312526377697/d75849dex99cvi.htm",
+   "bank": "J.P. Morgan",
+   "before": [
+    "J.P. Morgan",
+    "William Blair"
+   ],
+   "after": [
+    "William Blair"
+   ],
+   "reason": "the other side's adviser: the deck is \"prepared by William Blair\" for the Special Committee, and J.P. Morgan is the bank it negotiated against on LKCM's behalf",
+   "category": "opposing-side adviser",
+   "confidence": "high",
+   "anotherAdviserRemains": true,
+   "excerpt": "mmittee, William Blair communicated Offer Price Per Share $31.00 $32.75 a counteroffer of $39.50 per share to JP Morgan, in response to LKCM's initial Diluted Shares Outstanding (1) 46.809 46.821 proposal of $29.50 per s",
+   "note": "Reviewed benchmark entry, confirmed by hand against the full text; moved from the review group"
+  },
+  {
+   "company": "Distribution Solutions Group, Inc.",
+   "announced": "2026-09-01",
+   "accession": "0001193125-26-377697",
+   "exhibit": "EX-99.(C)(VII)",
+   "url": "https://www.sec.gov/Archives/edgar/data/703604/000119312526377697/d75849dex99cvii.htm",
+   "bank": "J.P. Morgan",
+   "before": [
+    "J.P. Morgan",
+    "William Blair"
+   ],
+   "after": [
+    "William Blair"
+   ],
+   "reason": "the other side's adviser: the deck is \"prepared by William Blair\" for the Special Committee, and J.P. Morgan is the bank it negotiated against on LKCM's behalf",
+   "category": "opposing-side adviser",
+   "confidence": "high",
+   "anotherAdviserRemains": true,
+   "excerpt": "mmittee, William Blair communicated a counteroffer of Offer Price Per Share $32.75 $34.50 $39.50 per share to JP Morgan, in response to LKCM's initial proposal of $29.50 per share Diluted Shares Outstanding (1) 46.821 46",
+   "note": "Reviewed benchmark entry, confirmed by hand against the full text; moved from the review group"
   },
   {
    "company": "Personalis, Inc.",
@@ -722,6 +764,45 @@
    "confidence": "medium",
    "anotherAdviserRemains": false,
    "excerpt": ". Index 0.2 26 0.1 77 Ninety One UK Limited Core Growth 0.4 280 - - Zimmer Partners, LP Hedge Fund 0.2 23 - - JPMorgan Asset Management U.K. Limited Core Growth 0.3 255 0.0 0 BlackRock Asset Management Deutschland AG Ind"
+  },
+  {
+   "company": "Astra Space, Inc.",
+   "announced": "2024-04-08",
+   "accession": "0001193125-24-133385",
+   "exhibit": "EX-99.(C)(4)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1814329/000119312524133385/d681503dex99c4.htm",
+   "bank": "PJT Partners",
+   "before": [
+    "PJT Partners"
+   ],
+   "after": [],
+   "reason": "process participant: the materials are \"provided ... to the Special Committee ... by Houlihan Lokey\"; PJT is named only as the company's earlier outreach adviser",
+   "category": "other",
+   "confidence": "high",
+   "anotherAdviserRemains": false,
+   "excerpt": "holders of the senior secured convertible notes and may impact the viability of certain bankruptcy scenarios PJT outreach to 30 parties and HL discussions with 11 parties (8 of which were incremental to the PJT outreach",
+   "note": "Reviewed benchmark entry, confirmed by hand against the full text; moved from the review group"
+  },
+  {
+   "company": "Astra Space, Inc.",
+   "announced": "2024-04-08",
+   "accession": "0001193125-24-133385",
+   "exhibit": "EX-99.(C)(6)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1814329/000119312524133385/d681503dex99c6.htm",
+   "bank": "PJT Partners",
+   "before": [
+    "PJT Partners",
+    "Houlihan Lokey"
+   ],
+   "after": [
+    "Houlihan Lokey"
+   ],
+   "reason": "process participant: the materials are \"provided ... to the Special Committee ... by Houlihan Lokey\"; PJT is named only as the company's earlier financing adviser",
+   "category": "other",
+   "confidence": "high",
+   "anotherAdviserRemains": true,
+   "excerpt": "ILED SEPARATELY WITH THE SECURITIES AND EXCHANGE COMMISSION Summary of Strategic Outreach The Company engaged PJT Partners to act as its financial advisor in connection with future financing activities and to explore pot",
+   "note": "Reviewed benchmark entry, confirmed by hand against the full text; moved from the review group"
   },
   {
    "company": "Tricon Residential Inc.",
@@ -2333,38 +2414,6 @@
  ],
  "review": [
   {
-   "company": "Distribution Solutions Group, Inc.",
-   "announced": "2026-09-01",
-   "accession": "0001193125-26-377697",
-   "exhibit": "EX-99.(C)(VI)",
-   "url": "https://www.sec.gov/Archives/edgar/data/703604/000119312526377697/d75849dex99cvi.htm",
-   "bank": "J.P. Morgan",
-   "before": [
-    "J.P. Morgan",
-    "William Blair"
-   ],
-   "category": "other",
-   "confidence": "medium",
-   "excerpt": "mmittee, William Blair communicated Offer Price Per Share $31.00 $32.75 a counteroffer of $39.50 per share to JP Morgan, in response to LKCM's initial Diluted Shares Outstanding (1) 46.809 46.821 proposal of $29.50 per s",
-   "classifierReason": "named as lender or financing provider"
-  },
-  {
-   "company": "Distribution Solutions Group, Inc.",
-   "announced": "2026-09-01",
-   "accession": "0001193125-26-377697",
-   "exhibit": "EX-99.(C)(VII)",
-   "url": "https://www.sec.gov/Archives/edgar/data/703604/000119312526377697/d75849dex99cvii.htm",
-   "bank": "J.P. Morgan",
-   "before": [
-    "J.P. Morgan",
-    "William Blair"
-   ],
-   "category": "other",
-   "confidence": "medium",
-   "excerpt": "mmittee, William Blair communicated a counteroffer of Offer Price Per Share $32.75 $34.50 $39.50 per share to JP Morgan, in response to LKCM's initial proposal of $29.50 per share Diluted Shares Outstanding (1) 46.821 46",
-   "classifierReason": "named as lender or financing provider"
-  },
-  {
    "company": "Personalis, Inc.",
    "announced": "2026-08-31",
    "accession": "0001193125-26-377066",
@@ -2657,38 +2706,6 @@
    "category": "other",
    "confidence": "low",
    "excerpt": "N 7 SITUATION BACKGROUND AND LIQUIDATION ANALYSIS 02 02 Summary of Strategic Outreach The Company engaged PJT Partners to act as its financial advisor in connection with future financing activities and to explore pot",
-   "classifierReason": "an adviser to the company named in another bank's deck"
-  },
-  {
-   "company": "Astra Space, Inc.",
-   "announced": "2024-04-08",
-   "accession": "0001193125-24-133385",
-   "exhibit": "EX-99.(C)(4)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1814329/000119312524133385/d681503dex99c4.htm",
-   "bank": "PJT Partners",
-   "before": [
-    "PJT Partners"
-   ],
-   "category": "other",
-   "confidence": "medium",
-   "excerpt": "holders of the senior secured convertible notes and may impact the viability of certain bankruptcy scenarios PJT outreach to 30 parties and HL discussions with 11 parties (8 of which were incremental to the PJT outreach",
-   "classifierReason": "named as a process participant, not as author",
-   "note": "Manual QA: PJT is the company's own adviser in the sibling exhibits"
-  },
-  {
-   "company": "Astra Space, Inc.",
-   "announced": "2024-04-08",
-   "accession": "0001193125-24-133385",
-   "exhibit": "EX-99.(C)(6)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1814329/000119312524133385/d681503dex99c6.htm",
-   "bank": "PJT Partners",
-   "before": [
-    "PJT Partners",
-    "Houlihan Lokey"
-   ],
-   "category": "other",
-   "confidence": "low",
-   "excerpt": "ILED SEPARATELY WITH THE SECURITIES AND EXCHANGE COMMISSION Summary of Strategic Outreach The Company engaged PJT Partners to act as its financial advisor in connection with future financing activities and to explore pot",
    "classifierReason": "an adviser to the company named in another bank's deck"
   },
   {
