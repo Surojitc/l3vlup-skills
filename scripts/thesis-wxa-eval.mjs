@@ -76,7 +76,11 @@ export function scoreDocument(gold, claims) {
 }
 
 function main() {
-  const gold = JSON.parse(readFileSync(join(DIR, 'gold.json'), 'utf8')).documents;
+  const goldFile = JSON.parse(readFileSync(join(DIR, 'gold.json'), 'utf8'));
+  const gold = goldFile.documents;
+  const goldStatus = Object.values(gold).every((g) => g.status === 'confirmed')
+    ? `confirmed v${goldFile.version ?? 1} (${goldFile.reviewedBy}, ${goldFile.reviewedOn})`
+    : 'draft until a person confirms it';
   const { selection } = JSON.parse(readFileSync(join(DIR, 'selection.json'), 'utf8'));
   const session = JSON.parse(readFileSync(join(DIR, 'claims.pending.json'), 'utf8')).claims;
   const queue = JSON.parse(readFileSync(join(ROOT, 'data', 'thesis', 'claims.pending.json'), 'utf8')).claims;
@@ -96,7 +100,7 @@ function main() {
   const md = [
     '# Words × Actions pilot: extractions against the gold set',
     '',
-    'Gold status: **draft** until a person confirms `data/thesis/wxa/gold.json`. Percentages; `n.a.` where the gold lists nothing to find.',
+    `Gold set: **${goldStatus}**. Percentages; \`n.a.\` where the gold lists nothing to find.`,
     'Thesis fidelity is judged in the review pack, not here.',
     '',
     `| Document | Extraction | ${cols.join(' | ')} |`,
@@ -105,7 +109,7 @@ function main() {
     '',
   ].join('\n');
   writeFileSync(join(DIR, 'eval.md'), md);
-  writeFileSync(join(DIR, 'eval.json'), `${JSON.stringify({ goldStatus: 'draft', rows }, null, 2)}\n`);
+  writeFileSync(join(DIR, 'eval.json'), `${JSON.stringify({ goldStatus, rows }, null, 2)}\n`);
   console.log(md);
 }
 

@@ -42,7 +42,9 @@ const s = scoreDocument(
 ok('score: counts by axis, n.a. where gold has nothing', JSON.stringify(s) === JSON.stringify({ claims: 1, company: 100, stance: 100, catalysts: 100, risks: null, figures: 50, passages: 100 }), s);
 
 const gold = JSON.parse(readFileSync(join(ROOT, 'data', 'thesis', 'wxa', 'gold.json'), 'utf8'));
-ok('gold: every document is marked draft until a person confirms it', Object.values(gold.documents).every((g) => g.status === 'draft'));
+ok('gold: every document confirmed, with who and when', Object.values(gold.documents).every((g) => g.status === 'confirmed') && gold.reviewedBy && gold.reviewedOn);
+ok('gold: Phillips 66 keeps only the $10 million, and no stated ownership', JSON.stringify(gold.documents['elliott-phillips66-2025-04'].figures.map((f) => f.numbers)) === JSON.stringify([['$10 million']]) && gold.documents['elliott-phillips66-2025-04'].ownershipStated === null);
+ok('gold: Disney carries no risk Trian did not state', gold.documents['trian-disney-2024-03'].risks.length === 0);
 ok('gold: no passage is stored, only the numbers', Object.values(gold.documents).every((g) => (g.figures ?? []).every((f) => !('excerpt' in f) && Array.isArray(f.numbers))));
 const pending = JSON.parse(readFileSync(join(ROOT, 'data', 'thesis', 'wxa', 'claims.pending.json'), 'utf8'));
 ok('pending: no session claim is accepted or published', pending.claims.every((c) => !['accepted', 'edited'].includes(c.reviewStatus) && !['accepted', 'edited'].includes(c.publicationState)));

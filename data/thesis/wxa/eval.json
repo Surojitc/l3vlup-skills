@@ -1,5 +1,5 @@
 {
-  "goldStatus": "draft",
+  "goldStatus": "confirmed v1 (Suro, 2026-10-09)",
   "rows": [
     {
       "id": "elliott-cdk-global-2016-05",
@@ -31,7 +31,7 @@
       "stance": 100,
       "catalysts": 50,
       "risks": null,
-      "figures": 100,
+      "figures": 0,
       "passages": 100
     },
     {
@@ -42,7 +42,7 @@
       "stance": 100,
       "catalysts": 50,
       "risks": null,
-      "figures": 100,
+      "figures": 0,
       "passages": 100
     },
     {
@@ -151,7 +151,7 @@
       "company": 100,
       "stance": 100,
       "catalysts": 50,
-      "risks": 0,
+      "risks": null,
       "figures": 50,
       "passages": 100
     }

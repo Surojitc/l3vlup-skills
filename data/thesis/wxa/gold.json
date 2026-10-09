@@ -1,7 +1,7 @@
 {
   "_comment": [
     "The pilot's gold set: what each document argues, written by the editor session from the full text,",
-    "for scoring extractions. DRAFT until a person confirms it (status per document). Figures keep only the numbers,",
+    "for scoring extractions. Confirmed as v1 by Suro on 9 October 2026, with two corrections (Phillips 66 figures; Disney risks). Figures keep only the numbers,",
     "not the passage, so the public repository quotes no more of any document than the claims do."
   ],
   "documents": {
@@ -46,7 +46,7 @@
         }
       ],
       "ownershipStated": "Elliott beneficially owns about 1.4% of the common stock and, through cash-settled swaps, has economic exposure to about 8.9% in total.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "elliott-cdk-global-2016-05": {
       "company": "CDK Global, Inc.",
@@ -93,7 +93,7 @@
         }
       ],
       "ownershipStated": "Elliott Associates and Elliott International together own 8.6% of CDK's common stock and equivalents.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "elliott-phillips66-2025-04": {
       "company": "Phillips 66",
@@ -109,13 +109,12 @@
         {
           "claim": "Goff has invested $10 million in Phillips 66",
           "numbers": [
-            "$10 million",
-            "66"
+            "$10 million"
           ]
         }
       ],
       "ownershipStated": null,
-      "status": "draft"
+      "status": "confirmed"
     },
     "jana-eqt-2017-10": {
       "company": "EQT Corporation",
@@ -152,7 +151,7 @@
         }
       ],
       "ownershipStated": "JANA Partners owns approximately 6% of EQT's outstanding shares.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "sachem-head-us-foods-2022-04": {
       "company": "US Foods",
@@ -197,7 +196,7 @@
         }
       ],
       "ownershipStated": "Sachem Head beneficially owns about 8.7% of US Foods common stock, worth roughly 750 million dollars, held since 2018.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "starboard-autodesk-2025-03": {
       "company": "Autodesk, Inc.",
@@ -241,7 +240,7 @@
         }
       ],
       "ownershipStated": "Starboard describes itself as a large shareholder with a stake valued at more than $500 million.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "starboard-bristol-myers-2019-02": {
       "company": "Bristol-Myers Squibb Company",
@@ -288,7 +287,7 @@
         }
       ],
       "ownershipStated": "Starboard states it is a shareholder and will vote all its shares against the deal; it gives no size for the stake.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "starboard-carmax-2026-03": {
       "company": "CarMax, Inc.",
@@ -333,7 +332,7 @@
         }
       ],
       "ownershipStated": "Starboard says it is one of the largest shareholders, with an investment of approximately $350 million.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "starboard-darden-2014-07": {
       "company": "Darden Restaurants, Inc.",
@@ -376,7 +375,7 @@
         }
       ],
       "ownershipStated": "Starboard says it recently increased its beneficial stake to 7.1%; the participant disclosure lists 9,400,000 shares beneficially owned by Starboard Value LP.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "trian-disney-2024-03": {
       "company": "The Walt Disney Company",
@@ -386,10 +385,7 @@
         "2024 annual meeting vote on April 3",
         "Board refresh with two Trian nominees"
       ],
-      "risks": [
-        "Board says nominees would disrupt progress",
-        "Turnaround execution is uncertain"
-      ],
+      "risks": [],
       "valuation": null,
       "figures": [
         {
@@ -406,7 +402,7 @@
         }
       ],
       "ownershipStated": "The Trian Group beneficially owns about 3.5 billion dollars of Disney stock, and both nominees have invested their own money in Disney shares.",
-      "status": "draft"
+      "status": "confirmed"
     },
     "trian-procter-gamble-2017-07": {
       "company": "The Procter & Gamble Company",
@@ -446,7 +442,10 @@
         }
       ],
       "ownershipStated": "Trian beneficially owns about 3.4 billion dollars of P&G shares and calls itself one of the largest shareholders.",
-      "status": "draft"
+      "status": "confirmed"
     }
-  }
+  },
+  "reviewedBy": "Suro",
+  "reviewedOn": "2026-10-09",
+  "version": 1
 }

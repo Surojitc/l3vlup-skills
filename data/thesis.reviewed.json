@@ -1,6 +1,6 @@
 {
   "feedVersion": 1,
-  "generatedFrom": "thesis run 37377940091 + 35928409902, reviewed 2026-10-06",
+  "generatedFrom": "thesis run 37377940091 + 35928409902, reviewed 2026-10-09",
   "reviewedBy": "Suro",
   "claims": [
     {
@@ -33,7 +33,7 @@
       "ticker": "ADSK",
       "publicationState": "accepted",
       "reviewStatus": "accepted",
-      "reviewedOn": "2026-10-06",
+      "reviewedOn": "2026-10-09",
       "transition": "initiated"
     },
     {
@@ -66,7 +66,7 @@
       "ticker": "ADSK",
       "publicationState": "edited",
       "reviewStatus": "edited",
-      "reviewedOn": "2026-10-06",
+      "reviewedOn": "2026-10-09",
       "transition": "initiated"
     },
     {
@@ -98,7 +98,7 @@
       "ticker": "PSX",
       "publicationState": "accepted",
       "reviewStatus": "accepted",
-      "reviewedOn": "2026-10-06",
+      "reviewedOn": "2026-10-09",
       "transition": "initiated"
     },
     {
@@ -131,7 +131,7 @@
       "ticker": "PSX",
       "publicationState": "accepted",
       "reviewStatus": "accepted",
-      "reviewedOn": "2026-10-06",
+      "reviewedOn": "2026-10-09",
       "transition": "initiated"
     },
     {
@@ -163,7 +163,7 @@
       "ticker": "KMX",
       "publicationState": "accepted",
       "reviewStatus": "accepted",
-      "reviewedOn": "2026-10-06",
+      "reviewedOn": "2026-10-09",
       "transition": "initiated"
     },
     {
@@ -195,16 +195,1071 @@
       "ticker": "KMX",
       "publicationState": "accepted",
       "reviewStatus": "accepted",
-      "reviewedOn": "2026-10-06",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-17-003106-2542-2602-9ab8ddbd4b",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "documentId": "0000902664-17-003106",
+      "accession": "0000902664-17-003106",
+      "filingDate": "2017-07-31",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/80424/000090266417003106/p17-1618dfan14a.htm",
+      "locator": "chunk 0, characters 2542–2602",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Trian asks shareholders to elect its co-founder Nelson Peltz to the Procter & Gamble board.",
+      "excerpt": "voting to elect our co-founder Nelson Peltz to the P&G Board",
+      "attribution": "Trian Fund Management, L.P., 2017-07-31",
+      "tags": [
+        "governance.activist_engagement",
+        "governance.board_change"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "Shareholder vote on Nelson Peltz's election to the board",
+          "expectedBy": null,
+          "dateIsExplicit": false
+        }
+      ],
+      "risks": [],
+      "issuerId": "the-procter-gamble-company",
+      "issuerName": "The Procter & Gamble Company",
+      "issuerResolution": "resolved",
+      "ticker": "PG",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-17-003106-4789-4868-fa5cc44c00",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "documentId": "0000902664-17-003106",
+      "accession": "0000902664-17-003106",
+      "filingDate": "2017-07-31",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/80424/000090266417003106/p17-1618dfan14a.htm",
+      "locator": "chunk 0, characters 4789–4868",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Trian argues that the company's 2012 cost-cutting programme of 10 billion dollars did not visibly lift profit or sales growth.",
+      "excerpt": "$10 billion cost-cutting program launched in 2012 has had no discernible impact",
+      "attribution": "Trian Fund Management, L.P., 2017-07-31",
+      "tags": [
+        "driver.cost_programme",
+        "risk.execution_risk"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [
+        {
+          "description": "New cost-saving plan may again fail to drive growth"
+        }
+      ],
+      "issuerId": "the-procter-gamble-company",
+      "issuerName": "The Procter & Gamble Company",
+      "issuerResolution": "resolved",
+      "ticker": "PG",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-17-003106-9884-9943-fb2e642c57",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "documentId": "0000902664-17-003106",
+      "accession": "0000902664-17-003106",
+      "filingDate": "2017-07-31",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/80424/000090266417003106/p17-1618dfan14a.htm",
+      "locator": "chunk 1, characters 9884–9943",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Trian states that from fiscal 2012 to 2016 the company grew sales volumes at a compound annual rate of 0.6%.",
+      "excerpt": "grew sales volumes at a compound annual growth rate of 0.6%",
+      "attribution": "Trian Fund Management, L.P., 2017-07-31",
+      "tags": [
+        "case.turnaround"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "the-procter-gamble-company",
+      "issuerName": "The Procter & Gamble Company",
+      "issuerResolution": "resolved",
+      "ticker": "PG",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-18-002117-12867-12926-ba6362ed31",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0000902664-18-002117",
+      "accession": "0000902664-18-002117",
+      "filingDate": "2018-05-07",
+      "form": "SC 13D/A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1131096/000090266418002117/p18-1092sc13da.htm",
+      "locator": "chunk 1, characters 12867–12926",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott proposes to buy athenahealth for $160 per share in cash, a 27% premium to the current price.",
+      "excerpt": "Proposes to acquire athenahealth for $160 per share in cash",
+      "attribution": "Elliott Investment Management L.P., 2018-05-07",
+      "tags": [
+        "case.special_situation",
+        "catalyst.corporate_action"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "Take-private proposal at $160 per share",
+          "expectedBy": null,
+          "dateIsExplicit": false
+        }
+      ],
+      "risks": [],
+      "issuerId": "athenahealth-inc",
+      "issuerName": "athenahealth, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "ATHN",
+      "cusip": "04685W103",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-18-002117-20414-20453-541ed7234e",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0000902664-18-002117",
+      "accession": "0000902664-18-002117",
+      "filingDate": "2018-05-07",
+      "form": "SC 13D/A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1131096/000090266418002117/p18-1092sc13da.htm",
+      "locator": "chunk 2, characters 20414–20453",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott cites unstable leadership, with five CFOs in four years.",
+      "excerpt": "with five CFOs over the last four years",
+      "attribution": "Elliott Investment Management L.P., 2018-05-07",
+      "tags": [
+        "governance.management_change"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "athenahealth-inc",
+      "issuerName": "athenahealth, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "ATHN",
+      "cusip": "04685W103",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-18-002117-20874-20936-6218c563c0",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0000902664-18-002117",
+      "accession": "0000902664-18-002117",
+      "filingDate": "2018-05-07",
+      "form": "SC 13D/A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1131096/000090266418002117/p18-1092sc13da.htm",
+      "locator": "chunk 2, characters 20874–20936",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott says 2017 operating margins were 14%, far below the company's 30% long-term target and its peers.",
+      "excerpt": "margins for 2017 were just 14%, well below the Company’s peers",
+      "attribution": "Elliott Investment Management L.P., 2018-05-07",
+      "tags": [
+        "driver.margin_inflection",
+        "risk.execution_risk"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [
+        {
+          "description": "Repeated failure to execute on margin and growth targets"
+        }
+      ],
+      "issuerId": "athenahealth-inc",
+      "issuerName": "athenahealth, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "ATHN",
+      "cusip": "04685W103",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-18-002117-26707-26769-ba73c4580e",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0000902664-18-002117",
+      "accession": "0000902664-18-002117",
+      "filingDate": "2018-05-07",
+      "form": "SC 13D/A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1131096/000090266418002117/p18-1092sc13da.htm",
+      "locator": "chunk 3, characters 26707–26769",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott argues that, given its execution problems and a difficult growth transition, athenahealth should go private.",
+      "excerpt": "the case for going private is compelling and cannot be ignored",
+      "attribution": "Elliott Investment Management L.P., 2018-05-07",
+      "tags": [
+        "case.turnaround",
+        "catalyst.corporate_action"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "athenahealth-inc",
+      "issuerName": "athenahealth, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "ATHN",
+      "cusip": "04685W103",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-18-002117-28327-28376-3d8ff143f4",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0000902664-18-002117",
+      "accession": "0000902664-18-002117",
+      "filingDate": "2018-05-07",
+      "form": "SC 13D/A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1131096/000090266418002117/p18-1092sc13da.htm",
+      "locator": "chunk 3, characters 28327–28376",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott values its $160 offer at an enterprise value of about $6.9 billion.",
+      "excerpt": "representing an enterprise value of ~$6.9 billion",
+      "attribution": "Elliott Investment Management L.P., 2018-05-07",
+      "tags": [
+        "case.special_situation"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "athenahealth-inc",
+      "issuerName": "athenahealth, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "ATHN",
+      "cusip": "04685W103",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-24-002482-19248-19287-4a5e615ce7",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "documentId": "0000902664-24-002482",
+      "accession": "0000902664-24-002482",
+      "filingDate": "2024-03-18",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1744489/000090266424002482/p24-1231dfan14a.htm",
+      "locator": "chunk 2, characters 19248–19287",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Trian notes that Disney's say-on-pay votes have averaged 73% since Ms. Lagomasino chaired the compensation committee.",
+      "excerpt": "say-on-pay votes have averaged just 73%",
+      "attribution": "Trian Fund Management, L.P., 2024-03-18",
+      "tags": [
+        "governance.board_change"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "the-walt-disney-company",
+      "issuerName": "The Walt Disney Company",
+      "issuerResolution": "resolved",
+      "ticker": "DIS",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-24-002482-4808-4874-cf89fad359",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "documentId": "0000902664-24-002482",
+      "accession": "0000902664-24-002482",
+      "filingDate": "2024-03-18",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1744489/000090266424002482/p24-1231dfan14a.htm",
+      "locator": "chunk 0, characters 4808–4874",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Trian has nominated Nelson Peltz and Jay Rasulo as independent directors at Disney.",
+      "excerpt": "We have nominated two such candidates: Nelson Peltz and Jay Rasulo",
+      "attribution": "Trian Fund Management, L.P., 2024-03-18",
+      "tags": [
+        "governance.activist_engagement",
+        "governance.board_change"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "Disney 2024 annual meeting vote",
+          "expectedBy": "April 3, 2024",
+          "dateIsExplicit": true
+        }
+      ],
+      "risks": [],
+      "issuerId": "the-walt-disney-company",
+      "issuerName": "The Walt Disney Company",
+      "issuerResolution": "resolved",
+      "ticker": "DIS",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000902664-24-002482-5409-5514-505a83ccb6",
+      "managerId": "trian",
+      "managerName": "Trian Fund Management, L.P.",
+      "documentId": "0000902664-24-002482",
+      "accession": "0000902664-24-002482",
+      "filingDate": "2024-03-18",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1744489/000090266424002482/p24-1231dfan14a.htm",
+      "locator": "chunk 0, characters 5409–5514",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Trian's nominees would push to raise media profitability, review the creative engine and clarify strategic focus.",
+      "excerpt": "accelerate media profitability, review Disney’s creative engine and clarify the Company’s strategic focus",
+      "attribution": "Trian Fund Management, L.P., 2024-03-18",
+      "tags": [
+        "case.turnaround",
+        "driver.margin_inflection"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "the-walt-disney-company",
+      "issuerName": "The Walt Disney Company",
+      "issuerResolution": "resolved",
+      "ticker": "DIS",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-14-001551-6430-6481-61a7f34982",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-14-001551",
+      "accession": "0000921895-14-001551",
+      "filingDate": "2014-07-15",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf",
+      "locator": "chunk 0, characters 6430–6481",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard states that it believes Darden is substantially undervalued given its strategic and operational opportunities.",
+      "excerpt": "We believe that Darden is substantially undervalued",
+      "attribution": "Starboard Value LP, 2014-07-15",
+      "tags": [
+        "case.turnaround",
+        "governance.activist_engagement"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "darden-restaurants-inc",
+      "issuerName": "Darden Restaurants, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "DRI",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-14-001551-7203-7278-dd60284f2f",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-14-001551",
+      "accession": "0000921895-14-001551",
+      "filingDate": "2014-07-15",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf",
+      "locator": "chunk 0, characters 7203–7278",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard argues the Specialty Restaurant Group should be spun off and would trade at a premium to casual dining averages.",
+      "excerpt": "spun-off and would trade at a substantial premium to casual dining averages",
+      "attribution": "Starboard Value LP, 2014-07-15",
+      "tags": [
+        "catalyst.corporate_action",
+        "valuation.sum_of_parts"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "Spin-off of the Specialty Restaurant Group",
+          "expectedBy": null,
+          "dateIsExplicit": false
+        }
+      ],
+      "risks": [],
+      "issuerId": "darden-restaurants-inc",
+      "issuerName": "Darden Restaurants, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "DRI",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-14-001551-8788-8864-ea76a4a1ac",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-14-001551",
+      "accession": "0000921895-14-001551",
+      "filingDate": "2014-07-15",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf",
+      "locator": "chunk 1, characters 8788–8864",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard argues that after its proposed strategic and operational changes Darden would trade at less than half the peer group's pro forma EBITDA multiple.",
+      "excerpt": "own several leading casual dining concepts at a multiple of pro forma EBITDA",
+      "attribution": "Starboard Value LP, 2014-07-15",
+      "tags": [
+        "valuation.multiple_rerating",
+        "valuation.sum_of_parts"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "darden-restaurants-inc",
+      "issuerName": "Darden Restaurants, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "DRI",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-14-001551-9289-9342-fa660a6826",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-14-001551",
+      "accession": "0000921895-14-001551",
+      "filingDate": "2014-07-15",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf",
+      "locator": "chunk 1, characters 9289–9342",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard asks the board to let its nominated slate begin a turnaround of Darden.",
+      "excerpt": "allow Darden’s long-overdue turnaround to begin today",
+      "attribution": "Starboard Value LP, 2014-07-15",
+      "tags": [
+        "case.turnaround",
+        "governance.board_change"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "Election of Starboard's director slate at the 2014 annual meeting",
+          "expectedBy": "2014 annual meeting",
+          "dateIsExplicit": true
+        }
+      ],
+      "risks": [
+        {
+          "description": "Result depends on leadership and execution"
+        }
+      ],
+      "issuerId": "darden-restaurants-inc",
+      "issuerName": "Darden Restaurants, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "DRI",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-19-000610-13939-13987-1db9d8897f",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-19-000610",
+      "accession": "0000921895-19-000610",
+      "filingDate": "2019-02-28",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "locator": "chunk 1, characters 13939–13987",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "As part of its case against Bristol-Myers acquiring Celgene, Starboard argues that REVLIMID would represent 63% of Celgene revenue at loss of exclusivity, creating substantial patent-cliff risk.",
+      "excerpt": "REVLIMID at 63% of revenue at LOE is essentially",
+      "attribution": "Starboard Value LP, 2019-02-28",
+      "tags": [
+        "risk.competitive_erosion",
+        "risk.execution_risk"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [
+        {
+          "description": "Generic competition to REVLIMID creating a patent cliff in the acquired business"
+        }
+      ],
+      "issuerId": "bristol-myers-squibb-company",
+      "issuerName": "Bristol-Myers Squibb Company",
+      "issuerResolution": "resolved",
+      "ticker": "BMY",
+      "publicationState": "edited",
+      "reviewStatus": "edited",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-19-000610-28571-28641-59edf7d1ee",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-19-000610",
+      "accession": "0000921895-19-000610",
+      "filingDate": "2019-02-28",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "locator": "chunk 3, characters 28571–28641",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard states that Bristol-Myers trades at its lowest P/E in years and below peers despite a growing franchise and net cash.",
+      "excerpt": "P/E ratio is now at its lowest level in years and below its peer group",
+      "attribution": "Starboard Value LP, 2019-02-28",
+      "tags": [
+        "valuation.multiple_rerating"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "bristol-myers-squibb-company",
+      "issuerName": "Bristol-Myers Squibb Company",
+      "issuerResolution": "resolved",
+      "ticker": "BMY",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-19-000610-28977-29035-a79710dffc",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-19-000610",
+      "accession": "0000921895-19-000610",
+      "filingDate": "2019-02-28",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "locator": "chunk 3, characters 28977–29035",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard argues Bristol-Myers has significant room to improve margins as a standalone company, while remaining open to a sale.",
+      "excerpt": "significant room for improvement in Bristol-Myers’ margins",
+      "attribution": "Starboard Value LP, 2019-02-28",
+      "tags": [
+        "driver.cost_programme",
+        "driver.margin_inflection"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "bristol-myers-squibb-company",
+      "issuerName": "Bristol-Myers Squibb Company",
+      "issuerResolution": "resolved",
+      "ticker": "BMY",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-19-000610-293-328-a42cd70541",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-19-000610",
+      "accession": "0000921895-19-000610",
+      "filingDate": "2019-02-28",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "locator": "chunk 0, characters 293–328",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard states that Bristol-Myers is deeply undervalued while opposing its proposed acquisition of Celgene.",
+      "excerpt": "Bristol-Myers is deeply undervalued",
+      "attribution": "Starboard Value LP, 2019-02-28",
+      "tags": [
+        "case.special_situation",
+        "governance.activist_engagement"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "bristol-myers-squibb-company",
+      "issuerName": "Bristol-Myers Squibb Company",
+      "issuerResolution": "resolved",
+      "ticker": "BMY",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-19-000610-665-716-891e56c167",
+      "managerId": "starboard-value",
+      "managerName": "Starboard Value LP",
+      "documentId": "0000921895-19-000610",
+      "accession": "0000921895-19-000610",
+      "filingDate": "2019-02-28",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf",
+      "locator": "chunk 0, characters 665–716",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Starboard intends to vote against the Celgene acquisition proposals at the special meeting set for April 12, 2019.",
+      "excerpt": "Shareholders scheduled to be held on April 12, 2019",
+      "attribution": "Starboard Value LP, 2019-02-28",
+      "tags": [
+        "catalyst.corporate_action",
+        "governance.activist_engagement"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "Shareholder vote on the Celgene acquisition at the Special Meeting",
+          "expectedBy": "April 12, 2019",
+          "dateIsExplicit": true
+        }
+      ],
+      "risks": [],
+      "issuerId": "bristol-myers-squibb-company",
+      "issuerName": "Bristol-Myers Squibb Company",
+      "issuerResolution": "resolved",
+      "ticker": "BMY",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-22-001376-1280-1363-61241e76c4",
+      "managerId": "sachem-head",
+      "managerName": "Sachem Head Capital Management",
+      "documentId": "0000921895-22-001376",
+      "accession": "0000921895-22-001376",
+      "filingDate": "2022-04-26",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf",
+      "locator": "chunk 0, characters 1280–1363",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Sachem Head states US Foods trades at about 11 times earnings against about 17 times for Sysco despite similar models.",
+      "excerpt": "trades at ~ 11x earnings per share , while Sysco trades at ~ 17x earnings per share",
+      "attribution": "Sachem Head Capital Management, 2022-04-26",
+      "tags": [
+        "valuation.multiple_rerating"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "us-foods-holding-corp",
+      "issuerName": "US Foods Holding Corp.",
+      "issuerResolution": "resolved",
+      "ticker": "USFD",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-22-001376-14622-14691-ecaa757f90",
+      "managerId": "sachem-head",
+      "managerName": "Sachem Head Capital Management",
+      "documentId": "0000921895-22-001376",
+      "accession": "0000921895-22-001376",
+      "filingDate": "2022-04-26",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf",
+      "locator": "chunk 1, characters 14622–14691",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Sachem Head believes the company can realise 300 million dollars of profit upside over consensus EBITDA estimates.",
+      "excerpt": "realize $300 million in profit upside over consensus EBITDA estimates",
+      "attribution": "Sachem Head Capital Management, 2022-04-26",
+      "tags": [
+        "driver.cost_programme",
+        "driver.margin_inflection"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [
+        {
+          "description": "Management may not deliver on targets, as with missed 2018 guidance"
+        }
+      ],
+      "issuerId": "us-foods-holding-corp",
+      "issuerName": "US Foods Holding Corp.",
+      "issuerResolution": "resolved",
+      "ticker": "USFD",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-22-001376-15086-15129-2c91a90eda",
+      "managerId": "sachem-head",
+      "managerName": "Sachem Head Capital Management",
+      "documentId": "0000921895-22-001376",
+      "accession": "0000921895-22-001376",
+      "filingDate": "2022-04-26",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf",
+      "locator": "chunk 1, characters 15086–15129",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Sachem Head believes the stock could rise 100% if it returns to valuation levels close to peers.",
+      "excerpt": "100% upside from current stock price levels",
+      "attribution": "Sachem Head Capital Management, 2022-04-26",
+      "tags": [
+        "case.turnaround",
+        "valuation.multiple_rerating"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "us-foods-holding-corp",
+      "issuerName": "US Foods Holding Corp.",
+      "issuerResolution": "resolved",
+      "ticker": "USFD",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0000921895-22-001376-477-528-b97e28d9a0",
+      "managerId": "sachem-head",
+      "managerName": "Sachem Head Capital Management",
+      "documentId": "0000921895-22-001376",
+      "accession": "0000921895-22-001376",
+      "filingDate": "2022-04-26",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf",
+      "locator": "chunk 0, characters 477–528",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Sachem Head has nominated five candidates to the US Foods board.",
+      "excerpt": "we have nominated five highly qualified individuals",
+      "attribution": "Sachem Head Capital Management, 2022-04-26",
+      "tags": [
+        "governance.activist_engagement",
+        "governance.board_change"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "us-foods-holding-corp",
+      "issuerName": "US Foods Holding Corp.",
+      "issuerResolution": "resolved",
+      "ticker": "USFD",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0001013594-16-001033-1764-1841-2919594a5a",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0001013594-16-001033",
+      "accession": "0001013594-16-001033",
+      "filingDate": "2016-05-04",
+      "form": "SC 13D",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf",
+      "locator": "chunk 0, characters 1764–1841",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott argues CDK can lift its EBITDA margin from about 24% today to 42% by fiscal 2018.",
+      "excerpt": "CDK has the opportunity to enhance its EBITDA margin profile to 42% in FY2018",
+      "attribution": "Elliott Investment Management L.P., 2016-05-04",
+      "tags": [
+        "driver.margin_inflection",
+        "horizon.one_to_three_years"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "cdk-global-inc",
+      "issuerName": "CDK Global, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "CDK",
+      "cusip": "12508E101",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0001013594-16-001033-2066-2117-dc9ba1f1c6",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0001013594-16-001033",
+      "accession": "0001013594-16-001033",
+      "filingDate": "2016-05-04",
+      "form": "SC 13D",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf",
+      "locator": "chunk 0, characters 2066–2117",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott says the optimisation plan, if executed, should take the share price to about $81 within 14 months.",
+      "excerpt": "should yield a stock price of ~$81 within 14 months",
+      "attribution": "Elliott Investment Management L.P., 2016-05-04",
+      "tags": [
+        "horizon.one_to_three_years"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [
+        {
+          "description": "Upside depends on the plan being executed correctly"
+        }
+      ],
+      "issuerId": "cdk-global-inc",
+      "issuerName": "CDK Global, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "CDK",
+      "cusip": "12508E101",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0001013594-16-001033-22457-22516-4b81136a5c",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0001013594-16-001033",
+      "accession": "0001013594-16-001033",
+      "filingDate": "2016-05-04",
+      "form": "SC 13D",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf",
+      "locator": "chunk 2, characters 22457–22516",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott notes CDK carries only 1.8x net debt to EBITDA and argues for a 3.0x leverage target to fund buybacks.",
+      "excerpt": "CDK is currently only levered at 1.8x net debt / LTM EBITDA",
+      "attribution": "Elliott Investment Management L.P., 2016-05-04",
+      "tags": [
+        "capital.buyback",
+        "risk.leverage_risk"
+      ],
+      "horizon": null,
+      "catalysts": [],
+      "risks": [],
+      "issuerId": "cdk-global-inc",
+      "issuerName": "CDK Global, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "CDK",
+      "cusip": "12508E101",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0001013594-16-001033-25713-25783-c5547b02d6",
+      "managerId": "elliott",
+      "managerName": "Elliott Investment Management L.P.",
+      "documentId": "0001013594-16-001033",
+      "accession": "0001013594-16-001033",
+      "filingDate": "2016-05-04",
+      "form": "SC 13D",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf",
+      "locator": "chunk 3, characters 25713–25783",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "Elliott asks CDK to commit to $1.0 billion of share repurchases by the end of 2016, funded with new debt and cash.",
+      "excerpt": "repurchase $1.0 billion of stock through the end of calendar year 2016",
+      "attribution": "Elliott Investment Management L.P., 2016-05-04",
+      "tags": [
+        "capital.buyback"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "$1.0bn debt-funded buyback",
+          "expectedBy": "end of calendar year 2016",
+          "dateIsExplicit": true
+        }
+      ],
+      "risks": [],
+      "issuerId": "cdk-global-inc",
+      "issuerName": "CDK Global, Inc.",
+      "issuerResolution": "resolved",
+      "ticker": "CDK",
+      "cusip": "12508E101",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0001047469-17-006378-4134-4227-66fc2ca23d",
+      "managerId": "jana",
+      "managerName": "JANA Partners",
+      "documentId": "0001047469-17-006378",
+      "accession": "0001047469-17-006378",
+      "filingDate": "2017-10-16",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/33213/000104746917006378/a2233546zdfan14a.htm",
+      "locator": "chunk 0, characters 4134–4227",
+      "kind": "statement",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "JANA argues EQT would pay a 1.8 billion dollar premium for Rice, about three times the synergies JANA expects.",
+      "excerpt": "acquisition premium of $1.8 billion, approximately three times the amount of actual synergies",
+      "attribution": "JANA Partners, 2017-10-16",
+      "tags": [
+        "case.special_situation",
+        "catalyst.corporate_action"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "EQT stockholder vote on issuing shares to acquire Rice",
+          "expectedBy": null,
+          "dateIsExplicit": false
+        }
+      ],
+      "risks": [
+        {
+          "description": "Overpaying for Rice destroys EQT stockholder value"
+        }
+      ],
+      "issuerId": "eqt-corporation",
+      "issuerName": "EQT Corporation",
+      "issuerResolution": "resolved",
+      "ticker": "EQT",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
+      "transition": "initiated"
+    },
+    {
+      "claimId": "c-0001047469-17-006378-5322-5401-b74261becf",
+      "managerId": "jana",
+      "managerName": "JANA Partners",
+      "documentId": "0001047469-17-006378",
+      "accession": "0001047469-17-006378",
+      "filingDate": "2017-10-16",
+      "form": "DFAN14A",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/33213/000104746917006378/a2233546zdfan14a.htm",
+      "locator": "chunk 0, characters 5322–5401",
+      "kind": "paraphrase",
+      "stance": "long",
+      "conviction": null,
+      "paraphrase": "JANA notes EQT management has promised to address the sum-of-the-parts discount by the first quarter of 2018, and argues the Rice share issuance would dilute that gain.",
+      "excerpt": "promised to address this sum of the parts discount by the first quarter of 2018",
+      "attribution": "JANA Partners, 2017-10-16",
+      "tags": [
+        "case.asset_value_discount",
+        "valuation.sum_of_parts"
+      ],
+      "horizon": null,
+      "catalysts": [
+        {
+          "description": "Management action on the sum-of-the-parts discount",
+          "expectedBy": "first quarter of 2018",
+          "dateIsExplicit": true
+        }
+      ],
+      "risks": [],
+      "issuerId": "eqt-corporation",
+      "issuerName": "EQT Corporation",
+      "issuerResolution": "resolved",
+      "ticker": "EQT",
+      "publicationState": "accepted",
+      "reviewStatus": "accepted",
+      "reviewedOn": "2026-10-09",
       "transition": "initiated"
     }
   ],
   "taxonomy": [
     {
+      "code": "capital.buyback",
+      "label": "Buyback",
+      "axis": "capital_allocation",
+      "definition": "A stated repurchase programme."
+    },
+    {
       "code": "capital.divestiture",
       "label": "Divestiture",
       "axis": "capital_allocation",
       "definition": "A stated intention to sell a business."
+    },
+    {
+      "code": "case.asset_value_discount",
+      "label": "Asset value discount",
+      "axis": "investment_case",
+      "definition": "The market price sits below a defensible appraisal of the assets."
     },
     {
       "code": "case.special_situation",
@@ -219,6 +1274,12 @@
       "definition": "A troubled business where the thesis is repair, under new management or a new plan."
     },
     {
+      "code": "catalyst.corporate_action",
+      "label": "Corporate action",
+      "axis": "catalyst",
+      "definition": "A spin-off, sale, merger or similar."
+    },
+    {
       "code": "driver.cost_programme",
       "label": "Cost programme",
       "axis": "operating_driver",
@@ -229,6 +1290,12 @@
       "label": "Margin inflection",
       "axis": "operating_driver",
       "definition": "Margins are expected to turn, and that turn carries the thesis."
+    },
+    {
+      "code": "governance.activist_engagement",
+      "label": "Activist engagement",
+      "axis": "ownership_governance",
+      "definition": "A public campaign or engagement by the manager."
     },
     {
       "code": "governance.board_change",
@@ -243,16 +1310,40 @@
       "definition": "A named change in senior management."
     },
     {
+      "code": "horizon.one_to_three_years",
+      "label": "One to three years",
+      "axis": "horizon",
+      "definition": "The manager expects the thesis to resolve between one and three years out."
+    },
+    {
       "code": "horizon.three_to_five_years",
       "label": "Three to five years",
       "axis": "horizon",
       "definition": "The manager expects the thesis to resolve between three and five years out."
     },
     {
+      "code": "risk.competitive_erosion",
+      "label": "Competitive erosion",
+      "axis": "risk",
+      "definition": "A named competitor threatens the economics."
+    },
+    {
       "code": "risk.execution_risk",
       "label": "Execution risk",
       "axis": "risk",
       "definition": "The plan may not be delivered."
+    },
+    {
+      "code": "risk.leverage_risk",
+      "label": "Leverage risk",
+      "axis": "risk",
+      "definition": "The balance sheet limits the manager's tolerance."
+    },
+    {
+      "code": "valuation.multiple_rerating",
+      "label": "Multiple re-rating",
+      "axis": "valuation",
+      "definition": "The thesis requires the multiple to rise, not just earnings."
     },
     {
       "code": "valuation.sum_of_parts",
