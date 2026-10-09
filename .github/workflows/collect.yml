@@ -96,6 +96,7 @@ jobs:
           node scripts/__tests__/workflow-permissions.test.mjs
           python3 scripts/__tests__/sync-peers.test.py
           python3 scripts/__tests__/sync-funds.test.py
+          python3 scripts/__tests__/funds-history.test.py
 
       - name: Economic calendar
         continue-on-error: true
@@ -222,6 +223,21 @@ jobs:
         env:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: python3 scripts/sync_funds.py
+
+      # The long record behind the snapshot: every quarter since 2013 for each
+      # manager, one folder each under data/funds/history, plus the CUSIP
+      # register. Incremental: a quarter is read again only when its filing or
+      # amendments change, so after the backfill a run reads about one quarter
+      # per manager. The budget bounds the backfill itself, which therefore
+      # completes over several runs, newest quarters and thinnest histories
+      # first; every unfinished file says what it still lacks.
+      - name: Hedge fund holdings history
+        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        timeout-minutes: 120
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: python3 scripts/funds_history.py --budget 1500
 
       # Monthly, and monthly is the honest rate: who the SEC files under an
       # industry code changes when a company lists, deregisters or is

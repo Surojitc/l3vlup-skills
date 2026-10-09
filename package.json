@@ -66,6 +66,8 @@
     "peers": "python3 scripts/sync_peers.py",
     "test:peers": "python3 scripts/__tests__/sync-peers.test.py",
     "test:funds": "python3 scripts/__tests__/sync-funds.test.py",
+    "test:funds-history": "python3 scripts/__tests__/funds-history.test.py",
+    "funds:history": "python3 scripts/funds_history.py",
     "test:evidence-location": "node scripts/__tests__/thesis-evidence-location.test.mjs",
     "review:pack": "node scripts/thesis-review-pack.mjs",
     "build:thesis-reviewed": "node scripts/thesis-build-reviewed.mjs",

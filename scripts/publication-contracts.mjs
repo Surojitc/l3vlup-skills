@@ -212,6 +212,36 @@ export const CONTRACTS = {
         optional: true,
       },
       { path: 'data/funds.auto.json', freshness: { cadence: 'monthly', from: 'generatedAt' }, label: '13F holdings', neverShrinks: true, optional: true },
+      // The long 13F record (scripts/funds_history.py): one folder per manager,
+      // an index the pages read and one file per year of full positions. A
+      // history accumulates, so a run that lost quarters is refused; a run
+      // that changed nothing writes nothing, so absence is normal.
+      {
+        pattern: /^data\/funds\/history\/[a-z0-9-]+\/index\.json$/,
+        label: 'a manager\'s 13F history',
+        rows: 'quarters',
+        min: 1,
+        required: ['quarter', 'periodOfReport', 'cik', 'accession', 'aumK', 'signature'],
+        neverShrinks: true,
+        optional: true,
+      },
+      {
+        pattern: /^data\/funds\/history\/[a-z0-9-]+\/\d{4}\.json$/,
+        label: 'a year of a manager\'s 13F positions',
+        keyed: 'quarters',
+        min: 1,
+        neverShrinks: true,
+        optional: true,
+      },
+      {
+        path: 'data/funds/securities.json', freshness: { cadence: 'monthly', from: 'generatedAt' },
+        label: 'the 13F security register',
+        keyed: 'securities',
+        min: 1,
+        neverShrinks: true,
+        stamp: 'generatedAt',
+        optional: true,
+      },
       // The quarterly EDGAR form index the precedent collector reads merger
       // proxies from, kept so a closed quarter is read once. Committed since
       // #29 and rewritten by every monthly run, but missing from this list,
