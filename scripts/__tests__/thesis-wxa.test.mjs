@@ -12,6 +12,7 @@ import { tmpdir } from 'node:os';
 import { outsideRepo, SESSION_ALLOWLIST, SESSION_MODEL } from '../thesis-session.mjs';
 import { covers, sameCompany, scoreDocument } from '../thesis-wxa-eval.mjs';
 import { MODEL_ALLOWLIST, checkBudget, emptyCostLedger } from '../../lib/thesis-cost.mjs';
+import { buildReviewedFeed, decisionsTemplate } from '../../lib/thesis-reviewed.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 let pass = 0;
@@ -46,6 +47,19 @@ ok('gold: no passage is stored, only the numbers', Object.values(gold.documents)
 const pending = JSON.parse(readFileSync(join(ROOT, 'data', 'thesis', 'wxa', 'claims.pending.json'), 'utf8'));
 ok('pending: no session claim is accepted or published', pending.claims.every((c) => !['accepted', 'edited'].includes(c.reviewStatus) && !['accepted', 'edited'].includes(c.publicationState)));
 ok('pending: no source text', !JSON.stringify(pending).match(/"(text|fullText|rawResponse)"\s*:/));
+
+// A reviewer's CUSIP, copied from the filing, rides into the reviewed feed; a malformed one is refused.
+const taxonomy = JSON.parse(readFileSync(join(ROOT, 'data', 'letters.taxonomy.json'), 'utf8'));
+const one = { ...pending, claims: pending.claims.slice(0, 1) };
+const tpl = decisionsTemplate(one);
+ok('cusip: the decisions template offers it empty', tpl.decisions[0].cusip === null && /CUSIP/.test(tpl.instructions));
+const base = { ...tpl, reviewedBy: 'test', reviewedOn: '2026-10-09' };
+const good = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'CDK Global, Inc.', ticker: 'CDK', cusip: '12508e101' }] }, taxonomy);
+ok('cusip: carried into the feed, upper-cased', good.problems.length === 0 && good.feed.claims[0].cusip === '12508E101', good.problems);
+const bad = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X', cusip: 'CDK' }] }, taxonomy);
+ok('cusip: a malformed one is a problem, not a guess', bad.problems.some((x) => /not a nine-character CUSIP/.test(x)));
+const none = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X' }] }, taxonomy);
+ok('cusip: absent where the reviewer gave none', none.problems.length === 0 && !('cusip' in none.feed.claims[0]));
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
