@@ -234,5 +234,47 @@ check("register: first and last seen, and how many managers", (reg["AAA"]["first
 check("register: a ticker only from the SEC's map, and labelled so",
       reg["AAA"].get("ticker") == "ALP" and reg["AAA"].get("tickerSource") == "sec-ftd" and "ticker" not in reg["ZZZ"], reg)
 
+# ── 6. who held a name, quarter by quarter ───────────────────────────────────
+def hq(quarter, rows, *, vs=True, positions=None, listed=None, exits=()):
+    period = {"1": "03-31", "2": "06-30", "3": "09-30", "4": "12-31"}[quarter[-1]]
+    return {"quarter": quarter, "periodOfReport": f"{quarter[:4]}-{period}", "vsPrior": "x" if vs else None,
+            "holdings": rows, "positions": positions if positions is not None else len(rows),
+            "listed": listed if listed is not None else len(rows), "exits": [list(e) for e in exits]}
+
+
+small = {"id": "small", "name": "Small Fund", "names": {"AAA9": "Alpha Inc"}, "quarters": [
+    hq("2026Q1", [["AAA9", "COM", 10, 100, "h"], ["BBB9", "COM", 5, 50, "h"]], vs=False),
+    hq("2026Q2", [["AAA9", "COM", 12, 130, "a"], ["AAA9", "COM CALL", 1, 9, "n"]]),
+]}
+big = {"id": "big", "name": "Big Fund", "names": {}, "quarters": [
+    hq("2026Q1", [["AAA9", "COM", 50, 500, "h"], ["BBB9", "COM", 7, 70, "h"]], vs=False, positions=900, listed=2),
+    hq("2026Q2", [["AAA9", "COM", 40, 420, "t"]], positions=900, listed=1),
+]}
+files = fh.build_by_ticker([small, big], {"AAA9": "AAA", "BBB9": "BBB"})
+a = files["AAA"]
+mi = {mid: i for i, (mid, _) in enumerate(a["managers"])}
+check("by ticker: a file for a name two managers listed", set(files) == {"AAA", "BBB"}, set(files))
+check("by ticker: each quarter's holders, largest first, with their action",
+      a["quarters"]["2026Q2"] == [[mi["big"], 420, "t"], [mi["small"], 130, "a"]], a["quarters"]["2026Q2"])
+check("by ticker: a call on the name is not a holding of it", all(r[1] != 139 for r in a["quarters"]["2026Q2"]))
+check("by ticker: a quarter with no comparison has no action", {r[2] for r in a["quarters"]["2026Q1"]} == {"h"})
+b = files["BBB"]
+bi = {mid: i for i, (mid, _) in enumerate(b["managers"])}
+check("by ticker: a manager listing its whole book that dropped a name exited it",
+      b["exits"].get("2026Q2") == [[bi["small"], 50]], b["exits"])
+check("by ticker: a name below a large manager's listed range is not called an exit",
+      all(r[0] != bi["big"] for r in b["exits"].get("2026Q2", [])))
+check("by ticker: the name and every CUSIP behind the symbol", a["name"] == "Alpha Inc" and a["cusips"] == ["AAA9"], a)
+check("by ticker: no symbol without the SEC's map",
+      fh.build_by_ticker([small, big], {}) == {})
+check("by ticker: one manager's name gets no file", fh.build_by_ticker([small], {"AAA9": "AAA"}) == {})
+with tempfile.TemporaryDirectory() as tmp:
+    out = Path(tmp) / "by-ticker"
+    n1 = fh.write_by_ticker(files, out, on_file=["small", "big"])
+    n2 = fh.write_by_ticker(files, out, on_file=["small", "big"])
+    bad = fh.write_by_ticker({"../X": files["AAA"]}, out, on_file=[])
+    check("by ticker: written once, then nothing when unchanged; a bad symbol is never a path",
+          (n1, n2, bad) == (2, 0, 0) and json.loads((out / "AAA.json").read_text())["managersOnFile"] == 2, (n1, n2, bad))
+
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

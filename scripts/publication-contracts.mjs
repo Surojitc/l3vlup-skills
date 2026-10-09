@@ -234,6 +234,16 @@ export const CONTRACTS = {
         optional: true,
       },
       {
+        // Who held each symbol, quarter by quarter: the stock pages' half of
+        // the same record. One file per symbol two or more managers listed.
+        pattern: /^data\/funds\/by-ticker\/[A-Z0-9][A-Z0-9.-]{0,9}\.json$/,
+        label: 'a symbol\'s 13F ownership history',
+        keyed: 'quarters',
+        min: 1,
+        neverShrinks: true,
+        optional: true,
+      },
+      {
         path: 'data/funds/securities.json', freshness: { cadence: 'monthly', from: 'generatedAt' },
         label: 'the 13F security register',
         keyed: 'securities',

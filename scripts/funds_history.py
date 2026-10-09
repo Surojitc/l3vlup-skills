@@ -57,6 +57,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -76,6 +77,7 @@ EXITS = 25        # largest exits listed per quarter
 DEFAULT_BUDGET = 600
 
 ACTION_CODE = {"new": "n", "added": "a", "trimmed": "t", "held": "h"}
+TICKER_FILE = re.compile(r"^[A-Z0-9][A-Z0-9.\-]{0,9}$")
 
 
 # ── what a quarter says, given the one before it (pure) ──────────────────────
@@ -450,6 +452,107 @@ def build_securities(docs: list[dict], tickers: dict[str, str]) -> dict:
     return out
 
 
+# ── who held a name, quarter by quarter ─────────────────────────────────────
+
+RIGHTS = ("PUT", "CALL")
+
+
+def build_by_ticker(docs: list[dict], tickers: dict[str, str], *, min_managers: int = 2) -> dict[str, dict]:
+    """
+    For every symbol, which tracked managers listed it in each quarter.
+
+    The stock pages ask the reverse of the manager pages: who held this, who
+    started, who added, who cut, who left. Only a CUSIP the SEC's own map gives
+    a symbol is counted, so a page is never built on a guessed ticker; puts and
+    calls are left out, because a right on a name is not a position in it.
+
+    A manager "left" a name only where its filing could show that: the quarter
+    is compared with the one before it, and either lists the whole book or names
+    the security among its exits. A name that merely slipped below a large
+    manager's listed range is not called an exit.
+
+    Only symbols listed by at least `min_managers` managers over the period get
+    a file: one manager's position is already on that manager's page.
+    """
+    out: dict[str, dict] = {}
+    for doc in docs:
+        mid = doc["id"]
+        quarters = sorted(doc["quarters"], key=lambda q: q["periodOfReport"])
+        prev_by_ticker: dict[str, int] | None = None
+        prev_q = None
+        for q in quarters:
+            here: dict[str, list] = {}
+            for cusip, cls, shares, value_k, code in q["holdings"]:
+                if cls.upper().endswith(RIGHTS):
+                    continue
+                t = tickers.get(cusip)
+                if not t:
+                    continue
+                row = here.setdefault(t, [mid, 0, 0, code, value_k, cusip])
+                row[1] += shares
+                row[2] += value_k
+                if value_k > row[4]:  # the largest line names the action and the CUSIP
+                    row[3], row[4], row[5] = code, value_k, cusip
+            for t, row in here.items():
+                rec = out.setdefault(t, {"ticker": t, "cusips": set(), "managers": {}, "quarters": {}, "exits": {}})
+                rec["cusips"].add(row[5])
+                rec["managers"][mid] = doc["name"]
+                rec["quarters"].setdefault(q["quarter"], []).append([mid, row[1], row[2], row[3] if q.get("vsPrior") else "h"])
+                if doc["names"].get(row[5]):
+                    rec.setdefault("name", doc["names"][row[5]])
+            # Exits: in the quarter before, gone now, and the filing can show it.
+            if q.get("vsPrior") and prev_q is not None and prev_by_ticker is not None:
+                exited_cusips = {e[0] for e in q["exits"]}
+                whole = q["listed"] >= q["positions"]
+                for t, prev_value in prev_by_ticker.items():
+                    if t in here:
+                        continue
+                    gone = whole or any(tickers.get(c) == t for c in exited_cusips)
+                    if gone:
+                        rec = out.setdefault(t, {"ticker": t, "cusips": set(), "managers": {}, "quarters": {}, "exits": {}})
+                        rec["managers"][mid] = doc["name"]
+                        rec["exits"].setdefault(q["quarter"], []).append([mid, prev_value])
+            prev_by_ticker = {t: row[2] for t, row in here.items()}
+            prev_q = q
+    # Compact on purpose: one file per symbol across ninety-odd managers and a
+    # decade of quarters. A manager is an index into `managers`; a holding is
+    # [manager, value $k, action]; an exit is [manager, value $k the quarter before].
+    files = {}
+    for t, rec in out.items():
+        if len(rec["managers"]) < min_managers:
+            continue
+        managers = sorted(rec["managers"].items())
+        index = {mid: i for i, (mid, _) in enumerate(managers)}
+        by_q = lambda d: sorted(d.items(), key=lambda kv: sf.quarter_key(kv[0]))  # noqa: E731
+        files[t] = {
+            "schema": SCHEMA,
+            "ticker": t,
+            "name": rec.get("name"),
+            "cusips": sorted(rec["cusips"]),
+            "managers": [[mid, name] for mid, name in managers],
+            "quarters": {q: [[index[r[0]], r[2], r[3]] for r in sorted(v, key=lambda r: -r[2])] for q, v in by_q(rec["quarters"])},
+            "exits": {q: [[index[r[0]], r[1]] for r in sorted(v, key=lambda r: -r[1])] for q, v in by_q(rec["exits"])},
+        }
+    return files
+
+
+def write_by_ticker(files: dict[str, dict], out: Path, *, on_file: list[str]) -> int:
+    """Write the per-symbol files, rewriting only those whose content changed. Returns files written."""
+    out.mkdir(parents=True, exist_ok=True)
+    written = 0
+    for t, body in files.items():
+        if not TICKER_FILE.match(t):
+            continue
+        body = {**body, "managersOnFile": len(on_file)}
+        text = json.dumps(body, separators=(",", ":")) + "\n"
+        path = out / f"{t}.json"
+        if path.exists() and same_content(path.read_text(), text):
+            continue
+        path.write_text(text)
+        written += 1
+    return written
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--manager", action="append", help="a CIK (any of the manager's filers); repeatable")
@@ -519,6 +622,10 @@ def main() -> None:
         "count": len(register),
         "securities": register,
     }, separators=(",", ":")) + "\n")
+
+    by_ticker = build_by_ticker(docs, tickers)
+    tickers_written = write_by_ticker(by_ticker, args.out.parent / "by-ticker", on_file=[d["id"] for d in docs])
+    print(f"symbols with two or more managers: {len(by_ticker):,} · files written {tickers_written:,}")
 
     print(f"\nwrote {written} manager histories · {incomplete} unfinished · securities {len(register):,}")
     print(f"filings fetched {stats['fetched']} · from cache {stats['cached']} · errors {stats['filingErrors']} · "
