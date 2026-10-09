@@ -127,6 +127,33 @@ test('the adviser is the bank named repeatedly in the opening pages', () => {
   assert.deepEqual(detectAdvisers(opening), ['Goldman Sachs']);
 });
 
+test('a bank the deck calls the other side\'s adviser is not credited (Personalis 2026, exhibit (c)(4))', () => {
+  // The special committee advisers' deck, whose own names are only in its logos.
+  const opening = 'Today\'s Agenda. Align on near-term response plan to Toucan / Morgan Stanley. Morgan Stanley outreach to Pelican. Suggested that Pelican come back to Morgan Stanley with feedback. January 2026: Morgan Stanley, financial advisor to Toucan, reached out to discuss a potential transaction.';
+  assert.deepEqual(detectAdvisers(opening), []);
+  assert.deepEqual(detectAdvisers('Moelis participated in a call with Morgan Stanley (Indiana\'s financial advisor) and the Company. Moelis held calls with representatives of Morgan Stanley.'), []);
+});
+
+test('a bank merely quoted is not credited: research brokers, price targets, estimates', () => {
+  assert.deepEqual(detectAdvisers('Note: Equity research brokers included are Guggenheim Securities, Truist Securities and Jefferies. Note: brokers included are Guggenheim Securities, Truist Securities and Jefferies.'), []);
+  assert.deepEqual(detectAdvisers('RBC increases price target from $16 to $20. Benchmark RBC DB Mizuho UBS Median: $20.00'), []);
+  assert.deepEqual(detectAdvisers('Source: Northland Equity Research Report (08/09/24). Source: Northland Equity Research Report (08/09/24).'), []);
+});
+
+test('the author is credited on what the text shows: authorship, its own voice, its short name, its own-side role', () => {
+  assert.deepEqual(detectAdvisers('These materials were prepared by Goldman Sachs. Goldman Sachs does not provide accounting, tax, or legal advice.'), ['Goldman Sachs']);
+  assert.deepEqual(detectAdvisers('Executive Summary. Wells Fargo Securities, LLC ("WFS") is pleased to provide the following. Admin Agent Regions Bank and Wells Fargo Bank.'), ['Wells Fargo']);
+  assert.deepEqual(detectAdvisers('Materials prepared for the Special Committee of Alpha (the "Company") by Citigroup Global Markets Inc. ("Citi"). Citi does not take responsibility for such estimates.'), ['Citi']);
+  assert.deepEqual(detectAdvisers('Houlihan Lokey has been retained by the Company on behalf of, and will report solely to, the Board. Houlihan Lokey contacted 11 parties.'), ['Houlihan Lokey']);
+  assert.deepEqual(detectAdvisers('Houlihan Lokey was engaged as the financial advisor to the Special Committee. Houlihan Lokey contacted 11 parties.'), ['Houlihan Lokey']);
+  assert.deepEqual(detectAdvisers('At the direction of the Special Committee, PJT ran a broad process. Forecast approved for PJT\'s use by management.'), ['PJT Partners']);
+  assert.deepEqual(detectAdvisers('Contents: Rothschild & Co qualifications. Senior Rothschild & Co leadership team.'), ['Rothschild']);
+});
+
+test('when the text does not say who wrote it, the exhibit is left unattributed rather than guessed', () => {
+  assert.deepEqual(detectAdvisers('Process update. Lazard outreach to 30 parties. Lazard discussions continue.'), []);
+});
+
 // ── Cuts ────────────────────────────────────────────────────────────────────
 
 test('industry codes map to sectors', () => {
