@@ -29,6 +29,7 @@
     "test:persistence": "node scripts/__tests__/publication-persistence.test.mjs",
     "test:region": "node scripts/__tests__/infer-region.test.mjs",
     "test:decks": "node scripts/__tests__/decks.test.mjs",
+    "test:decks-cleanup": "node scripts/__tests__/decks-cleanup.test.mjs",
     "sync:decks": "node scripts/sync-decks.mjs",
     "discover:letters": "node scripts/discover-letters.mjs",
     "enumerate:letters": "node scripts/enumerate-letters.mjs",
