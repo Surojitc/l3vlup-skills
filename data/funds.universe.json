@@ -556,7 +556,20 @@
       "search": "jana",
       "cik": "0001998597",
       "edgarName": "JANA Partners Management, LP",
-      "match": "JANA Partners Management, LP"
+      "match": "JANA Partners Management, LP",
+      "filers": [
+        {
+          "cik": "0001159159",
+          "edgarName": "JANA PARTNERS LLC",
+          "to": "2023-06-30"
+        },
+        {
+          "cik": "0001998597",
+          "edgarName": "JANA Partners Management, LP",
+          "from": "2023-09-30",
+          "evidence": "CIK 1159159 filed its last 13F-HR for 2023 Q2; CIK 1998597 filed its first for 2023 Q3, the next quarter"
+        }
+      ]
     },
     {
       "name": "Sachem Head Capital Management LP",
@@ -614,7 +627,20 @@
       "search": "ruane",
       "match": "Ruane, Cunniff & Goldfarb L.P.",
       "cik": "0001720792",
-      "edgarName": "Ruane, Cunniff & Goldfarb L.P."
+      "edgarName": "Ruane, Cunniff & Goldfarb L.P.",
+      "filers": [
+        {
+          "cik": "0000728014",
+          "edgarName": "RUANE, CUNNIFF & GOLDFARB INC",
+          "to": "2017-12-31"
+        },
+        {
+          "cik": "0001720792",
+          "edgarName": "Ruane, Cunniff & Goldfarb L.P.",
+          "from": "2018-03-31",
+          "evidence": "CIK 1720792 reports from 2018 Q1; CIK 728014 filed in parallel for 2018 Q1, its last, and the successor is read for that quarter"
+        }
+      ]
     },
     {
       "name": "Southeastern Asset Management Inc",
