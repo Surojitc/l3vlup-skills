@@ -63,6 +63,13 @@ ok('cusip: a malformed one is a problem, not a guess', bad.problems.some((x) => 
 const none = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X' }] }, taxonomy);
 ok('cusip: absent where the reviewer gave none', none.problems.length === 0 && !('cusip' in none.feed.claims[0]));
 
+// ── A second review pass keeps the first pass's dates ─────────────────────
+const two = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X', reviewedOn: '2026-10-10' }] }, taxonomy);
+ok('reviewedOn: a decision may carry its own date', two.problems.length === 0 && two.feed.claims[0].reviewedOn === '2026-10-10');
+ok('reviewedOn: otherwise the file\'s', none.feed.claims[0].reviewedOn === base.reviewedOn);
+const badDate = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X', reviewedOn: 'Friday' }] }, taxonomy);
+ok('reviewedOn: a malformed date is a problem, never published', badDate.problems.some((p) => /reviewedOn/.test(p)));
+
 // ── The cross-manager pass: what a session reads from a shareholder report ───
 const para = (s) => s.padEnd(200, ' x');
 const report = [

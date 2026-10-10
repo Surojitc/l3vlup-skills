@@ -271,5 +271,21 @@
     "Phillips 66"
    ]
   }
- ]
+ ],
+ "followUps": [
+  {
+   "item": "Recover genuine manager-letter prose from source documents whose existing text extraction returns only tables.",
+   "why": "The Sequoia annual reports and the Longleaf reports keep their tables but lose their letter text in lib/letters-html.mjs extractSections, so no claim can be grounded in them. Recovering that prose would add Sequoia's annual commentary, Longleaf's, and further cross-manager intersections.",
+   "blocking": false,
+   "documents": [
+    "ruane-n-csr-2022-12",
+    "ruane-n-csr-2023-12",
+    "longleaf-n-csrs-2022-06",
+    "longleaf-n-csr-2022-12",
+    "longleaf-n-csrs-2023-06",
+    "longleaf-n-csr-2023-12"
+   ]
+  }
+ ],
+ "readingNote": "Oakmark reports are read as reading: prose-about, the prose paragraphs naming this pass's companies, not the whole document; coverage reported by the runner is coverage of that reading. The paid run's 12-chunk ceiling is unchanged."
 }

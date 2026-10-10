@@ -10,8 +10,7 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "valuation.growth_at_reasonable_price",
-       "quality.scale_advantage"
+       "valuation.growth_at_reasonable_price"
       ],
       "evidenceExcerpt": "Weak foreign currencies in the company's international markets were the primary source of margin pressure.",
       "risk": {
@@ -24,8 +23,7 @@
       "kind": "paraphrase",
       "stance": "long",
       "tags": [
-       "valuation.multiple_rerating",
-       "risk.competitive_erosion"
+       "valuation.multiple_rerating"
       ],
       "evidenceExcerpt": "We sold put options to add to our economic exposure in Meta to take advantage of the price weakness.",
       "risk": {
@@ -44,8 +42,7 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "valuation.multiple_rerating",
-       "driver.market_share_gain"
+       "valuation.multiple_rerating"
       ],
       "evidenceExcerpt": "We believe this is an unreasonably low valuation for what we see as an above-average financial institution.",
       "risk": {
@@ -58,7 +55,6 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "quality.durable_moat",
        "valuation.growth_at_reasonable_price"
       ],
       "evidenceExcerpt": "think Intercontinental Exchange represents a compelling opportunity"
@@ -70,10 +66,7 @@
       "paraphrase": "Harris says Charter's fundamentals matched its expectations despite slowing broadband growth, and it increased the position by more than 25% in the quarter.",
       "kind": "statement",
       "stance": "long",
-      "tags": [
-       "valuation.multiple_rerating",
-       "capital.buyback"
-      ],
+      "tags": [],
       "evidenceExcerpt": "increase our position in Charter by more than 25%",
       "risk": {
        "description": "Broadband subscriber growth has slowed"
@@ -84,10 +77,7 @@
       "paraphrase": "Harris argues the market's assumptions on Charter are overly punitive: it remains the dominant broadband provider in 60% of its footprint and should keep growing operating profit.",
       "kind": "paraphrase",
       "stance": "long",
-      "tags": [
-       "quality.durable_moat",
-       "risk.competitive_erosion"
-      ],
+      "tags": [],
       "evidenceExcerpt": "Charter remains the dominant broadband provider in 60% of its footprint",
       "risk": {
        "description": "Competition and concerns about broadband subscriber growth"
@@ -105,8 +95,7 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "valuation.multiple_rerating",
-       "quality.scale_advantage"
+       "valuation.multiple_rerating"
       ],
       "evidenceExcerpt": "We believe these concerns are overstated",
       "risk": {
@@ -119,8 +108,7 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "valuation.multiple_rerating",
-       "governance.insider_alignment"
+       "valuation.multiple_rerating"
       ],
       "evidenceExcerpt": "despite not sharing the balance sheet risks"
      },
@@ -175,8 +163,7 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "valuation.sum_of_parts",
-       "valuation.fcf_yield_support"
+       "valuation.sum_of_parts"
       ],
       "evidenceExcerpt": "we believe we are paying a single-digit multiple of normalized earnings",
       "risk": {
@@ -189,8 +176,7 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "driver.volume_growth",
-       "horizon.three_to_five_years"
+       "driver.volume_growth"
       ],
       "evidenceExcerpt": "mobile net adds were strong at 648,000, and net adds have been over 600,000"
      }
@@ -206,7 +192,6 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "risk.competitive_erosion",
        "capital.buyback"
       ],
       "evidenceExcerpt": "We maintain our belief in the long-term prospects of Charter Communications.",
@@ -247,9 +232,7 @@
       "paraphrase": "Ruane increased Sequoia's investment in Intercontinental Exchange in the second quarter of 2022.",
       "kind": "statement",
       "stance": "long",
-      "tags": [
-       "horizon.three_to_five_years"
-      ],
+      "tags": [],
       "evidenceExcerpt": "increased our investment in Intercontinental Exchange"
      },
      {
@@ -257,9 +240,7 @@
       "paraphrase": "Ruane made minor additions to Sequoia's Netflix holding in the second quarter of 2022.",
       "kind": "statement",
       "stance": "long",
-      "tags": [
-       "horizon.three_to_five_years"
-      ],
+      "tags": [],
       "evidenceExcerpt": "We also made minor additions to our holdings in Netflix and Wayfair."
      },
      {
@@ -283,9 +264,7 @@
       "paraphrase": "Ruane added to Charles Schwab in the second quarter of 2023 during periods of price weakness.",
       "kind": "statement",
       "stance": "long",
-      "tags": [
-       "valuation.multiple_rerating"
-      ],
+      "tags": [],
       "evidenceExcerpt": "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness."
      },
      {
@@ -293,9 +272,7 @@
       "paraphrase": "Ruane added to Capital One in the second quarter of 2023 during periods of price weakness.",
       "kind": "statement",
       "stance": "long",
-      "tags": [
-       "valuation.multiple_rerating"
-      ],
+      "tags": [],
       "evidenceExcerpt": "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness."
      },
      {
@@ -351,13 +328,9 @@
       "kind": "statement",
       "stance": "long",
       "tags": [
-       "governance.activist_engagement",
-       "capital.divestiture"
+       "governance.activist_engagement"
       ],
-      "evidenceExcerpt": "portfolio simplification; an operating review; and enhanced oversight",
-      "risk": {
-       "description": "The board may not adopt the changes"
-      }
+      "evidenceExcerpt": "portfolio simplification; an operating review; and enhanced oversight"
      },
      {
       "issuerMention": "Phillips",
