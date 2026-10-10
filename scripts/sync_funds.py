@@ -991,30 +991,48 @@ def action_for(shares: float, prev: float | None) -> str:
     return "held"
 
 
-def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache: bool,
-                  tickers: dict[str, str], stats: dict, today: str | None = None,
-                  sources: list[tuple[dict, dict]] | None = None) -> dict | None:
-    # Each filer's filings, kept only for the periods that filer reports the
-    # manager, and tagged with the CIK that filed them.
-    sources = sources or [({"cik": cik}, sub)]
-    filings = sorted(
+# ── a manager's quarters, read the same way by every reader ─────────────────
+#
+# The monthly snapshot (build_manager) and the long history (funds_history.py)
+# both read quarters through these three functions, so a quarter is chosen,
+# amended and attributed to its filer identically wherever it appears.
+
+def quarter_filings(sources: list[tuple[dict, dict]]) -> list[dict]:
+    """
+    Every 13F-HR and 13F-HR/A across the manager's filers, newest period first.
+
+    Each filer's filings are kept only for the periods that filer reports the
+    manager, and tagged with the CIK that filed them.
+    """
+    return sorted(
         (dict(f, cik=filer["cik"]) for filer, s in sources for f in filings_13f(s)
          if in_window(filer, f["periodOfReport"])),
         key=lambda f: (f["periodOfReport"], f["filed"]), reverse=True,
     )
-    if not filings:
-        print("    no 13F-HR filings on file")
-        return None
 
-    # One filing per period: the latest original. Amendments are applied to it below.
+
+def plan_quarters(filings: list[dict], *, limit: int | None = None, periods: set[str] | None = None,
+                  use_cache: bool, stats: dict) -> list[dict]:
+    """
+    One filing per period, newest first, with the amendments that apply to it.
+
+    The latest original stands for its period. Amendments filed after it apply
+    in filing order: a restatement replaces the table and everything added to
+    it before; a NEW HOLDINGS amendment adds to whatever stands (`extras`).
+    `limit` keeps the newest periods; `periods` keeps only those period ends.
+    """
     by_period: dict[str, dict] = {}
     for f in filings:
         p = f["periodOfReport"]
         if p not in by_period:
-            by_period[p] = f
+            by_period[p] = dict(f)
         elif f["form"] == "13F-HR" and by_period[p]["form"] == "13F-HR/A":
-            by_period[p] = f
-    chosen = sorted(by_period.values(), key=lambda f: f["periodOfReport"], reverse=True)[:quarters]
+            by_period[p] = dict(f)
+    chosen = sorted(by_period.values(), key=lambda f: f["periodOfReport"], reverse=True)
+    if periods is not None:
+        chosen = [f for f in chosen if f["periodOfReport"] in periods]
+    if limit is not None:
+        chosen = chosen[:limit]
 
     for f in chosen:
         later = [
@@ -1024,8 +1042,6 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
             and a["filed"] >= f["filed"]
             and a["accession"] != f["accession"]
         ]
-        # In filing order: a restatement replaces the table and everything added
-        # to it before; a NEW HOLDINGS amendment adds to whatever stands.
         f["extras"] = []
         for a in sorted(later, key=lambda a: (a["filed"], a["accession"])):
             try:
@@ -1041,41 +1057,60 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
                 f["extras"].append(a)
             elif kind:
                 stats["amendmentsSkipped"] += 1
+    return chosen
 
-    parsed: list[dict] = []
-    for f in chosen:
+
+def quarter_signature(f: dict) -> list[str]:
+    """The accessions a planned quarter is read from: change one and the quarter must be read again."""
+    return [f["accession"], *(a["accession"] for a in f.get("extras", []))]
+
+
+def read_quarter(entry: dict, f: dict, *, use_cache: bool, stats: dict) -> dict | None:
+    """A planned quarter's full table, with its amendments merged and its filer recorded."""
+    try:
+        got = read_filing(f["cik"], f, use_cache=use_cache)
+    except Exception as e:
+        print(f"    {f['quarter']} {f['accession']}: {type(e).__name__}: {e}")
+        stats["filingErrors"] += 1
+        return None
+    if got is None:
+        stats["filingsEmpty"] += 1
+        return None
+    stats["cached" if got.get("fromCache") else "fetched"] += 1
+    amended = []
+    for a in f.get("extras", []):
         try:
-            got = read_filing(f["cik"], f, use_cache=use_cache)
+            extra = read_filing(a["cik"], a, use_cache=use_cache)
         except Exception as e:
-            print(f"    {f['quarter']} {f['accession']}: {type(e).__name__}: {e}")
+            print(f"    {a['quarter']} {a['accession']} (amendment): {type(e).__name__}: {e}")
             stats["filingErrors"] += 1
             continue
-        if got is None:
-            stats["filingsEmpty"] += 1
+        if not extra or not extra.get("holdings"):
             continue
-        stats["cached" if got.get("fromCache") else "fetched"] += 1
-        amended = []
-        for a in f.get("extras", []):
-            try:
-                extra = read_filing(a["cik"], a, use_cache=use_cache)
-            except Exception as e:
-                print(f"    {a['quarter']} {a['accession']} (amendment): {type(e).__name__}: {e}")
-                stats["filingErrors"] += 1
-                continue
-            if not extra or not extra.get("holdings"):
-                continue
-            got, mode = merge_amendment(got, extra)
-            stats["amendmentsApplied" if mode == "appended" else "amendmentsTreatedAsRestated"] += 1
-            amended.append({"accession": a["accession"], "filed": a["filed"], "mode": mode})
-        if amended:
-            got["amendedBy"] = amended
-        got["cik"] = f["cik"]
-        delta = (got.get("checks") or {}).get("valueTotalDeltaPct")
-        if delta is not None and abs(delta) > 0.5:
-            stats["totalMismatch"].append(
-                f"{entry['name']} {got['quarter']} off the filing's own total by {delta}%"
-            )
-        parsed.append(got)
+        got, mode = merge_amendment(got, extra)
+        stats["amendmentsApplied" if mode == "appended" else "amendmentsTreatedAsRestated"] += 1
+        amended.append({"accession": a["accession"], "filed": a["filed"], "mode": mode})
+    if amended:
+        got["amendedBy"] = amended
+    got["cik"] = f["cik"]
+    delta = (got.get("checks") or {}).get("valueTotalDeltaPct")
+    if delta is not None and abs(delta) > 0.5:
+        stats["totalMismatch"].append(
+            f"{entry.get('name')} {got['quarter']} off the filing's own total by {delta}%"
+        )
+    return got
+
+
+def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache: bool,
+                  tickers: dict[str, str], stats: dict, today: str | None = None,
+                  sources: list[tuple[dict, dict]] | None = None) -> dict | None:
+    sources = sources or [({"cik": cik}, sub)]
+    filings = quarter_filings(sources)
+    if not filings:
+        print("    no 13F-HR filings on file")
+        return None
+    chosen = plan_quarters(filings, limit=quarters, use_cache=use_cache, stats=stats)
+    parsed = [got for f in chosen if (got := read_quarter(entry, f, use_cache=use_cache, stats=stats))]
 
     if not parsed:
         return None
