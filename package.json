@@ -71,6 +71,9 @@
     "test:evidence-location": "node scripts/__tests__/thesis-evidence-location.test.mjs",
     "review:pack": "node scripts/thesis-review-pack.mjs",
     "build:thesis-reviewed": "node scripts/thesis-build-reviewed.mjs",
+    "thesis:session": "node scripts/thesis-session.mjs",
+    "thesis:wxa-eval": "node scripts/thesis-wxa-eval.mjs",
+    "test:wxa": "node scripts/__tests__/thesis-wxa.test.mjs",
     "test:thesis-reviewed": "node --test scripts/__tests__/thesis-reviewed.test.mjs"
   },
   "dependencies": {

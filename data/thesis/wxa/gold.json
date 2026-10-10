@@ -1,0 +1,451 @@
+{
+  "_comment": [
+    "The pilot's gold set: what each document argues, written by the editor session from the full text,",
+    "for scoring extractions. Confirmed as v1 by Suro on 9 October 2026, with two corrections (Phillips 66 figures; Disney risks). Figures keep only the numbers,",
+    "not the passage, so the public repository quotes no more of any document than the claims do."
+  ],
+  "documents": {
+    "elliott-athenahealth-2018-05": {
+      "company": "athenahealth, Inc.",
+      "stance": "long",
+      "thesis": "Elliott argues athenahealth has a strong product but has underperformed for years through poor execution, management turnover and missed targets, and that it will not improve as a public company. It proposes to acquire the company for $160 per share in cash and asks the board to engage and grant diligence.",
+      "catalysts": [
+        "Board engagement on the $160 take-private proposal",
+        "Roughly three-week confirmatory diligence",
+        "Committed debt financing"
+      ],
+      "risks": [
+        "Continued execution failures",
+        "Board refusal to engage",
+        "Proposal non-binding and subject to diligence"
+      ],
+      "valuation": "The $160 per share offer implies an enterprise value of about $6.9 billion and a 27% premium, which Elliott says it may raise after private diligence.",
+      "figures": [
+        {
+          "claim": "Offer of $160 per share in cash",
+          "numbers": [
+            "$160 per share"
+          ]
+        },
+        {
+          "claim": "2017 operating margin of 14%",
+          "numbers": [
+            "2017",
+            "14%"
+          ]
+        },
+        {
+          "claim": "Five CFOs in four years",
+          "numbers": []
+        },
+        {
+          "claim": "Enterprise value of about $6.9 billion",
+          "numbers": [
+            "$6.9 billion"
+          ]
+        }
+      ],
+      "ownershipStated": "Elliott beneficially owns about 1.4% of the common stock and, through cash-settled swaps, has economic exposure to about 8.9% in total.",
+      "status": "confirmed"
+    },
+    "elliott-cdk-global-2016-05": {
+      "company": "CDK Global, Inc.",
+      "stance": "long",
+      "thesis": "Elliott argues that CDK, a market-leading dealer management software business spun out of ADP, is under-managed, with margins far below its closest peer and an under-levered balance sheet. It wants CDK to raise its FY2018 EBITDA margin target to 42% and commit to $1.0 billion of debt-funded buybacks by end-2016, or else explore a sale.",
+      "catalysts": [
+        "Raised FY2018 margin target",
+        "$1.0bn buyback by end of 2016",
+        "Possible sale to private equity or strategic buyers"
+      ],
+      "risks": [
+        "Execution of the margin plan",
+        "Higher leverage",
+        "Delay in restructuring hurting morale and sales"
+      ],
+      "valuation": "Applying 20x FY2018E EPS of $4.06 gives a price of about $81, a 72% upside, with the multiple framed as conservative against vertical software peers.",
+      "figures": [
+        {
+          "claim": "EBITDA margin can reach 42% in FY2018",
+          "numbers": [
+            "42%",
+            "2018"
+          ]
+        },
+        {
+          "claim": "Price target of about $81 within 14 months",
+          "numbers": [
+            "$81",
+            "14"
+          ]
+        },
+        {
+          "claim": "Current net leverage is 1.8x",
+          "numbers": [
+            "1.8x"
+          ]
+        },
+        {
+          "claim": "$1.0 billion buyback through end-2016",
+          "numbers": [
+            "$1.0 billion",
+            "2016"
+          ]
+        }
+      ],
+      "ownershipStated": "Elliott Associates and Elliott International together own 8.6% of CDK's common stock and equivalents.",
+      "status": "confirmed"
+    },
+    "elliott-phillips66-2025-04": {
+      "company": "Phillips 66",
+      "stance": "long",
+      "thesis": "In material filed by Elliott, Gregory Goff argues that weak board governance let Phillips 66 pursue a combined midstream and refining strategy that traps value and dilutes focus. He backs Elliott's director slate at the 2025 annual meeting to add independence and push a review of alternatives.",
+      "catalysts": [
+        "Director election at the 2025 annual meeting",
+        "Review of strategic alternatives for midstream"
+      ],
+      "risks": [],
+      "valuation": "The letter argues the midstream and refining businesses trade at different multiples, so holding them together traps shareholder value.",
+      "figures": [
+        {
+          "claim": "Goff has invested $10 million in Phillips 66",
+          "numbers": [
+            "$10 million"
+          ]
+        }
+      ],
+      "ownershipStated": null,
+      "status": "confirmed"
+    },
+    "jana-eqt-2017-10": {
+      "company": "EQT Corporation",
+      "stance": "long",
+      "thesis": "JANA, an EQT shareholder, argues that EQT's acquisition of Rice Energy is overpriced, that claimed synergies are overstated and that management incentives favoured the deal. It urges stockholders to vote against issuing EQT shares to Rice stockholders and wants EQT to pursue value creation, including closing its sum-of-the-parts discount, for its own holders.",
+      "catalysts": [
+        "Special meeting vote on the Rice share issuance",
+        "Management action on the sum-of-the-parts discount by Q1 2018"
+      ],
+      "risks": [
+        "Overpaying for Rice",
+        "Dilution of future value to Rice stockholders",
+        "Extra spend to connect acreage"
+      ],
+      "valuation": "JANA argues EQT trades at a persistent discount to its sum-of-the-parts value, and that issuing discounted stock for Rice would hand much of any re-rating to Rice holders.",
+      "figures": [
+        {
+          "claim": "EQT would pay a 1.8 billion dollar premium, about three times expected synergies",
+          "numbers": [
+            "$1.8 billion"
+          ]
+        },
+        {
+          "claim": "JANA estimates real synergies at about 600 million dollars",
+          "numbers": [
+            "$600 million"
+          ]
+        },
+        {
+          "claim": "JANA owns about 6% of EQT shares",
+          "numbers": [
+            "6%"
+          ]
+        }
+      ],
+      "ownershipStated": "JANA Partners owns approximately 6% of EQT's outstanding shares.",
+      "status": "confirmed"
+    },
+    "sachem-head-us-foods-2022-04": {
+      "company": "US Foods",
+      "stance": "long",
+      "thesis": "Sachem Head argues US Foods has underperformed peers, carries a margin gap of about 200 basis points to Sysco and suffers from weak board oversight, supply chain turnover and poor capital allocation. It wants stockholders to elect its five nominees to reset the culture, close the margin gap, restore credibility and review management.",
+      "catalysts": [
+        "Proxy vote on five Sachem Head nominees",
+        "Closing about half of the margin gap with Sysco",
+        "Narrowing the valuation discount to peers"
+      ],
+      "risks": [
+        "Management may miss targets again",
+        "Misaligned preferred holder on the board could impede change",
+        "Margin gap expected to widen"
+      ],
+      "valuation": "Sachem Head argues US Foods trades at about 11 times earnings against about 17 times for Sysco and could see 100% upside if it returns to near-peer valuation.",
+      "figures": [
+        {
+          "claim": "US Foods trades at about 11x EPS versus about 17x for Sysco",
+          "numbers": [
+            "11x",
+            "17x"
+          ]
+        },
+        {
+          "claim": "300 million dollars of profit upside over consensus EBITDA",
+          "numbers": [
+            "$300 million"
+          ]
+        },
+        {
+          "claim": "Potential 100% upside from current price",
+          "numbers": [
+            "100%"
+          ]
+        },
+        {
+          "claim": "Sachem Head owns about 8.7% of US Foods common stock",
+          "numbers": [
+            "8.7%"
+          ]
+        }
+      ],
+      "ownershipStated": "Sachem Head beneficially owns about 8.7% of US Foods common stock, worth roughly 750 million dollars, held since 2018.",
+      "status": "confirmed"
+    },
+    "starboard-autodesk-2025-03": {
+      "company": "Autodesk, Inc.",
+      "stance": "long",
+      "thesis": "Starboard argues Autodesk is a high-quality subscription software business that has underperformed on profitability and accountability, with a bloated cost base and FY2026 guidance that understates achievable margin gains. It wants Autodesk to target about 45% underlying adjusted operating margins by FY2028 and intends to nominate a minority slate for board change.",
+      "catalysts": [
+        "Nomination of directors for the 2025 Annual Meeting",
+        "Investor Day in Q3",
+        "9% workforce reduction"
+      ],
+      "risks": [
+        "Savings may be offset by higher spending elsewhere"
+      ],
+      "valuation": null,
+      "figures": [
+        {
+          "claim": "Starboard's stake is worth more than $500 million",
+          "numbers": [
+            "$500 million"
+          ]
+        },
+        {
+          "claim": "FY2026 guidance implies 240bps of margin expansion from 37.1%",
+          "numbers": [
+            "240",
+            "2025",
+            "37.1%"
+          ]
+        },
+        {
+          "claim": "Starboard estimates about 500bps of margin improvement is achievable this year",
+          "numbers": [
+            "500"
+          ]
+        },
+        {
+          "claim": "About $350 million of net cost savings support the FY2028 target",
+          "numbers": [
+            "$350 million"
+          ]
+        }
+      ],
+      "ownershipStated": "Starboard describes itself as a large shareholder with a stake valued at more than $500 million.",
+      "status": "confirmed"
+    },
+    "starboard-bristol-myers-2019-02": {
+      "company": "Bristol-Myers Squibb Company",
+      "stance": "long",
+      "thesis": "Starboard argues Bristol-Myers is deeply undervalued and that its proposed acquisition of Celgene is ill-advised, citing Celgene's REVLIMID patent cliff, a risky pipeline, rushed diligence and a possibly defensive motive. It wants shareholders to vote the deal down and then elect its director nominees so the board pursues better alternatives, including standalone margin improvement or a sale.",
+      "catalysts": [
+        "Special Meeting vote on April 12, 2019",
+        "Director election at the 2019 Annual Meeting",
+        "Books and records demand",
+        "Potential sale of the company"
+      ],
+      "risks": [
+        "REVLIMID patent cliff and generic competition",
+        "Celgene pipeline may not rebuild revenue",
+        "Need for another large acquisition"
+      ],
+      "valuation": "Starboard says Bristol-Myers' P/E is at its lowest in years and below peers despite a growing franchise and net cash, and that a sale could command a premium.",
+      "figures": [
+        {
+          "claim": "Bristol-Myers agreed to acquire Celgene for about $91 billion",
+          "numbers": [
+            "$91 billion"
+          ]
+        },
+        {
+          "claim": "REVLIMID generated about $9.7 billion of 2018 sales",
+          "numbers": [
+            "$9.7 billion",
+            "2018"
+          ]
+        },
+        {
+          "claim": "Management assumes Celgene risk-adjusted revenues of nearly $19 billion by 2028",
+          "numbers": [
+            "$19 billion",
+            "2028"
+          ]
+        },
+        {
+          "claim": "Bristol-Myers underperformed peers and the index by about 40% over five years",
+          "numbers": [
+            "40%"
+          ]
+        }
+      ],
+      "ownershipStated": "Starboard states it is a shareholder and will vote all its shares against the deal; it gives no size for the stake.",
+      "status": "confirmed"
+    },
+    "starboard-carmax-2026-03": {
+      "company": "CarMax, Inc.",
+      "stance": "long",
+      "thesis": "Starboard argues CarMax has a differentiated omnichannel model whose recent performance falls short of its potential for fixable execution reasons. It urges the incoming CEO to simplify the digital buying and selling experience, cut reconditioning costs, adopt dynamic pricing, cut SG&A to 70% to 75% of gross profit and review CarMax Auto Finance while protecting the balance sheet.",
+      "catalysts": [
+        "Keith Barr's start as CEO",
+        "SG&A target of 70% to 75% of gross profit",
+        "Reconditioning savings above $300 per unit",
+        "Dynamic pricing"
+      ],
+      "risks": [
+        "Competitors with better digital offerings",
+        "Rigid pricing causing share losses"
+      ],
+      "valuation": "Starboard says CarMax trades at or near tangible book value of about $42 per share, at about 8x NTM EBITDA, while producing about $3 of free cash flow per share in FY2027 estimates.",
+      "figures": [
+        {
+          "claim": "Tangible book value is about $42 per share",
+          "numbers": [
+            "$42 per share"
+          ]
+        },
+        {
+          "claim": "CarMax trades at about 8x NTM EBITDA",
+          "numbers": [
+            "8x"
+          ]
+        },
+        {
+          "claim": "Franchise dealers run SG&A at about 71.9% of gross profit",
+          "numbers": [
+            "71.9%"
+          ]
+        },
+        {
+          "claim": "Starboard suggests price cuts of about $100 to $300 per vehicle",
+          "numbers": [
+            "$100",
+            "$300"
+          ]
+        }
+      ],
+      "ownershipStated": "Starboard says it is one of the largest shareholders, with an investment of approximately $350 million.",
+      "status": "confirmed"
+    },
+    "starboard-darden-2014-07": {
+      "company": "Darden Restaurants, Inc.",
+      "stance": "long",
+      "thesis": "Starboard argues that Darden is substantially undervalued after years of poor leadership, entrenchment and excess corporate cost, and that the Red Lobster sale destroyed shareholder value. It wants its director slate elected to pursue operational improvements, a tax-efficient real estate separation and a spin-off of the Specialty Restaurant Group.",
+      "catalysts": [
+        "Election of Starboard's slate at the 2014 annual meeting",
+        "Tax-efficient separation of real estate",
+        "Spin-off of the Specialty Restaurant Group",
+        "Operational turnaround and lower cost structure"
+      ],
+      "risks": [
+        "Outcome depends on leadership and execution"
+      ],
+      "valuation": "Pro forma for the Red Lobster sale Darden trades at about 9x EBITDA, about 7x after a real estate separation and as little as 5.5x for the core business after an SRG spin-off, less than half the peer multiple.",
+      "figures": [
+        {
+          "claim": "Darden trades at about 7x EBITDA pro forma for a real estate separation",
+          "numbers": [
+            "7x"
+          ]
+        },
+        {
+          "claim": "Darden carries a 5% dividend yield",
+          "numbers": [
+            "5%"
+          ]
+        },
+        {
+          "claim": "Darden stock underperformed peers by about 300% before the Red Lobster sale reaction",
+          "numbers": [
+            "300%"
+          ]
+        },
+        {
+          "claim": "The Red Lobster sale would destroy at least $800 million of shareholder value",
+          "numbers": [
+            "$800 million"
+          ]
+        }
+      ],
+      "ownershipStated": "Starboard says it recently increased its beneficial stake to 7.1%; the participant disclosure lists 9,400,000 shares beneficially owned by Starboard Value LP.",
+      "status": "confirmed"
+    },
+    "trian-disney-2024-03": {
+      "company": "The Walt Disney Company",
+      "stance": "long",
+      "thesis": "Trian argues Disney has lost its way, with weaker earnings, free cash flow and operating income than five years ago and a stock that has lagged peers and the market. It wants shareholders to elect Nelson Peltz and Jay Rasulo in place of two incumbent directors to improve governance, media profitability and strategic focus.",
+      "catalysts": [
+        "2024 annual meeting vote on April 3",
+        "Board refresh with two Trian nominees"
+      ],
+      "risks": [],
+      "valuation": null,
+      "figures": [
+        {
+          "claim": "Disney say-on-pay votes have averaged 73% under the current compensation chair",
+          "numbers": [
+            "73%"
+          ]
+        },
+        {
+          "claim": "The Trian Group owns 3.5 billion dollars of Disney stock",
+          "numbers": [
+            "$3.5 billion"
+          ]
+        }
+      ],
+      "ownershipStated": "The Trian Group beneficially owns about 3.5 billion dollars of Disney stock, and both nominees have invested their own money in Disney shares.",
+      "status": "confirmed"
+    },
+    "trian-procter-gamble-2017-07": {
+      "company": "The Procter & Gamble Company",
+      "stance": "long",
+      "thesis": "Trian argues that P&G has delivered weak shareholder returns, lost market share across most categories and carries excess cost and bureaucracy that past cost programmes did not fix. It wants shareholders to elect Nelson Peltz to the board to drive accountability, urgency and cost discipline, without a break-up, management change or added leverage.",
+      "catalysts": [
+        "Proxy vote to elect Nelson Peltz",
+        "Board accountability and faster culture"
+      ],
+      "risks": [
+        "Market share losses to traditional and start-up competitors",
+        "New 13 billion dollar cost plan may not drive growth",
+        "Reduced digital advertising could damage brands"
+      ],
+      "valuation": null,
+      "figures": [
+        {
+          "claim": "Gillette's US men's shaving share fell from 62% to 49% over five years",
+          "numbers": [
+            "62%",
+            "49%",
+            "5"
+          ]
+        },
+        {
+          "claim": "The 10 billion dollar 2012 cost programme had no discernible impact",
+          "numbers": [
+            "$10 billion",
+            "2012"
+          ]
+        },
+        {
+          "claim": "Sales volumes grew 0.6% a year from FY2012 to FY2016",
+          "numbers": [
+            "0.6%"
+          ]
+        }
+      ],
+      "ownershipStated": "Trian beneficially owns about 3.4 billion dollars of P&G shares and calls itself one of the largest shareholders.",
+      "status": "confirmed"
+    }
+  },
+  "reviewedBy": "Suro",
+  "reviewedOn": "2026-10-09",
+  "version": 1
+}

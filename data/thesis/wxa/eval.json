@@ -1,0 +1,159 @@
+{
+  "goldStatus": "confirmed v1 (Suro, 2026-10-09)",
+  "rows": [
+    {
+      "id": "elliott-cdk-global-2016-05",
+      "extraction": "session",
+      "claims": 4,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 67,
+      "risks": 67,
+      "figures": 100,
+      "passages": 100
+    },
+    {
+      "id": "elliott-athenahealth-2018-05",
+      "extraction": "session",
+      "claims": 5,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 33,
+      "risks": 0,
+      "figures": 75,
+      "passages": 100
+    },
+    {
+      "id": "elliott-phillips66-2025-04",
+      "extraction": "session",
+      "claims": 2,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 50,
+      "risks": null,
+      "figures": 0,
+      "passages": 100
+    },
+    {
+      "id": "elliott-phillips66-2025-04",
+      "extraction": "claude-sonnet-5",
+      "claims": 2,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 50,
+      "risks": null,
+      "figures": 0,
+      "passages": 100
+    },
+    {
+      "id": "jana-eqt-2017-10",
+      "extraction": "session",
+      "claims": 2,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 100,
+      "risks": 33,
+      "figures": 33,
+      "passages": 100
+    },
+    {
+      "id": "sachem-head-us-foods-2022-04",
+      "extraction": "session",
+      "claims": 4,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 100,
+      "risks": 33,
+      "figures": 75,
+      "passages": 100
+    },
+    {
+      "id": "starboard-darden-2014-07",
+      "extraction": "session",
+      "claims": 4,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 50,
+      "risks": 100,
+      "figures": 0,
+      "passages": 100
+    },
+    {
+      "id": "starboard-bristol-myers-2019-02",
+      "extraction": "session",
+      "claims": 5,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 50,
+      "risks": 67,
+      "figures": 25,
+      "passages": 100
+    },
+    {
+      "id": "starboard-autodesk-2025-03",
+      "extraction": "session",
+      "claims": 4,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 67,
+      "risks": 0,
+      "figures": 25,
+      "passages": 100
+    },
+    {
+      "id": "starboard-autodesk-2025-03",
+      "extraction": "claude-sonnet-5",
+      "claims": 3,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 33,
+      "risks": 100,
+      "figures": 0,
+      "passages": 100
+    },
+    {
+      "id": "starboard-carmax-2026-03",
+      "extraction": "session",
+      "claims": 4,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 75,
+      "risks": 0,
+      "figures": 25,
+      "passages": 100
+    },
+    {
+      "id": "starboard-carmax-2026-03",
+      "extraction": "claude-sonnet-5",
+      "claims": 3,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 25,
+      "risks": 0,
+      "figures": 0,
+      "passages": 100
+    },
+    {
+      "id": "trian-procter-gamble-2017-07",
+      "extraction": "session",
+      "claims": 3,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 50,
+      "risks": 33,
+      "figures": 67,
+      "passages": 100
+    },
+    {
+      "id": "trian-disney-2024-03",
+      "extraction": "session",
+      "claims": 3,
+      "company": 100,
+      "stance": 100,
+      "catalysts": 50,
+      "risks": null,
+      "figures": 50,
+      "passages": 100
+    }
+  ]
+}
