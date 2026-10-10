@@ -1,7 +1,7 @@
 # Calibration — teaching the output standard from real examples
 
-The [output standard](../docs/output-standard.md) is currently derived from the TWC
-model exporter and from the conventions taught on bulge-bracket training programmes.
+The [output standard](../docs/output-standard.md) is currently derived from the
+conventions taught on bulge-bracket training programmes.
 That is a good starting point. Real examples are better.
 
 ## Read this before you add anything

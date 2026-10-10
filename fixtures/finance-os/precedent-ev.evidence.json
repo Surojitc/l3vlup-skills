@@ -1,0 +1,83 @@
+{
+  "contractVersion": "1",
+  "description": "FICTITIOUS EXAMPLE. Example Target Inc acquired by Example Buyer plc. Every figure, page and accession number is invented to illustrate the evidence model.",
+  "figures": [
+    {
+      "key": "diluted-shares", "value": 100, "unit": "shares", "scale": "millions",
+      "period": { "kind": "instant", "end": "2025-12-31", "label": "31 Dec 2025", "basis": "A" },
+      "source": { "kind": "filing", "title": "Example Target Inc DEFM14A (fictitious)", "document": { "form": "DEFM14A", "accession": "0000000000-26-000001" }, "location": { "page": 41 }, "retrievedAt": "2026-10-07T09:00:00Z", "provider": "test-fixture" },
+      "verification": "verified"
+    },
+    {
+      "key": "offer-price", "value": 50, "unit": "USD",
+      "period": { "kind": "instant", "end": "2025-12-31", "label": "31 Dec 2025", "basis": "A" },
+      "source": { "kind": "filing", "title": "Example Target Inc DEFM14A (fictitious)", "document": { "form": "DEFM14A", "accession": "0000000000-26-000001" }, "location": { "page": 12, "excerpt": "$50.00 in cash per share" }, "retrievedAt": "2026-10-07T09:00:00Z", "provider": "test-fixture" },
+      "verification": "verified"
+    },
+    {
+      "key": "net-debt", "value": 800, "unit": "USD", "scale": "millions",
+      "period": { "kind": "instant", "end": "2025-12-31", "label": "31 Dec 2025", "basis": "A" },
+      "source": { "kind": "filing", "title": "Example Target Inc 10-K (fictitious)", "document": { "form": "10-K", "accession": "0000000000-26-000002" }, "location": { "page": 88 }, "retrievedAt": "2026-10-07T09:00:00Z", "provider": "test-fixture" },
+      "verification": "verified"
+    },
+    {
+      "key": "pension-deficit", "value": 200, "unit": "USD", "scale": "millions",
+      "period": { "kind": "instant", "end": "2025-12-31", "label": "31 Dec 2025", "basis": "A" },
+      "source": { "kind": "filing", "title": "Example Target Inc 10-K (fictitious)", "document": { "form": "10-K", "accession": "0000000000-26-000002" }, "location": { "page": 90, "table": "Note 14" }, "retrievedAt": "2026-10-07T09:00:00Z", "provider": "test-fixture" },
+      "verification": "verified"
+    },
+    {
+      "key": "equity-value", "value": 5000, "unit": "USD", "scale": "millions",
+      "period": { "kind": "instant", "end": "2025-12-31", "label": "31 Dec 2025", "basis": "A" },
+      "source": { "kind": "calculation", "title": "diluted_shares * offer_price", "retrievedAt": "2026-10-07T09:00:00Z" },
+      "lineage": { "method": "calculated", "formula": "diluted_shares * offer_price", "inputs": ["diluted-shares", "offer-price"] },
+      "verification": "verified"
+    },
+    {
+      "key": "transaction-ev", "value": 6000, "unit": "USD", "scale": "millions",
+      "period": { "kind": "instant", "end": "2025-12-31", "label": "31 Dec 2025", "basis": "A" },
+      "source": { "kind": "calculation", "title": "equity_value + net_debt + pension_deficit", "retrievedAt": "2026-10-07T09:00:00Z" },
+      "lineage": { "method": "calculated", "formula": "equity_value + net_debt + pension_deficit", "inputs": ["equity-value", "net-debt", "pension-deficit"] },
+      "verification": "verified"
+    },
+    {
+      "key": "ltm-ebitda", "value": -50, "unit": "USD", "scale": "millions",
+      "period": { "kind": "duration", "start": "2025-01-01", "end": "2025-12-31", "label": "LTM Dec-2025", "basis": "A" },
+      "source": { "kind": "filing", "title": "Example Target Inc 10-K (fictitious)", "document": { "form": "10-K", "accession": "0000000000-26-000002" }, "location": { "page": 55 }, "retrievedAt": "2026-10-07T09:00:00Z", "provider": "test-fixture" },
+      "verification": "verified"
+    },
+    {
+      "key": "ev-ltm-ebitda", "value": null, "unit": "x",
+      "period": { "kind": "duration", "start": "2025-01-01", "end": "2025-12-31", "label": "LTM Dec-2025", "basis": "A" },
+      "source": { "kind": "calculation", "title": "transaction_ev / ltm_ebitda", "retrievedAt": "2026-10-07T09:00:00Z" },
+      "lineage": { "method": "calculated", "formula": "transaction_ev / ltm_ebitda", "inputs": ["transaction-ev", "ltm-ebitda"] },
+      "verification": "missing"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "d1", "kind": "adjusted", "target": { "figureKeys": ["pension-deficit"] },
+      "rationale": "Unfunded pension treated as debt-like in enterprise value",
+      "basis": "rule", "ruleId": "debt-like-items", "evidence": ["pension-deficit"], "affects": ["transaction-ev"],
+      "verification": "verified"
+    },
+    {
+      "id": "d2", "kind": "adjusted", "target": { "figureKeys": ["ltm-ebitda"] },
+      "rationale": "Exclude one-off restructuring charge from LTM EBITDA",
+      "basis": "human", "actorRole": "analyst", "evidence": ["ltm-ebitda"], "affects": ["ev-ltm-ebitda"],
+      "verification": "verified"
+    },
+    {
+      "id": "d3", "kind": "excluded", "target": { "entity": "Example Target Inc / Example Buyer plc", "figureKeys": ["ev-ltm-ebitda"] },
+      "rationale": "LTM EBITDA negative; the multiple is not meaningful",
+      "basis": "rule", "ruleId": "non-comparable-ebitda", "evidence": ["ltm-ebitda"], "affects": ["section:Quartiles"],
+      "verification": "verified"
+    },
+    {
+      "id": "d4", "kind": "classified", "target": { "entity": "Example Buyer plc" },
+      "rationale": "Strategic buyer: an operating company in the same industry",
+      "basis": "model", "evidence": [], "affects": ["section:Buyer type"],
+      "verification": "needs-review"
+    }
+  ]
+}

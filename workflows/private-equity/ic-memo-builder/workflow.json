@@ -1,0 +1,166 @@
+{
+  "id": "ic-memo-builder",
+  "name": "IC Memo Builder",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "banking",
+  "roles": [
+    "PE"
+  ],
+  "difficulty": "Advanced",
+  "inputs": [
+    {
+      "name": "Deal basics: target, sector, deal type, stage in process",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Your model outputs (returns, leverage, sensitivities)",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "Diligence findings so far",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Lead with the decision",
+      "primitive": "reason",
+      "detail": "What is the IC being asked to approve, at what valuation, by when? First half-page."
+    },
+    {
+      "title": "Structure the thesis",
+      "primitive": "reason",
+      "detail": "2-4 pillars, each with evidence and the diligence item that would confirm or kill it."
+    },
+    {
+      "title": "Present returns honestly",
+      "primitive": "calculate",
+      "detail": "Base/downside/upside with drivers, not just the base MOIC. Show what breaks the deal."
+    },
+    {
+      "title": "Pre-empt the questions",
+      "primitive": "reason",
+      "detail": "Every IC has predictable attacks: customer concentration, cyclicality, management, exit. Answer them before they’re asked."
+    },
+    {
+      "title": "Flag the unknowns",
+      "primitive": "draft",
+      "detail": "Open diligence items with owners and dates. Hiding unknowns is how memos lose credibility."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Assembling section drafts from your model, CIM notes and diligence materials"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Formatting the returns and sensitivity exhibits"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Compiling the diligence tracker table"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_ic-memo-builder.md",
+      "sections": [
+        {
+          "name": "IC memo skeleton with drafted sections",
+          "detail": "Structure a PE investment committee memo: deal summary, investment thesis, market, financials, returns, risks and diligence status — organised around the decisions the IC needs to make, not around everything you know."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "ic-memo-builder-verify-1",
+      "kind": "human",
+      "description": "Numbers in prose match the model exhibits exactly"
+    },
+    {
+      "id": "ic-memo-builder-verify-2",
+      "kind": "human",
+      "description": "Claimed market data traces to a named source"
+    },
+    {
+      "id": "ic-memo-builder-verify-3",
+      "kind": "human",
+      "description": "Thesis pillars and risk section don’t silently contradict each other"
+    },
+    {
+      "id": "ic-memo-builder-quality-1",
+      "kind": "human",
+      "description": "The ask is explicit on page one"
+    },
+    {
+      "id": "ic-memo-builder-quality-2",
+      "kind": "human",
+      "description": "Each thesis pillar maps to a diligence item"
+    },
+    {
+      "id": "ic-memo-builder-quality-3",
+      "kind": "human",
+      "description": "Downside case is a real scenario, not base-minus-10%"
+    }
+  ],
+  "humanCheckpoints": [
+    "The recommendation and conviction level",
+    "Which risks are deal-breakers vs priced-in",
+    "What you’re asking the IC for: approval, guidance or more time"
+  ],
+  "dependencies": [
+    "lbo-sanity-check",
+    "diligence-question-builder"
+  ],
+  "runtime": {
+    "primitives": [
+      "reason",
+      "calculate",
+      "draft",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/private-equity/ic-memo-builder"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "pro",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Draft a first-pass investment committee memo that anticipates the committee’s questions."
+  }
+}

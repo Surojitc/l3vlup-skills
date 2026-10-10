@@ -1,0 +1,160 @@
+{
+  "id": "meeting-prep",
+  "name": "Meeting Prep",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "shared",
+  "roles": [
+    "General",
+    "IB",
+    "PE",
+    "ER/HF"
+  ],
+  "difficulty": "Core",
+  "inputs": [
+    {
+      "name": "Company / counterparty and meeting purpose",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Attendee names if known",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Your role in the meeting (running it, supporting, interviewing)",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Refresh the company",
+      "primitive": "reason",
+      "detail": "Latest results, stock move, news flow, anything announced this week — the thing you’ll be embarrassed not to know."
+    },
+    {
+      "title": "Profile the people",
+      "primitive": "reason",
+      "detail": "Backgrounds, tenure, past statements, what each attendee is likely to want from the meeting."
+    },
+    {
+      "title": "Predict the agenda",
+      "primitive": "reason",
+      "detail": "What do THEY want to cover? Prepare for their meeting, not just yours."
+    },
+    {
+      "title": "Prepare your questions",
+      "primitive": "reason",
+      "detail": "3-5 questions that show preparation and move your objective forward."
+    },
+    {
+      "title": "Anticipate theirs",
+      "primitive": "draft",
+      "detail": "What will they ask you? Draft crisp answers to the hard ones."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Compiling recent news, results and stock context"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Gathering public backgrounds on attendees"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Drafting the one-page brief in standard format"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_meeting-prep.md",
+      "sections": [
+        {
+          "name": "Meeting brief: company, people, agenda, questions",
+          "detail": "The 30-minute briefing routine: company snapshot, recent events, the counterparty’s likely agenda, who’s in the room and what they care about, plus the questions you should ask and the ones you’ll be asked."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "meeting-prep-verify-1",
+      "kind": "human",
+      "description": "News items are current and real — a fabricated \"recent event\" is fatal"
+    },
+    {
+      "id": "meeting-prep-verify-2",
+      "kind": "human",
+      "description": "People data matches the right person (name collisions are common)"
+    },
+    {
+      "id": "meeting-prep-quality-1",
+      "kind": "human",
+      "description": "Brief fits one page"
+    },
+    {
+      "id": "meeting-prep-quality-2",
+      "kind": "human",
+      "description": "Every attendee has a line"
+    },
+    {
+      "id": "meeting-prep-quality-3",
+      "kind": "human",
+      "description": "Your top-3 questions written verbatim"
+    }
+  ],
+  "humanCheckpoints": [
+    "Your objective for the meeting and the one thing you must leave with",
+    "Which questions to actually ask given the room",
+    "What NOT to bring up"
+  ],
+  "dependencies": [],
+  "runtime": {
+    "primitives": [
+      "reason",
+      "draft",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/investment-banking/meeting-prep"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Walk into any client, management or interview meeting knowing the company, the people and the agenda cold."
+  }
+}

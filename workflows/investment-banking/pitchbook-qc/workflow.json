@@ -1,0 +1,160 @@
+{
+  "id": "pitchbook-qc",
+  "name": "Pitchbook QC",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "banking",
+  "roles": [
+    "IB"
+  ],
+  "difficulty": "Core",
+  "inputs": [
+    {
+      "name": "The deck (PDF or PPTX)",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "House style rules if any",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Which pages carry the key numbers",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Cross-foot the numbers",
+      "primitive": "compare",
+      "detail": "The same metric must match everywhere it appears. Valuation page vs summary vs football field."
+    },
+    {
+      "title": "Check the footnotes",
+      "primitive": "verify",
+      "detail": "Every chart sourced and dated. \"Source: Company filings\" with no date is not a source."
+    },
+    {
+      "title": "Enforce the style",
+      "primitive": "reason",
+      "detail": "Fonts, decimals, currency conventions, color palette, alignment — consistency reads as competence."
+    },
+    {
+      "title": "Read for story",
+      "primitive": "reason",
+      "detail": "Does each page earn its place and lead to the next? Orphan pages get cut or moved."
+    },
+    {
+      "title": "Final mechanical pass",
+      "primitive": "draft",
+      "detail": "Page numbers, TOC accuracy, no draft watermarks, client name correct EVERYWHERE (the classic)."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Extracting every numeric instance for cross-page consistency checks"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Flagging missing/undated footnotes"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Checking formatting consistency against style rules"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_pitchbook-qc.md",
+      "sections": [
+        {
+          "name": "QC issue list by page",
+          "detail": "The final-pass quality control every book needs: numbers consistent across pages, footnotes complete, formatting to house style, sources current, and the story coherent page to page. The checks that save analysts from 2am reprints."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "pitchbook-qc-verify-1",
+      "kind": "human",
+      "description": "Flagged inconsistencies are real (rounding conventions differ by page legitimately)"
+    },
+    {
+      "id": "pitchbook-qc-verify-2",
+      "kind": "human",
+      "description": "Style \"fixes\" don’t break intentional exceptions"
+    },
+    {
+      "id": "pitchbook-qc-quality-1",
+      "kind": "human",
+      "description": "Zero cross-page numeric inconsistencies unexplained"
+    },
+    {
+      "id": "pitchbook-qc-quality-2",
+      "kind": "human",
+      "description": "Every exhibit sourced and dated"
+    },
+    {
+      "id": "pitchbook-qc-quality-3",
+      "kind": "human",
+      "description": "Client/company name search performed on the final file"
+    }
+  ],
+  "humanCheckpoints": [
+    "Which issues block sending vs get fixed in the next turn",
+    "Whether the storyline works — no tool judges that"
+  ],
+  "dependencies": [
+    "house-formatting-basics"
+  ],
+  "runtime": {
+    "primitives": [
+      "compare",
+      "verify",
+      "reason",
+      "draft",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/investment-banking/pitchbook-qc"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "pro",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Catch the errors in a pitchbook before it leaves the building."
+  }
+}

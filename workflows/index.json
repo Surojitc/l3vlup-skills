@@ -1,0 +1,95 @@
+{
+  "contractVersion": "1",
+  "generatedFrom": {
+    "repo": "L3vlup",
+    "path": "lib/skills-library.ts",
+    "commit": "c44837f"
+  },
+  "site": "https://www.l3vlup.com",
+  "workflows": [
+    {
+      "id": "earnings-teardown",
+      "name": "Earnings Teardown",
+      "version": "1.0.0",
+      "vertical": "markets",
+      "path": "workflows/equity-research-hedge-funds/earnings-teardown"
+    },
+    {
+      "id": "company-profile",
+      "name": "Company Profile",
+      "version": "1.0.0",
+      "vertical": "banking",
+      "path": "workflows/investment-banking/company-profile"
+    },
+    {
+      "id": "filing-diff",
+      "name": "Filing Diff",
+      "version": "1.0.0",
+      "vertical": "markets",
+      "path": "workflows/equity-research-hedge-funds/filing-diff"
+    },
+    {
+      "id": "comps-set-builder",
+      "name": "Comps Set Builder",
+      "version": "1.0.0",
+      "vertical": "banking",
+      "path": "workflows/investment-banking/comps-set-builder"
+    },
+    {
+      "id": "model-audit",
+      "name": "Model Audit",
+      "version": "1.0.0",
+      "vertical": "banking",
+      "path": "workflows/investment-banking/model-audit"
+    },
+    {
+      "id": "lbo-sanity-check",
+      "name": "LBO Sanity Check",
+      "version": "1.0.0",
+      "vertical": "banking",
+      "path": "workflows/private-equity/lbo-sanity-check"
+    },
+    {
+      "id": "stock-pitch-builder",
+      "name": "Stock Pitch Builder",
+      "version": "1.0.0",
+      "vertical": "markets",
+      "path": "workflows/equity-research-hedge-funds/stock-pitch-builder"
+    },
+    {
+      "id": "ic-memo-builder",
+      "name": "IC Memo Builder",
+      "version": "1.0.0",
+      "vertical": "banking",
+      "path": "workflows/private-equity/ic-memo-builder"
+    },
+    {
+      "id": "diligence-question-builder",
+      "name": "Diligence Question Builder",
+      "version": "1.0.0",
+      "vertical": "banking",
+      "path": "workflows/private-equity/diligence-question-builder"
+    },
+    {
+      "id": "meeting-prep",
+      "name": "Meeting Prep",
+      "version": "1.0.0",
+      "vertical": "shared",
+      "path": "workflows/investment-banking/meeting-prep"
+    },
+    {
+      "id": "pitchbook-qc",
+      "name": "Pitchbook QC",
+      "version": "1.0.0",
+      "vertical": "banking",
+      "path": "workflows/investment-banking/pitchbook-qc"
+    },
+    {
+      "id": "catalyst-monitor",
+      "name": "Catalyst Monitor",
+      "version": "1.0.0",
+      "vertical": "markets",
+      "path": "workflows/equity-research-hedge-funds/catalyst-monitor"
+    }
+  ]
+}

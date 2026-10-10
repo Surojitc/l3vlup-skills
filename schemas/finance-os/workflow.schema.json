@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Surojitc/l3vlup-skills/schemas/finance-os/workflow.schema.json",
+  "title": "Finance OS workflow (Finance Skill contract)",
+  "description": "A finance workflow as a recipe of kernel primitives: inputs, the evidence policy, the data it needs as capabilities, steps, outputs, calculations, verification checks, human checkpoints, dependencies and ownership. Contract version 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "version", "contractVersion", "vertical", "roles", "difficulty", "inputs", "sources", "steps", "outputs", "calculations", "verification", "humanCheckpoints", "dependencies", "runtime", "data", "ownership", "tests", "evals"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "name": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?$" },
+    "contractVersion": { "const": "1" },
+    "vertical": { "enum": ["banking", "markets", "shared"] },
+    "roles": { "type": "array", "minItems": 1, "items": { "enum": ["IB", "PE", "ER/HF", "General"] } },
+    "difficulty": { "enum": ["Core", "Intermediate", "Advanced"] },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "kind", "required"],
+        "properties": {
+          "name": { "type": "string" },
+          "kind": { "enum": ["ticker", "company", "document", "text", "selection", "peers"] },
+          "required": { "type": "boolean" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "optional", "prohibited"],
+      "description": "The evidence policy: which kinds of document may count as a source.",
+      "properties": {
+        "required": { "type": "array", "items": { "$ref": "provenance.schema.json#/$defs/SourceKind" } },
+        "optional": { "type": "array", "items": { "$ref": "provenance.schema.json#/$defs/SourceKind" } },
+        "prohibited": { "type": "array", "items": { "$ref": "provenance.schema.json#/$defs/SourceKind" } }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "primitive", "detail"],
+        "properties": {
+          "title": { "type": "string" },
+          "primitive": { "$ref": "#/$defs/Primitive" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["format", "filename", "sections", "sourcePolicy"],
+        "properties": {
+          "format": { "enum": ["xlsx", "md", "docx", "pptx", "pdf", "json"] },
+          "filename": { "type": "string" },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "detail"],
+              "properties": { "name": { "type": "string" }, "detail": { "type": "string" } }
+            }
+          },
+          "sourcePolicy": { "type": "string" },
+          "buildCommand": { "type": "string" },
+          "repoPath": { "type": "string" }
+        }
+      }
+    },
+    "calculations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "formula", "inputs"],
+        "properties": {
+          "key": { "type": "string" },
+          "formula": { "type": "string" },
+          "inputs": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+        }
+      }
+    },
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "description"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "enum": ["deterministic", "human"] },
+          "description": { "type": "string" },
+          "figureKeys": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "humanCheckpoints": { "type": "array", "items": { "type": "string" } },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primitives", "needsModel", "tools"],
+      "properties": {
+        "primitives": { "type": "array", "items": { "$ref": "#/$defs/Primitive" } },
+        "needsModel": { "type": "boolean" },
+        "tools": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "data": { "type": "array", "items": { "$ref": "data-requirement.schema.json#/$defs/DataRequirement" } },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["specOwner", "runtimeOwner", "publicationRing", "upstreamSource", "privateExtensionsAllowed", "promotionReviewRequired", "licence"],
+      "description": "specOwner owns the method; runtimeOwner owns the machine that runs it. A private variant of a workflow is a separate workflow with its own id, never a new version of this one.",
+      "properties": {
+        "specOwner": { "$ref": "#/$defs/Ring" },
+        "runtimeOwner": { "$ref": "#/$defs/Ring" },
+        "publicationRing": { "$ref": "#/$defs/Ring" },
+        "upstreamSource": {
+          "oneOf": [
+            { "const": "none" },
+            { "$ref": "#/$defs/RepoRef" }
+          ]
+        },
+        "referenceImplementation": { "$ref": "#/$defs/RepoRef" },
+        "privateExtensionsAllowed": { "type": "boolean" },
+        "promotionReviewRequired": { "type": "boolean" },
+        "licence": { "enum": ["MIT", "CC-BY-4.0", "proprietary", "undecided"] },
+        "repoPath": { "type": "string" }
+      }
+    },
+    "tests": { "type": "array", "items": { "type": "string" } },
+    "evals": { "type": "array", "items": { "type": "string" } },
+    "display": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "accessTier": { "enum": ["free", "pro"] },
+        "lastReviewedAt": { "type": "string" },
+        "jobToBeDone": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "Primitive": {
+      "enum": ["retrieve", "extract", "structure", "calculate", "compare", "screen", "rank", "search", "reason", "draft", "render", "verify", "monitor", "notify", "orchestrate"]
+    },
+    "Ring": { "enum": ["open", "commercial", "twc"] },
+    "RepoRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repo", "path"],
+      "properties": {
+        "repo": { "enum": ["l3vlup-skills", "L3vlup"] },
+        "path": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

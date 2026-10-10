@@ -1,0 +1,176 @@
+{
+  "id": "filing-diff",
+  "name": "Filing Diff",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "markets",
+  "roles": [
+    "ER/HF",
+    "IB",
+    "PE"
+  ],
+  "difficulty": "Intermediate",
+  "inputs": [
+    {
+      "name": "Current filing (10-K / 10-Q / annual report)",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "Prior comparable filing",
+      "kind": "peers",
+      "required": true
+    },
+    {
+      "name": "Focus areas if any: risk factors, segments, accounting policies, legal",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [
+      "filing"
+    ],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Align the documents",
+      "primitive": "reason",
+      "detail": "Match sections between filings — companies reorder sections precisely when they change them."
+    },
+    {
+      "title": "Diff the language",
+      "primitive": "compare",
+      "detail": "Risk factors, MD&A, accounting policies, commitments and contingencies. New paragraphs and deleted paragraphs matter more than edits."
+    },
+    {
+      "title": "Diff the numbers",
+      "primitive": "compare",
+      "detail": "Restatements, reclassifications, segment redefinitions, changes in estimates (useful lives, reserves, assumptions)."
+    },
+    {
+      "title": "Rank materiality",
+      "primitive": "rank",
+      "detail": "Score each change: does it affect earnings power, risk profile, or disclosure quality? Discard formatting churn."
+    },
+    {
+      "title": "Write it up",
+      "primitive": "draft",
+      "detail": "Memo ordered by materiality, each item with the exact before/after language and page reference."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Section-by-section text comparison across both filings"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Flagging added, deleted and reworded passages"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Extracting changed accounting estimates into a table"
+    },
+    {
+      "title": "Delegate 4",
+      "primitive": "reason",
+      "detail": "Building the citation list with page/section references"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_filing-diff.md",
+      "sections": [
+        {
+          "name": "Material-changes memo with source citations",
+          "detail": "Companies bury changes in repetition: risk factors quietly reworded, accounting policies tweaked, segments redefined, legal exposures added. This workflow diffs consecutive filings and separates material changes from boilerplate churn."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "filing-diff-verify-1",
+      "kind": "human",
+      "description": "Flagged changes are real changes, not reformatting or renumbering"
+    },
+    {
+      "id": "filing-diff-verify-2",
+      "kind": "human",
+      "description": "Quoted before/after language is verbatim from each filing"
+    },
+    {
+      "id": "filing-diff-verify-3",
+      "kind": "human",
+      "description": "Numeric changes aren’t just presentation reclassifications — check the footnote"
+    },
+    {
+      "id": "filing-diff-quality-1",
+      "kind": "human",
+      "description": "Every item cites section + page in both filings"
+    },
+    {
+      "id": "filing-diff-quality-2",
+      "kind": "human",
+      "description": "Changes ranked by materiality, not document order"
+    },
+    {
+      "id": "filing-diff-quality-3",
+      "kind": "human",
+      "description": "At least one \"nothing changed here and that itself is notable\" observation where relevant"
+    }
+  ],
+  "humanCheckpoints": [
+    "Which changes are material to your thesis or deal",
+    "Whether a new risk factor is lawyer boilerplate or a genuine signal",
+    "Whether a policy change flatters the numbers, and what to do about it"
+  ],
+  "dependencies": [
+    "10-k-10-q-structure",
+    "basic-accounting-policies"
+  ],
+  "runtime": {
+    "primitives": [
+      "reason",
+      "compare",
+      "rank",
+      "draft",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/equity-research-hedge-funds/filing-diff"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Find what materially changed between this filing and the last one."
+  }
+}

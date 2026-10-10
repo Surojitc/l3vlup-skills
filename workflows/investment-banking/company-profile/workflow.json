@@ -1,0 +1,218 @@
+{
+  "id": "company-profile",
+  "name": "Company Profile",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "banking",
+  "roles": [
+    "IB",
+    "PE"
+  ],
+  "difficulty": "Core",
+  "inputs": [
+    {
+      "name": "Company name or ticker",
+      "kind": "ticker",
+      "required": true
+    },
+    {
+      "name": "Purpose: pitch, buyer profile, target profile or interview prep",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Latest annual report / 10-K if available",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [
+      "filing"
+    ],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Scope the ask",
+      "primitive": "compare",
+      "detail": "A profile for a sell-side pitch, a buyer list and an interview answer emphasise different things. Fix the purpose first."
+    },
+    {
+      "title": "Describe the business",
+      "primitive": "reason",
+      "detail": "What the company sells, to whom, how it makes money, segment split with revenue/EBITDA by segment."
+    },
+    {
+      "title": "Build the financial snapshot",
+      "primitive": "calculate",
+      "detail": "3-year revenue, EBITDA, margins, leverage, FCF — with period labels and the source filing for each."
+    },
+    {
+      "title": "Map ownership and management",
+      "primitive": "reason",
+      "detail": "Top shareholders, free float, CEO/CFO tenure, any activist or PE presence."
+    },
+    {
+      "title": "Add market context",
+      "primitive": "calculate",
+      "detail": "Trading multiples vs peers, 52-week range, recent news and broker sentiment where public."
+    },
+    {
+      "title": "Pressure-test the page",
+      "primitive": "verify",
+      "detail": "Would an MD scan this in 60 seconds and find nothing to red-pen? Check formatting, footing and sources."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Gathering filings, investor decks and recent news into a source pack"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Extracting segment splits and 3-year financials into a table"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Drafting the business description from the 10-K"
+    },
+    {
+      "title": "Delegate 4",
+      "primitive": "reason",
+      "detail": "Compiling the management and shareholder lists"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "xlsx",
+      "filename": "{TICKER}_company_profile.xlsx",
+      "sections": [
+        {
+          "name": "Profile",
+          "detail": "Scale, per share, cash generation and balance sheet on one page — the tab you actually read"
+        },
+        {
+          "name": "Income Statement",
+          "detail": "Five years as filed, with growth and margin sub-rows computed as live formulas"
+        },
+        {
+          "name": "Balance Sheet",
+          "detail": "Five years as filed, with a conditional-red assets-less-liabilities-and-equity check"
+        },
+        {
+          "name": "Cash Flow",
+          "detail": "Five years as filed, with free cash flow computed in the workbook"
+        },
+        {
+          "name": "Filings",
+          "detail": "The 10-Ks and 10-Qs the numbers came out of"
+        },
+        {
+          "name": "Sources",
+          "detail": "Every figure resolved to tag, period, form, accession and an EDGAR link"
+        }
+      ],
+      "sourcePolicy": "SEC EDGAR XBRL company facts only. Original filings beat restated comparatives. A line the filer did not tag prints an em dash and is named in the gap list — blank never means zero.",
+      "buildCommand": "python3 skills/company-profile/build.py AAPL --years 5",
+      "repoPath": "skills/company-profile"
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "company-profile-verify-1",
+      "kind": "human",
+      "description": "Financials tie to the filing (right period, right currency, right units)"
+    },
+    {
+      "id": "company-profile-verify-2",
+      "kind": "human",
+      "description": "Segment definitions match the company’s own reporting, not a generic split"
+    },
+    {
+      "id": "company-profile-verify-3",
+      "kind": "human",
+      "description": "Ownership data is current — stale shareholder lists are a classic error"
+    },
+    {
+      "id": "company-profile-verify-4",
+      "kind": "human",
+      "description": "News items are real and dated; no hallucinated events"
+    },
+    {
+      "id": "company-profile-quality-1",
+      "kind": "human",
+      "description": "Every figure has period + source"
+    },
+    {
+      "id": "company-profile-quality-2",
+      "kind": "human",
+      "description": "Segment revenue sums to total revenue"
+    },
+    {
+      "id": "company-profile-quality-3",
+      "kind": "human",
+      "description": "The page reads top-down: most important facts first"
+    },
+    {
+      "id": "company-profile-quality-4",
+      "kind": "human",
+      "description": "No unexplained jargon a first-year wouldn’t know"
+    }
+  ],
+  "humanCheckpoints": [
+    "What the \"so what\" of this company is for your specific purpose",
+    "Which 3-4 facts lead the page and which go to footnotes",
+    "How to characterise the company’s competitive position honestly"
+  ],
+  "dependencies": [
+    "reading-a-10-k",
+    "basic-valuation-multiples"
+  ],
+  "runtime": {
+    "primitives": [
+      "compare",
+      "reason",
+      "calculate",
+      "verify",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": [
+      "build-command"
+    ]
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "referenceImplementation": {
+      "repo": "l3vlup-skills",
+      "path": "skills/company-profile"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/investment-banking/company-profile"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Build a banker-grade one-pager on any company, fast."
+  }
+}

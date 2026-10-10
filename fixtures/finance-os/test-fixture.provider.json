@@ -1,0 +1,17 @@
+{
+  "id": "test-fixture",
+  "name": "Test fixture provider (fictitious data only)",
+  "status": "live",
+  "capabilities": [
+    { "capability": "company.identity", "geographies": ["US"], "history": {}, "latency": "on-demand", "provenance": "source-named" },
+    { "capability": "financials.as-reported", "geographies": ["US"], "history": { "annualPeriods": 5 }, "latency": "on-demand", "provenance": "filing-linked" }
+  ],
+  "licenceClass": "public-domain",
+  "credential": "none",
+  "rights": { "display": "yes", "export": "yes", "derivedFigures": "yes", "storage": "yes" },
+  "sourceLinks": true,
+  "costClass": "free",
+  "priority": 100,
+  "connectorLevel": "public",
+  "rightsReview": { "status": "approved", "reviewedOn": "2026-10-07", "notes": "Invented data with no third-party rights." }
+}
