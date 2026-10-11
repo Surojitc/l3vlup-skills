@@ -255,7 +255,7 @@ a = files["AAA"]
 mi = {mid: i for i, (mid, _) in enumerate(a["managers"])}
 check("by ticker: a file for a name two managers listed", set(files) == {"AAA", "BBB"}, set(files))
 check("by ticker: each quarter's holders, largest first, with their action",
-      a["quarters"]["2026Q2"] == [[mi["big"], 420, "t"], [mi["small"], 130, "a"]], a["quarters"]["2026Q2"])
+      a["quarters"]["2026Q2"] == [[mi["big"], 420, "t", 40], [mi["small"], 130, "a", 12]], a["quarters"]["2026Q2"])
 check("by ticker: a call on the name is not a holding of it", all(r[1] != 139 for r in a["quarters"]["2026Q2"]))
 check("by ticker: a quarter with no comparison has no action", {r[2] for r in a["quarters"]["2026Q1"]} == {"h"})
 b = files["BBB"]
@@ -275,6 +275,48 @@ with tempfile.TemporaryDirectory() as tmp:
     bad = fh.write_by_ticker({"../X": files["AAA"]}, out, on_file=[])
     check("by ticker: written once, then nothing when unchanged; a bad symbol is never a path",
           (n1, n2, bad) == (2, 0, 0) and json.loads((out / "AAA.json").read_text())["managersOnFile"] == 2, (n1, n2, bad))
+
+# ── 7. how much of two books is the same ─────────────────────────────────────
+def oq(quarter, rows, aum, *, positions=None):
+    return {"quarter": quarter, "aumK": aum, "holdings": rows, "positions": positions if positions is not None else len(rows),
+            "listed": len(rows)}
+
+
+# By hand. In 2026Q2 A is 60% X, 40% Y; B is 30% X, 20% Z, 50% W.
+# Shared: X only, min(0.6, 0.3) = 0.30. C is 40% Y (and a put on X, ignored), 60% V:
+# A and C share Y, min(0.4, 0.4) = 0.40. B and C share nothing.
+A = {"id": "a", "name": "A", "quarters": [
+    oq("2026Q1", [["X", "COM", 1, 50, "h"], ["Y", "COM", 1, 50, "h"]], 100),
+    oq("2026Q2", [["X", "COM", 1, 60, "a"], ["Y", "COM", 1, 40, "t"]], 100)]}
+B = {"id": "b", "name": "B", "quarters": [
+    oq("2026Q1", [["X", "COM", 1, 100, "h"]], 200),
+    oq("2026Q2", [["X", "COM", 1, 60, "t"], ["Z", "COM", 1, 40, "h"], ["W", "COM", 1, 100, "h"]], 200, positions=900)]}
+C = {"id": "c", "name": "C", "quarters": [
+    oq("2026Q2", [["Y", "COM", 1, 40, "n"], ["X", "PUT", 1, 99, "n"], ["V", "COM", 1, 60, "h"]], 100)]}
+D = {"id": "d", "name": "D", "quarters": [oq("2025Q4", [["X", "COM", 1, 100, "h"]], 100)]}
+check("overlap: the smaller weight, summed over shared securities",
+      fh.overlap(fh.book_weights(A["quarters"][1]), fh.book_weights(B["quarters"][1])) == (0.3, 1))
+check("overlap: symmetric", fh.overlap(fh.book_weights(B["quarters"][1]), fh.book_weights(A["quarters"][1])) == (0.3, 1))
+check("overlap: identical books are 1, disjoint books 0",
+      fh.overlap({"X": 0.5, "Y": 0.5}, {"X": 0.5, "Y": 0.5}) == (1.0, 2) and fh.overlap({"X": 1.0}, {"Y": 1.0}) == (0.0, 0))
+check("overlap: a put is not a position", "X" not in fh.book_weights(C["quarters"][0]))
+ov = fh.build_overlap([A, B, C, D])
+check("overlap: peers most in common first", [r["id"] for r in ov["a"]["peers"]] == ["c", "b"], ov["a"]["peers"])
+check("overlap: the figures by hand", [(r["overlap"], r["shared"]) for r in ov["a"]["peers"]] == [(0.4, 1), (0.3, 1)], ov["a"]["peers"])
+check("overlap: a manager that did not file that quarter is not compared", all(r["id"] != "d" for r in ov["a"]["peers"]))
+check("overlap: nothing shared, no peer row", [r["id"] for r in ov["c"]["peers"]] == ["a"], ov["c"]["peers"])
+check("overlap: a peer listing only part of its book is flagged",
+      next(r for r in ov["a"]["peers"] if r["id"] == "b")["wholeBooks"] is False
+      and next(r for r in ov["a"]["peers"] if r["id"] == "c")["wholeBooks"] is True)
+check("overlap: through time, only quarters both filed",
+      ov["a"]["series"]["b"] == [["2026Q1", 0.5, 1], ["2026Q2", 0.3, 1]] and ov["a"]["series"]["c"] == [["2026Q2", 0.4, 1]],
+      ov["a"]["series"])
+with tempfile.TemporaryDirectory() as tmp:
+    out = Path(tmp) / "overlap"
+    n1 = fh.write_overlap(ov, out)
+    n2 = fh.write_overlap(ov, out)
+    bad = fh.write_overlap({"../x": ov["a"]}, out)
+    check("overlap: written once, unchanged writes nothing, a bad id is never a path", (n1, n2, bad) == (len(ov), 0, 0), (n1, n2, bad))
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

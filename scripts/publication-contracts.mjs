@@ -244,6 +244,16 @@ export const CONTRACTS = {
         optional: true,
       },
       {
+        // Which managers' books are most like each manager's, written from the
+        // same record. A manager's peer list can shrink honestly (a peer that
+        // has not filed the latest quarter is not compared), so no floor.
+        pattern: /^data\/funds\/overlap\/[a-z0-9-]+\.json$/,
+        label: 'a manager\'s overlap with other managers',
+        rows: 'peers',
+        min: 0,
+        optional: true,
+      },
+      {
         path: 'data/funds/securities.json', freshness: { cadence: 'monthly', from: 'generatedAt' },
         label: 'the 13F security register',
         keyed: 'securities',
