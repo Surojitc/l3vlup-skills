@@ -1,0 +1,43 @@
+name: Collector tests
+
+# The collector's own suites, on every pull request.
+#
+# Until 11 October 2026 nothing ran them before a merge: the daily collection
+# was the first place they ran, so a pull request that broke one (#129 added a
+# watched file without updating the freshness fixture) stopped every
+# collection from the next morning, and the Sunday Weekly found out from a
+# feed two days old. This runs the same list the collection runs
+# (scripts/run-collector-tests.mjs) on every branch pushed to this
+# repository, so a pull request's branch carries a result before it merges.
+#
+# Push, not pull_request: this repository is public, and
+# workflow-permissions.test.mjs refuses any trigger that runs a stranger's
+# code. Only someone with write access can push a branch here, so this runs
+# only code the repository already trusts. It reads nothing from the
+# internet, needs no secret and holds a read-only token.
+
+on:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Collector suites
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 20
+
+      - name: Run the collector's suites
+        run: node scripts/run-collector-tests.mjs
