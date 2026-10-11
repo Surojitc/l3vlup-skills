@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-01T14:57:57Z",
+ "generatedAt": "2026-10-09T16:23:09Z",
  "method": {
   "source": "SEC EDGAR: Schedule 13E-3 transaction statements and the proxy statements attached to or filed with them (dealType take-private), and DEFM14A / DEFM14C definitive merger proxies found through the quarterly form index (dealType public merger); XBRL company facts for the target's financials",
   "acquirer": "for a take-private, the buyer a page names from the 13E-3 filer list; for a merger proxy, the first named party of the merger agreement sentence that is neither the target nor a merger vehicle (acquirerBasis is the sentence), null where the parties are named only by defined term",
@@ -12,20 +12,139 @@
   "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out"
  },
  "counts": {
-  "transactions": 4314,
-  "withOffer": 3209,
-  "withMultiples": 1392,
-  "withRevenueMultiple": 2082,
-  "withPremium": 1752,
-  "flagged": 1477,
-  "noOffer": 942,
-  "noConsideration": 87,
+  "transactions": 4321,
+  "withOffer": 3212,
+  "withMultiples": 1394,
+  "withRevenueMultiple": 2084,
+  "withPremium": 1756,
+  "flagged": 1478,
+  "noOffer": 945,
+  "noConsideration": 88,
   "rejected": 130,
   "errors": 0,
   "takePrivates": 795,
-  "publicMergers": 3519
+  "publicMergers": 3526
  },
  "transactions": [
+  {
+   "id": "0001999371-26-022391",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Modern Capital Funds Trust",
+    "cik": "0001815608",
+    "sic": null,
+    "sicDescription": null,
+    "state": "DE"
+   },
+   "sector": null,
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-10-08",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1815608/000199937126022391/0001999371-26-022391-index.htm",
+   "announced": "2026-10-08",
+   "announcedBasis": "filing date",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "cash",
+   "acquirer": null,
+   "acquirerBasis": null,
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1815608/000199937126022391/moderncapital-defm14a_100726.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1815608/000199937126022391/moderncapital-defm14a_100726.htm",
+   "statedShares": 70.312,
+   "statedSharesBasis": "70,312,088 Shares Outstanding",
+   "flags": [],
+   "doubt": []
+  },
+  {
+   "id": "0001104659-26-114040",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Swarmer, Inc",
+    "cik": "0002092574",
+    "sic": "7372",
+    "sicDescription": "Services-Prepackaged Software",
+    "state": "DE"
+   },
+   "sector": "Technology",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-10-06",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/2092574/000110465926114040/0001104659-26-114040-index.htm",
+   "announced": "2026-10-06",
+   "announcedBasis": "filing date",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "stock",
+   "acquirer": null,
+   "acquirerBasis": null,
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/2092574/000110465926114040/tm2625952-2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "no-consideration",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/2092574/000110465926114040/tm2625952-2_defm14a.htm",
+   "statedShares": 16.61,
+   "statedSharesBasis": "16,610,264 shares of Common Stock were issued and outstanding",
+   "error": "the filer's own holders voted on issuing shares, not on being acquired",
+   "flags": [],
+   "doubt": []
+  },
+  {
+   "id": "0001104659-26-113697",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "NOVAGOLD RESOURCES INC",
+    "cik": "0001173420",
+    "sic": "1040",
+    "sicDescription": "Gold and Silver Ores",
+    "state": "A1"
+   },
+   "sector": "Materials",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-10-05",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1173420/000110465926113697/0001104659-26-113697-index.htm",
+   "announced": "2026-10-05",
+   "announcedBasis": "filing date",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "stock",
+   "acquirer": null,
+   "acquirerBasis": null,
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1173420/000110465926113697/tm2624608-2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1173420/000110465926113697/tm2624608-2_defm14a.htm",
+   "flags": [],
+   "doubt": []
+  },
   {
    "id": "0001104659-26-110234",
    "source": "DEFM14A",
@@ -347,6 +466,48 @@
    "doubt": []
   },
   {
+   "id": "0001140361-26-038922",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "CENTERSPACE",
+    "cik": "0000798359",
+    "sic": "6798",
+    "sicDescription": "Real Estate Investment Trusts",
+    "state": "ND"
+   },
+   "sector": "Real Estate",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-10-07",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/798359/000114036126038922/0001140361-26-038922-index.htm",
+   "announced": "2026-09-08",
+   "announcedBasis": "merger agreement",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "stock",
+   "acquirer": "Independence Realty Operating Partnership, LP, LLC",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of September 8, 2026 (which we refer to as the \u201cOriginal Merger Agreement\u201d), by and among CSR, Centerspace, LP, a North Dakota limited partnership (which we refer to as \u201cCSR OP\u201d), IRT, Independence Realty Operating Partnership, LP, a Delaware limited partnership (which we refer to as \u201cIRT OP\u201d) and Islanders OP Sub, LLC, a Delaware limited liability company an",
+   "premium1Day": 0.147,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "$60.46 in IRT Common Stock for each share of CSR Common Stock, which represented a premium of approximately 14.70% to the closing price of CSR Common Stock on the NYSE of $52"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/798359/000114036126038922/ny20083034x1_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/798359/000114036126038922/ny20083034x1_defm14a.htm",
+   "statedShares": 235.727,
+   "statedSharesBasis": "235,726,706 shares of IRT Common Stock outstanding",
+   "flags": [],
+   "doubt": []
+  },
+  {
    "id": "0001096906-26-001289",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -609,6 +770,71 @@
    "doubt": []
   },
   {
+   "id": "0001140361-26-038492",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Bowman Consulting Group Ltd.",
+    "cik": "0001847590",
+    "sic": "8742",
+    "sicDescription": "Services-Management Consulting Services",
+    "state": ""
+   },
+   "sector": "Business Services",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-10-05",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1847590/000114036126038492/0001140361-26-038492-index.htm",
+   "announced": "2026-08-10",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 43.0,
+   "offerBasis": "$43.00 in cash",
+   "consideration": "cash",
+   "acquirer": "Prive Parent, Inc.",
+   "acquirerBasis": "AGREEMENT AND PLAN OF MERGER (this \u201c Agreement \u201d) is made and entered into as of August 10, 2026 by and among Prive Parent, Inc., a Delaware corporation (\u201c Parent \u201d), Prive Merger Sub, Inc., a Delaware corporation and wholly owned subsidiary of Parent (\u201c Merger Sub \u201d, and together with Parent, the \u201c Buyer Parties \u201d), and Bowman Consulting Group Ltd., a Delaware corporation (the \u201c Company \u201d).",
+   "premium1Day": 0.58,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "of Company Common Stock on Nasdaq was $27.23. The $43.00 Per Share Price represents a premium of approximately 58% to that closing price, and premiums of approximately 57%, 48% and 44% relative to the 30-, 60- and 90-day, respectively, volume-weighted average prices of the Company Common Stoc"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1847590/000114036126038492/ny20081613x2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1847590/000114036126038492/ny20081613x2_defm14a.htm",
+   "statedShares": 16.592,
+   "statedSharesBasis": "16,591,912 shares of Company Common Stock issued and outstanding",
+   "sharesOut": 17.336,
+   "ltmRevenue": 527.6,
+   "ltmEbitda": 37.0,
+   "netDebt": 34.6,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "ebitdaBasis": "FY2025 + Q2 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-08-05",
+    "form": "10-Q",
+    "accession": "0001628280-26-055250"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 27.22,
+   "equityValue": 745.4,
+   "ev": 780.0,
+   "evLtmRev": 1.48,
+   "evLtmEbitda": 21.08,
+   "doubt": []
+  },
+  {
    "id": "0001140361-26-032067",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -705,6 +931,131 @@
    "evLtmRev": 1.21,
    "evLtmEbitda": 10.97,
    "doubt": []
+  },
+  {
+   "id": "0001193125-26-412241",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "MARINEMAX INC",
+    "cik": "0001057060",
+    "sic": "5531",
+    "sicDescription": "Retail-Auto & Home Supply Stores",
+    "state": "DE"
+   },
+   "sector": "Consumer & Retail",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-10-02",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1057060/000119312526412241/0001193125-26-412241-index.htm",
+   "announced": "2026-08-09",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 53.0,
+   "offerBasis": "$53.00 in cash",
+   "consideration": "cash",
+   "acquirer": "SHM Holdco, LLC",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 9, 2026 (as it may be amended, supplemented or otherwise modified from time to time, the \u201c Merger Agreement \u201d), by and among SHM Holdco, LLC, a Delaware limited liability company (\u201c Parent \u201d), Intrepid Holdco, Inc., a Florida corporation and an indirect wholly-owned subsidiary of Parent (\u201c Merger Sub \u201d), and MarineMax, pursuant to which Merger Sub w",
+   "premium1Day": 0.96,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "The Merger Consideration of $53.00 per share of MarineMax Common Stock represents a premium of 96% to MarineMax\u2019s closing share price of $27"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1057060/000119312526412241/d130789ddefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1057060/000119312526412241/d130789ddefm14a.htm",
+   "statedShares": 22.087,
+   "statedSharesBasis": "22,086,735 shares of MarineMax Common Stock issued and outstanding",
+   "sharesOut": 22.087,
+   "ltmRevenue": 2196.0,
+   "ltmEbitda": 117.6,
+   "netDebt": 187.9,
+   "ltmPeriodEnd": "2026-06-30",
+   "balanceSheetDate": "2026-06-30",
+   "ebitdaBasis": "FY2025 + Q3 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-07-20",
+    "form": "10-Q",
+    "accession": "0001193125-26-314062"
+   },
+   "formsUsed": [
+    "10-Q for Q3 2026",
+    "10-K for FY2025"
+   ],
+   "flags": [],
+   "unaffectedPrice": 27.04,
+   "equityValue": 1170.6,
+   "ev": 1358.5,
+   "evLtmRev": 0.62,
+   "evLtmEbitda": 11.55,
+   "doubt": []
+  },
+  {
+   "id": "0001104659-26-114707",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Cherry Hill Mortgage Investment Corp",
+    "cik": "0001571776",
+    "sic": "6798",
+    "sicDescription": "Real Estate Investment Trusts",
+    "state": "MD"
+   },
+   "sector": "Real Estate",
+   "buyers": [],
+   "buyerType": "Financial sponsor",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-10-08",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1571776/000110465926114707/0001104659-26-114707-index.htm",
+   "announced": "2026-08-09",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 0.41,
+   "offerBasis": "$0.41 per share in cash",
+   "consideration": "cash and stock",
+   "acquirer": "AG REIT Management, LLC",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 9, 2026, as such agreement may be amended or modified from time to time, the \u201cMerger Agreement,\u201d by and among MITT, CHMI, MIT Merger Sub II, LLC, a Delaware limited liability company and wholly owned subsidiary of MITT, which we refer to as \u201cMerger Sub,\u201d Cherry Hill Operating Partnership, LP, a Delaware limited partnership and subsidiary of CHMI, wh",
+   "premium1Day": 0.29,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "and the trading prices of CHMI Common Stock and MITT Common Stock, would represent an approximately 29% premium to the closing price of CHMI Common Stock on August 7, 2026 (the last full trading day prior to the announcement of the execution of the Merger Agreement) and a 32% premium to t"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1571776/000110465926114707/tm2626009-2_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1571776/000110465926114707/tm2626009-2_defm14a.htm",
+   "statedShares": 31.803,
+   "statedSharesBasis": "31,803,475 shares of MITT Common Stock outstanding",
+   "sharesOut": 36.74,
+   "netDebt": 89.4,
+   "balanceSheetDate": "2026-06-30",
+   "netDebtBasis": "longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-05-07",
+    "form": "10-Q",
+    "accession": "0001140361-26-019561"
+   },
+   "formsUsed": [],
+   "flags": [
+    "consideration includes stock: the cash figure is not the price"
+   ],
+   "unaffectedPrice": 0.32,
+   "equityValue": 15.1,
+   "ev": 104.5,
+   "doubt": [
+    "multiples"
+   ]
   },
   {
    "id": "0001193125-26-338993",
