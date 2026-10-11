@@ -1,6 +1,6 @@
 # Thesis review pack: run 37377940091 + 35928409902
 
-38 claims awaiting a decision. Model claude-sonnet-5, prompt thesis-extract-v1.
+55 claims awaiting a decision. Model claude-sonnet-5, prompt thesis-extract-v1.
 Decide each in `data/thesis/review.decisions.json` (same order), then run `npm run build:thesis-reviewed`.
 
 ## 1. Starboard Value LP: DFAN14A filed 2025-03-19
@@ -497,4 +497,225 @@ improvement and, ultimately, best-in-class profitability." |
 | **Company** | _not resolved: name it in the decisions file_ |
 | **Support type** | Close paraphrase (evidence verified) |
 | **Decision** | ACCEPT / EDIT / REJECT: `decisions[37]`, claim `c-0001047469-17-006378-5322-5401-b74261becf` |
+
+## 39. Elliott Investment Management L.P.: DFAN14A filed 2025-03-04
+
+| | |
+|---|---|
+| **Source** | [0000921895-25-000692](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000692/dfan14a10168303_03042025.htm) (chunk 0, characters 2405–2467) |
+| **What the manager actually said** | "today announced seven independent, highly qualified candidates" |
+| **Proposed L3VLUP claim** | Elliott nominated seven candidates to the Phillips 66 board for the 2025 annual meeting. |
+| **Stance** | long |
+| **Tags** | Activist engagement, Board change |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[38]`, claim `c-0000921895-25-000692-2405-2467-b7c88761c5` |
+
+## 40. Elliott Investment Management L.P.: DFAN14A filed 2025-03-04
+
+| | |
+|---|---|
+| **Source** | [0000921895-25-000692](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000692/dfan14a10168303_03042025.htm) (chunk 0, characters 2920–2989) |
+| **What the manager actually said** | "portfolio simplification; an operating review; and enhanced oversight" |
+| **Proposed L3VLUP claim** | Elliott argues Phillips 66 has persistently underperformed its peers and needs three things: portfolio simplification, an operating review and enhanced board oversight. |
+| **Stance** | long |
+| **Tags** | Activist engagement |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[39]`, claim `c-0000921895-25-000692-2920-2989-7e54a6b2d4` |
+
+## 41. Harris Associates L.P.: N-CSRS filed 2022-06-02
+
+| | |
+|---|---|
+| **Source** | [0001104659-22-067534](https://www.sec.gov/Archives/edgar/data/872323/000110465922067534/tm2211695d1_ncsrs.htm) (chunk 0, characters 2815–2915) |
+| **What the manager actually said** | "We sold put options to add to our economic exposure in Meta to take advantage of the price weakness." |
+| **Proposed L3VLUP claim** | Harris says the market values Meta as if it will barely grow after Apple's privacy changes hit targeted advertising, which it calls misguided, and it sold put options to add exposure. |
+| **Stance** | long |
+| **Tags** | Multiple re-rating |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Close paraphrase (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[40]`, claim `c-0001104659-22-067534-2815-2915-c737f03e7a` |
+
+## 42. Harris Associates L.P.: N-CSRS filed 2022-06-02
+
+| | |
+|---|---|
+| **Source** | [0001104659-22-067534](https://www.sec.gov/Archives/edgar/data/872323/000110465922067534/tm2211695d1_ncsrs.htm) (chunk 0, characters 7113–7219) |
+| **What the manager actually said** | "Weak foreign currencies in the company's international markets were the primary source of margin pressure." |
+| **Proposed L3VLUP claim** | Harris argues that Netflix's slower subscriber growth and margin pressure, the latter mainly from weak foreign currencies, are likely temporary, and that at 5.5x 2022 revenue and 34x earnings the shares are compelling. |
+| **Stance** | long |
+| **Tags** | Growth at a reasonable price |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[41]`, claim `c-0001104659-22-067534-7113-7219-82f10c19fd` |
+
+## 43. Harris Associates L.P.: N-CSR filed 2022-11-23
+
+| | |
+|---|---|
+| **Source** | [0001104659-22-121775](https://www.sec.gov/Archives/edgar/data/872323/000110465922121775/tm2228100d1_ncsr.htm) (chunk 1, characters 11819–11886) |
+| **What the manager actually said** | "think Intercontinental Exchange represents a compelling opportunity" |
+| **Proposed L3VLUP claim** | Harris bought Intercontinental Exchange, arguing its three segments should grow earnings well above GDP while the stock trades at roughly the market multiple. |
+| **Stance** | long |
+| **Tags** | Growth at a reasonable price |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[42]`, claim `c-0001104659-22-121775-11819-11886-64222a0a49` |
+
+## 44. Harris Associates L.P.: N-CSR filed 2022-11-23
+
+| | |
+|---|---|
+| **Source** | [0001104659-22-121775](https://www.sec.gov/Archives/edgar/data/872323/000110465922121775/tm2228100d1_ncsr.htm) (chunk 0, characters 1689–1760) |
+| **What the manager actually said** | "Charter remains the dominant broadband provider in 60% of its footprint" |
+| **Proposed L3VLUP claim** | Harris argues the market's assumptions on Charter are overly punitive: it remains the dominant broadband provider in 60% of its footprint and should keep growing operating profit. |
+| **Stance** | long |
+| **Tags** | none |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Close paraphrase (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[43]`, claim `c-0001104659-22-121775-1689-1760-acc13e0a56` |
+
+## 45. Harris Associates L.P.: N-CSR filed 2022-11-23
+
+| | |
+|---|---|
+| **Source** | [0001104659-22-121775](https://www.sec.gov/Archives/edgar/data/872323/000110465922121775/tm2228100d1_ncsr.htm) (chunk 0, characters 2800–2849) |
+| **What the manager actually said** | "increase our position in Charter by more than 25%" |
+| **Proposed L3VLUP claim** | Harris says Charter's fundamentals matched its expectations despite slowing broadband growth, and it increased the position by more than 25% in the quarter. |
+| **Stance** | long |
+| **Tags** | none |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[44]`, claim `c-0001104659-22-121775-2800-2849-5ec307c6dc` |
+
+## 46. Harris Associates L.P.: N-CSR filed 2022-11-23
+
+| | |
+|---|---|
+| **Source** | [0001104659-22-121775](https://www.sec.gov/Archives/edgar/data/872323/000110465922121775/tm2228100d1_ncsr.htm) (chunk 1, characters 9709–9816) |
+| **What the manager actually said** | "We believe this is an unreasonably low valuation for what we see as an above-average financial institution." |
+| **Proposed L3VLUP claim** | After a 35% fall, Harris says Capital One trades at 5.2x forward earnings and 1.07x tangible book, an unreasonably low valuation for an above-average lender, and bought it. |
+| **Stance** | long |
+| **Tags** | Multiple re-rating |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[45]`, claim `c-0001104659-22-121775-9709-9816-3339b3e640` |
+
+## 47. Harris Associates L.P.: N-CSRS filed 2023-05-25
+
+| | |
+|---|---|
+| **Source** | [0001104659-23-064651](https://www.sec.gov/Archives/edgar/data/872323/000110465923064651/tm2312388d1_ncsrs.htm) (chunk 0, characters 3591–3631) |
+| **What the manager actually said** | "We believe these concerns are overstated" |
+| **Proposed L3VLUP claim** | After the Silicon Valley Bank collapse, Harris argues fears about Schwab's securities losses are overstated, citing deposits spread across more than 34 million mostly insured accounts and strong liquidity, and added it to Oakmark Select. |
+| **Stance** | long |
+| **Tags** | Multiple re-rating |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[46]`, claim `c-0001104659-23-064651-3591-3631-2405e84dcd` |
+
+## 48. Harris Associates L.P.: N-CSRS filed 2023-05-25
+
+| | |
+|---|---|
+| **Source** | [0001104659-23-064651](https://www.sec.gov/Archives/edgar/data/872323/000110465923064651/tm2312388d1_ncsrs.htm) (chunk 0, characters 5199–5242) |
+| **What the manager actually said** | "despite not sharing the balance sheet risks" |
+| **Proposed L3VLUP claim** | Harris kept buying Capital One at about 6x 2023 consensus earnings and below tangible book, arguing it does not share the failed banks' balance-sheet risks. |
+| **Stance** | long |
+| **Tags** | Multiple re-rating |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[47]`, claim `c-0001104659-23-064651-5199-5242-b08394a705` |
+
+## 49. Harris Associates L.P.: N-CSR filed 2023-11-24
+
+| | |
+|---|---|
+| **Source** | [0001104659-23-120835](https://www.sec.gov/Archives/edgar/data/872323/000110465923120835/tm2328117d1_ncsr.htm) (chunk 0, characters 3298–3369) |
+| **What the manager actually said** | "we believe we are paying a single-digit multiple of normalized earnings" |
+| **Proposed L3VLUP claim** | Harris argues most of Phillips 66's value lies outside refining, so even if refining margins normalise it is paying a single-digit multiple of normalised earnings, with most free cash flow returned to shareholders. |
+| **Stance** | long |
+| **Tags** | Sum of the parts |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[48]`, claim `c-0001104659-23-120835-3298-3369-f7fd895100` |
+
+## 50. Harris Associates L.P.: N-CSR filed 2023-11-24
+
+| | |
+|---|---|
+| **Source** | [0001104659-23-120835](https://www.sec.gov/Archives/edgar/data/872323/000110465923120835/tm2328117d1_ncsr.htm) (chunk 0, characters 6743–6818) |
+| **What the manager actually said** | "mobile net adds were strong at 648,000, and net adds have been over 600,000" |
+| **Proposed L3VLUP claim** | Harris notes Charter added 77,000 broadband subscribers in Q2 2023 against consensus of 13,000 and more than 600,000 mobile lines in each of three quarters, and argues faster unit growth, though it holds back near-term earnings, will prove valuable. |
+| **Stance** | long |
+| **Tags** | Volume growth |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[49]`, claim `c-0001104659-23-120835-6743-6818-8c7f3489cc` |
+
+## 51. Harris Associates L.P.: N-CSRS filed 2024-05-28
+
+| | |
+|---|---|
+| **Source** | [0001104659-24-065556](https://www.sec.gov/Archives/edgar/data/872323/000110465924065556/tm246073d1_ncsrs.htm) (chunk 0, characters 3685–3761) |
+| **What the manager actually said** | "We maintain our belief in the long-term prospects of Charter Communications." |
+| **Proposed L3VLUP claim** | Harris expects Charter's broadband growth to stay hard near term, with more competition and a government subsidy winding down, but to recover while the company grows earnings and buys back stock. |
+| **Stance** | long |
+| **Tags** | Buyback |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[50]`, claim `c-0001104659-24-065556-3685-3761-a131aec051` |
+
+## 52. Ruane, Cunniff & Goldfarb L.P.: N-CSRS filed 2022-08-31
+
+| | |
+|---|---|
+| **Source** | [0001193125-22-235177](https://www.sec.gov/Archives/edgar/data/89043/000119312522235177/d362358dncsrs.htm) (chunk 0, characters 3139–3192) |
+| **What the manager actually said** | "increased our investment in Intercontinental Exchange" |
+| **Proposed L3VLUP claim** | Ruane increased Sequoia's investment in Intercontinental Exchange in the second quarter of 2022. |
+| **Stance** | long |
+| **Tags** | none |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[51]`, claim `c-0001193125-22-235177-3139-3192-91e080bc05` |
+
+## 53. Ruane, Cunniff & Goldfarb L.P.: N-CSRS filed 2022-08-31
+
+| | |
+|---|---|
+| **Source** | [0001193125-22-235177](https://www.sec.gov/Archives/edgar/data/89043/000119312522235177/d362358dncsrs.htm) (chunk 0, characters 3194–3262) |
+| **What the manager actually said** | "We also made minor additions to our holdings in Netflix and Wayfair." |
+| **Proposed L3VLUP claim** | Ruane made minor additions to Sequoia's Netflix holding in the second quarter of 2022. |
+| **Stance** | long |
+| **Tags** | none |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[52]`, claim `c-0001193125-22-235177-3194-3262-59b35e7c2f` |
+
+## 54. Ruane, Cunniff & Goldfarb L.P.: N-CSRS filed 2023-08-30
+
+| | |
+|---|---|
+| **Source** | [0001193125-23-224787](https://www.sec.gov/Archives/edgar/data/89043/000119312523224787/d539474dncsrs.htm) (chunk 0, characters 3399–3522) |
+| **What the manager actually said** | "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness." |
+| **Proposed L3VLUP claim** | Ruane added to Capital One in the second quarter of 2023 during periods of price weakness. |
+| **Stance** | long |
+| **Tags** | none |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[53]`, claim `c-0001193125-23-224787-3399-3522-683c44e009` |
+
+## 55. Ruane, Cunniff & Goldfarb L.P.: N-CSRS filed 2023-08-30
+
+| | |
+|---|---|
+| **Source** | [0001193125-23-224787](https://www.sec.gov/Archives/edgar/data/89043/000119312523224787/d539474dncsrs.htm) (chunk 0, characters 3399–3522) |
+| **What the manager actually said** | "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness." |
+| **Proposed L3VLUP claim** | Ruane added to Charles Schwab in the second quarter of 2023 during periods of price weakness. |
+| **Stance** | long |
+| **Tags** | none |
+| **Company** | _not resolved: name it in the decisions file_ |
+| **Support type** | Quoted statement (evidence verified) |
+| **Decision** | ACCEPT / EDIT / REJECT: `decisions[54]`, claim `c-0001193125-23-224787-3399-3522-c39a1c6909` |
 
