@@ -61,6 +61,12 @@ on:
   schedule:
     # Daily for the tracker, which is the one that actually moves day to day.
     - cron: '30 6 * * *'
+    # And Saturday evening, so the Sunday Weekly (drafted from 07:37 UK on
+    # Sunday) always has a feed under a day old even if Sunday's run fails or
+    # GitHub starts it late, and a failure shows up the evening before rather
+    # than at publication. Scheduled runs started up to seven hours late on
+    # 10 and 11 October 2026.
+    - cron: '0 17 * * 6'
 
 # The collection no longer pushes to the default branch: a ruleset closed that
 # door on 18 September and the right answer was to travel the same road as
@@ -116,29 +122,11 @@ jobs:
       # regression here would put wrong dates on the site rather than merely
       # failing. Cheap to run and it gates the sync below.
       - name: Test the collector's classifiers and pagination
-        run: |
-          node scripts/__tests__/deadline-extract.test.mjs
-          node scripts/__tests__/classify-programme.test.mjs
-          node scripts/__tests__/classify-vertical.test.mjs
-          node scripts/__tests__/workday-paginate.test.mjs
-          node scripts/__tests__/workday-detail.test.mjs
-          node scripts/__tests__/deadline-ledger.test.mjs
-          node scripts/__tests__/oracle-paginate.test.mjs
-          node scripts/__tests__/talnet.test.mjs
-          node scripts/__tests__/eightfold-janestreet.test.mjs
-          node scripts/__tests__/role-retention.test.mjs
-          node scripts/__tests__/role-screen.test.mjs
-          node scripts/__tests__/role-duplicates.test.mjs
-          node scripts/__tests__/role-telemetry.test.mjs
-          node scripts/__tests__/board-checks.test.mjs
-          node scripts/__tests__/complete-board.test.mjs
-          node scripts/__tests__/ats-discover.test.mjs
-          node scripts/__tests__/slug-registry.test.mjs
-          node scripts/__tests__/validate-publication.test.mjs
-          node scripts/__tests__/publication-contracts.test.mjs
-          node scripts/__tests__/publication-freshness.test.mjs
-          node scripts/__tests__/publication-persistence.test.mjs
-          node scripts/__tests__/workflow-permissions.test.mjs
+        # One list, shared with tests.yml (every pull request), in
+        # scripts/run-collector-tests.mjs. It runs every suite and names each
+        # failing one as an error annotation, so a red run says which suite
+        # broke rather than only "exit code 1".
+        run: node scripts/run-collector-tests.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
         # No continue-on-error: the script has its own collapse guard and exits

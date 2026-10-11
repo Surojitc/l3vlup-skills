@@ -143,6 +143,7 @@ eq('every workflow in the directory is read', files, [
   'discover-ats.yml',
   'letters-parse.yml',
   'publish-data.yml',
+  'tests.yml',
   'thesis-pilot.yml',
 ]);
 const allJobs = workflows.flatMap((w) => w.jobs.map((j) => `${w.file}:${j.name}`));
@@ -160,6 +161,7 @@ eq('every job is found, and none has been renamed out from under this test', all
   'letters-parse.yml:open-pull-request',
   'letters-parse.yml:parse',
   'publish-data.yml:publish',
+  'tests.yml:test',
   'thesis-pilot.yml:extract',
   'thesis-pilot.yml:open-pull-request',
 ]);
