@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-09T16:23:09Z",
+ "generatedAt": "2026-10-11T15:45:43Z",
  "method": {
   "source": "SEC EDGAR: Schedule 13E-3 transaction statements and the proxy statements attached to or filed with them (dealType take-private), and DEFM14A / DEFM14C definitive merger proxies found through the quarterly form index (dealType public merger); XBRL company facts for the target's financials",
   "acquirer": "for a take-private, the buyer a page names from the 13E-3 filer list; for a merger proxy, the first named party of the merger agreement sentence that is neither the target nor a merger vehicle (acquirerBasis is the sentence), null where the parties are named only by defined term",
@@ -12,17 +12,17 @@
   "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out"
  },
  "counts": {
-  "transactions": 4321,
-  "withOffer": 3212,
-  "withMultiples": 1394,
-  "withRevenueMultiple": 2084,
-  "withPremium": 1756,
-  "flagged": 1478,
+  "transactions": 4331,
+  "withOffer": 3222,
+  "withMultiples": 1396,
+  "withRevenueMultiple": 2090,
+  "withPremium": 1762,
+  "flagged": 1480,
   "noOffer": 945,
   "noConsideration": 88,
   "rejected": 130,
   "errors": 0,
-  "takePrivates": 795,
+  "takePrivates": 805,
   "publicMergers": 3526
  },
  "transactions": [
@@ -5775,6 +5775,75 @@
    "flags": [],
    "source": "SC 13E3",
    "dealType": "take-private",
+   "equityValue": 67.7,
+   "ev": 36.7,
+   "evLtmRev": 1.22,
+   "dealValueRatio": 3.39,
+   "doubt": []
+  },
+  {
+   "id": "0001140361-26-015029",
+   "target": {
+    "name": "Forian Inc.",
+    "cik": "0001829280",
+    "sic": "7374",
+    "sicDescription": "SERVICES-COMPUTER PROCESSING & DATA PREPARATION",
+    "state": "DE"
+   },
+   "sector": "Technology",
+   "buyers": [
+    "2025 AQUISITION COMPANY, LLC",
+    "ADAM DUBLIN",
+    "MAX WYGOD",
+    "2025 Acquisition Company, LLC",
+    "BRAVO MERGER SUB, INC."
+   ],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": 20,
+   "filed": "2026-04-16",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1829280/000114036126015029/0001140361-26-015029-index.htm",
+   "announced": "2026-04-02",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 2.17,
+   "offerBasis": "$2.17 in cash",
+   "consideration": "cash",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1829280/000114036126015029/ny20069883x2_sctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/1829280/000114036126015029/ny20069883x2_exa1a.htm",
+    "https://www.sec.gov/Archives/edgar/data/1829280/000114036126015029/ny20069883x2_exa1b.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1829280/000114036126015029/ny20069883x2_sctot.htm",
+   "statedShares": 31.242,
+   "statedSharesBasis": "31,241,760 Shares issued and outstanding",
+   "sharesOut": 31.209,
+   "ltmRevenue": 30.1,
+   "ltmEbitda": -5.6,
+   "netDebt": -31.0,
+   "ltmPeriodEnd": "2026-03-31",
+   "balanceSheetDate": "2026-03-31",
+   "ebitdaBasis": "FY2025 + Q1 2026 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": " - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2026-03-25",
+    "form": "10-K",
+    "accession": "0001140361-26-011752"
+   },
+   "formsUsed": [
+    "10-Q for Q1 2026",
+    "10-K for FY2025"
+   ],
+   "acquirer": "2025 Aquisition Company, LLC",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
    "equityValue": 67.7,
    "ev": 36.7,
    "evLtmRev": 1.22,
@@ -24059,6 +24128,79 @@
    "doubt": []
   },
   {
+   "id": "0001140361-25-003633",
+   "target": {
+    "name": "Aspen Technology, Inc.",
+    "cik": "0001897982",
+    "sic": "7371",
+    "sicDescription": "SERVICES-COMPUTER PROGRAMMING SERVICES",
+    "state": "DE"
+   },
+   "sector": "Technology",
+   "buyers": [
+    "EMERSON ELECTRIC CO",
+    "EMERSUB CXV, INC.",
+    "EMR HOLDINGS, INC.",
+    "EMR US HOLDINGS LLC",
+    "EMR WORLDWIDE INC."
+   ],
+   "buyerType": "Strategic",
+   "advisers": [
+    "Citi",
+    "Qatalyst"
+   ],
+   "dealValue": 7366,
+   "filed": "2025-02-10",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1897982/000114036125003633/0001140361-25-003633-index.htm",
+   "announced": "2025-01-26",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 265.0,
+   "offerBasis": "$265.00 in cash",
+   "consideration": "cash",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/32604/000114036125003633/ny20042954x1_sctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/32604/000114036125003633/ny20042954x1_exa1i.htm",
+    "https://www.sec.gov/Archives/edgar/data/32604/000114036125003633/ny20042954x1_exa1ii.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/32604/000114036125003633/ny20042954x1_sctot.htm",
+   "statedShares": 63.308,
+   "statedSharesBasis": "63,308,360 Shares were outstanding",
+   "sharesOut": 63.25,
+   "ltmRevenue": 1140.4,
+   "ltmEbitda": 427.2,
+   "netDebt": -181.8,
+   "ltmPeriodEnd": "2024-12-31",
+   "balanceSheetDate": "2024-12-31",
+   "ebitdaBasis": "FY2024 + Q2 2025 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": " - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2024-10-30",
+    "form": "10-Q",
+    "accession": "0001897982-24-000075"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2025",
+    "10-K for FY2024"
+   ],
+   "acquirer": "Emersub CXV, Inc.",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "equityValue": 16761.2,
+   "ev": 16579.4,
+   "evLtmRev": 14.54,
+   "evLtmEbitda": 38.81,
+   "dealValueRatio": 2.28,
+   "doubt": []
+  },
+  {
    "id": "0001140361-25-006872",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -37852,6 +37994,98 @@
    "doubt": []
   },
   {
+   "id": "0001140361-24-012376",
+   "target": {
+    "name": "NGM BIOPHARMACEUTICALS INC",
+    "cik": "0001426332",
+    "sic": "2834",
+    "sicDescription": "PHARMACEUTICAL PREPARATIONS",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [
+    "COLUMN GROUP L P",
+    "COLUMN GROUP GP, LP",
+    "COLUMN GROUP II GP, LP",
+    "COLUMN GROUP II, LP",
+    "COLUMN GROUP III GP, LP",
+    "COLUMN GROUP III, LP",
+    "COLUMN GROUP III-A, LP",
+    "COLUMN GROUP IV GP, LP",
+    "COLUMN GROUP IV, LP",
+    "COLUMN GROUP IV-A, LP",
+    "COLUMN GROUP MANAGEMENT, LP",
+    "COLUMN GROUP OPPORTUNITY III GP, LP",
+    "COLUMN GROUP OPPORTUNITY III, LP",
+    "DAVID V. GOEDDEL",
+    "PETER SVENNILSON",
+    "PONOI CAPITAL II, LP",
+    "PONOI CAPITAL, LP",
+    "PONOI II MANAGEMENT, LLC",
+    "PONOI MANAGEMENT, LLC",
+    "TCG IV GP, LLC",
+    "TCG OPPORTUNITY III GP, LLC",
+    "TIMOTHY KUTZKEY",
+    "ATLAS NEON MERGER SUB, INC.",
+    "ATLAS NEON PARENT, INC."
+   ],
+   "buyerType": "Financial sponsor",
+   "advisers": [
+    "Guggenheim"
+   ],
+   "dealValue": 135,
+   "filed": "2024-03-08",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1426332/000114036124012376/0001140361-24-012376-index.htm",
+   "announced": "2024-02-25",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 1.45,
+   "offerBasis": "$1.45 in cash",
+   "consideration": "cash",
+   "premium1Day": null,
+   "premium30DayVwap": 0.022,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "of the Offer and the Merger: 18 TABLE OF CONTENTS \u2022 The Offer Price represents a premium of approximately 2.2% over the volume-weighted average prices of the Shares for the last thirty trading days prior to the execution of the Merger Agreement"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1347769/000114036124012376/ny20023132x1_sctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/1347769/000114036124012376/ny20023132x1_exa1a.htm",
+    "https://www.sec.gov/Archives/edgar/data/1347769/000114036124012376/ny20023132x1_exa1b.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1347769/000114036124012376/ny20023132x1_sctot.htm",
+   "statedShares": 83.462,
+   "statedSharesBasis": "83,462,408 Shares issued and outstanding",
+   "sharesOut": 82.716,
+   "ltmRevenue": 4.4,
+   "ltmEbitda": -149.2,
+   "netDebt": -144.2,
+   "ltmPeriodEnd": "2023-12-31",
+   "balanceSheetDate": "2023-12-31",
+   "ebitdaBasis": "operating income + D&A (OperatingIncomeLoss + Depreciation)",
+   "netDebtBasis": " - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2023-10-30",
+    "form": "10-Q",
+    "accession": "0001628280-23-036401"
+   },
+   "formsUsed": [
+    "10-K for FY2023"
+   ],
+   "acquirer": "Column Group L P",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "vwap30": 1.42,
+   "equityValue": 119.9,
+   "ev": -24.3,
+   "evLtmRev": -5.52,
+   "dealValueRatio": 0.89,
+   "doubt": []
+  },
+  {
    "id": "0001104659-24-027127",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -49065,6 +49299,131 @@
    "doubt": []
   },
   {
+   "id": "0001193125-23-170768",
+   "target": {
+    "name": "GreenLight Biosciences Holdings, PBC",
+    "cik": "0001822691",
+    "sic": "2836",
+    "sicDescription": "BIOLOGICAL PRODUCTS (NO DIAGNOSTIC SUBSTANCES)",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [
+    "Fall Line Endurance Fund, LP",
+    "ALFA HOLDINGS, INC.",
+    "ANNA SENCZUK",
+    "BOSCOLO INTERVEST LTD",
+    "BUILDERS GRNA HOLDINGS, LLC",
+    "CAITLIN MACADINO",
+    "CAROLE S. FURNEAUX",
+    "CG INVESTMENTS INC. VI",
+    "CONTI GREENLIGHT INVESTORS, LP",
+    "CONTINENTAL GRAIN CO",
+    "CORMORANT GLOBAL HEATHCARE MASTER FUND, LP",
+    "CORMORANT PRIVATE HEALTHCARE FUND II, LP",
+    "CUMMINGS FOUNDATION, INC.",
+    "DAVID BREWSTER",
+    "DENNIS CLARKE",
+    "DEVAL PATRICK",
+    "ERIC ANDERSON",
+    "HIMANSHU DHAMANKAR",
+    "IFEYINWA IWUCHUKWU",
+    "INSUD PHARMA, S.L.",
+    "JASON GILLIAN",
+    "KARTHIKEYAN RAMACHANDRIYA",
+    "KODIAK III ENTREPRENEURS FUND, L.P.",
+    "KODIAK VENTURE PARTNERS III, L.P",
+    "LEWIS & CLARK PLANT SCIENCES FUND I, LP",
+    "LEWIS & CLARK VENTURES I, LP",
+    "LORENZO AULISA",
+    "MACRO CONTINENTAL, INC.",
+    "MALACCA JITRA PTE INC.",
+    "MARIA LURANTOS",
+    "MARTA ORTEGA-VALLE",
+    "MATTHEW ALLEN WALKER",
+    "MICHAEL RUETTGERS REVOCABLE TRUST AS AMENDED & RESTATED",
+    "MICHAEL STEINBERG",
+    "MLS CAPITAL FUND II, L.P.",
+    "MORNINGSIDE VENTURE INVESTMENTS LTD.",
+    "MVIL, LLC (MORNINGSIDE)",
+    "NEW STUFF DEUX LLC",
+    "NEW STUFF LLC",
+    "NICHOLAS SKIZIM",
+    "PRELUDE VENTURES LC",
+    "RICARDO SAGRERA",
+    "RIVAS VENTURES LLC",
+    "RIVERROAD CAPITAL PARTNERS",
+    "RODRIGO AGUILAR",
+    "ROGER RICHARD",
+    "ROSEMARY SAGAR (BLUEIO INVESTOR)",
+    "S2G BUILDERS FOOD & AGRICULTURE FUND III, LP",
+    "S2G VENTURES FUND I, LP",
+    "S2G VENTURES FUND II, LP",
+    "SAGE HILL INVESTORS",
+    "SAMAMBAIA INVESTMENTS LTD",
+    "SERIES GREENLIGHT 2, A SEPARATE SERIES OF BLUEIO GROWTH LLC",
+    "SERIES GREENLIGHT, A SEPARATE SERIES OF BLUEIO GROWTH LLC",
+    "SERUM LIFE SCIENCES LTD OF UK",
+    "STEVE NAUGLER",
+    "SWETA GUPTA",
+    "TAO INVEST III LLC",
+    "TAO INVEST V",
+    "VELOCITY FINANCIAL GROUP",
+    "XERAYA COVE LTD.",
+    "SW MergerCo, Inc.",
+    "FALL LINE ENDURANCE GP, LLC",
+    "SW PARENTCO, INC.",
+    "FURNEAUX CAPITAL HOLDCO, LLC"
+   ],
+   "buyerType": "Financial sponsor",
+   "advisers": [],
+   "dealValue": 9,
+   "filed": "2023-06-21",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1822691/000119312523170768/0001193125-23-170768-index.htm",
+   "announced": "2023-05-29",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 0.3,
+   "offerBasis": "offer price of $0.30",
+   "consideration": "cash",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1675025/000119312523170768/d522502dsc13e3.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1675025/000119312523170768/d522502dsc13e3.htm",
+   "sharesOut": 151.681,
+   "ltmRevenue": 10.3,
+   "ltmEbitda": -147.1,
+   "netDebt": -32.4,
+   "ltmPeriodEnd": "2023-03-31",
+   "balanceSheetDate": "2023-03-31",
+   "ebitdaBasis": "FY2022 + Q1 2023 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": " - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2023-05-08",
+    "form": "10-Q",
+    "accession": "0000950170-23-020835"
+   },
+   "formsUsed": [
+    "10-Q for Q1 2023",
+    "10-K for FY2022"
+   ],
+   "acquirer": "Alfa Holdings, Inc.",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "equityValue": 45.5,
+   "ev": 13.1,
+   "evLtmRev": 1.27,
+   "dealValueRatio": 5.06,
+   "doubt": []
+  },
+  {
    "id": "0001104659-23-113886",
    "source": "DEFM14A",
    "dealType": "public merger",
@@ -50690,6 +51049,71 @@
    "equityValue": 30.2,
    "ev": -11.2,
    "dealValueRatio": 1.08,
+   "doubt": []
+  },
+  {
+   "id": "0001193125-23-136481",
+   "target": {
+    "name": "Satsuma Pharmaceuticals, Inc.",
+    "cik": "0001692830",
+    "sic": "2834",
+    "sicDescription": "PHARMACEUTICAL PREPARATIONS",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [
+    "Shin Nippon Biomedical Laboratories, Ltd.",
+    "SNBL23 MERGER SUB, INC."
+   ],
+   "buyerType": "Strategic",
+   "advisers": [
+    "Houlihan Lokey"
+   ],
+   "dealValue": 28,
+   "filed": "2023-05-05",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1692830/000119312523136481/0001193125-23-136481-index.htm",
+   "announced": "2023-04-16",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 5.68,
+   "offerBasis": "purchase price of $5.68",
+   "consideration": "cash",
+   "premium1Day": 0.379,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "as to the fairness of the Offer and the Merger: \u2022 The Offer Price represents a premium of approximately 37.9% over the closing price of the Shares on April 14, 2023, the last trading day prior to execution of the Merger Agreement"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1657770/000119312523136481/d102647dsctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/1657770/000119312523136481/d102647dex99a1i.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1657770/000119312523136481/d102647dsctot.htm",
+   "statedShares": 33.152,
+   "statedSharesBasis": "33,152,498 Shares were issued and outstanding",
+   "sharesOut": 33.152,
+   "ltmEbitda": -65.8,
+   "netDebt": -41.4,
+   "ltmPeriodEnd": "2023-03-31",
+   "balanceSheetDate": "2023-03-31",
+   "ebitdaBasis": "FY2022 + Q1 2023 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + Depreciation)",
+   "netDebtBasis": " - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2023-03-22",
+    "form": "10-K/A",
+    "accession": "0000950170-23-015782"
+   },
+   "formsUsed": [],
+   "acquirer": "Shin Nippon Biomedical Laboratories, Ltd.",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "unaffectedPrice": 4.12,
+   "equityValue": 188.3,
+   "ev": 146.9,
+   "dealValueRatio": 6.73,
    "doubt": []
   },
   {
@@ -53412,6 +53836,78 @@
    "doubt": []
   },
   {
+   "id": "0001104659-23-022993",
+   "target": {
+    "name": "AlerisLife Inc.",
+    "cik": "0001159281",
+    "sic": "8051",
+    "sicDescription": "SERVICES-SKILLED NURSING CARE FACILITIES",
+    "state": "MD"
+   },
+   "sector": "Healthcare",
+   "buyers": [
+    "ABP ACQUISITION 2 LLC",
+    "ABP TRUST",
+    "ADAM D. PO RTNOY",
+    "ABP Acquisition LLC"
+   ],
+   "buyerType": "Management / founder",
+   "advisers": [
+    "Citi"
+   ],
+   "dealValue": 41,
+   "filed": "2023-02-17",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1159281/000110465923022993/0001104659-23-022993-index.htm",
+   "announced": "2023-02-02",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 1.31,
+   "offerBasis": "$1.31 in cash",
+   "consideration": "cash",
+   "premium1Day": 0.55,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "and final\u201d proposal (the \u201cJanuary 9 Proposal\u201d). The January 9 Proposal represented an approximately 55% premium over the closing price of Common Stock of $0"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1159281/000110465923022993/tm236939-1_sctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/1159281/000110465923022993/tm236939d1_ex99-a1i.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1159281/000110465923022993/tm236939-1_sctot.htm",
+   "statedShares": 33.442,
+   "statedSharesBasis": "33,442,433 Shares were outstanding",
+   "sharesOut": 32.609,
+   "ltmRevenue": 708.0,
+   "ltmEbitda": -20.3,
+   "netDebt": -22.4,
+   "ltmPeriodEnd": "2022-09-30",
+   "balanceSheetDate": "2022-09-30",
+   "ebitdaBasis": "FY2021 + Q3 2022 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2022-10-28",
+    "form": "10-Q",
+    "accession": "0001159281-22-000092"
+   },
+   "formsUsed": [
+    "10-Q for Q3 2022",
+    "10-K for FY2021"
+   ],
+   "acquirer": "Abp Acquisition 2 LLC",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "unaffectedPrice": 0.85,
+   "equityValue": 42.7,
+   "ev": 20.3,
+   "evLtmRev": 0.03,
+   "dealValueRatio": 1.04,
+   "doubt": []
+  },
+  {
    "id": "0001140361-23-008785",
    "target": {
     "name": "Sisecam Resources LP",
@@ -53480,6 +53976,80 @@
    "dealType": "take-private",
    "unaffectedPrice": 17.91,
    "vwap30": 17.87,
+   "equityValue": 363.8,
+   "ev": 479.5,
+   "evLtmRev": 0.67,
+   "evLtmEbitda": 2.96,
+   "dealValueRatio": 2.78,
+   "doubt": []
+  },
+  {
+   "id": "0001140361-23-008765",
+   "target": {
+    "name": "Sisecam Resources LP",
+    "cik": "0001575051",
+    "sic": "1400",
+    "sicDescription": "MINING, QUARRYING OF NONMETALLIC MINERALS (NO FUELS)",
+    "state": null
+   },
+   "sector": "Materials",
+   "buyers": [
+    "SISECAM CHEMICALS WYOMING LLC",
+    "SISECAM RESOURCE PARTNERS LLC",
+    "CINER ENTERPRISES INC.",
+    "SISECAM CHEMICALS RESOURCES LLC",
+    "SISECAM CHEMICALS USA INC.",
+    "TURGAY CINER",
+    "SISECAM CHEMICALS NEWCO LLC"
+   ],
+   "buyerType": "Strategic",
+   "advisers": [
+    "Bank of America",
+    "Evercore"
+   ],
+   "dealValue": 131,
+   "filed": "2023-02-27",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1575051/000114036123008765/0001140361-23-008765-index.htm",
+   "announced": "2023-02-01",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 25.0,
+   "offerBasis": "$25.00 in cash",
+   "consideration": "cash",
+   "premium1Day": 0.08,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "prior to which SCR submitted its take-private proposal to the Partnership, and (ii) a 2.8% premium to the closing price of the Common Units as of January 31, 2023, the day prior to the execution of the Merger Agreement"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1575051/000114036123008765/ny20007737x1_sc13e3.htm",
+    "https://www.sec.gov/Archives/edgar/data/1575051/000114036123008683/ny20007737x2_prem14c.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1575051/000114036123008765/ny20007737x1_sc13e3.htm",
+   "statedShares": 14.551,
+   "statedSharesBasis": "14,551,000 Common Units of the Partnership, representing approximately 74% of the outstanding",
+   "ltmRevenue": 720.1,
+   "ltmEbitda": 162.2,
+   "netDebt": 115.7,
+   "ltmPeriodEnd": "2022-12-31",
+   "balanceSheetDate": "2022-12-31",
+   "ebitdaBasis": "operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "formsUsed": [
+    "10-K for FY2022"
+   ],
+   "sharesOut": 14.551,
+   "sharesBasis": {
+    "tag": "stated in the transaction statement",
+    "phrase": "14,551,000 Common Units of the Partnership, representing approximately 74% of the outstanding"
+   },
+   "acquirer": "Sisecam Resource Partners LLC",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "unaffectedPrice": 23.15,
    "equityValue": 363.8,
    "ev": 479.5,
    "evLtmRev": 0.67,
@@ -56051,6 +56621,68 @@
    "source": "SC 13E3",
    "dealType": "take-private",
    "doubt": []
+  },
+  {
+   "id": "0001140361-22-038857",
+   "target": {
+    "name": "Grindrod Shipping Holdings Ltd.",
+    "cik": "0001725293",
+    "sic": "4412",
+    "sicDescription": "DEEP SEA FOREIGN TRANSPORTATION OF FREIGHT",
+    "state": "U0"
+   },
+   "sector": "Industrials",
+   "buyers": [
+    "Taylor Maritime Investments Ltd",
+    "GOOD FALKIRK (MI) LTD"
+   ],
+   "buyerType": "Financial sponsor",
+   "advisers": [],
+   "dealValue": 305,
+   "filed": "2022-10-28",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1725293/000114036122038857/0001140361-22-038857-index.htm",
+   "announced": "2022-10-28",
+   "announcedBasis": "filing date",
+   "offerPrice": 21.0,
+   "offerBasis": "$21.00 in cash",
+   "consideration": "cash",
+   "premium1Day": 0.268,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "Purchase and the related Letter of Transmittal. \u2022 This Transaction Value represents a 26.8% premium to the last traded price per Share of $20"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1725293/000114036122038857/ny20005531x3_sctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/1725293/000114036122038857/ny20005531x3_exa1a.htm",
+    "https://www.sec.gov/Archives/edgar/data/1725293/000114036122038857/ny20005531x3_exa1b.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1725293/000114036122038857/ny20005531x3_sctot.htm",
+   "statedShares": 0.314,
+   "statedSharesBasis": "313,531 Shares held in treasury), and (ii) 475,515 Shares subject to outstanding",
+   "sharesOut": 18.485,
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2021-12-31",
+    "form": "20-F",
+    "accession": "0001575872-22-000215"
+   },
+   "formsUsed": [],
+   "acquirer": "Taylor Maritime Investments Ltd",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [
+    "no balance sheet at announcement: EV = equity value"
+   ],
+   "unaffectedPrice": 16.56,
+   "equityValue": 388.2,
+   "ev": 388.2,
+   "dealValueRatio": 1.27,
+   "doubt": [
+    "multiples"
+   ]
   },
   {
    "id": "0001193125-22-304423",
@@ -71699,6 +72331,70 @@
    "flags": [],
    "source": "SC 13E3",
    "dealType": "take-private",
+   "doubt": []
+  },
+  {
+   "id": "0001193125-21-266617",
+   "target": {
+    "name": "Santander Consumer USA Holdings Inc.",
+    "cik": "0001580608",
+    "sic": "6141",
+    "sicDescription": "PERSONAL CREDIT INSTITUTIONS",
+    "state": "DE"
+   },
+   "sector": "Financials",
+   "buyers": [
+    "Santander Holdings USA, Inc.",
+    "BANCO SANTANDER, S.A.",
+    "MAX MERGER SUB, INC."
+   ],
+   "buyerType": "Strategic",
+   "advisers": [
+    "J.P. Morgan",
+    "Piper Sandler"
+   ],
+   "dealValue": 2530,
+   "filed": "2021-09-07",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1580608/000119312521266617/0001193125-21-266617-index.htm",
+   "announced": "2021-08-23",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 39.0,
+   "offerBasis": "$39.00 per share, in cash",
+   "consideration": "cash",
+   "premium1Day": 0.074,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "value to SC\u2019s public shareholders. Specifically, $39.00 per share represents a premium of 7.4% to yesterday\u2019s closing price of $36"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/811830/000119312521266617/d104928dsctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/811830/000119312521266617/d104928dex99a1i.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/811830/000119312521266617/d104928dsctot.htm",
+   "statedShares": 306.11,
+   "statedSharesBasis": "306,110,456 Shares issued and outstanding",
+   "sharesOut": 306.081,
+   "netDebt": -322.0,
+   "balanceSheetDate": "2021-06-30",
+   "netDebtBasis": " - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2021-07-26",
+    "form": "10-Q/A",
+    "accession": "0001580608-22-000011"
+   },
+   "formsUsed": [],
+   "acquirer": "Santander Holdings USA, Inc.",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [],
+   "unaffectedPrice": 36.31,
+   "equityValue": 11937.2,
+   "ev": 11615.2,
+   "dealValueRatio": 4.72,
    "doubt": []
   },
   {
@@ -88961,6 +89657,74 @@
    "source": "SC 13E3",
    "dealType": "take-private",
    "doubt": []
+  },
+  {
+   "id": "0001193125-20-245300",
+   "target": {
+    "name": "Aimmune Therapeutics, Inc.",
+    "cik": "0001631650",
+    "sic": "2834",
+    "sicDescription": "PHARMACEUTICAL PREPARATIONS",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [
+    "Societe des Produits Nestle S.A.",
+    "SPN MERGERSUB, INC."
+   ],
+   "buyerType": "Strategic",
+   "advisers": [
+    "J.P. Morgan",
+    "Lazard"
+   ],
+   "dealValue": 1991,
+   "filed": "2020-09-14",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1631650/000119312520245300/0001193125-20-245300-index.htm",
+   "announced": "2020-08-29",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 34.5,
+   "offerBasis": "$34.50 per share, net to the seller thereof in cash",
+   "consideration": "cash",
+   "premium1Day": 1.74,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "on Nasdaq was $12.60 per Share. \u2022 The Offer Price of $34.50 per Share represents a premium of approximately 174% to the closing price of the Shares reported on Nasdaq on August 28, 2020, the last trading day prior to execution of the Merger Agreement"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1631650/000119312520245300/d72192dsctot.htm",
+    "https://www.sec.gov/Archives/edgar/data/1631650/000119312520245300/d72192dex99a1a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1631650/000119312520245300/d72192dsctot.htm",
+   "statedShares": 4.269,
+   "statedSharesBasis": "4,268,896 shares of Aimmune Common Stock subject to outstanding",
+   "sharesOut": 65.45,
+   "ltmEbit": -282.9,
+   "netDebt": -182.5,
+   "balanceSheetDate": "2020-06-30",
+   "netDebtBasis": "longTermDebt - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2020-07-24",
+    "form": "10-Q",
+    "accession": "0001564590-20-034973"
+   },
+   "formsUsed": [],
+   "acquirer": "Societe des Produits Nestle S.A.",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "flags": [
+    "premium of 174%: distressed or misread"
+   ],
+   "unaffectedPrice": 12.59,
+   "equityValue": 2258.0,
+   "ev": 2075.5,
+   "dealValueRatio": 1.13,
+   "doubt": [
+    "premiums"
+   ]
   },
   {
    "id": "0001193125-20-297070",
