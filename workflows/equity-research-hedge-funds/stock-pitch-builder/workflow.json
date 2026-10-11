@@ -1,0 +1,180 @@
+{
+  "id": "stock-pitch-builder",
+  "name": "Stock Pitch Builder",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "markets",
+  "roles": [
+    "ER/HF"
+  ],
+  "difficulty": "Advanced",
+  "inputs": [
+    {
+      "name": "Ticker and direction (long/short) if decided",
+      "kind": "ticker",
+      "required": true
+    },
+    {
+      "name": "Your research so far — notes, model, or nothing yet",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "Format target: 2-minute verbal, 1-pager or full memo",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "State consensus",
+      "primitive": "draft",
+      "detail": "What does the market believe? If you can’t articulate the other side, you don’t have a pitch yet."
+    },
+    {
+      "title": "Articulate the variant view",
+      "primitive": "reason",
+      "detail": "\"The market thinks X. I think Y because Z.\" Z must be evidence, not vibes."
+    },
+    {
+      "title": "Quantify the skew",
+      "primitive": "draft",
+      "detail": "Target price if right, downside if wrong, rough probabilities. A pitch without asymmetry is a coin flip."
+    },
+    {
+      "title": "Date the catalysts",
+      "primitive": "reason",
+      "detail": "What makes the market agree with you, and when? \"It’s cheap\" is not a catalyst."
+    },
+    {
+      "title": "Define the kill criteria",
+      "primitive": "draft",
+      "detail": "What evidence would make you exit? Deciding this before pitching is what separates process from hope."
+    },
+    {
+      "title": "Compress to format",
+      "primitive": "reason",
+      "detail": "The 2-minute version leads with the variant view and the skew. Cut everything that doesn’t support them."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Summarising consensus estimates and sell-side positioning"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Compiling the evidence base with sources"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Building the valuation scenarios from your assumptions"
+    },
+    {
+      "title": "Delegate 4",
+      "primitive": "reason",
+      "detail": "Drafting the structured pitch from your inputs"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_stock-pitch-builder.md",
+      "sections": [
+        {
+          "name": "Pitch architecture: thesis, variant view, valuation, catalysts, risks",
+          "detail": "Structure a long or short pitch the way buy-side interviewers and PMs actually evaluate them: what the market believes, what you believe differently and why, what it’s worth if you’re right, and what proves you wrong."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "stock-pitch-builder-verify-1",
+      "kind": "human",
+      "description": "Consensus numbers are current, not stale"
+    },
+    {
+      "id": "stock-pitch-builder-verify-2",
+      "kind": "human",
+      "description": "Evidence actually supports the variant claim — check each link in the chain"
+    },
+    {
+      "id": "stock-pitch-builder-verify-3",
+      "kind": "human",
+      "description": "Valuation math foots; probabilities are yours, not invented"
+    },
+    {
+      "id": "stock-pitch-builder-quality-1",
+      "kind": "human",
+      "description": "Variant view stated in one sentence"
+    },
+    {
+      "id": "stock-pitch-builder-quality-2",
+      "kind": "human",
+      "description": "Risk/reward quantified with at least 2:1 skew or an explicit reason"
+    },
+    {
+      "id": "stock-pitch-builder-quality-3",
+      "kind": "human",
+      "description": "Every catalyst has a date or window"
+    },
+    {
+      "id": "stock-pitch-builder-quality-4",
+      "kind": "human",
+      "description": "Kill criteria are specific and observable"
+    }
+  ],
+  "humanCheckpoints": [
+    "The variant perception itself — this is the pitch",
+    "The probabilities on bull/bear/base",
+    "What kill criteria you’ll actually honour"
+  ],
+  "dependencies": [
+    "reverse-dcf-intuition",
+    "consensus-mechanics"
+  ],
+  "runtime": {
+    "primitives": [
+      "draft",
+      "reason",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/equity-research-hedge-funds/stock-pitch-builder"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Turn research into a pitch with a variant perception, not a book report."
+  }
+}

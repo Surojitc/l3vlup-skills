@@ -1,0 +1,201 @@
+{
+  "id": "earnings-teardown",
+  "name": "Earnings Teardown",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "markets",
+  "roles": [
+    "ER/HF",
+    "IB"
+  ],
+  "difficulty": "Core",
+  "inputs": [
+    {
+      "name": "Ticker or company name",
+      "kind": "ticker",
+      "required": true
+    },
+    {
+      "name": "Latest earnings release / transcript (link or paste)",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "Prior quarter release for comparison (optional but recommended)",
+      "kind": "text",
+      "required": false
+    },
+    {
+      "name": "Your perspective: ER, HF, IB coverage or interview prep",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Frame the quarter",
+      "primitive": "reason",
+      "detail": "State what the market expected going in: consensus revenue/EPS, the 2-3 debated items, and where the stock traded into the print."
+    },
+    {
+      "title": "Extract the deltas",
+      "primitive": "extract",
+      "detail": "Revenue, margins, EPS and segment KPIs vs last quarter and vs the same quarter last year. Flag every metric that changed direction, not just magnitude."
+    },
+    {
+      "title": "Diff the guidance",
+      "primitive": "compare",
+      "detail": "Compare new guidance against prior guidance AND against consensus — they are different comparisons and get confused constantly."
+    },
+    {
+      "title": "Read the language",
+      "primitive": "retrieve",
+      "detail": "What did management emphasise, stop mentioning, or newly hedge? Language changes often lead numbers by a quarter."
+    },
+    {
+      "title": "Judge materiality",
+      "primitive": "calculate",
+      "detail": "For each delta: does it change the earnings power, the multiple, or neither? Kill the noise."
+    },
+    {
+      "title": "Write the memo",
+      "primitive": "draft",
+      "detail": "One page: what changed, why it matters, what you’d ask management, and whether the thesis moved."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Pulling the release, transcript and prior-quarter comparables into one place"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Extracting reported figures and computing QoQ / YoY deltas"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Diffing guidance text against the prior quarter’s wording"
+    },
+    {
+      "title": "Delegate 4",
+      "primitive": "reason",
+      "detail": "Flagging KPIs that appeared or disappeared from disclosure"
+    },
+    {
+      "title": "Delegate 5",
+      "primitive": "reason",
+      "detail": "Assembling a source-linked fact table"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_earnings-teardown.md",
+      "sections": [
+        {
+          "name": "One-page earnings delta memo + questions list",
+          "detail": "A structured pass through a company’s latest results: what moved vs last quarter and vs expectations, what management changed in guidance and language, and which changes matter for the thesis. Built for the night-before or morning-after window when time is the constraint."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "earnings-teardown-verify-1",
+      "kind": "human",
+      "description": "Every extracted number against the primary source — transcripts get misparsed"
+    },
+    {
+      "id": "earnings-teardown-verify-2",
+      "kind": "human",
+      "description": "That guidance is compared to prior guidance, not accidentally to consensus"
+    },
+    {
+      "id": "earnings-teardown-verify-3",
+      "kind": "human",
+      "description": "Currency, share-count and period consistency across the comparison"
+    },
+    {
+      "id": "earnings-teardown-verify-4",
+      "kind": "human",
+      "description": "That \"growth\" figures are organic vs reported where the company splits them"
+    },
+    {
+      "id": "earnings-teardown-quality-1",
+      "kind": "human",
+      "description": "Every number in the memo carries a period label (Q/FY) and a source"
+    },
+    {
+      "id": "earnings-teardown-quality-2",
+      "kind": "human",
+      "description": "Guidance-vs-guidance and guidance-vs-consensus stated separately"
+    },
+    {
+      "id": "earnings-teardown-quality-3",
+      "kind": "human",
+      "description": "At least one thing management de-emphasised is noted"
+    },
+    {
+      "id": "earnings-teardown-quality-4",
+      "kind": "human",
+      "description": "The memo answers \"so what\" in the first three lines"
+    }
+  ],
+  "humanCheckpoints": [
+    "Which deltas are thesis-relevant vs noise",
+    "Whether management’s explanation for a miss or beat is credible",
+    "Whether the quarter changes your estimate of earnings power or just timing",
+    "What the two or three questions you’d actually press management on are"
+  ],
+  "dependencies": [
+    "reading-an-income-statement",
+    "consensus-vs-guidance-mechanics"
+  ],
+  "runtime": {
+    "primitives": [
+      "reason",
+      "extract",
+      "compare",
+      "retrieve",
+      "calculate",
+      "draft",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/equity-research-hedge-funds/earnings-teardown"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Understand what actually changed this quarter — before the market finishes deciding."
+  }
+}

@@ -139,6 +139,8 @@ jobs:
           node scripts/__tests__/publication-freshness.test.mjs
           node scripts/__tests__/publication-persistence.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
+          node scripts/__tests__/finance-os-schemas.test.mjs
+          node scripts/__tests__/public-boundary.test.mjs
 
       - name: Sync the opportunity tracker from public ATS boards
         # No continue-on-error: the script has its own collapse guard and exits

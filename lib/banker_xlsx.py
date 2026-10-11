@@ -1,11 +1,11 @@
 """
 Banker house-style workbook writer.
 
-Ported from the TWC model exporter (ClaudeSkills/scripts/fmp-model-export.py) so
-L3VLUP skill outputs land in the same conventions an analyst already reads without
-being told: blue is an input, black is a formula, green points at another sheet.
+Built to the conventions bank and fund training programmes teach, so L3VLUP skill
+outputs land in the format an analyst already reads without being told: blue is an
+input, black is a formula, green points at another sheet.
 
-The one addition over the TWC original is PROVENANCE. Every figure can carry the
+The addition over the usual house style is PROVENANCE. Every figure can carry the
 filing it came from; the writer collects those, numbers them, prints the marker
 beside the row and emits a Sources sheet where each marker resolves to a tag,
 period, form, accession number and a link to the filing on EDGAR. A number with

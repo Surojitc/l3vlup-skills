@@ -1,0 +1,194 @@
+{
+  "id": "comps-set-builder",
+  "name": "Comps Set Builder",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "banking",
+  "roles": [
+    "IB",
+    "PE",
+    "ER/HF"
+  ],
+  "difficulty": "Core",
+  "inputs": [
+    {
+      "name": "Target company",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Purpose: valuation, pitch, fairness context or interview answer",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Any house view on must-include / must-exclude names",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [
+      "filing"
+    ],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": [
+      "market"
+    ]
+  },
+  "steps": [
+    {
+      "title": "Define comparability",
+      "primitive": "calculate",
+      "detail": "Business model, end markets, growth, margins, scale, geography — write the criteria BEFORE listing names."
+    },
+    {
+      "title": "Build the long list",
+      "primitive": "reason",
+      "detail": "Cast wide: direct competitors, adjacent models, the names every banker includes by convention."
+    },
+    {
+      "title": "Screen to a short list",
+      "primitive": "screen",
+      "detail": "Apply the criteria explicitly. Every exclusion gets a one-line reason — that’s what makes the set defensible."
+    },
+    {
+      "title": "Sanity-check the spread",
+      "primitive": "calculate",
+      "detail": "If the multiples range is enormous, the set is probably mixing business models. Segment or trim."
+    },
+    {
+      "title": "Document the rationale",
+      "primitive": "compare",
+      "detail": "One table: name, why included, key differences, flags (low float, distressed, pending deal)."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Generating the candidate long list from industry classifications and filings"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Pulling descriptive stats (size, growth, margins) for screening"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Drafting first-pass inclusion/exclusion notes"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "xlsx",
+      "filename": "{TICKER}_comps.xlsx",
+      "sections": [
+        {
+          "name": "Comps",
+          "detail": "Market, capital structure, operating metrics, trailing and forward multiples, median and mean — every multiple a live formula"
+        },
+        {
+          "name": "Inclusion",
+          "detail": "Why each name is in, which names were rejected and why, and every adjustment made. An empty rejection list is flagged in the sheet as a red flag."
+        },
+        {
+          "name": "Sources",
+          "detail": "Every filing-derived figure resolved to tag, period, form and accession"
+        }
+      ],
+      "sourcePolicy": "Fundamentals from each filer’s XBRL tags. Share price and forward consensus are shaded input cells for your own licensed feed — the workbook will not guess a price and then print a multiple off it. EBITDA is built from operating income plus D&A in the sheet, because EBITDA is not a GAAP tag.",
+      "buildCommand": "python3 skills/comps-set-builder/build.py NVDA --peers AMD,AVGO,MRVL",
+      "repoPath": "skills/comps-set-builder"
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "comps-set-builder-verify-1",
+      "kind": "human",
+      "description": "Candidates actually do what the classification says they do"
+    },
+    {
+      "id": "comps-set-builder-verify-2",
+      "kind": "human",
+      "description": "No pending-takeover or distressed names polluting trading multiples unflagged"
+    },
+    {
+      "id": "comps-set-builder-verify-3",
+      "kind": "human",
+      "description": "Financial metrics used for screening are calendarised and like-for-like"
+    },
+    {
+      "id": "comps-set-builder-quality-1",
+      "kind": "human",
+      "description": "Every exclusion has a written reason"
+    },
+    {
+      "id": "comps-set-builder-quality-2",
+      "kind": "human",
+      "description": "Set size is 5-10 names or explicitly segmented"
+    },
+    {
+      "id": "comps-set-builder-quality-3",
+      "kind": "human",
+      "description": "Outlier multiples explained or flagged"
+    },
+    {
+      "id": "comps-set-builder-quality-4",
+      "kind": "human",
+      "description": "You can defend the set out loud in 60 seconds"
+    }
+  ],
+  "humanCheckpoints": [
+    "The comparability criteria themselves — that’s the analytical judgment",
+    "Borderline inclusions: closest-fit-but-different-scale vs same-scale-but-different-model",
+    "Whether to segment the set (e.g. high-growth vs mature) rather than force one universe"
+  ],
+  "dependencies": [
+    "valuation-multiples",
+    "calendarisation-basics"
+  ],
+  "runtime": {
+    "primitives": [
+      "calculate",
+      "reason",
+      "screen",
+      "compare",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": [
+      "build-command"
+    ]
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "referenceImplementation": {
+      "repo": "l3vlup-skills",
+      "path": "skills/comps-set-builder"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/investment-banking/comps-set-builder"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Choose a defensible comparable-companies universe, and be able to defend every inclusion."
+  }
+}

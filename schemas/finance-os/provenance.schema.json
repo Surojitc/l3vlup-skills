@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Surojitc/l3vlup-skills/schemas/finance-os/provenance.schema.json",
+  "title": "Finance OS evidence: source, calculation and decision lineage",
+  "description": "Three layers. Source lineage: where an input came from (SourceRef). Calculation lineage: how a figure was derived from sourced inputs (Derivation). Decision lineage: why something was selected, adjusted, excluded, included, classified, normalised or overridden (Decision). A missing value is null and status 'missing', never zero. Contract version 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contractVersion", "figures", "decisions"],
+  "properties": {
+    "contractVersion": { "const": "1" },
+    "description": { "type": "string" },
+    "figures": { "type": "array", "items": { "$ref": "#/$defs/Figure" } },
+    "decisions": { "type": "array", "items": { "$ref": "#/$defs/Decision" } }
+  },
+  "$defs": {
+    "SourceKind": { "enum": ["filing", "ir", "release", "presentation", "user-document", "dataset", "market", "calculation", "none"] },
+    "Period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "end", "label", "basis"],
+      "properties": {
+        "kind": { "enum": ["duration", "instant"] },
+        "end": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "start": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "label": { "type": "string", "minLength": 1 },
+        "basis": { "enum": ["A", "E"], "description": "Actual or estimate. Estimates never mix with actuals in a series." }
+      }
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "title", "retrievedAt"],
+      "properties": {
+        "kind": { "$ref": "#/$defs/SourceKind" },
+        "title": { "type": "string", "minLength": 1 },
+        "url": { "type": "string" },
+        "document": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "form": { "type": "string" },
+            "accession": { "type": "string" },
+            "filedOn": { "type": "string" },
+            "cik": { "type": "string" },
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+          }
+        },
+        "location": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tag": { "type": "string" },
+            "page": { "type": "integer", "minimum": 1 },
+            "table": { "type": "string" },
+            "excerpt": { "type": "string", "maxLength": 200, "description": "The printed text a value was read from. Short; never a passage." }
+          }
+        },
+        "retrievedAt": { "type": "string" },
+        "provider": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Who supplied it, as a neutral id, distinct from what document it is." },
+        "providerRecordId": { "type": "string" }
+      }
+    },
+    "Derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "inputs"],
+      "properties": {
+        "method": { "enum": ["calculated", "extracted", "model-stated"] },
+        "formula": { "type": "string" },
+        "inputs": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "Figure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "value", "unit", "period", "source", "verification"],
+      "properties": {
+        "key": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "value": { "type": ["number", "null"], "description": "null is the only representation of a value the source did not give." },
+        "unit": { "type": "string", "minLength": 1 },
+        "scale": { "enum": ["units", "thousands", "millions", "billions"] },
+        "period": { "$ref": "#/$defs/Period" },
+        "source": { "$ref": "#/$defs/SourceRef" },
+        "lineage": { "$ref": "#/$defs/Derivation" },
+        "verification": { "enum": ["verified", "needs-review", "unverified", "missing"] }
+      }
+    },
+    "Decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "target", "rationale", "basis", "evidence", "affects", "verification"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["selected", "adjusted", "excluded", "included", "classified", "normalised", "overridden"] },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "figureKeys": { "type": "array", "items": { "type": "string" } },
+            "entity": { "type": "string" }
+          }
+        },
+        "rationale": { "type": "string", "minLength": 1, "maxLength": 280 },
+        "basis": { "enum": ["rule", "model", "human"] },
+        "ruleId": { "type": "string" },
+        "evidence": { "type": "array", "items": { "type": "string" } },
+        "affects": { "type": "array", "items": { "type": "string" }, "description": "Figure keys, or deliverable sections written section:<name>." },
+        "verification": { "enum": ["verified", "needs-review"] },
+        "actorRole": { "enum": ["analyst", "reviewer"], "description": "A person is recorded by role, never by identity." }
+      }
+    }
+  }
+}

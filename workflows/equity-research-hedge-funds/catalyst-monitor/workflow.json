@@ -1,0 +1,159 @@
+{
+  "id": "catalyst-monitor",
+  "name": "Catalyst Monitor",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "markets",
+  "roles": [
+    "ER/HF"
+  ],
+  "difficulty": "Intermediate",
+  "inputs": [
+    {
+      "name": "The thesis and position (or pitch)",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Time horizon",
+      "kind": "text",
+      "required": true
+    },
+    {
+      "name": "Kill criteria if already defined",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "List the catalysts",
+      "primitive": "reason",
+      "detail": "Earnings, product events, regulatory dates, competitor prints, macro releases — everything dated that touches the thesis."
+    },
+    {
+      "title": "Map leading indicators",
+      "primitive": "verify",
+      "detail": "What data leaks ahead of each catalyst? Channel checks, web data, peer results, pre-announcements."
+    },
+    {
+      "title": "Set the triggers",
+      "primitive": "reason",
+      "detail": "For each catalyst: what outcome confirms, what kills, and what you’ll DO in each case. Decide now, not in the moment."
+    },
+    {
+      "title": "Build the calendar",
+      "primitive": "verify",
+      "detail": "Dated list with owner, source and check cadence."
+    },
+    {
+      "title": "Schedule the reviews",
+      "primitive": "reason",
+      "detail": "A thesis unreviewed for a quarter is a stale thesis. Fix the cadence."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Compiling dated events from IR calendars and filings"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Tracking indicator updates on cadence"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Flagging when a monitored metric crosses a threshold"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_catalyst-monitor.md",
+      "sections": [
+        {
+          "name": "Catalyst calendar + monitoring plan with triggers",
+          "detail": "Turn a thesis into a monitoring plan: dated catalysts, the data that leads each one, thresholds that trigger action, and a cadence for re-checking. The difference between having a view and running a position."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "catalyst-monitor-verify-1",
+      "kind": "human",
+      "description": "Event dates from primary sources — conference dates move"
+    },
+    {
+      "id": "catalyst-monitor-verify-2",
+      "kind": "human",
+      "description": "Threshold breaches are real, not data glitches"
+    },
+    {
+      "id": "catalyst-monitor-quality-1",
+      "kind": "human",
+      "description": "Every catalyst has date, trigger and pre-decided action"
+    },
+    {
+      "id": "catalyst-monitor-quality-2",
+      "kind": "human",
+      "description": "Kill criteria embedded, not separate"
+    },
+    {
+      "id": "catalyst-monitor-quality-3",
+      "kind": "human",
+      "description": "Next review date exists"
+    }
+  ],
+  "humanCheckpoints": [
+    "The thresholds themselves and the action at each",
+    "Whether a missed catalyst wounds or kills the thesis",
+    "When monitoring says exit, and honouring it"
+  ],
+  "dependencies": [
+    "stock-pitch-builder"
+  ],
+  "runtime": {
+    "primitives": [
+      "reason",
+      "verify",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/equity-research-hedge-funds/catalyst-monitor"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "pro",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Track the events that will prove your thesis right or wrong — before they happen."
+  }
+}

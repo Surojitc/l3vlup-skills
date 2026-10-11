@@ -66,9 +66,9 @@ ticker file are reported as unresolved, by name, on the face of the output.
 
 ## Excel house style
 
-Ported from the TWC model exporter, which is in turn the convention every bulge
-bracket training programme teaches. The point of a convention is that a reader who has
-never seen your file knows what they are looking at in two seconds.
+The convention every bulge-bracket training programme teaches. The point of a
+convention is that a reader who has never seen your file knows what they are looking
+at in two seconds.
 
 ### Colour is meaning, not decoration
 

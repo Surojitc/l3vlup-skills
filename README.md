@@ -36,6 +36,27 @@ Rendered with charts, commentary and an interactive yield-curve model:
 
 ---
 
+## Finance workflows and the Finance OS contract
+
+[`workflows/`](workflows/) holds the open finance workflows: twelve skills
+across investment banking, private equity and public markets, each as a
+`SKILL.md` in the open agent-skill standard and a `workflow.json` in the
+Finance OS contract. They are generated from the L3VLUP platform's canonical
+library; do not edit them here. [`skills/`](skills/) holds the executable
+reference builds (Company Profile and Comps Set Builder).
+
+The contract itself is open: [`docs/finance-skill-spec.md`](docs/finance-skill-spec.md)
+explains it, and [`schemas/finance-os/`](schemas/finance-os/) has the JSON
+Schemas for workflows, data requirements and provider profiles, and the
+three layers of evidence (source, calculation and decision lineage).
+[`fixtures/finance-os/`](fixtures/finance-os/) has invented examples to test
+against.
+
+```bash
+npm run test:finance-os   # schemas, fixtures and every published workflow
+npm run test:boundary     # nothing private reaches this repository
+```
+
 ## Letters research (Phase 0: discovery and enumeration)
 
 `data/letters.sources.json` lists the SEC-hosted sources of five managers'

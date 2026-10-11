@@ -1,0 +1,178 @@
+{
+  "id": "model-audit",
+  "name": "Model Audit",
+  "version": "1.0.0",
+  "contractVersion": "1",
+  "vertical": "banking",
+  "roles": [
+    "IB",
+    "PE"
+  ],
+  "difficulty": "Intermediate",
+  "inputs": [
+    {
+      "name": "The model file (.xlsx)",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "What the model is for (LBO, merger, operating, DCF)",
+      "kind": "document",
+      "required": true
+    },
+    {
+      "name": "Which outputs matter most (returns, EPS, valuation range)",
+      "kind": "text",
+      "required": true
+    }
+  ],
+  "sources": {
+    "required": [],
+    "optional": [
+      "ir",
+      "release",
+      "presentation",
+      "user-document"
+    ],
+    "prohibited": []
+  },
+  "steps": [
+    {
+      "title": "Check structural integrity",
+      "primitive": "verify",
+      "detail": "Balance sheet balances in every period. Cash flow ties to balance-sheet cash. Circularity is intentional and switched."
+    },
+    {
+      "title": "Hunt hardcodes",
+      "primitive": "reason",
+      "detail": "Plugs inside formula chains are the classic silent killer. Every hardcode is either an input (move it) or an error (fix it)."
+    },
+    {
+      "title": "Trace the drivers",
+      "primitive": "calculate",
+      "detail": "Do key outputs respond correctly to key inputs? Flex growth, margin and leverage and watch the directionality."
+    },
+    {
+      "title": "Audit the assumptions",
+      "primitive": "calculate",
+      "detail": "Internally consistent? Revenue growth vs capacity, margins vs history, exit multiple vs entry logic."
+    },
+    {
+      "title": "Stress the edges",
+      "primitive": "calculate",
+      "detail": "Zero growth, downside case, covenant limits — models that break at the edges have hidden fragility in the base case."
+    },
+    {
+      "title": "Report by impact",
+      "primitive": "rank",
+      "detail": "Errors ranked by effect on the decision output, each with location, issue and suggested fix."
+    },
+    {
+      "title": "Delegate 1",
+      "primitive": "reason",
+      "detail": "Scanning for hardcodes, broken links and inconsistent formulas across rows"
+    },
+    {
+      "title": "Delegate 2",
+      "primitive": "reason",
+      "detail": "Locating circularity and volatile functions"
+    },
+    {
+      "title": "Delegate 3",
+      "primitive": "reason",
+      "detail": "Diffing formula structure between periods/columns"
+    },
+    {
+      "title": "Delegate 4",
+      "primitive": "reason",
+      "detail": "Drafting the issue log with cell references"
+    }
+  ],
+  "outputs": [
+    {
+      "format": "md",
+      "filename": "{SUBJECT}_model-audit.md",
+      "sections": [
+        {
+          "name": "Structured error/risk report",
+          "detail": "A systematic review of an Excel model for hardcodes, broken links, circularity, sign errors, inconsistent assumptions and balance-sheet breaks — ordered so the highest-impact errors surface first."
+        }
+      ],
+      "sourcePolicy": "Every figure cites the page or filing it was read from; nothing is stated without a source."
+    }
+  ],
+  "calculations": [],
+  "verification": [
+    {
+      "id": "model-audit-verify-1",
+      "kind": "human",
+      "description": "Each flagged \"error\" is actually wrong — some hardcodes are deliberate inputs"
+    },
+    {
+      "id": "model-audit-verify-2",
+      "kind": "human",
+      "description": "The balance check formula itself isn’t a plug"
+    },
+    {
+      "id": "model-audit-verify-3",
+      "kind": "human",
+      "description": "Suggested fixes don’t break dependent calculations"
+    },
+    {
+      "id": "model-audit-quality-1",
+      "kind": "human",
+      "description": "Issues ranked by output impact, not discovery order"
+    },
+    {
+      "id": "model-audit-quality-2",
+      "kind": "human",
+      "description": "Every issue has a cell reference and a proposed fix"
+    },
+    {
+      "id": "model-audit-quality-3",
+      "kind": "human",
+      "description": "Structural checks (B/S, CF tie) documented as pass/fail"
+    }
+  ],
+  "humanCheckpoints": [
+    "Which issues are material to the decision vs cosmetic",
+    "Whether the model’s core architecture is trustworthy or needs a rebuild",
+    "What to say to the model’s owner, and how"
+  ],
+  "dependencies": [
+    "three-statement-model-mechanics",
+    "excel-formula-auditing"
+  ],
+  "runtime": {
+    "primitives": [
+      "verify",
+      "reason",
+      "calculate",
+      "rank",
+      "render"
+    ],
+    "needsModel": true,
+    "tools": []
+  },
+  "data": [],
+  "ownership": {
+    "specOwner": "open",
+    "runtimeOwner": "commercial",
+    "publicationRing": "open",
+    "upstreamSource": {
+      "repo": "L3vlup",
+      "path": "lib/skills-library.ts"
+    },
+    "privateExtensionsAllowed": true,
+    "promotionReviewRequired": false,
+    "licence": "CC-BY-4.0",
+    "repoPath": "workflows/investment-banking/model-audit"
+  },
+  "tests": [],
+  "evals": [],
+  "display": {
+    "accessTier": "free",
+    "lastReviewedAt": "2026-08-18",
+    "jobToBeDone": "Find the errors in a financial model before someone senior does."
+  }
+}

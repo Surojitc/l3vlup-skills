@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Surojitc/l3vlup-skills/schemas/finance-os/data-requirement.schema.json",
+  "title": "Finance OS data requirement and provider profile",
+  "description": "What a workflow needs, as capabilities, never as a vendor; and how a data provider describes what it can supply under which rights. Contract version 1.",
+  "$defs": {
+    "DataCapability": {
+      "enum": [
+        "company.identity", "financials.standardized", "financials.as-reported", "filings.index", "filings.text",
+        "prices.eod", "prices.intraday", "segments", "kpis", "guidance", "transcripts", "news",
+        "ownership.institutional", "ownership.insider", "estimates.consensus", "transactions.precedent",
+        "macro.series", "user.document"
+      ]
+    },
+    "ProvenanceStandard": { "enum": ["filing-linked", "source-named", "any"] },
+    "Geography": { "enum": ["US", "UK", "EU", "CA", "global"] },
+    "DataRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability", "required", "provenance", "use"],
+      "properties": {
+        "capability": { "$ref": "#/$defs/DataCapability" },
+        "required": { "type": "boolean", "description": "false: the workflow runs without it and says so on the output." },
+        "history": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "annualPeriods": { "type": "integer", "minimum": 1 },
+            "quarterlyPeriods": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "frequency": { "type": "array", "items": { "enum": ["annual", "quarterly", "ttm"] } },
+        "geographies": { "type": "array", "items": { "$ref": "#/$defs/Geography" } },
+        "maxAgeDays": { "type": "integer", "minimum": 0 },
+        "provenance": { "$ref": "#/$defs/ProvenanceStandard", "description": "The weakest evidence the workflow accepts for this input." },
+        "use": { "enum": ["display", "calculate", "export"], "description": "What the output does with it; decides which rights are needed." }
+      }
+    },
+    "RightsAnswer": { "enum": ["yes", "no", "unknown"] },
+    "ProviderProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "A provider is eligible in production only when its rights review is approved and its rights cover the requirement's use. 'unknown' counts as 'no'.",
+      "required": ["id", "name", "status", "capabilities", "licenceClass", "credential", "rights", "sourceLinks", "costClass", "priority", "connectorLevel", "rightsReview"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["live", "candidate", "rejected"] },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["capability", "geographies", "history", "latency", "provenance"],
+            "properties": {
+              "capability": { "$ref": "#/$defs/DataCapability" },
+              "geographies": { "type": "array", "items": { "$ref": "#/$defs/Geography" } },
+              "history": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "annualPeriods": { "type": "integer", "minimum": 0 },
+                  "quarterlyPeriods": { "type": "integer", "minimum": 0 },
+                  "years": { "type": "integer", "minimum": 0 }
+                }
+              },
+              "latency": { "enum": ["realtime", "delayed-15m", "eod", "daily", "weekly", "monthly", "on-demand"] },
+              "provenance": { "enum": ["filing-linked", "source-named", "none"] }
+            }
+          }
+        },
+        "licenceClass": { "enum": ["public-domain", "open-licence", "terms-restricted", "commercial-licensed", "user-supplied"] },
+        "credential": { "enum": ["none", "platform", "user", "platform-or-user"] },
+        "rights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["display", "export", "derivedFigures", "storage"],
+          "properties": {
+            "display": { "$ref": "#/$defs/RightsAnswer" },
+            "export": { "$ref": "#/$defs/RightsAnswer" },
+            "derivedFigures": { "$ref": "#/$defs/RightsAnswer" },
+            "storage": { "$ref": "#/$defs/RightsAnswer" }
+          }
+        },
+        "sourceLinks": { "type": "boolean" },
+        "costClass": { "enum": ["free", "metered", "subscription", "enterprise"] },
+        "priority": { "type": "integer" },
+        "connectorLevel": { "enum": ["public", "premium", "enterprise"] },
+        "rightsReview": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["not-started", "in-review", "approved", "rejected"] },
+            "reviewedOn": { "type": "string" },
+            "notes": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
