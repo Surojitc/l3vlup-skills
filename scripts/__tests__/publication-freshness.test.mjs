@@ -137,6 +137,10 @@ const feed = (over = {}) => ({
   'data/peers.auto.json': { generatedAt: hoursAgo(300) },
   'data/peers-crawl.auto.json': { generatedAt: hoursAgo(300) },
   'data/merger-index.auto.json': { generatedAt: hoursAgo(300) },
+  // Added to the open-data contract by #129 without a line here, which made
+  // this "healthy morning" report the register missing and failed every
+  // collection run from 10 October 2026 until it was added.
+  'data/funds/securities.json': { generatedAt: hoursAgo(300) },
   'data/career-snapshots.json': { firm: [] },
   'data/career-review-queue.json': { generatedAt: hoursAgo(1) },
   ...over,
@@ -146,6 +150,15 @@ const world = (files, committed = hoursAgo(1)) => ({
   committedAt: () => committed,
 });
 
+// Every file the open-data contract watches for freshness by a fixed path has
+// a line in the healthy morning above. A contract gaining a file without one
+// fails here, by name, instead of as six unrelated-looking cases below.
+{
+  const fixture = feed();
+  const watched = CONTRACTS['open-data'].files.filter((f) => f.path && f.freshness && f.freshness.cadence !== 'manual').map((f) => f.path);
+  const missing = watched.filter((p) => !(p in fixture));
+  eq('the healthy fixture covers every path the open-data contract watches', missing, []);
+}
 const healthy = freshnessReport('open-data', world(feed()), NOW);
 eq('a morning where everything collected blocks nothing', [healthy.blocking, healthy.degraded], [false, false]);
 eq('and says so', healthy.problems, []);
