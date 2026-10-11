@@ -28,6 +28,10 @@ import {
   groupMovement,
   publicationReport,
   archiveMemberProblems,
+  changedPathLines,
+  fitPullRequestBody,
+  PR_BODY_LIMIT,
+  MAX_LISTED_PATHS,
 } from '../publication-contracts.mjs';
 
 let pass = 0;
@@ -294,6 +298,27 @@ const { stats } = contractProblems('open-data', {
 const body = publicationReport({ producer: 'open-data', stats, staged: ['data/newsflow.auto.json'], runUrl: 'https://example.invalid/run/1' });
 for (const needle of ['The open-data collection', 'the news map', '| Private Equity | 44 | 40 | -4 |', 'publishes nothing']) {
   check(`the pull request body carries ${JSON.stringify(needle)}`, body.includes(needle), body.slice(0, 200));
+}
+
+// ── 5b. a body GitHub will accept ─────────────────────────────────────────
+// 11 October 2026: a refresh staged a decade of 13F history per manager, the
+// body listed every file, GitHub refused it as over 65,536 characters, and the
+// pull request never opened. Whatever is staged, the body must fit.
+{
+  const many = Array.from({ length: 6000 }, (_, i) => `data/funds/history/manager-${i % 80}/${1990 + (i % 36)}.json`)
+    .concat(Array.from({ length: 900 }, (_, i) => `data/funds/overlap/manager-${i}.json`));
+  const big = publicationReport({ producer: 'open-data', stats, staged: many, runUrl: 'https://example.invalid/run/2' });
+  check('six thousand staged files still give a body under the limit', big.length <= PR_BODY_LIMIT, big.length);
+  check('summarised by directory, with the count', big.includes('`data/funds/history/`: 6000 files') && big.includes('`data/funds/overlap/`: 900 files'), big.slice(0, 400));
+  check('and still ending on the run URL', big.trimEnd().endsWith('https://example.invalid/run/2'));
+  const few = Array.from({ length: MAX_LISTED_PATHS }, (_, i) => `data/x/${i}.json`);
+  check(`up to ${MAX_LISTED_PATHS} files are listed one by one`, changedPathLines(few).length === MAX_LISTED_PATHS && changedPathLines(few)[0] === '- `data/x/0.json`');
+  check('a file at the top of data/ groups under data/', changedPathLines([...few, 'data/macro.auto.json']).some((l) => l === '- `data/`: 1 file'));
+  const huge = `${'line of text\n'.repeat(10_000)}end`;
+  const fitted = fitPullRequestBody(huge, 1000);
+  check('an oversized body is cut on a line and says so', fitted.length <= 1000 && /shortened to fit GitHub's limit/.test(fitted) && !/line of t$/.test(fitted.split('\n\n_')[0]));
+  check('a body that fits is untouched', fitPullRequestBody('short', 1000) === 'short');
+  check('the limit leaves room under GitHub\'s 65,536', PR_BODY_LIMIT < 65_536);
 }
 
 // ── 6. the failure reaches an exit code ──────────────────────────────────

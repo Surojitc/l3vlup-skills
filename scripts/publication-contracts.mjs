@@ -890,6 +890,41 @@ export function contractProblems(producer, { staged, read, readPrev, existedBefo
 }
 
 /** The pull request body: what was collected, what moved, what was checked. */
+/**
+ * GitHub refuses a pull request body over 65,536 characters ("Body is too
+ * long", GraphQL createPullRequest). On 11 October 2026 the open-data refresh
+ * staged a decade of 13F history per manager, the "Also changed" list ran to
+ * thousands of lines, and the pull request was never opened: the data was
+ * collected and validated and none of it reached main. So a long list is
+ * summarised by directory, and the whole body is held under PR_BODY_LIMIT,
+ * with room to spare for the run URL. The commit's own diff is the full list.
+ */
+export const PR_BODY_LIMIT = 60_000;
+export const MAX_LISTED_PATHS = 50;
+
+/** "- `path`" lines, or, past MAX_LISTED_PATHS, one line per directory with its count. */
+export function changedPathLines(paths) {
+  if (paths.length <= MAX_LISTED_PATHS) return paths.map((p) => `- \`${p}\``);
+  const groups = new Map();
+  for (const p of paths) {
+    const dir = p.split('/').slice(0, -1).slice(0, 3).join('/') || '.';
+    groups.set(dir, (groups.get(dir) ?? 0) + 1);
+  }
+  return [
+    `${paths.length} files, by directory (the commit's diff lists each one):`,
+    '',
+    ...[...groups.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([dir, n]) => `- \`${dir}/\`: ${n} ${n === 1 ? 'file' : 'files'}`),
+  ];
+}
+
+/** The body cut to fit, never mid-line, saying that it was. */
+export function fitPullRequestBody(body, limit = PR_BODY_LIMIT) {
+  if (body.length <= limit) return body;
+  const note = '\n\n_This description was shortened to fit GitHub\'s limit; the commit\'s diff is complete._';
+  const cut = body.slice(0, limit - note.length);
+  return cut.slice(0, cut.lastIndexOf('\n')) + note;
+}
+
 export function publicationReport({ producer, stats, staged, runUrl, ref, extra }) {
   const contract = CONTRACTS[producer] ?? { label: producer };
   const lines = [
@@ -906,7 +941,7 @@ export function publicationReport({ producer, stats, staged, runUrl, ref, extra 
   }
   const untracked = staged.filter((p) => !stats.some((s) => s.path === p));
   if (untracked.length) {
-    lines.push('', '### Also changed', '', ...untracked.map((p) => `- \`${p}\``));
+    lines.push('', '### Also changed', '', ...changedPathLines(untracked));
   }
   for (const s of stats) {
     const moved = (s.movement ?? []).filter((m) => m.delta !== 0);
@@ -928,5 +963,9 @@ export function publicationReport({ producer, stats, staged, runUrl, ref, extra 
   if (extra) lines.push(extra, '');
   if (ref) lines.push(`Collected by \`${ref}\`.`);
   if (runUrl) lines.push('', runUrl);
-  return lines.join('\n');
+  // The run URL is the last line and the one a reviewer needs, so it survives the cut.
+  const body = lines.join('\n');
+  if (body.length <= PR_BODY_LIMIT) return body;
+  const tail = runUrl ? `\n\n${runUrl}` : '';
+  return fitPullRequestBody(lines.slice(0, runUrl ? -2 : lines.length).join('\n'), PR_BODY_LIMIT - tail.length) + tail;
 }
