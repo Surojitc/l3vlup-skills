@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-09T13:39:23.823Z",
-  "count": 2288,
+  "generatedAt": "2026-10-11T15:33:12.470Z",
+  "count": 2305,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -444,6 +444,10 @@
       "slug": "affirm-software-engineer-early-career-sf",
       "since": "2026-10-07"
     },
+    "greenhouse-affirm-8011375003": {
+      "slug": "affirm-it-engineer-intern-early-careers-summer-2027",
+      "since": "2026-10-11"
+    },
     "greenhouse-affirm-8011590003": {
       "slug": "affirm-software-engineer-intern-summer-2027",
       "since": "2026-10-03"
@@ -704,6 +708,10 @@
       "slug": "coinbase-real-estate-and-builds-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-coinbase-8175510": {
+      "slug": "coinbase-forward-deployed-engineer-intern-hr-technology",
+      "since": "2026-10-11"
+    },
     "greenhouse-coinbase-8175514": {
       "slug": "coinbase-learning-and-development-intern",
       "since": "2026-09-18"
@@ -779,6 +787,14 @@
     "greenhouse-databricks-8732364002": {
       "slug": "databricks-software-engineering-intern-2027-start-winter",
       "since": "2026-09-18"
+    },
+    "greenhouse-databricks-8787352002": {
+      "slug": "databricks-product-design-intern-2027-start",
+      "since": "2026-10-11"
+    },
+    "greenhouse-databricks-8843577002": {
+      "slug": "databricks-product-design-new-grad-2027-start",
+      "since": "2026-10-11"
     },
     "greenhouse-databricks-8847738002": {
       "slug": "databricks-software-engineering-intern-2027-start-london",
@@ -2101,6 +2117,10 @@
       "slug": "schonfeld-2027-systematic-coo-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-schonfeld-8172062": {
+      "slug": "schonfeld-2027-dmfi-coo-intern",
+      "since": "2026-10-11"
+    },
     "greenhouse-schonfeld-8172064": {
       "slug": "schonfeld-2027-corporate-strategy-and-transformation-intern",
       "since": "2026-09-18"
@@ -2148,6 +2168,14 @@
     "greenhouse-schonfeld-8238451": {
       "slug": "schonfeld-2027-quantitative-c-developer-intern",
       "since": "2026-09-30"
+    },
+    "greenhouse-schonfeld-8267092": {
+      "slug": "schonfeld-2027-quantitative-developer-intern",
+      "since": "2026-10-11"
+    },
+    "greenhouse-schonfeld-8267120": {
+      "slug": "schonfeld-2027-quantitative-research-intern-us",
+      "since": "2026-10-11"
     },
     "greenhouse-squarepointcapital-243853": {
       "slug": "squarepoint-capital-intern-quant-researcher",
@@ -4188,6 +4216,10 @@
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-emerging-markets-trading-london",
       "since": "2026-09-18"
     },
+    "talnet-morganstanley-tal-net-21994": {
+      "slug": "morgan-stanley-parametric-2027-ai-enabled-technical-co-op-alpharetta-ga",
+      "since": "2026-10-11"
+    },
     "talnet-morganstanley-tal-net-22001": {
       "slug": "morgan-stanley-2027-investment-banking-internship-program-mexico-city",
       "since": "2026-10-02"
@@ -4756,6 +4788,10 @@
       "slug": "accenture-consulting-graduate-programme-january-2027",
       "since": "2026-09-25"
     },
+    "workday-accenture-R00359291": {
+      "slug": "accenture-consulting-intern",
+      "since": "2026-10-11"
+    },
     "workday-accenture-R00359932": {
       "slug": "accenture-resources-strategy-and-consulting-working-internship",
       "since": "2026-10-05"
@@ -4787,6 +4823,14 @@
     "workday-accenture-R00362198": {
       "slug": "accenture-accenture-strategy-summer-analyst-may-to-aug-2027",
       "since": "2026-10-06"
+    },
+    "workday-accenture-R00362240": {
+      "slug": "accenture-hr-it-and-finance-intern-uae-nationals-only",
+      "since": "2026-10-11"
+    },
+    "workday-accenture-R00362259": {
+      "slug": "accenture-it-finance-and-hr-intern-uae-nationals-only",
+      "since": "2026-10-11"
     },
     "workday-accenture-R00362470": {
       "slug": "accenture-next-generation-robotics-graduate-program",
@@ -5651,6 +5695,10 @@
     "workday-blackstone-45867": {
       "slug": "blackstone-2027-blackstone-global-fund-finance-summer-analyst",
       "since": "2026-10-09"
+    },
+    "workday-blackstone-45868": {
+      "slug": "blackstone-2027-blackstone-finance-portfolio-management-summer-analyst",
+      "since": "2026-10-11"
     },
     "workday-bmo-R260014092-2": {
       "slug": "bmo-capital-markets-actuarial-analyst-pricing-co-op-internship-4-months",
@@ -6539,6 +6587,10 @@
       "slug": "citi-citi-global-wealth-summer-analyst-bertrange-luxembourg-2027",
       "since": "2026-10-09"
     },
+    "workday-citi-26994966": {
+      "slug": "citi-client-citi-research-summer-analyst-london-united-kingdom-2027",
+      "since": "2026-10-11"
+    },
     "workday-citi-26995475": {
       "slug": "citi-services-summer-analyst-uk-london-2027",
       "since": "2026-09-18"
@@ -6574,6 +6626,10 @@
     "workday-citi-26999106": {
       "slug": "citi-technology-infrastructure-summer-analyst-warsaw-2027",
       "since": "2026-10-01"
+    },
+    "workday-citi-26999554": {
+      "slug": "citi-client-credit-internship-s-o-paulo-brazil-2026",
+      "since": "2026-10-11"
     },
     "workday-fticonsulting-JR250SB-TEE": {
       "slug": "fti-consulting-2027-internship-risk-and-investigations-forensic-and-litigation-consulting",
@@ -6889,6 +6945,10 @@
     "workday-hl-R3526": {
       "slug": "houlihan-lokey-6-month-off-cycle-internship-financial-restructuring-dubai",
       "since": "2026-09-18"
+    },
+    "workday-hl-R3535": {
+      "slug": "houlihan-lokey-summer-2027-research-intern-portfolio-valuation-new-york",
+      "since": "2026-10-11"
     },
     "workday-hl-R3541": {
       "slug": "houlihan-lokey-q2-2027-off-cycle-internship-corporate-finance-technology",
@@ -8468,6 +8528,10 @@
       "slug": "nvidia-asic-intern-summer-2027",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2026839-1": {
+      "slug": "nvidia-research-intern-world-models-and-synthetic-data-for-autonomous-driving-summer-2027",
+      "since": "2026-10-11"
+    },
     "workday-nvidia-JR2027251": {
       "slug": "nvidia-cpu-compiler-intern-2027",
       "since": "2026-10-09"
@@ -8903,6 +8967,10 @@
     "workday-visa-REF086158W": {
       "slug": "visa-value-added-services-sales-intern",
       "since": "2026-10-08"
+    },
+    "workday-visa-REF086159W-1": {
+      "slug": "visa-global-products-and-solutions-intern",
+      "since": "2026-10-11"
     },
     "workday-visa-REF086764W": {
       "slug": "visa-client-services-intern-students-graduating-summer-2028-or-december-2027",
