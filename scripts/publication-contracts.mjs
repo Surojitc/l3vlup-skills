@@ -889,6 +889,22 @@ export function contractProblems(producer, { staged, read, readPrev, existedBefo
   return { problems, stats };
 }
 
+// GitHub refuses a pull request body over 65,536 characters. The 13F history
+// writes a file per manager and per symbol, well over a thousand on a first
+// run, so past a few dozen paths the list is one line a folder with its count.
+// The diff itself still names every file.
+const ALSO_LISTED = 40;
+
+export function alsoChanged(paths) {
+  if (paths.length <= ALSO_LISTED) return paths.map((p) => `- \`${p}\``);
+  const byDir = new Map();
+  for (const p of paths) {
+    const key = p.split('/').slice(0, 3).join('/');
+    byDir.set(key, (byDir.get(key) ?? 0) + 1);
+  }
+  return Array.from(byDir, ([key, n]) => (n === 1 && paths.includes(key) ? `- \`${key}\`` : `- \`${key}/\`: ${n} files`));
+}
+
 /** The pull request body: what was collected, what moved, what was checked. */
 export function publicationReport({ producer, stats, staged, runUrl, ref, extra }) {
   const contract = CONTRACTS[producer] ?? { label: producer };
@@ -906,7 +922,7 @@ export function publicationReport({ producer, stats, staged, runUrl, ref, extra 
   }
   const untracked = staged.filter((p) => !stats.some((s) => s.path === p));
   if (untracked.length) {
-    lines.push('', '### Also changed', '', ...untracked.map((p) => `- \`${p}\``));
+    lines.push('', '### Also changed', '', ...alsoChanged(untracked));
   }
   for (const s of stats) {
     const moved = (s.movement ?? []).filter((m) => m.delta !== 0);

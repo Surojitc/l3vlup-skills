@@ -296,6 +296,20 @@ for (const needle of ['The open-data collection', 'the news map', '| Private Equ
   check(`the pull request body carries ${JSON.stringify(needle)}`, body.includes(needle), body.slice(0, 200));
 }
 
+// The first 13F history run staged 3,856 files and GitHub refused the body
+// (65,536 characters at most). Past a few dozen, the list is a line a folder.
+const many = [
+  'data/funds/securities.json',
+  ...Array.from({ length: 3400 }, (_, i) => `data/funds/by-ticker/T${i}.json`),
+  ...Array.from({ length: 450 }, (_, i) => `data/funds/history/m${i}/index.json`),
+];
+const big = publicationReport({ producer: 'open-data', stats, staged: many, runUrl: 'https://example.invalid/run/1' });
+check('a first history run fits in a pull request body', big.length < 65536, big.length);
+check('each folder is one line with its count', big.includes('- `data/funds/by-ticker/`: 3400 files') && big.includes('- `data/funds/history/`: 450 files'), big);
+check('a single file in the long list keeps its own line', big.includes('- `data/funds/securities.json`\n'), big);
+const few = publicationReport({ producer: 'open-data', stats, staged: ['data/newsflow.auto.json', 'data/funds/overlap/a.json'], runUrl: 'https://example.invalid/run/1' });
+check('a short list still names every file', few.includes('- `data/funds/overlap/a.json`'), few);
+
 // ── 6. the failure reaches an exit code ──────────────────────────────────
 // The defect this whole change exists to fix was a failure that stayed a log
 // line. Every refusal above is worthless if the process still exits 0.
