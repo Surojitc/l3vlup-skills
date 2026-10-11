@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-01T14:57:57Z",
+ "generatedAt": "2026-10-09T16:23:01Z",
  "source": "https://www.sec.gov/Archives/edgar/full-index/<year>/QTR<n>/form.idx, DEFM14A and DEFM14C and SC 13E3 rows only",
  "quarters": {
   "2010Q1": [
@@ -36448,6 +36448,79 @@
     "file": "edgar/data/1739566/0001193125-26-362085.txt"
    }
   ],
-  "2026Q4": []
+  "2026Q4": [
+   {
+    "form": "DEFM14A",
+    "name": "Bowman Consulting Group Ltd.",
+    "cik": "0001847590",
+    "filed": "2026-10-05",
+    "accession": "0001140361-26-038492",
+    "file": "edgar/data/1847590/0001140361-26-038492.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "CENTERSPACE",
+    "cik": "0000798359",
+    "filed": "2026-10-07",
+    "accession": "0001140361-26-038922",
+    "file": "edgar/data/798359/0001140361-26-038922.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Cherry Hill Mortgage Investment Corp",
+    "cik": "0001571776",
+    "filed": "2026-10-08",
+    "accession": "0001104659-26-114707",
+    "file": "edgar/data/1571776/0001104659-26-114707.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "MARINEMAX INC",
+    "cik": "0001057060",
+    "filed": "2026-10-02",
+    "accession": "0001193125-26-412241",
+    "file": "edgar/data/1057060/0001193125-26-412241.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Melar Acquisition Corp. I/Cayman",
+    "cik": "0002016221",
+    "filed": "2026-10-05",
+    "accession": "0001213900-26-106568",
+    "file": "edgar/data/2016221/0001213900-26-106568.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Modern Capital Funds Trust",
+    "cik": "0001815608",
+    "filed": "2026-10-08",
+    "accession": "0001999371-26-022391",
+    "file": "edgar/data/1815608/0001999371-26-022391.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "NOVAGOLD RESOURCES INC",
+    "cik": "0001173420",
+    "filed": "2026-10-05",
+    "accession": "0001104659-26-113697",
+    "file": "edgar/data/1173420/0001104659-26-113697.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Swarmer, Inc",
+    "cik": "0002092574",
+    "filed": "2026-10-06",
+    "accession": "0001104659-26-114040",
+    "file": "edgar/data/2092574/0001104659-26-114040.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Utz Brands, Inc.",
+    "cik": "0001739566",
+    "filed": "2026-10-02",
+    "accession": "0001193125-26-411198",
+    "file": "edgar/data/1739566/0001193125-26-411198.txt"
+   }
+  ]
  }
 }
