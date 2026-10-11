@@ -4,6 +4,7 @@
  *
  *   node scripts/thesis-session.mjs dump --out /tmp/wxa-chunks
  *   node scripts/thesis-session.mjs run --proposals data/thesis/wxa/proposals.json
+ *   node scripts/thesis-session.mjs dump --set x7 --out /tmp/x7-chunks   # another selection, data/thesis/x7/
  *
  * WHY THIS EXISTS
  * ---------------
@@ -45,11 +46,19 @@ import { emptyDecisionLog, renderReview, reviewCard } from '../lib/thesis-review
 import { buildFeed, serialiseFeed, validateFeed } from '../lib/thesis-publish.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const DIR = join(ROOT, 'data', 'thesis', 'wxa');
+const arg = (n) => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : null; };
+// Each pass keeps its own selection, proposals and pending claims beside the
+// others (wxa: the Words x Actions pilot; x7: the cross-manager pass), so a
+// later pass never rewrites an earlier one's record. Every pass still merges
+// into the one review queue.
+const SET = arg('--set') ?? 'wxa';
+if (!/^[a-z0-9-]{1,40}$/.test(SET)) { console.error('Refusing: --set must be a short lowercase name.'); process.exit(2); }
+const DIR = join(ROOT, 'data', 'thesis', SET);
 const TAXONOMY = join(ROOT, 'data', 'letters.taxonomy.json');
-const UA = process.env.SEC_USER_AGENT || 'L3VLUP Research (contact: suro@l3vlup.com)';
+const UA = process.env.SEC_USER_AGENT || 'L3VLUP open skills contact@l3vlup.com';
 export const SESSION_MODEL = 'editor-session';
 export const SESSION_PROMPT = 'wxa-session-v1';
+export const SESSION_MAX_CHUNKS = 80;
 
 /**
  * The session's own allowlist: one entry, at no cost, because a working
@@ -59,8 +68,6 @@ export const SESSION_PROMPT = 'wxa-session-v1';
 export const SESSION_ALLOWLIST = Object.freeze({
   [SESSION_MODEL]: { ...Object.values(MODEL_ALLOWLIST)[0], inputPerMTok: 0, outputPerMTok: 0, cacheReadPerMTok: 0, alias: null, role: 'extraction' },
 });
-
-const arg = (n) => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : null; };
 
 /** A directory is acceptable for document text only outside the repository. */
 export function outsideRepo(dir, root = ROOT) {
@@ -83,7 +90,30 @@ async function readDocument(d) {
   } else {
     text = extractSections(got.body.toString('utf8')).sections.map((s) => s.text).join('\n\n');
   }
+  // A fund family's shareholder report is mostly tables: schedules of
+  // investments, expenses, financial statements. `reading: 'prose'` keeps
+  // only its paragraphs of prose, each exactly as extracted, so the letter
+  // fits the per-document ceilings that bound every run, paid or not, and
+  // every passage is still found byte for byte in what the filing says.
+  if (d.reading === 'prose') text = proseOnly(text);
+  // `reading: 'prose-about'` narrows that again to the paragraphs naming one
+  // of `about`, the companies a targeted pass is reading for. The selection
+  // says so, and the coverage the runner reports is coverage of that reading.
+  if (d.reading === 'prose-about') text = proseOnly(text, d.about);
   return { sha256: got.sha256, text };
+}
+
+/** Paragraphs of prose only: long lines that are not table rows. */
+export function proseOnly(text, about = null) {
+  const names = about?.length ? about.map((n) => n.toLowerCase()) : null;
+  const seen = new Set();
+  return text
+    .split(/\n{2,}/)
+    .filter((para) => para.length >= 160 && (para.match(/\t/g) ?? []).length <= 2 && !/^\(?[a-z0-9]{1,3}\)(\([a-z0-9]{1,3}\))?\s/i.test(para))
+    .filter((para) => !names || names.some((n) => para.toLowerCase().includes(n)))
+    // A family report repeats one commentary under several funds; read it once.
+    .filter((para) => (seen.has(para) ? false : (seen.add(para), true)))
+    .join('\n\n');
 }
 
 async function main() {
@@ -99,7 +129,14 @@ async function main() {
     mkdirSync(out, { recursive: true });
     const index = [];
     for (const d of selection) {
-      const doc = await readDocument(d);
+      let doc;
+      try {
+        doc = await readDocument(d);
+      } catch (e) {
+        // One unreadable filing (too large, moved) is reported and skipped; it never stops the pass.
+        console.log(`${d.id.padEnd(34)} skipped: ${e.code ?? e.message}`);
+        continue;
+      }
       const { chunks } = chunkDocument(doc.text, { documentId: d.accession });
       for (const c of chunks) writeFileSync(join(out, `${d.id}.${c.chunkId.replace(/[^\w.-]/g, '_')}.txt`), c.text);
       index.push({ id: d.id, accession: d.accession, sha256: doc.sha256, characters: doc.text.length, chunks: chunks.map((c) => c.chunkId) });
@@ -139,9 +176,15 @@ async function main() {
         model, modelId: SESSION_MODEL, document, manager: { managerId: d.managerId, legalName: d.managerName },
         sourceText: doc.text, taxonomy, aliases: [], ledger, decisionLog, quotedWordsByDocument: quoted,
         promptVersion: SESSION_PROMPT, allowlist: SESSION_ALLOWLIST,
+        // A fund family's shareholder report runs to fifty chunks, most of it
+        // schedules of investments. The paid ceiling of twelve is about spend;
+        // a session spends nothing, and a document read only in part may not
+        // publish at all, so the session reads the whole of it.
+        maxChunks: SESSION_MAX_CHUNKS,
       });
       results.push({ document, run });
       console.log(`${d.id.padEnd(34)} ${run.claims.length} claim(s), ${run.dropped.length} dropped, ${run.strippedFields.length} stripped`);
+      for (const x of run.dropped) console.log(`    dropped: ${x.reason ?? x.dropReason ?? JSON.stringify(x).slice(0, 160)}`);
     }
 
     // The same sanitised shape the extraction workflow writes (thesis-pilot.mjs):
@@ -163,7 +206,7 @@ async function main() {
       references,
       dropped: results.flatMap((r) => r.run.dropped),
       stripped: results.flatMap((r) => r.run.strippedFields),
-      ledger, model: SESSION_MODEL, promptVersion: SESSION_PROMPT, runId: 'wxa-pilot',
+      ledger, model: SESSION_MODEL, promptVersion: SESSION_PROMPT, runId: SET === 'wxa' ? 'wxa-pilot' : `session-${SET}`,
     });
     const problems = validateFeed(feed);
     if (problems.length) {

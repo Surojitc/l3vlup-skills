@@ -1,0 +1,365 @@
+{
+ "_comment": "Editor-session proposals for the cross-manager pass (x7). Each passage is the filing's own words, located byte for byte by the runner; nothing here is published until a person reviews it.",
+ "documents": {
+  "harris-n-csrs-2022-03": {
+   "chunks": {
+    "0001104659-22-067534#0": [
+     {
+      "issuerMention": "Netflix",
+      "paraphrase": "Harris argues that Netflix's slower subscriber growth and margin pressure, the latter mainly from weak foreign currencies, are likely temporary, and that at 5.5x 2022 revenue and 34x earnings the shares are compelling.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.growth_at_reasonable_price"
+      ],
+      "evidenceExcerpt": "Weak foreign currencies in the company's international markets were the primary source of margin pressure.",
+      "risk": {
+       "description": "Weaker foreign currencies pressure margins, since most costs are in dollars"
+      }
+     },
+     {
+      "issuerMention": "Meta",
+      "paraphrase": "Harris says the market values Meta as if it will barely grow after Apple's privacy changes hit targeted advertising, which it calls misguided, and it sold put options to add exposure.",
+      "kind": "paraphrase",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "We sold put options to add to our economic exposure in Meta to take advantage of the price weakness.",
+      "risk": {
+       "description": "Apple's privacy policies have hurt the targeted advertising business"
+      }
+     }
+    ]
+   }
+  },
+  "harris-n-csr-2022-09": {
+   "chunks": {
+    "0001104659-22-121775#1": [
+     {
+      "issuerMention": "Capital One",
+      "paraphrase": "After a 35% fall, Harris says Capital One trades at 5.2x forward earnings and 1.07x tangible book, an unreasonably low valuation for an above-average lender, and bought it.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "We believe this is an unreasonably low valuation for what we see as an above-average financial institution.",
+      "risk": {
+       "description": "Loan losses will normalise to a higher level over time"
+      }
+     },
+     {
+      "issuerMention": "Intercontinental Exchange",
+      "paraphrase": "Harris bought Intercontinental Exchange, arguing its three segments should grow earnings well above GDP while the stock trades at roughly the market multiple.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.growth_at_reasonable_price"
+      ],
+      "evidenceExcerpt": "think Intercontinental Exchange represents a compelling opportunity"
+     }
+    ],
+    "0001104659-22-121775#0": [
+     {
+      "issuerMention": "Charter",
+      "paraphrase": "Harris says Charter's fundamentals matched its expectations despite slowing broadband growth, and it increased the position by more than 25% in the quarter.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [],
+      "evidenceExcerpt": "increase our position in Charter by more than 25%",
+      "risk": {
+       "description": "Broadband subscriber growth has slowed"
+      }
+     },
+     {
+      "issuerMention": "Charter",
+      "paraphrase": "Harris argues the market's assumptions on Charter are overly punitive: it remains the dominant broadband provider in 60% of its footprint and should keep growing operating profit.",
+      "kind": "paraphrase",
+      "stance": "long",
+      "tags": [],
+      "evidenceExcerpt": "Charter remains the dominant broadband provider in 60% of its footprint",
+      "risk": {
+       "description": "Competition and concerns about broadband subscriber growth"
+      }
+     }
+    ]
+   }
+  },
+  "harris-n-csrs-2023-03": {
+   "chunks": {
+    "0001104659-23-064651#0": [
+     {
+      "issuerMention": "Charles Schwab",
+      "paraphrase": "After the Silicon Valley Bank collapse, Harris argues fears about Schwab's securities losses are overstated, citing deposits spread across more than 34 million mostly insured accounts and strong liquidity, and added it to Oakmark Select.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "We believe these concerns are overstated",
+      "risk": {
+       "description": "Deposit outflows and mark-to-market losses will weigh on near-term earnings"
+      }
+     },
+     {
+      "issuerMention": "Capital One",
+      "paraphrase": "Harris kept buying Capital One at about 6x 2023 consensus earnings and below tangible book, arguing it does not share the failed banks' balance-sheet risks.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "despite not sharing the balance sheet risks"
+     },
+     {
+      "issuerMention": "Intercontinental Exchange",
+      "paraphrase": "Harris initiated Intercontinental Exchange, arguing only 7% of revenue depends on mortgage volumes and the shares trade at a discount to exchange peers.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating",
+       "quality.durable_moat"
+      ],
+      "evidenceExcerpt": "only 7% of trailing 12-month revenues are sensitive to mortgage volumes",
+      "risk": {
+       "description": "The mortgage segment will be pressured while rates depress origination volumes"
+      }
+     },
+     {
+      "issuerMention": "Netflix",
+      "paraphrase": "Harris sold Netflix from Oakmark Select to fund purchases it judged more attractive, while saying the shares sold remained undervalued.",
+      "kind": "statement",
+      "stance": "exited",
+      "tags": [
+       "horizon.under_one_year"
+      ],
+      "evidenceExcerpt": "We sold our holdings in Allison Transmission, Citigroup and Netflix.",
+      "exitBasis": "manager_statement"
+     },
+     {
+      "issuerMention": "Alphabet",
+      "paraphrase": "Harris calls Alphabet its largest holding, arguing Google search deserves a premium multiple and that investors misread ChatGPT as a sign Google was behind on AI.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "quality.durable_moat",
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "Alphabet is our largest holding",
+      "risk": {
+       "description": "Generative AI could take search share"
+      }
+     }
+    ]
+   }
+  },
+  "harris-n-csr-2023-09": {
+   "chunks": {
+    "0001104659-23-120835#0": [
+     {
+      "issuerMention": "Phillips 66",
+      "paraphrase": "Harris argues most of Phillips 66's value lies outside refining, so even if refining margins normalise it is paying a single-digit multiple of normalised earnings, with most free cash flow returned to shareholders.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.sum_of_parts"
+      ],
+      "evidenceExcerpt": "we believe we are paying a single-digit multiple of normalized earnings",
+      "risk": {
+       "description": "Today's refining margins are abnormally high and may not last"
+      }
+     },
+     {
+      "issuerMention": "Charter",
+      "paraphrase": "Harris notes Charter added 77,000 broadband subscribers in Q2 2023 against consensus of 13,000 and more than 600,000 mobile lines in each of three quarters, and argues faster unit growth, though it holds back near-term earnings, will prove valuable.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "driver.volume_growth"
+      ],
+      "evidenceExcerpt": "mobile net adds were strong at 648,000, and net adds have been over 600,000"
+     }
+    ]
+   }
+  },
+  "harris-n-csrs-2024-03": {
+   "chunks": {
+    "0001104659-24-065556#0": [
+     {
+      "issuerMention": "Charter",
+      "paraphrase": "Harris expects Charter's broadband growth to stay hard near term, with more competition and a government subsidy winding down, but to recover while the company grows earnings and buys back stock.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "capital.buyback"
+      ],
+      "evidenceExcerpt": "We maintain our belief in the long-term prospects of Charter Communications.",
+      "risk": {
+       "description": "Fiber overbuilding and fixed wireless competition"
+      }
+     },
+     {
+      "issuerMention": "Liberty Broadband",
+      "paraphrase": "Harris sold Liberty Broadband to realise tax losses and added about the same amount of Charter, treating the two as largely substitutable since Liberty's main asset is its Charter stake.",
+      "kind": "statement",
+      "stance": "exited",
+      "tags": [
+       "governance.control_structure"
+      ],
+      "evidenceExcerpt": "We sold our shares in Liberty Broadband to realize losses for taxable investors",
+      "exitBasis": "manager_statement"
+     },
+     {
+      "issuerMention": "Meta",
+      "paraphrase": "Harris sold Meta in the first quarter of 2024 because the shares approached its estimate of intrinsic value.",
+      "kind": "statement",
+      "stance": "exited",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "Each position approached our estimate of intrinsic value",
+      "exitBasis": "manager_statement"
+     }
+    ]
+   }
+  },
+  "ruane-n-csrs-2022-06": {
+   "chunks": {
+    "0001193125-22-235177#0": [
+     {
+      "issuerMention": "Intercontinental Exchange",
+      "paraphrase": "Ruane increased Sequoia's investment in Intercontinental Exchange in the second quarter of 2022.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [],
+      "evidenceExcerpt": "increased our investment in Intercontinental Exchange"
+     },
+     {
+      "issuerMention": "Netflix",
+      "paraphrase": "Ruane made minor additions to Sequoia's Netflix holding in the second quarter of 2022.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [],
+      "evidenceExcerpt": "We also made minor additions to our holdings in Netflix and Wayfair."
+     },
+     {
+      "issuerMention": "Elevance Health",
+      "paraphrase": "Ruane trimmed Sequoia's stakes in Elevance Health and UnitedHealth in the second quarter of 2022, describing the sales as opportunistic.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "horizon.under_one_year"
+      ],
+      "evidenceExcerpt": "Elevance Health (formerly known as Anthem) and UnitedHealth"
+     }
+    ]
+   }
+  },
+  "ruane-n-csrs-2023-06": {
+   "chunks": {
+    "0001193125-23-224787#0": [
+     {
+      "issuerMention": "Charles Schwab",
+      "paraphrase": "Ruane added to Charles Schwab in the second quarter of 2023 during periods of price weakness.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [],
+      "evidenceExcerpt": "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness."
+     },
+     {
+      "issuerMention": "Capital One",
+      "paraphrase": "Ruane added to Capital One in the second quarter of 2023 during periods of price weakness.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [],
+      "evidenceExcerpt": "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness."
+     },
+     {
+      "issuerMention": "Netflix",
+      "paraphrase": "Ruane exited Netflix in the second quarter of 2023 after the shares rebounded from levels it called excessively depressed at the end of 2022.",
+      "kind": "statement",
+      "stance": "exited",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "exited our investment in Netflix",
+      "exitBasis": "manager_statement"
+     },
+     {
+      "issuerMention": "Meta Platforms",
+      "paraphrase": "Ruane trimmed Meta Platforms in the second quarter of 2023 after a strong rebound in the share price.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "we trimmed our holdings in Meta Platforms and Rolls Royce"
+     },
+     {
+      "issuerMention": "Liberty Broadband",
+      "paraphrase": "Ruane added to Liberty Broadband in the second quarter of 2023 during periods of price weakness.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness."
+     },
+     {
+      "issuerMention": "Elevance",
+      "paraphrase": "Ruane added to Elevance Health in the second quarter of 2023 during periods of price weakness.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "valuation.multiple_rerating"
+      ],
+      "evidenceExcerpt": "We added opportunistically to Charles Schwab, Capital One, Elevance and Liberty Broadband during periods of price weakness."
+     }
+    ]
+   }
+  },
+  "elliott-phillips-66-2025-03": {
+   "chunks": {
+    "0000921895-25-000692#0": [
+     {
+      "issuerMention": "Phillips",
+      "paraphrase": "Elliott argues Phillips 66 has persistently underperformed its peers and needs three things: portfolio simplification, an operating review and enhanced board oversight.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "governance.activist_engagement"
+      ],
+      "evidenceExcerpt": "portfolio simplification; an operating review; and enhanced oversight"
+     },
+     {
+      "issuerMention": "Phillips",
+      "paraphrase": "Elliott nominated seven candidates to the Phillips 66 board for the 2025 annual meeting.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "governance.board_change",
+       "governance.activist_engagement"
+      ],
+      "evidenceExcerpt": "today announced seven independent, highly qualified candidates",
+      "catalyst": {
+       "description": "Shareholder vote on Elliott's nominees at the 2025 annual meeting",
+       "expectedBy": "2025 annual meeting",
+       "dateIsExplicit": false
+      }
+     },
+     {
+      "issuerMention": "Phillips",
+      "paraphrase": "Elliott proposed a governance policy requiring every Phillips 66 director to stand for election each year, after repeated proposals to declassify the board failed a supermajority threshold.",
+      "kind": "statement",
+      "stance": "long",
+      "tags": [
+       "governance.board_change"
+      ],
+      "evidenceExcerpt": "Elliott has submitted a non-binding proposal aimed at introducing annual director elections"
+     }
+    ]
+   }
+  }
+ }
+}

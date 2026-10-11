@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
-import { outsideRepo, SESSION_ALLOWLIST, SESSION_MODEL } from '../thesis-session.mjs';
+import { outsideRepo, proseOnly, SESSION_ALLOWLIST, SESSION_MODEL } from '../thesis-session.mjs';
 import { covers, sameCompany, scoreDocument } from '../thesis-wxa-eval.mjs';
 import { MODEL_ALLOWLIST, checkBudget, emptyCostLedger } from '../../lib/thesis-cost.mjs';
 import { buildReviewedFeed, decisionsTemplate } from '../../lib/thesis-reviewed.mjs';
@@ -62,6 +62,31 @@ const bad = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0],
 ok('cusip: a malformed one is a problem, not a guess', bad.problems.some((x) => /not a nine-character CUSIP/.test(x)));
 const none = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X' }] }, taxonomy);
 ok('cusip: absent where the reviewer gave none', none.problems.length === 0 && !('cusip' in none.feed.claims[0]));
+
+// ── A second review pass keeps the first pass's dates ─────────────────────
+const two = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X', reviewedOn: '2026-10-10' }] }, taxonomy);
+ok('reviewedOn: a decision may carry its own date', two.problems.length === 0 && two.feed.claims[0].reviewedOn === '2026-10-10');
+ok('reviewedOn: otherwise the file\'s', none.feed.claims[0].reviewedOn === base.reviewedOn);
+const badDate = buildReviewedFeed(one, { ...base, decisions: [{ ...tpl.decisions[0], decision: 'accept', issuerName: 'X', ticker: 'X', reviewedOn: 'Friday' }] }, taxonomy);
+ok('reviewedOn: a malformed date is a problem, never published', badDate.problems.some((p) => /reviewedOn/.test(p)));
+
+// ── The cross-manager pass: what a session reads from a shareholder report ───
+const para = (s) => s.padEnd(200, ' x');
+const report = [
+  'Short heading',
+  'Capital One Financial Corp.\t1,215,525\t132,941,969\t4.2%',
+  para('Capital One has a terrific track record of both growth and risk management under its founder.'),
+  '(e)(1) ' + para('Audit Committee Pre-Approval Policies under the Charter of the Funds'),
+  para('Charter remains the dominant broadband provider in 60% of its footprint.'),
+  para('Capital One has a terrific track record of both growth and risk management under its founder.'),
+  para('Glencore led the positive contributors this quarter.'),
+].join('\n\n');
+const prose = proseOnly(report);
+ok('prose: table rows, headings and lettered notes are not read', !prose.includes('\t') && !prose.includes('Short heading') && !prose.includes('Audit Committee'));
+ok('prose: every kept paragraph is exactly as extracted', prose.split('\n\n').every((x) => report.includes(x)));
+ok('prose: a commentary repeated under two funds is read once', prose.split('Capital One has a terrific').length === 2);
+const about = proseOnly(report, ['Capital One', 'Charter']);
+ok('prose about: only paragraphs naming a company read for', about.includes('Charter remains') && about.includes('Capital One') && !about.includes('Glencore'));
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

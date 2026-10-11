@@ -338,6 +338,176 @@
       "ticker": "EQT",
       "transition": "initiated",
       "cusip": null
+    },
+    {
+      "claimId": "c-0000921895-25-000692-2405-2467-b7c88761c5",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Phillips 66",
+      "ticker": "PSX",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0000921895-25-000692-2920-2989-7e54a6b2d4",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Phillips 66",
+      "ticker": "PSX",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-22-067534-2815-2915-c737f03e7a",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Meta Platforms, Inc.",
+      "ticker": "META",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-22-067534-7113-7219-82f10c19fd",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Netflix, Inc.",
+      "ticker": "NFLX",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-22-121775-11819-11886-64222a0a49",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Intercontinental Exchange, Inc.",
+      "ticker": "ICE",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-22-121775-1689-1760-acc13e0a56",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Charter Communications, Inc.",
+      "ticker": "CHTR",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-22-121775-2800-2849-5ec307c6dc",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Charter Communications, Inc.",
+      "ticker": "CHTR",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-22-121775-9709-9816-3339b3e640",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Capital One Financial Corporation",
+      "ticker": "COF",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-23-064651-3591-3631-2405e84dcd",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "The Charles Schwab Corporation",
+      "ticker": "SCHW",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-23-064651-5199-5242-b08394a705",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Capital One Financial Corporation",
+      "ticker": "COF",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-23-120835-3298-3369-f7fd895100",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Phillips 66",
+      "ticker": "PSX",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-23-120835-6743-6818-8c7f3489cc",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Charter Communications, Inc.",
+      "ticker": "CHTR",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001104659-24-065556-3685-3761-a131aec051",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Charter Communications, Inc.",
+      "ticker": "CHTR",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001193125-22-235177-3139-3192-91e080bc05",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Intercontinental Exchange, Inc.",
+      "ticker": "ICE",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001193125-22-235177-3194-3262-59b35e7c2f",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Netflix, Inc.",
+      "ticker": "NFLX",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001193125-23-224787-3399-3522-683c44e009",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "Capital One Financial Corporation",
+      "ticker": "COF",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
+    },
+    {
+      "claimId": "c-0001193125-23-224787-3399-3522-c39a1c6909",
+      "decision": "accept",
+      "editedParaphrase": null,
+      "issuerName": "The Charles Schwab Corporation",
+      "ticker": "SCHW",
+      "cusip": null,
+      "transition": "initiated",
+      "reviewedOn": "2026-10-10"
     }
   ]
 }
