@@ -118,7 +118,7 @@ export const EXPERIENCED_PER_FIRM_CEILING = 60;
 /* ----------------------------- classification ---------------------------- */
 // Word-boundaried so "Internal"/"International" do NOT match "intern".
 const EARLY_CAREER =
-  /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?career|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?|placements?\s+(?:year|scheme|programme?|student)|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|summer\s+associate|analyst\s+programme?|off[\s-]?cycle|spring\s+(week|insight))\b/i;
+  /\b(intern|interns|internship|internships|new[\s-]?grad|newgrad|undergraduate|graduate|graduates|university\s+(grad|graduate|hire)|campus|apprentice|apprenticeship|early[\s-]?careers?|entry[\s-]?level|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?|placements?\s+(?:year|scheme|program(?:me)?|student)|co-?op|student|students|rotational|residency|apm|rpm|step|summer\s+analyst|summer\s+associate|analyst\s+program(?:me)?|off[\s-]?cycle|spring\s+(weeks?|insights?))\b/i;
 const SENIOR = /\b(senior|staff|principal|director|distinguished|vp|head\s+of|lead)\b/i;
 
 /**
@@ -164,12 +164,52 @@ const SENIOR = /\b(senior|staff|principal|director|distinguished|vp|head\s+of|le
  */
 const MANAGER = /\bmanagers?\b/i;
 const STRONG_EARLY_CAREER =
-  /\b(intern|interns|internship|internships|campus|apprentice|apprenticeship|new[\s-]?grad|newgrad|co-?op|early[\s-]?career|associate\s+product\s+manager|summer\s+(analyst|associate)|graduate\s+(programme?|scheme|analyst|trainee)|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?)\b/i;
+  /\b(intern|interns|internship|internships|campus|apprentice|apprenticeship|new[\s-]?grad|newgrad|co-?op|early[\s-]?careers?|entry[\s-]?level|associate\s+product\s+manager|summer\s+(analyst|associate)|graduate\s+(program(?:me)?|scheme|analyst|trainee)|(?:industrial|summer|year[\s-]?long|12[\s-]?month)\s+placements?)\b/i;
+
+/**
+ * Early-career titles the tokens above missed (A0, 12 October 2026).
+ *
+ * Read across the sixteen boards whose experienced postings are collected,
+ * the early-career rule was refusing real campus seats for three reasons.
+ *
+ * SPELLING. `programme?` matches "programm" or "programme" and never the US
+ * "program", so "2027 Commercial Real Estate Full-Time Analyst Program" and
+ * every JPMorgan analyst programme like it were dropped; "Spring Insights" and
+ * "Early Careers" failed on the plural. Those tokens now take both spellings.
+ *
+ * STATED LEVELS. "Entry-Level" says what it is, as "intern" does.
+ *
+ * NARROW SHAPES, each needing two signals rather than one, so no single
+ * common word is promoted on its own:
+ *   - "Junior" in front of a quant or trading seat ("Junior Quant
+ *     Researcher", "Junior Execution Trader"). Junior alone is not enough:
+ *     "Junior Executive Assistant" and "Junior Desktop Support Analyst" are
+ *     not the seats this tracker is for.
+ *   - A class year beside a campus word: "2026 Grad", "2027 Trading Analyst",
+ *     "Software Engineering - Summer 2027", "2027 Software Engineer Program".
+ *     A year alone is not enough: "Connect with us at ICLR 2026!", "Fall 2026
+ *     Event" and "2027 Full-Time Associate (Experience Required)" all carry
+ *     one.
+ *
+ * Every one of them yields to the seniority words above, and to a title that
+ * says it is for experienced people ("Investment Analyst Program for
+ * Experienced Professionals"), which the spelling fix would otherwise have
+ * started admitting. Fixtures, positive and negative, are in
+ * scripts/__tests__/early-career-recovery.test.mjs.
+ */
+const FOR_EXPERIENCED = /\b(experienced\s+(?:professionals?|hires?)|experience\s+required|lateral)\b/i;
+const JUNIOR_FRONT_OFFICE = /\bjunior\s+(?:[a-z&+/-]+\s+){0,2}?(?:quant\w*|traders?|trading)\b/i;
+const CLASS_YEAR = /\b20[2-3]\d\b/;
+const CLASS_YEAR_CAMPUS =
+  /\b(grads?|analysts?|summer|(?:engineer(?:ing)?|trainee(?:ship)?|development)\s+program(?:me)?)\b/i;
 
 export function isEarlyCareer(title) {
   if (SENIOR.test(title)) return false;
+  if (FOR_EXPERIENCED.test(title)) return false;
   if (MANAGER.test(title) && !STRONG_EARLY_CAREER.test(title)) return false;
-  return EARLY_CAREER.test(title);
+  if (EARLY_CAREER.test(title)) return true;
+  if (JUNIOR_FRONT_OFFICE.test(title)) return true;
+  return CLASS_YEAR.test(title) && CLASS_YEAR_CAMPUS.test(title);
 }
 
 /* ------------------------- consulting classification ---------------------- */
