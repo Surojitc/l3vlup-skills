@@ -510,6 +510,15 @@ export function inferProgrammeAndLevel(title) {
   }
   if (/spring\s*(week|insight)/.test(t)) return { programmeType: 'Spring Week', level: 'Internship' };
   if (/intern|co-op|coop|\bstudent\b/.test(t)) return { programmeType: 'Summer Internship', level: 'Internship' };
+  // A summer analyst or summer associate is an internship, MBA summer
+  // associates included, whether or not the title also says "intern"; so is a
+  // seat named for a summer with its class year ("Data Science - Summer
+  // 2027"). Without this, Citi's "Summer Analyst, London, 2027" and every MBA
+  // Summer Associate Program were filed as graduate programmes. A full-time
+  // post-MBA associate is not here: it is an experienced hire.
+  if (/\bsummer\s+(analyst|associate)s?\b/.test(t) || (/\bsummer\b/.test(t) && /\b20[2-3]\d\b/.test(t))) {
+    return { programmeType: 'Summer Internship', level: 'Internship' };
+  }
   if (/residency/.test(t)) return { programmeType: 'Graduate Programme', level: 'Experienced' };
   return { programmeType: 'Graduate Programme', level: 'Graduate' };
 }

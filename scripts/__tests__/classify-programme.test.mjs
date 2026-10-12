@@ -35,6 +35,16 @@ const cases = [
   ['Software Engineer Co-op', 'Summer Internship'],
   ['Graduate Analyst Programme', 'Graduate Programme'],
   ['Investment Banking Analyst', 'Graduate Programme'],
+  // Summer seats are internships whether or not the title says "intern".
+  ['Banking - Corporate Banking, Summer Analyst, Hong Kong – APAC, 2027', 'Summer Internship'],
+  ['2027 Asset & Wealth Management U.S. Private Bank MBA Summer Associate Program', 'Summer Internship'],
+  ['MBA, Investment Banking Summer Associate - Summer 2027', 'Summer Internship'],
+  ['Working in Technology (WiT) Software Engineering - Summer 2027', 'Summer Internship'],
+  // …and nothing else is: not a full-time hire, a town, or a season with no class year.
+  ['2027 Investment Banking Full-Time MBA Associate', 'Graduate Programme'],
+  ['2027 Commercial Real Estate Full-Time Analyst Program', 'Graduate Programme'],
+  ['Private Client Banker - Summerville, SC', 'Graduate Programme'],
+  ['2027 Spring Insights: Analyse & Trade at JPMorganChase – London', 'Spring Week'],
 ];
 
 let pass = 0, fail = 0;
