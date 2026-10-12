@@ -36,6 +36,7 @@ export const SUITES = [
   'role-retention',
   'role-screen',
   'role-duplicates',
+  'seniority',
   'role-telemetry',
   'board-checks',
   'complete-board',
