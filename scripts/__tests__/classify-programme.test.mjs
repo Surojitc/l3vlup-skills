@@ -45,6 +45,11 @@ const cases = [
   ['2027 Commercial Real Estate Full-Time Analyst Program', 'Graduate Programme'],
   ['Private Client Banker - Summerville, SC', 'Graduate Programme'],
   ['2027 Spring Insights: Analyse & Trade at JPMorganChase – London', 'Spring Week'],
+  // "Internal" and "International" are not internships.
+  ['2027 Internal Audit Analyst Program - Full Time Analyst Opportunity', 'Graduate Programme'],
+  ['International Private Bank Analyst Program', 'Graduate Programme'],
+  ['Summer Internships 2027 - Markets', 'Summer Internship'],
+  ['Technology Interns', 'Summer Internship'],
 ];
 
 let pass = 0, fail = 0;

@@ -509,7 +509,9 @@ export function inferProgrammeAndLevel(title) {
     return { programmeType: 'Insight Program', level: 'Internship' };
   }
   if (/spring\s*(week|insight)/.test(t)) return { programmeType: 'Spring Week', level: 'Internship' };
-  if (/intern|co-op|coop|\bstudent\b/.test(t)) return { programmeType: 'Summer Internship', level: 'Internship' };
+  // Word-bounded, as EARLY_CAREER is: a bare substring read "Internal Audit
+  // Analyst Program" and "International Private Bank" as internships.
+  if (/\bintern(?:s|ships?)?\b|co-op|coop|\bstudent\b/.test(t)) return { programmeType: 'Summer Internship', level: 'Internship' };
   // A summer analyst or summer associate is an internship, MBA summer
   // associates included, whether or not the title also says "intern"; so is a
   // seat named for a summer with its class year ("Data Science - Summer
