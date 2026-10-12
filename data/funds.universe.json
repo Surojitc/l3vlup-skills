@@ -172,7 +172,14 @@
       "search": "two sigma",
       "match": "TWO SIGMA ADVISERS, LP",
       "cik": "0001478735",
-      "edgarName": "TWO SIGMA ADVISERS, LP"
+      "edgarName": "TWO SIGMA ADVISERS, LP",
+      "notes": [
+        {
+          "quarter": "2026Q1",
+          "text": "Two Sigma Advisers' reports for Q1 and Q2 2026 include no holdings. The filer says why: \"As of January 1, 2026, TSA no longer provides services to any clients or manages any client assets\", and it is filing a report for each of the first three quarters of 2026 under Rule 13f-1(a)(1). The empty quarters are that, not a portfolio sold.",
+          "evidence": "13F-HR 0000899140-26-000549 (2026 Q1) and 0000899140-26-000848 (2026 Q2), additionalInformation"
+        }
+      ]
     },
     {
       "name": "D. E. Shaw & Co.",
@@ -747,7 +754,14 @@
       "strategy": "Macro",
       "search": "element capital",
       "cik": "0001535630",
-      "edgarName": "ELEMENT CAPITAL MANAGEMENT LLC"
+      "edgarName": "ELEMENT CAPITAL MANAGEMENT LLC",
+      "notes": [
+        {
+          "quarter": "2014Q2",
+          "text": "Element Capital's Q2 2014 report lists no positions: its information table carries one placeholder row with a value of zero, and its totals are zero. The quarter is an empty report, not a portfolio sold.",
+          "evidence": "13F-HR 0000919574-14-004420 (2014 Q2), tableEntryTotal 0, tableValueTotal 0"
+        }
+      ]
     },
     {
       "name": "Discovery Capital Management LLC",

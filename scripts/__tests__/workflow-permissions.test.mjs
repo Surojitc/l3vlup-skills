@@ -314,6 +314,12 @@ const publishText = publish.body.join('\n');
 const publishScripts = publish.scripts.join('\n');
 
 check('the publisher starts from main, not from the ref the run was dispatched on', /ref: main/.test(publishText));
+// A queued open-data run must collect against the main its predecessor just
+// published to, not the commit it was dispatched on (11 October 2026, run #69).
+{
+  const collectJob = workflows.find((w) => w.file === 'collect.yml').jobs.find((j) => j.name === 'collect');
+  check('the open-data collection checks out main when it starts, not the dispatch commit', /actions\/checkout@[0-9a-f]{40}[^\n]*\n\s+with:\n\s+ref: main/.test(collectJob.body.join('\n')), collectJob.body.slice(0, 20).join('\n'));
+}
 check('the handoff is unpacked outside the working tree', /path: \$\{\{ runner\.temp \}\}\/handoff/.test(publishText));
 check(
   'the publisher re-runs the gate on what it is about to commit',

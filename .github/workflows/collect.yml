@@ -70,7 +70,18 @@ jobs:
       degraded: ${{ steps.freshness.outputs.degraded }}
       changed: ${{ steps.stage.outputs.changed }}
     steps:
+      # From main as it is when this job starts, not the commit the run was
+      # dispatched on. Runs queue behind each other (the concurrency group
+      # above) and each publishes and merges before the next starts, so a
+      # queued run that checked out its dispatch-time commit collected against
+      # a main without the previous run's data. On 11 October 2026 run #69,
+      # dispatched while #68 was still collecting, read the same 29 managers'
+      # 13F history again, and its pull request changed 41 index files by their
+      # timestamp alone. The incremental history and the no-op write
+      # (funds_history.py, same_content) only work against the current files.
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
