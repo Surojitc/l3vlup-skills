@@ -60,6 +60,7 @@
     "mergers": "python3 scripts/sync_precedent_transactions.py mergers",
     "test:slugs": "node scripts/__tests__/slug-registry.test.mjs",
     "test:screen": "node scripts/__tests__/role-screen.test.mjs",
+    "test:early-recovery": "node scripts/__tests__/early-career-recovery.test.mjs",
     "test:duplicates": "node scripts/__tests__/role-duplicates.test.mjs",
     "test:telemetry": "node scripts/__tests__/role-telemetry.test.mjs",
     "report:lifecycle": "node scripts/report-role-lifecycle.mjs",

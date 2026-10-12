@@ -246,9 +246,12 @@ eq('nothing from a fintech board', toExperiencedOpportunity(job(4104, 'Senior So
 eq('nothing that would be Other', toExperiencedOpportunity(job(4105, 'Business Strategist'), IMC), null);
 eq('an engineer at a trading firm', toExperiencedOpportunity(job(4106, 'C++ Software Engineer'), IMC)?.vertical, 'Software Engineering');
 
-// The early-career path is untouched: the same postings give the same rows.
+// The early-career path is untouched by the experienced one: the same
+// postings give the same rows. (A summer analyst is a summer internship since
+// A0 corrected inferProgrammeAndLevel; before, it was filed as a graduate
+// programme, and this line pinned that.)
 const early = toOpportunity(job(4107, 'Investment Banking Summer Analyst'), WB);
-eq('early-career rows keep their programme and level', early && [early.programmeType, early.level], ['Graduate Programme', 'Graduate']);
+eq('early-career rows keep their programme and level', early && [early.programmeType, early.level], ['Summer Internship', 'Internship']);
 eq('and are not experienced rows', isExperiencedRow(early), false);
 eq('the experienced title still fails the early-career filter', isEarlyCareer('Investment Banking Associate - Technology'), false);
 eq('a residency row is level Experienced but is not an experienced row', isExperiencedRow({ programmeType: 'Graduate Programme', level: 'Experienced' }), false);
