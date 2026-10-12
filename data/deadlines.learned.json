@@ -1412,6 +1412,12 @@
       "firstSeen": "2026-10-12",
       "lastConfirmed": "2026-10-12"
     },
+    "workday-barclays-JR-0000133095": {
+      "closingDate": "2026-10-13",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-12",
+      "lastConfirmed": "2026-10-12"
+    },
     "workday-bmo-R260024638-3": {
       "closingDate": "2026-10-18",
       "source": "workday-detail",
@@ -2587,6 +2593,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-12",
       "lastConfirmed": "2026-10-12"
+    },
+    "workday-wf-R-581192": {
+      "closingDate": "2027-01-10",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-12",
+      "lastConfirmed": "2026-10-12"
     }
   },
   "misses": {
@@ -2725,6 +2737,10 @@
     "ashby-snowflake-1bad12df-f443-426f-9d09-e96fc780d698|jsonld": {
       "checkedAt": "2026-09-24",
       "attempts": 4
+    },
+    "ashby-snowflake-26a0ae52-97a6-4a46-9216-3c382570d89b|jsonld": {
+      "checkedAt": "2026-10-12",
+      "attempts": 1
     },
     "ashby-snowflake-3ceff86f-2cae-4def-9504-d8d182b91eb4|jsonld": {
       "checkedAt": "2026-09-10",
@@ -6438,6 +6454,18 @@
       "checkedAt": "2026-10-11",
       "attempts": 2
     },
+    "talnet-morganstanley-tal-net-22272|jsonld": {
+      "checkedAt": "2026-10-12",
+      "attempts": 1
+    },
+    "talnet-morganstanley-tal-net-22304|jsonld": {
+      "checkedAt": "2026-10-12",
+      "attempts": 1
+    },
+    "talnet-morganstanley-tal-net-22345|jsonld": {
+      "checkedAt": "2026-10-12",
+      "attempts": 1
+    },
     "workday-accenture-13727121-1|jsonld": {
       "checkedAt": "2026-10-12",
       "attempts": 4
@@ -6735,12 +6763,12 @@
       "attempts": 4
     },
     "workday-accenture-R00355331|jsonld": {
-      "checkedAt": "2026-09-24",
-      "attempts": 2
+      "checkedAt": "2026-10-12",
+      "attempts": 3
     },
     "workday-accenture-R00355331|workday-detail": {
-      "checkedAt": "2026-09-24",
-      "attempts": 2
+      "checkedAt": "2026-10-12",
+      "attempts": 3
     },
     "workday-accenture-R00355667|jsonld": {
       "checkedAt": "2026-10-12",
@@ -10327,6 +10355,14 @@
       "attempts": 1
     },
     "workday-ing-REQ-10123022|workday-detail": {
+      "checkedAt": "2026-10-12",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10123120|jsonld": {
+      "checkedAt": "2026-10-12",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10123120|workday-detail": {
       "checkedAt": "2026-10-12",
       "attempts": 1
     },

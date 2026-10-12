@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-12T11:50:38.367Z",
-  "count": 2803,
+  "generatedAt": "2026-10-12T15:58:37.244Z",
+  "count": 2810,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -151,6 +151,10 @@
     "ashby-snowflake-1bad12df-f443-426f-9d09-e96fc780d698": {
       "slug": "snowflake-ai-research-scientist-new-grad-agents-and-reinforcement-learning",
       "since": "2026-09-18"
+    },
+    "ashby-snowflake-26a0ae52-97a6-4a46-9216-3c382570d89b": {
+      "slug": "snowflake-software-engineer-intern-zurich-2026",
+      "since": "2026-10-12"
     },
     "ashby-snowflake-3ceff86f-2cae-4def-9504-d8d182b91eb4": {
       "slug": "snowflake-strategic-events-intern-london",
@@ -6024,6 +6028,18 @@
       "slug": "morgan-stanley-2027-investment-management-summer-analyst-programme-fixed-income-london",
       "since": "2026-10-08"
     },
+    "talnet-morganstanley-tal-net-22272": {
+      "slug": "morgan-stanley-2027-investment-management-summer-analyst-programme-office-of-the-coo-london",
+      "since": "2026-10-12"
+    },
+    "talnet-morganstanley-tal-net-22304": {
+      "slug": "morgan-stanley-2027-investment-management-summer-analyst-programme-real-assets-london",
+      "since": "2026-10-12"
+    },
+    "talnet-morganstanley-tal-net-22345": {
+      "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-liquidity-london",
+      "since": "2026-10-12"
+    },
     "talnet-nomuracampus-tal-net-1426": {
       "slug": "nomura-2027-investment-banking-client-financing-solutions-summer-internship-london",
       "since": "2026-09-18"
@@ -7358,6 +7374,10 @@
     },
     "workday-barclays-JR-0000132739": {
       "slug": "barclays-equity-research-analyst-avp-pharmaceuticals-team",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000133095": {
+      "slug": "barclays-investment-bank-healthcare-vp",
       "since": "2026-10-12"
     },
     "workday-barclays-JR-0000133916": {
@@ -9429,6 +9449,10 @@
       "slug": "ing-internship-customer-experience-and-customer-journey-expert",
       "since": "2026-10-12"
     },
+    "workday-ing-REQ-10123120": {
+      "slug": "ing-ai-intern",
+      "since": "2026-10-12"
+    },
     "workday-ing-REQ-10123121": {
       "slug": "ing-ing-s-early-career-event",
       "since": "2026-10-12"
@@ -11317,6 +11341,10 @@
     },
     "workday-wf-R-581158": {
       "slug": "wells-fargo-customer-service-representative-fresh-graduates-asia",
+      "since": "2026-10-12"
+    },
+    "workday-wf-R-581192": {
+      "slug": "wells-fargo-customer-service-representative-fresh-graduates-2",
       "since": "2026-10-12"
     }
   }
