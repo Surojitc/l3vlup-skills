@@ -115,6 +115,33 @@ const PER_FIRM_CEILING = 1000;
  * associate.
  */
 export const EXPERIENCED_PER_FIRM_CEILING = 60;
+
+/**
+ * The exception: a universal bank, read in full.
+ *
+ * On 12 October 2026 JPMorgan's board gave 304 experienced rows after
+ * repeats, and the 60-row cap above kept 60 associates and nothing else:
+ * every experienced analyst (26 in investment banking alone) and every VP was
+ * dropped, because associates come first in SENIORITY_BUCKETS and there were
+ * more than sixty of them. That ordering is right at a trading firm, where the
+ * overflow is engineering; at a bank it turns the board into one level.
+ *
+ * So a bank gets a larger allowance, and it is spent across the seats rather
+ * than down them: one row from each seniority-and-area pair in turn (see
+ * capExperienced), so analysts, associates and VPs in each area survive where
+ * the bank has them, and no single area or level can fill the allowance by
+ * sorting first. It stays a cap: one bank's whole hiring would otherwise be
+ * most of the experienced board.
+ */
+export const LARGE_BANK_TIERS = new Set(['Bulge Bracket']);
+export const LARGE_BANK_EXPERIENCED_CEILING = 150;
+
+/** How many experienced rows a firm may publish, and how they are chosen. */
+export function experiencedAllowance(firm) {
+  return LARGE_BANK_TIERS.has(firm?.tier)
+    ? { ceiling: LARGE_BANK_EXPERIENCED_CEILING, stratified: true }
+    : { ceiling: EXPERIENCED_PER_FIRM_CEILING, stratified: false };
+}
 /* ----------------------------- classification ---------------------------- */
 // Word-boundaried so "Internal"/"International" do NOT match "intern".
 const EARLY_CAREER =
@@ -817,16 +844,54 @@ export function toExperiencedOpportunity(job, firm) {
  * in. The cap that discarded by arrival order is the mistake described at
  * PER_FIRM_CEILING, and is not repeated here.
  */
-export function capExperienced(rows, ceiling = EXPERIENCED_PER_FIRM_CEILING) {
+export function capExperienced(rows, ceiling = EXPERIENCED_PER_FIRM_CEILING, { stratified = false } = {}) {
   const { kept, dropped } = collapseRepeats(rows);
   const rank = (o) => {
     const i = SENIORITY_BUCKETS.indexOf(o._seniority);
     return i < 0 ? SENIORITY_BUCKETS.length : i;
   };
   const ordered = [...kept].sort((a, b) => rank(a) - rank(b) || String(a.id).localeCompare(String(b.id)));
+  const chosen = stratified ? roundRobinBySeat(ordered, ceiling) : ordered.slice(0, ceiling);
   // Copies without the internal field, so the caller's rows are left as given.
-  const kept_ = ordered.slice(0, ceiling).map(({ _seniority, ...o }) => o);
+  const kept_ = chosen.map(({ _seniority, ...o }) => o);
   return { rows: kept_, repeats: dropped.length, overCeiling: Math.max(0, ordered.length - ceiling) };
+}
+
+/**
+ * Up to `ceiling` rows, one from each seniority-and-area pair in turn.
+ *
+ * `ordered` is already in SENIORITY_BUCKETS order and by id within a bucket,
+ * and the pairs are visited in that order (then by area name), so the result
+ * depends only on which rows the board holds, never on the order it answered
+ * in. Returned in the same order as `ordered`.
+ */
+function roundRobinBySeat(ordered, ceiling) {
+  if (ordered.length <= ceiling) return ordered;
+  const groups = new Map();
+  for (const o of ordered) {
+    const key = `${o._seniority}\u0000${o.vertical}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(o);
+  }
+  const bucketOf = (k) => {
+    const i = SENIORITY_BUCKETS.indexOf(k.split('\u0000')[0]);
+    return i < 0 ? SENIORITY_BUCKETS.length : i;
+  };
+  const queues = [...groups.entries()]
+    .sort(([a], [b]) => bucketOf(a) - bucketOf(b) || a.localeCompare(b))
+    .map(([, rows]) => rows);
+  const picked = new Set();
+  for (let round = 0; picked.size < ceiling; round += 1) {
+    let any = false;
+    for (const q of queues) {
+      if (round < q.length && picked.size < ceiling) {
+        picked.add(q[round]);
+        any = true;
+      }
+    }
+    if (!any) break;
+  }
+  return ordered.filter((o) => picked.has(o));
 }
 
 /* ------------------------------- fetchers -------------------------------- */
@@ -1399,11 +1464,14 @@ async function main() {
         // Experienced rows, only from postings the line above refused, and
         // kept apart from `opps` all the way through: the ceiling, the board
         // check and the empty-board report below read early-career rows only.
+        const allowance = experiencedAllowance(f);
         const xp = readsExperienced(f)
-          ? capExperienced(raw.map((j) => toExperiencedOpportunity(j, f)).filter(Boolean))
+          ? capExperienced(raw.map((j) => toExperiencedOpportunity(j, f)).filter(Boolean), allowance.ceiling, allowance)
           : { rows: [], repeats: 0, overCeiling: 0 };
         if (xp.overCeiling) {
-          console.log(`  ${f.firm}: ${xp.overCeiling} experienced role(s) above the ${EXPERIENCED_PER_FIRM_CEILING} cap left out, engineers first`);
+          console.log(
+            `  ${f.firm}: ${xp.overCeiling} experienced role(s) above the ${allowance.ceiling} cap left out, ${allowance.stratified ? 'spread across seats and areas' : 'engineers first'}`,
+          );
         }
         // Ceiling, not cap: see PER_FIRM_CEILING. Reaching it means a board is
         // answering with something we did not expect, which is worth saying out

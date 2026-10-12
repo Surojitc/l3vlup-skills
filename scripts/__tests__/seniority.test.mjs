@@ -20,7 +20,9 @@ import {
 } from '../../lib/seniority.mjs';
 import {
   EXPERIENCED_PER_FIRM_CEILING,
+  LARGE_BANK_EXPERIENCED_CEILING,
   capExperienced,
+  experiencedAllowance,
   isEarlyCareer,
   isExperiencedRow,
   readsExperienced,
@@ -277,6 +279,52 @@ const repeat = [
 const once = capExperienced(repeat);
 eq('a same-city repost is collapsed to the first posted', once.rows.map((o) => o.id).sort(), ['greenhouse-williamblair-7001', 'greenhouse-williamblair-7002']);
 eq('and counted', once.repeats, 1);
+
+/* ------------------------- the large-bank allowance ------------------------- */
+
+// A trading firm keeps 60, engineers dropped first; a bulge-bracket bank gets
+// 150, spread across seats and areas.
+eq('a trading firm keeps the 60-row cap, by seat order', experiencedAllowance(IMC), { ceiling: EXPERIENCED_PER_FIRM_CEILING, stratified: false });
+eq('so does a middle-market adviser', experiencedAllowance(WB), { ceiling: EXPERIENCED_PER_FIRM_CEILING, stratified: false });
+eq('a bulge-bracket bank gets the larger allowance, spread', experiencedAllowance(JPM), { ceiling: LARGE_BANK_EXPERIENCED_CEILING, stratified: true });
+
+// The JPMorgan shape of 12 October 2026: far more associates than the
+// allowance, a smaller set of analysts and VPs in several areas. Under the old
+// cap every row kept was an associate.
+const bank = [];
+let n = 9000;
+const add = (count, title) => {
+  for (let i = 0; i < count; i += 1) bank.push(toExperiencedOpportunity(job((n += 1), title, { location: `City ${n}` }), JPM));
+};
+add(200, 'Investment Banking Associate');
+add(30, 'Investment Banking Analyst');
+add(25, 'Investment Banking - Vice President');
+add(20, 'Global Credit Trading - Associate');
+add(15, 'Markets - Credit Trader - Vice President');
+add(10, 'Equity Research Associate');
+const seatOf = new Map(bank.map((o) => [o.id, o._seniority]));
+const areaOf = new Map(bank.map((o) => [o.id, o.vertical]));
+const count = (rs, f) => rs.reduce((t, r) => ((t[f(r)] = (t[f(r)] ?? 0) + 1), t), {});
+eq('every fixture row is an experienced row', bank.every(Boolean), true);
+{
+  const old = capExperienced(bank, EXPERIENCED_PER_FIRM_CEILING);
+  eq('the old cap kept one level only', Object.keys(count(old.rows, (r) => seatOf.get(r.id))), ['associate']);
+}
+const spread = capExperienced(bank.slice().reverse(), LARGE_BANK_EXPERIENCED_CEILING, { stratified: true });
+const bySeat = count(spread.rows, (r) => seatOf.get(r.id));
+const byPair = count(spread.rows, (r) => `${seatOf.get(r.id)}|${areaOf.get(r.id)}`);
+eq('the bank allowance holds', spread.rows.length, LARGE_BANK_EXPERIENCED_CEILING);
+eq('and says how many it left out', spread.overCeiling, bank.length - LARGE_BANK_EXPERIENCED_CEILING);
+eq('analysts, associates and VPs all survive', ['associate', 'experienced-analyst', 'vp'].every((s) => bySeat[s] > 0), true);
+eq('every seat-and-area pair the bank has is represented', Object.keys(byPair).length, 6);
+eq('small pairs are kept whole', [byPair['associate|Equity Research'], byPair['vp|Sales & Trading']], [10, 15]);
+// Turn by turn, every pair smaller than its turn is kept whole (10 + 15 + 20
+// + 25 + 30 = 100), and the one large pair takes what is left (50), not 150.
+eq('the analysts and VPs in banking are kept whole', [byPair['experienced-analyst|Investment Banking'], byPair['vp|Investment Banking']], [30, 25]);
+eq('the one large pair takes only what is left', byPair['associate|Investment Banking'], 50);
+eq('the same rows whatever order the board answered in', capExperienced(bank.slice(), LARGE_BANK_EXPERIENCED_CEILING, { stratified: true }).rows.map((o) => o.id), spread.rows.map((o) => o.id));
+eq('the internal seat field never reaches the feed', spread.rows.some((o) => '_seniority' in o), false);
+eq('a board under the allowance is kept whole', capExperienced(bank.slice(0, 40), LARGE_BANK_EXPERIENCED_CEILING, { stratified: true }).rows.length, 40);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail === 0 ? 0 : 1);
