@@ -7,6 +7,10 @@
  * roles in our covered verticals, normalizes into the Opportunity shape, and
  * writes data/opportunities.auto.json.
  *
+ * Boards read in full at a finance or trading firm also yield experienced and
+ * lateral rows (lib/seniority.mjs, toExperiencedOpportunity below), from the
+ * postings the early-career filter refused and never instead of one.
+ *
  * The app reads that pre-generated file (fast, no request-time fan-out), so this
  * scales to hundreds of firms. Runs daily in CI (.github/workflows/tracker-sync.yml);
  * the commit triggers a redeploy that ships the fresh data.
@@ -29,7 +33,14 @@ import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
 import { normaliseRoleText } from '../lib/text-normalise.mjs';
 import { serialiseRegistry, updateRegistry } from '../lib/slug-registry.mjs';
 import { isNonRoleTitle, screenRoles } from '../lib/role-screen.mjs';
-import { duplicateGroups } from '../lib/role-duplicates.mjs';
+import { collapseRepeats, duplicateGroups } from '../lib/role-duplicates.mjs';
+import {
+  SENIORITY_BUCKETS,
+  classifySeniority,
+  experiencedProgrammeType,
+  experiencedVertical,
+  firmTypeForTier,
+} from '../lib/seniority.mjs';
 import { COMPLETE_TIMEOUT_MS, walkCompleteBoard, withRetry } from '../lib/complete-board.mjs';
 import {
   boardRecord,
@@ -88,6 +99,22 @@ const TIMEOUT_MS = 12000;
  */
 const PER_FIRM_CEILING = 1000;
 
+/**
+ * Experienced and lateral rows, per firm.
+ *
+ * This one is a cap, and deliberately lower than the early-career ceiling,
+ * because the population it reads is different. A finance firm's board is
+ * mostly experienced postings, and the first phase of this work
+ * (docs/experienced-roles-plan-2026-10.md) is to show the seats a candidate
+ * on this site would move into, not to mirror a fund's whole hiring. Sixty is
+ * above every banking and private-markets count the sweep found on the boards
+ * read today (Lincoln and William Blair carry about twenty-five each), so in
+ * practice it bites only on the trading firms whose engineering is as large
+ * as their desk. What it keeps is decided by seat, not by arrival order (see
+ * capExperienced), so the cap drops engineers before it drops a single
+ * associate.
+ */
+export const EXPERIENCED_PER_FIRM_CEILING = 60;
 /* ----------------------------- classification ---------------------------- */
 // Word-boundaried so "Internal"/"International" do NOT match "intern".
 const EARLY_CAREER =
@@ -667,6 +694,90 @@ export function toOpportunity(job, firm) {
   };
 }
 
+/* ------------------------- experienced and lateral ------------------------- */
+
+/**
+ * The programme types an experienced row carries. The site maps both to the
+ * Weekly's "Experienced and lateral" stage. Every count in this file that
+ * means "early career" (the collapse guard, the empty-board report, the
+ * board-check records the Hiring Pulse reads, the history snapshot) leaves
+ * these rows out, so they can neither hide a campus regression nor fake one.
+ */
+const EXPERIENCED_PROGRAMMES = new Set(['Lateral / Experienced', 'MBA Hire']);
+export const isExperiencedRow = (o) => EXPERIENCED_PROGRAMMES.has(o?.programmeType);
+
+/**
+ * Boards whose experienced postings are read: those already read in full
+ * (Greenhouse, Ashby and Lever return the whole board on one request, and
+ * `collect: "complete"` boards are walked to their own total), at a firm the
+ * registry tier calls a bank, adviser, sponsor, asset manager or trading
+ * firm. A keyword-searched Workday or Oracle board is not here: its queries
+ * ask only for early-career terms, so what it returns says nothing about the
+ * experienced roles on it. Adding experienced queries is phase 2.
+ */
+const FULL_READ_ATS = new Set(['greenhouse', 'ashby', 'lever']);
+export function readsExperienced(firm) {
+  if (!firm || firm.parked) return false;
+  if (!FULL_READ_ATS.has(firm.ats) && firm.collect !== 'complete') return false;
+  return firmTypeForTier(firm.tier) !== null;
+}
+
+/**
+ * A posting the early-career path refused, as an experienced row, or null.
+ *
+ * Never called on a posting the early-career path accepts, so nothing it does
+ * can change an early-career row. The row is built by toOpportunity itself,
+ * so it has every field the others have, its id in the same namespace (and so
+ * a slug pinned to the source job id by the same rule), and the employer's own
+ * application URL from the ATS. Only the four fields that describe the seat
+ * are replaced.
+ */
+export function toExperiencedOpportunity(job, firm) {
+  if (!job?.title || job.earlyCareerConfirmed || isEarlyCareer(job.title)) return null;
+  if (!readsExperienced(firm)) return null;
+  const seat = classifySeniority(job.title, {
+    department: job.department,
+    firmType: firmTypeForTier(firm.tier),
+  });
+  if (!seat) return null;
+  const vertical = experiencedVertical(
+    inferVertical(job.title, { firm: firm.firm, department: job.department, location: job.location }),
+    seat,
+    firm.tier
+  );
+  if (!vertical) return null;
+  const row = toOpportunity({ ...job, earlyCareerConfirmed: true }, firm);
+  if (!row) return null;
+  row.vertical = vertical;
+  row.programmeType = experiencedProgrammeType(seat);
+  row.level = 'Experienced';
+  row.recommendedPrepSlug = prepSlugFor(vertical);
+  // Internal, stripped in the fetch loop once the cap has read it.
+  row._seniority = seat.seniority;
+  return row;
+}
+
+/**
+ * One firm's experienced rows: repeats collapsed, then capped by seat.
+ *
+ * Kept in SENIORITY_BUCKETS order (MBA associates, associates, experienced
+ * analysts, VPs, named investing seats, then engineers), and by id within a
+ * bucket, so the same board gives the same rows whatever order it answered
+ * in. The cap that discarded by arrival order is the mistake described at
+ * PER_FIRM_CEILING, and is not repeated here.
+ */
+export function capExperienced(rows, ceiling = EXPERIENCED_PER_FIRM_CEILING) {
+  const { kept, dropped } = collapseRepeats(rows);
+  const rank = (o) => {
+    const i = SENIORITY_BUCKETS.indexOf(o._seniority);
+    return i < 0 ? SENIORITY_BUCKETS.length : i;
+  };
+  const ordered = [...kept].sort((a, b) => rank(a) - rank(b) || String(a.id).localeCompare(String(b.id)));
+  // Copies without the internal field, so the caller's rows are left as given.
+  const kept_ = ordered.slice(0, ceiling).map(({ _seniority, ...o }) => o);
+  return { rows: kept_, repeats: dropped.length, overCeiling: Math.max(0, ordered.length - ceiling) };
+}
+
 /* ------------------------------- fetchers -------------------------------- */
 async function getJson(url, init, timeoutMs = TIMEOUT_MS) {
   const res = await fetch(url, {
@@ -1196,7 +1307,10 @@ async function main() {
   // Small concurrency pool so we don't hammer or hang.
   const POOL = 8;
   // Firms whose board answered but produced no early-career role. See below.
+  // Experienced rows do not count: a campus board gone quiet is still named
+  // here even if the same board yields laterals.
   const emptyFirms = [];
+  let experiencedCollected = 0;
   // Firms whose board did not answer at all.
   const failedFirms = [];
   // What each check established, for data/board-checks/ (lib/board-checks.mjs).
@@ -1231,14 +1345,23 @@ async function main() {
       batch.map(async (f, k) => {
         const raw = await FETCHERS[f.ats](f, batchStats[k]);
         const opps = raw.map((j) => toOpportunity(j, f)).filter(Boolean);
+        // Experienced rows, only from postings the line above refused, and
+        // kept apart from `opps` all the way through: the ceiling, the board
+        // check and the empty-board report below read early-career rows only.
+        const xp = readsExperienced(f)
+          ? capExperienced(raw.map((j) => toExperiencedOpportunity(j, f)).filter(Boolean))
+          : { rows: [], repeats: 0, overCeiling: 0 };
+        if (xp.overCeiling) {
+          console.log(`  ${f.firm}: ${xp.overCeiling} experienced role(s) above the ${EXPERIENCED_PER_FIRM_CEILING} cap left out, engineers first`);
+        }
         // Ceiling, not cap: see PER_FIRM_CEILING. Reaching it means a board is
         // answering with something we did not expect, which is worth saying out
         // loud rather than trimming away.
         if (opps.length > PER_FIRM_CEILING) {
           console.warn(`  !! ${f.firm}: ${opps.length} early-career roles, above the ${PER_FIRM_CEILING} ceiling — truncating; check the board and the filters`);
-          return { firm: f.firm, opps: opps.slice(0, PER_FIRM_CEILING), truncated: true };
+          return { firm: f.firm, opps: opps.slice(0, PER_FIRM_CEILING), xp: xp.rows, truncated: true };
         }
-        return { firm: f.firm, opps };
+        return { firm: f.firm, opps, xp: xp.rows };
       })
     );
     for (const [k, r] of results.entries()) {
@@ -1267,8 +1390,11 @@ async function main() {
         : { firm, status, why, roles, reason, walk };
       if (r.status === 'fulfilled') {
         ok++;
-        all.push(...r.value.opps);
-        if (r.value.opps.length) console.log(`  ${r.value.firm}: ${r.value.opps.length}`);
+        all.push(...r.value.opps, ...r.value.xp);
+        experiencedCollected += r.value.xp.length;
+        const xpNote = r.value.xp.length ? ` (+${r.value.xp.length} experienced)` : '';
+        if (r.value.opps.length) console.log(`  ${r.value.firm}: ${r.value.opps.length}${xpNote}`);
+        else if (xpNote) console.log(`  ${r.value.firm}: 0${xpNote}`);
         // A firm that answers healthily and yields nothing was invisible here,
         // and that is the shape of the worst bug this collector has: a board
         // that is real, responds, and holds the wrong population. Bank of
@@ -1297,7 +1423,11 @@ async function main() {
   } catch {
     /* first run — nothing to protect */
   }
-  const previousCount = previousRoles.length;
+  // Early career only, on both sides. Experienced rows arrived in October
+  // 2026 and are capped per firm; counted here they would let a campus
+  // collapse pass behind a run of laterals, or read their own first day as a
+  // rise.
+  const previousCount = previousRoles.filter((o) => !isExperiencedRow(o)).length;
 
   if (failedFirms.length) {
     console.log(`\n${failedFirms.length} board(s) failed to answer:`);
@@ -1373,9 +1503,10 @@ async function main() {
   // and leave yesterday's data in place, which is stale but correct.
   // ---------------------------------------------------------------------
   const MIN_RETAINED_SHARE = 0.5;
-  if (previousCount > 0 && all.length < previousCount * MIN_RETAINED_SHARE) {
+  const earlyCount = all.filter((o) => !isExperiencedRow(o)).length;
+  if (previousCount > 0 && earlyCount < previousCount * MIN_RETAINED_SHARE) {
     console.error(
-      `\nABORT: collated ${all.length} roles vs ${previousCount} previously ` +
+      `\nABORT: collated ${earlyCount} early-career roles vs ${previousCount} previously ` +
         `(${ok}/${firms.length} boards ok, ${failed} failed).\n` +
         `That is below ${MIN_RETAINED_SHARE * 100}% of the last good run, which means a ` +
         `source outage rather than roles genuinely closing. Existing data left untouched.`,
@@ -1438,8 +1569,10 @@ async function main() {
   // Only rows we still cannot date, and only those the ledger says are worth
   // asking about again. A board that has answered "no deadline" four runs
   // running is not asked a fifth time today.
-  const wdRows = all
-    .filter((o) => o._workdayDetail && !o.closingDate && needsCheck(ledger, o.id, today, 'workday-detail'))
+  // Early-career rows are asked first, so experienced rows on a complete
+  // Workday board spend only what the campus rows leave of the budget.
+  const wdEligible = all.filter((o) => o._workdayDetail && !o.closingDate && needsCheck(ledger, o.id, today, 'workday-detail'));
+  const wdRows = [...wdEligible.filter((o) => !isExperiencedRow(o)), ...wdEligible.filter(isExperiencedRow)]
     .slice(0, WD_DETAIL_CAP);
   let fromWorkday = 0;
   let wdLocations = 0;
@@ -1498,8 +1631,11 @@ async function main() {
   // arrival order — and it would have started biting silently the moment the
   // cap came off and the undated pool grew.
   // ---------------------------------------------------------------------
+  // Experienced rows are not asked. A lateral posting almost never states a
+  // closing date, and every page fetched for one is a page not fetched for a
+  // campus programme that might.
   const candidates = all.filter(
-    (o) => !o.closingDate && o.applicationUrl && needsCheck(ledger, o.id, today, 'jsonld')
+    (o) => !isExperiencedRow(o) && !o.closingDate && o.applicationUrl && needsCheck(ledger, o.id, today, 'jsonld')
   );
   const undated = orderForEnrichment(candidates).slice(0, LD_PASS_CAP);
   const skippedForBudget = candidates.length - undated.length;
@@ -1615,9 +1751,9 @@ async function main() {
   // happened" for two days. A firm losing dated roles is now named.
   // ---------------------------------------------------------------------
   const datedNow = {};
-  for (const o of all) if (o.closingDate) datedNow[o.firm] = (datedNow[o.firm] ?? 0) + 1;
+  for (const o of all) if (o.closingDate && !isExperiencedRow(o)) datedNow[o.firm] = (datedNow[o.firm] ?? 0) + 1;
   const datedBefore = {};
-  for (const o of previousRoles) if (o.closingDate) datedBefore[o.firm] = (datedBefore[o.firm] ?? 0) + 1;
+  for (const o of previousRoles) if (o.closingDate && !isExperiencedRow(o)) datedBefore[o.firm] = (datedBefore[o.firm] ?? 0) + 1;
   const moved = [...new Set([...Object.keys(datedNow), ...Object.keys(datedBefore)])]
     .map((f) => ({ firm: f, delta: (datedNow[f] ?? 0) - (datedBefore[f] ?? 0), now: datedNow[f] ?? 0, was: datedBefore[f] ?? 0 }))
     .filter((x) => x.delta !== 0)
@@ -1653,9 +1789,18 @@ async function main() {
     /* first run */
   }
   const day = stamp.slice(0, 10);
+  // `ids` is the record of what was on the tracker that day, experienced rows
+  // included: the site reads a role's first sighting from it (the programme
+  // page's tracking history, and the Sunday Weekly's "new this week", which
+  // cannot call a row new without one). `count` and `byVertical` are the
+  // early-career figures they always were, so the first day of experienced
+  // rows does not read as a campus surge; `experienced` counts the rest.
+  const early = all.filter((o) => !isExperiencedRow(o));
   const byVertical = {};
-  for (const o of all) byVertical[o.vertical] = (byVertical[o.vertical] ?? 0) + 1;
-  const snapshot = { date: day, count: all.length, byVertical, ids: all.map((o) => o.id) };
+  for (const o of early) byVertical[o.vertical] = (byVertical[o.vertical] ?? 0) + 1;
+  const snapshot = { date: day, count: early.length, byVertical, ids: all.map((o) => o.id) };
+  const experiencedCount = all.length - early.length;
+  if (experiencedCount) snapshot.experienced = experiencedCount;
   history = history.filter((h) => h.date !== day);
   history.push(snapshot);
   history = history.slice(-120);
@@ -1664,7 +1809,8 @@ async function main() {
   // What each board check established today. Written beside the history, and
   // after the collapse guard, so an aborted run records nothing.
   const carriedByFirm = {};
-  for (const r of retained) (carriedByFirm[r.firm] ??= []).push(r);
+  // Early career only, like the collected roles beside them (see isExperiencedRow).
+  for (const r of retained) if (!isExperiencedRow(r)) (carriedByFirm[r.firm] ??= []).push(r);
   // What the feed finally publishes, after the non-role screen and title
   // cleaning above. The day's file describes exactly this (publishedView).
   const publishedById = new Map(all.map((o) => [String(o.id), o]));
@@ -1799,7 +1945,11 @@ async function main() {
     OUT,
     JSON.stringify({ generatedAt: stamp, count: all.length, opportunities: all }, null, 2) + '\n'
   );
-  console.log(`\n${all.length} early-career roles from ${ok}/${firms.length} boards (${failed} failed) → ${OUT}`);
+  const xpPublished = all.filter(isExperiencedRow).length;
+  console.log(
+    `\n${all.length - xpPublished} early-career roles and ${xpPublished} experienced ` +
+      `(${experiencedCollected} collected today) from ${ok}/${firms.length} boards (${failed} failed) → ${OUT}`
+  );
   console.log(
     `slug registry: ${Object.keys(slugRoles).length} records (${knownBefore} known, ${added} newly assigned) → ${SLUGS}`
   );

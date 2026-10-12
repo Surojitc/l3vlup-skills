@@ -79,3 +79,34 @@ long-lived postings ("new this week" must key on first seen), and
 classifier, never the title alone). The programme pages are written for
 early careers and will want a lateral variant on the site. Steps 1 to 6
 change `scripts/` and the registry: each is a pull request for Suro to merge.
+
+## Phase 1, as built (12 October 2026)
+
+Steps 1, 2, 4 and 5 for boards already read in full; no new fetch, no
+registry change, nothing unparked.
+
+- `lib/seniority.mjs` classifies a refused title into a seat (MBA associate,
+  associate, experienced analyst, VP/director, named investing or trading
+  seat, or engineer) or null. Exclusions run first; a banking, private-markets,
+  investing, trading/quant or corporate-development function is required;
+  engineering counts only at a trading or quant firm. Managing directors and
+  heads are refused as too senior, junior and class-year titles are left to
+  the early-career path. Tested in `scripts/__tests__/seniority.test.mjs`.
+- The population decision is the registry `tier` (`firmTypeForTier`), not a
+  new `population` field: Greenhouse, Ashby and Lever boards and
+  `collect: "complete"` boards at a bank, adviser, sponsor, asset manager or
+  trading firm. Fintech, technology and consulting boards yield none.
+- Rows carry `programmeType: 'Lateral / Experienced'` (or `'MBA Hire'`) and
+  `level: 'Experienced'`, with the same id, slug rule and application URL as
+  any other row. A row inferVertical leaves in Other is dropped, except a
+  banking or private-markets phrase, or an investing seat at a multi-manager
+  or systematic fund (`experiencedVertical`).
+- The cap is 60 a firm, not 150, kept by seat so engineers go first; same-city
+  repeats are collapsed before a slug is issued (`collapseRepeats`).
+- Experienced rows are outside every early-career count: the collapse guard,
+  the empty-board report, the board-check records (so the Hiring Pulse is
+  unchanged) and the history snapshot's `count` and `byVertical`. They are in
+  the snapshot's `ids`, which is where the site reads a first sighting.
+- Measured on 12 October against today's boards: 0 experienced rows before,
+  about 370 from the thirteen Greenhouse boards plus a few from the sampled
+  complete boards after.

@@ -26,6 +26,11 @@
       "method": "2026-09-27",
       "note": "Complete-board reads only: a 30 s page timeout and two retries after 5 s then 15 s (was 12 s and one retry after 1.5 s), and a read that stops part way (failures, budget, replay) carries the previously published roles it did not reach, marked Unconfirmed, to the tracker, never into its roles. Same method: every read the previous code called ok is ok with the identical role set (differential run, 3,000 simulated boards), the ok rules are unchanged, and carried ids are never counted; the Hiring Pulse output is byte-identical with and without them. What changes is that some reads that used to stop now finish, and what a stopped read shows the tracker.",
       "recorded": "2026-09-28"
+    },
+    "1f6ffc688825f937": {
+      "method": "2026-09-27",
+      "note": "Experienced and lateral rows (lib/seniority.mjs) from boards already read in full at finance and trading firms, published as programmeType 'Lateral / Experienced' or 'MBA Hire', level Experienced. Same method for board checks: every record's n, roles, status and carried ids are computed from early-career rows only, exactly as before (toOpportunity is unchanged; a differential run over the 16 finance boards read on 12 October gave identical early-career rows), so the Hiring Pulse compares across the change. Experienced rows reach the feed and the history snapshot's ids, never a board record, the collapse guard or the snapshot's count.",
+      "recorded": "2026-10-12"
     }
   }
 }

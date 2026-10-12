@@ -6,7 +6,7 @@
  * read as copies, each its own Greenhouse posting in its own city. They must
  * be reported as a programme in several locations and never as one posting.
  */
-import { canonicalPostingUrl, duplicateGroups, titleCore } from '../../lib/role-duplicates.mjs';
+import { canonicalPostingUrl, collapseRepeats, duplicateGroups, titleCore } from '../../lib/role-duplicates.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -86,6 +86,36 @@ eq('a comma phrase that is not a place stays',
 eq('the posting id in a query survives', canonicalPostingUrl('https://stripe.com/jobs/search?gh_jid=1'), 'https://stripe.com/jobs/search?gh_jid=1');
 eq('tracking, fragment and trailing slash do not', canonicalPostingUrl('https://Jobs.Lever.co/x/abc/?utm_medium=a&lever-source=b#top'), 'https://jobs.lever.co/x/abc');
 eq('no URL is no key', canonicalPostingUrl(undefined), null);
+
+// collapseRepeats: only for rows that have never been published (experienced
+// rows, before the slug registry sees them). A same-city repeat and one
+// posting reached twice collapse to the first posted; the same title in
+// several cities is several seats and is left alone.
+{
+  const row = (id, location, openingDate, url = `https://boards.greenhouse.io/wb/jobs/${id}`) => ({
+    id: `greenhouse-williamblair-${id}`,
+    firm: 'William Blair',
+    role: 'Investment Banking Associate - Technology',
+    location,
+    openingDate,
+    applicationUrl: url,
+  });
+  const rows = [
+    row(3, 'Chicago, IL', '2026-10-01'),
+    row(1, 'Chicago, IL', '2026-09-01'),
+    row(2, 'New York, NY', '2026-09-15'),
+    row(4, 'Boston, MA', '2026-09-20', 'https://boards.greenhouse.io/wb/jobs/2'),
+  ];
+  const { kept, dropped } = collapseRepeats(rows);
+  eq('collapse: a same-city repost keeps the first posted', kept.map((r) => r.id).sort(), ['greenhouse-williamblair-1', 'greenhouse-williamblair-2']);
+  eq('collapse: and names what it kept instead', dropped.map((d) => [d.row.id, d.keptId]).sort(), [
+    ['greenhouse-williamblair-3', 'greenhouse-williamblair-1'],
+    ['greenhouse-williamblair-4', 'greenhouse-williamblair-2'],
+  ]);
+  eq('collapse: the same answer in any order', collapseRepeats([...rows].reverse()).kept.map((r) => r.id).sort(), kept.map((r) => r.id).sort());
+  eq('collapse: the Stripe programme in seven cities stays seven rows', collapseRepeats(STRIPE).kept.length, STRIPE.length);
+  eq('collapse: nothing in, nothing out', collapseRepeats(undefined), { kept: [], dropped: [] });
+}
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail === 0 ? 0 : 1);
