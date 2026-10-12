@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-11T15:33:12.470Z",
-  "count": 2305,
+  "generatedAt": "2026-10-12T11:50:38.367Z",
+  "count": 2803,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -460,6 +460,50 @@
       "slug": "airbnb-early-career-mobile-software-engineer-quality-platform",
       "since": "2026-10-07"
     },
+    "greenhouse-akunacapital-6527972": {
+      "slug": "akuna-capital-quantitative-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-6812905": {
+      "slug": "akuna-capital-quant-strategist",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7496397": {
+      "slug": "akuna-capital-software-engineer-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7496408": {
+      "slug": "akuna-capital-software-engineer-c-trading-strategies",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7496411": {
+      "slug": "akuna-capital-software-engineer-data-engineering",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7496414": {
+      "slug": "akuna-capital-performance-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7496416": {
+      "slug": "akuna-capital-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7496425": {
+      "slug": "akuna-capital-experienced-options-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7496427": {
+      "slug": "akuna-capital-floor-trader-spx",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7846695": {
+      "slug": "akuna-capital-quantitative-researcher-prediction-markets",
+      "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-7901833": {
+      "slug": "akuna-capital-experienced-options-trader-sofr",
+      "since": "2026-10-12"
+    },
     "greenhouse-akunacapital-8018847": {
       "slug": "akuna-capital-software-engineer-intern-c-summer-2027",
       "since": "2026-09-18"
@@ -496,9 +540,29 @@
       "slug": "akuna-capital-accounting-intern-term-time-part-time",
       "since": "2026-09-18"
     },
+    "greenhouse-akunacapital-8163512": {
+      "slug": "akuna-capital-software-engineer-c-asia",
+      "since": "2026-10-12"
+    },
     "greenhouse-anthropic-5425724008": {
       "slug": "anthropic-associate-applied-ai-rotational-program-london",
       "since": "2026-09-24"
+    },
+    "greenhouse-aqr-7493464": {
+      "slug": "aqr-capital-management-engineering-quant-research-development-gss-associate",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-7546806": {
+      "slug": "aqr-capital-management-engineering-portfolio-analytics-java-developer-associate",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-7558085": {
+      "slug": "aqr-capital-management-global-stock-selection-research-analyst-associate",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-7574743": {
+      "slug": "aqr-capital-management-global-stock-selection-research-vp-ed-technical-signals",
+      "since": "2026-10-12"
     },
     "greenhouse-aqr-7895562": {
       "slug": "aqr-capital-management-2027-portfolio-implementation-summer-analyst",
@@ -520,9 +584,21 @@
       "slug": "aqr-capital-management-2027-risk-summer-analyst",
       "since": "2026-09-18"
     },
+    "greenhouse-aqr-7943790": {
+      "slug": "aqr-capital-management-research-and-portfolio-management-engineer-specialized-investments-group",
+      "since": "2026-10-12"
+    },
     "greenhouse-aqr-7957728": {
       "slug": "aqr-capital-management-2027-research-and-portfolio-management-engineering-summer-analyst",
       "since": "2026-09-18"
+    },
+    "greenhouse-aqr-8003642": {
+      "slug": "aqr-capital-management-portfolio-analytics-engineer-vice-president",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-8018219": {
+      "slug": "aqr-capital-management-quantitative-research-prediction-markets-analyst",
+      "since": "2026-10-12"
     },
     "greenhouse-aqr-8041362": {
       "slug": "aqr-capital-management-2027-portfolio-solutions-group-summer-analyst",
@@ -531,6 +607,26 @@
     "greenhouse-aqr-8077110": {
       "slug": "aqr-capital-management-2027-trading-summer-analyst",
       "since": "2026-09-18"
+    },
+    "greenhouse-aqr-8088184": {
+      "slug": "aqr-capital-management-data-scientist-machine-learning",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-8088187": {
+      "slug": "aqr-capital-management-research-and-portfolio-management-engineering-associate",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-8088190": {
+      "slug": "aqr-capital-management-research-and-portfolio-management-engineering-vice-president",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-8094484": {
+      "slug": "aqr-capital-management-global-stock-selection-implementation-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-8112238": {
+      "slug": "aqr-capital-management-engineering-quant-research-development-gss-analyst",
+      "since": "2026-10-12"
     },
     "greenhouse-aqr-8122378": {
       "slug": "aqr-capital-management-2027-quantitative-prediction-markets-research-summer-analyst",
@@ -544,13 +640,29 @@
       "slug": "aqr-capital-management-aqr-arbitrage-2027-research-summer-analyst",
       "since": "2026-09-18"
     },
+    "greenhouse-aqr-8161372": {
+      "slug": "aqr-capital-management-managed-futures-and-commodities-research-analyst",
+      "since": "2026-10-12"
+    },
     "greenhouse-aqr-8161563": {
       "slug": "aqr-capital-management-2027-portfolio-finance-summer-analyst",
       "since": "2026-09-18"
     },
+    "greenhouse-aqr-8164315": {
+      "slug": "aqr-capital-management-electronic-trader-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-aqr-8221812": {
+      "slug": "aqr-capital-management-discretionary-macro-vice-president",
+      "since": "2026-10-12"
+    },
     "greenhouse-aqr-8224708": {
       "slug": "aqr-capital-management-2027-phd-summer-associate-machine-learning-research",
       "since": "2026-09-24"
+    },
+    "greenhouse-aqr-8255819": {
+      "slug": "aqr-capital-management-global-stock-selection-researcher-alternative-data",
+      "since": "2026-10-12"
     },
     "greenhouse-brex-8864170002": {
       "slug": "brex-brex-rotational-program",
@@ -872,6 +984,10 @@
       "slug": "figma-software-engineer-intern-london-united-kingdom-summer-2027",
       "since": "2026-09-18"
     },
+    "greenhouse-figma-6174190004": {
+      "slug": "figma-early-career-inside-sales-representative-2027",
+      "since": "2026-10-12"
+    },
     "greenhouse-figma-6178851004": {
       "slug": "figma-data-engineer-intern-2027",
       "since": "2026-09-24"
@@ -932,6 +1048,14 @@
       "slug": "flexport-rotational-development-program-us",
       "since": "2026-09-24"
     },
+    "greenhouse-flowtraders-3234877": {
+      "slug": "flow-traders-digital-assets-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-4003450": {
+      "slug": "flow-traders-experienced-quantitative-researcher",
+      "since": "2026-10-12"
+    },
     "greenhouse-flowtraders-4782837": {
       "slug": "flow-traders-graduate-trader",
       "since": "2026-09-18"
@@ -940,17 +1064,77 @@
       "slug": "flow-traders-phd-graduate-quantitative-researcher",
       "since": "2026-09-24"
     },
+    "greenhouse-flowtraders-6993714": {
+      "slug": "flow-traders-senior-software-engineer-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-7064123": {
+      "slug": "flow-traders-python-engineer-trading-automation",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-7431246": {
+      "slug": "flow-traders-senior-research-engineer",
+      "since": "2026-10-12"
+    },
     "greenhouse-flowtraders-7507482": {
       "slug": "flow-traders-graduate-trader-europe",
       "since": "2026-09-18"
+    },
+    "greenhouse-flowtraders-7667941": {
+      "slug": "flow-traders-senior-research-engineer-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-7708220": {
+      "slug": "flow-traders-delta-one-trader",
+      "since": "2026-10-12"
     },
     "greenhouse-flowtraders-7760610": {
       "slug": "flow-traders-graduate-quant-trader",
       "since": "2026-08-01"
     },
+    "greenhouse-flowtraders-7770955": {
+      "slug": "flow-traders-digital-assets-trader-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-7862011": {
+      "slug": "flow-traders-digital-assets-trader-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-7992594": {
+      "slug": "flow-traders-senior-software-engineer-c-core-platform",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8025933": {
+      "slug": "flow-traders-senior-software-engineer-c-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8027267": {
+      "slug": "flow-traders-senior-software-engineer-c-market-data",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8027268": {
+      "slug": "flow-traders-senior-software-engineer-c-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8027843": {
+      "slug": "flow-traders-senior-software-engineer-c-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8027844": {
+      "slug": "flow-traders-senior-software-engineer-c-core-platform-uk",
+      "since": "2026-10-12"
+    },
     "greenhouse-flowtraders-8047166": {
       "slug": "flow-traders-quantitative-trading-intern-summer-2027",
       "since": "2026-08-01"
+    },
+    "greenhouse-flowtraders-8052794": {
+      "slug": "flow-traders-senior-software-engineer-c-market-data-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8052796": {
+      "slug": "flow-traders-senior-software-engineer-c-2",
+      "since": "2026-10-12"
     },
     "greenhouse-flowtraders-8094581": {
       "slug": "flow-traders-graduate-quantitative-trader",
@@ -960,13 +1144,33 @@
       "slug": "flow-traders-trading-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-flowtraders-8120460": {
+      "slug": "flow-traders-software-engineer-trading-automation",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8131776": {
+      "slug": "flow-traders-experienced-quantitative-researcher-us",
+      "since": "2026-10-12"
+    },
     "greenhouse-flowtraders-8156203": {
       "slug": "flow-traders-phd-graduate-quantitative-researcher-us",
       "since": "2026-09-24"
     },
+    "greenhouse-flowtraders-8203713": {
+      "slug": "flow-traders-trading-tools-software-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-flowtraders-8212740": {
+      "slug": "flow-traders-senior-software-engineer-c-market-data-asia",
+      "since": "2026-10-12"
+    },
     "greenhouse-flowtraders-8213037": {
       "slug": "flow-traders-phd-graduate-quantitative-researcher-asia",
       "since": "2026-09-24"
+    },
+    "greenhouse-flowtraders-8222298": {
+      "slug": "flow-traders-experienced-mft-quantitative-researcher",
+      "since": "2026-10-12"
     },
     "greenhouse-flowtraders-8258760": {
       "slug": "flow-traders-hr-work-student",
@@ -1016,13 +1220,69 @@
       "slug": "gusto-future-opportunities-early-career-sales-talent",
       "since": "2026-09-18"
     },
+    "greenhouse-imc-4283842101": {
+      "slug": "imc-trading-equity-options-volatility-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4286816101": {
+      "slug": "imc-trading-quantitative-researcher-options",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4300493101": {
+      "slug": "imc-trading-senior-equity-options-volatility-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4356914101": {
+      "slug": "imc-trading-quant-developer-defi-digital-assets",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4382558101": {
+      "slug": "imc-trading-quantitative-researcher-equities",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4439286101": {
+      "slug": "imc-trading-trading-engineer-strategy",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4439297101": {
+      "slug": "imc-trading-data-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4547961101": {
+      "slug": "imc-trading-performance-engineer",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4564480101": {
       "slug": "imc-trading-graduate-software-engineer-2026",
       "since": "2026-09-18"
     },
+    "greenhouse-imc-4567047101": {
+      "slug": "imc-trading-machine-learning-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4573232101": {
+      "slug": "imc-trading-index-options-volatility-trader",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4577504101": {
       "slug": "imc-trading-software-engineer-early-career",
       "since": "2026-09-18"
+    },
+    "greenhouse-imc-4588833101": {
+      "slug": "imc-trading-quantitative-researcher-equities-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4594570101": {
+      "slug": "imc-trading-equity-options-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4630983101": {
+      "slug": "imc-trading-python-software-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4634204101": {
+      "slug": "imc-trading-c-software-engineer",
+      "since": "2026-10-12"
     },
     "greenhouse-imc-4635938101": {
       "slug": "imc-trading-graduate-software-engineer-start-date-in-2026",
@@ -1030,6 +1290,18 @@
       "was": [
         "imc-trading-graduate-software-engineer-2026-us"
       ]
+    },
+    "greenhouse-imc-4658369101": {
+      "slug": "imc-trading-commodities-volatility-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4658374101": {
+      "slug": "imc-trading-commodities-broker-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4660792101": {
+      "slug": "imc-trading-quantitative-researcher-data-curation",
+      "since": "2026-10-12"
     },
     "greenhouse-imc-4667814101": {
       "slug": "imc-trading-graduate-software-engineer-2027",
@@ -1043,9 +1315,33 @@
       "slug": "imc-trading-software-engineer-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-imc-4673650101": {
+      "slug": "imc-trading-c-software-engineer-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4682071101": {
+      "slug": "imc-trading-software-engineer-ai-powered-engineering",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4685421101": {
       "slug": "imc-trading-working-student-tech",
       "since": "2026-09-18"
+    },
+    "greenhouse-imc-4699252101": {
+      "slug": "imc-trading-deep-learning-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4704856101": {
+      "slug": "imc-trading-trading-engineer-execution",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4740859101": {
+      "slug": "imc-trading-quantitative-researcher-futures",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4742833101": {
+      "slug": "imc-trading-java-software-engineer-power-gas",
+      "since": "2026-10-12"
     },
     "greenhouse-imc-4751729101": {
       "slug": "imc-trading-graduate-quantitative-trader",
@@ -1055,9 +1351,49 @@
       "slug": "imc-trading-trader-assistant-working-student",
       "since": "2026-09-18"
     },
+    "greenhouse-imc-4754254101": {
+      "slug": "imc-trading-quantitative-researcher-equities-futures",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4760871101": {
+      "slug": "imc-trading-c-software-engineer-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4785803101": {
+      "slug": "imc-trading-quantitative-researcher-hft",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4785804101": {
+      "slug": "imc-trading-machine-learning-researcher-modeller",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4785808101": {
+      "slug": "imc-trading-quantitative-researcher-hft-commodity-futures",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4787639101": {
+      "slug": "imc-trading-quantitative-trader-equities-strategy-monetization",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4787640101": {
+      "slug": "imc-trading-quantitative-trader-equities-live-trading",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4792587101": {
+      "slug": "imc-trading-quantitative-trading-strategist-equity-options",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4795169101": {
+      "slug": "imc-trading-commodities-trader-china",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4796143101": {
       "slug": "imc-trading-software-engineer-early-career-us",
       "since": "2026-10-01"
+    },
+    "greenhouse-imc-4805320101": {
+      "slug": "imc-trading-otc-trader-digital-assets",
+      "since": "2026-10-12"
     },
     "greenhouse-imc-4818790101": {
       "slug": "imc-trading-graduate-software-engineer",
@@ -1087,6 +1423,10 @@
       "slug": "imc-trading-hardware-machine-learning-phd-research-internship",
       "since": "2026-08-01"
     },
+    "greenhouse-imc-4840228101": {
+      "slug": "imc-trading-index-options-volatility-trader-us",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4842595101": {
       "slug": "imc-trading-quant-performance-engineer-intern-summer-2027",
       "since": "2026-09-18",
@@ -1094,9 +1434,57 @@
         "imc-trading-performance-engineer-intern-summer-2027"
       ]
     },
+    "greenhouse-imc-4847623101": {
+      "slug": "imc-trading-live-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4855354101": {
+      "slug": "imc-trading-java-software-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4861099101": {
+      "slug": "imc-trading-systematic-index-options-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4867453101": {
+      "slug": "imc-trading-otc-trader-digital-assets-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4871364101": {
+      "slug": "imc-trading-performance-engineer-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4872624101": {
+      "slug": "imc-trading-research-analyst-indian-equities",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4874399101": {
+      "slug": "imc-trading-quantitative-developer-python",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4879217101": {
+      "slug": "imc-trading-data-quality-engineer",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4892687101": {
       "slug": "imc-trading-graduate-quant-researcher-digital-assets",
       "since": "2026-09-18"
+    },
+    "greenhouse-imc-4898651101": {
+      "slug": "imc-trading-software-engineer-development-platform",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4899716101": {
+      "slug": "imc-trading-trading-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4900419101": {
+      "slug": "imc-trading-hardware-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4903862101": {
+      "slug": "imc-trading-principal-research-scientist-machine-learning",
+      "since": "2026-10-12"
     },
     "greenhouse-imc-4907368101": {
       "slug": "imc-trading-graduate-quantitative-researcher-bs-ms",
@@ -1117,6 +1505,14 @@
     "greenhouse-imc-4907430101": {
       "slug": "imc-trading-machine-learning-research-intern-summer-2027-chicago",
       "since": "2026-09-18"
+    },
+    "greenhouse-imc-4908708101": {
+      "slug": "imc-trading-software-engineer-risk-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4908869101": {
+      "slug": "imc-trading-machine-learning-engineer-asia",
+      "since": "2026-10-12"
     },
     "greenhouse-imc-4912325101": {
       "slug": "imc-trading-graduate-quantitative-researcher-phd",
@@ -1141,9 +1537,33 @@
         "imc-trading-graduate-software-engineer-us"
       ]
     },
+    "greenhouse-imc-4918138101": {
+      "slug": "imc-trading-software-engineer-application-platform",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4927149101": {
       "slug": "imc-trading-hardware-engineer-intern",
       "since": "2026-09-18"
+    },
+    "greenhouse-imc-4930379101": {
+      "slug": "imc-trading-software-engineer-research",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4930380101": {
+      "slug": "imc-trading-software-engineer-machine-learning-frameworks",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4931100101": {
+      "slug": "imc-trading-c-software-engineer-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4931814101": {
+      "slug": "imc-trading-software-engineer-tooling",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4931815101": {
+      "slug": "imc-trading-software-engineer-research-asia",
+      "since": "2026-10-12"
     },
     "greenhouse-imc-4932192101": {
       "slug": "imc-trading-graduate-software-engineer-digital-assets",
@@ -1191,6 +1611,10 @@
       "slug": "imc-trading-2027-quant-research-intern-bits-pilani",
       "since": "2026-08-02"
     },
+    "greenhouse-imc-4947297101": {
+      "slug": "imc-trading-trader-digital-assets",
+      "since": "2026-10-12"
+    },
     "greenhouse-imc-4956547101": {
       "slug": "imc-trading-machine-learning-research-intern-summer-2027-sydney",
       "since": "2026-09-18"
@@ -1219,6 +1643,70 @@
       "slug": "imc-trading-hardware-machine-learning-phd-research-internship-us",
       "since": "2026-09-24"
     },
+    "greenhouse-imc-4976760101": {
+      "slug": "imc-trading-macro-research-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4983672101": {
+      "slug": "imc-trading-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4983696101": {
+      "slug": "imc-trading-quantitative-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-imc-4987743101": {
+      "slug": "imc-trading-senior-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-3115552": {
+      "slug": "jump-trading-quantitative-researcher-trading-team",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-4862925": {
+      "slug": "jump-trading-trader-crypto",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-5830344": {
+      "slug": "jump-trading-quantitative-researcher-trading-team-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-5870589": {
+      "slug": "jump-trading-quantitative-researcher-trading-team-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-5870604": {
+      "slug": "jump-trading-quantitative-trader-trading-team",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-6032511": {
+      "slug": "jump-trading-research-scientist-research-engineer-deep-learning",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-6098760": {
+      "slug": "jump-trading-quantitative-researcher-trading-team-2",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-6172858": {
+      "slug": "jump-trading-quantitative-developer-trading-team",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-6190021": {
+      "slug": "jump-trading-quantitative-developer-trading-team-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-6603013": {
+      "slug": "jump-trading-deep-learning-researcher-trading-team",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-6881808": {
+      "slug": "jump-trading-research-engineer-ai-agents",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-7156979": {
+      "slug": "jump-trading-software-engineer",
+      "since": "2026-10-12"
+    },
     "greenhouse-jumptrading-7215943": {
       "slug": "jump-trading-campus-systems-engineer-full-time",
       "since": "2026-09-18"
@@ -1226,6 +1714,10 @@
     "greenhouse-jumptrading-7217856": {
       "slug": "jump-trading-campus-crypto-researcher-full-time",
       "since": "2026-09-18"
+    },
+    "greenhouse-jumptrading-7230707": {
+      "slug": "jump-trading-python-software-engineer",
+      "since": "2026-10-12"
     },
     "greenhouse-jumptrading-7282220": {
       "slug": "jump-trading-campus-ai-ml-researcher-fall-2026",
@@ -1235,17 +1727,57 @@
       "slug": "jump-trading-campus-crypto-researcher-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-jumptrading-7457888": {
+      "slug": "jump-trading-fixed-income-quantitative-researcher-trading-team",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-7460950": {
+      "slug": "jump-trading-quantamental-research-analyst-trading-team",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-7483202": {
+      "slug": "jump-trading-data-scientist-post-trade-analytics",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-7495806": {
+      "slug": "jump-trading-software-engineer-post-trade-analytics",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-7557793": {
+      "slug": "jump-trading-derivatives-quantitative-researcher-trading-team",
+      "since": "2026-10-12"
+    },
     "greenhouse-jumptrading-7565728": {
       "slug": "jump-trading-campus-trading-team-software-engineer-intern",
       "since": "2026-09-01"
+    },
+    "greenhouse-jumptrading-7662486": {
+      "slug": "jump-trading-software-engineer-gui",
+      "since": "2026-10-12"
     },
     "greenhouse-jumptrading-7728630": {
       "slug": "jump-trading-campus-quantitative-researcher-ug-ms-full-time",
       "since": "2026-08-01"
     },
+    "greenhouse-jumptrading-7809758": {
+      "slug": "jump-trading-senior-software-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-7822791": {
+      "slug": "jump-trading-quantitative-developer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-7847009": {
+      "slug": "jump-trading-software-engineer-market-data-systems",
+      "since": "2026-10-12"
+    },
     "greenhouse-jumptrading-7848371": {
       "slug": "jump-trading-campus-quantitative-trader-intern",
       "since": "2026-09-18"
+    },
+    "greenhouse-jumptrading-7929540": {
+      "slug": "jump-trading-software-engineer-trading-team",
+      "since": "2026-10-12"
     },
     "greenhouse-jumptrading-7974391": {
       "slug": "jump-trading-campus-fpga-engineer-intern",
@@ -1286,6 +1818,10 @@
     "greenhouse-jumptrading-7977145": {
       "slug": "jump-trading-campus-ml-research-engineer-intern",
       "since": "2026-09-18"
+    },
+    "greenhouse-jumptrading-7977686": {
+      "slug": "jump-trading-research-engineer-pre-training",
+      "since": "2026-10-12"
     },
     "greenhouse-jumptrading-7982648": {
       "slug": "jump-trading-campus-quantitative-researcher-ug-ms-intern",
@@ -1425,21 +1961,73 @@
       "slug": "jump-trading-campus-quantitative-researcher-m1-m2-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-jumptrading-8104832": {
+      "slug": "jump-trading-python-software-engineer-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-8105914": {
+      "slug": "jump-trading-quantitative-developer-trading-team-2",
+      "since": "2026-10-12"
+    },
     "greenhouse-jumptrading-8125888": {
       "slug": "jump-trading-campus-quantitative-researcher-phd-full-time",
       "since": "2026-09-01"
+    },
+    "greenhouse-jumptrading-8129752": {
+      "slug": "jump-trading-python-engineer-python-performance",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-8171060": {
+      "slug": "jump-trading-data-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-8171513": {
+      "slug": "jump-trading-derived-data-engineer",
+      "since": "2026-10-12"
     },
     "greenhouse-jumptrading-8209424": {
       "slug": "jump-trading-campus-quantitative-researcher-trading-team-phd-postdoc-full-time",
       "since": "2026-09-24"
     },
+    "greenhouse-jumptrading-8213198": {
+      "slug": "jump-trading-verification-engineer-core-engineering",
+      "since": "2026-10-12"
+    },
+    "greenhouse-jumptrading-8242766": {
+      "slug": "jump-trading-c-software-engineer-trading-team",
+      "since": "2026-10-12"
+    },
     "greenhouse-lincolninternational-7171464": {
       "slug": "lincoln-international-manda-internship-stockholm-fall-2026",
       "since": "2026-09-01"
     },
+    "greenhouse-lincolninternational-7410336": {
+      "slug": "lincoln-international-experienced-associate-asset-backed-finance",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-7656961": {
+      "slug": "lincoln-international-vice-president-portfolio-valuations",
+      "since": "2026-10-12"
+    },
     "greenhouse-lincolninternational-7775231": {
       "slug": "lincoln-international-manda-internship-q3-2027-master-s-students-only",
       "since": "2026-10-01"
+    },
+    "greenhouse-lincolninternational-7867277": {
+      "slug": "lincoln-international-vice-president-asset-backed-finance",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8043582": {
+      "slug": "lincoln-international-vice-president-business-services-manda",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8099832": {
+      "slug": "lincoln-international-associate-capital-advisory",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8103296": {
+      "slug": "lincoln-international-analyst-technology-manda",
+      "since": "2026-10-12"
     },
     "greenhouse-lincolninternational-8106841": {
       "slug": "lincoln-international-2027-manda-summer-associate-intern",
@@ -1453,6 +2041,10 @@
       "slug": "lincoln-international-intern-manda-brussels-march-2027-june-2027",
       "since": "2026-09-18"
     },
+    "greenhouse-lincolninternational-8148271": {
+      "slug": "lincoln-international-analyst-healthcare-manda",
+      "since": "2026-10-12"
+    },
     "greenhouse-lincolninternational-8156630": {
       "slug": "lincoln-international-intern-manda-brussels-november-2026-february-2027",
       "since": "2026-09-01"
@@ -1460,6 +2052,14 @@
     "greenhouse-lincolninternational-8156739": {
       "slug": "lincoln-international-manda-internship-january-2027",
       "since": "2026-09-18"
+    },
+    "greenhouse-lincolninternational-8157248": {
+      "slug": "lincoln-international-experienced-associate-asset-backed-finance-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8157253": {
+      "slug": "lincoln-international-vice-president-asset-backed-finance-uk",
+      "since": "2026-10-12"
     },
     "greenhouse-lincolninternational-8176891": {
       "slug": "lincoln-international-stockholm-manda-internship-jan-june-2027",
@@ -1469,6 +2069,18 @@
       "slug": "lincoln-international-uk-summer-internship-programme-2027",
       "since": "2026-09-18"
     },
+    "greenhouse-lincolninternational-8191859": {
+      "slug": "lincoln-international-analyst-business-services-manda",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8214012": {
+      "slug": "lincoln-international-associate-business-services-manda",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8214015": {
+      "slug": "lincoln-international-analyst-business-services-manda-us",
+      "since": "2026-10-12"
+    },
     "greenhouse-lincolninternational-8237269": {
       "slug": "lincoln-international-2027-summer-analyst-intern-valuations-and-opinions-group-us",
       "since": "2026-09-29"
@@ -1476,6 +2088,26 @@
     "greenhouse-lincolninternational-8255813": {
       "slug": "lincoln-international-debt-advisory-internship-march-2027",
       "since": "2026-10-06"
+    },
+    "greenhouse-lincolninternational-8257509": {
+      "slug": "lincoln-international-experienced-associate-transaction-opinions-and-board-advisory",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8258363": {
+      "slug": "lincoln-international-analyst-manda",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8261286": {
+      "slug": "lincoln-international-associate-industrials-manda",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8261287": {
+      "slug": "lincoln-international-associate-industrials-manda-fdd-tas-experience-required",
+      "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8267537": {
+      "slug": "lincoln-international-research-analyst-capital-advisory",
+      "since": "2026-10-12"
     },
     "greenhouse-lyft-8767534002": {
       "slug": "lyft-software-engineer-intern-test-automation-summer-2027",
@@ -1557,9 +2189,57 @@
       "slug": "lyft-hardware-field-quality-engineer-intern-summer-2027",
       "since": "2026-10-03"
     },
+    "greenhouse-mangroup-4843066101": {
+      "slug": "man-group-senior-python-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4844843101": {
+      "slug": "man-group-quantitative-developer-systematic",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4867062101": {
+      "slug": "man-group-senior-python-engineer-real-time-data",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4880305101": {
+      "slug": "man-group-quant-researcher-macro-trend",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4908077101": {
+      "slug": "man-group-lead-quantitative-developer-systematic",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4908078101": {
+      "slug": "man-group-quantitative-developer-systematic-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4933777101": {
+      "slug": "man-group-portfolio-management-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4936362101": {
+      "slug": "man-group-senior-quantitative-developer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4936363101": {
+      "slug": "man-group-senior-java-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4943305101": {
+      "slug": "man-group-quantitative-researcher",
+      "since": "2026-10-12"
+    },
     "greenhouse-mangroup-4960444101": {
       "slug": "man-group-systematic-graduate-rotational-quant",
       "since": "2026-09-01"
+    },
+    "greenhouse-mangroup-4965180101": {
+      "slug": "man-group-quant-systematic-multi-strategy",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4966466101": {
+      "slug": "man-group-quant-researcher-macro-futures-fx",
+      "since": "2026-10-12"
     },
     "greenhouse-mangroup-4969142101": {
       "slug": "man-group-quant-researcher-internship",
@@ -1596,6 +2276,22 @@
     "greenhouse-mangroup-4989438101": {
       "slug": "man-group-global-funds-treasury-summer-2027-internship",
       "since": "2026-09-29"
+    },
+    "greenhouse-mangroup-4989468101": {
+      "slug": "man-group-associate-discretionary-investment-specialists",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4989483101": {
+      "slug": "man-group-senior-full-stack-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4989490101": {
+      "slug": "man-group-staff-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-5000443101": {
+      "slug": "man-group-data-engineer",
+      "since": "2026-10-12"
     },
     "greenhouse-mongodb-8258279": {
       "slug": "mongodb-2027-software-engineer-intern-dublin-6-month-internship",
@@ -1689,6 +2385,66 @@
       "slug": "pinterest-machine-learning-intern-2027-dublin",
       "since": "2026-10-06"
     },
+    "greenhouse-point72-4644225002": {
+      "slug": "point72-fundamental-researcher-canvas",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7001158002": {
+      "slug": "point72-cubist-data-scientist",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045936002": {
+      "slug": "point72-cubist-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045938002": {
+      "slug": "point72-cubist-data-scientist-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045941002": {
+      "slug": "point72-cubist-portfolio-manager",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045979002": {
+      "slug": "point72-cubist-senior-data-scientist",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045980002": {
+      "slug": "point72-cubist-quantitative-researcher-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045987002": {
+      "slug": "point72-cubist-quantitative-researcher-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045995002": {
+      "slug": "point72-cubist-senior-data-scientist-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7045996002": {
+      "slug": "point72-cubist-portfolio-manager-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7046005002": {
+      "slug": "point72-cubist-portfolio-manager-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7046014002": {
+      "slug": "point72-quantitative-finance-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7297511002": {
+      "slug": "point72-quantitative-developer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7297513002": {
+      "slug": "point72-quantitative-researcher-machine-learning",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7297561002": {
+      "slug": "point72-equity-quantitative-researcher",
+      "since": "2026-10-12"
+    },
     "greenhouse-point72-7297598002": {
       "slug": "point72-cubist-quantitative-researcher-intern",
       "since": "2026-09-18"
@@ -1697,9 +2453,33 @@
       "slug": "point72-cubist-quantitative-researcher-intern-asia",
       "since": "2026-09-18"
     },
+    "greenhouse-point72-7297612002": {
+      "slug": "point72-quantitative-researcher-macro",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7297616002": {
+      "slug": "point72-quantitative-analyst-cio-office",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7297622002": {
+      "slug": "point72-quantitative-analyst-software-developer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7297625002": {
+      "slug": "point72-quantitative-researcher-systematic-credit",
+      "since": "2026-10-12"
+    },
     "greenhouse-point72-7297642002": {
       "slug": "point72-summer-2027-quantitative-research-internship",
       "since": "2026-09-18"
+    },
+    "greenhouse-point72-7297643002": {
+      "slug": "point72-quantitative-researcher-trading-research",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7297653002": {
+      "slug": "point72-quantitative-developer-cio-office",
+      "since": "2026-10-12"
     },
     "greenhouse-point72-7297657002": {
       "slug": "point72-quantitative-researcher-intern",
@@ -1717,17 +2497,113 @@
       "slug": "point72-machine-learning-researcher-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-point72-7302643002": {
+      "slug": "point72-macro-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7318005002": {
+      "slug": "point72-cubist-quantitative-researcher-2",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7318012002": {
+      "slug": "point72-cubist-quantitative-researcher-europe",
+      "since": "2026-10-12"
+    },
     "greenhouse-point72-7586061002": {
       "slug": "point72-quantitative-researcher-intern-us",
       "since": "2026-09-18"
+    },
+    "greenhouse-point72-7605647002": {
+      "slug": "point72-credit-research-analyst-global-macro",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7661997002": {
+      "slug": "point72-nlp-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7666631002": {
+      "slug": "point72-cubist-quantitative-researcher-3",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7667745002": {
+      "slug": "point72-data-engineer-proprietary-research",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7695570002": {
+      "slug": "point72-data-scientist-proprietary-research",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7752293002": {
+      "slug": "point72-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7820104002": {
+      "slug": "point72-sector-analyst-mi-data",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-7864033002": {
+      "slug": "point72-macro-quant-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8004302002": {
+      "slug": "point72-quant-researcher-power-dispatch-modeling",
+      "since": "2026-10-12"
     },
     "greenhouse-point72-8018862002": {
       "slug": "point72-quantitative-research-intern-nlp",
       "since": "2026-09-18"
     },
+    "greenhouse-point72-8023550002": {
+      "slug": "point72-quantitative-researcher-machine-learning-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8056172002": {
+      "slug": "point72-sector-analyst-proprietary-research",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8060321002": {
+      "slug": "point72-software-engineer-macro-quant-analytics-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8135956002": {
+      "slug": "point72-fundamental-researcher-mi-canvas-international",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8191564002": {
+      "slug": "point72-quantitative-developer-uk",
+      "since": "2026-10-12"
+    },
     "greenhouse-point72-8236734002": {
       "slug": "point72-micro-intern-research-technology-developer-iap",
       "since": "2026-10-02"
+    },
+    "greenhouse-point72-8374726002": {
+      "slug": "point72-research-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8375066002": {
+      "slug": "point72-trader-quant-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8384470002": {
+      "slug": "point72-microstructure-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8389369002": {
+      "slug": "point72-fund-flow-quantitative-developer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8389431002": {
+      "slug": "point72-fund-flow-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8408288002": {
+      "slug": "point72-quant-library-developer-macro-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8470606002": {
+      "slug": "point72-trader",
+      "since": "2026-10-12"
     },
     "greenhouse-point72-8491055002": {
       "slug": "point72-2027-point72-academy-investment-analyst-summer-internship-program-hong-kong",
@@ -1741,9 +2617,33 @@
       "slug": "point72-2027-point72-academy-investment-analyst-summer-internship-program-japan",
       "since": "2026-09-18"
     },
+    "greenhouse-point72-8499113002": {
+      "slug": "point72-point72-academy-2026-2027-investment-analyst-program-for-experienced-professionals-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8500397002": {
+      "slug": "point72-point72-academy-2026-investment-analyst-program-for-experienced-professionals-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8538913002": {
+      "slug": "point72-point72-academy-2026-investment-analyst-program-for-experienced-professionals-hong-kong",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8539271002": {
+      "slug": "point72-point72-academy-2026-investment-analyst-program-for-experienced-professionals-japan",
+      "since": "2026-10-12"
+    },
     "greenhouse-point72-8541241002": {
       "slug": "point72-point72-academy-investment-analyst-program-for-upcoming-graduates-2027-us",
       "since": "2026-09-18"
+    },
+    "greenhouse-point72-8545515002": {
+      "slug": "point72-canvas-fundamental-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8561446002": {
+      "slug": "point72-quantitative-developer-trading-research",
+      "since": "2026-10-12"
     },
     "greenhouse-point72-8572400002": {
       "slug": "point72-point72-academy-investment-analyst-program-for-upcoming-graduates-2027-jp",
@@ -1773,6 +2673,34 @@
       "slug": "point72-point72-academy-investment-analyst-program-for-upcoming-graduates-2027-jp-bcf",
       "since": "2026-09-18"
     },
+    "greenhouse-point72-8729791002": {
+      "slug": "point72-point72-academy-2026-investment-analyst-program-for-experienced-professionals-japan-bcf",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8745810002": {
+      "slug": "point72-quantitative-analyst-structured-products-investment-team",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8780028002": {
+      "slug": "point72-equity-financing-trader-asia-pacific",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8782787002": {
+      "slug": "point72-quant-library-developer-macro-technology-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8782933002": {
+      "slug": "point72-macro-analyst-market-intelligence-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8785996002": {
+      "slug": "point72-macro-analyst-market-intelligence-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8790657002": {
+      "slug": "point72-trader-high-yield-distressed-credit-investment-team",
+      "since": "2026-10-12"
+    },
     "greenhouse-point72-8811167002": {
       "slug": "point72-2027-investment-services-internship-pipeline",
       "since": "2026-09-20"
@@ -1781,13 +2709,209 @@
       "slug": "point72-2027-point72-academy-spring-insight-programme-uk",
       "since": "2026-09-30"
     },
+    "greenhouse-point72-8859050002": {
+      "slug": "point72-credit-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-point72-8870196002": {
+      "slug": "point72-quantitative-developer-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-4104490002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-4104778002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-5953097002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6486065002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6557776002": {
+      "slug": "qube-research-and-technologies-data-scientist",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6557829002": {
+      "slug": "qube-research-and-technologies-market-access-developer-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6587663002": {
+      "slug": "qube-research-and-technologies-quantitative-strategist",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6785866002": {
+      "slug": "qube-research-and-technologies-quantitative-strategist-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6845861002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher-middle-east",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6845873002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-6962479002": {
+      "slug": "qube-research-and-technologies-data-scientist-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7505622002": {
+      "slug": "qube-research-and-technologies-software-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7604719002": {
+      "slug": "qube-research-and-technologies-digital-assets-quantitative-trader",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7649237002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7688158002": {
+      "slug": "qube-research-and-technologies-fpga-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7725690002": {
+      "slug": "qube-research-and-technologies-quantitative-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7746883002": {
+      "slug": "qube-research-and-technologies-digital-assets-quantitative-researcher",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7926920002": {
+      "slug": "qube-research-and-technologies-core-pricing-and-risk-platform-senior-c-developer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-7947279002": {
+      "slug": "qube-research-and-technologies-quantitative-strategist-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8039490002": {
+      "slug": "qube-research-and-technologies-c-developer-market-execution",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8052117002": {
+      "slug": "qube-research-and-technologies-front-office-core-developer-digital-assets",
+      "since": "2026-10-12"
+    },
     "greenhouse-quberesearchandtechnologies-8052341002": {
       "slug": "qube-research-and-technologies-2026-internship-quantitative-research-trading",
       "since": "2026-09-01"
     },
+    "greenhouse-quberesearchandtechnologies-8078399002": {
+      "slug": "qube-research-and-technologies-software-engineer-data-lifecycle",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8088244002": {
+      "slug": "qube-research-and-technologies-front-office-quantitative-developer-digital-assets",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8117154002": {
+      "slug": "qube-research-and-technologies-senior-developer-core-trading-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8150185002": {
+      "slug": "qube-research-and-technologies-front-office-pricing-modelling-quant-rates-volatility",
+      "since": "2026-10-12"
+    },
     "greenhouse-quberesearchandtechnologies-8169041002": {
       "slug": "qube-research-and-technologies-2026-internship-quantitative-developer",
       "since": "2026-09-01"
+    },
+    "greenhouse-quberesearchandtechnologies-8175611002": {
+      "slug": "qube-research-and-technologies-digital-assets-quantitative-trader-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8181617002": {
+      "slug": "qube-research-and-technologies-software-engineer-data-and-lifecycle-equities-ca",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8183365002": {
+      "slug": "qube-research-and-technologies-senior-software-engineer-market-access",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8203078002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-hft-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8225791002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-digital-assets-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8286658002": {
+      "slug": "qube-research-and-technologies-software-engineer-data-and-lifecycle-derivatives",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8294446002": {
+      "slug": "qube-research-and-technologies-market-access-developer-c-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8298711002": {
+      "slug": "qube-research-and-technologies-software-engineer-data-and-lifecycle-equities-ca-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8298719002": {
+      "slug": "qube-research-and-technologies-software-engineer-data-and-lifecycle-derivatives-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8339642002": {
+      "slug": "qube-research-and-technologies-data-scientist-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8358440002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-c-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8363135002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-hft-c-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8365889002": {
+      "slug": "qube-research-and-technologies-market-access-developer-c-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8367504002": {
+      "slug": "qube-research-and-technologies-low-latency-c-developer-sydney",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8368567002": {
+      "slug": "qube-research-and-technologies-fpga-engineer-us",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8380924002": {
+      "slug": "qube-research-and-technologies-research-platform-software-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8388215002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-c-2",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8448222002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-c-3",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8483172002": {
+      "slug": "qube-research-and-technologies-python-engineer-market-microstructure-tooling",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8510366002": {
+      "slug": "qube-research-and-technologies-data-scientist-fixed-income",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8515254002": {
+      "slug": "qube-research-and-technologies-fixed-income-risk-engineer-python",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8544834002": {
+      "slug": "qube-research-and-technologies-low-latency-market-data-developer-c",
+      "since": "2026-10-12"
     },
     "greenhouse-quberesearchandtechnologies-8581570002": {
       "slug": "qube-research-and-technologies-2027-internship-quantitative-research-and-trading",
@@ -1795,6 +2919,18 @@
       "was": [
         "qube-research-and-technologies-2027-internship-graduate-quantitative-research-trading"
       ]
+    },
+    "greenhouse-quberesearchandtechnologies-8581841002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-python",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8607638002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-ultra-low-latency-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8615260002": {
+      "slug": "qube-research-and-technologies-senior-software-engineer-quant-research-framework",
+      "since": "2026-10-12"
     },
     "greenhouse-quberesearchandtechnologies-8617401002": {
       "slug": "qube-research-and-technologies-2027-internship-or-graduate-software-engineer",
@@ -1810,6 +2946,22 @@
     "greenhouse-quberesearchandtechnologies-8623977002": {
       "slug": "qube-research-and-technologies-talent-acquisition-campus-paris",
       "since": "2026-09-18"
+    },
+    "greenhouse-quberesearchandtechnologies-8636762002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-python-europe",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8640207002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher-japan-power",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8705713002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-trading-systems-c",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8724333002": {
+      "slug": "qube-research-and-technologies-execution-trader",
+      "since": "2026-10-12"
     },
     "greenhouse-quberesearchandtechnologies-8742098002": {
       "slug": "qube-research-and-technologies-2027-internship-or-graduate-fpga-engineering",
@@ -1839,6 +2991,10 @@
         "qube-research-and-technologies-2027-internship-data-engineering-asia"
       ]
     },
+    "greenhouse-quberesearchandtechnologies-8750542002": {
+      "slug": "qube-research-and-technologies-senior-quantitative-developer-commodities",
+      "since": "2026-10-12"
+    },
     "greenhouse-quberesearchandtechnologies-8773084002": {
       "slug": "qube-research-and-technologies-2027-internship-software-engineering-and-quantitative-development",
       "since": "2026-09-18"
@@ -1858,6 +3014,26 @@
     "greenhouse-quberesearchandtechnologies-8785833002": {
       "slug": "qube-research-and-technologies-2027-internship-quantitative-research-and-trading-europe",
       "since": "2026-09-18"
+    },
+    "greenhouse-quberesearchandtechnologies-8786194002": {
+      "slug": "qube-research-and-technologies-quantitative-researcher-metals",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8809530002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-python-asia",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8826810002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-pre-post-trade-analytics",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8827390002": {
+      "slug": "qube-research-and-technologies-senior-quantitative-developer-python",
+      "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8857906002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-python-c",
+      "since": "2026-10-12"
     },
     "greenhouse-robinhood-8103727": {
       "slug": "robinhood-market-research-strategy-intern-summer-2027",
@@ -2061,25 +3237,93 @@
       "slug": "samsara-firmware-engineer-co-op",
       "since": "2026-09-25"
     },
+    "greenhouse-schonfeld-5460823": {
+      "slug": "schonfeld-quantitative-researcher-hong-kong",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-6772399": {
+      "slug": "schonfeld-quantitative-developer",
+      "since": "2026-10-12"
+    },
     "greenhouse-schonfeld-7185553": {
       "slug": "schonfeld-quantitative-research-developer-intern",
       "since": "2026-09-18"
+    },
+    "greenhouse-schonfeld-7402926": {
+      "slug": "schonfeld-systematic-portfolio-strategy-and-risk-analyst-nyc-or-miami",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-7517021": {
+      "slug": "schonfeld-quantitative-trading-associate",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-7538303": {
+      "slug": "schonfeld-senior-software-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-7541293": {
+      "slug": "schonfeld-strategist-equity-risk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-7544203": {
+      "slug": "schonfeld-senior-quantitative-data-engineer",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-7589451": {
+      "slug": "schonfeld-ai-data-scientist",
+      "since": "2026-10-12"
     },
     "greenhouse-schonfeld-7761282": {
       "slug": "schonfeld-2026-latam-investment-analyst-internship",
       "since": "2026-09-18"
     },
+    "greenhouse-schonfeld-7843972": {
+      "slug": "schonfeld-full-stack-engineer",
+      "since": "2026-10-12"
+    },
     "greenhouse-schonfeld-7950797": {
       "slug": "schonfeld-2026-bsc-msc-phd-quantitative-research-strat-internship",
       "since": "2026-09-18"
+    },
+    "greenhouse-schonfeld-7957507": {
+      "slug": "schonfeld-software-engineer-fundamental-equities",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-7957690": {
+      "slug": "schonfeld-quantitative-developer-fundamental-equities",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-7958235": {
+      "slug": "schonfeld-software-engineer-business-analytics",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-8020671": {
+      "slug": "schonfeld-quant-strategist-credit",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-8020673": {
+      "slug": "schonfeld-quant-strategist-researcher-fx-volatility",
+      "since": "2026-10-12"
     },
     "greenhouse-schonfeld-8044346": {
       "slug": "schonfeld-2026-operational-risk-internship",
       "since": "2026-09-18"
     },
+    "greenhouse-schonfeld-8091369": {
+      "slug": "schonfeld-quant-risk-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-8091383": {
+      "slug": "schonfeld-senior-software-engineer-uk",
+      "since": "2026-10-12"
+    },
     "greenhouse-schonfeld-8094080": {
       "slug": "schonfeld-operations-associate-or-internship",
       "since": "2026-09-01"
+    },
+    "greenhouse-schonfeld-8164468": {
+      "slug": "schonfeld-principal-software-engineer",
+      "since": "2026-10-12"
     },
     "greenhouse-schonfeld-8171692": {
       "slug": "schonfeld-2027-data-science-intern",
@@ -2169,6 +3413,14 @@
       "slug": "schonfeld-2027-quantitative-c-developer-intern",
       "since": "2026-09-30"
     },
+    "greenhouse-schonfeld-8239432": {
+      "slug": "schonfeld-strategist-risk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-schonfeld-8242761": {
+      "slug": "schonfeld-quant-strategist-researcher-fx-volatility-uk",
+      "since": "2026-10-12"
+    },
     "greenhouse-schonfeld-8267092": {
       "slug": "schonfeld-2027-quantitative-developer-intern",
       "since": "2026-10-11"
@@ -2177,13 +3429,85 @@
       "slug": "schonfeld-2027-quantitative-research-intern-us",
       "since": "2026-10-11"
     },
+    "greenhouse-squarepointcapital-1163559": {
+      "slug": "squarepoint-capital-senior-quant-researcher-fixed-income",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-1433622": {
+      "slug": "squarepoint-capital-quant-developer-python",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-1468761": {
+      "slug": "squarepoint-capital-software-developer-core-data",
+      "since": "2026-10-12"
+    },
     "greenhouse-squarepointcapital-243853": {
       "slug": "squarepoint-capital-intern-quant-researcher",
       "since": "2026-09-18"
     },
+    "greenhouse-squarepointcapital-253410": {
+      "slug": "squarepoint-capital-senior-quant-researcher-cta-short-term",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-253411": {
+      "slug": "squarepoint-capital-senior-quant-researcher-equity-mid-low-frequency",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-253413": {
+      "slug": "squarepoint-capital-senior-quant-researcher-intraday-statistical-arbitrage",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-253414": {
+      "slug": "squarepoint-capital-senior-quant-researcher-volatility",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-2546549": {
+      "slug": "squarepoint-capital-desk-quant-analyst",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-271708": {
+      "slug": "squarepoint-capital-software-developer-risk-data-pipelines",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-3277003": {
+      "slug": "squarepoint-capital-quant-developer-kdb",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-4346989": {
+      "slug": "squarepoint-capital-software-developer-data-products-and-services",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-4904130": {
+      "slug": "squarepoint-capital-senior-discretionary-trader-equities",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-4904137": {
+      "slug": "squarepoint-capital-senior-discretionary-trader-credit",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-4904158": {
+      "slug": "squarepoint-capital-senior-discretionary-trader-macro",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-4906785": {
+      "slug": "squarepoint-capital-software-developer-internal-compute-frameworks-python",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-5384579": {
+      "slug": "squarepoint-capital-software-developer-risk-reliability",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-5986280": {
+      "slug": "squarepoint-capital-software-developer-internal-compute-frameworks-rust",
+      "since": "2026-10-12"
+    },
     "greenhouse-squarepointcapital-6040910": {
       "slug": "squarepoint-capital-graduate-software-developer",
       "since": "2026-09-18"
+    },
+    "greenhouse-squarepointcapital-609831": {
+      "slug": "squarepoint-capital-software-developer-order-gateway",
+      "since": "2026-10-12"
     },
     "greenhouse-squarepointcapital-6100081": {
       "slug": "squarepoint-capital-graduate-trading-applications-specialist",
@@ -2192,6 +3516,18 @@
     "greenhouse-squarepointcapital-6201998": {
       "slug": "squarepoint-capital-intern-software-developer-singapore-2027",
       "since": "2026-09-18"
+    },
+    "greenhouse-squarepointcapital-6212106": {
+      "slug": "squarepoint-capital-software-developer-risk-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-6715949": {
+      "slug": "squarepoint-capital-software-developer-market-data-integration",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-6977749": {
+      "slug": "squarepoint-capital-shift-trader",
+      "since": "2026-10-12"
     },
     "greenhouse-squarepointcapital-7231006": {
       "slug": "squarepoint-capital-intern-software-developer-london-2027",
@@ -2209,6 +3545,10 @@
       "slug": "squarepoint-capital-graduate-quant-developer",
       "since": "2026-09-18"
     },
+    "greenhouse-squarepointcapital-8002291": {
+      "slug": "squarepoint-capital-apac-delta-one-trader",
+      "since": "2026-10-12"
+    },
     "greenhouse-squarepointcapital-8045124": {
       "slug": "squarepoint-capital-intern-software-developer-warsaw-2027",
       "since": "2026-10-07"
@@ -2217,6 +3557,14 @@
       "slug": "squarepoint-capital-operations-intern-fall",
       "since": "2026-09-01"
     },
+    "greenhouse-squarepointcapital-8092644": {
+      "slug": "squarepoint-capital-software-developer-data-reliability",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-8092777": {
+      "slug": "squarepoint-capital-software-developer-data-platform",
+      "since": "2026-10-12"
+    },
     "greenhouse-squarepointcapital-8174630": {
       "slug": "squarepoint-capital-equities-analyst-summer-internship-program",
       "since": "2026-10-02"
@@ -2224,6 +3572,26 @@
     "greenhouse-squarepointcapital-8203583": {
       "slug": "squarepoint-capital-campus-recruitment-specialist",
       "since": "2026-09-29"
+    },
+    "greenhouse-squarepointcapital-8209423": {
+      "slug": "squarepoint-capital-quantitative-researcher-discretionary-oil",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-8257346": {
+      "slug": "squarepoint-capital-quantitative-researcher-volatility-medium-frequency",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-8257365": {
+      "slug": "squarepoint-capital-quantitative-researcher-equity-mid-frequency",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-8268176": {
+      "slug": "squarepoint-capital-lead-software-developer-options-market-making",
+      "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-953511": {
+      "slug": "squarepoint-capital-software-developer-data-pipelines-python",
+      "since": "2026-10-12"
     },
     "greenhouse-stripe-7544547": {
       "slug": "stripe-operations-associate-new-grad-mexico",
@@ -2348,17 +3716,121 @@
       "slug": "twilio-software-engineer-intern-january-12th-start-23-weeks",
       "since": "2026-09-18"
     },
+    "greenhouse-williamblair-4715906007": {
+      "slug": "william-blair-investment-banking-senior-analyst-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-4730471007": {
+      "slug": "william-blair-investment-banking-associate-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-4825105007": {
+      "slug": "william-blair-investment-banking-vice-president-insurance",
+      "since": "2026-10-12"
+    },
     "greenhouse-williamblair-4977450007": {
       "slug": "william-blair-2027-investment-banking-summer-analyst-life-sciences-biotechnology",
       "since": "2026-09-24"
+    },
+    "greenhouse-williamblair-5005161007": {
+      "slug": "william-blair-investment-banking-associate-tech-enabled-services",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5062787007": {
+      "slug": "william-blair-research-analyst-u-s-growth-and-core-equity-generalist",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5077802007": {
+      "slug": "william-blair-research-analyst-china-coverage",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5151771007": {
+      "slug": "william-blair-investment-banking-vice-president-1-services-and-industrials",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5181697007": {
+      "slug": "william-blair-2027-investment-banking-full-time-mba-associate",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5185359007": {
+      "slug": "william-blair-investment-banking-associate-technology-uk",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5186505007": {
+      "slug": "william-blair-senior-research-associate-global-equity-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5186683007": {
+      "slug": "william-blair-investment-banking-associate-industrial-growth-products-energy-energy-transition",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5187601007": {
+      "slug": "william-blair-investment-banking-associate-biotechnology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5190887007": {
+      "slug": "william-blair-investment-banking-associate-supply-chain-and-commercial-services-sccs",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5191967007": {
+      "slug": "william-blair-investment-banking-vice-president-private-capital-markets",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5191971007": {
+      "slug": "william-blair-investment-banking-associate-private-capital-markets",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5192918007": {
+      "slug": "william-blair-investment-banking-associate-industrial-growth-products-material-sciences",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5203353007": {
+      "slug": "william-blair-investment-banking-associate-secondary-advisory",
+      "since": "2026-10-12"
     },
     "greenhouse-williamblair-5221129007": {
       "slug": "william-blair-london-investment-banking-summer-analyst-summer-2027-programme",
       "since": "2026-09-18"
     },
+    "greenhouse-williamblair-5221829007": {
+      "slug": "william-blair-investment-banking-senior-analyst-healthcare",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5226724007": {
+      "slug": "william-blair-investment-banking-associate-private-capital-advisory-gp-led-secondaries",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5226728007": {
+      "slug": "william-blair-investment-banking-vice-president-private-capital-advisory-gp-led-secondaries",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5226731007": {
+      "slug": "william-blair-investment-banking-analyst-biotechnology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5236786007": {
+      "slug": "william-blair-investment-banking-associate-aerospace-defense-and-government-services-adgs",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5243362007": {
+      "slug": "william-blair-research-associate-u-s-growth-and-core-technology",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5245824007": {
+      "slug": "william-blair-investment-banking-associate-healthcare",
+      "since": "2026-10-12"
+    },
     "greenhouse-williamblair-5246965007": {
       "slug": "william-blair-frankfurt-investment-banking-internship-july-2027",
       "since": "2026-10-01"
+    },
+    "greenhouse-williamblair-5247223007": {
+      "slug": "william-blair-investment-banking-vice-president-tech-enabled-services",
+      "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5247647007": {
+      "slug": "william-blair-research-analyst-u-s-growth-and-core-financials",
+      "since": "2026-10-12"
     },
     "janestreet-jane-street-5866838002": {
       "slug": "jane-street-tools-and-compilers-research-and-development",
@@ -2988,6 +4460,34 @@
       "slug": "palantir-software-engineer-internship-infrastructure-uk",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210564016": {
+      "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210612523": {
+      "slug": "jpmorgan-chase-investment-banking-technical-transaction-team-energy-associate-engineer",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210652790": {
+      "slug": "jpmorgan-chase-investment-banking-mid-cap-investment-banking-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210668217": {
+      "slug": "jpmorgan-chase-investment-banking-emea-technology-manda-analyst-associate-london",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210677119": {
+      "slug": "jpmorgan-chase-global-investment-banking-japan-coverage-analyst-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210679590": {
+      "slug": "jpmorgan-chase-investment-banking-business-services-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210682426": {
+      "slug": "jpmorgan-chase-investment-banking-consumer-and-retail-associate",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210690282": {
       "slug": "jpmorgan-chase-2027-markets-summer-analyst-program-research",
       "since": "2026-09-27"
@@ -3040,13 +4540,97 @@
       "slug": "jpmorgan-chase-2027-asset-and-wealth-management-risk-summer-analyst-program",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210695201": {
+      "slug": "jpmorgan-chase-investment-banking-technical-transaction-team-energy-associate-geologist",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210695929": {
+      "slug": "jpmorgan-chase-global-investment-banking-private-capital-markets-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210701316": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-treasury-advanced-treasury-analytics-senior-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210708215": {
+      "slug": "jpmorgan-chase-manda-banker-analyst-associate",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210708872": {
       "slug": "jpmorgan-chase-campus-recruiter-associate",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210709022": {
+      "slug": "jpmorgan-chase-investment-banking-emea-consumer-and-retail-associate-london",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210710453": {
+      "slug": "jpmorgan-chase-hedge-fund-services-financial-reporting-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210712771": {
+      "slug": "jpmorgan-chase-investment-banking-leveraged-finance-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210713943": {
+      "slug": "jpmorgan-chase-investment-banking-mid-cap-business-services-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210714134": {
+      "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-specialty-finance-and-alternative-asset-management-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210716079": {
+      "slug": "jpmorgan-chase-global-investment-banking-tmt-analyst-associate-korean-speaking",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210716332": {
+      "slug": "jpmorgan-chase-investment-banking-healthcare-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210716390": {
+      "slug": "jpmorgan-chase-investment-banking-mid-cap-investment-banking-associate-us",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210717652": {
+      "slug": "jpmorgan-chase-investment-banking-mergers-and-acquisitions-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210719068": {
+      "slug": "jpmorgan-chase-investment-banking-emea-private-capital-manda-associate-london",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210723576": {
+      "slug": "jpmorgan-chase-asset-management-commercial-real-estate-debt-underwriter-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210725738": {
+      "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-insurance-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210728429": {
+      "slug": "jpmorgan-chase-investment-banking-power-and-renewables-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210728761": {
+      "slug": "jpmorgan-chase-investment-banking-emea-manda-diversified-industries-associate-london",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210732422": {
+      "slug": "jpmorgan-chase-global-corporate-banking-coverage-banker-fig-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210734098": {
+      "slug": "jpmorgan-chase-systematic-credit-trading-ficc-etf-trader-associate",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210738469": {
       "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-brussels",
       "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210738948": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-commodities-quantitative-trading-associate",
+      "since": "2026-10-12"
     },
     "oracle-jpmc-fa-oraclecloud-com-210739544": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-stockholm",
@@ -3104,6 +4688,10 @@
       "slug": "jpmorgan-chase-2027-asset-management-program-summer-internship-hong-kong",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210743938": {
+      "slug": "jpmorgan-chase-global-credit-trading-credit-exotics-trader-analyst-or-associate",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210745202": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-summer-internship-singapore",
       "since": "2026-09-27"
@@ -3128,9 +4716,21 @@
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-summer-internship-hong-kong",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210745818": {
+      "slug": "jpmorgan-chase-investment-banking-emea-healthcare-associate-london",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210746917": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-risk-associate-ghhn",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210747060": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-hong-kong",
       "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210747062": {
+      "slug": "jpmorgan-chase-quant-analytics-senior-associate-audience-management-validation-data-management",
+      "since": "2026-10-12"
     },
     "oracle-jpmc-fa-oraclecloud-com-210747391": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-research-hong-kong",
@@ -3164,6 +4764,14 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-sales-taipei",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210748770": {
+      "slug": "jpmorgan-chase-investment-banking-uk-real-estate-senior-associate-london",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210749309": {
+      "slug": "jpmorgan-chase-investment-banking-private-capital-solutions-associate",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210749749": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-program-summer-analyst-hong-kong",
       "since": "2026-09-27"
@@ -3184,6 +4792,14 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-summer-analyst-singapore",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210751165": {
+      "slug": "jpmorgan-chase-quant-analytics-associate-sr-dart",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210751509": {
+      "slug": "jpmorgan-chase-quant-model-risk-associate-rates",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210753819": {
       "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-hong-kong",
       "since": "2026-09-27"
@@ -3199,6 +4815,46 @@
     "oracle-jpmc-fa-oraclecloud-com-210754425": {
       "slug": "jpmorgan-chase-2027-software-engineer-program-summer-internship-singapore",
       "since": "2026-09-28"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210754507": {
+      "slug": "jpmorgan-chase-risk-management-wholesale-credit-analyst-senior-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210754743": {
+      "slug": "jpmorgan-chase-global-investment-banking-dcm-analyst-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210755762": {
+      "slug": "jpmorgan-chase-global-corporate-banking-dach-innovation-economy-coverage-associate-frankfurt-munich-all-genders",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210756430": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-applied-researcher-agentic-ai-systems-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210759256": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-systematic-trading-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210759488": {
+      "slug": "jpmorgan-chase-global-credit-trading-and-syndicate-primary-clo-structuring-and-origination-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210759543": {
+      "slug": "jpmorgan-chase-quant-analytics-senior-associate-deposit-pricing",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210759876": {
+      "slug": "jpmorgan-chase-alternatives-fund-structuring-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210760883": {
+      "slug": "jpmorgan-chase-quant-analytics-senior-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210760903": {
+      "slug": "jpmorgan-chase-quant-analytics-senior-associate-card-data-analytics",
+      "since": "2026-10-12"
     },
     "oracle-jpmc-fa-oraclecloud-com-210761711": {
       "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-global-corporate-banking",
@@ -3216,9 +4872,49 @@
       "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-research-and-analytics",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210761775": {
+      "slug": "jpmorgan-chase-asset-management-opening-market-insights-research-analyst-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210762265": {
+      "slug": "jpmorgan-chase-commercial-and-investment-banking-strategy-analyst-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210762506": {
+      "slug": "jpmorgan-chase-investment-banking-associate-diversified-industries-canada",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763029": {
+      "slug": "jpmorgan-chase-wholesale-credit-quantitative-research-senior-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763356": {
+      "slug": "jpmorgan-chase-investment-banking-emea-financial-institutions-group-associate-london",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763519": {
+      "slug": "jpmorgan-chase-u-s-private-bank-investment-professional-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210764006": {
+      "slug": "jpmorgan-chase-financial-analysis-associate-chase-auto-corporate-development-finance",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210764119": {
+      "slug": "jpmorgan-chase-service-product-analytics-team-quant-analytics-senior-associate",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210764354": {
       "slug": "jpmorgan-chase-fresh-graduates-talent-pooling-entry-level-position",
       "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210764502": {
+      "slug": "jpmorgan-chase-investment-banking-private-capital-advisory-associate",
+      "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210764643": {
+      "slug": "jpmorgan-chase-payments-corporate-development-and-partnerships-senior-associate",
+      "since": "2026-10-12"
     },
     "oracle-jpmc-fa-oraclecloud-com-210765224": {
       "slug": "jpmorgan-chase-2027-human-resources-analyst-development-program-summer-analyst-opportunity",
@@ -3260,6 +4956,10 @@
       "slug": "jpmorgan-chase-2027-operations-analyst-program-summer-analyst-az-de-fl-oh-tx",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210766033": {
+      "slug": "jpmorgan-chase-wealth-management-investment-analyst-j-p-morgan-personal-investing-associate-london",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210766050": {
       "slug": "jpmorgan-chase-2027-asia-analyst-development-program-summer-analyst-indonesia",
       "since": "2026-09-27"
@@ -3284,6 +4984,10 @@
       "slug": "jpmorgan-chase-2027-asia-analyst-development-program-summer-analyst-philippines",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210766493": {
+      "slug": "jpmorgan-chase-global-investment-banking-associate-analyst-thailand",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210766897": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-program-summer-analyst-tokyo",
       "since": "2026-09-27"
@@ -3304,6 +5008,10 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-corporate-banking-program-summer-analyst-tokyo",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210767042": {
+      "slug": "jpmorgan-chase-quant-interest-rate-risk-senior-associate",
+      "since": "2026-10-12"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210767069": {
       "slug": "jpmorgan-chase-2027-chase-associate-program-summer-associate-opportunity-oh-tx-de",
       "since": "2026-09-27"
@@ -3315,6 +5023,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210768195": {
       "slug": "jpmorgan-chase-2027-chase-leadership-development-program-summer-analyst-opportunity-oh-tx-de",
       "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210768769": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-portfolio-associate",
+      "since": "2026-10-12"
     },
     "oracle-jpmc-fa-oraclecloud-com-210770125": {
       "slug": "jpmorgan-chase-drive-the-future-program-for-students-operations-part-time",
@@ -4504,6 +6216,10 @@
       "slug": "accenture-graduate-analyst-talent-advancement-program",
       "since": "2026-09-20"
     },
+    "workday-accenture-R00235738": {
+      "slug": "accenture-software-engineering-new-associate-fresh-diploma-graduate-program-2",
+      "since": "2026-10-12"
+    },
     "workday-accenture-R00236260": {
       "slug": "accenture-strategy-and-consulting-fresh-graduates",
       "since": "2026-09-20"
@@ -4848,6 +6564,42 @@
       "slug": "apollo-global-management-2027-summer-analyst-client-and-product-solutions",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000070522-1": {
+      "slug": "barclays-quantitative-analyst-avp-treasury",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000085801-1": {
+      "slug": "barclays-avp-quantitative-analytics-ccr-modeler",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000086704": {
+      "slug": "barclays-vp-southeast-asia-coverage-private-banker",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000088960": {
+      "slug": "barclays-vice-president-global-markets-liquid-financing-quantitative-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000101827-1": {
+      "slug": "barclays-equity-research-aerospace-and-defense-defense-tech-avp",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000102369": {
+      "slug": "barclays-residential-warehouse-trader-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000106026-1": {
+      "slug": "barclays-multi-asset-dealer-and-portfolio-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000112103-1": {
+      "slug": "barclays-limits-and-otc-trading-technology-lead-vp",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000116727": {
+      "slug": "barclays-credit-quantitative-developer",
+      "since": "2026-10-12"
+    },
     "workday-barclays-JR-0000117558": {
       "slug": "barclays-investment-banking-summer-internship-programme-2027-hong-kong",
       "since": "2026-09-01"
@@ -4880,9 +6632,21 @@
       "slug": "barclays-electronic-trading-associate-summer-internship-programme-2027-hong-kong",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000118817-1": {
+      "slug": "barclays-quant-analytics-treasury-vice-president",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000119519": {
+      "slug": "barclays-equity-research-airlines-and-transportation-avp",
+      "since": "2026-10-12"
+    },
     "workday-barclays-JR-0000119610": {
       "slug": "barclays-research-analyst-summer-internship-programme-2027-singapore",
       "since": "2026-09-01"
+    },
+    "workday-barclays-JR-0000121569": {
+      "slug": "barclays-rates-quantitative-analyst-vp",
+      "since": "2026-10-12"
     },
     "workday-barclays-JR-0000121763": {
       "slug": "barclays-2027-technology-developer-summer-internship-programme-singapore",
@@ -5200,6 +6964,10 @@
       "slug": "barclays-international-corporate-banking-off-cycle-internship-programme-2027-paris",
       "since": "2026-09-01"
     },
+    "workday-barclays-JR-0000124939": {
+      "slug": "barclays-avp-sppm-conduit-structuring",
+      "since": "2026-10-12"
+    },
     "workday-barclays-JR-0000124958": {
       "slug": "barclays-banking-graduate-programme-2027-tel-aviv",
       "since": "2026-09-18"
@@ -5211,6 +6979,14 @@
     "workday-barclays-JR-0000125017": {
       "slug": "barclays-uk-corporate-banking-degree-apprenticeship-programme-2027-leeds",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000126680-1": {
+      "slug": "barclays-rates-structuring-avp",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000127736": {
+      "slug": "barclays-quantitative-analytics-liquid-financing-avp",
+      "since": "2026-10-12"
     },
     "workday-barclays-JR-0000128099": {
       "slug": "barclays-quantitative-finance-associate-summer-internship-program-2027-new-york",
@@ -5231,6 +7007,10 @@
     "workday-barclays-JR-0000128136": {
       "slug": "barclays-private-bank-and-wealth-management-graduate-programme-2027-singapore",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000128711": {
+      "slug": "barclays-emerging-markets-asia-fx-and-rates-strategist",
+      "since": "2026-10-12"
     },
     "workday-barclays-JR-0000128942": {
       "slug": "barclays-2027-compliance-analyst-summer-internship-programme-london",
@@ -5456,6 +7236,10 @@
       "slug": "barclays-2027-technology-analyst-summer-internship-programme-knutsford",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000129511": {
+      "slug": "barclays-project-finance-investment-banking-director",
+      "since": "2026-10-12"
+    },
     "workday-barclays-JR-0000129548": {
       "slug": "barclays-2027-internal-audit-analyst-summer-internship-programme-london",
       "since": "2026-09-18"
@@ -5480,6 +7264,10 @@
       "slug": "barclays-2027-business-banking-apprenticeship-programme-manchester",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000129734": {
+      "slug": "barclays-quant-ai-ml-model-developer-vp",
+      "since": "2026-10-12"
+    },
     "workday-barclays-JR-0000130188": {
       "slug": "barclays-banking-analyst-summer-internship-program-2027-mexico-city",
       "since": "2026-09-27"
@@ -5491,6 +7279,14 @@
     "workday-barclays-JR-0000130414": {
       "slug": "barclays-us-consumer-bank-analyst-summer-internship-program-2027-wilmington",
       "since": "2026-09-27"
+    },
+    "workday-barclays-JR-0000130485": {
+      "slug": "barclays-equity-research-biotech-avp",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000130486": {
+      "slug": "barclays-equity-research-biopharmaceuticals-vp",
+      "since": "2026-10-12"
     },
     "workday-barclays-JR-0000130640": {
       "slug": "barclays-banking-associate-summer-internship-program-2027-chicago",
@@ -5536,9 +7332,21 @@
       "slug": "barclays-2027-quantitative-analytics-analyst-graduate-program-new-york",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000131581": {
+      "slug": "barclays-quant-analyst-avp",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000131584": {
+      "slug": "barclays-quant-analyst-vp",
+      "since": "2026-10-12"
+    },
     "workday-barclays-JR-0000131878": {
       "slug": "barclays-uk-corporate-banking-degree-apprenticeship-programme-2027-belfast",
       "since": "2026-09-28"
+    },
+    "workday-barclays-JR-0000132046-1": {
+      "slug": "barclays-relationship-director-global-corporates-coverage-southeast-asia-vp",
+      "since": "2026-10-12"
     },
     "workday-barclays-JR-0000132400": {
       "slug": "barclays-international-corporate-banking-off-cycle-internship-programme-2027-amsterdam",
@@ -5547,6 +7355,18 @@
     "workday-barclays-JR-0000132730": {
       "slug": "barclays-sales-trading-and-structuring-graduate-programme-2027-zurich",
       "since": "2026-09-18"
+    },
+    "workday-barclays-JR-0000132739": {
+      "slug": "barclays-equity-research-analyst-avp-pharmaceuticals-team",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000133916": {
+      "slug": "barclays-research-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000134199-1": {
+      "slug": "barclays-investment-banking-coverage-vp",
+      "since": "2026-10-12"
     },
     "workday-barclays-JR-0000134430": {
       "slug": "barclays-trading-analyst-summer-internship-program-2027-mexico-city",
@@ -5956,6 +7776,22 @@
       "slug": "bmo-capital-markets-investment-intern-gam-summer-2027-co-op-internship-4-months-us",
       "since": "2026-10-08"
     },
+    "workday-capitalone-R1000018-1": {
+      "slug": "capital-one-analyst-specialty-underwriting-and-portfolio-management-fig",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R1001136-1": {
+      "slug": "capital-one-senior-associate-capital-markets-and-risk-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R1001900": {
+      "slug": "capital-one-senior-quantitative-analyst-global-finance",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R1002086-1": {
+      "slug": "capital-one-credit-analyst-i",
+      "since": "2026-10-12"
+    },
     "workday-capitalone-R1002165-1": {
       "slug": "capital-one-intern-data-scientist-summer-2027",
       "since": "2026-10-05"
@@ -5964,9 +7800,33 @@
       "slug": "capital-one-associate-software-engineer-new-grad",
       "since": "2026-10-07"
     },
+    "workday-capitalone-R1003465-1": {
+      "slug": "capital-one-principal-associate-quantitative-analysis",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R231624": {
+      "slug": "capital-one-principal-associate-quantitative-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R236369": {
+      "slug": "capital-one-senior-associate-quantitative-analyst-commercial-credit-modeling-team",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R237029-2": {
+      "slug": "capital-one-kippsdesanto-investment-banking-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R239530": {
+      "slug": "capital-one-tripletree-investment-banking-associate",
+      "since": "2026-10-12"
+    },
     "workday-capitalone-R242577-1": {
       "slug": "capital-one-associate-strategy-analyst-new-grad-2027",
       "since": "2026-09-18"
+    },
+    "workday-capitalone-R243614": {
+      "slug": "capital-one-senior-director-community-finance-underwriting-and-portfolio-management",
+      "since": "2026-10-12"
     },
     "workday-capitalone-R243855-1": {
       "slug": "capital-one-intern-strategy-analyst-summer-2027",
@@ -6016,6 +7876,18 @@
       "slug": "capital-one-associate-recruiter-students-and-grads-up-to-25-travel-required",
       "since": "2026-09-01"
     },
+    "workday-capitalone-R247768-1": {
+      "slug": "capital-one-director-quantitative-analysis-commercial-credit-modeling-team",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R248249-1": {
+      "slug": "capital-one-sr-associate-capital-markets-and-risk-systems-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R248892-2": {
+      "slug": "capital-one-sr-analyst-capital-markets-and-risk",
+      "since": "2026-10-12"
+    },
     "workday-capitalone-R249010": {
       "slug": "capital-one-intern-full-stack-software-engineer-team-sprout-winter-2027",
       "since": "2026-09-01"
@@ -6040,6 +7912,18 @@
       "slug": "capital-one-current-phd-ai-engineering-internship-program-summer-2027",
       "since": "2026-09-18"
     },
+    "workday-capitalone-R249190-1": {
+      "slug": "capital-one-principal-quantitative-analyst-global-finance",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R249438-1": {
+      "slug": "capital-one-sr-analyst-capital-markets-and-analytics",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R999184-1": {
+      "slug": "capital-one-sr-associate-capital-markets-and-analytics",
+      "since": "2026-10-12"
+    },
     "workday-capitalone-R999265": {
       "slug": "capital-one-strategy-analyst-graduate",
       "since": "2026-09-01"
@@ -6056,6 +7940,14 @@
       "slug": "capital-one-technology-summer-internship",
       "since": "2026-09-01"
     },
+    "workday-capitalone-R999358-2": {
+      "slug": "capital-one-sr-associate-capital-markets-and-risk",
+      "since": "2026-10-12"
+    },
+    "workday-capitalone-R999504": {
+      "slug": "capital-one-director-commercial-risk-underwriting-and-portfolio-management",
+      "since": "2026-10-12"
+    },
     "workday-capitalone-R999613-1": {
       "slug": "capital-one-associate-data-analyst-new-grad-2027-start",
       "since": "2026-09-18"
@@ -6071,6 +7963,10 @@
     "workday-capitalone-R999619-1": {
       "slug": "capital-one-intern-data-scientist-winter-2027",
       "since": "2026-09-18"
+    },
+    "workday-capitalone-R999742-1": {
+      "slug": "capital-one-principal-associate-energy-investment-banking",
+      "since": "2026-10-12"
     },
     "workday-cibc-2604726-1": {
       "slug": "cibc-2027-investment-banking-summer-analyst-energy-infrastructure-and-transition",
@@ -6591,6 +8487,10 @@
       "slug": "citi-client-citi-research-summer-analyst-london-united-kingdom-2027",
       "since": "2026-10-11"
     },
+    "workday-citi-26995422": {
+      "slug": "citi-risk-summer-analyst-warsaw-2027",
+      "since": "2026-10-12"
+    },
     "workday-citi-26995475": {
       "slug": "citi-services-summer-analyst-uk-london-2027",
       "since": "2026-09-18"
@@ -6806,6 +8706,10 @@
     "workday-fticonsulting-JR261446": {
       "slug": "fti-consulting-intern-consultant-cyber-threat-intelligence-cti-and-investigation-num-rique-dfir",
       "since": "2026-09-29"
+    },
+    "workday-fticonsulting-JR261504": {
+      "slug": "fti-consulting-graduate-consultant-economic-and-financial-consulting-asia",
+      "since": "2026-10-12"
     },
     "workday-fticonsulting-JR261518": {
       "slug": "fti-consulting-intern-capital-advisors-l-corporate-finance",
@@ -7042,6 +8946,10 @@
       "slug": "huron-consulting-group-it-contact-support-intern-chicago-il-onsite-opportunity",
       "since": "2026-10-06"
     },
+    "workday-ing-0258428": {
+      "slug": "ing-principal-expert-insurance-business-and-portfolio-management",
+      "since": "2026-10-12"
+    },
     "workday-ing-REQ-10090756": {
       "slug": "ing-internship-customer-journey-expert",
       "since": "2026-09-27"
@@ -7049,6 +8957,10 @@
     "workday-ing-REQ-10094147": {
       "slug": "ing-ing-wb-capital-markets-and-advisory-internship-program",
       "since": "2026-09-01"
+    },
+    "workday-ing-REQ-10106117": {
+      "slug": "ing-associate-portfolio-management-corporate-finance",
+      "since": "2026-10-12"
     },
     "workday-ing-REQ-10114460": {
       "slug": "ing-internship-sustainable-finance-business-banking",
@@ -7082,6 +8994,10 @@
       "slug": "ing-internship-trainee-management-team",
       "since": "2026-09-01"
     },
+    "workday-ing-REQ-10117272-1": {
+      "slug": "ing-analyst-associate-corporate-finance",
+      "since": "2026-10-12"
+    },
     "workday-ing-REQ-10117688": {
       "slug": "ing-internship-it-network-infrastructure-and-cybersecurity",
       "since": "2026-09-27"
@@ -7101,6 +9017,10 @@
     "workday-ing-REQ-10118592": {
       "slug": "ing-internship-marketing-ing-private-banking",
       "since": "2026-09-01"
+    },
+    "workday-ing-REQ-10118692": {
+      "slug": "ing-vp-of-portfolio-management-specialised-in-tmt-spain-and-portugal",
+      "since": "2026-10-12"
     },
     "workday-ing-REQ-10118803": {
       "slug": "ing-talent-learning-leadership-and-dib-intern-1",
@@ -7125,6 +9045,10 @@
     "workday-ing-REQ-10119670": {
       "slug": "ing-internship-data-operations-officer",
       "since": "2026-09-01"
+    },
+    "workday-ing-REQ-10119709-1": {
+      "slug": "ing-senior-credit-analyst-project-finance",
+      "since": "2026-10-12"
     },
     "workday-ing-REQ-10119802-1": {
       "slug": "ing-intern-trading-risk-management",
@@ -7185,6 +9109,10 @@
       "slug": "ing-intern-asset-securitisation-global-capital-markets",
       "since": "2026-09-18"
     },
+    "workday-ing-REQ-10120262-1": {
+      "slug": "ing-vice-president-acquisition-finance-dach-and-benelux-f-m-x",
+      "since": "2026-10-12"
+    },
     "workday-ing-REQ-10120308": {
       "slug": "ing-intern-for-client-services-uk-team",
       "since": "2026-09-01"
@@ -7217,6 +9145,10 @@
       "slug": "ing-intern-global-investment-centre-spain",
       "since": "2026-09-01"
     },
+    "workday-ing-REQ-10120597": {
+      "slug": "ing-analyst-debt-capital-markets-investment-grade",
+      "since": "2026-10-12"
+    },
     "workday-ing-REQ-10120673-2": {
       "slug": "ing-intern-acquisition-finance",
       "since": "2026-09-18"
@@ -7232,6 +9164,10 @@
     "workday-ing-REQ-10120783-1": {
       "slug": "ing-intern-corporate-sector-lending",
       "since": "2026-09-18"
+    },
+    "workday-ing-REQ-10120851": {
+      "slug": "ing-vice-president-portfolio-management-project-finance-energy-and-tmt-f-m-x",
+      "since": "2026-10-12"
     },
     "workday-ing-REQ-10120855-1": {
       "slug": "ing-intern-debt-capital-markets-apac",
@@ -7277,9 +9213,17 @@
       "slug": "ing-event-management-internship",
       "since": "2026-09-24"
     },
+    "workday-ing-REQ-10121390-1": {
+      "slug": "ing-vice-president-portfolio-management",
+      "since": "2026-10-12"
+    },
     "workday-ing-REQ-10121394": {
       "slug": "ing-intern-fm-product-control",
       "since": "2026-09-18"
+    },
+    "workday-ing-REQ-10121423-1": {
+      "slug": "ing-associate-midcorp-manda",
+      "since": "2026-10-12"
     },
     "workday-ing-REQ-10121429": {
       "slug": "ing-recruitment-admin-intern-ing-hubs-romania",
@@ -7292,6 +9236,14 @@
     "workday-ing-REQ-10121509": {
       "slug": "ing-internship-debt-capital-markets-ig-corporate-origination",
       "since": "2026-09-24"
+    },
+    "workday-ing-REQ-10121514": {
+      "slug": "ing-senior-credit-risk-portfolio-analyst",
+      "since": "2026-10-12"
+    },
+    "workday-ing-REQ-10121528-1": {
+      "slug": "ing-acquisition-finance-portfolio-management-vp",
+      "since": "2026-10-12"
     },
     "workday-ing-REQ-10121542-2": {
       "slug": "ing-engineering-intern-agentic-ai-domain",
@@ -7472,6 +9424,18 @@
     "workday-ing-REQ-10123004": {
       "slug": "ing-internship-ing-corporate-finance",
       "since": "2026-10-09"
+    },
+    "workday-ing-REQ-10123022": {
+      "slug": "ing-internship-customer-experience-and-customer-journey-expert",
+      "since": "2026-10-12"
+    },
+    "workday-ing-REQ-10123121": {
+      "slug": "ing-ing-s-early-career-event",
+      "since": "2026-10-12"
+    },
+    "workday-ing-REQ-10123129": {
+      "slug": "ing-complaints-intern",
+      "since": "2026-10-12"
     },
     "workday-intel-JR0281401": {
       "slug": "intel-practical-engineering-student-kiryat-gat",
@@ -7880,6 +9844,10 @@
       "slug": "intel-project-analyst-student",
       "since": "2026-10-06"
     },
+    "workday-intel-JR0287877": {
+      "slug": "intel-physical-design-engineering-student",
+      "since": "2026-10-12"
+    },
     "workday-intel-JR0287884": {
       "slug": "intel-gpu-software-performance-intern",
       "since": "2026-10-07"
@@ -7915,6 +9883,10 @@
     "workday-intel-JR0287941": {
       "slug": "intel-compiler-engineering-intern",
       "since": "2026-10-08"
+    },
+    "workday-intel-JR0288056": {
+      "slug": "intel-ai-software-development-engineer-intern",
+      "since": "2026-10-12"
     },
     "workday-investpsp-R4850": {
       "slug": "psp-investments-intern-private-equity-london-6-months-off-cycle-january-june-2027",
@@ -8528,6 +10500,14 @@
       "slug": "nvidia-asic-intern-summer-2027",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2025835": {
+      "slug": "nvidia-pmu-asic-engineer-new-college-graduate-2027",
+      "since": "2026-10-12"
+    },
+    "workday-nvidia-JR2026044": {
+      "slug": "nvidia-pmu-verification-engineer-new-college-graduate-2027",
+      "since": "2026-10-12"
+    },
     "workday-nvidia-JR2026839-1": {
       "slug": "nvidia-research-intern-world-models-and-synthetic-data-for-autonomous-driving-summer-2027",
       "since": "2026-10-11"
@@ -8535,6 +10515,14 @@
     "workday-nvidia-JR2027251": {
       "slug": "nvidia-cpu-compiler-intern-2027",
       "since": "2026-10-09"
+    },
+    "workday-nvidia-JR2027260-1": {
+      "slug": "nvidia-cpu-compiler-intern-2027-asia",
+      "since": "2026-10-12"
+    },
+    "workday-nvidia-JR2027378": {
+      "slug": "nvidia-accelerated-computing-research-intern",
+      "since": "2026-10-12"
     },
     "workday-omers-JR-8378": {
       "slug": "omers-student-private-equity-analyst-summer-2027-4-months",
@@ -9326,6 +11314,10 @@
     "workday-wf-R-580897": {
       "slug": "wells-fargo-branch-banking-management-military-apprentice-safe-wilmington-nc",
       "since": "2026-10-09"
+    },
+    "workday-wf-R-581158": {
+      "slug": "wells-fargo-customer-service-representative-fresh-graduates-asia",
+      "since": "2026-10-12"
     }
   }
 }
