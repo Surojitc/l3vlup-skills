@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-12T15:58:37.244Z",
-  "count": 2810,
+  "generatedAt": "2026-10-13T14:30:44.432Z",
+  "count": 3104,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -500,6 +500,10 @@
       "slug": "akuna-capital-floor-trader-spx",
       "since": "2026-10-12"
     },
+    "greenhouse-akunacapital-7773141": {
+      "slug": "akuna-capital-junior-trader",
+      "since": "2026-10-13"
+    },
     "greenhouse-akunacapital-7846695": {
       "slug": "akuna-capital-quantitative-researcher-prediction-markets",
       "since": "2026-10-12"
@@ -507,6 +511,18 @@
     "greenhouse-akunacapital-7901833": {
       "slug": "akuna-capital-experienced-options-trader-sofr",
       "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-8013085": {
+      "slug": "akuna-capital-software-engineer-entry-level-c",
+      "since": "2026-10-13"
+    },
+    "greenhouse-akunacapital-8013230": {
+      "slug": "akuna-capital-software-engineer-entry-level-python",
+      "since": "2026-10-13"
+    },
+    "greenhouse-akunacapital-8016687": {
+      "slug": "akuna-capital-junior-quantitative-developer-and-strategist",
+      "since": "2026-10-13"
     },
     "greenhouse-akunacapital-8018847": {
       "slug": "akuna-capital-software-engineer-intern-c-summer-2027",
@@ -536,6 +552,14 @@
       "slug": "akuna-capital-quantitative-development-and-strategy-intern-summer-2027",
       "since": "2026-09-18"
     },
+    "greenhouse-akunacapital-8035515": {
+      "slug": "akuna-capital-junior-quantitative-risk-analyst",
+      "since": "2026-10-13"
+    },
+    "greenhouse-akunacapital-8036541": {
+      "slug": "akuna-capital-junior-quantitative-researcher",
+      "since": "2026-10-13"
+    },
     "greenhouse-akunacapital-8036614": {
       "slug": "akuna-capital-quantitative-research-intern-summer-2027",
       "since": "2026-09-18"
@@ -547,6 +571,14 @@
     "greenhouse-akunacapital-8163512": {
       "slug": "akuna-capital-software-engineer-c-asia",
       "since": "2026-10-12"
+    },
+    "greenhouse-akunacapital-8175994": {
+      "slug": "akuna-capital-junior-quantitative-researcher-deep-learning-time-series",
+      "since": "2026-10-13"
+    },
+    "greenhouse-akunacapital-8275358": {
+      "slug": "akuna-capital-junior-trader-uk",
+      "since": "2026-10-13"
     },
     "greenhouse-anthropic-5425724008": {
       "slug": "anthropic-associate-applied-ai-rotational-program-london",
@@ -639,6 +671,14 @@
     "greenhouse-aqr-8123095": {
       "slug": "aqr-capital-management-2027-research-product-specialist-summer-analyst",
       "since": "2026-09-18"
+    },
+    "greenhouse-aqr-8144359": {
+      "slug": "aqr-capital-management-2027-business-development-analyst-us-wealth",
+      "since": "2026-10-13"
+    },
+    "greenhouse-aqr-8156709": {
+      "slug": "aqr-capital-management-2027-trading-analyst",
+      "since": "2026-10-13"
     },
     "greenhouse-aqr-8156993": {
       "slug": "aqr-capital-management-aqr-arbitrage-2027-research-summer-analyst",
@@ -855,6 +895,10 @@
     "greenhouse-coinbase-8221241": {
       "slug": "coinbase-tax-information-reporting-intern",
       "since": "2026-09-24"
+    },
+    "greenhouse-databricks-6865687002": {
+      "slug": "databricks-software-engineering-intern-2027",
+      "since": "2026-10-13"
     },
     "greenhouse-databricks-6866531002": {
       "slug": "databricks-software-engineering-intern-2027-start-berlin",
@@ -1187,6 +1231,10 @@
     "greenhouse-flowtraders-8266897": {
       "slug": "flow-traders-phd-graduate-quantitative-researcher-europe",
       "since": "2026-10-09"
+    },
+    "greenhouse-flowtraders-8278361": {
+      "slug": "flow-traders-digital-assets-trader-europe",
+      "since": "2026-10-13"
     },
     "greenhouse-gemini-7875125": {
       "slug": "gemini-software-engineering-intern-fall-2026",
@@ -1615,9 +1663,17 @@
       "slug": "imc-trading-2027-quant-research-intern-bits-pilani",
       "since": "2026-08-02"
     },
+    "greenhouse-imc-4945420101": {
+      "slug": "imc-trading-c-software-engineer-early-careers",
+      "since": "2026-10-13"
+    },
     "greenhouse-imc-4947297101": {
       "slug": "imc-trading-trader-digital-assets",
       "since": "2026-10-12"
+    },
+    "greenhouse-imc-4955625101": {
+      "slug": "imc-trading-python-engineer-ai",
+      "since": "2026-10-13"
     },
     "greenhouse-imc-4956547101": {
       "slug": "imc-trading-machine-learning-research-intern-summer-2027-sydney",
@@ -2025,6 +2081,10 @@
       "slug": "lincoln-international-vice-president-business-services-manda",
       "since": "2026-10-12"
     },
+    "greenhouse-lincolninternational-8060090": {
+      "slug": "lincoln-international-2027-full-time-analyst-valuations-and-opinions-group",
+      "since": "2026-10-13"
+    },
     "greenhouse-lincolninternational-8099832": {
       "slug": "lincoln-international-associate-capital-advisory",
       "since": "2026-10-12"
@@ -2237,6 +2297,10 @@
       "slug": "man-group-systematic-graduate-rotational-quant",
       "since": "2026-09-01"
     },
+    "greenhouse-mangroup-4960828101": {
+      "slug": "man-group-junior-quant-mbs",
+      "since": "2026-10-13"
+    },
     "greenhouse-mangroup-4965180101": {
       "slug": "man-group-quant-systematic-multi-strategy",
       "since": "2026-10-12"
@@ -2296,6 +2360,10 @@
     "greenhouse-mangroup-5000443101": {
       "slug": "man-group-data-engineer",
       "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-5002131101": {
+      "slug": "man-group-senior-c-engineer",
+      "since": "2026-10-13"
     },
     "greenhouse-mongodb-8258279": {
       "slug": "mongodb-2027-software-engineer-intern-dublin-6-month-internship",
@@ -2573,6 +2641,10 @@
       "slug": "point72-fundamental-researcher-mi-canvas-international",
       "since": "2026-10-12"
     },
+    "greenhouse-point72-8169967002": {
+      "slug": "point72-quantitative-portfolio-analyst-2026-grad",
+      "since": "2026-10-13"
+    },
     "greenhouse-point72-8191564002": {
       "slug": "point72-quantitative-developer-uk",
       "since": "2026-10-12"
@@ -2789,6 +2861,10 @@
       "slug": "qube-research-and-technologies-digital-assets-quantitative-researcher",
       "since": "2026-10-12"
     },
+    "greenhouse-quberesearchandtechnologies-7892671002": {
+      "slug": "qube-research-and-technologies-senior-software-engineer-market-access-asia",
+      "since": "2026-10-13"
+    },
     "greenhouse-quberesearchandtechnologies-7926920002": {
       "slug": "qube-research-and-technologies-core-pricing-and-risk-platform-senior-c-developer",
       "since": "2026-10-12"
@@ -2917,6 +2993,10 @@
       "slug": "qube-research-and-technologies-low-latency-market-data-developer-c",
       "since": "2026-10-12"
     },
+    "greenhouse-quberesearchandtechnologies-8546914002": {
+      "slug": "qube-research-and-technologies-junior-quantitative-trader-apac-delta-one",
+      "since": "2026-10-13"
+    },
     "greenhouse-quberesearchandtechnologies-8581570002": {
       "slug": "qube-research-and-technologies-2027-internship-quantitative-research-and-trading",
       "since": "2026-09-18",
@@ -3038,6 +3118,10 @@
     "greenhouse-quberesearchandtechnologies-8857906002": {
       "slug": "qube-research-and-technologies-quantitative-developer-python-c",
       "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8883229002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-front-end-react-c",
+      "since": "2026-10-13"
     },
     "greenhouse-robinhood-8103727": {
       "slug": "robinhood-market-research-strategy-intern-summer-2027",
@@ -3445,6 +3529,10 @@
       "slug": "squarepoint-capital-software-developer-core-data",
       "since": "2026-10-12"
     },
+    "greenhouse-squarepointcapital-239376": {
+      "slug": "squarepoint-capital-junior-quant-researcher",
+      "since": "2026-10-13"
+    },
     "greenhouse-squarepointcapital-243853": {
       "slug": "squarepoint-capital-intern-quant-researcher",
       "since": "2026-09-18"
@@ -3477,6 +3565,10 @@
       "slug": "squarepoint-capital-quant-developer-kdb",
       "since": "2026-10-12"
     },
+    "greenhouse-squarepointcapital-3851879": {
+      "slug": "squarepoint-capital-junior-discretionary-trader",
+      "since": "2026-10-13"
+    },
     "greenhouse-squarepointcapital-4346989": {
       "slug": "squarepoint-capital-software-developer-data-products-and-services",
       "since": "2026-10-12"
@@ -3505,9 +3597,17 @@
       "slug": "squarepoint-capital-software-developer-internal-compute-frameworks-rust",
       "since": "2026-10-12"
     },
+    "greenhouse-squarepointcapital-6034466": {
+      "slug": "squarepoint-capital-junior-quant-developer",
+      "since": "2026-10-13"
+    },
     "greenhouse-squarepointcapital-6040910": {
       "slug": "squarepoint-capital-graduate-software-developer",
       "since": "2026-09-18"
+    },
+    "greenhouse-squarepointcapital-6069464": {
+      "slug": "squarepoint-capital-junior-quant-researcher-ml-alpha-research",
+      "since": "2026-10-13"
     },
     "greenhouse-squarepointcapital-609831": {
       "slug": "squarepoint-capital-software-developer-order-gateway",
@@ -3568,6 +3668,10 @@
     "greenhouse-squarepointcapital-8092777": {
       "slug": "squarepoint-capital-software-developer-data-platform",
       "since": "2026-10-12"
+    },
+    "greenhouse-squarepointcapital-8143287": {
+      "slug": "squarepoint-capital-junior-execution-trader-equity",
+      "since": "2026-10-13"
     },
     "greenhouse-squarepointcapital-8174630": {
       "slug": "squarepoint-capital-equities-analyst-summer-internship-program",
@@ -3812,9 +3916,33 @@
       "slug": "william-blair-investment-banking-analyst-biotechnology",
       "since": "2026-10-12"
     },
+    "greenhouse-williamblair-5227689007": {
+      "slug": "william-blair-client-services-associate-entry-level",
+      "since": "2026-10-13"
+    },
+    "greenhouse-williamblair-5233970007": {
+      "slug": "william-blair-investment-accounting-associate-entry-level",
+      "since": "2026-10-13"
+    },
     "greenhouse-williamblair-5236786007": {
       "slug": "william-blair-investment-banking-associate-aerospace-defense-and-government-services-adgs",
       "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5242280007": {
+      "slug": "william-blair-working-in-technology-wit-data-science-summer-2027",
+      "since": "2026-10-13"
+    },
+    "greenhouse-williamblair-5242282007": {
+      "slug": "william-blair-working-in-technology-wit-platform-engineering-summer-2027",
+      "since": "2026-10-13"
+    },
+    "greenhouse-williamblair-5242285007": {
+      "slug": "william-blair-working-in-technology-wit-application-development-summer-2027",
+      "since": "2026-10-13"
+    },
+    "greenhouse-williamblair-5242287007": {
+      "slug": "william-blair-working-in-technology-wit-software-engineering-summer-2027",
+      "since": "2026-10-13"
     },
     "greenhouse-williamblair-5243362007": {
       "slug": "william-blair-research-associate-u-s-growth-and-core-technology",
@@ -3835,6 +3963,10 @@
     "greenhouse-williamblair-5247647007": {
       "slug": "william-blair-research-analyst-u-s-growth-and-core-financials",
       "since": "2026-10-12"
+    },
+    "greenhouse-williamblair-5259293007": {
+      "slug": "william-blair-vice-president-private-shares-trading",
+      "since": "2026-10-13"
     },
     "janestreet-jane-street-5866838002": {
       "slug": "jane-street-tools-and-compilers-research-and-development",
@@ -4468,13 +4600,29 @@
       "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-associate",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210596607": {
+      "slug": "jpmorgan-chase-asset-management-fixed-income-portfolio-manager-shanghai",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210612523": {
       "slug": "jpmorgan-chase-investment-banking-technical-transaction-team-energy-associate-engineer",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210625760": {
+      "slug": "jpmorgan-chase-equities-systematic-trading-executive-director",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210652790": {
       "slug": "jpmorgan-chase-investment-banking-mid-cap-investment-banking-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210660957": {
+      "slug": "jpmorgan-chase-investment-banking-investment-grade-finance-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210661267": {
+      "slug": "jpmorgan-chase-investment-banking-equity-capital-markets-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210668217": {
       "slug": "jpmorgan-chase-investment-banking-emea-technology-manda-analyst-associate-london",
@@ -4487,6 +4635,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210679590": {
       "slug": "jpmorgan-chase-investment-banking-business-services-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210681120": {
+      "slug": "jpmorgan-chase-global-investment-banking-financial-sponsors-group-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210682426": {
       "slug": "jpmorgan-chase-investment-banking-consumer-and-retail-associate",
@@ -4544,6 +4696,14 @@
       "slug": "jpmorgan-chase-2027-asset-and-wealth-management-risk-summer-analyst-program",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210693816": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-treasury-liquidity-analytics-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210694488": {
+      "slug": "jpmorgan-chase-investment-banking-diversified-industries-vice-president-executive-director",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210695201": {
       "slug": "jpmorgan-chase-investment-banking-technical-transaction-team-energy-associate-geologist",
       "since": "2026-10-12"
@@ -4552,9 +4712,33 @@
       "slug": "jpmorgan-chase-global-investment-banking-private-capital-markets-associate",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210698466": {
+      "slug": "jpmorgan-chase-investment-banking-real-estate-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210701316": {
       "slug": "jpmorgan-chase-commercial-and-investment-bank-treasury-advanced-treasury-analytics-senior-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210702811": {
+      "slug": "jpmorgan-chase-quant-model-risk-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210703966": {
+      "slug": "jpmorgan-chase-quant-model-risk-senior-associate-vice-president-rates",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210707209": {
+      "slug": "jpmorgan-chase-quant-model-risk-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210707244": {
+      "slug": "jpmorgan-chase-quant-analytics-associate-time-series-forecasting-strategist-workforce-planning",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210708213": {
+      "slug": "jpmorgan-chase-manda-banker-vice-president",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210708215": {
       "slug": "jpmorgan-chase-manda-banker-analyst-associate",
@@ -4580,6 +4764,10 @@
       "slug": "jpmorgan-chase-investment-banking-mid-cap-business-services-associate",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210714102": {
+      "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-specialty-finance-and-alternative-asset-management-analyst",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210714134": {
       "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-specialty-finance-and-alternative-asset-management-associate",
       "since": "2026-10-12"
@@ -4604,9 +4792,25 @@
       "slug": "jpmorgan-chase-investment-banking-emea-private-capital-manda-associate-london",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210721232": {
+      "slug": "jpmorgan-chase-asset-management-institutional-hedge-fund-solutions-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210721385": {
+      "slug": "jpmorgan-chase-trading-services-specialist-loan-documentation-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210723088": {
+      "slug": "jpmorgan-chase-investment-banking-emea-energy-vice-president-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210723576": {
       "slug": "jpmorgan-chase-asset-management-commercial-real-estate-debt-underwriter-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210725578": {
+      "slug": "jpmorgan-chase-investment-banking-leveraged-finance-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210725738": {
       "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-insurance-associate",
@@ -4620,17 +4824,85 @@
       "slug": "jpmorgan-chase-investment-banking-emea-manda-diversified-industries-associate-london",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210730551": {
+      "slug": "jpmorgan-chase-investment-banking-consumer-and-retail-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210730579": {
+      "slug": "jpmorgan-chase-investment-banking-leveraged-finance-general-industries-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210730772": {
+      "slug": "jpmorgan-chase-global-investment-banking-capital-market-advisory-group-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210732352": {
+      "slug": "jpmorgan-chase-investment-banking-leveraged-finance-diversified-industries-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210732422": {
       "slug": "jpmorgan-chase-global-corporate-banking-coverage-banker-fig-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210733219": {
+      "slug": "jpmorgan-chase-investment-banking-financial-institutions-group-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210733414": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-securities-services-payments-and-cib-treasury-associate-or-vice-president",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210734098": {
       "slug": "jpmorgan-chase-systematic-credit-trading-ficc-etf-trader-associate",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210734357": {
+      "slug": "jpmorgan-chase-global-structuring-credit-and-fund-finance-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210736119": {
+      "slug": "jpmorgan-chase-asset-management-fof-portfolio-manager",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210736389": {
+      "slug": "jpmorgan-chase-risk-management-quant-modeling-lead-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210736677": {
+      "slug": "jpmorgan-chase-quant-model-risk-associate-vice-president-equities",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210736687": {
+      "slug": "jpmorgan-chase-asset-management-fof-research-analyst-associate-vp",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210736721": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-credit-portfolio-quantitative-developer-associate-or-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210737262": {
+      "slug": "jpmorgan-chase-global-commodities-gas-and-power-trader-vice-president-or-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210737500": {
+      "slug": "jpmorgan-chase-investment-banking-emea-healthcare-biopharma-vice-president-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210738469": {
       "slug": "jpmorgan-chase-2027-corporate-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-brussels",
       "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210738651": {
+      "slug": "jpmorgan-chase-asset-management-investment-grade-credit-portfolio-manager-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210738912": {
+      "slug": "jpmorgan-chase-asset-management-portfolio-manager-global-core-equities-associate-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210738947": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-commodities-quantitative-trading-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210738948": {
       "slug": "jpmorgan-chase-quantitative-trading-and-research-commodities-quantitative-trading-associate",
@@ -4768,6 +5040,14 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-markets-summer-analyst-program-sales-taipei",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210747508": {
+      "slug": "jpmorgan-chase-ccb-risk-card-portfolio-management-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210748065": {
+      "slug": "jpmorgan-chase-asset-management-quantitative-equities-research-analyst-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210748770": {
       "slug": "jpmorgan-chase-investment-banking-uk-real-estate-senior-associate-london",
       "since": "2026-10-12"
@@ -4775,6 +5055,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210749309": {
       "slug": "jpmorgan-chase-investment-banking-private-capital-solutions-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210749526": {
+      "slug": "jpmorgan-chase-asset-management-investment-platform-trading-analytics-and-strategy-gficc-executive-director",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210749749": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-program-summer-analyst-hong-kong",
@@ -4796,13 +5080,29 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-summer-analyst-singapore",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210749973": {
+      "slug": "jpmorgan-chase-investment-banking-leveraged-finance-diversified-industries-and-natural-resources-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210751165": {
       "slug": "jpmorgan-chase-quant-analytics-associate-sr-dart",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210751207": {
+      "slug": "jpmorgan-chase-risk-management-leveraged-finance-credit-risk-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210751509": {
       "slug": "jpmorgan-chase-quant-model-risk-associate-rates",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210752287": {
+      "slug": "jpmorgan-chase-asset-management-emap-portfolio-manager-vice-president-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210752482": {
+      "slug": "jpmorgan-chase-payments-corporate-development-and-partnerships-vice-president",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210753819": {
       "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-hong-kong",
@@ -4828,13 +5128,41 @@
       "slug": "jpmorgan-chase-global-investment-banking-dcm-analyst-associate",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210755429": {
+      "slug": "jpmorgan-chase-corporate-structuring-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210755762": {
       "slug": "jpmorgan-chase-global-corporate-banking-dach-innovation-economy-coverage-associate-frankfurt-munich-all-genders",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210755988": {
+      "slug": "jpmorgan-chase-risk-management-leveraged-finance-credit-risk-vice-president-technology-media-telecommunications",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210756146": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-rmbs-underwriting-analyst",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210756430": {
       "slug": "jpmorgan-chase-quantitative-trading-and-research-applied-researcher-agentic-ai-systems-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210756716": {
+      "slug": "jpmorgan-chase-market-risk-fundamental-review-of-the-trading-book-implementation-and-analytics-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210758315": {
+      "slug": "jpmorgan-chase-payments-corporate-development-and-partnerships-vice-president-us",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210758317": {
+      "slug": "jpmorgan-chase-global-investment-banking-ecm-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210758683": {
+      "slug": "jpmorgan-chase-equity-capital-markets-support-team-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210759256": {
       "slug": "jpmorgan-chase-quantitative-trading-and-research-systematic-trading-associate",
@@ -4896,9 +5224,33 @@
       "slug": "jpmorgan-chase-investment-banking-emea-financial-institutions-group-associate-london",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210763366": {
+      "slug": "jpmorgan-chase-wealth-management-solutions-apac-equity-strategy-investment-strategist-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763421": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-full-time-analyst-us-private-bank",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763462": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-investment-solutions-program-full-time-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763509": {
+      "slug": "jpmorgan-chase-2027-asset-management-investments-full-time-analyst-program",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210763519": {
       "slug": "jpmorgan-chase-u-s-private-bank-investment-professional-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763905": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-latam-private-bank-full-time-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210763939": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-global-families-group-asia-full-time-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210764006": {
       "slug": "jpmorgan-chase-financial-analysis-associate-chase-auto-corporate-development-finance",
@@ -4907,6 +5259,14 @@
     "oracle-jpmc-fa-oraclecloud-com-210764119": {
       "slug": "jpmorgan-chase-service-product-analytics-team-quant-analytics-senior-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210764263": {
+      "slug": "jpmorgan-chase-asset-management-commercial-real-estate-acquisitions-west-coast-region-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210764343": {
+      "slug": "jpmorgan-chase-collections-fraud-and-accounts-entry-level-specialist",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210764354": {
       "slug": "jpmorgan-chase-fresh-graduates-talent-pooling-entry-level-position",
@@ -4920,6 +5280,14 @@
       "slug": "jpmorgan-chase-payments-corporate-development-and-partnerships-senior-associate",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210764902": {
+      "slug": "jpmorgan-chase-u-s-private-bank-senior-family-office-strategist-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765118": {
+      "slug": "jpmorgan-chase-risk-management-leveraged-finance-investment-banking-credit-risk-healthcare-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210765224": {
       "slug": "jpmorgan-chase-2027-human-resources-analyst-development-program-summer-analyst-opportunity",
       "since": "2026-09-27"
@@ -4932,6 +5300,10 @@
       "slug": "jpmorgan-chase-2027-global-finance-and-business-management-summer-analyst-new-york-metro",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210765321": {
+      "slug": "jpmorgan-chase-investment-banking-equity-capital-markets-analyst-us",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210765547": {
       "slug": "jpmorgan-chase-2027-internal-audit-analyst-program-summer-intern-opportunity",
       "since": "2026-09-27"
@@ -4939,6 +5311,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210765577": {
       "slug": "jpmorgan-chase-2027-global-finance-and-business-management-corporate-controllers-track-de-summer-analyst",
       "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210765640": {
+      "slug": "jpmorgan-chase-2027-marketing-leadership-development-program-full-time-analyst-opportunity",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210765712": {
       "slug": "jpmorgan-chase-2027-corporate-analyst-development-program-summer-analyst-chicago",
@@ -5020,6 +5396,10 @@
       "slug": "jpmorgan-chase-2027-chase-associate-program-summer-associate-opportunity-oh-tx-de",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210767907": {
+      "slug": "jpmorgan-chase-emea-equity-research-real-estate-analyst",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210768182": {
       "slug": "jpmorgan-chase-2027-financial-advisor-development-program-summer-analyst-opportunity-oh-tx-az",
       "since": "2026-09-27"
@@ -5028,9 +5408,33 @@
       "slug": "jpmorgan-chase-2027-chase-leadership-development-program-summer-analyst-opportunity-oh-tx-de",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210768462": {
+      "slug": "jpmorgan-chase-lead-software-engineer-python-quant-developer-quant-research",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210768769": {
       "slug": "jpmorgan-chase-quantitative-trading-and-research-portfolio-associate",
       "since": "2026-10-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210768848": {
+      "slug": "jpmorgan-chase-associate-corporate-development-strategic-investments",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210769359": {
+      "slug": "jpmorgan-chase-risk-management-commercial-and-investment-bank-credit-risk-hedge-funds-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210769565": {
+      "slug": "jpmorgan-chase-global-research-credit-research-analyst-retail-and-consumer-analyst-or-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210769667": {
+      "slug": "jpmorgan-chase-asset-management-private-credit-secondaries-and-co-investments-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770118": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-equity-derivatives-exotics-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210770125": {
       "slug": "jpmorgan-chase-drive-the-future-program-for-students-operations-part-time",
@@ -5052,6 +5456,10 @@
       "slug": "jpmorgan-chase-drive-the-future-program-for-students-finance-part-time",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210770246": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-full-time-analyst-program",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210770249": {
       "slug": "jpmorgan-chase-drive-the-future-program-for-students-finance-part-time-us",
       "since": "2026-09-27"
@@ -5068,6 +5476,18 @@
       "slug": "jpmorgan-chase-drive-the-future-program-for-students-front-office-part-time",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210770316": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-innovation-development-full-time-analyst-program",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210770953": {
+      "slug": "jpmorgan-chase-global-equities-mansart-portfolio-management-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210771252": {
+      "slug": "jpmorgan-chase-executive-director-portfolio-management-and-governance-corporate-technology",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210772336": {
       "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-january-december-frankfurt-all-genders",
       "since": "2026-09-27"
@@ -5080,9 +5500,33 @@
       "slug": "jpmorgan-chase-graduating-student-opportunity-internal-strategy-and-process-consulting-associate-i",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210773258": {
+      "slug": "jpmorgan-chase-2027-sydney-traineeship-program",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773378": {
+      "slug": "jpmorgan-chase-2027-internal-audit-analyst-program-full-time-analyst-opportunity",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773401": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-amsterdam",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773467": {
+      "slug": "jpmorgan-chase-prime-finance-etf-general-collateral-sbl-trader-associate",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210773470": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-london",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773741": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-dubai",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773747": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-geneva",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210773759": {
       "slug": "jpmorgan-chase-code-for-good-hackathon-software-engineer-program-2027-summer-internship-united-states",
@@ -5091,6 +5535,26 @@
     "oracle-jpmc-fa-oraclecloud-com-210773761": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-amsterdam",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773762": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-finance-and-risk-program-management-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773771": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-london-manchester-edinburgh",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773772": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-luxembourg",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773777": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-milan",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773783": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-paris",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210773791": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-athens",
@@ -5108,6 +5572,10 @@
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-geneva",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210773864": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-analyst-training-program-frankfurt-munich-hamburg",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210773869": {
       "slug": "jpmorgan-chase-2027-data-and-ai-program-summer-internship-analyst-united-states",
       "since": "2026-09-27"
@@ -5115,6 +5583,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210773872": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-geneva-latam",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210773954": {
+      "slug": "jpmorgan-chase-2027-data-and-ai-program-full-time-analyst-united-states",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210773978": {
       "slug": "jpmorgan-chase-2027-quantitative-research-risk-and-treasury-summer-internship-associate-united-states",
@@ -5131,6 +5603,14 @@
     "oracle-jpmc-fa-oraclecloud-com-210774074": {
       "slug": "jpmorgan-chase-2027-quantitative-research-asset-management-summer-internship-analyst-united-states",
       "since": "2026-09-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774102": {
+      "slug": "jpmorgan-chase-2027-software-engineer-program-full-time-united-states-february-start",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774111": {
+      "slug": "jpmorgan-chase-2027-software-engineer-program-full-time-united-states-july-start",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210774194": {
       "slug": "jpmorgan-chase-2027-global-private-bank-advisor-summer-internship-program-luxembourg",
@@ -5176,6 +5656,14 @@
       "slug": "jpmorgan-chase-2027-human-resources-analyst-development-program-summer-analyst-philippines",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210774295": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-investment-solutions-analyst-training-program-london",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774321": {
+      "slug": "jpmorgan-chase-2027-chase-digital-development-programme-full-time-analyst-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210774353": {
       "slug": "jpmorgan-chase-2027-corporate-functions-corporate-analyst-development-program-summer-internship-edinburgh",
       "since": "2026-09-18"
@@ -5187,6 +5675,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210774454": {
       "slug": "jpmorgan-chase-2027-focused-analytics-solutions-team-fast-intern-associate-program-analytics-solutions",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774627": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-algorithmic-execution-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210774659": {
       "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-asset-management-research-analyst",
@@ -5221,6 +5713,10 @@
       "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-january-december-berlin-all-genders",
       "since": "2026-09-27"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210774755": {
+      "slug": "jpmorgan-chase-2027-data-and-ai-full-time-analyst-london-glasgow",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210774757": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-payments-analyst-program-summer-internship-dublin",
       "since": "2026-09-18"
@@ -5233,6 +5729,10 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-securities-services-leadership-programme-summer-internship-london",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210774781": {
+      "slug": "jpmorgan-chase-2027-software-engineer-program-full-time-glasgow-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210774793": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-securities-services-leadership-programme-summer-internship-dublin",
       "since": "2026-09-18"
@@ -5244,6 +5744,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210774813": {
       "slug": "jpmorgan-chase-2027-software-engineer-immersion-program-summer-internship-glasgow",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210774818": {
+      "slug": "jpmorgan-chase-2027-global-payments-analyst-program-full-time-dublin",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210774857": {
       "slug": "jpmorgan-chase-2027-corporate-functions-global-finance-and-business-management-summer-internship-london",
@@ -5277,6 +5781,10 @@
       "slug": "jpmorgan-chase-2027-asset-management-investments-summer-internship-program-london",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210775299": {
+      "slug": "jpmorgan-chase-2027-global-payments-analyst-program-full-time-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210775302": {
       "slug": "jpmorgan-chase-2027-global-corporate-banking-analyst-program-summer-internship-london",
       "since": "2026-09-18"
@@ -5297,6 +5805,10 @@
       "slug": "jpmorgan-chase-2027-global-investment-banking-analyst-program-summer-internship-london",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210775719": {
+      "slug": "jpmorgan-chase-2027-global-investment-banking-analyst-program-full-time-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210775727": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-banking-risk-management-program-summer-internship-london",
       "since": "2026-09-18"
@@ -5312,6 +5824,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210776172": {
       "slug": "jpmorgan-chase-2027-software-engineer-program-summer-internship-dublin",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210776370": {
+      "slug": "jpmorgan-chase-quant-modeling-lead-control-room-hyderabad",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210776770": {
       "slug": "jpmorgan-chase-2027-quantitative-research-asset-management-off-cycle-london",
@@ -5329,6 +5845,10 @@
       "slug": "jpmorgan-chase-2027-quantitative-research-risk-and-treasury-off-cycle-analyst-paris",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210777641": {
+      "slug": "jpmorgan-chase-2027-software-engineer-program-full-time-dublin",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210777867": {
       "slug": "jpmorgan-chase-2027-asset-and-wealth-management-u-s-private-bank-mba-summer-associate-program",
       "since": "2026-09-18"
@@ -5336,6 +5856,18 @@
     "oracle-jpmc-fa-oraclecloud-com-210777959": {
       "slug": "jpmorgan-chase-2027-asset-and-wealth-management-international-private-bank-latin-america-mba-summer-associate-program",
       "since": "2026-10-01"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210778334": {
+      "slug": "jpmorgan-chase-risk-analyst-structured-finance",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210778399": {
+      "slug": "jpmorgan-chase-trading-services-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210779276": {
+      "slug": "jpmorgan-chase-wealth-management-institutional-investment-solutions-family-office-multi-asset-portfolio-manager",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210779495": {
       "slug": "jpmorgan-chase-2027-global-corporate-banking-large-cap-analyst-program-off-cycle-internship-tel-aviv",
@@ -5352,6 +5884,14 @@
     "oracle-jpmc-fa-oraclecloud-com-210779707": {
       "slug": "jpmorgan-chase-2027-global-corporate-banking-program-large-cap-off-cycle-internship-sept-dec-zurich",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210779935": {
+      "slug": "jpmorgan-chase-analyst-associate-equity-research-tmt-australia",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210779958": {
+      "slug": "jpmorgan-chase-equity-research-technology-semiconductors-tech-hardware-associate-vice-president",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210779982": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-july-october-milan",
@@ -5385,6 +5925,10 @@
       "slug": "jpmorgan-chase-2027-research-summer-internship-london",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210780484": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-credit-risk-control-management-associate",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210780497": {
       "slug": "jpmorgan-chase-2027-global-markets-summer-internship-paris",
       "since": "2026-09-18"
@@ -5405,6 +5949,38 @@
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-summer-internship-amsterdam",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210780602": {
+      "slug": "jpmorgan-chase-us-equity-research-semiconductors-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210780673": {
+      "slug": "jpmorgan-chase-asset-management-insurance-portfolio-manager-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210780772": {
+      "slug": "jpmorgan-chase-us-equity-research-smid-technology-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210780870": {
+      "slug": "jpmorgan-chase-2027-software-engineer-program-full-time-analyst-singapore",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210780922": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-risk-analyst-paris",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210781026": {
+      "slug": "jpmorgan-chase-us-equity-research-retailing-broadlines-specialty-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210781072": {
+      "slug": "jpmorgan-chase-wealth-management-solutions-research-analyst-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210781166": {
+      "slug": "jpmorgan-chase-asset-management-private-equity-group-information-management-and-financial-reporting-associate",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210783022": {
       "slug": "jpmorgan-chase-2027-data-and-ai-program-summer-internship-singapore",
       "since": "2026-09-18"
@@ -5412,6 +5988,14 @@
     "oracle-jpmc-fa-oraclecloud-com-210783071": {
       "slug": "jpmorgan-chase-2027-global-corporate-banking-program-mid-cap-summer-internship-stockholm",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210783234": {
+      "slug": "jpmorgan-chase-2027-financial-advisor-development-program-full-time-analyst-oh",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210783245": {
+      "slug": "jpmorgan-chase-2027-financial-advisor-development-program-full-time-analyst-az",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210783522": {
       "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-january-december-munich-all-genders",
@@ -5441,9 +6025,37 @@
       "slug": "jpmorgan-chase-2027-sales-summer-internship-dubai",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210785427": {
+      "slug": "jpmorgan-chase-2027-commercial-and-investment-banking-innovation-development-program-full-time-analyst-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210786047": {
       "slug": "jpmorgan-chase-2027-global-markets-summer-internship-frankfurt",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210787065": {
+      "slug": "jpmorgan-chase-global-rates-jpy-trader-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210787429": {
+      "slug": "jpmorgan-chase-trading-services-associate-ii",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210787811": {
+      "slug": "jpmorgan-chase-securities-services-lending-and-structured-financing-trader-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210788144": {
+      "slug": "jpmorgan-chase-markets-commodities-systematic-trading-associate-mumbai",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210788151": {
+      "slug": "jpmorgan-chase-asset-management-trading-services-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210788229": {
+      "slug": "jpmorgan-chase-credit-trading-private-credit-financing-analyst",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210788230": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-banking-global-markets-off-cycle-internship-paris",
@@ -5456,6 +6068,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210788262": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-banking-global-markets-off-cycle-internship-frankfurt",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210788264": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-controls-third-party-and-resiliency-risk-and-control-manager-executive-director",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210788269": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-banking-markets-off-cycle-internship-istanbul",
@@ -5477,25 +6093,109 @@
       "slug": "jpmorgan-chase-2027-quantitative-research-markets-analyst-program-off-cycle-internship-london",
       "since": "2026-09-18"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210788708": {
+      "slug": "jpmorgan-chase-trading-services-analyst-us",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210789075": {
       "slug": "jpmorgan-chase-2027-trust-management-internship-emerging-talent-summer-experience-program",
       "since": "2026-09-20"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210789743": {
+      "slug": "jpmorgan-chase-securities-services-agency-securities-finance-trader-associate",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210789883": {
       "slug": "jpmorgan-chase-2027-commercial-and-specialized-industries-summer-analyst-program",
       "since": "2026-09-24"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210790087": {
+      "slug": "jpmorgan-chase-us-equity-research-metals-and-mining-associate",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790253": {
+      "slug": "jpmorgan-chase-market-risk-coverage-associate-securitized-products-group",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790398": {
+      "slug": "jpmorgan-chase-consumer-and-community-bank-corporate-development-business-banking-strategic-partnerships-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790687": {
+      "slug": "jpmorgan-chase-2028-asset-management-client-program-full-time-analyst-tokyo",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790690": {
+      "slug": "jpmorgan-chase-2028-corporate-corporate-analyst-development-program-full-time-analyst-tokyo",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790692": {
+      "slug": "jpmorgan-chase-2028-commercial-and-investment-bank-global-corporate-banking-program-full-time-analyst-tokyo",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790710": {
+      "slug": "jpmorgan-chase-asset-management-european-equity-research-analyst-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790717": {
+      "slug": "jpmorgan-chase-currencies-and-emerging-markets-korea-fx-trading-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790765": {
+      "slug": "jpmorgan-chase-2027-commercial-and-specialized-industries-full-time-analyst-program-diversified",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790790": {
+      "slug": "jpmorgan-chase-2027-commercial-and-specialized-industries-program-full-time-analyst-toronto-on",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790798": {
+      "slug": "jpmorgan-chase-2027-commercial-real-estate-full-time-analyst-program",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210790885": {
       "slug": "jpmorgan-chase-2027-asset-wealth-management-machine-learning-engineer-summer-associate",
       "since": "2026-09-18"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210791083": {
+      "slug": "jpmorgan-chase-2028-commercial-and-investment-bank-markets-program-research-full-time-analyst-tokyo",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210791085": {
+      "slug": "jpmorgan-chase-2028-commercial-and-investment-bank-markets-program-sales-and-marketing-full-time-analyst-tokyo",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210791086": {
+      "slug": "jpmorgan-chase-2028-commercial-and-investment-bank-markets-program-trading-full-time-analyst-tokyo",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210791088": {
       "slug": "jpmorgan-chase-2028-commercial-and-investment-bank-global-payments-rotational-analyst-program-full-time-analyst-tokyo",
       "since": "2026-10-01"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210791091": {
+      "slug": "jpmorgan-chase-2028-commercial-and-investment-bank-global-investment-banking-program-full-time-analyst-tokyo",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210791098": {
+      "slug": "jpmorgan-chase-equity-research-analyst-global-research-center-mumbai",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210791199": {
       "slug": "jpmorgan-chase-wm-operations-analyst-program-fresh-graduates-hiring",
       "since": "2026-09-24"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210791346": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-credit-risk-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210791696": {
+      "slug": "jpmorgan-chase-global-corporate-banking-large-cap-vice-president-cee-hq-client-coverage-warsaw",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210791797": {
+      "slug": "jpmorgan-chase-trader-multiple-positions-available",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210792010": {
       "slug": "jpmorgan-chase-2027-quantitative-research-asset-management-summer-analyst-internship-london",
@@ -5513,13 +6213,73 @@
       "slug": "jpmorgan-chase-2027-forestry-field-office-internship-emerging-talent-summer-experience-program",
       "since": "2026-09-24"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210792150": {
+      "slug": "jpmorgan-chase-wealth-management-solutions-portfolio-management-group-vice-president-trade-coordination",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210792192": {
+      "slug": "jpmorgan-chase-wealth-management-dynamic-multi-asset-strategy-dmas-equity-portfolio-manager-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210792913": {
+      "slug": "jpmorgan-chase-equity-research-analyst-industrials-vice-president-or-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210793027": {
+      "slug": "jpmorgan-chase-us-equity-research-life-science-tools-and-diagnostics-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210793035": {
+      "slug": "jpmorgan-chase-2027-operations-analyst-program-full-time-analyst-march-cohort-oh-de-tx-ny-il-fl",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210793412": {
+      "slug": "jpmorgan-chase-2027-corporate-functions-corporate-analyst-development-program-full-time-analyst-program-london",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210793477": {
       "slug": "jpmorgan-chase-drive-the-future-internship-program-middle-office",
       "since": "2026-09-25"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210793588": {
+      "slug": "jpmorgan-chase-investment-banking-emea-leveraged-finance-analyst-german-speaking-london",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210793803": {
+      "slug": "jpmorgan-chase-credit-trading-private-credit-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794017": {
+      "slug": "jpmorgan-chase-asset-management-securitized-credit-research-analyst-vice-president-executive-director-abs-focused",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794161": {
+      "slug": "jpmorgan-chase-credit-financing-private-credit-analyst",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210794454": {
       "slug": "jpmorgan-chase-product-designer-private-bank-digital-early-career",
       "since": "2026-10-01"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794561": {
+      "slug": "jpmorgan-chase-macro-credit-trading-desk-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794609": {
+      "slug": "jpmorgan-chase-corporate-development-digital-partnerships-vice-president",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794811": {
+      "slug": "jpmorgan-chase-corporate-and-investment-bank-credit-risk-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794813": {
+      "slug": "jpmorgan-chase-corporate-and-investment-banking-credit-risk-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794830": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-advisor-program-full-time-analyst-singapore",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210794964": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-analyst-program-off-cycle-internship-amsterdam",
@@ -5529,21 +6289,93 @@
       "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-april-march-frankfurt-all-genders",
       "since": "2026-10-01"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210795361": {
+      "slug": "jpmorgan-chase-2027-spring-insights-analyse-and-trade-at-jpmorganchase-london",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795382": {
+      "slug": "jpmorgan-chase-2027-spring-insights-shape-and-advance-at-jpmorganchase-bournemouth",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795419": {
+      "slug": "jpmorgan-chase-2027-spring-insights-advise-and-invest-at-jpmorganchase-london",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795468": {
+      "slug": "jpmorgan-chase-2027-spring-insights-influence-and-execute-at-jpmorganchase-london",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795482": {
+      "slug": "jpmorgan-chase-2027-spring-insights-engineer-and-innovate-at-jpmorganchase-london",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795507": {
+      "slug": "jpmorgan-chase-2027-spring-insights-engineer-and-innovate-at-jpmorganchase-glasgow",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795561": {
+      "slug": "jpmorgan-chase-2027-commercial-and-specialized-industries-full-time-analyst-program-equipment-finance-chicago-il",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210795663": {
       "slug": "jpmorgan-chase-relationship-banker-campus-irvine-ca",
       "since": "2026-10-02"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795711": {
+      "slug": "jpmorgan-chase-2027-global-private-bank-program-full-time-analyst-hong-kong",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210795737": {
       "slug": "jpmorgan-chase-2027-global-corporate-banking-cee-team-off-cycle-internship-program-warsaw",
       "since": "2026-10-05"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210795741": {
+      "slug": "jpmorgan-chase-investment-banking-emea-leveraged-finance-mid-cap-analyst-london",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210795883": {
+      "slug": "jpmorgan-chase-2027-commercial-and-specialized-industries-full-time-analyst-program-asset-based-lending-dallas-tx",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210796061": {
       "slug": "jpmorgan-chase-2027-consumer-and-community-banking-risk-modeling-associate-program-summer-internship",
       "since": "2026-10-07"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210796113": {
+      "slug": "jpmorgan-chase-asset-management-structured-equity-research-analyst-vice-president",
+      "since": "2026-10-13"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210796243": {
       "slug": "jpmorgan-chase-2027-firmwide-switzerland-working-student-asset-management-sales-support-zurich",
       "since": "2026-10-01"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210796869": {
+      "slug": "jpmorgan-chase-wealth-management-institutional-investment-solutions-multi-asset-portfolio-manager-us-wealth-management",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210796999": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-rates-trading-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210797491": {
+      "slug": "jpmorgan-chase-asset-management-global-market-strategist-milan-executive-director",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210797827": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-ficc-electronic-sales-analyst",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210797834": {
+      "slug": "jpmorgan-chase-commercial-and-investment-bank-rates-trading-analyst-sydney",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210797838": {
+      "slug": "jpmorgan-chase-equity-research-insurance-and-diversified-financials-associate-vice-president-australia",
+      "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210798720": {
+      "slug": "jpmorgan-chase-market-risk-var-and-capital-coverage-associate",
+      "since": "2026-10-13"
     },
     "oracle-jpmc-fa-oraclecloud-com-210798785": {
       "slug": "jpmorgan-chase-fresh-graduates-career-readiness-workshop-oct-26-2026",
@@ -6220,6 +7052,10 @@
       "slug": "accenture-cloud-devops-engineer-intern",
       "since": "2026-09-28"
     },
+    "workday-accenture-14833180": {
+      "slug": "accenture-talent-advancement-program-graduate-analyst",
+      "since": "2026-10-13"
+    },
     "workday-accenture-R00144534": {
       "slug": "accenture-software-engineering-new-associate-fresh-diploma-graduate-program",
       "since": "2026-09-20"
@@ -6251,6 +7087,10 @@
     "workday-accenture-R00263654": {
       "slug": "accenture-software-engineering-new-associate-fresh-diploma-graduate-program-us",
       "since": "2026-09-20"
+    },
+    "workday-accenture-R00278795": {
+      "slug": "accenture-analista-junior-tecnico-funzionale-intern",
+      "since": "2026-10-13"
     },
     "workday-accenture-R00279776": {
       "slug": "accenture-business-analyst-intern",
@@ -6379,6 +7219,10 @@
     "workday-accenture-R00342918-1": {
       "slug": "accenture-software-engineer-intern",
       "since": "2026-10-01"
+    },
+    "workday-accenture-R00343169": {
+      "slug": "accenture-entry-level-technology-for-manila-recruitment-hub-applications-only",
+      "since": "2026-10-13"
     },
     "workday-accenture-R00343384": {
       "slug": "accenture-industrial-design-internship",
@@ -6567,6 +7411,10 @@
     "workday-accenture-R00362470": {
       "slug": "accenture-next-generation-robotics-graduate-program",
       "since": "2026-10-07"
+    },
+    "workday-accenture-R00362767": {
+      "slug": "accenture-canada-indigenous-fnim-technology-apprenticeship-program",
+      "since": "2026-10-13"
     },
     "workday-athene-R253683": {
       "slug": "apollo-global-management-2026-summer-associate-treasury-and-business-management",
@@ -7392,6 +8240,10 @@
       "slug": "barclays-trading-analyst-summer-internship-program-2027-mexico-city",
       "since": "2026-10-03"
     },
+    "workday-barclays-JR-0000135640": {
+      "slug": "barclays-investment-bank-associate",
+      "since": "2026-10-13"
+    },
     "workday-blackstone-40628": {
       "slug": "blackstone-2027-blackstone-real-estate-summer-analyst-tokyo",
       "since": "2026-09-18"
@@ -7472,6 +8324,14 @@
       "slug": "blackstone-2027-blackstone-bxpe-summer-analyst",
       "since": "2026-09-18"
     },
+    "workday-blackstone-44602": {
+      "slug": "blackstone-2027-blackstone-real-estate-acquisitions-analyst-london",
+      "since": "2026-10-13"
+    },
+    "workday-blackstone-44604": {
+      "slug": "blackstone-2027-blackstone-real-estate-asset-management-analyst-london",
+      "since": "2026-10-13"
+    },
     "workday-blackstone-44724": {
       "slug": "blackstone-2027-blackstone-real-estate-sustainability-summer-analyst",
       "since": "2026-09-01"
@@ -7531,6 +8391,14 @@
     "workday-blackstone-45615": {
       "slug": "blackstone-2027-strategic-partners-spend-management-team-smt-summer-analyst",
       "since": "2026-09-24"
+    },
+    "workday-blackstone-45626": {
+      "slug": "blackstone-2027-blackstone-real-estate-acquisitions-analyst",
+      "since": "2026-10-13"
+    },
+    "workday-blackstone-45667": {
+      "slug": "blackstone-2027-blackstone-technology-and-innovation-software-engineer-analyst-london",
+      "since": "2026-10-13"
     },
     "workday-blackstone-45867": {
       "slug": "blackstone-2027-blackstone-global-fund-finance-summer-analyst",
@@ -7712,6 +8580,10 @@
       "slug": "bmo-capital-markets-private-wealth-administrative-assistant-winter-2027-co-op-internship-4-months",
       "since": "2026-09-18"
     },
+    "workday-bmo-R260025472": {
+      "slug": "bmo-capital-markets-private-wealth-associate-program-new-or-recent-grad-may-2027-start-date",
+      "since": "2026-10-13"
+    },
     "workday-bmo-R260025805": {
       "slug": "bmo-capital-markets-business-analyst-winter-2027-co-op-internship-8-month",
       "since": "2026-09-30"
@@ -7800,6 +8672,10 @@
       "slug": "capital-one-analyst-specialty-underwriting-and-portfolio-management-fig",
       "since": "2026-10-12"
     },
+    "workday-capitalone-R1000929": {
+      "slug": "capital-one-technology-development-program-associate-mexico-2027",
+      "since": "2026-10-13"
+    },
     "workday-capitalone-R1001136-1": {
       "slug": "capital-one-senior-associate-capital-markets-and-risk-analyst",
       "since": "2026-10-12"
@@ -7871,6 +8747,10 @@
     "workday-capitalone-R244815-1": {
       "slug": "capital-one-mba-product-intern-summer-2027",
       "since": "2026-10-02"
+    },
+    "workday-capitalone-R245935-1": {
+      "slug": "capital-one-investment-banking-analyst-tripletree-2027",
+      "since": "2026-10-13"
     },
     "workday-capitalone-R246679-1": {
       "slug": "capital-one-mba-investment-banking-summer-associate-summer-2027",
@@ -7992,6 +8872,10 @@
       "slug": "cibc-2027-investment-banking-summer-analyst-energy-infrastructure-and-transition",
       "since": "2026-09-18"
     },
+    "workday-cibc-2616141-1": {
+      "slug": "cibc-2027-analyst-i-debt-capital-markets",
+      "since": "2026-10-13"
+    },
     "workday-cibc-2616214": {
       "slug": "cibc-cibc-private-wealth-rotational-program-virtual-information-session-bilingual",
       "since": "2026-09-18"
@@ -8019,6 +8903,14 @@
     "workday-cibc-2618397-1": {
       "slug": "cibc-summer-intern-2027-private-wealth-management",
       "since": "2026-09-18"
+    },
+    "workday-cibc-2618416-1": {
+      "slug": "cibc-2027-analyst-i-corporate-banking",
+      "since": "2026-10-13"
+    },
+    "workday-cibc-2618659": {
+      "slug": "cibc-2027-investment-banking-analyst-i-us-middle-markets-milwaukee",
+      "since": "2026-10-13"
     },
     "workday-cibc-2618764-2": {
       "slug": "cibc-consultant-aml-winter-2027-co-op",
@@ -8076,9 +8968,21 @@
       "slug": "citi-fresh-graduate-finance-economics-mathematics-accounting-business-administration-commerce",
       "since": "2026-09-18"
     },
+    "workday-citi-24801282": {
+      "slug": "citi-2025-corporate-banking-full-time-analyst-program-mexico",
+      "since": "2026-10-13"
+    },
+    "workday-citi-24802216": {
+      "slug": "citi-2025-debt-capital-markets-full-time-analyst-mexico",
+      "since": "2026-10-13"
+    },
     "workday-citi-25820546": {
       "slug": "citi-2025-wealth-management-summer-internship-dubai-uae-uae-nationals-preferred",
       "since": "2026-09-18"
+    },
+    "workday-citi-25831823": {
+      "slug": "citi-2025-latam-markets-analyst-program-colombia",
+      "since": "2026-10-13"
     },
     "workday-citi-25836348": {
       "slug": "citi-2025-markets-internship-colombia",
@@ -8151,6 +9055,10 @@
     "workday-citi-261000113": {
       "slug": "citi-banking-corporate-banking-internship-s-o-paulo-brazil-2027",
       "since": "2026-10-09"
+    },
+    "workday-citi-261000621": {
+      "slug": "citi-young-apprentice-c00-mumbai-7",
+      "since": "2026-10-13"
     },
     "workday-citi-26945311": {
       "slug": "citi-services-summer-analyst-program-new-york-city-us-2027",
@@ -8336,6 +9244,14 @@
       "slug": "citi-markets-business-management-internship-s-o-paulo-brazil-2026",
       "since": "2026-09-01"
     },
+    "workday-citi-26986025": {
+      "slug": "citi-wealth-latam-full-time-analyst-new-york-usa-2027",
+      "since": "2026-10-13"
+    },
+    "workday-citi-26986028": {
+      "slug": "citi-wealth-full-time-analyst-new-york-usa-2027",
+      "since": "2026-10-13"
+    },
     "workday-citi-26986138": {
       "slug": "citi-markets-sales-and-trading-internship-s-o-paulo-brazil-2026",
       "since": "2026-09-01"
@@ -8423,6 +9339,22 @@
       "slug": "citi-markets-sales-and-trading-off-cycle-internship-paris-france-2027",
       "since": "2026-09-18"
     },
+    "workday-citi-26992587": {
+      "slug": "citi-services-full-time-analyst-mexico-mexico-city-2027",
+      "since": "2026-10-13"
+    },
+    "workday-citi-26992614": {
+      "slug": "citi-banking-investment-banking-full-time-analyst-mexico-city-mexico-2027",
+      "since": "2026-10-13"
+    },
+    "workday-citi-26992624-1": {
+      "slug": "citi-banking-corporate-banking-full-time-analyst-mexico-city-mexico-2027",
+      "since": "2026-10-13"
+    },
+    "workday-citi-26992628": {
+      "slug": "citi-banking-corporate-banking-full-time-analyst-monterrey-mexico-2027",
+      "since": "2026-10-13"
+    },
     "workday-citi-26993182": {
       "slug": "citi-banking-financing-summer-analyst-london-united-kingdom-2027",
       "since": "2026-09-18"
@@ -8431,9 +9363,17 @@
       "slug": "citi-banking-corporate-baking-internship-bogot-colombia-2027",
       "since": "2026-09-29"
     },
+    "workday-citi-26993307": {
+      "slug": "citi-banking-corporate-banking-full-time-analyst-bogot-colombia-2027",
+      "since": "2026-10-13"
+    },
     "workday-citi-26993448": {
       "slug": "citi-banking-commercial-banking-summer-analyst-london-united-kingdom-2027",
       "since": "2026-09-18"
+    },
+    "workday-citi-26993494": {
+      "slug": "citi-banking-corporate-banking-placement-analyst-copenhagen-denmark-2027-january-start",
+      "since": "2026-10-13"
     },
     "workday-citi-26993561": {
       "slug": "citi-banking-commercial-banking-summer-analyst-frankfurt-germany-2027",
@@ -8446,6 +9386,10 @@
     "workday-citi-26993619": {
       "slug": "citi-banking-commercial-banking-summer-analyst-stockholm-sweden-2027",
       "since": "2026-09-24"
+    },
+    "workday-citi-26993672": {
+      "slug": "citi-banking-commercial-banking-full-time-analyst-madrid-spain-2027",
+      "since": "2026-10-13"
     },
     "workday-citi-26993885": {
       "slug": "citi-south-africa-learnership-graduate-program-market-south-africa-johannesburg-2026",
@@ -8862,9 +9806,21 @@
       "slug": "houlihan-lokey-2027-4-month-off-cycle-internship-february-munich",
       "since": "2026-09-18"
     },
+    "workday-hl-R3473": {
+      "slug": "houlihan-lokey-investment-banking-financial-analyst-atlanta-business-services-class-of-2027",
+      "since": "2026-10-13"
+    },
     "workday-hl-R3484-1": {
       "slug": "houlihan-lokey-off-cycle-intern-financial-restructuring-singapore-jan-jun-2027",
       "since": "2026-09-01"
+    },
+    "workday-hl-R3495": {
+      "slug": "houlihan-lokey-summer-financial-analyst-2027-financial-restructuring-london",
+      "since": "2026-10-13"
+    },
+    "workday-hl-R3517": {
+      "slug": "houlihan-lokey-2027-summer-financial-analyst-capital-solutions-london",
+      "since": "2026-10-13"
     },
     "workday-hl-R3526": {
       "slug": "houlihan-lokey-6-month-off-cycle-internship-financial-restructuring-dubai",
@@ -8893,6 +9849,10 @@
     "workday-hl-R3560": {
       "slug": "houlihan-lokey-3-month-off-cycle-internship-corporate-finance-europe",
       "since": "2026-09-18"
+    },
+    "workday-hl-R3564": {
+      "slug": "houlihan-lokey-2027-summer-financial-analyst-corporate-finance-manda",
+      "since": "2026-10-13"
     },
     "workday-hl-R3577": {
       "slug": "houlihan-lokey-off-cycle-intern-financial-and-valuation-advisory-london",
@@ -8929,6 +9889,14 @@
     "workday-hl-R3626": {
       "slug": "houlihan-lokey-2027-corporate-finance-internship-4-6-months-zurich",
       "since": "2026-09-30"
+    },
+    "workday-hl-R3632": {
+      "slug": "houlihan-lokey-2027-summer-financial-analyst-class-of-2028-corporate-valuation-advisory-services-complex-securities-multiple-locations",
+      "since": "2026-10-13"
+    },
+    "workday-hl-R3654": {
+      "slug": "houlihan-lokey-2027-financial-analyst-class-of-2027-portfolio-valuation-and-fund-advisory-services-chicago",
+      "since": "2026-10-13"
     },
     "workday-huron-JR-0016124": {
       "slug": "huron-consulting-group-digital-consulting-intern-summer-2027-montreal-spring-2028-graduates",
@@ -9397,6 +10365,10 @@
       "slug": "ing-internship-facility-management",
       "since": "2026-10-07"
     },
+    "workday-ing-REQ-10122644": {
+      "slug": "ing-internship-transaction-services-sales-europe",
+      "since": "2026-10-13"
+    },
     "workday-ing-REQ-10122693": {
       "slug": "ing-hr-intern-internal-communications-learning-and-engagement-hr4hr",
       "since": "2026-10-05"
@@ -9461,6 +10433,10 @@
       "slug": "ing-complaints-intern",
       "since": "2026-10-12"
     },
+    "workday-ing-REQ-10123138-1": {
+      "slug": "ing-intern-in-risk-hub-model-development-department",
+      "since": "2026-10-13"
+    },
     "workday-intel-JR0281401": {
       "slug": "intel-practical-engineering-student-kiryat-gat",
       "since": "2026-09-28"
@@ -9480,6 +10456,10 @@
     "workday-intel-JR0283509": {
       "slug": "intel-physical-design-engineering-graduate-intern",
       "since": "2026-09-01"
+    },
+    "workday-intel-JR0284021": {
+      "slug": "intel-early-careers-manufacturing-technician",
+      "since": "2026-10-13"
     },
     "workday-intel-JR0284923": {
       "slug": "intel-ai-product-analyst-student-for-ai-solutions-group",
@@ -9708,6 +10688,10 @@
       "slug": "intel-advanced-packaging-integration-and-simulation-intern",
       "since": "2026-09-18"
     },
+    "workday-intel-JR0287013": {
+      "slug": "intel-engineering-student-for-intel-kiryat-gat",
+      "since": "2026-10-13"
+    },
     "workday-intel-JR0287019": {
       "slug": "intel-software-research-engineering-phd-intern",
       "since": "2026-09-18"
@@ -9864,6 +10848,10 @@
       "slug": "intel-graduate-talent-software-application-development-engineer-us",
       "since": "2026-10-07"
     },
+    "workday-intel-JR0287837-1": {
+      "slug": "intel-information-technology-intern",
+      "since": "2026-10-13"
+    },
     "workday-intel-JR0287840": {
       "slug": "intel-project-analyst-student",
       "since": "2026-10-06"
@@ -9907,6 +10895,14 @@
     "workday-intel-JR0287941": {
       "slug": "intel-compiler-engineering-intern",
       "since": "2026-10-08"
+    },
+    "workday-intel-JR0287977": {
+      "slug": "intel-process-integration-development-engineer-phd-intern-new-2027",
+      "since": "2026-10-13"
+    },
+    "workday-intel-JR0287998": {
+      "slug": "intel-silicon-architecture-undergraduate-intern",
+      "since": "2026-10-13"
     },
     "workday-intel-JR0288056": {
       "slug": "intel-ai-software-development-engineer-intern",
@@ -9995,6 +10991,10 @@
     "workday-mastercard-R-287594-2": {
       "slug": "mastercard-associate-consultant-intern-summer-2027-saudi-arabia",
       "since": "2026-10-06"
+    },
+    "workday-mastercard-R-287596-2": {
+      "slug": "mastercard-associate-analyst-business-development-launch-program-2027-saudi-arabia",
+      "since": "2026-10-13"
     },
     "workday-mastercard-R-287598-2": {
       "slug": "mastercard-global-markets-summer-internship-2027-product-management-intern-and-sales-analyst-intern-dubai-uae-uae-nationals-preferred",
@@ -10140,6 +11140,10 @@
       "slug": "mizuho-mizuho-greenhill-investment-banking-off-cycle-internship-january-june-2027-singapore",
       "since": "2026-10-06"
     },
+    "workday-mizuho-R7449": {
+      "slug": "mizuho-2027-manda-analyst-chicago",
+      "since": "2026-10-13"
+    },
     "workday-mizuho-R7453": {
       "slug": "mizuho-2027-restructuring-summer-associate-new-york",
       "since": "2026-10-08"
@@ -10196,13 +11200,57 @@
       "slug": "nvidia-formal-verification-engineer-new-college-graduate",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2008990": {
+      "slug": "nvidia-developer-technology-engineer-public-sector-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2010010": {
+      "slug": "nvidia-research-scientist-circuits-phd-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2010161": {
+      "slug": "nvidia-research-scientist-ml-systems-phd-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2010391": {
+      "slug": "nvidia-asic-design-verification-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2010488": {
       "slug": "nvidia-applied-research-intern-nlp-fall-2026",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2011473": {
+      "slug": "nvidia-research-scientist-robotics-research-phd-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2011631": {
+      "slug": "nvidia-cell-modeling-and-verification-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2011879": {
+      "slug": "nvidia-system-design-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2012398": {
       "slug": "nvidia-applied-deep-learning-phd-research-intern-reinforcement-learning-for-llms-fall-2026",
       "since": "2026-09-18"
+    },
+    "workday-nvidia-JR2012573": {
+      "slug": "nvidia-asic-verification-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2012698": {
+      "slug": "nvidia-research-scientist-fundamental-generative-ai-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2012979": {
+      "slug": "nvidia-research-scientist-electronic-design-automation-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2013177": {
+      "slug": "nvidia-asic-physical-design-and-timing-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2015779": {
       "slug": "nvidia-performance-engineer-intern-systems-software-fall-2026",
@@ -10216,29 +11264,65 @@
       "slug": "nvidia-board-design-engineer-lde-new-college-graduate",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2017169": {
+      "slug": "nvidia-ai-gpu-power-architect-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2017486-1": {
+      "slug": "nvidia-power-methodology-and-modeling-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2017522": {
       "slug": "nvidia-phd-software-engineering-intern-decision-intelligence-fall-2026",
       "since": "2026-09-18"
+    },
+    "workday-nvidia-JR2017681": {
+      "slug": "nvidia-asic-physical-design-engineer-netlisting-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2018659": {
+      "slug": "nvidia-software-engineer-hardware-tools-and-methodology-new-college-grad-2026",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2018685": {
       "slug": "nvidia-research-scientist-deep-learning-and-computer-vision-new-college-graduate",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2020309": {
+      "slug": "nvidia-asic-design-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2020544": {
       "slug": "nvidia-automation-infrastructure-student",
       "since": "2026-09-29"
+    },
+    "workday-nvidia-JR2020640": {
+      "slug": "nvidia-asic-verification-engineer-new-college-grad-2026-us",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2020781": {
       "slug": "nvidia-system-software-engineer-soc-new-college-graduate",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2020837": {
+      "slug": "nvidia-formal-verification-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2021277": {
       "slug": "nvidia-solution-architect-manager-intern-program",
       "since": "2026-09-01"
     },
+    "workday-nvidia-JR2021534": {
+      "slug": "nvidia-asic-design-engineer-new-college-grad-2026-us",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2021783": {
       "slug": "nvidia-system-design-validation-intern-2027",
       "since": "2026-09-18"
+    },
+    "workday-nvidia-JR2021841": {
+      "slug": "nvidia-rtl-power-optimization-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2021878": {
       "slug": "nvidia-system-design-engineer-lde-rdss-intern",
@@ -10251,6 +11335,10 @@
     "workday-nvidia-JR2022086": {
       "slug": "nvidia-software-engineering-intern-replay-tooling-and-test-automation-autonomous-driving",
       "since": "2026-09-18"
+    },
+    "workday-nvidia-JR2022102": {
+      "slug": "nvidia-gpu-verification-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2022295": {
       "slug": "nvidia-software-engineering-intern-dynamo-fall-2026",
@@ -10283,6 +11371,10 @@
     "workday-nvidia-JR2023370": {
       "slug": "nvidia-pcb-design-eda-and-ai-engineer-new-college-graduate-2027",
       "since": "2026-09-18"
+    },
+    "workday-nvidia-JR2023398": {
+      "slug": "nvidia-architecture-energy-modeling-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2023475": {
       "slug": "nvidia-nvidia-2027-internships-ph-d-research-generative-ai",
@@ -10488,6 +11580,10 @@
       "slug": "nvidia-developer-technology-engineer-ai-new-college-graduate-2026",
       "since": "2026-09-01"
     },
+    "workday-nvidia-JR2024651": {
+      "slug": "nvidia-asic-floorplan-design-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2024681": {
       "slug": "nvidia-design-verification-engineer-rdss-intern",
       "since": "2026-09-01"
@@ -10508,6 +11604,10 @@
       "slug": "nvidia-soc-design-team-methodology-intern-2027",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2024940": {
+      "slug": "nvidia-physical-design-vlsi-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2024997": {
       "slug": "nvidia-phd-research-intern-quantum-and-ai-for-chemistry-2027",
       "since": "2026-09-18"
@@ -10520,9 +11620,17 @@
       "slug": "nvidia-system-software-intern-video-chips-summer-2027",
       "since": "2026-09-18"
     },
+    "workday-nvidia-JR2025458": {
+      "slug": "nvidia-systems-software-engineer-ai-and-cloud-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2025556": {
       "slug": "nvidia-asic-intern-summer-2027",
       "since": "2026-09-18"
+    },
+    "workday-nvidia-JR2025693": {
+      "slug": "nvidia-mixed-signal-design-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2025835": {
       "slug": "nvidia-pmu-asic-engineer-new-college-graduate-2027",
@@ -10532,9 +11640,49 @@
       "slug": "nvidia-pmu-verification-engineer-new-college-graduate-2027",
       "since": "2026-10-12"
     },
+    "workday-nvidia-JR2026276": {
+      "slug": "nvidia-gpu-pcie-and-boot-architect-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2026277": {
+      "slug": "nvidia-asic-design-engineer-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2026341": {
+      "slug": "nvidia-asic-verification-engineer-memory-management-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2026343": {
+      "slug": "nvidia-asic-verification-engineer-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2026387-1": {
+      "slug": "nvidia-security-architect-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2026739": {
+      "slug": "nvidia-research-scientist-fundamental-generative-ai-new-college-grad-2026-us",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2026800": {
+      "slug": "nvidia-high-speed-serdes-validation-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2026839-1": {
       "slug": "nvidia-research-intern-world-models-and-synthetic-data-for-autonomous-driving-summer-2027",
       "since": "2026-10-11"
+    },
+    "workday-nvidia-JR2026901": {
+      "slug": "nvidia-hardware-design-validation-engineer-memory-subsystem-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2027083": {
+      "slug": "nvidia-deep-learning-software-engineer-tensorrt-performance-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2027176": {
+      "slug": "nvidia-dft-intern-2027",
+      "since": "2026-10-13"
     },
     "workday-nvidia-JR2027251": {
       "slug": "nvidia-cpu-compiler-intern-2027",
@@ -10544,9 +11692,25 @@
       "slug": "nvidia-cpu-compiler-intern-2027-asia",
       "since": "2026-10-12"
     },
+    "workday-nvidia-JR2027337": {
+      "slug": "nvidia-software-engineer-dl-kernel-libraries-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
     "workday-nvidia-JR2027378": {
       "slug": "nvidia-accelerated-computing-research-intern",
       "since": "2026-10-12"
+    },
+    "workday-nvidia-JR2027431": {
+      "slug": "nvidia-c-software-engineer-infrastructure-tools-new-college-grad-2027",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2027579": {
+      "slug": "nvidia-asic-clocks-verification-engineer-new-college-grad-2026",
+      "since": "2026-10-13"
+    },
+    "workday-nvidia-JR2027612": {
+      "slug": "nvidia-pcb-design-engineer-new-college-grad-2027",
+      "since": "2026-10-13"
     },
     "workday-omers-JR-8378": {
       "slug": "omers-student-private-equity-analyst-summer-2027-4-months",
@@ -10655,6 +11819,10 @@
     "workday-raymondjames-R-0012174": {
       "slug": "raymond-james-2027-investment-banking-summer-analyst-private-credit-new-york-ny",
       "since": "2026-09-01"
+    },
+    "workday-raymondjames-R-0012361": {
+      "slug": "raymond-james-2027-investment-banking-summer-analyst-consumer-charlotte-nc",
+      "since": "2026-10-13"
     },
     "workday-raymondjames-R-0012697": {
       "slug": "raymond-james-2027-clark-capital-mentoring-internship-program",
@@ -11116,6 +12284,10 @@
       "slug": "visa-associate-technical-program-analyst-intern-summer-2027",
       "since": "2026-09-18"
     },
+    "workday-visa-REF93870J": {
+      "slug": "visa-data-science-graduate",
+      "since": "2026-10-13"
+    },
     "workday-wf-R-555463-1": {
       "slug": "wells-fargo-2027-human-resources-internship-early-careers",
       "since": "2026-09-18"
@@ -11334,6 +12506,10 @@
     "workday-wf-R-578899": {
       "slug": "wells-fargo-off-cycle-manda-intern-analyst",
       "since": "2026-10-06"
+    },
+    "workday-wf-R-580368": {
+      "slug": "wells-fargo-business-execution-consultant-early-careers-experience",
+      "since": "2026-10-13"
     },
     "workday-wf-R-580897": {
       "slug": "wells-fargo-branch-banking-management-military-apprentice-safe-wilmington-nc",
