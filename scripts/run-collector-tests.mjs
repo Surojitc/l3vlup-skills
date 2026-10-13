@@ -38,6 +38,7 @@ export const SUITES = [
   'role-duplicates',
   'seniority',
   'early-career-recovery',
+  'experienced-quality',
   'role-telemetry',
   'board-checks',
   'complete-board',
