@@ -136,6 +136,37 @@ eq('treasury technology at a fund is internal treasury', xp('Software Engineer, 
 eq('a quant treasury seat is kept', xp('Quantitative Analyst AVP - Treasury', BARC), 'Quant/vp');
 eq('treasuries as the instrument is kept', xp('US Treasuries Trader - Vice President', JPM), 'Sales & Trading/vp');
 
+/* ------------------- 3b. No false negatives from the exclusions ------------------- */
+
+// Genuine markets, investing and trading-platform seats that carry a word the
+// exclusions above watch for. Each must survive.
+for (const [title, firm] of [
+  ['Software Engineer, Risk Controls', IMC],
+  ['C++ Developer - Pre-Trade Risk Controls', IMC],
+  ['Execution Controls Developer', IMC],
+  ['Low Latency Systems Engineer', IMC],
+  ['Execution Systems Engineer', IMC],
+  ['Market Data Systems Engineer', IMC],
+  ['Trading System Engineer', JUMP],
+  ['US Treasuries Trader - Vice President', JPM],
+  ['Treasury Markets Trader - Associate', JPM],
+  ['Global Treasury Markets - Quantitative Research Associate', JPM],
+  ['Portfolio Manager, Treasury Inflation-Protected Securities', P72],
+  ['Fundamental Analyst - Financials (Banks, Treasury)', P72],
+  ['Liquidity Trader - Associate', JPM],
+  ['Collateral Trading - Associate', JPM],
+  ['Counterparty Credit Risk - XVA Trading Associate', JPM],
+  ['Market Risk Manager - Vice President', JPM],
+  ['Risk Manager, Global Macro', P72],
+  ['Quantitative Researcher - Risk Modelling', P72],
+]) {
+  eq(`kept despite an excluded word: ${title} at ${firm.firm}`, xp(title, firm) !== null, true);
+}
+// …while the functions those words were meant to catch stay out.
+for (const title of ['Financial Controls Analyst', 'Internal Controls Associate', 'Controls Testing Vice President', 'Systems Engineer', 'Linux Systems Engineer', 'Treasury Analyst']) {
+  eq(`still refused: ${title}`, [xp(title, JPM), xp(title, IMC)], [null, null]);
+}
+
 /* --------------------------- 4. The A0 decisions --------------------------- */
 
 eq('Junior Software Developer (C++) at a trading firm is early career, software engineering', early('Junior Software Developer (C++)', SQ), 'Software Engineering/Graduate');
