@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-17T11:06:23.987Z",
-  "count": 2218,
+  "generatedAt": "2026-10-17T19:02:53.915Z",
+  "count": 2219,
   "opportunities": [
     {
       "id": "greenhouse-stripe-8194291",
@@ -223,26 +223,6 @@
       "slug": "stripe-security-engineer-new-grad"
     },
     {
-      "id": "greenhouse-stripe-8212508",
-      "firm": "Stripe",
-      "role": "Software Engineer, Early Career — Immediate Start",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Fintech",
-      "location": "San Francisco, Seattle, New York",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-09-17",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8212508",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "stripe-software-engineer-early-career-immediate-start"
-    },
-    {
       "id": "greenhouse-stripe-8212517",
       "firm": "Stripe",
       "role": "Software Engineer, Early Career — Immediate Start",
@@ -263,24 +243,24 @@
       "slug": "stripe-software-engineer-early-career-immediate-start-us"
     },
     {
-      "id": "greenhouse-stripe-8130867",
+      "id": "greenhouse-stripe-8212508",
       "firm": "Stripe",
-      "role": "Software Engineer, Intern",
+      "role": "Software Engineer, Early Career — Immediate Start",
       "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
+      "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "London",
-      "region": "UK",
-      "level": "Internship",
-      "openingDate": "2026-08-31",
+      "location": "San Francisco, Seattle, New York",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-09-17",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130867",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8212508",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-10-17",
-      "slug": "stripe-software-engineer-intern-uk"
+      "slug": "stripe-software-engineer-early-career-immediate-start"
     },
     {
       "id": "greenhouse-stripe-8130883",
@@ -321,6 +301,26 @@
       ],
       "lastConfirmedAt": "2026-10-17",
       "slug": "stripe-software-engineer-intern"
+    },
+    {
+      "id": "greenhouse-stripe-8130867",
+      "firm": "Stripe",
+      "role": "Software Engineer, Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "London",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130867",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "stripe-software-engineer-intern-uk"
     },
     {
       "id": "greenhouse-stripe-8130807",
@@ -403,24 +403,44 @@
       "slug": "stripe-software-engineer-intern-europe"
     },
     {
-      "id": "greenhouse-stripe-8130930",
+      "id": "greenhouse-stripe-8160776",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "London",
-      "region": "UK",
+      "location": "Singapore",
+      "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2026-08-31",
+      "openingDate": "2026-09-03",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130930",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8160776",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-10-17",
-      "slug": "stripe-software-engineer-new-grad-uk"
+      "slug": "stripe-software-engineer-new-grad-asia"
+    },
+    {
+      "id": "greenhouse-stripe-8130922",
+      "firm": "Stripe",
+      "role": "Software Engineer, New Grad",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Fintech",
+      "location": "Bucharest",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "stripe-software-engineer-new-grad-us"
     },
     {
       "id": "greenhouse-stripe-8157838",
@@ -443,46 +463,6 @@
       "slug": "stripe-software-engineer-new-grad-2"
     },
     {
-      "id": "greenhouse-stripe-8160776",
-      "firm": "Stripe",
-      "role": "Software Engineer, New Grad",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Fintech",
-      "location": "Singapore",
-      "region": "Asia",
-      "level": "Graduate",
-      "openingDate": "2026-09-03",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8160776",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "stripe-software-engineer-new-grad-asia"
-    },
-    {
-      "id": "greenhouse-stripe-8130881",
-      "firm": "Stripe",
-      "role": "Software Engineer, New Grad",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Fintech",
-      "location": "Dublin",
-      "region": "Europe",
-      "level": "Graduate",
-      "openingDate": "2026-08-31",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130881",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "stripe-software-engineer-new-grad-europe"
-    },
-    {
       "id": "greenhouse-stripe-8128744",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
@@ -503,24 +483,44 @@
       "slug": "stripe-software-engineer-new-grad"
     },
     {
-      "id": "greenhouse-stripe-8130922",
+      "id": "greenhouse-stripe-8130930",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "Bucharest",
-      "region": "Europe",
+      "location": "London",
+      "region": "UK",
       "level": "Graduate",
       "openingDate": "2026-08-31",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130930",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-10-17",
-      "slug": "stripe-software-engineer-new-grad-us"
+      "slug": "stripe-software-engineer-new-grad-uk"
+    },
+    {
+      "id": "greenhouse-stripe-8130881",
+      "firm": "Stripe",
+      "role": "Software Engineer, New Grad",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Fintech",
+      "location": "Dublin",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130881",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "stripe-software-engineer-new-grad-europe"
     },
     {
       "id": "greenhouse-stripe-8130927",
@@ -9135,8 +9135,8 @@
       "vertical": "AI Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Big Tech",
-      "location": "Taiwan, Taipei",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Graduate",
       "openingDate": "2026-10-14",
       "status": "Open",
@@ -11500,6 +11500,48 @@
       ],
       "lastConfirmedAt": "2026-10-17",
       "slug": "citi-young-apprentice-c00-pune-asia"
+    },
+    {
+      "id": "workday-citi-26989505",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - MUMBAI",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "closingDate": "2026-10-19",
+      "deadlineSource": "workday-detail",
+      "openingDate": "2026-10-17",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Young-Apprentice---C00---MUMBAI_26989505",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "citi-young-apprentice-c00-mumbai-9"
+    },
+    {
+      "id": "workday-citi-26989490",
+      "firm": "Citi",
+      "role": "Young Apprentice - C00 - MUMBAI",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai Maharashtra India",
+      "region": "Asia",
+      "level": "Graduate",
+      "closingDate": "2026-10-19",
+      "deadlineSource": "workday-detail",
+      "openingDate": "2026-10-17",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Mumbai-Maharashtra-India/Young-Apprentice---C00---MUMBAI_26989490",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "citi-young-apprentice-c00-mumbai-8"
     },
     {
       "id": "workday-citi-26994885",
@@ -21870,7 +21912,7 @@
       "region": "US",
       "level": "Experienced",
       "closingDate": "2026-10-23",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/New-York-745-7th-Avenue/Investment-Banking-Equity-Capital-Markets-Healthcare-Analyst_JR-0000135650-1",
@@ -22100,7 +22142,7 @@
       "region": "US",
       "level": "Experienced",
       "closingDate": "2026-10-23",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/New-York-745-7th-Avenue/Equity-Research-Biopharmaceuticals-VP_JR-0000130486",
@@ -22180,7 +22222,7 @@
       "region": "UK",
       "level": "Experienced",
       "closingDate": "2026-10-19",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-15",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Equity-Research-Analyst-AVP---Pharmaceuticals-team_JR-0000132739",
@@ -22244,7 +22286,7 @@
       "region": "US",
       "level": "Experienced",
       "closingDate": "2026-10-23",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/New-York-745-7th-Avenue/Agency-CMO-Trader_JR-0000087866",
@@ -22307,7 +22349,7 @@
       "region": "US",
       "level": "Experienced",
       "closingDate": "2026-10-22",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/New-York-745-7th-Avenue/Equity-Research-Energy--Analyst_JR-0000126004",
@@ -22806,7 +22848,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-10-24",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Toronto-ON-CAN/Business-Analyst--Winter-2027--Co-op-Internship----4-Months_R260024635",
@@ -23142,7 +23184,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-10-20",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://wf.wd1.myworkdayjobs.com/wellsfargojobs/job/NEW-YORK-NY/Junior-Rates-Options-Trader---Market-Making---Client-Business_R-581327",
@@ -23160,11 +23202,11 @@
       "vertical": "Other",
       "programmeType": "Graduate Programme",
       "tier": "Middle Market",
-      "location": "199349-CA-INGLEWOOD",
+      "location": "5 Locations",
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-10-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://wf.wd1.myworkdayjobs.com/wellsfargojobs/job/INGLEWOOD-CA/Branch-Banking-Management-Military-Apprentice--SAFE--Inglewood-CA_R-563208",
@@ -24191,8 +24233,7 @@
       "region": "Asia",
       "level": "Graduate",
       "closingDate": "2026-10-31",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-08-24",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/FTIConsultingCareers/job/Singapore-Singapore/Graduate-Consultant--Economic---Financial-Consulting_JR260518-1",
       "tags": [
@@ -26986,7 +27027,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-10-23",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://northwesternmutual.wd5.myworkdayjobs.com/CORPORATE-CAREERS/job/Milwaukee-WI-Corporate/Field-Engagement---Experience-Intern--Year-round_JR-46183",
@@ -27437,26 +27478,6 @@
       ],
       "lastConfirmedAt": "2026-10-17",
       "slug": "raymond-james-2027-investment-banking-analyst-i-diversified-industrials-mclean-va"
-    },
-    {
-      "id": "workday-raymondjames-R-0013018",
-      "firm": "Raymond James",
-      "role": "2026 Fall Virtual Sophomore Program: Investment Banking Bootcamp for 2028 Summer Analyst Opportunities",
-      "vertical": "Investment Banking",
-      "programmeType": "Insight Program",
-      "tier": "Middle Market",
-      "location": "See listing",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-10-05",
-      "status": "Open",
-      "applicationUrl": "https://raymondjames.wd1.myworkdayjobs.com/RaymondJamesEarlyCareers/job/Saint-Petersburg-Florida---United-States/XMLNAME-2026-Fall-Virtual-Sophomore-Program--Investment-Banking-Bootcamp-for-2028-Summer-Analyst-Opportunities_R-0013018",
-      "recommendedPrepSlug": "investment-banking-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "raymond-james-2026-fall-virtual-sophomore-program-investment-banking-bootcamp-for-2028-summer-analyst-opportunities"
     },
     {
       "id": "workday-raymondjames-R-0012361",
@@ -30796,6 +30817,29 @@
       "slug": "millennium-2027-quantitative-developer-intern-new-york"
     },
     {
+      "id": "eightfold-campusjobs-mlp-com-755957778821",
+      "firm": "Millennium",
+      "role": "2027 Applied AI Engineer Intern, New York",
+      "vertical": "AI Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "New York, New York, United States of America",
+      "region": "US",
+      "level": "Internship",
+      "closingDate": "2027-02-06",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-27",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778821",
+      "recommendedPrepSlug": "ai-engineer-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Information Technology"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "millennium-2027-applied-ai-engineer-intern-new-york"
+    },
+    {
       "id": "eightfold-campusjobs-mlp-com-755957778843",
       "firm": "Millennium",
       "role": "2027 Quantitative Researcher Intern, New York",
@@ -30886,10 +30930,10 @@
       "slug": "millennium-2027-quantitative-researcher-intern-miami"
     },
     {
-      "id": "eightfold-campusjobs-mlp-com-755957778821",
+      "id": "eightfold-campusjobs-mlp-com-755957778858",
       "firm": "Millennium",
-      "role": "2027 Applied AI Engineer Intern, New York",
-      "vertical": "AI Engineering",
+      "role": "2027 Compliance Intern, New York",
+      "vertical": "Compliance & Legal",
       "programmeType": "Summer Internship",
       "tier": "Multi-Manager",
       "location": "New York, New York, United States of America",
@@ -30899,14 +30943,13 @@
       "deadlineSource": "ledger",
       "openingDate": "2026-07-27",
       "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778821",
-      "recommendedPrepSlug": "ai-engineer-interview-prep",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778858",
       "tags": [
         "Auto-sourced",
-        "Information Technology"
+        "Finance"
       ],
       "lastConfirmedAt": "2026-10-17",
-      "slug": "millennium-2027-applied-ai-engineer-intern-new-york"
+      "slug": "millennium-2027-compliance-intern-new-york"
     },
     {
       "id": "eightfold-campusjobs-mlp-com-755957778837",
@@ -30930,28 +30973,6 @@
       ],
       "lastConfirmedAt": "2026-10-17",
       "slug": "millennium-2027-operations-and-middle-office-intern-miami"
-    },
-    {
-      "id": "eightfold-campusjobs-mlp-com-755957778858",
-      "firm": "Millennium",
-      "role": "2027 Compliance Intern, New York",
-      "vertical": "Compliance & Legal",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "New York, New York, United States of America",
-      "region": "US",
-      "level": "Internship",
-      "closingDate": "2027-02-06",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778858",
-      "tags": [
-        "Auto-sourced",
-        "Finance"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "millennium-2027-compliance-intern-new-york"
     },
     {
       "id": "eightfold-campusjobs-mlp-com-755957778878",
@@ -30986,7 +31007,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2027-04-15",
-      "deadlineSource": "jsonld",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755959251279",
@@ -31009,7 +31030,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2027-04-15",
-      "deadlineSource": "jsonld",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755959251354",
@@ -31291,6 +31312,28 @@
       "slug": "millennium-2027-trading-services-intern-london"
     },
     {
+      "id": "eightfold-campusjobs-mlp-com-755957778864",
+      "firm": "Millennium",
+      "role": "2027 Market Risk Intern, London",
+      "vertical": "Risk",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "London, London, United Kingdom",
+      "region": "UK",
+      "level": "Internship",
+      "closingDate": "2027-01-28",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-27",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778864",
+      "tags": [
+        "Auto-sourced",
+        "Risk Management"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "millennium-2027-market-risk-intern-london"
+    },
+    {
       "id": "eightfold-campusjobs-mlp-com-755957778817",
       "firm": "Millennium",
       "role": "2027 Corporate Access Services Intern, London",
@@ -31301,7 +31344,7 @@
       "region": "UK",
       "level": "Internship",
       "closingDate": "2027-01-28",
-      "deadlineSource": "jsonld",
+      "deadlineSource": "ledger",
       "openingDate": "2026-07-27",
       "status": "Open",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778817",
@@ -31336,6 +31379,29 @@
       "slug": "millennium-2027-applied-ai-engineer-intern-singapore"
     },
     {
+      "id": "eightfold-campusjobs-mlp-com-755957778822",
+      "firm": "Millennium",
+      "role": "2027 Applied AI Engineer Intern, Hong Kong",
+      "vertical": "AI Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "Hong Kong, Hong Kong",
+      "region": "Asia",
+      "level": "Internship",
+      "closingDate": "2027-01-31",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-27",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778822",
+      "recommendedPrepSlug": "ai-engineer-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Information Technology"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "millennium-2027-applied-ai-engineer-intern-hong-kong"
+    },
+    {
       "id": "eightfold-campusjobs-mlp-com-755957778824",
       "firm": "Millennium",
       "role": "2027 Corporate Services and Real Estate Intern, London",
@@ -31356,6 +31422,28 @@
       ],
       "lastConfirmedAt": "2026-10-17",
       "slug": "millennium-2027-corporate-services-and-real-estate-intern-london"
+    },
+    {
+      "id": "eightfold-campusjobs-mlp-com-755957778827",
+      "firm": "Millennium",
+      "role": "2027 Finance Intern, London",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "London, London, United Kingdom",
+      "region": "UK",
+      "level": "Internship",
+      "closingDate": "2027-01-28",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-27",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778827",
+      "tags": [
+        "Auto-sourced",
+        "Finance"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "millennium-2027-finance-intern-london"
     },
     {
       "id": "eightfold-campusjobs-mlp-com-755957778829",
@@ -31413,7 +31501,7 @@
       "region": "UK",
       "level": "Internship",
       "closingDate": "2027-01-28",
-      "deadlineSource": "jsonld",
+      "deadlineSource": "ledger",
       "openingDate": "2026-07-27",
       "status": "Open",
       "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778834",
@@ -31445,6 +31533,50 @@
       ],
       "lastConfirmedAt": "2026-10-17",
       "slug": "millennium-2027-finance-intern-dublin"
+    },
+    {
+      "id": "eightfold-campusjobs-mlp-com-755957778849",
+      "firm": "Millennium",
+      "role": "2027 Compliance Intern, London",
+      "vertical": "Compliance & Legal",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "London, London, United Kingdom",
+      "region": "UK",
+      "level": "Internship",
+      "closingDate": "2027-01-28",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-27",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778849",
+      "tags": [
+        "Auto-sourced",
+        "Compliance"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "millennium-2027-compliance-intern-london"
+    },
+    {
+      "id": "eightfold-campusjobs-mlp-com-755957778850",
+      "firm": "Millennium",
+      "role": "2027 Quantitative Researcher Intern, Paris",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "Paris, France",
+      "region": "Europe",
+      "level": "Internship",
+      "closingDate": "2027-01-28",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-27",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778850",
+      "tags": [
+        "Auto-sourced",
+        "Trading"
+      ],
+      "lastConfirmedAt": "2026-10-17",
+      "slug": "millennium-2027-quantitative-researcher-intern-paris"
     },
     {
       "id": "eightfold-campusjobs-mlp-com-755957778854",
@@ -31515,51 +31647,6 @@
       "slug": "millennium-2027-marketing-and-communications-intern-london"
     },
     {
-      "id": "eightfold-campusjobs-mlp-com-755957778822",
-      "firm": "Millennium",
-      "role": "2027 Applied AI Engineer Intern, Hong Kong",
-      "vertical": "AI Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "Hong Kong, Hong Kong",
-      "region": "Asia",
-      "level": "Internship",
-      "closingDate": "2027-01-31",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778822",
-      "recommendedPrepSlug": "ai-engineer-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Information Technology"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "millennium-2027-applied-ai-engineer-intern-hong-kong"
-    },
-    {
-      "id": "eightfold-campusjobs-mlp-com-755957778827",
-      "firm": "Millennium",
-      "role": "2027 Finance Intern, London",
-      "vertical": "Finance & Accounting",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "London, London, United Kingdom",
-      "region": "UK",
-      "level": "Internship",
-      "closingDate": "2027-01-28",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778827",
-      "tags": [
-        "Auto-sourced",
-        "Finance"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "millennium-2027-finance-intern-london"
-    },
-    {
       "id": "eightfold-campusjobs-mlp-com-755957778828",
       "firm": "Millennium",
       "role": "2027 Quantitative Researcher Intern, London",
@@ -31602,72 +31689,6 @@
       ],
       "lastConfirmedAt": "2026-10-17",
       "slug": "millennium-2027-quantitative-researcher-intern-hong-kong"
-    },
-    {
-      "id": "eightfold-campusjobs-mlp-com-755957778849",
-      "firm": "Millennium",
-      "role": "2027 Compliance Intern, London",
-      "vertical": "Compliance & Legal",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "London, London, United Kingdom",
-      "region": "UK",
-      "level": "Internship",
-      "closingDate": "2027-01-28",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778849",
-      "tags": [
-        "Auto-sourced",
-        "Compliance"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "millennium-2027-compliance-intern-london"
-    },
-    {
-      "id": "eightfold-campusjobs-mlp-com-755957778850",
-      "firm": "Millennium",
-      "role": "2027 Quantitative Researcher Intern, Paris",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "Paris, France",
-      "region": "Europe",
-      "level": "Internship",
-      "closingDate": "2027-01-28",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778850",
-      "tags": [
-        "Auto-sourced",
-        "Trading"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "millennium-2027-quantitative-researcher-intern-paris"
-    },
-    {
-      "id": "eightfold-campusjobs-mlp-com-755957778864",
-      "firm": "Millennium",
-      "role": "2027 Market Risk Intern, London",
-      "vertical": "Risk",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "London, London, United Kingdom",
-      "region": "UK",
-      "level": "Internship",
-      "closingDate": "2027-01-28",
-      "deadlineSource": "jsonld",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778864",
-      "tags": [
-        "Auto-sourced",
-        "Risk Management"
-      ],
-      "lastConfirmedAt": "2026-10-17",
-      "slug": "millennium-2027-market-risk-intern-london"
     },
     {
       "id": "eightfold-campusjobs-mlp-com-755953958409",
@@ -41179,7 +41200,7 @@
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Enterprise Tech",
-      "location": "MYS - Penang",
+      "location": "2 Locations",
       "region": "US",
       "level": "Graduate",
       "openingDate": "2026-10-07",
@@ -41371,7 +41392,7 @@
       "vertical": "Software Engineering",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
-      "location": "CHN - Minhang",
+      "location": "2 Locations",
       "region": "US",
       "level": "Internship",
       "openingDate": "2026-10-08",
@@ -41473,7 +41494,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2027-01-15",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-16",
       "status": "Open",
       "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/Process-Integ-and-Yield-Eng-PhD-Intern-Grade-029-new-2027_JR0288083",
@@ -43343,8 +43364,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-10-23",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-14",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Chicago-Accenture-Tower-Corp/Entry-Level-Advisory-Development-Program---Process-Excellence-Summer-Analyst---NAELFY27_R00354373",
       "tags": [
@@ -43457,8 +43477,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-10-19",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-15",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Clayton-7777-Bonhomme-Avenue-SC/Maryville---Tech-Strategy-Summer-Associate---St-Louis---NAELFY27_R00356070",
       "tags": [
@@ -43612,7 +43631,7 @@
       "vertical": "Other",
       "programmeType": "Summer Internship",
       "tier": "Consulting",
-      "location": "GH Office: Atlanta, GA (5170 Peachtree)",
+      "location": "9 Locations",
       "region": "US",
       "level": "Internship",
       "openingDate": "2026-10-14",
@@ -43749,7 +43768,7 @@
       "vertical": "Consulting",
       "programmeType": "Graduate Programme",
       "tier": "Consulting",
-      "location": "GH Office: Atlanta, GA (5170 Peachtree)",
+      "location": "10 Locations",
       "region": "US",
       "level": "Graduate",
       "openingDate": "2026-10-14",

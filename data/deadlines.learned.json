@@ -1280,6 +1280,18 @@
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
     },
+    "workday-citi-26989490": {
+      "closingDate": "2026-10-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-17",
+      "lastConfirmed": "2026-10-17"
+    },
+    "workday-citi-26989505": {
+      "closingDate": "2026-10-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-17",
+      "lastConfirmed": "2026-10-17"
+    },
     "workday-citi-26991713": {
       "closingDate": "2026-12-04",
       "source": "workday-detail",
@@ -9408,6 +9420,14 @@
       "checkedAt": "2026-09-20",
       "attempts": 1
     },
+    "workday-guidehouse-43438|jsonld": {
+      "checkedAt": "2026-10-17",
+      "attempts": 1
+    },
+    "workday-guidehouse-43438|workday-detail": {
+      "checkedAt": "2026-10-17",
+      "attempts": 1
+    },
     "workday-guidehouse-43439|jsonld": {
       "checkedAt": "2026-10-17",
       "attempts": 1
@@ -9437,6 +9457,22 @@
       "attempts": 1
     },
     "workday-guidehouse-44256|workday-detail": {
+      "checkedAt": "2026-10-17",
+      "attempts": 1
+    },
+    "workday-guidehouse-44623|jsonld": {
+      "checkedAt": "2026-10-17",
+      "attempts": 1
+    },
+    "workday-guidehouse-44623|workday-detail": {
+      "checkedAt": "2026-10-17",
+      "attempts": 1
+    },
+    "workday-guidehouse-44632|jsonld": {
+      "checkedAt": "2026-10-17",
+      "attempts": 1
+    },
+    "workday-guidehouse-44632|workday-detail": {
       "checkedAt": "2026-10-17",
       "attempts": 1
     },
