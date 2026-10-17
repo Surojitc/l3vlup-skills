@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-16T11:49:48.727Z",
-  "count": 3233,
+  "generatedAt": "2026-10-17T11:06:23.987Z",
+  "count": 3257,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -163,6 +163,10 @@
     "ashby-snowflake-41e65c6c-a01e-4f40-af14-ae75d3b95e27": {
       "slug": "snowflake-software-engineer-intern-berlin-2026",
       "since": "2026-09-18"
+    },
+    "ashby-snowflake-45f2aa43-731d-4bab-a02b-9ef979f2c86e": {
+      "slug": "snowflake-product-marketing-ai-powered-data-engineering-intern-spring-2027",
+      "since": "2026-10-17"
     },
     "ashby-snowflake-4be290ae-dd9d-488c-9d90-56fcd69101ca": {
       "slug": "snowflake-software-engineer-intern-ai-ml-spring-2027",
@@ -435,6 +439,14 @@
     "eightfold-campusjobs-mlp-com-755958350731": {
       "slug": "millennium-2026-commodity-research-and-trading-analytics-intern-houston",
       "since": "2026-09-01"
+    },
+    "eightfold-campusjobs-mlp-com-755959251279": {
+      "slug": "millennium-off-cycle-trading-intern-2027-hong-kong",
+      "since": "2026-10-17"
+    },
+    "eightfold-campusjobs-mlp-com-755959251354": {
+      "slug": "millennium-off-cycle-trading-intern-2027-shanghai",
+      "since": "2026-10-17"
     },
     "greenhouse-affirm-8008645003": {
       "slug": "affirm-software-engineer-machine-learning-intern-summer-2027",
@@ -1737,6 +1749,10 @@
       "slug": "imc-trading-software-engineer-bpanda",
       "since": "2026-10-15"
     },
+    "greenhouse-imc-4976994101": {
+      "slug": "imc-trading-software-engineer-java-global-research-platform",
+      "since": "2026-10-17"
+    },
     "greenhouse-imc-4983672101": {
       "slug": "imc-trading-quantitative-researcher",
       "since": "2026-10-12"
@@ -2439,6 +2455,10 @@
     "greenhouse-mangroup-4989490101": {
       "slug": "man-group-staff-engineer",
       "since": "2026-10-12"
+    },
+    "greenhouse-mangroup-4998740101": {
+      "slug": "man-group-credit-analyst-european-financials",
+      "since": "2026-10-17"
     },
     "greenhouse-mangroup-5000443101": {
       "slug": "man-group-data-engineer",
@@ -4752,6 +4772,10 @@
       "slug": "jpmorgan-chase-investment-banking-technical-transaction-team-energy-associate-engineer",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210616021": {
+      "slug": "jpmorgan-chase-investment-banking-emea-real-estate-analyst-associate-london",
+      "since": "2026-10-17"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210625760": {
       "slug": "jpmorgan-chase-equities-systematic-trading-executive-director",
       "since": "2026-10-13"
@@ -6486,6 +6510,10 @@
       "slug": "jpmorgan-chase-asset-management-trading-services-senior-associate",
       "since": "2026-10-16"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210788150": {
+      "slug": "jpmorgan-chase-asset-management-trading-services-associate",
+      "since": "2026-10-17"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210788151": {
       "slug": "jpmorgan-chase-asset-management-trading-services-analyst",
       "since": "2026-10-13"
@@ -6557,6 +6585,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210788708": {
       "slug": "jpmorgan-chase-trading-services-analyst-us",
       "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210789019": {
+      "slug": "jpmorgan-chase-trading-services-product-development-associate",
+      "since": "2026-10-17"
     },
     "oracle-jpmc-fa-oraclecloud-com-210789075": {
       "slug": "jpmorgan-chase-2027-trust-management-internship-emerging-talent-summer-experience-program",
@@ -6724,6 +6756,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210794161": {
       "slug": "jpmorgan-chase-credit-financing-private-credit-analyst",
       "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210794236": {
+      "slug": "jpmorgan-chase-trader-multiple-positions-available-us",
+      "since": "2026-10-17"
     },
     "oracle-jpmc-fa-oraclecloud-com-210794454": {
       "slug": "jpmorgan-chase-product-designer-private-bank-digital-early-career",
@@ -7384,6 +7420,10 @@
       "slug": "morgan-stanley-2027-institutional-equity-division-full-time-analyst-program-tokyo",
       "since": "2026-10-16"
     },
+    "talnet-morganstanley-tal-net-22340": {
+      "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-emerging-markets-debt-london",
+      "since": "2026-10-17"
+    },
     "talnet-morganstanley-tal-net-22345": {
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-liquidity-london",
       "since": "2026-10-12"
@@ -7395,6 +7435,10 @@
     "talnet-morganstanley-tal-net-22355": {
       "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-office-of-coo-dublin",
       "since": "2026-10-16"
+    },
+    "talnet-morganstanley-tal-net-22373": {
+      "slug": "morgan-stanley-2027-investment-management-off-cycle-internship-global-sales-support-madrid",
+      "since": "2026-10-17"
     },
     "talnet-nomuracampus-tal-net-1426": {
       "slug": "nomura-2027-investment-banking-client-financing-solutions-summer-internship-london",
@@ -7944,6 +7988,10 @@
       "slug": "accenture-next-generation-robotics-graduate-program",
       "since": "2026-10-07"
     },
+    "workday-accenture-R00362744": {
+      "slug": "accenture-technology-resources-thesis-internship",
+      "since": "2026-10-17"
+    },
     "workday-accenture-R00362767": {
       "slug": "accenture-canada-indigenous-fnim-technology-apprenticeship-program",
       "since": "2026-10-13"
@@ -7979,6 +8027,10 @@
     "workday-barclays-JR-0000086704": {
       "slug": "barclays-vp-southeast-asia-coverage-private-banker",
       "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000087866": {
+      "slug": "barclays-agency-cmo-trader",
+      "since": "2026-10-17"
     },
     "workday-barclays-JR-0000088960": {
       "slug": "barclays-vice-president-global-markets-liquid-financing-quantitative-analyst",
@@ -8399,6 +8451,10 @@
       "slug": "barclays-uk-corporate-banking-degree-apprenticeship-programme-2027-leeds",
       "since": "2026-09-18"
     },
+    "workday-barclays-JR-0000126004": {
+      "slug": "barclays-equity-research-energy-analyst",
+      "since": "2026-10-17"
+    },
     "workday-barclays-JR-0000126680-1": {
       "slug": "barclays-rates-structuring-avp",
       "since": "2026-10-12"
@@ -8814,6 +8870,14 @@
     "workday-barclays-JR-0000135640": {
       "slug": "barclays-investment-bank-associate",
       "since": "2026-10-13"
+    },
+    "workday-barclays-JR-0000135650-1": {
+      "slug": "barclays-investment-banking-equity-capital-markets-healthcare-analyst",
+      "since": "2026-10-17"
+    },
+    "workday-barclays-JR-0000135782": {
+      "slug": "barclays-client-data-and-engineering-group-summer-internship-programme-2027-london",
+      "since": "2026-10-17"
     },
     "workday-blackstone-40628": {
       "slug": "blackstone-2027-blackstone-real-estate-summer-analyst-tokyo",
@@ -9733,6 +9797,10 @@
     "workday-citi-26975753": {
       "slug": "citi-banking-young-apprentice-c00",
       "since": "2026-10-01"
+    },
+    "workday-citi-26976074-1": {
+      "slug": "citi-early-career-campus-recruiter",
+      "since": "2026-10-17"
     },
     "workday-citi-26976395": {
       "slug": "citi-young-apprentice-c00-mumbai-2",
@@ -10680,6 +10748,10 @@
       "slug": "ing-internship-securities",
       "since": "2026-09-01"
     },
+    "workday-ing-REQ-10119555": {
+      "slug": "ing-internship-software-engineer",
+      "since": "2026-10-17"
+    },
     "workday-ing-REQ-10119645": {
       "slug": "ing-internship-fec-iandi",
       "since": "2026-09-18"
@@ -11138,6 +11210,10 @@
     "workday-ing-REQ-10123282": {
       "slug": "ing-internship-human-resources-europe",
       "since": "2026-10-15"
+    },
+    "workday-ing-REQ-10123300": {
+      "slug": "ing-internship-in-interest-rate-risk",
+      "since": "2026-10-17"
     },
     "workday-ing-REQ-10123324-1": {
       "slug": "ing-intern-financial-markets-hong-kong",
@@ -11665,6 +11741,10 @@
       "slug": "intel-module-engineering-phd-intern-new-2027-2",
       "since": "2026-10-16"
     },
+    "workday-intel-JR0288083": {
+      "slug": "intel-process-integ-and-yield-eng-phd-intern-grade-029-new-2027",
+      "since": "2026-10-17"
+    },
     "workday-intel-JR0288193": {
       "slug": "intel-software-engineering-intern",
       "since": "2026-10-16"
@@ -11672,6 +11752,10 @@
     "workday-intel-JR0288217": {
       "slug": "intel-ai-frameworks-engineer-intern-us",
       "since": "2026-10-15"
+    },
+    "workday-intel-JR0288221-1": {
+      "slug": "intel-devops-engineering-intern",
+      "since": "2026-10-17"
     },
     "workday-intel-JR0288222-1": {
       "slug": "intel-ai-application-development-intern",
@@ -11971,6 +12055,10 @@
     "workday-northwesternmutual-JR-46171": {
       "slug": "northwestern-mutual-enterprise-sustainability-and-impact-intern-modeling-and-analytics-summer-2027",
       "since": "2026-10-07"
+    },
+    "workday-northwesternmutual-JR-46183": {
+      "slug": "northwestern-mutual-field-engagement-and-experience-intern-year-round",
+      "since": "2026-10-17"
     },
     "workday-northwesternmutual-JR-46209": {
       "slug": "northwestern-mutual-underwriting-research-intern-summer-2027",
@@ -12730,6 +12818,10 @@
       "slug": "raymond-james-2027-summer-internship-pcg-finance-st-petersburg-fl",
       "since": "2026-10-07"
     },
+    "workday-raymondjames-R-0013460": {
+      "slug": "raymond-james-2027-investment-banking-analyst-i-diversified-industrials-mclean-va",
+      "since": "2026-10-17"
+    },
     "workday-santander-Req0843024": {
       "slug": "santander-candidatura-spontanea-per-internship-santander-consumer-italia",
       "since": "2026-09-18"
@@ -13402,6 +13494,10 @@
     "workday-wf-R-581192": {
       "slug": "wells-fargo-customer-service-representative-fresh-graduates-2",
       "since": "2026-10-12"
+    },
+    "workday-wf-R-581327": {
+      "slug": "wells-fargo-junior-rates-options-trader-market-making-and-client-business",
+      "since": "2026-10-17"
     },
     "workday-wf-R-581463": {
       "slug": "wells-fargo-branch-banking-management-military-apprentice-safe-san-tan-valley-district-us",
