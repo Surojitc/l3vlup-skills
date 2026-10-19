@@ -14,6 +14,7 @@ from __future__ import annotations
 import copy
 import json
 import re
+from difflib import SequenceMatcher
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -123,6 +124,11 @@ def _year_before(iso: str) -> str:
         return "0000-00-00"
 
 
+#: The acquirer reading. A guard that protects stored figures can protect the
+#: acquirer from this version on: a change made under the same version is a
+#: lost reading, one made under a newer version is the reader's correction.
+ACQUIRER_READER = 2
+
 #: an unaffected date more than this many days before the announcement is flagged long-unaffected-window
 LONG_UNAFFECTED_DAYS = 90
 
@@ -144,6 +150,14 @@ def finalize(row: dict) -> dict:
         # as the buyer. The stored sentence says who its parent is.
         row["acquirer"] = parse.vehicle_parent(row["acquirerBasis"], row["acquirer"], (row.get("target") or {}).get("name") or "")
     row["acquirer"] = parse.pretty(row.get("acquirer")) or None
+    # A fragment of the sentence is no buyer: a page would read that "Inc."
+    # or "Holding" bought Tiffany. The parent the sentence names stands where
+    # it names one; otherwise the acquirer is left empty rather than wrong.
+    if row.get("acquirer") and not buyer_named(row) and not parse.same_registrant(row["acquirer"], (row.get("target") or {}).get("name") or ""):
+        words = parse.norm_name(row["acquirer"]).split()
+        if not words or all(w in _FRAGMENT for w in words):
+            row["acquirer"] = None
+    row["acquirerReader"] = ACQUIRER_READER
     if not row.get("source"):
         row["source"] = "SC 13E3"
     if not row.get("dealType"):
@@ -320,19 +334,110 @@ def _agreed(row: dict) -> date | None:
     return _day(row) if row.get("announcedBasis") == "merger agreement" else None
 
 
-def _buyer(row: dict) -> str | None:
-    """The buyer a reading names, where it names a firm rather than a vehicle or a defined term."""
+#: what a reading's acquirer can be without naming a buyer: a corporate suffix
+#: or a holding word on its own, the pieces a split clause leaves ("Holding",
+#: "Inc.", "Merger SPV.")
+_FRAGMENT = {"holding", "holdings", "inc", "corp", "corporation", "co", "company", "llc", "lp", "ltd", "limited", "parent", "merger", "spv", "gp", "group", "sub", "plc"}
+
+
+def _defined_as(sentence: str, term: str) -> str | None:
+    """The full name a defined term stands for in the agreement sentence: 'Northern Tier Energy GP LLC (“NTI GP”)' for NTI GP."""
+    m = re.search(r"\(\s*(?:the\s+)?[“\"]\s*" + re.escape(term.strip()) + r"\s*[”\"]\s*\)", sentence or "", re.I)
+    if not m:
+        return None
+    pieces = [p.strip() for p in re.split(r",\s*", sentence[: m.start()].rstrip(" ,")) if p.strip()]
+    if not pieces:
+        return None
+    name = pieces[-1]
+    # "Western Refining, Inc." splits at its comma: the suffix joins the name before it.
+    if len(pieces) > 1 and re.fullmatch(r"(?:Inc|Corp|Corporation|LLC|L\.?L\.?C|Ltd|L\.?P|LP|plc|N\.V|S\.A)\.?", name, re.I):
+        name = f"{pieces[-2]}, {name}"
+    name = re.sub(r"^(?:.*\bby\s+and\s+(?:among|between)\s+)", "", name, flags=re.I)
+    return name or None
+
+
+def _one_edit(a: str, b: str) -> bool:
+    """Whether two names differ by at most one letter (a typo on a filer list: 'ReadD' for 'RealD')."""
+    if abs(len(a) - len(b)) > 1 or min(len(a), len(b)) < 4:
+        return False
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+        prev = cur
+    return prev[-1] <= 1
+
+
+def names_no_one(row: dict) -> bool:
+    """
+    Whether a reading's acquirer names no buyer at all: empty, a merger
+    vehicle, a fragment of the agreement sentence, or the target and its own
+    affiliates. A 13E-3 lists the target's general partner beside the buyer
+    ("NTI GP" is Northern Tier Energy GP LLC, Northern Tier's own), and a
+    misspelt target ("ReadD Inc." for RealD) is still the target. A name with
+    no corporate suffix ("Eli Lilly", "QUALCOMM Incorporated" before the
+    suffix list knew "Incorporated") is not one of these: it names someone.
+    """
     a = (row.get("acquirer") or "").strip()
-    if not a or parse.is_vehicle(a) or not parse.is_firm(a):
+    if not a or parse.is_vehicle(a):
+        return True
+    words = parse.norm_name(a).split()
+    if not words or all(w in _FRAGMENT for w in words):
+        return True
+    target = ((row.get("target") or {}).get("name") or "").strip()
+    full = _defined_as(row.get("acquirerBasis") or "", a) or a
+    for name in {a, full}:
+        if target and (parse.same_company(name, target) or parse.same_registrant(name, target)):
+            return True
+        tw, nw = parse.norm_name(target).split(), parse.norm_name(name).split()
+        # The target's own general partner or holding company: its name opens
+        # with the target's first word and is a GP ("TransMontaigne GP L.L.C."
+        # for TransMontaigne Partners, "Northern Tier Energy GP LLC"), or with
+        # its first two words and is a holding company.
+        if tw and len(nw) >= 2 and len(tw[0]) > 3 and nw[0] == tw[0] and re.search(r"\bGP\b|General\s+Partner", name, re.I):
+            return True
+        if len(tw) >= 2 and len(nw) >= 3 and nw[:2] == tw[:2] and re.search(r"\bHoldings?\b", name, re.I):
+            return True
+        if target and (SequenceMatcher(None, parse.norm_name(name), parse.norm_name(target)).ratio() >= 0.88 or _one_edit(parse.norm_name(name), parse.norm_name(target))):
+            return True
+    return False
+
+
+def buyer_named(row: dict) -> str | None:
+    """
+    The buyer a reading names, as a firm, or None where it names no one (see
+    names_no_one) or a name carrying no corporate suffix. Two readings that
+    differ only because one holds no buyer are one deal.
+    """
+    a = (row.get("acquirer") or "").strip()
+    if names_no_one(row) or not parse.is_firm(a):
         return None
     return a
+
+
+def _buyer(row: dict) -> str | None:
+    """The buyer a reading names, where it names a firm rather than a vehicle or a defined term."""
+    return buyer_named(row)
+
+
+def _named_in(row: dict, buyer: str) -> bool:
+    """Whether a reading's own agreement sentence names this buyer as a party."""
+    sentence = row.get("acquirerBasis") or ""
+    core = parse.norm_name(buyer)
+    return bool(core) and core in parse.norm_name(sentence)
 
 
 def same_deal(a: dict, b: dict) -> bool:
     """Whether two readings of one target are the same transaction (see above)."""
     ba, bb = _buyer(a), _buyer(b)
     if ba and bb and not parse.same_company(ba, bb) and not parse.same_registrant(ba, bb):
-        return False
+        # Two buyers are two deals unless both are parties to one agreement:
+        # each reading names the other's buyer in its agreement sentence
+        # (Medley Management's merger with Sierra Income, to which Medley
+        # Capital is also a party).
+        if not (_named_in(a, bb) or _named_in(b, ba)):
+            return False
     ga, gb = _agreed(a), _agreed(b)
     if ga and gb:
         return abs((ga - gb).days) <= SAME_AGREEMENT_DAYS
@@ -386,10 +491,12 @@ def dedupe(rows: dict[str, dict]) -> dict[str, dict]:
                 r.pop(f, None)
         for k in ("dealId", "readings", "offerHistory"):
             r.pop(k, None)
+    ids: dict[str, list[dict]] = {}
     for group in deal_groups(rows):
         primary = _primary(group)
         first = min(_day(r) or date.max for r in group)
         primary["dealId"] = f"{str(primary['target']['cik']).zfill(10)}:{first.isoformat() if first != date.max else primary['id']}"
+        ids.setdefault(primary["dealId"], []).append(primary)
         if len(group) == 1:
             continue
         primary["readings"] = [{"id": r["id"], "form": r.get("source") or "SC 13E3", "filed": r.get("filed"), "url": r.get("filingUrl"), "status": r.get("status"), "offerPrice": r.get("offerPrice")} for r in group]
@@ -406,6 +513,14 @@ def dedupe(rows: dict[str, dict]) -> dict[str, dict]:
                     if donor.get(f) not in (None, [], "") and primary.get(f) in (None, [], ""):
                         primary[f] = donor[f]
                         filled[f] = donor["id"]
+        # The deal's buyer, where the primary's own reading names none (a
+        # 13E-3 that lists the target's general partner, a clause fragment):
+        # the latest reading that names one, and filledFrom says which.
+        if names_no_one(primary):
+            named = next((r for r in sorted(group, key=lambda r: r.get("filed") or "", reverse=True) if r is not primary and buyer_named(r)), None)
+            if named:
+                primary["acquirer"] = named["acquirer"]
+                filled["acquirer"] = named["id"]
         if filled:
             primary["filledFrom"] = filled
         for r in group:
@@ -415,6 +530,18 @@ def dedupe(rows: dict[str, dict]) -> dict[str, dict]:
             r["status"] = "duplicate"
             r["duplicateOf"] = primary["id"]
             r["dealId"] = primary["dealId"]
+    # Two deals for one target dated the same day (a contested sale read with
+    # one agreement date) keep one identity each: the later primary's carries
+    # its buyer (Neff: H&E Equipment Services and United Rentals).
+    for did, prims in ids.items():
+        if len(prims) < 2:
+            continue
+        for p in sorted(prims, key=lambda r: (r.get("filed") or "", r["id"]))[1:]:
+            slug = re.sub(r"[^a-z0-9]+", "-", parse.norm_name(p.get("acquirer") or p["id"])).strip("-")[:40] or p["id"]
+            new = f"{did}:{slug}"
+            for r in rows.values():
+                if r.get("dealId") == did and (r is p or r.get("duplicateOf") == p["id"]):
+                    r["dealId"] = new
     return rows
 
 
@@ -434,9 +561,9 @@ def line(row: dict) -> str:
 
 METHOD = {
     "source": "SEC EDGAR: Schedule 13E-3 transaction statements and the proxy statements attached to or filed with them (dealType take-private), and DEFM14A / DEFM14C definitive merger proxies found through the quarterly form index (dealType public merger); XBRL company facts for the target's financials",
-    "acquirer": "for a take-private, the buyer a page names from the 13E-3 filer list; for a merger proxy, the first named party of the merger agreement sentence that is neither the target nor a merger vehicle (acquirerBasis is the sentence), null where the parties are named only by defined term",
-    "dealId": "one transaction: the target's CIK and the date of its earliest reading. A deal read from several filings (a 13E-3 and its proxy, a proxy and its supplement) has one primary row, the latest filing to state an offer; the others are status 'duplicate' with duplicateOf the primary and their own reading kept under readStatus. readings lists every filing of the deal, offerHistory the offers they state where they differ, filledFrom the reading each borrowed field came from. Two buyers each named by the filings are two deals",
-    "status": "ok, duplicate (another reading of a deal on file under duplicateOf), no-offer (read, no per-share cash figure stated), no-consideration (an acquirer-side vote: the filer's own holders voted on issuing shares), rejected (a blank-check shell or a fund reorganisation, not a precedent transaction) or error",
+    "acquirer": "for a take-private, the buyer a page names from the 13E-3 filer list; for a merger proxy, the first named party of the merger agreement sentence that is neither the target nor a merger vehicle (acquirerBasis is the sentence), null where the parties are named only by defined term or the reading names no one (a sentence fragment such as 'Inc.', the merger vehicle, the target's own general partner); the primary then takes the buyer the latest reading of the deal names (filledFrom.acquirer). acquirerReader is the version of this rule",
+    "dealId": "one transaction: the target's CIK and the date of its earliest reading. A deal read from several filings (a 13E-3 and its proxy, a proxy and its supplement) has one primary row, the latest filing to state an offer; the others are status 'duplicate' with duplicateOf the primary and their own reading kept under readStatus. readings lists every filing of the deal, offerHistory the offers they state where they differ, filledFrom the reading each borrowed field came from. Two buyers each named by the filings are two deals, unless each is a party to the other's agreement; a second deal for one target that starts on the same day carries its buyer after the date",
+    "status": "ok, duplicate (another reading of a deal on file under duplicateOf), no-offer (read, no per-share cash figure stated), no-consideration (an acquirer-side vote: the filer's own holders voted on issuing shares), rejected (a blank-check shell, a fund reorganisation, or a tender offer for warrants, notes or dividend-bearing preferred stock rather than the company's equity: not a precedent transaction; error says which, and securitiesSought the class the 13E-3 cover names) or error",
     "announced": "the merger agreement date as stated in the transaction statement; the 13E-3 filing date when no agreement date is stated (announcedBasis)",
     "reverseMergerBasis": "dealType 'reverse-merger': the proxy states that a private company's holders will own the majority (60% or more) of the listed company and its current holders the rest; the sentence and both stakes are kept. Such a row is not a control acquisition of the listed company",
     "spacEvidence": "for a merger proxy, how often its documents mention a trust account, an initial business combination, a blank-check company and a special purpose acquisition company; a proxy with at least 100 of the first and 5 of any other is a de-SPAC and rejected (spacRule 2), whatever its counterparty is called",

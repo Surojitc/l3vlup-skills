@@ -208,6 +208,11 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
             continue
         row["documentsRead"].append(d["url"])
         texts.append(text)
+        if "securitiesSought" not in row:
+            sought = parse.securities_sought(text)
+            if sought:
+                row["securitiesSought"] = sought
+                row["securitiesReader"] = SECURITIES_READER
         if row["announcedBasis"] != "merger agreement":
             agreed = parse.parse_agreement_date(text)
             if agreed:
@@ -232,6 +237,12 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
         statements.extend({**s, "document": d["url"]} for s in kept)
         aside.extend({**s, "document": d["url"]} for s in set_aside)
     apply_premiums(row, statements, aside, texts)
+    reason = parse.not_control_reason(row.get("securitiesSought"))
+    if reason:
+        # A tender for warrants, notes or a dividend-bearing preferred is not a
+        # control acquisition: no precedent, and no premium or multiple of one.
+        row["status"], row["error"] = "rejected", reason
+        return row
     if row["offerPrice"] is None:
         row["status"] = "no-offer"
         return row
@@ -251,6 +262,55 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
         row["sharesOut"] = row["statedShares"]
         row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
     return row
+
+
+#: The securities-class reading the stored rows were made with. A 13E-3 row
+#: read before it has its cover read again (one cached document): a tender for
+#: warrants, notes or a dividend-bearing preferred is rejected, with the reason.
+SECURITIES_READER = 1
+
+
+def needs_securities_reread(row: dict) -> bool:
+    return (row.get("securitiesReader") or 0) < SECURITIES_READER and bool(row.get("documentsRead")) and (row.get("readStatus") or row.get("status")) in ("ok", "no-offer") and (row.get("source") or "SC 13E3") == "SC 13E3"
+
+
+def reread_securities(row: dict) -> dict:
+    """A stored 13E-3 row's cover read again for the class it seeks; nothing else changes unless the class is not the company's equity."""
+    if not needs_securities_reread(row):
+        return row
+    try:
+        text = to_text(fetch(row["documentsRead"][0]))
+    except Exception as e:  # noqa: BLE001
+        row.setdefault("readErrors", []).append(f"cover: {str(e)[:60]}")
+        return row
+    sought = parse.securities_sought(text)
+    if sought:
+        row["securitiesSought"] = sought
+    row["securitiesReader"] = SECURITIES_READER
+    reason = parse.not_control_reason(sought)
+    if reason:
+        row.pop("readStatus", None)
+        row["status"], row["error"] = "rejected", reason
+    return row
+
+
+def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 10) -> int:
+    """The stored 13E-3 rows in `ids` read before the securities-class reading, read again until the budget is spent."""
+    budget = float(os.environ.get("PRECEDENTS_SECURITIES_MINUTES", minutes)) * 60
+    todo = [i for i in ids if needs_securities_reread(rows[i])]
+    if not todo:
+        return 0
+    print(f"{len(todo)} rows read before the securities-class reading; reading their covers for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
+    started, done = time.time(), 0
+    for i in todo:
+        if time.time() - started > budget:
+            break
+        reread_securities(rows[i])
+        done += 1
+        if done % 25 == 0:
+            write(rows)
+    print(f"{done} of {len(todo)} rows' covers read again", file=sys.stderr, flush=True)
+    return done
 
 
 #: The premium reading the stored rows were made with. A row read before this

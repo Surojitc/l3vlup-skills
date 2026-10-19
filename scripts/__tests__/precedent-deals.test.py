@@ -67,7 +67,8 @@ eq("Vista Outdoor: both filings listed on the primary", [x["filed"] for x in vis
 
 end = by("Endeavor")
 eq("Endeavor: the 13E-3 and the information statement are one deal; the later filing is primary", [(r["source"], r["status"]) for r in end], [("SC 13E3", "duplicate"), ("DEFM14C", "ok")])
-eq("Endeavor: the primary borrows the 13E-3's buyer group, advisers and fee-table value, and names the reading", end[1].get("filledFrom"), {"buyers": end[0]["id"], "advisers": end[0]["id"], "dealValue": end[0]["id"]})
+eq("Endeavor: the primary borrows the 13E-3's buyer group, advisers, fee-table value and buyer, and names the reading", end[1].get("filledFrom"), {"buyers": end[0]["id"], "advisers": end[0]["id"], "dealValue": end[0]["id"], "acquirer": end[0]["id"]})
+eq("Endeavor: the information statement names its buyer only as 'Parent Entities', a defined term, so the deal's buyer is the one the 13E-3 names", database.finalize(copy.deepcopy(end[1]))["acquirer"], "Silver Lake Group, L.L.C.")
 
 sat = by("Satsuma")
 eq("Satsuma: two readings filed the same day, one deal", sorted(r["status"] for r in sat), ["duplicate", "ok"])
