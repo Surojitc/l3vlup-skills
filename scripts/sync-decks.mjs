@@ -55,6 +55,7 @@ import {
   rate,
   sectorOf,
   stripHtml,
+  subjectOf,
 } from '../lib/decks.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -192,15 +193,10 @@ async function resolve(f) {
   const docs = header.documents.map((d) => ({ ...d, bytes: sizes.get(d.file) ?? 0, klass: classifyExhibit(d.type) }));
   const decks = docs.filter((d) => d.klass === 'adviser' && d.bytes >= MIN_DECK_BYTES && /\.(pdf|htm|html|txt)$/i.test(d.file));
 
-  // The subject company block is the target. On a combined SC TO-T / SC 13E3
-  // the header repeats it once per form; either copy will do.
-  const subject = header.subjects.find((s) => s.cik === f.cik) ?? header.subjects[0] ?? null;
-  const targetName = (subject?.name || f.fallbackName || '').trim();
-
-  // Filing persons other than the target itself are the buyer side. Merger
-  // subs and shells formed for the deal are kept in `vehicles` so the buyer
-  // list reads as the sponsor or parent rather than "Bravo Merger Sub".
-  const filers = header.filers.filter((p) => p.cik !== f.cik && p.name);
+  // The subject company block is the target, its CIK included: the index
+  // line this filing was found under may be the buyer's (subjectOf).
+  // Filing persons other than the target are the buyer side.
+  const { target, filers, subjectCik } = subjectOf(header, f.cik, f.fallbackName);
   const groupMembers = header.groupMembers;
 
   let transactionValue = null;
@@ -260,14 +256,9 @@ async function resolve(f) {
     filed: f.filed,
     accession: f.accession,
     filingUrl: `${base}/${f.accession}-index.htm`,
-    target: {
-      name: targetName,
-      cik: f.cik,
-      sic: subject?.sic ?? null,
-      sicDescription: subject?.sicDescription ?? null,
-      state: subject?.state ?? null,
-    },
-    filers: filers.map((p) => p.name),
+    target,
+    subjectCik,
+    filers,
     groupMembers,
     transactionValue,
     valueSource,
@@ -417,6 +408,28 @@ function buildTransaction(group) {
   };
 }
 
+/**
+ * Filings on file from before the target was read with its CIK from the
+ * subject block (no `subjectCik` key): their header is read again, once, and
+ * the target and the buyer side corrected. One request each, then never again.
+ */
+async function reresolveSubjects(filings) {
+  const todo = filings.filter((f) => !('subjectCik' in f));
+  if (!todo.length) return;
+  let moved = 0;
+  await pool(todo, CONCURRENCY, async (f) => {
+    const cik = f.filingUrl.match(/edgar\/data\/(\d+)\//)?.[1]?.padStart(10, '0') ?? f.target.cik;
+    const headerHtml = await sec(`${ARCHIVES}/data/${Number(cik)}/${f.accession.replace(/-/g, '')}/${f.accession}-index-headers.html`, { asText: true, allow404: true }).catch(() => null);
+    if (!headerHtml) return;
+    const got = subjectOf(parseHeader(headerHtml), cik, f.target.name);
+    if (got.target.cik !== f.target.cik) moved += 1;
+    f.target = got.target;
+    f.filers = got.filers;
+    f.subjectCik = got.subjectCik;
+  });
+  console.log(`${todo.length} filings on file read again for their subject company; ${moved} had the buyer's CIK as the target's.`);
+}
+
 // ── Run ─────────────────────────────────────────────────────────────────────
 
 function readExisting() {
@@ -474,6 +487,7 @@ async function main() {
     else known.set(r.accession, r);
   }
 
+  await reresolveSubjects([...known.values()]);
   const filings = [...known.values()].sort((a, b) => (a.filed < b.filed ? 1 : -1));
   await backfillCovers(filings);
   const transactions = groupTransactions(filings).sort((a, b) => (a.announced < b.announced ? 1 : -1));
