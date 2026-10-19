@@ -101,6 +101,7 @@ def build(limit: int | None = None, only: str | None = None, full: bool = False)
     rows = {k: v for k, v in stored.items() if k not in owned} if (full and not only) else dict(stored)
     if not only:
         filings.reread_stale_premiums(rows, [k for k in owned if k in rows], database.write, minutes=20)
+        filings.reread_stale_securities(rows, [k for k in owned if k in rows], database.write, minutes=10)
     for i, tx in enumerate(todo, 1):
         try:
             row = database.finalize(build_row(tx))

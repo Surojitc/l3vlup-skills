@@ -700,7 +700,7 @@ def parse_shares(text: str) -> tuple[float | None, str | None]:
 # ── company names ────────────────────────────────────────────────────────────
 
 #: a corporate suffix anywhere in the name marks a firm rather than a person
-_INDIVIDUAL = re.compile(r"\b(LLC|L\.?L\.?C\.?|L\.?P\.?|LP|INC\.?|CORP\.?|CORPORATION|LTD\.?|LIMITED|PLC|HOLDINGS?|PARTNERS|FUND|CAPITAL|GROUP|COMPANY|CO\.?|S\.?A\.?|N\.?V\.?|A\.?G\.?|GMBH|TRUST|MANAGEMENT|INVESTORS|INVESTMENTS?|ACQUISITIONS?|PARTNERSHIP|VENTURES|ASSOCIATES|ADVISORS|ADVISERS|SARL|S\.?R\.?L\.?|B\.?V\.?|KK|K\.K\.|PTE|BHD|OY|AB|AS|ASA|SE|GP|LLP|FOUNDATION|BANK|SPV)\b", re.I)
+_INDIVIDUAL = re.compile(r"\b(LLC|L\.?L\.?C\.?|L\.?P\.?|LP|INC\.?|CORP\.?|CORPORATION|INCORPORATED|LTD\.?|LIMITED|PLC|HOLDINGS?|PARTNERS|FUND|CAPITAL|GROUP|COMPANY|CO\.?|S\.?A\.?|N\.?V\.?|A\.?G\.?|GMBH|TRUST|MANAGEMENT|INVESTORS|INVESTMENTS?|ACQUISITIONS?|PARTNERSHIP|VENTURES|ASSOCIATES|ADVISORS|ADVISERS|SARL|S\.?R\.?L\.?|B\.?V\.?|KK|K\.K\.|PTE|BHD|OY|AB|AS|ASA|SE|GP|LLP|FOUNDATION|BANK|SPV)\b", re.I)
 #: the vehicle a buyout is run through, which is never the buyer a page names
 _SHELL = re.compile(r"MERGER\s*SUB|ACQUISITION\s*(?:SUB|CORP|CO\b|VEHICLE)|\bPARENT\b|HOLDCO|TOPCO|MIDCO|BIDCO|INTERMEDIATE|NEWCO|\bSUB\b", re.I)
 _NAMED = re.compile(r"\b(?:CAPITAL|MANAGEMENT|PARTNERS|GROUP|CORP|CORPORATION|INC|HOLDINGS|COMPANY|PLC|S\.A\.|N\.V\.|A\.G\.|LTD|LIMITED)\b", re.I)
@@ -1084,6 +1084,59 @@ def reverse_merger_evidence(text: str) -> dict | None:
         if any(v >= REVERSE_MERGER_MIN for v in others):
             return {"currentHolders": float(cur.group(1)), "newHolders": max(v for v in others if v >= REVERSE_MERGER_MIN), "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]}
     return None
+
+
+# ── the class of securities a tender offer seeks ─────────────────────────────
+
+_TITLE = re.compile(r"([^()]{0,240}?)\(\s*Title\s+of\s+Class(?:es)?\s+of\s+Securities\s*\)", re.I)
+#: the securities nouns a cover names, in the order they may lead a title
+_NOUN = re.compile(r"\b(warrants?|notes?|debentures?|bonds?|rights?|preferred|common|ordinary|shares?|units?|American\s+Depositary)\b", re.I)
+#: a preferred stock with dividend terms is a senior security, not the equity
+_SENIOR_PREFERRED = re.compile(r"\d+(?:\.\d+)?\s?%|\bSeries\b|\bCumulative\b|\bRedeemable\b|\bPerpetual\b|\bConvertible\s+Preferred\b", re.I)
+
+
+def securities_sought(text: str) -> dict | None:
+    """
+    The class of securities a Schedule TO or 13E-3 cover names, and what kind
+    it is: {title, kind}, kind one of common, warrants, debt, preferred, rights.
+    The kind is the class's leading noun: Direct Digital's "Warrants exercisable
+    for Class A Common Stock" is a class of warrants. A preferred stock is
+    "preferred" only with dividend terms (a rate, a series, cumulative,
+    redeemable): NET Serviços's "Preferred Shares, no par value" are its listed
+    equity, whose buyout is a take-private. None where the cover names no class.
+    """
+    m = _TITLE.search(text[:40_000])
+    if not m:
+        return None
+    title = re.sub(r"\s+", " ", m.group(1)).strip(" ,;:")
+    # The cover's line before the class is the subject company's name.
+    title = re.split(r"\(Name of (?:Subject Company|Issuer|Filing Person)[^)]*\)|\(Issuer\)|\(Offeror\)", title)[-1].strip(" ,;:")
+    lead = _NOUN.search(title)
+    if not lead:
+        return {"title": title[:200], "kind": "common"}
+    noun = lead.group(1).lower()
+    if noun.startswith("warrant"):
+        kind = "warrants"
+    elif noun.startswith(("note", "debenture", "bond")):
+        kind = "debt"
+    elif noun.startswith("right"):
+        kind = "rights"
+    elif noun == "preferred" or (re.search(r"\bpreferred\b", title, re.I) and not re.search(r"\bcommon\b|\bordinary\b", title[: lead.start() + 40], re.I) and noun.startswith(("share", "american"))):
+        kind = "preferred" if _SENIOR_PREFERRED.search(title) else "common"
+    else:
+        kind = "common"
+    return {"title": title[:200], "kind": kind}
+
+
+#: the classes whose purchase is not a control acquisition of the company
+NOT_CONTROL = {"warrants": "warrants", "debt": "notes or debentures", "preferred": "preferred stock", "rights": "rights"}
+
+
+def not_control_reason(sought: dict | None) -> str | None:
+    """Why a tender for this class is no precedent: the offer is for a senior or derivative security, not the company's equity."""
+    if not sought or sought.get("kind") not in NOT_CONTROL:
+        return None
+    return f"a tender offer for {NOT_CONTROL[sought['kind']]} ({sought['title'][:80]}), not a control acquisition"
 
 
 def reject_reason(name: str, sic: str | None, sic_description: str | None) -> str | None:
