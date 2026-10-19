@@ -12,6 +12,7 @@ sanity checks reaches every row without reading a single filing again.
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -117,6 +118,11 @@ def finalize(row: dict) -> dict:
     # there is no filer list to rank, so the parse stands.
     if not row.get("acquirerBasis"):
         row["acquirer"] = parse.acquirer_of(row.get("buyers") or [], (row.get("target") or {}).get("name"))
+    elif row.get("acquirer") and parse._defined_vehicle(re.sub(r"\s+", " ", row["acquirerBasis"]), row["acquirer"]):
+        # A row read before the agreement's own defined terms were honoured
+        # may name the merger vehicle ('ALTA Acquisition Corp. ("Merger Sub")')
+        # as the buyer. The stored sentence says who its parent is.
+        row["acquirer"] = parse.vehicle_parent(row["acquirerBasis"], row["acquirer"], (row.get("target") or {}).get("name") or "")
     row["acquirer"] = parse.pretty(row.get("acquirer")) or None
     if not row.get("source"):
         row["source"] = "SC 13E3"
@@ -220,6 +226,7 @@ METHOD = {
     "acquirer": "for a take-private, the buyer a page names from the 13E-3 filer list; for a merger proxy, the first named party of the merger agreement sentence that is neither the target nor a merger vehicle (acquirerBasis is the sentence), null where the parties are named only by defined term",
     "status": "ok, no-offer (read, no per-share cash figure stated), no-consideration (an acquirer-side vote: the filer's own holders voted on issuing shares), rejected (a blank-check shell or a fund reorganisation, not a precedent transaction) or error",
     "announced": "the merger agreement date as stated in the transaction statement; the 13E-3 filing date when no agreement date is stated (announcedBasis)",
+    "spacEvidence": "for a merger proxy, how often its documents mention a trust account, an initial business combination, a blank-check company and a special purpose acquisition company; a proxy with at least 100 of the first and 5 of any other is a de-SPAC and rejected (spacRule 2), whatever its counterparty is called",
     "offerPrice": "per-share cash consideration as stated in the filing, the most frequently stated figure (offerBasis is the phrase matched)",
     "premiums": "as stated in the filing, to the closing price before announcement, the 30-day VWAP and the 52-week high (premiumBasis is the sentence matched); unaffectedPrice, vwap30 and high52 are offer / (1 + premium)",
     "financials": "USD millions; sharesOut from the transaction statement when the company facts carry no count at announcement; LTM to the last fiscal period end on or before announcement (fiscal year + YTD - prior YTD), EBITDA = operating income + D&A, net debt = debt - cash and short-term investments at the same balance sheet; sharesOut = cover-page shares (dei) at the last cover date on or before announcement, millions",
