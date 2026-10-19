@@ -28,6 +28,7 @@ import html
 import json
 import os
 import re
+import sys
 import time
 import urllib.request
 from dataclasses import asdict, dataclass
@@ -175,9 +176,12 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     its own filing carries.
     """
     cik = row["target"]["cik"]
-    premiums: dict[str, tuple[float, str]] = {}
+    statements: list[dict] = []
+    aside: list[dict] = []
+    texts: list[str] = []
     for d in docs:
-        if row["offerPrice"] is not None and "1day" in premiums and row["announcedBasis"] == "merger agreement":
+        own = any(s["basis"] == "close" and s["unaffected"] and not s["proposal"] for s in statements)
+        if row["offerPrice"] is not None and own and row["announcedBasis"] == "merger agreement":
             break
         try:
             text = to_text(fetch(d["url"], cap=cap))
@@ -185,6 +189,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
             row["readErrors"].append(f"{d['name']}: {str(e)[:60]}")
             continue
         row["documentsRead"].append(d["url"])
+        texts.append(text)
         if row["announcedBasis"] != "merger agreement":
             agreed = parse.parse_agreement_date(text)
             if agreed:
@@ -204,15 +209,10 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
         # The agreement date, not the filing date, is what a premium is measured
         # to; a proxy is filed weeks later.
         agreed = row["announced"] if row["announcedBasis"] == "merger agreement" else None
-        for k, v in parse.parse_premiums(text, row.get("offerPrice"), agreed).items():
-            premiums.setdefault(k, v)
-    if "1day" in premiums:
-        row["premium1Day"] = premiums["1day"][0]
-    if "vwap30" in premiums:
-        row["premium30DayVwap"] = premiums["vwap30"][0]
-    if "high52" in premiums:
-        row["premium52WeekHigh"] = premiums["high52"][0]
-    row["premiumBasis"] = [s for _, s in premiums.values()]
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
+        statements.extend({**s, "document": d["url"]} for s in kept)
+        aside.extend({**s, "document": d["url"]} for s in set_aside)
+    apply_premiums(row, statements, aside, texts)
     if row["offerPrice"] is None:
         row["status"] = "no-offer"
         return row
@@ -231,6 +231,78 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
         row["sharesOut"] = row["statedShares"]
         row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
     return row
+
+
+#: The premium reading the stored rows were made with. A row read before this
+#: version has its premiums read again from the documents it read (premiums
+#: only: nothing else on the row changes), so a correction reaches every deal
+#: already on file and not only the next one.
+PREMIUM_READER = 2
+
+
+def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: list[str]) -> dict:
+    """The deal's premiums onto its row, with every statement kept and set aside as the provenance behind them."""
+    chosen = parse.choose_premiums(statements, row.get("offerPrice"), cash_only=row.get("consideration") == "cash", texts=texts)
+    for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis"):
+        row[k] = chosen[k]
+    keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "excerpt", "document")
+    row["premiumStatements"] = [{k: s.get(k) for k in keep} for s in statements][:12]
+    row["premiumsSetAside"] = [{k: s.get(k) for k in ("reason", "excerpt", "document")} for s in aside][:8]
+    row["premiumReader"] = PREMIUM_READER
+    return row
+
+
+def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
+    """
+    A stored row's premiums read again from the documents it was read from,
+    and nothing else. The offer, the agreement date and the financials stand:
+    they were not what was wrong.
+    """
+    statements: list[dict] = []
+    aside: list[dict] = []
+    texts: list[str] = []
+    agreed = row.get("announced") if row.get("announcedBasis") == "merger agreement" else None
+    for url in row.get("documentsRead") or []:
+        try:
+            text = to_text(fetch(url, cap=cap))
+        except Exception as e:  # noqa: BLE001
+            row.setdefault("readErrors", []).append(f"{url.rsplit('/', 1)[-1]}: {str(e)[:60]}")
+            return row
+        texts.append(text)
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
+        statements.extend({**s, "document": url} for s in kept)
+        aside.extend({**s, "document": url} for s in set_aside)
+    return apply_premiums(row, statements, aside, texts)
+
+
+def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: int | None = None, minutes: float | None = None) -> int:
+    """
+    Read again the premiums of every row in `ids` that an earlier reader
+    wrote, oldest filing first, until the time budget is spent. A run cut
+    short keeps what it read (written every ten rows) and the next run carries
+    on, so a correction to the reader reaches the whole database over a run or
+    two without a step ever overrunning its timeout.
+    """
+    budget = float(os.environ.get("PRECEDENTS_REREAD_MINUTES", minutes if minutes is not None else 40)) * 60
+    todo = sorted((i for i in ids if needs_premium_reread(rows[i])), key=lambda i: rows[i].get("filed") or "")
+    if not todo:
+        return 0
+    print(f"{len(todo)} rows read with an earlier premium reader; reading their premiums again for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
+    started, done = time.time(), 0
+    for i in todo:
+        if time.time() - started > budget:
+            break
+        reread_premiums(rows[i], cap=cap)
+        done += 1
+        if done % 10 == 0:
+            write(rows)
+    print(f"{done} of {len(todo)} rows' premiums read again", file=sys.stderr, flush=True)
+    return done
+
+
+def needs_premium_reread(row: dict) -> bool:
+    """A stored row with documents read and premiums from an earlier reading."""
+    return (row.get("premiumReader") or 1) < PREMIUM_READER and bool(row.get("documentsRead")) and row.get("status") in ("ok", "no-offer")
 
 
 # ── XBRL company facts ───────────────────────────────────────────────────────
