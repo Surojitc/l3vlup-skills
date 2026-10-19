@@ -1,0 +1,1026 @@
+{
+  "version": 1,
+  "lastReviewed": "2026-10-19",
+  "description": "Data-rights register for the L3VLUP open-data collectors. One entry per external source. 'unverified' means the governing terms were not read or do not answer the question; it is never a guess. Human review is needed for every entry whose businessUse is not 'permitted' and for every field marked unverified.",
+  "fields": {
+    "id": "stable identifier",
+    "owner": "organisation that owns or issues the data",
+    "source": "what is fetched (host, path, feed)",
+    "collectors": "scripts in this repo that fetch it",
+    "outputs": "data/ paths written from it",
+    "termsUrl": "governing terms or licence page (or 'unverified: ...')",
+    "termsReadUrls": "pages actually read in this review",
+    "businessUse": "permitted | restricted | unverified",
+    "displayRights": "yes | no | conditional | unverified",
+    "derivedUseRights": "yes | no | conditional | unverified",
+    "storageRights": "yes | no | conditional | unverified",
+    "redistribution": "restrictions",
+    "attribution": "required wording or 'none stated'",
+    "lastReviewed": "ISO date",
+    "notes": "what a reviewer must know"
+  },
+  "sources": [
+    {
+      "id": "sec-edgar-structured",
+      "owner": "U.S. Securities and Exchange Commission",
+      "source": "EDGAR structured data: data.sec.gov submissions and XBRL companyfacts APIs; www.sec.gov/Archives/edgar (filing indexes, index.json, full-index form index, 13F information tables); www.sec.gov/cgi-bin/browse-edgar (SIC lists); efts.sec.gov full-text search; www.sec.gov/files/company_tickers.json; www.sec.gov/data/foiadocsfailsdatahtm (fails-to-deliver files)",
+      "collectors": [
+        "scripts/sync_funds.py",
+        "scripts/funds_history.py",
+        "scripts/sync_peers.py",
+        "scripts/sync_precedent_transactions.py",
+        "scripts/sync-decks.mjs",
+        "scripts/sync-cusip-tickers.mjs",
+        "scripts/discover-letters.mjs",
+        "scripts/enumerate-letters.mjs",
+        "skills/company-profile/build.py",
+        "skills/comps-set-builder/build.py"
+      ],
+      "outputs": [
+        "data/funds.auto.json",
+        "data/funds/history/",
+        "data/funds/by-ticker/",
+        "data/funds/overlap/",
+        "data/funds/securities.json",
+        "data/peers.auto.json",
+        "data/peers-crawl.auto.json",
+        "data/precedent-transactions.auto.json",
+        "data/merger-index.auto.json",
+        "data/decks.auto.json",
+        "data/cusip-tickers.auto.json",
+        "data/letters.discovery.json",
+        "data/letters.exhibits.json",
+        "samples/"
+      ],
+      "termsUrl": "https://www.sec.gov/privacy.htm",
+      "termsReadUrls": [
+        "https://www.sec.gov/privacy.htm",
+        "https://www.sec.gov/os/accessing-edgar-data"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "sec.gov/privacy.htm: \"Information presented on sec.gov is considered public information and may be copied or further distributed by users of the web site without the SEC's permission.\" SEC-authored material is also a US federal government work (17 U.S.C. 105).",
+      "displayRights": "yes",
+      "displayRightsBasis": "Same clause. Applies to facts and SEC-authored data (holdings tables, XBRL facts, ticker map, fails-to-deliver counts). Third-party authored documents are a separate entry (sec-edgar-filing-documents).",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "Copying and further distribution are permitted without permission; no restriction on derived works is stated. Facts and calculations from them are not copyrightable.",
+      "storageRights": "yes",
+      "storageRightsBasis": "\"may be copied\" without permission. The fair-access policy limits request rate, not retention.",
+      "redistribution": "No restriction on information. SEC seal, logos and EDGAR marks may not be used without a licence. Automated access: max 10 requests/second; the SEC \"does not allow 'unclassified' bots or automated tools to crawl the site\" and may block IPs. Requests declare an identifying User-Agent (SEC_USER_AGENT) and stay under 10 requests/second; 403/429 stop the letters pipeline outright.",
+      "attribution": "Requested, not required: \"Please consider appropriate citation to the SEC as the source.\"",
+      "notes": "Public domain status comes from the SEC's own statement plus 17 U.S.C. 105 for SEC-authored data. 13F holdings are filer-submitted facts, not SEC prose; the privacy page's permission still covers copying and distribution of the page content, and holdings are facts. Cite the SEC as source in the UI where practicable. The request-rate and User-Agent rules are operational conditions to keep access; breach can get the runner IP blocked.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "sec-edgar-filing-documents",
+      "owner": "Individual EDGAR filers (authors of the documents); hosted by the U.S. Securities and Exchange Commission",
+      "source": "Documents filed as exhibits on www.sec.gov/Archives/edgar/data/...: financial advisers' board presentations (Schedule 13E-3 exhibits, EX-99.(C)), activist letters and decks (DFAN14A/13D exhibits), manager letters inside N-CSR shareholder reports",
+      "collectors": [
+        "scripts/sync-decks.mjs",
+        "scripts/retrieve-letters.mjs",
+        "scripts/select-letters.mjs",
+        "scripts/letters-thumbnails.mjs",
+        "scripts/thesis-pilot.mjs"
+      ],
+      "outputs": [
+        "data/decks.auto.json",
+        "data/letters.parsed.json",
+        "data/letters.parsed.md",
+        "data/letters.selection.json",
+        "data/letters.validations.json",
+        "data/letters.thumbnails.json",
+        "data/letters/thumbs/",
+        "data/thesis/claims.pending.json"
+      ],
+      "termsUrl": "https://www.sec.gov/privacy.htm",
+      "termsReadUrls": [
+        "https://www.sec.gov/privacy.htm"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "The SEC permits copying and further distribution of what is on sec.gov. That grant does not clear the author's own copyright; data/letters.sources.json records the L3VLUP judgement: \"The exhibit's author keeps copyright; display is excerpt-only with a link to sec.gov.\"",
+      "displayRights": "conditional",
+      "displayRightsBasis": "Excerpt-only with a credit and a link to sec.gov (data/letters.sources.json rightsNote; data/letters.thumbnail-sources.json rights \"sec-public\": a preview of the letter page, credited and linked). Full reproduction is not cleared. Manager-website copies are excluded and never fetched.",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Measurements, classifications and short claims extracted from the documents are derived facts; verbatim reproduction beyond excerpts is not cleared. Model-extracted claims go to a human review queue before publication.",
+      "storageRights": "conditional",
+      "storageRightsBasis": "The pipeline retains no original: documents are fetched into a per-run directory that is deleted at the end (ephemeral-sec mode); only metadata, measurements and WebP previews are committed.",
+      "redistribution": "Authors keep copyright. Only excerpts and previews with a credit and a link to the filing on sec.gov. No document is cached, proxied or republished whole. SEC fair-access rules apply: 15 MiB cap per document, a 403 or 429 stops the run.",
+      "attribution": "Credit the filer and link the filing on sec.gov (L3VLUP rule); the SEC asks for citation of the SEC as source.",
+      "notes": "Not covered by the SEC's public-information statement as to the authors' copyright. Pipeline design already treats these as excerpt-only. A human should confirm that the thumbnail previews (a rendered page of an author's letter) sit inside the excerpt allowance. thesis-pilot.mjs also sends document text to the Anthropic API as a processor; that is a service, not a data source, and its terms are outside this register.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "us-treasury-rates",
+      "owner": "U.S. Department of the Treasury",
+      "source": "home.treasury.gov daily Treasury yield curve CSV (resource-center/data-chart-center/interest-rates), 2Y and 10Y tenors, plus Treasury rates used in sync_econ.py",
+      "collectors": [
+        "scripts/sync-macro.mjs",
+        "scripts/sync_econ.py"
+      ],
+      "outputs": [
+        "data/macro.auto.json",
+        "data/econ.auto.json"
+      ],
+      "termsUrl": "unverified: Treasury's own website-policy page was not located (home.treasury.gov/about/open-government/data and /utility/privacy returned 404)",
+      "businessUse": "permitted",
+      "businessUseBasis": "US federal government work in the public domain, 17 U.S.C. 105 (L3VLUP known fact). Data.gov entries for other Treasury datasets carry the same U.S. Government Work notice or CC0 (secondary evidence only).",
+      "displayRights": "yes",
+      "displayRightsBasis": "Public domain under 17 U.S.C. 105.",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "Public domain under 17 U.S.C. 105.",
+      "storageRights": "yes",
+      "storageRightsBasis": "Public domain under 17 U.S.C. 105.",
+      "redistribution": "None stated. Treasury seal and logos are not covered by the public-domain status.",
+      "attribution": "none stated (L3VLUP shows sourceName \"U.S. Department of the Treasury\" and the source URL on every series).",
+      "notes": "The grant rests on the statute and not on a Treasury terms page I could read; the page was not found. Low risk, but the classification is 'yes' on the basis of law, not a licence text.",
+      "lastReviewed": "2026-10-19",
+      "termsReadUrls": []
+    },
+    {
+      "id": "us-bls",
+      "owner": "U.S. Bureau of Labor Statistics",
+      "source": "api.bls.gov/publicAPI/v1/timeseries/data (CPI, series LNS14000000 unemployment); www.bls.gov/schedule/news_release/bls.ics release calendar",
+      "collectors": [
+        "scripts/sync-macro.mjs",
+        "scripts/sync-calendar.mjs"
+      ],
+      "outputs": [
+        "data/macro.auto.json",
+        "data/calendar.auto.json"
+      ],
+      "termsUrl": "https://www.bls.gov/developers/termsOfService.htm",
+      "termsReadUrls": [
+        "https://www.bls.gov/developers/termsOfService.htm",
+        "https://www.bls.gov/opub/copyright-information.htm"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "API terms: \"Data accessed through BLS.gov do not, and should not, include controls over its end use.\" Copyright page: \"everything that we publish ... is in the public domain\" and \"You are free to use our public domain material without specific permission.\"",
+      "displayRights": "yes",
+      "displayRightsBasis": "Public domain; free use without permission (copyright-information page).",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Allowed, but API terms: \"Users may not modify or falsely represent content accessed through BLS.gov and still cite the source as BLS.gov.\" Derived figures (e.g. YoY computed from the index) must not be presented as BLS-published.",
+      "storageRights": "yes",
+      "storageRightsBasis": "Storage is not addressed by the API terms; the data is public domain.",
+      "redistribution": "No restriction on the data. The BLS emblem/logo may not be used by non-BLS employees. API access may be limited and blocked if limits are exceeded (v1 API: no key, daily query limits).",
+      "attribution": "Requested: \"we do ask that you cite the Bureau of Labor Statistics as the source.\" Required by API terms: cite the date the data was retrieved, and state that \"BLS.gov cannot vouch for the data or analyses derived from these data after the data have been retrieved from BLS.gov.\"",
+      "notes": "The BLS cannot-vouch disclaimer and the retrieval date are API-term obligations; check that data/macro.auto.json consumers show them wherever BLS-derived series (CPI YoY is computed by L3VLUP) are displayed. Treat this as an open action for the site repo.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "us-bea-schedule",
+      "owner": "U.S. Bureau of Economic Analysis",
+      "source": "www.bea.gov/news/schedule (HTML release schedule)",
+      "collectors": [
+        "scripts/sync-calendar.mjs"
+      ],
+      "outputs": [
+        "data/calendar.auto.json"
+      ],
+      "termsUrl": "https://www.bea.gov/help/guidelines-for-citing-bea",
+      "termsReadUrls": [
+        "https://www.bea.gov/help/guidelines-for-citing-bea",
+        "https://www.bea.gov/about/policies-and-information"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "US federal government work, public domain under 17 U.S.C. 105 (L3VLUP known fact). BEA's pages I read contain no reuse restriction and no explicit public-domain statement.",
+      "displayRights": "yes",
+      "displayRightsBasis": "Public domain under 17 U.S.C. 105; BEA states no restriction.",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "Public domain under 17 U.S.C. 105.",
+      "storageRights": "yes",
+      "storageRightsBasis": "Public domain under 17 U.S.C. 105.",
+      "redistribution": "None stated. A reference or link \"must not contain information that suggests an endorsement or recommendation by BEA.\"",
+      "attribution": "Requested: \"Citations are appreciated and appropriate.\"",
+      "notes": "The collector scrapes an HTML schedule page (dates of releases only). Only release dates are taken.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "fed-fomc-calendar",
+      "owner": "Board of Governors of the Federal Reserve System",
+      "source": "www.federalreserve.gov/monetarypolicy/fomccalendars.htm (HTML FOMC meeting dates)",
+      "collectors": [
+        "scripts/sync-calendar.mjs"
+      ],
+      "outputs": [
+        "data/calendar.auto.json"
+      ],
+      "termsUrl": "https://www.federalreserve.gov/disclaimer.htm",
+      "termsReadUrls": [
+        "https://www.federalreserve.gov/disclaimer.htm"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "\"Unless otherwise indicated, information on Board's website is in the public domain and may be copied and distributed without permission.\"",
+      "displayRights": "yes",
+      "displayRightsBasis": "Same clause.",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "Same clause; no restriction on derived use.",
+      "storageRights": "yes",
+      "storageRightsBasis": "\"may be copied\" without permission.",
+      "redistribution": "Public domain. Third-party photos or graphics need the third party's permission. Board seals and logos may not be used without written permission. No \"framing\" of the Board's site.",
+      "attribution": "Requested: \"Please cite to the Board as the source of the information.\"",
+      "notes": "Dates only.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ecb",
+      "owner": "European Central Bank",
+      "source": "data-api.ecb.europa.eu SDMX web service (ICP HICP, FM deposit facility rate, YC AAA 10Y yield); www.ecb.europa.eu/press/calendars/mgcgc (Governing Council dates, HTML)",
+      "collectors": [
+        "scripts/sync-macro.mjs",
+        "scripts/sync-calendar.mjs"
+      ],
+      "outputs": [
+        "data/macro.auto.json",
+        "data/calendar.auto.json"
+      ],
+      "termsUrl": "https://www.ecb.europa.eu/services/disclaimer/html/index.en.html",
+      "termsReadUrls": [
+        "https://www.ecb.europa.eu/services/disclaimer/html/index.en.html"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "ECB disclaimer: \"users of this website may make free use of the information obtained directly from it\"; commercial use is not prohibited (a seller of documents containing it must say it is free on the ECB site).",
+      "displayRights": "yes",
+      "displayRightsBasis": "Free use with the ECB cited as source; information must be reproduced accurately.",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Modifications must be disclosed: seasonal adjustment or calculation of growth rates \"must be stated explicitly\" (statistical data).",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed on the page read. The ECB Data Portal API terms page (data.ecb.europa.eu) returned 503 and was not read.",
+      "redistribution": "Free use with source cited. Documents bearing authors' names (e.g. Working Papers) cannot be republished in another form without permission. Do not display inside another site's frame for business or promotional linking.",
+      "attribution": "\"the ECB must be cited as the source.\"",
+      "notes": "Only the website disclaimer was read. The data portal may have its own terms: unverified. Series are ECB-published except YC, which is an ECB estimate from AAA euro-area bonds.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ons",
+      "owner": "Office for National Statistics (UK)",
+      "source": "www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/d7g7/mm23 (CPI annual rate); www.ons.gov.uk/releasecalendar?rss (upcoming release RSS)",
+      "collectors": [
+        "scripts/sync-macro.mjs",
+        "scripts/sync-calendar.mjs"
+      ],
+      "outputs": [
+        "data/macro.auto.json",
+        "data/calendar.auto.json"
+      ],
+      "termsUrl": "https://www.ons.gov.uk/help/termsandconditions",
+      "termsReadUrls": [
+        "https://www.ons.gov.uk/help/termsandconditions",
+        "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "ONS: \"Most content on this website is available under the Open Government Licence (OGL).\" OGL v3.0 permits exploiting the Information \"commercially and non-commercially.\"",
+      "displayRights": "yes",
+      "displayRightsBasis": "OGL v3.0: copy, publish, distribute and transmit.",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "OGL v3.0: adapt the Information.",
+      "storageRights": "yes",
+      "storageRightsBasis": "OGL v3.0 grants copy/adapt/exploit with no storage limit.",
+      "redistribution": "OGL conditions only: attribution, no implied endorsement, personal data and logos excluded; third-party content not covered. Check the ONS list of OGL exemptions for each series.",
+      "attribution": "Required by OGL: \"Contains public sector information licensed under the Open Government Licence v3.0.\" (ONS names no other wording; link the licence where possible.)",
+      "notes": "The CPI series d7g7 is a standard National Statistic; the ONS exemption list was not checked for it individually.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "boe",
+      "owner": "Bank of England",
+      "source": "www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp (Interactive Database CSV: IUDBEDR Bank Rate, IUDMNPY 10-year nominal gilt par yield); www.bankofengland.co.uk/monetary-policy/upcoming-mpc-dates (HTML)",
+      "collectors": [
+        "scripts/sync-macro.mjs",
+        "scripts/sync-calendar.mjs"
+      ],
+      "outputs": [
+        "data/macro.auto.json",
+        "data/calendar.auto.json"
+      ],
+      "termsUrl": "https://www.bankofengland.co.uk/legal",
+      "termsReadUrls": [
+        "https://www.bankofengland.co.uk/legal"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "Database data: \"Reproduction of data in the Database is subject to the terms of the UK Open Government Licence\", \"allowing and encouraging free and flexible data reuse.\" Selected exchange-rate series are excluded; the two series used are not exchange rates.",
+      "displayRights": "yes",
+      "displayRightsBasis": "OGL for the Database. General website content: personal/internal/non-commercial use only, so the MPC-dates page is covered only for the facts (dates).",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "OGL permits adaptation.",
+      "storageRights": "yes",
+      "storageRightsBasis": "OGL permits copying; no storage limit stated.",
+      "redistribution": "OGL conditions. The Bank \"gives no assurance that information currently published will continue to be published.\" Third-party data (e.g. LSEG) must be cleared with the third party.",
+      "attribution": "Specified for SONIA only (\"licensed under the Open Government Licence v3.0\"). For other Database series none stated; use OGL v3.0 wording.",
+      "notes": "The page does not say explicitly that commercial use of the Database is allowed; OGL v3.0 itself does. Bank Rate and gilt yield are not SONIA. A reviewer should confirm IUDMNPY has no third-party (non-Bank) source.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "nyfed-sofr",
+      "owner": "Federal Reserve Bank of New York",
+      "source": "markets.newyorkfed.org/api/rates/secured/sofr/last/30.json (SOFR); www.newyorkfed.org/markets/reference-rates/sofr",
+      "collectors": [
+        "scripts/sync_econ.py"
+      ],
+      "outputs": [
+        "data/econ.auto.json"
+      ],
+      "termsUrl": "https://www.newyorkfed.org/privacy/termsofuse",
+      "termsReadUrls": [
+        "https://www.newyorkfed.org/privacy/termsofuse"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "Licence \"to use, copy, and distribute Content for your personal or business purposes.\"",
+      "displayRights": "yes",
+      "displayRightsBasis": "Same licence, with the SOFR notice below.",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Users may \"Modify and create derivative works from the Content\" but must \"clearly label the modified Content.\"",
+      "storageRights": "yes",
+      "storageRightsBasis": "\"Download, store, and use Content in any format or media.\" Automated access is allowed if it does not interfere with the Website.",
+      "redistribution": "SOFR data \"are calculated using data provided under a license granted to the New York Fed by DTCC Solutions LLC\" and must carry a notice that it \"is subject to the Terms of Use posted at newyorkfed.org.\" A product named after a reference rate must state that it is not affiliated with the New York Fed. No exclusive rights in the name.",
+      "attribution": "Include copyright notices and source identifiers. Default: \"Content from the New York Fed subject to the Terms of Use at newyorkfed.org.\" SOFR must carry the Terms-of-Use notice.",
+      "notes": "Open action: confirm the SOFR rate on the site carries the Terms-of-Use notice. SOFR is a rate name administered by the New York Fed.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "imf-datamapper",
+      "owner": "International Monetary Fund",
+      "source": "www.imf.org/external/datamapper/api/v1 (World Economic Outlook DataMapper API)",
+      "collectors": [
+        "scripts/sync_econ.py"
+      ],
+      "outputs": [
+        "data/econ.auto.json"
+      ],
+      "termsUrl": "https://www.imf.org/en/About/Copyright-and-Terms",
+      "termsReadUrls": [
+        "https://www.imf.org/en/About/Copyright-and-Terms"
+      ],
+      "businessUse": "unverified",
+      "businessUseBasis": "The Data clause says users \"may download, extract, copy, create derivative works, publish, distribute, and use Data\", but the page also says \"For any potential commercial reuse of IMF Data, email copyright@imf.org to request permission\" and \"The IMF prohibits bulk download of information by automated technology without explicit permission.\" The two statements need a human to reconcile.",
+      "displayRights": "conditional",
+      "displayRightsBasis": "Data \"must appear accurately with attribution to the IMF as the source.\"",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "\"If material transformation occurs, it must be stated explicitly along with the required source citation.\" No alteration that \"intentionally affects its nature or accuracy.\"",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Storage and API access are not addressed; automated bulk download is restricted, and the page says systematic copying needs written permission.",
+      "redistribution": "Attribution required. Resale as a standalone product requires telling purchasers the Data is free from the IMF. No use of IMF Content for training large language models without permission.",
+      "attribution": "\"Source: International Monetary Fund, Database Name, <<link to the dataset>>.\"",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. The collector makes a small number of API calls for the country table, not a bulk download, but the page says commercial reuse should be requested and that automated retrieval is restricted. Consider writing to copyright@imf.org.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "damodaran-nyu",
+      "owner": "Aswath Damodaran, NYU Stern School of Business",
+      "source": "pages.stern.nyu.edu/~adamodar/pc/datasets/ctryprem.xlsx (country risk premiums); pc/implprem/ERPbymonth.xlsx (implied ERP); pc/datasets/countrytaxrates.xlsx (marginal tax rates); mirror www.stern.nyu.edu/~adamodar",
+      "collectors": [
+        "scripts/sync_erp.py",
+        "scripts/sync_econ.py"
+      ],
+      "outputs": [
+        "data/erp.auto.json",
+        "data/econ.auto.json"
+      ],
+      "termsUrl": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datahistory.html",
+      "termsReadUrls": [
+        "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datahistory.html",
+        "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datacurrent.html"
+      ],
+      "businessUse": "unverified",
+      "businessUseBasis": "The usage rules say: \"this data is here for you to use\" and \"there are no strings attached\", but commercial use, redistribution and automated download are not addressed, and the page is informal rather than a licence.",
+      "displayRights": "conditional",
+      "displayRightsBasis": "No stated restriction; acknowledgement is welcomed. The tax-rate file credits KPMG: \"Please give them full credit when you use any of the information from this file.\"",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Not addressed; no restriction stated.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed. The author avoids reproducing vendor data on individual companies because of his data vendors' commercial interests. Some series draw on third-party sources (e.g. KPMG tax rates, sovereign ratings).",
+      "attribution": "Acknowledgement requested, not required. KPMG credit required for the tax-rate file: \"Please give them full credit when you use any of the information from this file.\"",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW: informal terms, a single academic's site, third-party underlying data (KPMG, rating agencies). Ask Professor Damodaran for written confirmation of commercial display and storage.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "govuk-corporation-tax",
+      "owner": "HM Revenue and Customs (GOV.UK)",
+      "source": "www.gov.uk/corporation-tax-rates (UK corporation tax rate)",
+      "collectors": [
+        "scripts/sync_econ.py"
+      ],
+      "outputs": [
+        "data/econ.auto.json"
+      ],
+      "termsUrl": "https://www.gov.uk/help/terms-conditions",
+      "termsReadUrls": [
+        "https://www.gov.uk/help/terms-conditions",
+        "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "GOV.UK: \"All content is available under the Open Government Licence v3.0, except where otherwise stated.\" OGL v3.0 permits commercial exploitation.",
+      "displayRights": "yes",
+      "displayRightsBasis": "OGL v3.0.",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "OGL v3.0: adapt.",
+      "storageRights": "yes",
+      "storageRightsBasis": "OGL v3.0: copy.",
+      "redistribution": "OGL conditions only.",
+      "attribution": "\"Contains public sector information licensed under the Open Government Licence v3.0.\"",
+      "notes": "A single tax rate.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "iex-historical-data",
+      "owner": "Investors Exchange LLC (IEX)",
+      "source": "https://iextrading.com/api/1.0/hist (index of daily TOPS/DEEP packet captures) and the Google Cloud Storage links it lists (gzipped pcap, about 15 GB per day, streamed and never stored)",
+      "collectors": [
+        "scripts/sync-market-reference.mjs"
+      ],
+      "outputs": [
+        "data/market-reference.auto.json",
+        "data/market-history/"
+      ],
+      "termsUrl": "https://www.iex.io/legal/hist-data-terms",
+      "termsReadUrls": [
+        "https://www.iex.io/legal/hist-data-terms",
+        "https://cdn.prod.website-files.com/696f8ac812dcabe749e3aa49/6a963ef0d60054a54c2a79ba_IEX%20Market%20Data%20Policies%20-%20September%202026_Clean.pdf",
+        "https://www.iex.io/resources/trading/fee-schedule",
+        "https://iextrading.com/api/1.0/hist"
+      ],
+      "businessUse": "permitted",
+      "businessUseBasis": "IEX Historical Data Terms expressly permit distribution of IEX Historical Data subject to the required attribution. The HIST product is provided free on a T+1 basis. The terms do not state a separate commercial-use restriction for HIST. Sources: Terms of Use clause 01 (distribution or provision of access, with the prescribed attribution); IEX Market Data Policies (September 2026, read in full) s.15: \"IEX does not require an IEX Data Subscriber Agreement from any Person who receives, uses, or distributes IEX Historical Data in accordance with the IEX Historical Data Terms of Use.\"; s.1 defines IEX Historical Data as the T+1 files at iextrading.com/stats/#historical-stats; the fee schedule (effective 1 Oct 2026) charges only for real-time feeds. HIST only: the real-time TOPS and DEEP feeds have their own subscriber agreement and distribution regime, and these rights do not extend to them.",
+      "displayRights": "yes",
+      "displayRightsBasis": "Terms clause 01 expressly contemplates distributing or providing access to IEX historical data, with the prescribed text and link. Clauses 08 and 10: shown as an IEX venue reference point, never as a consolidated market price.",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "The terms state no separate restriction on calculations from HIST. Conditional on the clause 01 attribution and the clause 08/10 reference-point framing wherever the figures are shown. Clause 03: IEX keeps its proprietary rights in the data. Written confirmation from IEX is optional, for the record.",
+      "storageRights": "conditional",
+      "storageRightsBasis": "The terms state no separate storage restriction for HIST. Conditional on keeping it private: the collector keeps the daily database only in the Actions cache, never committed or published; only the daily reference file and weekly shards are published. Written confirmation from IEX is optional, for the record.",
+      "redistribution": "Clause 01: any distribution or access requires the attribution below. Clause 03: IEX keeps ownership of the data. Clauses 08 and 10: the data covers IEX trading only and is \"a reference point only, rather than ... a basis for making trading decisions\". Clauses 04-07, 09: as-is, no warranty, indemnity by the user.",
+      "attribution": "Data provided for free by IEX. By accessing or using IEX Historical Data, you agree to the IEX Historical Data Terms of Use. (with a link to https://www.iex.io/legal/hist-data-terms)",
+      "notes": "Approved 19 Oct 2026 as the default $0 market-reference source for Finance OS. Scope: HIST (T+1) only, never the real-time TOPS or DEEP feeds. Published as a dated \"IEX reference price\" with the disclaimer \"Venue-specific IEX reference price; not a consolidated closing price.\" Open action: optional written confirmation from IEX Market Data (draft in docs/market-reference.md s.1).",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "prnewswire-rss",
+      "owner": "PR Newswire Association LLC (Cision)",
+      "source": "www.prnewswire.com/rss/financial-services-latest-news/*.rss (acquisitions-mergers-and-takeovers, financing-agreements, venture-capital lists)",
+      "collectors": [
+        "scripts/sync-deals.mjs",
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/deals.auto.json",
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: PR Newswire terms of use not located (www.prnewswire.com/general/terms-of-use.html returned 404); the RSS page publishes no feed terms",
+      "termsReadUrls": [
+        "https://www.prnewswire.com/rss/"
+      ],
+      "businessUse": "unverified",
+      "businessUseBasis": "The RSS page (https://www.prnewswire.com/rss/) offers feeds for publishers and states no terms of use. Press releases are issued by companies for distribution, but PR Newswire's terms were not read.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. The page read, www.prnewswire.com/rss/, says it offers full-text XML and HTML feeds for websites and refers online publishers to a contact page.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "globenewswire-rss",
+      "owner": "GlobeNewswire (Intrado / Notified)",
+      "source": "www.globenewswire.com/RssFeed/subjectcode/12-Mergers And Acquisitions and 65-Initial Public Offerings feeds",
+      "collectors": [
+        "scripts/sync-deals.mjs",
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/deals.auto.json",
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: GlobeNewswire terms not read (www.globenewswire.com pages returned 403); a search surfaced only the general site agreement at portal.notified.com/terms-conditions/en",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. ",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ft-rss",
+      "owner": "The Financial Times Ltd",
+      "source": "www.ft.com/mergers-acquisitions?format=rss, /private-equity?format=rss, /hedge-funds?format=rss",
+      "collectors": [
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: FT terms and copyright policy could not be fetched (fetch to ft.com blocked); FT RSS terms not found by search",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read. A 2015 library-guide summary says access is governed by FT Terms and Conditions and a Copyright Policy and that institutional feeds are licensed (secondary source, dated).",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. Commercial news publisher; assume a licence is needed for commercial re-display of headlines until the terms are read. Consider removing the FT feeds if not cleared.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "wsj-dowjones-rss",
+      "owner": "Dow Jones & Company, Inc.",
+      "source": "feeds.a.dj.com/rss/RSSMarketsMain.xml (WSJ Markets)",
+      "collectors": [
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: Dow Jones terms of use could not be fetched (fetch to dowjones.com blocked); no first-party feed terms found",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read. A secondary source (Santa Clara University library guide, via search) says RSS content \"may not be used in any commercial product or service without express written consent\" and Dow Jones's content licence restricts redistribution via RSS feeds. Not verified at source.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. Likely restricted for commercial use on the secondary evidence: treat as high risk and review first.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "bloomberg-rss",
+      "owner": "Bloomberg L.P.",
+      "source": "feeds.bloomberg.com/markets/news.rss",
+      "collectors": [
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "https://www.bloomberg.com/notices/tos/",
+      "termsReadUrls": [
+        "https://www.bloomberg.com/notices/tos/"
+      ],
+      "businessUse": "restricted",
+      "businessUseBasis": "Bloomberg TOS: \"You agree to use the Service solely for your own noncommercial use and benefit\"; \"You shall not use or attempt to use any 'scraper,' 'robot,' 'bot,' 'spider,' 'data mining,'\" without written consent; \"The Service and the information contained therein may not be used to construct a database of any kind.\" The terms do not mention RSS, so whether they bind the public feed is itself unclear.",
+      "displayRights": "no",
+      "displayRightsBasis": "General TOS limits use to \"your own noncommercial use\" and bars recirculating or publishing the service's content. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "no",
+      "storageRightsBasis": "\"The Service and the information contained therein may not be used to construct a database of any kind\"; \"you may not archive, cache, or mirror any Bloomberg.com Web page\". Items are retained for 8 days and merged run to run.",
+      "redistribution": "No recirculation, redistribution, publication or caching under the general TOS; RSS-specific terms not found.",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. Read: https://www.bloomberg.com/notices/tos/. The newsflow file is in effect a database of Bloomberg headlines on a commercial site. Review first; likely remove until cleared.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "techcrunch-rss",
+      "owner": "TechCrunch (publisher entity not verified)",
+      "source": "techcrunch.com/category/venture/feed/",
+      "collectors": [
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: TechCrunch terms not read",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. ",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "pehub-rss",
+      "owner": "PE Hub (publisher entity not verified)",
+      "source": "www.pehub.com/feed/",
+      "collectors": [
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: PE Hub terms not read",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. ",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "privateequitywire-rss",
+      "owner": "Private Equity Wire (publisher entity not verified)",
+      "source": "www.privateequitywire.co.uk/feed/",
+      "collectors": [
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: Private Equity Wire terms not read",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. ",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "hedgeweek-rss",
+      "owner": "Hedgeweek (publisher entity not verified)",
+      "source": "www.hedgeweek.com/feed/",
+      "collectors": [
+        "scripts/sync-newsflow.mjs"
+      ],
+      "outputs": [
+        "data/newsflow.auto.json"
+      ],
+      "termsUrl": "unverified: Hedgeweek terms not read (www.hedgeweek.com/terms-and-conditions/ returned 404)",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Terms not read. Collector stores headline, link, source name, publication date and a deal value parsed from the headline; no article text. Displayed with a link to the original.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Terms not read. L3VLUP derives only a deal-value figure from the headline text.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Terms not read. Items are retained for 8 days and merged run to run.",
+      "redistribution": "unverified",
+      "attribution": "none stated (the site shows the publisher name and links the item)",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. ",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ats-greenhouse",
+      "owner": "Greenhouse Software, Inc. (platform); each employer owns its postings",
+      "source": "boards-api.greenhouse.io/v1/boards/{token}/jobs (Job Board API, GET, no key)",
+      "collectors": [
+        "scripts/sync-ats.mjs",
+        "scripts/discover-ats.mjs",
+        "scripts/probe-ats-fields.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "https://docs.greenhouse.io/job-board.html",
+      "termsReadUrls": [
+        "https://docs.greenhouse.io/job-board.html"
+      ],
+      "businessUse": "unverified",
+      "businessUseBasis": "Documented public API: \"Job Board data is publicly available, so authentication is not required for any GET endpoints.\" The page states no licence or restriction on reuse of the data on third-party sites; Greenhouse's terms of use (greenhouse.com/legal/terms-of-use returned 404) were not read.",
+      "displayRights": "conditional",
+      "displayRightsBasis": "The API is documented for building careers pages for the employer; display of the postings by a third-party tracker with a link to the employer's application URL is not addressed.",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Derived fields (programme type, vertical, deadline) are L3VLUP's own; not addressed by the vendor.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "The postings are the employers' own public job advertisements; the vendor hosts them. Rights in the posting text sit with the employer. NEEDS HUMAN RIGHTS REVIEW for third-party aggregation.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ats-ashby",
+      "owner": "Ashby Inc. (platform); each employer owns its postings",
+      "source": "api.ashbyhq.com/posting-api/job-board/{token} (public job posting API, no key)",
+      "collectors": [
+        "scripts/sync-ats.mjs",
+        "scripts/discover-ats.mjs",
+        "scripts/probe-ats-fields.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+      "termsReadUrls": [
+        "https://developers.ashbyhq.com/docs/public-job-posting-api"
+      ],
+      "businessUse": "unverified",
+      "businessUseBasis": "Documented public API: it \"allows you to get data for all currently published Job Postings for your organization\" and \"If you host your own careers page, you can use this data to populate it.\" No terms or restriction stated; Ashby's terms of use not located.",
+      "displayRights": "conditional",
+      "displayRightsBasis": "Documented for the employer's own careers page; third-party aggregation not addressed.",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Not addressed.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "The postings are the employers' own public job advertisements; the vendor hosts them. Rights in the posting text sit with the employer. NEEDS HUMAN RIGHTS REVIEW.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ats-lever",
+      "owner": "Lever (Employ Inc.) (platform); each employer owns its postings",
+      "source": "api.lever.co/v0/postings/{token}?mode=json (Postings API, GET)",
+      "collectors": [
+        "scripts/sync-ats.mjs",
+        "scripts/discover-ats.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "https://github.com/lever/postings-api",
+      "termsReadUrls": [
+        "https://github.com/lever/postings-api"
+      ],
+      "businessUse": "unverified",
+      "businessUseBasis": "README: the API is \"designed to help you create a job site\" and \"Published postings are public and may be scraped by third parties.\" No licence or terms-of-use section; Lever's terms of service not read.",
+      "displayRights": "conditional",
+      "displayRightsBasis": "Published postings \"are public and may be scraped by third parties\" (README); display by a third party not addressed.",
+      "derivedUseRights": "conditional",
+      "derivedUseRightsBasis": "Not addressed.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "The postings are the employers' own public job advertisements; the vendor hosts them. Rights in the posting text sit with the employer. NEEDS HUMAN RIGHTS REVIEW. One firm on Lever at last count.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ats-workday-cxs",
+      "owner": "Workday, Inc. (platform); each employer owns its postings",
+      "source": "{tenant}.{shard}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs (POST, search) and /wday/cxs/.../{externalPath} (detail)",
+      "collectors": [
+        "scripts/sync-ats.mjs",
+        "scripts/discover-ats.mjs",
+        "scripts/probe-ats-fields.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "unverified: no Workday terms for the cxs endpoints found; Workday's website terms page returned 404",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "The /wday/cxs endpoints are the JSON backend of employers' public careers sites; they are not published as a documented, licensed API (no documentation found). This may fall in the prohibited class 'undocumented private APIs' (L3VLUP policy, 19 Oct 2026); a human must decide.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Not addressed.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Not addressed.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW, HIGH PRIORITY: about 34 registry firms plus discovered tenants read this way. The postings are the employers' own public job advertisements; the vendor hosts them. Rights in the posting text sit with the employer.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ats-oracle-recruiting-cloud",
+      "owner": "Oracle Corporation (platform); each employer owns its postings",
+      "source": "{host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions (candidate-experience REST, e.g. jpmc.fa.oraclecloud.com)",
+      "collectors": [
+        "scripts/sync-ats.mjs",
+        "scripts/discover-ats.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "unverified: no terms for the candidate-experience REST resource located",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Oracle documents the HCM REST API, but this resource is read without credentials as the public careers site's backend; whether that use is licensed was not checked. May fall in the prohibited class 'undocumented private APIs'; a human must decide.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Not addressed.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Not addressed.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. One firm (JPMorgan Chase) at last count. The postings are the employers' own public job advertisements; the vendor hosts them. Rights in the posting text sit with the employer.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ats-talnet",
+      "owner": "Eploy / tal.net (platform); each employer owns its postings",
+      "source": "{host}.tal.net/vx/lang-en-GB/mobile-0/appcentre-ext/{brand}/candidate/jobboard/vacancy/1/adv/ (public HTML job board, parsed)",
+      "collectors": [
+        "scripts/sync-ats.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "unverified: tal.net terms not read",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read. This is HTML parsing of a public vacancy table, not an API.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Not addressed.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Not addressed.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. Five tenants (Evercore, Jefferies, Lazard, Rothschild, PWP) are parked because they serve a bot-check interstitial; the collector throws on the gate and does not work around it (ats-registry.json parkedReason, probed 2026-08-31). Active: Morgan Stanley, Nomura, BlackRock. The postings are the employers' own public job advertisements; the vendor hosts them. Rights in the posting text sit with the employer.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "ats-eightfold",
+      "owner": "Eightfold AI (platform); Millennium owns its postings",
+      "source": "campusjobs.mlp.com/api/apply/v2/jobs?domain=mlp.com (JSON behind the careers site)",
+      "collectors": [
+        "scripts/sync-ats.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "unverified: Eightfold terms not read",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Terms not read. Endpoint is the careers site's JSON backend, not a published licensed API. May fall in the prohibited class 'undocumented private APIs'.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Not addressed.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Not addressed.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. One firm (Millennium). The postings are the employers' own public job advertisements; the vendor hosts them. Rights in the posting text sit with the employer.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "janestreet-jobs-feed",
+      "owner": "Jane Street Group, LLC",
+      "source": "www.janestreet.com/jobs/main.json (public JSON file behind the client-rendered jobs page)",
+      "collectors": [
+        "scripts/sync-ats.mjs"
+      ],
+      "outputs": [
+        "data/opportunities.auto.json",
+        "data/tracker-archive.json",
+        "data/tracker-slugs.json",
+        "data/tracker-history.json",
+        "data/deadlines.learned.json",
+        "data/board-checks/"
+      ],
+      "termsUrl": "unverified: Jane Street site terms not read",
+      "termsReadUrls": [
+        "https://www.janestreet.com/robots.txt"
+      ],
+      "businessUse": "unverified",
+      "businessUseBasis": "Site terms not read. robots.txt (read) does not disallow /jobs/main.json; it disallows a list of other paths.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Not addressed.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "Not addressed.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Not addressed.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW. First-party file, not a documented API. lib/janestreet.mjs folds homoglyph characters in titles, which the code describes as cosmetic obfuscation on a public endpoint. Also read by detect-career-changes via career-pages.json.",
+      "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "employer-careers-pages",
+      "owner": "Individual employers (206 firms in lib/sources/careers-seed.json and career-pages.json: banks, funds, consultancies, tech)",
+      "source": "Employers' own careers and programme pages and the postings' application URLs (HTML): discover-ats reads each seed page to find the board; detect-career-changes reads four pages in career-pages.json (Goldman Sachs, Point72, Jane Street, Rothschild & Co), optionally rendered through Firecrawl (api.firecrawl.dev, a processor); sync-ats reads posting pages for JSON-LD JobPosting deadlines and prose dates",
+      "collectors": [
+        "scripts/detect-career-changes.mjs",
+        "scripts/discover-ats.mjs",
+        "scripts/sync-ats.mjs"
+      ],
+      "outputs": [
+        "data/career-snapshots.json",
+        "data/career-review-queue.json",
+        "lib/sources/ats-registry.json",
+        "data/opportunities.auto.json"
+      ],
+      "termsUrl": "unverified: per-site terms not read (about 200 distinct sites)",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Each site's terms were not read. Job listings are public advertisements; facts (title, location, deadline) and a link to the employer's application page are what is stored. The collector uses an identifying User-Agent and does not evade bot checks.",
+      "displayRights": "conditional",
+      "displayRightsBasis": "Facts and a link to the employer's application URL; no employer text is republished beyond title and short fields (unverified).",
+      "derivedUseRights": "yes",
+      "derivedUseRightsBasis": "Deadlines and classifications are L3VLUP's own derived facts.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "Snapshots of posting titles and links are committed for diffing.",
+      "redistribution": "Not addressed in the material read. Posting text belongs to the employer; L3VLUP stores facts and links to the employer's application URL.",
+      "attribution": "none stated",
+      "notes": "NEEDS HUMAN RIGHTS REVIEW: sample the highest-traffic employers' terms and robots.txt. Parked firms (bot-check gates, Goldman Sachs' client-rendered portal, HSBC) show where the employer has not made data available.",
+      "lastReviewed": "2026-10-19"
+    }
+  ],
+  "prohibitedSources": [
+    {
+      "id": "yahoo-finance-scraping",
+      "name": "Yahoo Finance scraping",
+      "hosts": [
+        "yahoo.com",
+        "finance.yahoo.com",
+        "query1.finance.yahoo.com",
+        "query2.finance.yahoo.com"
+      ],
+      "reason": "not to be used (L3VLUP policy, 19 Oct 2026)"
+    },
+    {
+      "id": "google-finance-scraping",
+      "name": "Google Finance scraping",
+      "hosts": [
+        "google.com/finance"
+      ],
+      "reason": "not to be used (L3VLUP policy, 19 Oct 2026)"
+    },
+    {
+      "id": "marketwatch-scraping",
+      "name": "MarketWatch scraping",
+      "hosts": [
+        "marketwatch.com"
+      ],
+      "reason": "not to be used (L3VLUP policy, 19 Oct 2026)"
+    },
+    {
+      "id": "investing-com-scraping",
+      "name": "Investing.com scraping",
+      "hosts": [
+        "investing.com"
+      ],
+      "reason": "not to be used (L3VLUP policy, 19 Oct 2026)"
+    },
+    {
+      "id": "tradingview-scraping",
+      "name": "TradingView scraping",
+      "hosts": [
+        "tradingview.com"
+      ],
+      "reason": "not to be used (L3VLUP policy, 19 Oct 2026)"
+    },
+    {
+      "id": "undocumented-private-apis",
+      "name": "Undocumented private APIs",
+      "hosts": [],
+      "reason": "not to be used (L3VLUP policy, 19 Oct 2026)",
+      "note": "Not detectable by host. Candidates in the register that a human must classify: ats-workday-cxs, ats-oracle-recruiting-cloud, ats-eightfold, janestreet-jobs-feed."
+    }
+  ]
+}
