@@ -1,0 +1,165 @@
+name: Market context (IEX)
+
+# Reads IEX's free historical market data, one trading day at a time, and
+# publishes data/market-context.auto.json: each stock's place in its
+# twelve-month range, its momentum, its drawdown and its volatility, as
+# categories. No price is published. See docs/market-context.md.
+#
+# WHY A WORKFLOW OF ITS OWN
+# -------------------------
+# A day's IEX capture is about fifteen gigabytes compressed and takes five to
+# ten minutes to stream through the reader. The first runs read a year of
+# them. That is hours of work on a cadence of its own, and folded into the
+# open-data collection it would hold every other source behind it.
+#
+# WHERE THE CLOSES LIVE
+# ---------------------
+# The measures need a year of closes. Those closes are kept in the GitHub
+# Actions cache, never committed: the collector refuses a state path inside
+# the working tree, and the gate below refuses any staged path but the one
+# published file. Each run restores the latest state, reads the days it does
+# not hold yet (newest first, so the current measures arrive on the first run
+# and the twelve-month ones fill in behind), and saves it again, even when the
+# step fails or runs out of time. A cache entry unused for a week is evicted;
+# the next run then starts again from nothing and rebuilds the year.
+#
+# The source is public and free and needs no key, account or secret.
+
+on:
+  schedule:
+    # Every six hours. IEX posts a day's capture the following morning; until
+    # the year is read, each run also works through the backlog, about thirty
+    # days in its budget, so the first full file arrives within two days.
+    # Once caught up a run reads the index, finds nothing new and stops.
+    - cron: '20 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      max_days:
+        description: 'Read at most this many trading days (blank: as many as the budget allows)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: market-context
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    name: Read IEX and derive the measures
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.stage.outputs.changed }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 20
+
+      - name: Test the reader, the measures and the publication contract
+        run: |
+          node scripts/__tests__/market-context.test.mjs
+          node scripts/__tests__/publication-contracts.test.mjs
+          node scripts/__tests__/workflow-permissions.test.mjs
+
+      - name: Restore the working history
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ runner.temp }}/market-context
+          key: market-context-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: market-context-state-
+
+      # The step timeout sits inside the job's, and the collector's own budget
+      # inside the step's, so the save below always gets to run: the budget
+      # stops it starting a day it could not finish, and the state is written
+      # after every day read.
+      - name: Read the trading days not yet held
+        id: collect
+        timeout-minutes: 330
+        env:
+          MAX_DAYS: ${{ inputs.max_days }}
+        run: |
+          set -euo pipefail
+          extra=()
+          if [ -n "${MAX_DAYS:-}" ]; then extra+=(--max-days "$MAX_DAYS"); fi
+          node scripts/sync-market-context.mjs \
+            --state "$RUNNER_TEMP/market-context/state.json.gz" \
+            --budget-minutes 300 \
+            "${extra[@]}"
+
+      # hashFiles() reads only the workspace, and the state lives outside it
+      # on purpose, so whether there is anything to save is asked here.
+      - name: Is there a working history to save
+        id: held
+        if: always()
+        run: |
+          if [ -s "$RUNNER_TEMP/market-context/state.json.gz" ]; then echo "state=true" >> "$GITHUB_OUTPUT"; else echo "state=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Save the working history
+        if: always() && steps.held.outputs.state == 'true'
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ runner.temp }}/market-context
+          key: market-context-state-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Stage the derived file
+        id: stage
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing changed; there is nothing to publish"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+
+      - name: Check what is about to be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          node scripts/validate-data-publication.mjs \
+            --producer market-context \
+            --staged "$RUNNER_TEMP/staged.txt"
+
+      - name: Pack what may be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+
+      - name: Upload what may be published
+        if: steps.stage.outputs.changed == 'true'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: market-context-refresh
+          path: ${{ runner.temp }}/handoff
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    name: Publish
+    needs: collect
+    if: needs.collect.outputs.changed == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/publish-data.yml
+    with:
+      producer: market-context
+      artifact: market-context-refresh
+      # Open the data pull request and stop. The same two proofs collect.yml
+      # names before its line became `true`: one run whose pull request a
+      # human reads and merges, and a second that updates that pull request
+      # rather than opening another. Then a narrow pull request of its own.
+      merge: false

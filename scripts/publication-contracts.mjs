@@ -302,6 +302,38 @@ export const CONTRACTS = {
   },
 
   /**
+   * market-context.yml. One derived file and nothing else: the measures
+   * built from IEX closes, never the closes (docs/market-context.md).
+   */
+  'market-context': {
+    label: 'the market context from IEX',
+    branch: 'automation/market-context',
+    title: 'chore(data): market context',
+    files: [
+      {
+        path: 'data/market-context.auto.json',
+        // Read every six hours, but IEX publishes only trading days, so the
+        // file legitimately stands still from Saturday to Tuesday, and to
+        // Wednesday after a Monday holiday: about a hundred hours.
+        freshness: { cadence: 'daily', required: true, from: 'generatedAt', maxAgeHours: 130 },
+        label: 'the market context',
+        keyed: 'symbols',
+        // Several thousand listed stocks and funds close on IEX every day. A
+        // file with a few hundred is a reader or a capture gone wrong.
+        min: 1000,
+        // The count moves with listings and with names crossing the coverage
+        // line, a few per cent a day. A third gone is not that.
+        minRatio: 0.7,
+        maxRatio: 1.5,
+        stamp: 'generatedAt',
+        maxAgeHours: 130,
+        // A run that read no new day writes nothing.
+        optional: true,
+      },
+    ],
+  },
+
+  /**
    * discover-ats.yml. Manual, and it only ever adds: a firm resolves to a
    * board and moves into the registry, where the daily sync polls it. A run
    * that removed entries would silently stop the tracker collecting from

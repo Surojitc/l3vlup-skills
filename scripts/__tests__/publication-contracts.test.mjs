@@ -50,7 +50,13 @@ const now = new Date('2026-09-20T12:00:00Z');
 const fresh = '2026-09-20T11:00:00Z';
 
 // ── 1. the table itself ──────────────────────────────────────────────────
-eq('there are three producers and no more', Object.keys(CONTRACTS).sort(), ['ats-registry', 'open-data', 'tracker']);
+eq('there are four producers and no more', Object.keys(CONTRACTS).sort(), ['ats-registry', 'market-context', 'open-data', 'tracker']);
+// The market context publishes its derived file and nothing else: not the
+// closes it was derived from, under any name, and not another producer's file.
+eq('the market context may publish its derived file', unexpectedPaths('market-context', ['data/market-context.auto.json']), []);
+for (const path of ['data/market-context.state.json', 'data/market-context.closes.json', 'data/iex/2026-10-16.json', 'data/calendar.auto.json', '.github/workflows/market-context.yml']) {
+  eq(`the market context refuses ${path}`, unexpectedPaths('market-context', [path]), [path]);
+}
 for (const [id, c] of Object.entries(CONTRACTS)) {
   check(`${id} publishes to one predictable branch`, /^automation\/[a-z-]+$/.test(c.branch), c.branch);
   check(`${id} has a title with no newline`, typeof c.title === 'string' && !/[\r\n]/.test(c.title));

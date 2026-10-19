@@ -48,6 +48,7 @@ export const SUITES = [
   'publication-freshness',
   'publication-persistence',
   'workflow-permissions',
+  'market-context',
   'collector-tests',
 ];
 
