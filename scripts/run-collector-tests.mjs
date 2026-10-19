@@ -48,6 +48,8 @@ export const SUITES = [
   'publication-freshness',
   'publication-persistence',
   'workflow-permissions',
+  'market-reference',
+  'rights-register',
   'collector-tests',
   'precedent-transactions',
 ];

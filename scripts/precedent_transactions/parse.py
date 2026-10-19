@@ -70,6 +70,43 @@ def parse_amendment_date(text: str) -> str | None:
     return max(dates) if dates else None
 
 
+_REVISED = re.compile(r"(?:increas|reduc|rais|lower|revis|amend|chang)\w*[^.;]{0,160}?\bfrom\s+(?:US)?\$\s?(\d{1,4}(?:,\d{3})*(?:\.\d{1,4})?)[^.;$]{0,60}?\bto\s+(?:US)?\$\s?(\d{1,4}(?:,\d{3})*(?:\.\d{1,4})?)", re.I)
+
+
+#: what ties a stated price change to an agreement already signed: an
+#: amendment, or the original agreement it changed
+_AMENDED_FROM = re.compile(r"amend|original\s+(?:merger\s+)?agreement|as\s+set\s+forth\s+in\s+the", re.I)
+
+
+def price_revised(texts: list[str], offer: float | None) -> bool:
+    """
+    Whether the documents state that an agreed price was revised to the offer
+    the row records: 'the price per share ... would be reduced from $61.00 in
+    cash, to $51.75 in cash' beside the amendment that did it. A price raised
+    during the negotiation ('increase the proposed price from $6.50 per share
+    to $6.60', 'resulted in an increase in the offer price from $41.00 to
+    $43.50') was never agreed and revises nothing, so the change must name a
+    consideration or price, sit within a few lines of an amendment or the
+    original agreement, and not be a proposal's.
+    """
+    if not offer:
+        return False
+    for t in texts:
+        for m in _REVISED.finditer(t):
+            try:
+                old, new = float(m.group(1).replace(",", "")), float(m.group(2).replace(",", ""))
+            except ValueError:
+                continue
+            if not (abs(new - offer) <= 0.005 * offer and abs(old - new) > 0.005 * offer):
+                continue
+            head = re.sub(r"\bfrom\s+(?:US)?\$\s?$", "", t[max(0, m.start(1) - 200): m.start(1)])
+            if not re.search(r"(?:consideration|price)\b[^.;$]{0,120}$", head, re.I) or re.search(r"propos", t[max(0, m.start() - 30): m.end()], re.I):
+                continue
+            if _AMENDED_FROM.search(t[max(0, m.start() - 250): m.end()]):
+                return True
+    return False
+
+
 _AGREEMENT_LOOSE = [
     r"(?:[Mm]erger\s+[Aa]greement|Arrangement\s+Agreement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation)|Transaction\s+Agreement|Implementation\s+Agreement)[^.;]{0,80}?dated(?:\s+as\s+of)?\s+" + _DATE,
     r"dated(?:\s+as\s+of)?\s+" + _DATE + r"[^.;]{0,30}?\((?:as\s+it\s+may\s+be\s+amended[^)]*)?(?:the\s+)?[“\"]\s*(?:[Mm]erger|Arrangement|Transaction|Amalgamation)\s+[Aa]greement",
@@ -312,6 +349,12 @@ def _basis(clause: str) -> tuple[str, str | None]:
         # and is not a premium to the high.
         if re.search(r"\blow\b|lowest", w) and not re.search(r"highest|\bhigh\b", w):
             return "other", None
+        # Nor is a premium to the average over twelve months (Rock of Ages:
+        # 84% to the average close, beside 44% to the highest), or to the
+        # high end of a proposal's range (Cornerstone), a premium to the high.
+        peak = r"52[\s-]*week|fifty[\s-]two[\s-]week|highest|\bhigh\b(?!\s+end)"
+        if re.search(r"\bhigh\s+end\b|average", w) and not re.search(peak, w):
+            return "other", None
         return "high", None
     if re.search(r"average", w):
         return "other", None
@@ -320,8 +363,14 @@ def _basis(clause: str) -> tuple[str, str | None]:
     return "other", None
 
 
-def _price_in(clause: str, offer: float | None) -> float | None:
-    """The reference price a premium clause names, never the offer itself."""
+def _price_in(clause: str, offer: float | None, premium: float | None = None) -> float | None:
+    """
+    The reference price a premium clause names, never the offer itself. A
+    small premium puts the reference within half a percent of the offer
+    (Press Ganey's 0.4% is $40.50 over $40.33), so a price that near the offer
+    is still the reference where it reproduces the stated premium, and is the
+    offer restated where it does not.
+    """
     for m in _PRICE.finditer(clause):
         try:
             v = float(m.group(1).replace(",", ""))
@@ -332,7 +381,8 @@ def _price_in(clause: str, offer: float | None) -> float | None:
         if not 0.05 <= v <= 10_000:
             continue
         if offer and abs(v - offer) <= 0.005 * offer:
-            continue
+            if premium is None or abs(v - offer) < 0.005 or abs((offer / v - 1) - premium) > 0.002:
+                continue
         return v
     return None
 
@@ -342,14 +392,38 @@ def _date_in(clause: str) -> str | None:
     return iso_date(m.group(1), m.group(2), m.group(3)) if m else None
 
 
-def premium_statements(text: str, offer: float | None = None, announced: str | None = None, cash_only: bool = True) -> tuple[list[dict], list[dict]]:
+#: days a 52-week high may sit before its reference date: the high is reached
+#: somewhere inside the year that ends on the reference, so its own date says
+#: nothing about how near the reference is to the agreement
+HIGH_REACH_DAYS = 372
+
+
+def premium_statements(text: str, offer: float | None = None, announced: str | None = None, cash_only: bool = True, original: str | None = None) -> tuple[list[dict], list[dict]]:
     """
     Every premium the document states for its own deal, and every one set
     aside with the reason. A statement is
     {basis, window, premium, price, date, unaffected, proposal, excerpt}.
+
+    The window rule is one rule, applied to the date each statement is
+    measured to:
+
+      - a close or VWAP statement is measured to the date it names;
+      - a 52-week high names the day the high was reached, which can be any
+        day of the year ending on the reference, so it is measured to that
+        year (HIGH_REACH_DAYS) rather than to its own date;
+      - a statement measured to the same day as a statement the filing calls
+        unaffected shares that statement's reference, so it is kept whatever
+        its own wording (R1 RCM's 39% to the 30-day VWAP ending on the
+        23 February unaffected day, beside its 29% to that close);
+      - a revised deal's statements may be measured to the original
+        agreement (`original`): iRobot's $51.75 is 25% over the 30-day VWAP
+        as of the 4 August 2022 agreement.
     """
     kept: list[dict] = []
     aside: list[dict] = []
+    #: statements outside the window on their own wording, kept if another
+    #: statement the filing calls unaffected names the same day
+    pending: list[tuple[dict, str]] = []
     seen: set = set()
     for m in _PCT.finditer(text):
         at = m.start()
@@ -387,9 +461,10 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
             aside.append({"reason": "a financial adviser's analysis", "excerpt": excerpt})
             continue
         basis, window = _respectively(text, at) or _basis(clause)
-        price = _price_in(clause, offer)
+        price = _price_in(clause, offer, v)
         when = _date_in(clause)
         gap = None
+        outside = None
         # The proxy's own words for the unaffected day often follow the first
         # figure of a list ("... on October 12, 2012 and approximately 49.2%
         # ... the last trading day prior to the Company's announcement").
@@ -407,9 +482,13 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
             # the proxy itself calls unaffected may reach back two years; any
             # other may reach back four months; a date after the agreement is
             # never this deal's reference.
-            if not -5 <= gap <= (730 if strict else 120):
-                aside.append({"reason": f"measured to {when}, not near the agreement of {announced}", "excerpt": excerpt})
-                continue
+            reach = (730 if strict else 120) + (HIGH_REACH_DAYS if basis == "high" else 0)
+            within = -5 <= gap <= reach
+            if not within and original:
+                g0 = (date.fromisoformat(original) - date.fromisoformat(when)).days
+                within = -5 <= g0 <= reach
+            if not within:
+                outside = f"measured to {when}, not near the agreement of {announced}"
         # A different per-share figure leading into the premium is an earlier
         # bid, for an all-cash deal. Where the consideration includes stock,
         # the sentence states the value of the whole package ("valued at
@@ -435,6 +514,9 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
             "namesOffer": bool(_AGREED.search(lead)) or bool(offer) and any(abs(float(p.group(1).replace(",", "")) - offer) <= 0.005 * offer for p in _PRICE.finditer(lead[-200:]) if p.group(1).replace(",", "").replace(".", "").isdigit()),
             "excerpt": excerpt,
         }
+        if outside:
+            pending.append((row, outside))
+            continue
         key = (basis, window, v, price, when)
         if key in seen:
             for k in kept:
@@ -443,6 +525,18 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
             continue
         seen.add(key)
         kept.append(row)
+    # A statement outside the window on its own wording is kept where a
+    # statement the filing calls unaffected is measured to the same day: the
+    # two share one reference, and the window is the reference's, not the
+    # wording's (see above).
+    reference = {k["date"] for k in kept if k.get("date") and k["unaffected"] and not k["proposal"]}
+    for row, reason in pending:
+        key = (row["basis"], row["window"], row["premium"], row["price"], row["date"])
+        if row.get("date") in reference and key not in seen:
+            seen.add(key)
+            kept.append({**row, "sharesReference": True})
+        elif row.get("date") not in reference:
+            aside.append({"reason": reason, "excerpt": row["excerpt"]})
     return kept, aside
 
 
@@ -474,6 +568,16 @@ def _stated_price_on(text: str, when: str, offer: float | None) -> tuple[float |
         win = text[max(0, m.start() - 160):m.end() + 60]
         if not re.search(r"clos|unaffected|undisturbed|share price|stock price", win, re.I):
             continue
+        # The same date ends a 52-week period, a VWAP and an average as often
+        # as it is a close (Press Ganey: "the highest closing price ... over
+        # the 52-week period ended August 8, 2016 of $40.97"). Only the
+        # statement's own words before the date count: the clause it is in.
+        own = text[max(0, m.start() - 160):m.start()]
+        own = own[max(own.rfind(";"), own.rfind("•"), own.rfind(". ")) + 1:]
+        # An adviser's range of illustrative prices "based on the closing
+        # share prices ... on October 23, 2019" is no close either (Aircastle).
+        if re.search(r"highest|\bhigh\b|52[\s-]*week|fifty[\s-]two[\s-]week|volume[\s-]*weighted|vwap|average|\blow\b|lowest|illustrative\s+range|range\s+of\s+(?:illustrative\s+|implied\s+)?(?:prices|values)", own, re.I):
+            continue
         # The price beside the date, after it ("on August 2, 2024 of $62.98")
         # or just before it ("of $39.31 as of April 1, 2022").
         for p in list(_PRICE.finditer(text[m.end():m.end() + 40])) + list(_PRICE.finditer(text[max(0, m.start() - 40):m.start()])):
@@ -481,7 +585,10 @@ def _stated_price_on(text: str, when: str, offer: float | None) -> tuple[float |
                 v = float(p.group(1).replace(",", ""))
             except ValueError:
                 continue
-            if 0.05 <= v <= 10_000 and not (offer and abs(v - offer) <= 0.005 * offer):
+            # The offer restated is not the close; a close within half a
+            # percent of it is, for a small premium, and the caller checks the
+            # price against the stated premium before it keeps it.
+            if 0.05 <= v <= 10_000 and not (offer and abs(v - offer) < 0.005):
                 best = (v, re.sub(r"\s+", " ", win + text[m.end():m.end() + 60]).strip()[:300])
                 break
         if best:
@@ -507,7 +614,11 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
     for an all-cash deal only, and says it did.
     """
     out: dict = {"premium1Day": None, "premium30DayVwap": None, "premium52WeekHigh": None, "unaffectedPriceStated": None, "unaffectedDate": None, "unaffectedPriceBasis": None, "premiumBasis": [], "premiumPreAnnouncement": None, "premiumPreAnnouncementDate": None}
-    pick = lambda xs: max(xs, key=_score) if xs else None  # noqa: E731
+    # A statement admitted only because it is measured to the same day as a
+    # kept unaffected statement (sharesReference) fills a basis the window
+    # left empty; it never displaces one inside the window (Distribution
+    # Solutions: the 14.2% to the 30-day VWAP stands, not a misfiled 81%).
+    pick = lambda xs: max(xs, key=lambda s: (not s.get("sharesReference"), _score(s))) if xs else None  # noqa: E731
     close = pick([s for s in statements if s["basis"] == "close"])
     # The 30-day VWAP only where the filing says 30 days: a one-month or
     # three-month average is another reference and stays in premiumStatements.

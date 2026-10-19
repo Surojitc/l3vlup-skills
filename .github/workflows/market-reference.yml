@@ -1,0 +1,171 @@
+name: Market reference prices (IEX)
+
+# Reads IEX's free historical market data, one trading day at a time, and
+# publishes IEX reference prices: data/market-reference.auto.json (the latest
+# dated price per stock, its quality grade, the 52-week high and low and the
+# inputs behind every trailing figure) and data/market-history/<A-Z>.auto.json
+# (one price a week, for the range chart). See docs/market-reference.md.
+#
+# An IEX reference price is a venue-specific price: the last eligible trade on
+# IEX in the final half hour of the session. It is never the official or
+# consolidated close, and every file says so.
+#
+# CADENCE: A BACKFILL, THEN ONE RUN A DAY
+# ---------------------------------------
+# IEX posts a session's capture the next morning, about 10:20 UTC. The daily
+# run is at 11:40 UTC, Tuesday to Saturday (Monday to Friday's sessions). A
+# second run at 17:40 UTC is the retry for a morning IEX posted late: when the
+# day is already read it reads the index, finds nothing new and stops in about
+# a minute.
+#
+# The backfill (about 252 trading days) runs inside the same schedule: each run
+# reads every day it does not hold yet, newest first, until its 300-minute
+# budget, about thirty days. So the year is complete within five working days
+# of merging, sooner with manual dispatches. A day once read is never
+# downloaded again; a day that fails is retried on the next run, three times
+# at most.
+#
+# WHERE THE DAILY DATABASE LIVES
+# ------------------------------
+# In the GitHub Actions cache, never in a commit: the collector refuses a state
+# path inside the working tree, and the publication contract refuses any path
+# but the reference file and the weekly shards. Each run restores the newest
+# state and saves it again, even when the step fails or runs out of time. An
+# entry unused for seven days is evicted; the next runs then rebuild the year
+# and the published files stay as they were meanwhile.
+#
+# The source is public and free and needs no key, account or secret.
+
+on:
+  schedule:
+    - cron: '40 11 * * 2-6'
+    - cron: '40 17 * * 2-6'
+  workflow_dispatch:
+    inputs:
+      max_days:
+        description: 'Read at most this many trading days (blank: as many as the budget allows)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: market-reference
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    name: Read IEX and publish reference prices
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.stage.outputs.changed }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 20
+
+      - name: Test the reader, the reference prices and the publication contract
+        run: |
+          node scripts/__tests__/market-reference.test.mjs
+          node scripts/__tests__/publication-contracts.test.mjs
+          node scripts/__tests__/workflow-permissions.test.mjs
+
+      - name: Restore the daily database
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ runner.temp }}/market-reference
+          key: market-reference-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: market-reference-state-
+
+      # The step timeout sits inside the job's, and the collector's own budget
+      # inside the step's, so the save below always gets to run.
+      - name: Read the trading days not yet held
+        id: collect
+        timeout-minutes: 330
+        env:
+          MAX_DAYS: ${{ inputs.max_days }}
+        run: |
+          set -euo pipefail
+          extra=()
+          if [ -n "${MAX_DAYS:-}" ]; then extra+=(--max-days "$MAX_DAYS"); fi
+          node scripts/sync-market-reference.mjs \
+            --state "$RUNNER_TEMP/market-reference/state.json.gz" \
+            --budget-minutes 300 \
+            "${extra[@]}"
+
+      # hashFiles() reads only the workspace, and the state lives outside it
+      # on purpose, so whether there is anything to save is asked here.
+      - name: Is there a daily database to save
+        id: held
+        if: always()
+        run: |
+          if [ -s "$RUNNER_TEMP/market-reference/state.json.gz" ]; then echo "state=true" >> "$GITHUB_OUTPUT"; else echo "state=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Save the daily database
+        if: always() && steps.held.outputs.state == 'true'
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ runner.temp }}/market-reference
+          key: market-reference-state-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Stage the published files
+        id: stage
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing changed; there is nothing to publish"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+
+      - name: Check what is about to be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          node scripts/validate-data-publication.mjs \
+            --producer market-reference \
+            --staged "$RUNNER_TEMP/staged.txt"
+
+      - name: Pack what may be published
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+
+      - name: Upload what may be published
+        if: steps.stage.outputs.changed == 'true'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: market-reference-refresh
+          path: ${{ runner.temp }}/handoff
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    name: Publish
+    needs: collect
+    if: needs.collect.outputs.changed == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/publish-data.yml
+    with:
+      producer: market-reference
+      artifact: market-reference-refresh
+      # Open the data pull request and stop. The same two proofs collect.yml
+      # names before its line became `true`: one run whose pull request a
+      # human reads and merges, and a second that updates that pull request
+      # rather than opening another. Then a narrow pull request of its own.
+      merge: false

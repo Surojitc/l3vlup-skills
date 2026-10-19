@@ -302,6 +302,50 @@ export const CONTRACTS = {
   },
 
   /**
+   * market-reference.yml. IEX reference prices: the latest dated price per
+   * stock with its 52-week figures, and one price a week per stock for the
+   * range chart. Never the daily database, which stays in the collector's
+   * cache (docs/market-reference.md).
+   */
+  'market-reference': {
+    label: 'the IEX reference prices',
+    branch: 'automation/market-reference',
+    title: 'chore(data): IEX reference prices',
+    files: [
+      {
+        path: 'data/market-reference.auto.json',
+        // Read every weekday morning, but IEX publishes only trading days, so
+        // the file legitimately stands still from Saturday to Tuesday, and to
+        // Wednesday after a Monday holiday: about a hundred hours.
+        freshness: { cadence: 'daily', required: true, from: 'generatedAt', maxAgeHours: 130 },
+        label: 'the IEX reference prices',
+        keyed: 'symbols',
+        // Several thousand listed stocks and funds trade on IEX every day. A
+        // file with a few hundred is a reader or a capture gone wrong.
+        min: 1000,
+        // The count moves with listings and with names crossing the quality
+        // gate, a few per cent a day. A third gone is not that.
+        minRatio: 0.7,
+        maxRatio: 1.5,
+        stamp: 'generatedAt',
+        maxAgeHours: 130,
+        // A run that read no new day writes nothing.
+        optional: true,
+      },
+      {
+        // One shard per first letter of the symbol.
+        pattern: /^data\/market-history\/[A-Z]\.auto\.json$/,
+        label: 'a letter of the weekly IEX reference-price history',
+        keyed: 'symbols',
+        min: 1,
+        stamp: 'generatedAt',
+        maxAgeHours: 130,
+        optional: true,
+      },
+    ],
+  },
+
+  /**
    * discover-ats.yml. Manual, and it only ever adds: a firm resolves to a
    * board and moves into the registry, where the daily sync polls it. A run
    * that removed entries would silently stop the tracker collecting from
