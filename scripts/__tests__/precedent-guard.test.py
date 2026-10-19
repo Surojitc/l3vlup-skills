@@ -101,6 +101,17 @@ eq("recorded with the old value and the cause", [(r["field"], r["from"], r["to"]
 eq("Snyder's-Lance's mixed-period EBITDA stays withdrawn under financialsReader 2", (rows[LNCE]["ltmEbitda"], rows[LNCE]["revisions"][0]["cause"]), (None, "financialsReader 1 to 2"))
 eq("no figure put back", rep["keptPrior"], [])
 
+# ── the acquirer is guarded under its own reader ───────────────────────────
+rows = fresh()
+for i in (LNCE, ADSW):
+    BASE[i].pop("acquirerReader", None)
+rows[LNCE]["acquirer"] = None                                   # lost, no reader moved
+rows[ADSW].update({"acquirer": None, "acquirerReader": database.ACQUIRER_READER})  # a fragment cleared by the acquirer rule
+rep = guard.protect(BASE, rows)
+eq("a buyer's name lost on a re-read with no reader change is put back", rows[LNCE]["acquirer"], BASE[LNCE]["acquirer"])
+eq("a name the acquirer rule withdraws stays withdrawn, recorded with its cause", (rows[ADSW]["acquirer"], [(r["field"], r["cause"]) for r in rows[ADSW]["revisions"]]), (None, [("acquirer", f"acquirerReader 1 to {database.ACQUIRER_READER}")]))
+eq("finalize stamps the acquirer reader on every row", database.finalize(copy.deepcopy(BASE[JNPR])).get("acquirerReader"), database.ACQUIRER_READER)
+
 # ── a corrected value is a revision ────────────────────────────────────────
 rows = fresh()
 rows[JNPR].update({"premium1Day": 40 / 30.22 - 1, "unaffectedPriceStated": 30.22, "premiumReader": 2})

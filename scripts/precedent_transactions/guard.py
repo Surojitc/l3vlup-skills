@@ -59,10 +59,12 @@ MIN_LOST = 25
 MAX_REVISIONS = 20
 
 #: the figures read from a filing or the company facts, and the reader version that owns each.
-#: The acquirer is not among them: it is a label, not a figure, and its reader
-#: withdraws merger vehicles and fragments ("Wolverine Merger Corporation",
-#: "Inc.") with no version to say so, so guarding it would keep the worse name.
+#: The acquirer is guarded under acquirerReader, which finalize stamps on every
+#: row: a rule that withdraws merger vehicles and sentence fragments ("Inc.",
+#: "Holding") moves that version, so its withdrawals stand and are recorded,
+#: while a re-read that simply loses the buyer's name is put back.
 SOURCED: dict[str, str | None] = {
+    "acquirer": "acquirerReader",
     "offerPrice": None,
     "consideration": None,
     "dealValue": None,
