@@ -1,0 +1,782 @@
+{
+ "rows": [
+  {
+   "id": "0001193125-20-304075",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "TIFFANY & CO",
+    "cik": "0000098246",
+    "sic": "5944",
+    "sicDescription": "Retail-Jewelry Stores",
+    "state": "DE"
+   },
+   "filed": "2020-11-27",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/98246/000119312520304075/0001193125-20-304075-index.htm",
+   "announced": "2019-11-24",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Holding",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of November 24, 2019 (the “original merger agreement”), by and among the Company, Parent, Holding and Merger Sub (the “merger proposal”); • to consider and vote on a proposal to approve, by non-binding, advisory vote, certain compensation arrangements for the Company’s named executive officers in connection with the merger (the “compensation proposal”); and •",
+   "buyers": [],
+   "offerPrice": 131.5,
+   "consideration": "cash",
+   "premium1Day": 0.334,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001193125-20-001590",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "TIFFANY & CO",
+    "cik": "0000098246",
+    "sic": "5944",
+    "sicDescription": "Retail-Jewelry Stores",
+    "state": "DE"
+   },
+   "filed": "2020-01-06",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/98246/000119312520001590/0001193125-20-001590-index.htm",
+   "announced": "2019-11-24",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "LVMH Moët Hennessy-Louis Vuitton SE",
+   "acquirerBasis": "AGREEMENT AND PLAN OF MERGER (this “ Agreement ”), dated as of November 24, 2019, is entered into by and among Tiffany & Co., a Delaware corporation (the “ Company ”), LVMH Moët Hennessy-Louis Vuitton SE, a societas Europaea (European company) organized under the laws of France (“ Parent ”), Breakfast Holdings Acquisition Corp., a Delaware corporation and a Wholly Owned Subsidiary of Parent (“ Hol",
+   "buyers": [],
+   "offerPrice": 135.0,
+   "consideration": "cash",
+   "premium1Day": 0.37,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001104659-18-073350",
+   "status": "ok",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "target": {
+    "name": "TransMontaigne Partners LLC",
+    "cik": "0001319229",
+    "sic": "4610",
+    "sicDescription": "Pipe Lines (No Natural Gas)",
+    "state": "DE"
+   },
+   "filed": "2018-12-17",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1319229/000110465918073350/0001104659-18-073350-index.htm",
+   "announced": "2018-11-25",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "TLP Holdings",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of November 25, 2018 (the “Merger Agreement”), by and among the Partnership, the General Partner, Parent, Merger Sub, TLP Holdings and, solely for the purposes of Section 6.19 thereof, Equity Holdings.",
+   "buyers": null,
+   "offerPrice": 41.0,
+   "consideration": "cash",
+   "premium1Day": 0.126,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001047469-19-000232",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "TransMontaigne Partners LLC",
+    "cik": "0001319229",
+    "sic": "4610",
+    "sicDescription": "Pipe Lines (No Natural Gas)",
+    "state": "DE"
+   },
+   "filed": "2019-01-25",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1319229/000104746919000232/0001047469-19-000232-index.htm",
+   "announced": "2018-11-25",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "TransMontaigne GP L.L.C.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of November 25, 2018 (the \"Merger Agreement\"), by and among TransMontaigne Partners L.P. (the \"Partnership\"), TransMontaigne GP L.L.C., the general partner of the Partnership (the \"General Partner\"), TLP Finance Holdings, LLC (\"Parent\"), TLP Merger Sub, LLC (\"Merger Sub\"), TLP Acquisition Holdings, LLC (\"TLP Holdings\") and, solely for the purposes of Section ",
+   "buyers": [],
+   "offerPrice": 41.0,
+   "consideration": "cash",
+   "premium1Day": 0.126,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001213900-18-017745",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "MEDLEY MANAGEMENT INC.",
+    "cik": "0001611110",
+    "sic": "6282",
+    "sicDescription": "Investment Advice",
+    "state": "DE"
+   },
+   "filed": "2018-12-21",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1611110/000121390018017745/0001213900-18-017745-index.htm",
+   "announced": "2018-08-09",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Medley Capital Corporation",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 9, 2018, by and between Medley Capital Corporation and Sierra Income Corporation A-1 Appendix B — Agreement and Plan of Merger, dated as of August 9, 2018, by and among Medley Management Inc., Sierra Income Corporation and Sierra Management, Inc. B-1 Appendix C — Opinion of Broadhaven Capital Partners C-1 Appendix D — Opinion of Sandler O’Neill & Pa",
+   "buyers": [],
+   "offerPrice": 3.75,
+   "consideration": "cash and stock",
+   "premium1Day": 1.0,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001213900-18-014996",
+   "status": "ok",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "target": {
+    "name": "MEDLEY MANAGEMENT INC.",
+    "cik": "0001611110",
+    "sic": "6282",
+    "sicDescription": "Investment Advice",
+    "state": "DE"
+   },
+   "filed": "2018-11-07",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1611110/000121390018014996/0001213900-18-014996-index.htm",
+   "announced": "2018-08-09",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Sierra Income Corporation",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 9, 2018, by and among Medley Management Inc., Sierra Income Corporation and Sierra Management, Inc. (b)—(c) Significant Corporate Events; Negotiations or Contacts .",
+   "buyers": null,
+   "offerPrice": 3.75,
+   "consideration": "cash and stock",
+   "premium1Day": 1.0,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001047469-17-005721",
+   "status": "ok",
+   "source": "DEFM14C",
+   "dealType": "public merger",
+   "target": {
+    "name": "Neff Corp",
+    "cik": "0001617667",
+    "sic": "7359",
+    "sicDescription": "Services-Equipment Rental & Leasing, NEC",
+    "state": "DE"
+   },
+   "filed": "2017-09-11",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1617667/000104746917005721/0001047469-17-005721-index.htm",
+   "announced": "2017-07-14",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "United Rentals, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 16, 2017 (the \"Merger Agreement\"), by and among United Rentals (North America), Inc., a Delaware corporation (\"Parent\"), UR Merger Sub III Corporation, a wholly owned subsidiary of Parent (\"Merger Sub\"), and Neff Corporation, a Delaware corporation (the \"Company\", \"we,\" \"us,\" and \"our\"), and for a more complete description of the legal terms of the ",
+   "buyers": [],
+   "offerPrice": 25.0,
+   "consideration": "cash",
+   "premium1Day": null,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001047469-17-005035",
+   "status": "ok",
+   "source": "DEFM14C",
+   "dealType": "public merger",
+   "target": {
+    "name": "Neff Corp",
+    "cik": "0001617667",
+    "sic": "7359",
+    "sicDescription": "Services-Equipment Rental & Leasing, NEC",
+    "state": "DE"
+   },
+   "filed": "2017-08-07",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1617667/000104746917005035/0001047469-17-005035-index.htm",
+   "announced": "2017-07-14",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "H&E Equipment Services, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of July 14, 2017 (the \"Merger Agreement\"), by and among H&E Equipment Services, Inc., a Delaware corporation (\"Parent\"), Yellow Iron Merger Co., a direct and wholly owned subsidiary of Parent (\"Merger Sub\"), and Neff Corporation, a Delaware corporation (the \"Company\", \"we,\" \"us,\" and \"our\"), and for a more complete description of the legal terms of the Merger",
+   "buyers": [],
+   "offerPrice": 21.07,
+   "consideration": "cash",
+   "premium1Day": null,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001104659-16-108058",
+   "status": "ok",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "target": {
+    "name": "Rouse Properties, LLC",
+    "cik": "0001528558",
+    "sic": "6500",
+    "sicDescription": "Real Estate",
+    "state": ""
+   },
+   "filed": "2016-03-29",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1528558/000110465916108058/0001104659-16-108058-index.htm",
+   "announced": "2016-02-25",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of February 25, 2016, by and among the Rouse Properties, Inc., BSREP II Retail Pooling LLC, a Delaware limited liability company, BSREP II Retail Holdings Corp., a Delaware corporation and a wholly owned subsidiary of Parent and, solely for the purposes stated therein, Brookfield Strategic Real Estate Partners II-A L.P., a Delaware limited partnership, Brookf",
+   "buyers": null,
+   "offerPrice": 18.25,
+   "consideration": "cash",
+   "premium1Day": 0.35,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001047469-16-013438",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Rouse Properties, LLC",
+    "cik": "0001528558",
+    "sic": "6500",
+    "sicDescription": "Real Estate",
+    "state": ""
+   },
+   "filed": "2016-05-26",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1528558/000104746916013438/0001047469-16-013438-index.htm",
+   "announced": "2016-02-25",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "BSREP II Retail Pooling LLC",
+   "acquirerBasis": "Agreement and Plan of Merger by and among BSREP II Retail Pooling LLC, BSREP II Retail Holdings Corp., Rouse Properties, Inc. (the \" Company \") and the Guarantors listed therein, each solely for the purposes of Section 9.14 and the other provisions of Article IX of the Merger Agreement, dated as of the date hereof (the \" Merger Agreement \").",
+   "buyers": [],
+   "offerPrice": 18.25,
+   "consideration": "cash",
+   "premium1Day": 0.35,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001193125-16-599101",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Northern Tier Energy LP",
+    "cik": "0001533454",
+    "sic": "2911",
+    "sicDescription": "Petroleum Refining",
+    "state": "DE"
+   },
+   "filed": "2016-05-23",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1533454/000119312516599101/0001193125-16-599101-index.htm",
+   "announced": "2015-12-21",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Western Refining, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger dated as of December 21, 2015, by and among NTI, Northern Tier Energy GP LLC (“NTI GP”), an indirect wholly-owned subsidiary of WNR and the general partner of NTI, Western Refining, Inc. (“WNR”), and Western Acquisition Co, LLC (“MergerCo”), an indirect wholly-owned subsidiary of WNR, as it may be amended from time to time (the “Merger Agreement”), and the transactions",
+   "buyers": [],
+   "offerPrice": 15.0,
+   "consideration": "cash and stock",
+   "premium1Day": 0.086,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001193125-16-432514",
+   "status": "ok",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "target": {
+    "name": "Northern Tier Energy LP",
+    "cik": "0001533454",
+    "sic": "2911",
+    "sicDescription": "Petroleum Refining",
+    "state": "DE"
+   },
+   "filed": "2016-01-19",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1533454/000119312516432514/0001193125-16-432514-index.htm",
+   "announced": "2015-12-21",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Nti GP",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of December 21, 2015, by and among NTI, WNR, MergerCo and NTI GP (the “Merger Agreement”).",
+   "buyers": null,
+   "offerPrice": 15.0,
+   "consideration": "cash and stock",
+   "premium1Day": 0.086,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001104659-15-081616",
+   "status": "ok",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "target": {
+    "name": "RealD Inc.",
+    "cik": "0001327471",
+    "sic": "3663",
+    "sicDescription": "Radio & Tv Broadcasting & Communications Equipment",
+    "state": "DE"
+   },
+   "filed": "2015-11-27",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1327471/000110465915081616/0001104659-15-081616-index.htm",
+   "announced": "2015-11-08",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "ReadD Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, by and among ReadD Inc., Rhombus Cinema Holdings, LLC and Rhombus Merger Sub, Inc., dated as of November 8, 2015 (incorporated herein by reference to Annex A of the Schedule 14A filed concurrently with the Securities and Exchange Commission).",
+   "buyers": null,
+   "offerPrice": 11.0,
+   "consideration": "cash",
+   "premium1Day": 0.19,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001047469-16-009708",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "RealD Inc.",
+    "cik": "0001327471",
+    "sic": "3663",
+    "sicDescription": "Radio & Tv Broadcasting & Communications Equipment",
+    "state": "DE"
+   },
+   "filed": "2016-01-15",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1327471/000104746916009708/0001047469-16-009708-index.htm",
+   "announced": "2015-11-08",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Rhombus Cinema Holdings, LLC",
+   "acquirerBasis": "Agreement and Plan of Merger, as it may be amended from time to time, which we refer to as the merger agreement, dated as of November 8, 2015, by and among the Company, Rhombus Cinema Holdings, LLC, a Delaware limited liability company, which we refer to as Purchaser, and Rhombus Merger Sub Inc., a Delaware corporation and indirect wholly owned subsidiary of Purchaser, which we refer to as Merger ",
+   "buyers": [],
+   "offerPrice": 11.0,
+   "consideration": "cash",
+   "premium1Day": 0.19,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001193125-13-435525",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "PAGEFLEX INC.",
+    "cik": "0001534463",
+    "sic": "7372",
+    "sicDescription": "Services-Prepackaged Software",
+    "state": "DE"
+   },
+   "filed": "2013-11-08",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1534463/000119312513435525/0001193125-13-435525-index.htm",
+   "announced": "2013-08-20",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Marlborough Software Development Holdings, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger (the “Merger Agreement”), dated August 20, 2013, by and among Marlborough Software Development Holdings, Inc. (“MSDH”, the “Company” or “we,” “us,” “our” and similar terms) and Pageflex Acquisitions, Inc. (“Merger SPV”) and the merger contemplated thereby (the “Merger”).",
+   "buyers": [],
+   "offerPrice": 0.091,
+   "consideration": "cash",
+   "premium1Day": 2.03,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001193125-13-366729",
+   "status": "ok",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "target": {
+    "name": "PAGEFLEX INC.",
+    "cik": "0001534463",
+    "sic": "7372",
+    "sicDescription": "Services-Prepackaged Software",
+    "state": "DE"
+   },
+   "filed": "2013-09-13",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1534463/000119312513366729/0001193125-13-366729-index.htm",
+   "announced": "2013-08-20",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Merger SPV.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 20, 2013 (the “Merger Agreement”), by and between MSDH and Merger SPV.",
+   "buyers": null,
+   "offerPrice": 0.091,
+   "consideration": "cash",
+   "premium1Day": 2.03,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001104659-13-043616",
+   "status": "ok",
+   "source": "SC 13E3",
+   "dealType": "take-private",
+   "target": {
+    "name": "MEMSIC Inc",
+    "cik": "0001386198",
+    "sic": "3674",
+    "sicDescription": "Semiconductors & Related Devices",
+    "state": ""
+   },
+   "filed": "2013-05-21",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1386198/000110465913043616/0001104659-13-043616-index.htm",
+   "announced": "2013-04-22",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger dated as of April 22, 2013, by and among Parent, Merger Sub and MEMSIC, Inc. (attached as Annex A to the Proxy Statement and incorporated herein by reference).",
+   "buyers": null,
+   "offerPrice": 4.225,
+   "consideration": "cash",
+   "premium1Day": 1.43,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001047469-13-008127",
+   "status": "ok",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "MEMSIC Inc",
+    "cik": "0001386198",
+    "sic": "3674",
+    "sicDescription": "Semiconductors & Related Devices",
+    "state": ""
+   },
+   "filed": "2013-08-06",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1386198/000104746913008127/0001047469-13-008127-index.htm",
+   "announced": "2013-04-22",
+   "announcedBasis": "merger agreement",
+   "announcedOriginal": null,
+   "acquirer": "MZ Investment Holdings Limited",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of April 22, 2013, by and among MEMSIC, Inc. (hereinafter referred to as the \"Company\"), MZ Investment Holdings Limited (\"Parent\") and MZ Investment Holdings Merger Sub Limited, a Delaware corporation wholly owned by Parent (\"Merger Sub\"), Merger Sub will merge with and into the Company (the \"merger\"), with the Company surviving the merger as a wholly owned s",
+   "buyers": [],
+   "offerPrice": 4.225,
+   "consideration": "cash",
+   "premium1Day": 1.43,
+   "premiumStatements": null
+  },
+  {
+   "id": "0001140361-21-037900",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Arriver Holdco, Inc.",
+    "cik": "0001733186",
+    "sic": "3714",
+    "sicDescription": "Motor Vehicle Parts & Accessories",
+    "state": ""
+   },
+   "sector": "Industrials",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2021-11-15",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/0001140361-21-037900-index.htm",
+   "announced": "2021-07-22",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 37.0,
+   "offerBasis": "$37.00 in cash",
+   "consideration": "cash",
+   "acquirer": "QUALCOMM Incorporated",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of October 4, 2021 (the “ Merger Agreement ”), by and among QUALCOMM Incorporated (“ Qualcomm ”), SSW HoldCo LP (“ SSW ” and, together with Qualcomm, the “ Acquiring Parties ”), SSW Merger Sub Corp, a direct, wholly owned subsidiary of SSW (“ Merger Sub ”), and Veoneer.",
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm",
+   "statedShares": 111.998,
+   "statedSharesBasis": "111,997,942 shares of Veoneer Common Stock outstanding",
+   "sharesOut": 111.959,
+   "ltmRevenue": 1643.0,
+   "ltmEbitda": -263.0,
+   "netDebt": -377.0,
+   "ltmPeriodEnd": "2021-06-30",
+   "balanceSheetDate": "2021-06-30",
+   "ebitdaBasis": "FY2020 + Q2 2021 YTD − prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2021-07-16",
+    "form": "10-Q",
+    "accession": "0001733186-21-000096"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2021",
+    "10-K for FY2020"
+   ],
+   "flags": [],
+   "spacEvidence": {
+    "trustAccount": 0,
+    "initialBusinessCombination": 0,
+    "blankCheck": 0,
+    "specialPurpose": 0
+   },
+   "spacRule": 2,
+   "premium1Day": 0.856,
+   "premiumBasis": [
+    "approximately 85.6% over the closing stock price on July 22, 2021, the last trading day prior to the announcement of Magna Merger Agreement"
+   ],
+   "unaffectedPriceStated": null,
+   "unaffectedDate": "2021-07-22",
+   "unaffectedPriceBasis": null,
+   "premiumPreAnnouncement": 0.856,
+   "premiumPreAnnouncementDate": "2021-07-22",
+   "premiumStatements": [
+    {
+     "basis": "close",
+     "window": null,
+     "premium": 0.856,
+     "price": null,
+     "date": "2021-07-22",
+     "unaffected": true,
+     "proposal": false,
+     "namesOffer": false,
+     "excerpt": "approximately 85.6% over the closing stock price on July 22, 2021, the last trading day prior to the announcement of Magna Merger Agreement",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "basis": "vwap",
+     "window": "1-month",
+     "premium": 0.732,
+     "price": null,
+     "date": "2021-07-22",
+     "unaffected": true,
+     "proposal": false,
+     "namesOffer": false,
+     "excerpt": "approximately 73.2% over the volume weighted average stock price of shares of Veoneer Common Stock during the one-month period ended July 22, 2021, the last trading day prior to the announcement of Magna Merger Agreement",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    }
+   ],
+   "premiumsSetAside": [
+    {
+     "reason": "a bound, not a premium",
+     "excerpt": "transaction (the “ March 2021 Proposal ”), which represented a premium of up to 20% to Veoneer’s closing share price on March 22, 2021. Later that same day, Mr. Kotagiri contacted Mr. Carlson to reite",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "reason": "a range",
+     "excerpt": "transaction (the “ April 2021 Proposal ”), which represented a premium between 13% and 21% to Veoneer’s closing share price on April 9, 2021. The April 2021 Proposal set forth certain key assumptions",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "reason": "a range",
+     "excerpt": "tion (the “ April 2021 Proposal ”), which represented a premium between 13% and 21% to Veoneer’s closing share price on April 9, 2021. The April 2021 Proposal set forth certain key assumptions underly",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "reason": "a range",
+     "excerpt": "transaction (the “ May 2021 Proposal ”), which represented a premium of between 30% and 38% to Veoneer’s closing share price on May 6. Later that same day, Mr. Carlson and Mr. Kotagiri had a telephoni",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "reason": "a range",
+     "excerpt": "ion (the “ May 2021 Proposal ”), which represented a premium of between 30% and 38% to Veoneer’s closing share price on May 6. Later that same day, Mr. Carlson and Mr. Kotagiri had a telephonic discus",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "reason": "names a per-share price other than the one agreed",
+     "excerpt": "f Veoneer’s outstanding equity for $31.25 per share in an all-cash transaction (the “ June 2021 Proposal ”), which represented a premium of 29% to Veoneer’s closing share price on June 14",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "reason": "a financial adviser's analysis",
+     "excerpt": "iums noted above and Rothschild & Co’s professional judgment, Rothschild & Co applied an illustrative range of premiums of fifteen percent (15%) to sixty five percent (65%) to the closing price per share of Veoneer Common Stock on July 22, 2021, the resulting range of implied prices was $23.00 to $33.00 per share of Ve",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    },
+    {
+     "reason": "a financial adviser's analysis",
+     "excerpt": "ild & Co’s professional judgment, Rothschild & Co applied an illustrative range of premiums of fifteen percent (15%) to sixty five percent (65%) to the closing price per share of Veoneer Common Stock on July 22, 2021, the resulting range of implied prices was $23.00 to $33.00 per share of Veoneer Common Stock. 71 TABLE",
+     "document": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/ny20000913x7_defm14a.htm"
+    }
+   ],
+   "premiumReader": 2,
+   "ltmEbit": null,
+   "ltmRevenueEnd": "2021-06-30",
+   "ltmEbitdaEnd": "2021-06-30",
+   "revenueTag": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+   "ltmImpairment": null,
+   "impairmentTag": null,
+   "financialsReader": 2,
+   "dealId": "0001733186:2021-07-22",
+   "readings": [
+    {
+     "id": "0001140361-21-030719",
+     "form": "DEFM14A",
+     "filed": "2021-09-09",
+     "url": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121030719/0001140361-21-030719-index.htm",
+     "status": "ok",
+     "offerPrice": 31.25
+    },
+    {
+     "id": "0001140361-21-037900",
+     "form": "DEFM14A",
+     "filed": "2021-11-15",
+     "url": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121037900/0001140361-21-037900-index.htm",
+     "status": "ok",
+     "offerPrice": 37.0
+    }
+   ],
+   "offerHistory": [
+    {
+     "filed": "2021-09-09",
+     "offerPrice": 31.25
+    },
+    {
+     "filed": "2021-11-15",
+     "offerPrice": 37.0
+    }
+   ],
+   "unaffectedGapDays": 0,
+   "unaffectedPrice": 19.94,
+   "unaffectedPriceMethod": "computed from the offer and the stated premium",
+   "equityValue": 4142.5,
+   "ev": 3765.5,
+   "evLtmRev": 2.29,
+   "doubt": []
+  },
+  {
+   "id": "0001140361-21-030719",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Arriver Holdco, Inc.",
+    "cik": "0001733186",
+    "sic": "3714",
+    "sicDescription": "Motor Vehicle Parts & Accessories",
+    "state": ""
+   },
+   "sector": "Industrials",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2021-09-09",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121030719/0001140361-21-030719-index.htm",
+   "announced": "2021-07-22",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 31.25,
+   "offerBasis": "$31.25 in cash",
+   "consideration": "cash",
+   "acquirer": "Magna International Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of July 22, 2021 (the “ Merger Agreement ”), by and among Magna International Inc. (“ Parent ”), 2486345 Delaware Corporation, an indirect, wholly owned subsidiary of Parent (“ Acquisition Sub ”), and Veoneer.",
+   "premium1Day": 0.29,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "per share in an all-cash transaction (the “ June 2021 Proposal ”), which represented a premium of 29% to Veoneer’s closing share price on June 14"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1733186/000114036121030719/ny20000085x12_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "duplicate",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1733186/000114036121030719/ny20000085x12_defm14a.htm",
+   "statedShares": 111.976,
+   "statedSharesBasis": "111,976,075 shares of Veoneer Common Stock outstanding",
+   "sharesOut": 111.959,
+   "ltmRevenue": 1643.0,
+   "ltmEbitda": -263.0,
+   "netDebt": -377.0,
+   "ltmPeriodEnd": "2021-06-30",
+   "balanceSheetDate": "2021-06-30",
+   "ebitdaBasis": "FY2020 + Q2 2021 YTD − prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2021-07-16",
+    "form": "10-Q",
+    "accession": "0001733186-21-000096"
+   },
+   "formsUsed": [
+    "10-Q for Q2 2021",
+    "10-K for FY2020"
+   ],
+   "flags": [],
+   "readStatus": "ok",
+   "duplicateOf": "0001140361-21-037900",
+   "dealId": "0001733186:2021-07-22",
+   "doubt": []
+  },
+  {
+   "id": "0001140361-26-037574",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Senti Biosciences Holdings, Inc.",
+    "cik": "0001854270",
+    "sic": "2836",
+    "sicDescription": "Biological Products, (No Diagnostic Substances)",
+    "state": "DE"
+   },
+   "sector": "Healthcare",
+   "buyers": [],
+   "buyerType": "Financial sponsor",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2026-09-24",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1854270/000114036126037574/0001140361-26-037574-index.htm",
+   "announced": "2026-07-14",
+   "announcedBasis": "merger agreement",
+   "offerPrice": null,
+   "offerBasis": null,
+   "consideration": "cash",
+   "acquirer": "Celadon Partners SPV 35 Limited",
+   "acquirerBasis": "AGREEMENT AND PLAN OF MERGER, dated as of July 14, 2026 (this “ Agreement ” and, such date, the “ Agreement Date ”), by and among Celadon Partners SPV 35 Limited, an exempted company incorporated under the laws of the Cayman Islands (“ Parent ”), Senti Merger Sub, Inc., a Delaware corporation (“ Merger Sub ”), Senti Biosciences Holdings, Inc., a Delaware corporation (the “ Company ”), Senti Holdin",
+   "premium1Day": null,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1854270/000114036126037574/ny20078262x6_defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "no-offer",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1854270/000114036126037574/ny20078262x6_defm14a.htm",
+   "statedShares": 31.145,
+   "statedSharesBasis": "31,145,390 shares of our common stock outstanding",
+   "flags": [],
+   "spacEvidence": {
+    "trustAccount": 0,
+    "initialBusinessCombination": 1,
+    "blankCheck": 0,
+    "specialPurpose": 0
+   },
+   "spacRule": 2,
+   "unaffectedPriceStated": null,
+   "unaffectedDate": null,
+   "unaffectedPriceBasis": null,
+   "premiumPreAnnouncement": null,
+   "premiumPreAnnouncementDate": null,
+   "premiumStatements": [],
+   "premiumsSetAside": [],
+   "premiumReader": 2,
+   "dealId": "0001854270:2026-07-14",
+   "doubt": []
+  }
+ ],
+ "covers": [
+  {
+   "name": "Direct Digital",
+   "id": "0001104659-23-100844",
+   "url": "https://www.sec.gov/Archives/edgar/data/1880613/000110465923100844/tm2324977-3_sctoia.htm",
+   "text": " \n SC TO-I/A\n 1\n tm2324977-3_sctoia.htm\n SC TO-I/A\n tm2324977-3_sctoia - none - 2.0468777s \n As filed with the Securities and Exchange Commission on September 14, 2023 \n UNITED STATES \n SECURITIES AND EXCHANGE COMMISSION \n Washington, D.C. 20549 \n SCHEDULE TO \n Tender Offer Statement under Section 14(d)(1) or 13(e)(1) \n of the Securities Exchange Act of 1934 \n (Amendment No. 1) \n DIRECT DIGITAL HOLDINGS, INC. \n (Name of Subject Company (Issuer)) \n DIRECT DIGITAL HOLDINGS, INC. (Offeror) \n (Names of Filing Persons (Identifying Status as Offeror, Issuer or Other Person)) \n Warrants exercisable for Class A Common Stock at an exercise price of $5.50 per share \n (Title of Class of Securities) \n 25461T113 \n (CUSIP Number of Class of Securities) \n Mark Walker \n Chief Executive Officer \n Direct Digital Holdings, Inc. \n 1177 West Loop S, \n Suite 1310 \n Houston, TX 77027 \n (832) 402-1051 \n (Name, Address, and Telephone Numbers of Person Authorized to Receive Notices and Communications on Behalf of Filing Persons) \n With copies to: \n Stephen E. Older, Esq. \n Andrew J. Terjesen, Esq. \n McGuireWoods LLP \n 1251 Avenue of the Americas 20 th Floor \n New York, NY 10020 \n Tel: (212) 548-2100 \n Check the box if the filing relates solely to preliminary communications before the commencement of a tender offer. ☐ \n Check the appropriate boxes below to designate any transactions to which the statement relates: \n ☐ \n third-party tender offer subject to Rule 14d-1. \n ☒ \n issuer tender offer subject to Rule 13e-4. \n ☒ \n going-private transaction subject to Rule 13e-3. \n ☐ \n amendment to Schedule 13D under Rule 13d-2. \n Check the following box if the filing is a final amendment reporting the results of the tender offer: ☐ \n If applicable, check the appropriate box(es) below to designate the appropriate rule provision relied upon: \n ☐ \n Rule 13e-4(i) (Cross-Border Issuer Tender Offer) \n ☐ \n Rule 14d-1(d) (Cross-Border Third-Party Tender Offer) \n SCHEDULE TO \n This Amendment No. 1 to the Tender Offer Statement on Schedule TO (“Schedule TO”) originally filed by Direct Digital Holdings, Inc., a Delaware corporation (“Direct Digital” or the “Company”), relates to the tender offer by the Company to purchase for cash any and all of its outstanding Warrants (as defined in Item 2 below) at a price of $1.20 per Warrant, without interest (the “Offer Purchase Price”). The Company’s offer is being made upon the terms and subject to the conditions set forth in the Offer to Purchase and Consent Solicitation dated August 29, 2023 (as amended or supplemented from time to time, the “Offer to Purchase”), a copy of which is attached to this Schedule TO as Exhibit (a)(1)(A), and in the related Letter of Transmittal and Consent (as amended and supplemented from time to time, the “Letter of Transmittal and Consent”), which is incorporated by reference into this Schedule TO as Exhibit (a)(1)(B) (which together, as amended or supplemented from time to time, constitute the “Offer”). \n Concurrently with the Offer, the Company is also soliciting consents from holders of its outstanding Warrants to amend (the “Warrant Amendment”) the Warrant Agreement, dated as of February 15, 2022, by and between the Company and Equiniti Trust Company, LLC (formerly American Stock Transfer & Trust Company, LLC) (the “Warrant Agreement”), which governs all of the Company’s Warrants, to permit the Company to redeem each outstanding Warrant for $0.35 in cash, without interest (the “Redemption Price”), which Re"
+  },
+  {
+   "name": "Kimco",
+   "id": "0001140361-24-045053",
+   "url": "https://www.sec.gov/Archives/edgar/data/879101/000114036124045053/ny20034130x12_sctoi.htm",
+   "text": " \n SC TO-I\n 1\n ny20034130x12_sctoi.htm\n FORM SC TO-I\n SECURITIES AND EXCHANGE COMMISSION \n Washington, D.C. 20549 \n SCHEDULE TO \n TENDER OFFER STATEMENT UNDER SECTION 14(d)(1) OR 13(e)(1) OF \n THE SECURITIES EXCHANGE ACT OF 1934 \n KIMCO REALTY CORPORATION \n (Name of Subject Company (Issuer)) \n KIMCO REALTY CORPORATION \n AS ISSUER \n (Name of Filing Persons (Identifying status as offeror, issuer, or other person)) \n Depositary Shares each representing 1/1,000 of a Share of 7.25% Class N \n Cumulative Convertible Perpetual Preferred Stock \n (Title of Class of Securities) \n 49446R 687 \n (CUSIP Number of Class of Securities) \n Glenn G. Cohen \n Chief Financial Officer \n 500 North Broadway, Suite 201 \n Jericho, New York 11753 \n Telephone: (516) 869-9000 \n (Name, address and telephone number of person authorized to receive notices and communications on behalf of filing person)\n Copies to: \n Joel H. Trotter \n Julia A. Thompson \n R. Charles Cassidy III \n Latham & Watkins LLP \n 555 Eleventh Street, NW Suite 1000 \n Washington, D.C. 20004 \n (202) 637-2200 \n Edward F. Petrosky \n Bartholomew A. Sheehan, III \n Robert Mandell \n Sidley Austin LLP \n 787 Seventh Avenue \n New York, New York 10019 \n (212) 839-5900 \n   ☐ \n Check the box if filing relates solely to preliminary communications made before the commencement of a tender offer. \n Check the appropriate boxes below to designate any transactions to which the statement relates: \n   ☐ \n third-party tender offer subject to Rule 14d-1. \n ☒\n issuer tender offer subject to Rule 13e-4. \n ☒\n going-private transaction subject to Rule 13e-3. \n   ☐ \n amendment to Schedule 13D under Rule 13d-2. \n Check the following box if the filing is a final amendment reporting the results of the tender offer:   ☐\n If applicable, check the appropriate box(es) below to designate the appropriate rule provision(s) relied upon: \n   ☐ \n Rule 13e-4(i) (Cross-Border Issuer Tender Offer) \n   ☐ \n Rule 14d-1(d) (Cross-Border Third-Party Tender Offer) \n This Tender Offer Statement on Schedule TO (this “ Schedule TO ”) is being filed by Kimco Realty Corporation, a Maryland corporation (the “ Company ”), and relates to an offer by the Company to purchase for cash all of its outstanding depositary shares each representing 1/1,000 of a share of 7.25% Class N Cumulative Convertible Perpetual Preferred Stock, par value $1.00 per share, of the Company, upon the terms and subject to the conditions set forth in the Offer to Purchase and Consent Solicitation, dated November 4, 2024 (as it may be amended or supplemented from time to time, the “ Offer to Purchase and Consent Solicitation ”) and in the accompanying letter of transmittal and consent (as it may be amended or supplemented from time to time, the “ Letter of Transmittal and Consent ,” and, together with the Offer to Purchase and Consent Solicitation, the “ Offer ”), at a price per Security (as defined below) of $62.00, plus any accrued and unpaid dividends. The Company has declared a quarterly dividend on the Class N Preferred Stock (the “Declared Dividend”) to be paid on January 15, 2025 (the “Dividend Payment Date”) to shareholders of record on January 2, 2025 (the “Dividend Record Date”). Holders of Securities (as defined below) who validly tender their Securities (and whose Securities are accepted for purchase by the Company) in the Offer will receive accrued and unpaid dividends, if any, for the period from and including the last dividend payment date, to, but not including, the Settle"
+  },
+  {
+   "name": "NET Servicos",
+   "id": "0001193125-13-435489",
+   "url": "https://www.sec.gov/Archives/edgar/data/1024446/000119312513435489/d622312dsctota.htm",
+   "text": " \n SC TO-T/A\n 1\n d622312dsctota.htm\n AMENDMENT NO. 4\n Amendment No. 4 \n UNITED STATES \n SECURITIES AND EXCHANGE COMMISSION \n Washington, D.C. 20549 \n Schedule TO\n (Amendment No. 4) \n TENDER OFFER STATEMENT UNDER SECTION 14(D)(1) OR 13(E)(1) \n OF THE\nSECURITIES EXCHANGE ACT OF 1934 \n NET SERVIÇOS DE COMUNICAÇÃO S.A. \n (Name of Subject Company) \n EMPRESA\nBRASILEIRA DE TELECOMUNICAÇÕES S.A. – EMBRATEL \n EMBRATEL PARTICIPAÇÕES S.A.\n (Offerors) \n (Name of Filing Persons) \n Preferred\nShares, no par value, and \n American Depositary Shares, each representing one Preferred Share \n (Title of Class of Securities) \n N/A (Preferred Shares) \n 64109T201 (American Depositary Shares)\n (CUSIP Number of Class of Securities) \n Isaac Berensztejn \n Chief Financial Officer \n Empresa Brasileira de Telecomunicações S.A. – Embratel \n Av. Presidente Vargas, n° 1012 \n 20071-002 Rio de Janeiro, RJ, Brazil \n Telephone: (55) 21\n2121-3636 \n with copies to \n Nicolas Grabar, Esq. \n Neil Whoriskey, Esq. \n Cleary Gottlieb Steen & Hamilton LLP \n One Liberty Plaza \n New York, NY 10006 \n Telephone: (212) 225-2000 \n (Name, Addresses and Telephone Numbers of Persons Authorized to Receive Notices and Communications on Behalf of Filing Persons) \n CALCULATION OF FILING FEE \n Transaction Valuation (1) \n Amount of Filing Fee (2 ) \n $72,329,522.68 \n $8,302.90 \n (1) \n Estimated for purposes of calculating the filing fee pursuant to Rule 0-11(d) only. The Transaction Valuation was calculated assuming the purchase of all\noutstanding Preferred Shares, no par value (including Preferred Shares represented by American Depositary Shares), other than shares owned directly or indirectly by the Filing Persons at a purchase price of R$29.02 in cash per Preferred Share. As of\nAugust 19, 2013, there were 228,503,916 Preferred Shares outstanding (including Preferred Shares represented by American Depositary Shares), of which 223,080,448 are owned directly or indirectly by the Filing Persons. As a result, this\ncalculation assumes the purchase of 5,423,468 outstanding Preferred Shares. The Transaction Valuation was calculated in Brazilian reais (R$) and converted into U.S. dollars at the exchange rate in effect on October 11, 2013 of\nU.S.$1 = R$2.176, as reported by Bloomberg L.P. \n (2) \n The total filing fee of $8,302.90 was calculated in accordance with Rule 0-11 under the Securities Exchange Act of 1934, as amended, and is the sum of\n(i) $8,176.57 (paid on August 13, 2012), which is the product of $71,348,734.58 (the transaction value calculated at the exchange rate in effect on August 8, 2012 of U.S.$1 = R$2.025, as reported by Bloomberg L.P.) and 0.0001146 (the\nFee Rate then in effect based on Fee Rate Advisory #3 for fiscal year 2012, issued September 29, 2011), and (ii) $126.33 (paid on October 17, 2013), which is the product of $980,788.10 (the difference between the previous transaction\nvalue of $71,348,734.58 and the current Transaction Value of $72,329,522.68) and 0.0001288 (the Fee Rate currently in effect based on Fee Rate Advisory #1 for fiscal year 2014, issued on August 30, 2013). \n x \n Check box if any part of the fee is offset as provided by Rule 0-11(a)(2) and identify the filing with which the offsetting fee was previously paid. Identify the\nprevious filing by registration statement number, or the form or schedule and the date of its filing. \n Amount Previously Paid: $8,302.90 \n Filing Parties: Empresa Brasileira de Telecomunicações S.A. – Embratel\nand\n Embratel Participações S.A"
+  },
+  {
+   "name": "TransMontaigne",
+   "id": "0001104659-18-073350",
+   "url": "https://www.sec.gov/Archives/edgar/data/1319229/000110465918073350/a18-41365_1sc13e3.htm",
+   "text": " \n SC 13E3\n 1\n a18-41365_1sc13e3.htm\n SC 13E3\n SECURITIES AND EXCHANGE COMMISSION \n WASHINGTON, D.C. 20549 \n SCHEDULE 13E-3 \n RULE 13E-3 TRANSACTION STATEMENT \n UNDER SECTION 13(E) OF \n THE SECURITIES EXCHANGE ACT OF 1934 \n TRANSMONTAIGNE PARTNERS L.P. \n (Name of the Issuer) \n TransMontaigne Partners L.P. \n ArcLight Energy Partners Fund VI, L.P. \n Pike Petroleum Fund VI Holdings, LLC \n Pike Petroleum Holdings, LLC \n PPH Management Holdings, LLC \n TLP Acquisition Holdings, LLC \n TransMontaigne GP L.L.C. \n TLP Finance Holdings, LLC \n TLP Merger Sub, LLC \n TLP Equity Holdings, LLC \n Daniel R. Revers \n (Names of Persons Filing Statement) \n COMMON UNITS REPRESENTING LIMITED PARTNER INTERESTS \n (Title of Class of Securities) \n 89376V100 \n (CUSIP Number of Class of Securities) \n Frederick W. Boutin\n Chief Executive Officer\n TransMontaigne GP L.L.C.\n 1670 Broadway, Suite 3100\n Denver, Colorado 80202\n (303) 626-8200 \n Ted Burke\n ArcLight Capital Holdings, LLC\n 200 Clarendon Street, 55th Floor,\n Boston, Massachusetts 02116\n (617) 531-6300 \n (Name, Address, and Telephone Numbers of Person Authorized to Receive Notices\n and Communications on Behalf of the Persons Filing Statement) \n With copies to \n Ryan J. Maierson \n Latham & Watkins LLP \n 811 Main Street, Suite 3700 \n Houston, Texas 77002 \n (713) 546-5400 \n Douglas Bacon, P.C. \n Julian J. Seiguer, P.C. \n Michael P. Fisherman \n Kirkland & Ellis LLP\n 609 Main Street, 45th Floor\n Houston, Texas 77002\n (713) 836-3600 \n This statement is filed in connection with (check the appropriate box): \n a. \n x \n The filing of solicitation materials or an information statement subject to Regulation 14A, Regulation 14C or Rule 13E-3(c) under the Securities Exchange Act of 1934. \n b. \n o \n The filing of a registration statement under the Securities Act of 1933. \n c. \n o \n A tender offer. \n d. \n o \n None of the above. \n Check the following box if the soliciting materials or information statement referred to in checking box (a) are preliminary copies: x \n Check the following box if the filing is a final amendment reporting the results of the transaction: o \n CALCULATION OF FILING FEE \n Transaction Valuation* \n Amount of Filing Fee** \n $ \n 553,415,904 \n $ \n 67,074 \n * \n Calculated solely for the purpose of determining the filing fee in accordance with Rule 0-11(b)(1) under the Securities Exchange Act of 1934, as amended (the “Exchange Act”). The transaction valuation is calculated based on (i) the aggregate cash payment for the proposed per common unit cash payment of $41.00 plus (ii) $0.805 per common unit multiplied by 13,238,031.4406 outstanding common units of the issuer (representing 13,062,419 common units and (ii) 175,612.4406 common units issuable upon settlement or vesting of outstanding phantom units) subject to the transaction (which equals to the total outstanding common units less the common units held by TLP Finance Holdings, LLC, TLP Acquisition Holdings, LLC and TLP Equity Holdings, LLC) (the “Transaction Valuation”). \n ** \n The filing fee, calculated in accordance with Rule 0-11 of the Securities Exchange Act of 1934, is calculated by multiplying the Transaction Valuation by 0.0001212. \n x Check the box if any part of the fee is offset as provided by Exchange Act Rule 0-11(a)(2) and identify the filing with which the offsetting fee was previously paid. Identify the previous filing by registration statement number, or the Form or Schedule, and the date of its filing. \n Amount Previously Paid: \n $67,074"
+  }
+ ]
+}
