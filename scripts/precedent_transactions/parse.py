@@ -44,6 +44,56 @@ def parse_agreement_date(text: str) -> str | None:
     return found.most_common(1)[0][0] if found else None
 
 
+_AMENDED = [
+    # "Amendment No. 1 to Agreement and Plan of Merger, dated as of June 24, 2020"
+    r"Amendment(?:\s+No\.\s*\d+)?\s+to\s+(?:the\s+)?(?:Amended\s+and\s+Restated\s+)?(?:Agreement\s+and\s+Plan\s+of\s+Merger|Merger\s+Agreement)[^.]{0,120}?dated(?:\s+as\s+of)?\s+" + _DATE,
+    # "the Agreement and Plan of Merger, dated as of January 30, 2016, as amended on April 13, 2017"
+    r"Agreement\s+and\s+Plan\s+of\s+Merger,?\s+dated(?:\s+as\s+of)?\s+[A-Z][a-z]+\.?\s+\d{1,2},?\s+\d{4},?\s+(?:as\s+amended|as\s+modified)[^.;]{0,60}?(?:on|as\s+of|dated(?:\s+as\s+of)?)\s+" + _DATE,
+    # "Amended and Restated Agreement and Plan of Merger, dated as of July 9, 2017"
+    r"Amended\s+and\s+Restated\s+Agreement\s+and\s+Plan\s+of\s+Merger[^.]{0,120}?dated(?:\s+as\s+of)?\s+" + _DATE,
+]
+
+
+def parse_amendment_date(text: str) -> str | None:
+    """
+    The latest date on which the merger agreement was amended or restated, as
+    the document states it: the agreement whose terms a revised deal records
+    (Alere's $51.00 is the April 2017 amendment's, not the January 2016
+    agreement's $56.00).
+    """
+    dates = []
+    for pat in _AMENDED:
+        for m in re.finditer(pat, text):
+            iso = iso_date(m.group(1), m.group(2), m.group(3))
+            if iso:
+                dates.append(iso)
+    return max(dates) if dates else None
+
+
+_AGREEMENT_LOOSE = [
+    r"(?:[Mm]erger\s+[Aa]greement|Arrangement\s+Agreement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation)|Transaction\s+Agreement|Implementation\s+Agreement)[^.;]{0,80}?dated(?:\s+as\s+of)?\s+" + _DATE,
+    r"dated(?:\s+as\s+of)?\s+" + _DATE + r"[^.;]{0,30}?\((?:as\s+it\s+may\s+be\s+amended[^)]*)?(?:the\s+)?[“\"]\s*(?:[Mm]erger|Arrangement|Transaction|Amalgamation)\s+[Aa]greement",
+    r"[Oo]n\s+" + _DATE + r",\s+[^.;]{0,120}?entered\s+into\s+(?:an?|the)\s+[^.;]{0,40}?[Aa]greement",
+]
+
+
+def parse_agreement_date_loose(text: str, floor: str, ceiling: str) -> str | None:
+    """
+    The agreement date where the document never writes "Agreement and Plan of
+    Merger, dated ...": "the merger agreement, dated as of July 7, 2024",
+    "dated June 15, 2014 (the "Transaction Agreement")", "On March 10, 2014,
+    ... entered into a merger agreement". The most often stated date between
+    `floor` and `ceiling` (the filing), or None.
+    """
+    found: Counter = Counter()
+    for pat in _AGREEMENT_LOOSE:
+        for m in re.finditer(pat, text):
+            iso = iso_date(m.group(1), m.group(2), m.group(3))
+            if iso and floor <= iso <= ceiling:
+                found[iso] += 1
+    return found.most_common(1)[0][0] if found else None
+
+
 # ── the offer ────────────────────────────────────────────────────────────────
 
 _AMT = r"(?:US\s?)?\$\s?(\d{1,4}(?:,\d{3})*\.\d{2,4})"
@@ -318,6 +368,10 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         if re.match(r"\s*(?:to|-|–)\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16]) or (between and re.match(r"\s*and\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16])) or re.search(r"\d\s?(?:%|percent)?\s*(?:to|-|–)\s*$", text[max(0, at - 12):at]) or re.search(r"between\s+(?:approximately\s+)?\d{1,3}(?:\.\d+)?\s?(?:%|percent)?\s*and\s*$", text[max(0, at - 40):at], re.I):
             aside.append({"reason": "a range", "excerpt": re.sub(r"\s+", " ", text[max(0, at - 80):at + 120]).strip()})
             continue
+        # "with premia greater than 200% or less than 0%" is a screen's bound.
+        if re.search(r"(?:greater|less|more|fewer)\s+than\s*$|in\s+excess\s+of\s*$|at\s+least\s*$|up\s+to\s*$", text[max(0, at - 20):at], re.I):
+            aside.append({"reason": "a bound, not a premium", "excerpt": re.sub(r"\s+", " ", text[max(0, at - 80):at + 120]).strip()})
+            continue
         clause = _clause(text, at)
         if not _REFERENCE.search(clause[:200]):
             continue
@@ -372,6 +426,9 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
             # Days from the reference date to the agreement, where both are known.
             "gap": gap,
             "unaffected": bool(_UNAFFECTED.search(clause) or _UNAFFECTED.search(lead[-160:])),
+            # The filing's own defined term ("the unaffected closing price"),
+            # over a description of the day ("the last trading day before").
+            "defined": bool(re.search(r"unaffected|undisturbed", clause + lead[-160:], re.I)),
             "proposal": bool(_PROPOSAL.search(lead)),
             # The statement names the agreed offer itself ("The $2.06 per share
             # proposal represented ..."): the deal's own, among the background's.
@@ -398,7 +455,7 @@ def _score(s: dict) -> tuple:
     """
     precise = len(f"{s['premium']:.6f}".rstrip("0").split(".")[1]) if "." in f"{s['premium']:.6f}".rstrip("0") else 0
     return (
-        (0 if s["proposal"] else 3) + (2 if s.get("namesOffer") else 0) + (2 if s["unaffected"] else 0) + (1 if s.get("price") else 0) + (1 if s.get("date") else 0),
+        (0 if s["proposal"] else 3) + (2 if s.get("namesOffer") else 0) + (2 if s["unaffected"] else 0) + (1 if s.get("defined") else 0) + (1 if s.get("price") else 0) + (1 if s.get("date") else 0),
         s.get("count", 1),
         # Among equals, the close nearest before the agreement: the background
         # quotes earlier closes for earlier exchange ratios (Hess: 10.2% to
@@ -449,7 +506,7 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
     alone. Nothing is worked back from a percentage here: finalize does that,
     for an all-cash deal only, and says it did.
     """
-    out: dict = {"premium1Day": None, "premium30DayVwap": None, "premium52WeekHigh": None, "unaffectedPriceStated": None, "unaffectedDate": None, "unaffectedPriceBasis": None, "premiumBasis": []}
+    out: dict = {"premium1Day": None, "premium30DayVwap": None, "premium52WeekHigh": None, "unaffectedPriceStated": None, "unaffectedDate": None, "unaffectedPriceBasis": None, "premiumBasis": [], "premiumPreAnnouncement": None, "premiumPreAnnouncementDate": None}
     pick = lambda xs: max(xs, key=_score) if xs else None  # noqa: E731
     close = pick([s for s in statements if s["basis"] == "close"])
     # The 30-day VWAP only where the filing says 30 days: a one-month or
@@ -477,6 +534,15 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
         if price:
             out["unaffectedPriceStated"] = price
             out["unaffectedPriceBasis"] = where if where == "stated with the premium" else f"the closing price the filing states for {close['date']}: {where}"
+    # The premium to the last close before the agreement was announced, as its
+    # own basis beside the unaffected one, wherever the filing states it: where
+    # the filing's unaffected day is months earlier (a leak, an approach, a
+    # first agreement since revised) this is the figure comparable with a deal
+    # that had none.
+    pre = pick([s for s in statements if s["basis"] == "close" and s.get("gap") is not None and -1 <= s["gap"] <= 5])
+    if pre:
+        out["premiumPreAnnouncement"] = pre["premium"]
+        out["premiumPreAnnouncementDate"] = pre.get("date")
     if vwap30:
         out["premium30DayVwap"] = vwap30["premium"]
         out["premiumBasis"].append(vwap30["excerpt"])

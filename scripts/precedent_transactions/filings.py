@@ -181,7 +181,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     texts: list[str] = []
     for d in docs:
         own = any(s["basis"] == "close" and s["unaffected"] and not s["proposal"] for s in statements)
-        if row["offerPrice"] is not None and own and row["announcedBasis"] == "merger agreement":
+        if row["offerPrice"] is not None and own and row["announcedBasis"] in AGREEMENT_BASES:
             break
         try:
             text = to_text(fetch(d["url"], cap=cap))
@@ -194,6 +194,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
             agreed = parse.parse_agreement_date(text)
             if agreed:
                 row["announced"], row["announcedBasis"] = agreed, "merger agreement"
+        resolve_announcement(row, [text])
         if row["offerPrice"] is None:
             offer, basis = parse.parse_offer(text)
             if offer is not None:
@@ -208,7 +209,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
                 row["statedShares"], row["statedSharesBasis"] = round(n, 3), phrase
         # The agreement date, not the filing date, is what a premium is measured
         # to; a proxy is filed weeks later.
-        agreed = row["announced"] if row["announcedBasis"] == "merger agreement" else None
+        agreed = row["announced"] if row["announcedBasis"] in AGREEMENT_BASES else None
         kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
         statements.extend({**s, "document": d["url"]} for s in kept)
         aside.extend({**s, "document": d["url"]} for s in set_aside)
@@ -243,12 +244,58 @@ PREMIUM_READER = 2
 def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: list[str]) -> dict:
     """The deal's premiums onto its row, with every statement kept and set aside as the provenance behind them."""
     chosen = parse.choose_premiums(statements, row.get("offerPrice"), cash_only=row.get("consideration") == "cash", texts=texts)
-    for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis"):
+    for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
         row[k] = chosen[k]
     keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "excerpt", "document")
     row["premiumStatements"] = [{k: s.get(k) for k in keep} for s in statements][:12]
     row["premiumsSetAside"] = [{k: s.get(k) for k in ("reason", "excerpt", "document")} for s in aside][:8]
     row["premiumReader"] = PREMIUM_READER
+    return row
+
+
+#: the bases under which "announced" is an agreement's date, so a premium's reference date can be measured against it
+AGREEMENT_BASES = ("merger agreement", "amended merger agreement")
+
+
+def resolve_announcement(row: dict, texts: list[str]) -> dict:
+    """
+    The date of the agreement whose terms the row records, where the row has
+    only the filing date or an agreement date more than a year before the
+    filing (which finalize replaces with the filing date):
+
+      - a revised deal is dated by its latest amendment or restatement
+        (Alere's $51.00 is the April 2017 amendment's; the January 2016
+        agreement goes to announcedOriginal), and
+      - an agreement the filing names without "Agreement and Plan of Merger,
+        dated ..." is read from its other wordings (Paramount's "transaction
+        agreement, dated as of July 7, 2024").
+
+    A filing date stands where neither is stated. A row re-dated here has its
+    financials read again at the new date (financialsReader is cleared).
+    """
+    filed = row.get("filed") or row.get("announced")
+    if not filed:
+        return row
+    floor = (date.fromisoformat(filed[:10]) - timedelta(days=400)).isoformat()
+    current = row.get("announced") or ""
+    if row.get("announcedBasis") in AGREEMENT_BASES and floor <= current <= filed:
+        return row
+    amended = max((d for d in (parse.parse_amendment_date(t) for t in texts) if d and floor <= d <= filed), default=None)
+    loose = None
+    for t in texts:
+        loose = loose or parse.parse_agreement_date_loose(t, floor, filed)
+    if amended and (not loose or amended >= loose):
+        was_agreement = row.get("announcedBasis") in AGREEMENT_BASES and current and current != amended
+        # The first agreement, which may be well over a year before the filing.
+        earlier = [d for t in texts for d in [parse.parse_agreement_date(t) or parse.parse_agreement_date_loose(t, "1990-01-01", amended)] if d and d < amended]
+        original = current if was_agreement else (min(earlier) if earlier else None)
+        if original:
+            row["announcedOriginal"] = original
+        row["announced"], row["announcedBasis"] = amended, "amended merger agreement"
+    elif loose:
+        row["announced"], row["announcedBasis"] = loose, "merger agreement"
+    if row.get("announced") != current:
+        row.pop("financialsReader", None)
     return row
 
 
@@ -261,14 +308,18 @@ def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
     statements: list[dict] = []
     aside: list[dict] = []
     texts: list[str] = []
-    agreed = row.get("announced") if row.get("announcedBasis") == "merger agreement" else None
-    for url in row.get("documentsRead") or []:
+    urls = row.get("documentsRead") or []
+    for url in urls:
         try:
-            text = to_text(fetch(url, cap=cap))
+            texts.append(to_text(fetch(url, cap=cap)))
         except Exception as e:  # noqa: BLE001
             row.setdefault("readErrors", []).append(f"{url.rsplit('/', 1)[-1]}: {str(e)[:60]}")
             return row
-        texts.append(text)
+    # A row dated by its filing, or by an agreement since revised, is dated
+    # by the agreement it records before any premium is measured against it.
+    resolve_announcement(row, texts)
+    agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
+    for url, text in zip(urls, texts):
         kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
         statements.extend({**s, "document": url} for s in kept)
         aside.extend({**s, "document": url} for s in set_aside)

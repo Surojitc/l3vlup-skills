@@ -38,7 +38,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from precedent_transactions import database, parse  # noqa: E402
+from precedent_transactions import database, filings, parse  # noqa: E402
 
 FIX = json.loads((ROOT / "scripts" / "__tests__" / "fixtures" / "precedent-premiums.json").read_text())
 
@@ -130,6 +130,37 @@ eq("Cellular Biomedicine: 4% to the 52-week high, not the 79.9% to the 52-week l
 ch = read(deals["CHYR"])
 eq("ChyronHego: 4% to the 14 November 2014 close, the Merger Consideration's own, not 230% to a close twenty months before", (ch["premium1Day"], ch["unaffectedDate"]), (0.04, "2014-11-14"))
 eq("ChyronHego: $2.71 stated; $2.82 / $2.71 - 1 = 4.1%", (ch["unaffectedPrice"], round(2.82 / 2.71 - 1, 3)), (2.71, 0.041))
+
+# A revised deal, read the way the collector re-reads a stored row: dated by
+# the filing, re-dated by the agreement whose terms it records.
+ad = deals["ADSW"]
+stored = {"id": ad["id"], "status": "ok", "source": "DEFM14A", "dealType": "public merger", "target": {"name": ad["name"]}, "offerPrice": ad["offerPrice"],
+          "announced": ad["filed"], "announcedBasis": "filing date", "filed": ad["filed"], "consideration": ad["consideration"], "acquirerBasis": "x", "acquirer": None,
+          "documentsRead": [d["url"] for d in ad["documents"]], "financialsReader": 2}
+texts = {d["url"]: d["text"] for d in ad["documents"]}
+real_fetch, real_text = filings.fetch, filings.to_text
+filings.fetch, filings.to_text = (lambda url, **kw: texts[url]), (lambda raw: raw)
+adsw = database.finalize(filings.reread_premiums(copy.deepcopy(stored)))
+filings.fetch, filings.to_text = real_fetch, real_text
+eq("Advanced Disposal: the $30.30 is Amendment No. 1's of 24 June 2020, not the filing date's 24 July", (adsw["announced"], adsw["announcedBasis"]), ("2020-06-24", "amended merger agreement"))
+eq("Advanced Disposal: the first agreement, at $33.15, is kept as announcedOriginal (14 April 2019)", adsw["announcedOriginal"], "2019-04-14")
+eq("Advanced Disposal: the filing's unaffected day stays the record: 12 April 2019, 11.6%", (adsw["unaffectedDate"], adsw["premium1Day"]), ("2019-04-12", 0.116))
+eq("Advanced Disposal: 24 June 2020 - 12 April 2019 = 439 days", adsw["unaffectedGapDays"], 439)
+eq("Advanced Disposal: flagged long-unaffected-window, its premiums in doubt", (any(f.startswith("long-unaffected-window") for f in adsw["flags"]), "premiums" in adsw["doubt"]), (True, True))
+eq("Advanced Disposal: re-dated, so its financials are due to be read at the new date", "financialsReader" in adsw, False)
+
+# The gap and the flag on their own.
+row = database.finalize({"id": "g", "status": "ok", "source": "DEFM14A", "target": {"name": "G"}, "offerPrice": 20.0, "consideration": "cash", "premium1Day": 0.25, "unaffectedDate": "2024-01-02", "announced": "2024-04-05", "announcedBasis": "merger agreement", "filed": "2024-05-01", "acquirerBasis": "x", "acquirer": None})
+eq("gap: 5 April 2024 - 2 January 2024 = 94 days, over 90, so flagged", (row["unaffectedGapDays"], any(f.startswith("long-unaffected-window") for f in row["flags"])), (94, True))
+row = database.finalize({"id": "h", "status": "ok", "source": "DEFM14A", "target": {"name": "H"}, "offerPrice": 20.0, "consideration": "cash", "premium1Day": 0.25, "unaffectedDate": "2024-01-06", "announced": "2024-04-05", "announcedBasis": "merger agreement", "filed": "2024-05-01", "acquirerBasis": "x", "acquirer": None})
+eq("gap: 90 days exactly is not flagged, and nothing is put in doubt", (row["unaffectedGapDays"], row["flags"], row["doubt"]), (90, [], []))
+
+# The premium to the last close before the announcement, kept as its own basis.
+text = ("The Merger Consideration represents a premium of approximately 45% over the unaffected closing price on January 5, 2024, the last trading day prior to the public disclosure of Parent's initial proposal. "
+        "The Merger Consideration represents a premium of approximately 12% over the closing price on April 4, 2024, the last trading day before the announcement of the merger agreement.")
+kept, _ = parse.premium_statements(text, 20.0, "2024-04-05")
+c = parse.choose_premiums(kept, 20.0, cash_only=True)
+eq("the unaffected premium stays the filing's own (45% to 5 January); 12% to 4 April is premiumPreAnnouncement", (c["premium1Day"], c["unaffectedDate"], c["premiumPreAnnouncement"], c["premiumPreAnnouncementDate"]), (0.45, "2024-01-05", 0.12, "2024-04-04"))
 
 # ── the rules, one sentence at a time ────────────────────────────────────────
 
