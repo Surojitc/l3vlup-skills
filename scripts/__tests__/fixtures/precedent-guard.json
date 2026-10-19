@@ -1,0 +1,257 @@
+{
+ "source": "data/precedent-transactions.auto.json at 2026-10-11 (generatedAt), the rows as the collector stored them: Juniper/HPE, iRobot/Amazon (the first proxy), Advanced Disposal/Waste Management (the amended proxy), Snyder's-Lance/Campbell",
+ "rows": [
+  {
+   "id": "0001193125-24-046175",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "JUNIPER NETWORKS INC",
+    "cik": "0001043604",
+    "sic": "3576",
+    "sicDescription": "Computer Communications Equipment",
+    "state": "DE"
+   },
+   "sector": "Industrials",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2024-02-26",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1043604/000119312524046175/0001193125-24-046175-index.htm",
+   "announced": "2024-01-09",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 40.0,
+   "offerBasis": "$40.00 in cash",
+   "consideration": "cash",
+   "acquirer": "Hewlett Packard Enterprise Company",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of January 9, 2024 (the \u201cMerger Agreement\u201d), by and among Juniper Networks, Inc. (\u201cJuniper\u201d), Hewlett Packard Enterprise Company and Jasmine Acquisition Sub, Inc. a wholly owned subsidiary of Hewlett Packard Enterprise Company.",
+   "premium1Day": 0.2,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "period. Using this analysis, Goldman Sachs applied a reference range of illustrative premiums of 20% to 50% to the undisturbed closing price per shares of Juniper common stock of $30"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1043604/000119312524046175/d84254ddefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1043604/000119312524046175/d84254ddefm14a.htm",
+   "statedShares": 324.381,
+   "statedSharesBasis": "324,381,417 shares of Juniper common stock outstanding",
+   "sharesOut": 318.868,
+   "ltmRevenue": 5564.5,
+   "ltmEbitda": 664.8,
+   "netDebt": 409.3,
+   "ltmPeriodEnd": "2023-12-31",
+   "balanceSheetDate": "2023-12-31",
+   "ebitdaBasis": "operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2023-10-25",
+    "form": "10-Q",
+    "accession": "0001043604-23-000156"
+   },
+   "formsUsed": [
+    "10-K for FY2023"
+   ],
+   "flags": [],
+   "unaffectedPrice": 33.33,
+   "equityValue": 12754.7,
+   "ev": 13164.0,
+   "evLtmRev": 2.37,
+   "evLtmEbitda": 19.8,
+   "doubt": []
+  },
+  {
+   "id": "0001193125-22-240062",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "IROBOT CORP",
+    "cik": "0001159167",
+    "sic": "3630",
+    "sicDescription": "Household Appliances",
+    "state": "DE"
+   },
+   "sector": "Technology",
+   "buyers": [],
+   "buyerType": "Strategic",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2022-09-07",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1159167/000119312522240062/0001193125-22-240062-index.htm",
+   "announced": "2022-08-04",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 61.0,
+   "offerBasis": "$61.00 in cash",
+   "consideration": "cash",
+   "acquirer": "Amazon.com, Inc.",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of August 4, 2022 (as it may be amended from time to time, the \u201cmerger agreement\u201d), by and among Amazon.com, Inc., a Delaware corporation (\u201cAmazon.com\u201d), Martin Merger Sub, Inc., a Delaware corporation and a wholly owned subsidiary of Amazon.com (\u201cMerger Sub\u201d), and iRobot, pursuant to which Merger Sub will be merged with and into the Company (the \u201cmerger\u201d), w",
+   "premium1Day": 0.22,
+   "premium30DayVwap": 0.48,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "(other than certain shares specified in the merger agreement), which represents a premium of approximately 22% to the closing price of iRobot\u2019s common stock on August 4, 2022, the date of the entry into the merger agreement",
+    "conditions, and the fact that the $61.00 per share cash price represents a premium of 48% to the 30-day volume weighted average closing price as of August 4, 2022, and strong transaction multiple of 18"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1159167/000119312522240062/d290900ddefm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1159167/000119312522240062/d290900ddefm14a.htm",
+   "statedShares": 27.233,
+   "statedSharesBasis": "27,233,499 shares of common stock were outstanding",
+   "sharesOut": 27.23,
+   "ltmEbitda": -54.3,
+   "netDebt": -63.4,
+   "ltmPeriodEnd": "2022-07-02",
+   "balanceSheetDate": "2022-07-02",
+   "ebitdaBasis": "FY2021 + Q2 2022 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": " - cash - shortTermInvestments",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2022-07-29",
+    "form": "10-Q",
+    "accession": "0001159167-22-000055"
+   },
+   "formsUsed": [],
+   "flags": [],
+   "unaffectedPrice": 50.0,
+   "vwap30": 41.22,
+   "equityValue": 1661.0,
+   "ev": 1597.6,
+   "doubt": []
+  },
+  {
+   "id": "0001047469-20-004238",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "Advanced Disposal Services, Inc.",
+    "cik": "0001585790",
+    "sic": "4953",
+    "sicDescription": "Refuse Systems",
+    "state": "DE"
+   },
+   "sector": "Utilities",
+   "buyers": [],
+   "buyerType": "Financial sponsor",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2020-07-24",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/1585790/000104746920004238/0001047469-20-004238-index.htm",
+   "announced": "2020-07-24",
+   "announcedBasis": "filing date",
+   "offerPrice": 30.3,
+   "offerBasis": "$30.30 in cash",
+   "consideration": "cash",
+   "acquirer": "Waste Management",
+   "acquirerBasis": "Agreement and Plan of Merger, dated as of April 14, 2019, by and among Advanced Disposal, Waste Management and Merger Sub, as the \" original merger agreement \", a copy of which is included as Annex A to this proxy statement;(ii) Amendment No. 1 to the Agreement and Plan of Merger, dated as of June 24, 2020 by and among Advanced Disposal, Waste Management and Merger Sub, as the \" merger agreement a",
+   "premium1Day": 0.116,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "substantial value based on the receipt of the merger consideration representing a premium of 11.6% to the closing share price of April 12, 2019, the last trading day prior to the announcement of the merger, a premium of approximately 10"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/1585790/000104746920004238/a2242105zdefm14a.htm"
+   ],
+   "readErrors": [
+    "agreement date 2019-04-14 is not within a year of the filing"
+   ],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/1585790/000104746920004238/a2242105zdefm14a.htm",
+   "statedShares": 90.758,
+   "statedSharesBasis": "90,758,187 shares of Advanced Disposal common stock issued and outstanding",
+   "sharesOut": 88.692,
+   "ltmRevenue": 1577.5,
+   "ltmEbitda": 371.3,
+   "netDebt": 1889.4,
+   "ltmPeriodEnd": "2019-03-31",
+   "balanceSheetDate": "2019-03-31",
+   "ebitdaBasis": "FY2018 + Q1 2019 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2019-02-08",
+    "form": "10-K",
+    "accession": "0001628280-19-001961"
+   },
+   "formsUsed": [
+    "10-Q for Q1 2019",
+    "10-K for FY2018"
+   ],
+   "flags": [],
+   "unaffectedPrice": 27.15,
+   "equityValue": 2687.4,
+   "ev": 4576.8,
+   "evLtmRev": 2.9,
+   "evLtmEbitda": 12.33,
+   "doubt": []
+  },
+  {
+   "id": "0001174947-18-000230",
+   "source": "DEFM14A",
+   "dealType": "public merger",
+   "target": {
+    "name": "SNYDER'S-LANCE, INC.",
+    "cik": "0000057528",
+    "sic": "2052",
+    "sicDescription": "Cookies & Crackers",
+    "state": "NC"
+   },
+   "sector": "Consumer & Retail",
+   "buyers": [],
+   "buyerType": "Unclassified",
+   "advisers": [],
+   "dealValue": null,
+   "filed": "2018-02-20",
+   "filingUrl": "https://www.sec.gov/Archives/edgar/data/57528/000117494718000230/0001174947-18-000230-index.htm",
+   "announced": "2017-12-18",
+   "announcedBasis": "merger agreement",
+   "offerPrice": 50.0,
+   "offerBasis": "$50.00 in cash",
+   "consideration": "cash",
+   "acquirer": null,
+   "acquirerBasis": null,
+   "premium1Day": 0.27,
+   "premium30DayVwap": null,
+   "premium52WeekHigh": null,
+   "premiumBasis": [
+    "to our shareholders and that a price of $50.00 per share in cash represents a premium of approximately 27% to the closing price of our common stock on December 13, 2017, the last trading day before media reports were issued regarding a potential transaction"
+   ],
+   "documentsRead": [
+    "https://www.sec.gov/Archives/edgar/data/57528/000117494718000230/c483540-defm14a.htm"
+   ],
+   "readErrors": [],
+   "status": "ok",
+   "primaryDocUrl": "https://www.sec.gov/Archives/edgar/data/57528/000117494718000230/c483540-defm14a.htm",
+   "statedShares": 98.305,
+   "statedSharesBasis": "98,304,911 shares of our common stock outstanding",
+   "sharesOut": 97.455,
+   "ltmEbitda": 136.0,
+   "netDebt": 1096.5,
+   "ltmPeriodEnd": "2017-09-30",
+   "balanceSheetDate": "2017-09-30",
+   "ebitdaBasis": "FY2016 + Q3 2017 YTD \u2212 prior YTD; operating income + D&A (OperatingIncomeLoss + DepreciationDepletionAndAmortization)",
+   "netDebtBasis": "shortTermDebt + longTermDebt - cash",
+   "sharesBasis": {
+    "tag": "dei:EntityCommonStockSharesOutstanding",
+    "end": "2017-11-03",
+    "form": "10-Q",
+    "accession": "0000057528-17-000028"
+   },
+   "formsUsed": [],
+   "flags": [],
+   "unaffectedPrice": 39.37,
+   "equityValue": 4872.8,
+   "ev": 5969.3,
+   "evLtmEbitda": 43.89,
+   "doubt": []
+  }
+ ]
+}
