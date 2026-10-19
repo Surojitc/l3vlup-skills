@@ -106,6 +106,10 @@ def _year_before(iso: str) -> str:
         return "0000-00-00"
 
 
+#: an unaffected date more than this many days before the announcement is flagged long-unaffected-window
+LONG_UNAFFECTED_DAYS = 90
+
+
 def finalize(row: dict) -> dict:
     """
     The derived fields from the stored reading: the acquirer, the reference
@@ -136,8 +140,18 @@ def finalize(row: dict) -> dict:
         flags.append(text)
         doubt.add(puts_in_doubt)
 
-    for k in ("unaffectedPrice", "vwap30", "high52", "equityValue", "ev", "evLtmRev", "evLtmEbitda", "dealValueRatio", "doubt"):
+    for k in ("unaffectedPrice", "unaffectedPriceMethod", "vwap30", "high52", "equityValue", "ev", "evLtmRev", "evLtmEbitda", "dealValueRatio", "doubt", "unaffectedGapDays"):
         row.pop(k, None)
+    # Days from the filing's unaffected date to the announcement. The filing
+    # defines the unaffected day and its price is the record, but a reference
+    # months before the announcement (a leak, an approach disclosed early, a
+    # first agreement since revised) measures more than the deal's own
+    # premium, so the gap is on the row and a long one is flagged.
+    if row.get("unaffectedDate") and row.get("announced"):
+        try:
+            row["unaffectedGapDays"] = (date.fromisoformat(row["announced"][:10]) - date.fromisoformat(row["unaffectedDate"][:10])).days
+        except ValueError:
+            pass
     offer = row.get("offerPrice")
     if row.get("status") != "ok" or offer is None:
         row["flags"] = flags
@@ -166,9 +180,23 @@ def finalize(row: dict) -> dict:
         row["acquirer"] = None
     if row.get("consideration") in ("cash and stock", "stock"):
         flag("consideration includes stock: the cash figure is not the price", "multiples")
-    for prem, key in (("premium1Day", "unaffectedPrice"), ("premium30DayVwap", "vwap30"), ("premium52WeekHigh", "high52")):
-        if row.get(prem) is not None:
+    # The unaffected price as the filing states it, where it does. Otherwise,
+    # for an all-cash deal only, the offer over one plus the stated premium,
+    # labelled as worked back: a rounded percentage ("approximately 29%") gives
+    # a price that is near, not exact. A cash-and-stock deal's per-share cash is
+    # not the whole consideration, so nothing is worked back from it.
+    cash_only = row.get("consideration", "cash") == "cash"
+    if row.get("unaffectedPriceStated") is not None:
+        row["unaffectedPrice"] = row["unaffectedPriceStated"]
+        row["unaffectedPriceMethod"] = "stated"
+    elif row.get("premium1Day") is not None and cash_only:
+        row["unaffectedPrice"] = round(offer / (1 + row["premium1Day"]), 2)
+        row["unaffectedPriceMethod"] = "computed from the offer and the stated premium"
+    for prem, key in (("premium30DayVwap", "vwap30"), ("premium52WeekHigh", "high52")):
+        if row.get(prem) is not None and cash_only:
             row[key] = round(offer / (1 + row[prem]), 2)
+    if row.get("premium1Day") is not None and (row.get("unaffectedGapDays") or 0) > LONG_UNAFFECTED_DAYS:
+        flag(f"long-unaffected-window: the unaffected date is {row['unaffectedGapDays']} days before the announcement", "premiums")
     if row.get("premium1Day") is not None and row["premium1Day"] > 1.5:
         flag(f"premium of {row['premium1Day']:.0%}: distressed or misread", "premiums")
     shares = row.get("sharesOut")
@@ -221,7 +249,10 @@ METHOD = {
     "status": "ok, no-offer (read, no per-share cash figure stated), no-consideration (an acquirer-side vote: the filer's own holders voted on issuing shares), rejected (a blank-check shell or a fund reorganisation, not a precedent transaction) or error",
     "announced": "the merger agreement date as stated in the transaction statement; the 13E-3 filing date when no agreement date is stated (announcedBasis)",
     "offerPrice": "per-share cash consideration as stated in the filing, the most frequently stated figure (offerBasis is the phrase matched)",
-    "premiums": "as stated in the filing, to the closing price before announcement, the 30-day VWAP and the 52-week high (premiumBasis is the sentence matched); unaffectedPrice, vwap30 and high52 are offer / (1 + premium)",
+    "premiums": "as the filing states them for its own deal, to the unaffected close (the last trading day before the news, as the filing defines it), the 30-trading-day VWAP and the 52-week high; a financial adviser's analysis (an illustrative range, comparable deals) and an earlier proposal are never read as the deal's premium. premiumStatements lists every statement kept with its document, premiumsSetAside the ones left out and why, premiumBasis the sentences chosen",
+    "unaffectedGapDays": "days from unaffectedDate to announced; a row whose gap exceeds 90 days is flagged 'long-unaffected-window: ...' with its premiums in doubt, and keeps the filing's own unaffected price. premiumPreAnnouncement (and its date) is the premium the filing states to the last close before the announcement, where it states one",
+    "announcedBasis": "merger agreement (the agreement's date as stated), amended merger agreement (a revised deal: the latest amendment or restatement, announcedOriginal the first agreement's date) or filing date (no agreement date stated)",
+    "unaffectedPrice": "the closing price the filing states for the unaffected date (unaffectedPriceMethod 'stated', unaffectedDate the date); for an all-cash deal whose filing states only the percentage, offer / (1 + premium1Day) ('computed from the offer and the stated premium'); none for a deal paid partly in stock. vwap30 and high52 are offer / (1 + premium), all-cash deals only",
     "financials": "USD millions; sharesOut from the transaction statement when the company facts carry no count at announcement; LTM to the last fiscal period end on or before announcement (fiscal year + YTD - prior YTD), EBITDA = operating income + D&A, net debt = debt - cash and short-term investments at the same balance sheet; sharesOut = cover-page shares (dei) at the last cover date on or before announcement, millions",
     "values": "equityValue = offerPrice x sharesOut; ev = equityValue + netDebt; dealValue = the aggregate value from the filing-fee table, kept as a cross-check",
     "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out",

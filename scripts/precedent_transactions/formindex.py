@@ -658,6 +658,9 @@ def build(limit: int | None = None, since: int = 2020, only: str | None = None, 
         todo = todo[:limit]
     print(f"{len(cands)} {' and '.join(forms)} filings since {since}, {len(known)} already in the database, {spacs} blank-check shells and {dups} deals already read from another filing skipped, {len(todo)} to read", file=sys.stderr)
 
+    if not only:
+        filings.reread_stale_premiums(rows, [k for k in owned if k in rows], database.write, cap=DOC_CAP, minutes=60)
+
     read = 0
     for i, c in enumerate(todo, 1):
         try:
