@@ -60,10 +60,12 @@ def row(key: str) -> dict:
 
 
 # El Paso Electric: $68.25 x 40.738m = $2,780.4m; + net debt $1,314.2m = EV $4,094.6m.
-# LTM to Q1 2019: revenue $898.1m; operating income + utility D&A = $270.2m.
+# LTM to Q1 2019: total operating revenue (Revenues) $902.3m, of which $898.1m
+# is contract revenue; operating income + utility D&A = $270.2m.
 e = row("EL PASO ELECTRIC")
 eq("El Paso Electric: EBITDA from the utility D&A concept, the same twelve months as operating income", (e["ltmEbitda"], e["ltmEbitdaEnd"]), (270.2, "2019-03-31"))
-eq("El Paso Electric: EV $4,094.6m / revenue $898.1m = 4.56x; / EBITDA $270.2m = 15.15x", (e["ev"], e["evLtmRev"], e["evLtmEbitda"]), (4094.6, 4.56, 15.15))
+eq("El Paso Electric: revenue is the $902.3m total the filing tags as Revenues, not the $898.1m of it from contracts", (e["ltmRevenue"], e["revenueTag"]), (902.3, "us-gaap:Revenues"))
+eq("El Paso Electric: EV $4,094.6m / revenue $902.3m = 4.54x; / EBITDA $270.2m = 15.15x", (e["ev"], e["evLtmRev"], e["evLtmEbitda"]), (4094.6, 4.54, 15.15))
 
 # Snyder's-Lance: $50.00 x 97.455m = $4,872.8m; + $1,096.5m = EV $5,969.3m.
 # Net sales (SalesRevenueGoodsNet) LTM to Q3 2017 $2,123.4m; EBITDA $136.0m after

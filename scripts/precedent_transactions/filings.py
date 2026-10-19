@@ -446,11 +446,19 @@ class Filings:
 
     @staticmethod
     def _period(r: dict) -> str:
-        fy, fp = r.get("fy"), r.get("fp")
-        if fy and fp:
-            return f"FY{fy}" if fp == "FY" else f"{fp} {fy}"
+        """
+        The period's own label. Company facts' fy and fp describe the filing
+        the figure came from, not the figure: the prior-year comparative in a
+        Q3 2022 10-Q carries fp Q3 and fy 2022 though it ends in September
+        2021. The label is read from the period's end and length.
+        """
         y, m = r["end"][:4], int(r["end"][5:7])
-        return f"FY{y}" if r.get("form") in ANNUAL else f"Q{(m + 2) // 3} {y}"
+        days = Filings._days(r)
+        if days is not None and days >= 340:
+            return f"FY{y}" if r.get("fp") == "FY" and str(r.get("fy")) == y else f"year to {r['end']}"
+        if days is not None and days > 100:
+            return f"{round(days / 91.3)}Q to {r['end']}"
+        return f"Q{(m + 2) // 3} {y}" if days is not None else (f"FY{y}" if r.get("form") in ANNUAL else f"Q{(m + 2) // 3} {y}")
 
     def _fact(self, key: str, r: dict, basis: str | None = None, value: float | None = None) -> Fact:
         label, unit, _ = CONCEPTS[key]
@@ -504,6 +512,20 @@ class Filings:
         tag, rows, end = best(tags)
         if only is not None:
             return tag, rows
+        # Revenue is the total. A REIT tags its rent as lease income and only
+        # its fees as contract revenue, beside a Revenues total (Wheeler: $0.2m
+        # of contract revenue in a $18.7m quarter); where another revenue
+        # concept is tagged for the same latest period and is larger, it is
+        # the total and the smaller one is a part of it.
+        # Only the Revenues total takes over, never a figure including excise
+        # and sales taxes (RevenueFromContractWithCustomerIncludingAssessedTax
+        # is larger for a brewer, and is not its revenue).
+        if key == "revenue" and rows and tag != "Revenues":
+            tot = [r for r in self.observations("Revenues", unit) if r.get("form") in PERIODIC and r.get("start")]
+            mine = [r for r in rows if r["end"] == end]
+            at = [r for r in tot if r["end"] == end]
+            if at and mine and max(abs(float(r["val"])) for r in at) > max(abs(float(r["val"])) for r in mine):
+                tag, rows = "Revenues", tot
         # The fallback concepts, only where every usual one is missing or more
         # than fifteen months older than the date (see FALLBACK).
         floor = (date.fromisoformat(self.asof) - timedelta(days=456)).isoformat() if self.asof else ""
@@ -611,6 +633,16 @@ def _shares_at(fl: Filings, asof: str, floor: str) -> tuple[float | None, dict |
     return None, None
 
 
+def _millions(value: float) -> float:
+    """
+    A flow in $m. Below $1m it keeps thousands: Arena Pharmaceuticals filed
+    $37 thousand of revenue for the twelve months to September 2021, which at
+    one decimal reads as 0.0, a revenue of nothing it never filed. A figure is
+    0.0 only where the filing says zero.
+    """
+    return round(value / 1e6, 1 if abs(value) >= 1e6 else 3)
+
+
 def financials_at(cik: str, asof: str) -> dict:
     """
     LTM revenue and EBITDA to the last period end on or before `asof`, the
@@ -625,14 +657,14 @@ def financials_at(cik: str, asof: str) -> dict:
     # LTM at announcement: keep flows ending within fifteen months of the date.
     floor = (date.fromisoformat(asof) - timedelta(days=456)).isoformat()
     if rev and rev.end >= floor:
-        out["ltmRevenue"] = round(rev.value / 1e6, 1)
+        out["ltmRevenue"] = _millions(rev.value)
         out["ltmPeriodEnd"] = rev.end
         out["forms"].extend([f"{rev.form} for {rev.period}"] + ([rev.also] if rev.also else []))
     if rev and rev.end >= floor:
         out["ltmRevenueEnd"] = rev.end
         out["revenueTag"] = rev.tag
     if ebitda and ebitda.end >= floor:
-        out["ltmEbitda"] = round(ebitda.value / 1e6, 1)
+        out["ltmEbitda"] = _millions(ebitda.value)
         out["ltmPeriodEnd"] = out.get("ltmPeriodEnd") or ebitda.end
         out["ltmEbitdaEnd"] = ebitda.end
         out["ebitdaBasis"] = ebitda.basis
@@ -642,8 +674,12 @@ def financials_at(cik: str, asof: str) -> dict:
         if imp and abs((date.fromisoformat(imp.end) - date.fromisoformat(ebitda.end)).days) <= 7 and imp.value > 0:
             out["ltmImpairment"] = round(imp.value / 1e6, 1)
             out["impairmentTag"] = imp.tag
-    elif ebit and ebit.end >= floor:
-        out["ltmEbit"] = round(ebit.value / 1e6, 1)
+    # Operating income on its own twelve months, whether or not EBITDA was
+    # built: an EV / EBIT multiple needs only the one concept, and a row whose
+    # EBITDA pieces did not line up keeps its EBIT (Capri: $528m).
+    if ebit and ebit.end >= floor:
+        out["ltmEbit"] = _millions(ebit.value)
+        out["ltmEbitEnd"] = ebit.end
     parts = {k: fl.instant(k) for k in ("shortTermDebt", "longTermDebt", "cash", "shortTermInvestments")}
     parts = {k: v for k, v in parts.items() if v}
     if parts:
@@ -667,18 +703,30 @@ def financials_at(cik: str, asof: str) -> dict:
 
 
 #: what financials_at puts on a row
-FINANCIAL_FIELDS = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "netDebt", "ltmPeriodEnd", "ltmRevenueEnd", "ltmEbitdaEnd", "revenueTag", "ltmImpairment", "impairmentTag", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis")
+FINANCIAL_FIELDS = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "ltmEbitEnd", "netDebt", "ltmPeriodEnd", "ltmRevenueEnd", "ltmEbitdaEnd", "revenueTag", "ltmImpairment", "impairmentTag", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis")
 
 #: The concept list a row's financials were read with. A priced row read before
 #: this version has its company facts read again (one request): those with no
 #: revenue or no EBITDA first, because the concepts added may give them one,
 #: then the rest, because an EBITDA read before may add operating income and
 #: D&A of different twelve months. The budget spreads it over a run or two.
-FINANCIALS_READER = 2
+FINANCIALS_READER = 3
+
+#: days before a target whose company facts were not found (EDGAR answers 404:
+#: it filed before XBRL, or not as itself) is asked again, rather than every month
+FACTS_404_RETRY_DAYS = 183
 
 
-def needs_financials_reread(row: dict) -> bool:
-    return (row.get("financialsReader") or 1) < FINANCIALS_READER and row.get("status") == "ok" and row.get("offerPrice") is not None
+def needs_financials_reread(row: dict, today: date | None = None) -> bool:
+    if not ((row.get("financialsReader") or 1) < FINANCIALS_READER and row.get("status") == "ok" and row.get("offerPrice") is not None):
+        return False
+    missing = row.get("companyFactsMissing")
+    if missing:
+        try:
+            return ((today or date.today()) - date.fromisoformat(missing[:10])).days >= FACTS_404_RETRY_DAYS
+        except ValueError:
+            return True
+    return True
 
 
 def reread_financials(row: dict) -> dict:
@@ -686,8 +734,17 @@ def reread_financials(row: dict) -> dict:
     try:
         fin = financials_at(row["target"]["cik"], row["announced"])
     except Exception as e:  # noqa: BLE001
-        row.setdefault("readErrors", []).append(f"company facts: {str(e)[:60]}")
+        # EDGAR has no company facts for the target: keep the financials the
+        # row has, record when it was asked, and ask again only after
+        # FACTS_404_RETRY_DAYS rather than on every monthly run. Any other
+        # failure is retried next run, as before.
+        if "404" in str(e):
+            row["companyFactsMissing"] = date.today().isoformat()
+            row["readErrors"] = [x for x in (row.get("readErrors") or []) if "404" not in x] + [f"company facts: {str(e)[:60]}"]
+        else:
+            row.setdefault("readErrors", []).append(f"company facts: {str(e)[:60]}")
         return row
+    row.pop("companyFactsMissing", None)
     # Every field the reader owns is replaced, a missing one included: an
     # EBITDA whose operating income and D&A were for different twelve months
     # is withdrawn, not left standing beside the corrected revenue.
