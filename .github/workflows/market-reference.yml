@@ -1,37 +1,45 @@
-name: Market context (IEX)
+name: Market reference prices (IEX)
 
 # Reads IEX's free historical market data, one trading day at a time, and
-# publishes data/market-context.auto.json: each stock's place in its
-# twelve-month range, its momentum, its drawdown and its volatility, as
-# categories. No price is published. See docs/market-context.md.
+# publishes IEX reference prices: data/market-reference.auto.json (the latest
+# dated price per stock, its quality grade, the 52-week high and low and the
+# inputs behind every trailing figure) and data/market-history/<A-Z>.auto.json
+# (one price a week, for the range chart). See docs/market-reference.md.
 #
-# WHY A WORKFLOW OF ITS OWN
-# -------------------------
-# A day's IEX capture is about fifteen gigabytes compressed and takes five to
-# ten minutes to stream through the reader. The first runs read a year of
-# them. That is hours of work on a cadence of its own, and folded into the
-# open-data collection it would hold every other source behind it.
+# An IEX reference price is a venue-specific price: the last eligible trade on
+# IEX in the final half hour of the session. It is never the official or
+# consolidated close, and every file says so.
 #
-# WHERE THE CLOSES LIVE
-# ---------------------
-# The measures need a year of closes. Those closes are kept in the GitHub
-# Actions cache, never committed: the collector refuses a state path inside
-# the working tree, and the gate below refuses any staged path but the one
-# published file. Each run restores the latest state, reads the days it does
-# not hold yet (newest first, so the current measures arrive on the first run
-# and the twelve-month ones fill in behind), and saves it again, even when the
-# step fails or runs out of time. A cache entry unused for a week is evicted;
-# the next run then starts again from nothing and rebuilds the year.
+# CADENCE: A BACKFILL, THEN ONE RUN A DAY
+# ---------------------------------------
+# IEX posts a session's capture the next morning, about 10:20 UTC. The daily
+# run is at 11:40 UTC, Tuesday to Saturday (Monday to Friday's sessions). A
+# second run at 17:40 UTC is the retry for a morning IEX posted late: when the
+# day is already read it reads the index, finds nothing new and stops in about
+# a minute.
+#
+# The backfill (about 252 trading days) runs inside the same schedule: each run
+# reads every day it does not hold yet, newest first, until its 300-minute
+# budget, about thirty days. So the year is complete within five working days
+# of merging, sooner with manual dispatches. A day once read is never
+# downloaded again; a day that fails is retried on the next run, three times
+# at most.
+#
+# WHERE THE DAILY DATABASE LIVES
+# ------------------------------
+# In the GitHub Actions cache, never in a commit: the collector refuses a state
+# path inside the working tree, and the publication contract refuses any path
+# but the reference file and the weekly shards. Each run restores the newest
+# state and saves it again, even when the step fails or runs out of time. An
+# entry unused for seven days is evicted; the next runs then rebuild the year
+# and the published files stay as they were meanwhile.
 #
 # The source is public and free and needs no key, account or secret.
 
 on:
   schedule:
-    # Every six hours. IEX posts a day's capture the following morning; until
-    # the year is read, each run also works through the backlog, about thirty
-    # days in its budget, so the first full file arrives within two days.
-    # Once caught up a run reads the index, finds nothing new and stops.
-    - cron: '20 */6 * * *'
+    - cron: '40 11 * * 2-6'
+    - cron: '40 17 * * 2-6'
   workflow_dispatch:
     inputs:
       max_days:
@@ -43,12 +51,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: market-context
+  group: market-reference
   cancel-in-progress: false
 
 jobs:
   collect:
-    name: Read IEX and derive the measures
+    name: Read IEX and publish reference prices
     runs-on: ubuntu-latest
     timeout-minutes: 350
     permissions:
@@ -63,23 +71,21 @@ jobs:
         with:
           node-version: 20
 
-      - name: Test the reader, the measures and the publication contract
+      - name: Test the reader, the reference prices and the publication contract
         run: |
-          node scripts/__tests__/market-context.test.mjs
+          node scripts/__tests__/market-reference.test.mjs
           node scripts/__tests__/publication-contracts.test.mjs
           node scripts/__tests__/workflow-permissions.test.mjs
 
-      - name: Restore the working history
+      - name: Restore the daily database
         uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
-          path: ${{ runner.temp }}/market-context
-          key: market-context-state-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: market-context-state-
+          path: ${{ runner.temp }}/market-reference
+          key: market-reference-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: market-reference-state-
 
       # The step timeout sits inside the job's, and the collector's own budget
-      # inside the step's, so the save below always gets to run: the budget
-      # stops it starting a day it could not finish, and the state is written
-      # after every day read.
+      # inside the step's, so the save below always gets to run.
       - name: Read the trading days not yet held
         id: collect
         timeout-minutes: 330
@@ -89,27 +95,27 @@ jobs:
           set -euo pipefail
           extra=()
           if [ -n "${MAX_DAYS:-}" ]; then extra+=(--max-days "$MAX_DAYS"); fi
-          node scripts/sync-market-context.mjs \
-            --state "$RUNNER_TEMP/market-context/state.json.gz" \
+          node scripts/sync-market-reference.mjs \
+            --state "$RUNNER_TEMP/market-reference/state.json.gz" \
             --budget-minutes 300 \
             "${extra[@]}"
 
       # hashFiles() reads only the workspace, and the state lives outside it
       # on purpose, so whether there is anything to save is asked here.
-      - name: Is there a working history to save
+      - name: Is there a daily database to save
         id: held
         if: always()
         run: |
-          if [ -s "$RUNNER_TEMP/market-context/state.json.gz" ]; then echo "state=true" >> "$GITHUB_OUTPUT"; else echo "state=false" >> "$GITHUB_OUTPUT"; fi
+          if [ -s "$RUNNER_TEMP/market-reference/state.json.gz" ]; then echo "state=true" >> "$GITHUB_OUTPUT"; else echo "state=false" >> "$GITHUB_OUTPUT"; fi
 
-      - name: Save the working history
+      - name: Save the daily database
         if: always() && steps.held.outputs.state == 'true'
         uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
-          path: ${{ runner.temp }}/market-context
-          key: market-context-state-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/market-reference
+          key: market-reference-state-${{ github.run_id }}-${{ github.run_attempt }}
 
-      - name: Stage the derived file
+      - name: Stage the published files
         id: stage
         run: |
           set -euo pipefail
@@ -128,7 +134,7 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/validate-data-publication.mjs \
-            --producer market-context \
+            --producer market-reference \
             --staged "$RUNNER_TEMP/staged.txt"
 
       - name: Pack what may be published
@@ -142,7 +148,7 @@ jobs:
         if: steps.stage.outputs.changed == 'true'
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
-          name: market-context-refresh
+          name: market-reference-refresh
           path: ${{ runner.temp }}/handoff
           if-no-files-found: error
           retention-days: 3
@@ -156,8 +162,8 @@ jobs:
       pull-requests: write
     uses: ./.github/workflows/publish-data.yml
     with:
-      producer: market-context
-      artifact: market-context-refresh
+      producer: market-reference
+      artifact: market-reference-refresh
       # Open the data pull request and stop. The same two proofs collect.yml
       # names before its line became `true`: one run whose pull request a
       # human reads and merges, and a second that updates that pull request

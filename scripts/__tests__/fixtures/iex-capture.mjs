@@ -100,19 +100,34 @@ export const nyMs = (date, hhmm, offsetHours = 4) => {
 };
 
 /**
- * A whole trading day: the session events, then one trade per symbol at
- * `at` (default 15:55), each at its price, then the end of messages.
- * `prices` maps symbol to dollars; `volumes` optionally maps symbol to shares.
+ * A whole trading day: the session events, then each symbol's trades, then
+ * the end of messages. `prices` maps a symbol to its last price, or to
+ * { price, trades, late, size, lastAt } to shape the evidence the quality
+ * gate reads. By default each symbol trades 25 round lots of 1,000 shares
+ * (21 through the day, 4 in the final half hour, the last at 15:58): USABLE
+ * at $4 and up, never HIGH.
  */
-export function dayCapture(date, prices, { at = '15:55', volumes = {}, close = '16:00' } = {}) {
+export function dayCapture(date, prices, { close = '16:00', trades = 25, late = 4, size = 1000, lastAt = '15:58' } = {}) {
   const msgs = [systemMessage('R', nyMs(date, '09:30'))];
-  let id = 1;
   const frames = [];
-  for (const [sym, price] of Object.entries(prices)) {
-    msgs.push(tradeMessage({ atMs: nyMs(date, at), symbol: sym, price, size: volumes[sym] ?? 100, id: id++ }));
-    if (msgs.length >= 50) frames.push(frame(msgs.splice(0)));
+  let id = 1;
+  const push = (m) => {
+    msgs.push(m);
+    if (msgs.length >= 200) frames.push(frame(msgs.splice(0)));
+  };
+  const closeMs = nyMs(date, close);
+  const openMs = nyMs(date, '09:30');
+  for (const [sym, spec] of Object.entries(prices)) {
+    const o = typeof spec === 'number' ? { price: spec } : spec;
+    const n = o.trades ?? trades;
+    const k = Math.min(o.late ?? late, n);
+    const last = nyMs(date, o.lastAt ?? lastAt);
+    const early = n - k;
+    for (let i = 0; i < early; i += 1) push(tradeMessage({ atMs: openMs + 60000 + i * ((closeMs - 45 * 60000 - openMs) / Math.max(1, early)), symbol: sym, price: o.price, size: o.size ?? size, id: id++ }));
+    for (let i = 0; i < k; i += 1) push(tradeMessage({ atMs: last - (k - 1 - i) * 1000, symbol: sym, price: o.price, size: o.size ?? size, id: id++ }));
   }
-  msgs.push(systemMessage('M', nyMs(date, close)), systemMessage('C', nyMs(date, '20:00')));
+  push(systemMessage('M', closeMs));
+  push(systemMessage('C', nyMs(date, '20:00')));
   frames.push(frame(msgs));
   return pcapng(frames);
 }
