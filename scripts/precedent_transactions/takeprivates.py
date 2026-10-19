@@ -95,6 +95,9 @@ def build(limit: int | None = None, only: str | None = None, full: bool = False)
         # Write as it goes, so a run cut short keeps what it read.
         if i % 10 == 0:
             database.write(rows)
+    # Rows read under the earlier concept list, after the new filings.
+    if not only:
+        filings.reread_stale_financials(rows, [k for k in owned if k in rows], database.write, minutes=15)
     out = database.write(rows)
     c = out["counts"]
     print(f"\n{c['transactions']} transactions: {c['withOffer']} with an offer price, {c['withMultiples']} with EV / LTM EBITDA, {c['withPremium']} with a stated premium, {c['flagged']} flagged for checking, {c['noOffer']} with no offer found, {c['errors']} errors.", file=sys.stderr)

@@ -28,6 +28,7 @@ import html
 import json
 import os
 import re
+import sys
 import time
 import urllib.request
 from dataclasses import asdict, dataclass
@@ -57,7 +58,25 @@ CONCEPTS: dict[str, tuple[str, str, list[str]]] = {
     "shortTermDebt": ("Short-term debt", "USD", ["LongTermDebtCurrent", "DebtCurrent", "ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent"]),
     "longTermDebt": ("Long-term debt", "USD", ["LongTermDebtNoncurrent", "LongTermDebtAndCapitalLeaseObligations", "LongTermDebtAndFinanceLeaseLiabilitiesNoncurrent", "LongTermDebt"]),
     "sharesOutstanding": ("Shares outstanding", "shares", ["EntityCommonStockSharesOutstanding", "CommonStockSharesOutstanding", "CommonStockSharesIssued"]),
+    "impairment": ("Impairment charges", "USD", ["AssetImpairmentCharges", "GoodwillImpairmentLoss", "ImpairmentOfIntangibleAssetsExcludingGoodwill", "ImpairmentOfLongLivedAssetsHeldForUse", "GoodwillAndIntangibleAssetImpairment"]),
 }
+
+#: Concepts a filer uses for the whole line where none of the usual ones is
+#: current: a regulated utility's operating revenue (WGL, Delta Natural Gas),
+#: a goods company's net sales before 2018 (Snyder's-Lance, Mead Johnson), a
+#: utility's depreciation inside operating expenses (El Paso Electric). They
+#: are read only when every usual concept is missing or stale at the date,
+#: because a company that tags the total under a usual concept may also tag a
+#: part of it under one of these (goods sales beside service revenue), and the
+#: part must never stand in for the whole.
+FALLBACK: dict[str, list[str]] = {
+    "revenue": ["RegulatedAndUnregulatedOperatingRevenue", "SalesRevenueGoodsNet", "RegulatedOperatingRevenue", "ElectricUtilityRevenue"],
+    "dAndA": ["UtilitiesOperatingExpenseDepreciationAndAmortization", "DepreciationAndAmortizationExcludingNuclearFuel"],
+}
+
+#: the impairment share of EBITDA above which EV / EBITDA is not a multiple of
+#: the business's earnings, the threshold the site's precedent rule applies
+IMPAIRMENT_SHARE = 0.10
 
 
 # ── HTTP ─────────────────────────────────────────────────────────────────────
@@ -221,10 +240,11 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     except Exception as e:  # noqa: BLE001
         fin = {}
         row["readErrors"].append(f"company facts: {str(e)[:60]}")
-    for k in ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "netDebt", "ltmPeriodEnd", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis"):
+    for k in FINANCIAL_FIELDS:
         if k in fin:
             row[k] = fin[k]
     row["formsUsed"] = fin.get("forms", [])
+    row["financialsReader"] = FINANCIALS_READER
     # A filer that stopped tagging its share count still states it in the
     # transaction statement; that is the count at announcement, near enough.
     if not row.get("sharesOut") and row.get("statedShares"):
@@ -343,21 +363,37 @@ class Filings:
         return f
 
     # ── flows ────────────────────────────────────────────────────────────
-    def _durations(self, key: str) -> tuple[str, list[dict]]:
+    def _durations(self, key: str, only: list[str] | None = None) -> tuple[str, list[dict]]:
         _, unit, tags = CONCEPTS[key]
-        best_tag, best_rows, best_end = None, [], ""
-        for tag in tags:
-            rows = [r for r in self.observations(tag, unit) if r.get("form") in PERIODIC and r.get("start")]
-            if not rows:
-                continue
-            end = max(r["end"] for r in rows)
-            if end > best_end:
-                best_tag, best_rows, best_end = tag, rows, end
-        return best_tag or "", best_rows
+        if only is not None:
+            tags = only
 
-    def annual(self, key: str) -> Fact | None:
+        def best(candidates: list[str]) -> tuple[str, list[dict], str]:
+            best_tag, best_rows, best_end = None, [], ""
+            for tag in candidates:
+                rows = [r for r in self.observations(tag, unit) if r.get("form") in PERIODIC and r.get("start")]
+                if not rows:
+                    continue
+                end = max(r["end"] for r in rows)
+                if end > best_end:
+                    best_tag, best_rows, best_end = tag, rows, end
+            return best_tag or "", best_rows, best_end
+
+        tag, rows, end = best(tags)
+        if only is not None:
+            return tag, rows
+        # The fallback concepts, only where every usual one is missing or more
+        # than fifteen months older than the date (see FALLBACK).
+        floor = (date.fromisoformat(self.asof) - timedelta(days=456)).isoformat() if self.asof else ""
+        if key in FALLBACK and (not rows or (floor and end < floor)):
+            ftag, frows, fend = best(FALLBACK[key])
+            if frows and fend > end:
+                return ftag, frows
+        return tag, rows
+
+    def annual(self, key: str, only: list[str] | None = None) -> Fact | None:
         """The latest fiscal-year figure."""
-        _, rows = self._durations(key)
+        _, rows = self._durations(key, only)
         years = [r for r in rows if r.get("form") in ANNUAL and 340 <= (self._days(r) or 0) <= 400]
         if not years:
             return None
@@ -368,7 +404,7 @@ class Filings:
                 by_end[r["end"]] = r
         return self._fact(key, max(by_end.values(), key=lambda r: r["end"]))
 
-    def ltm(self, key: str) -> Fact | None:
+    def ltm(self, key: str, only: list[str] | None = None) -> Fact | None:
         """
         Last twelve months: fiscal year + current YTD - prior-year YTD.
 
@@ -377,21 +413,23 @@ class Filings:
         end are one subtraction away from the 10-K. When the pieces are not
         there the fiscal year stands, and the basis says which.
         """
-        ck = f"l:{key}"
+        ck = f"l:{key}:{','.join(only) if only else ''}"
         if ck in self._cache:
             return self._cache[ck]
-        fy = self.annual(key)
+        fy = self.annual(key, only)
         if not fy:
             self._cache[ck] = None
             return None
-        _, rows = self._durations(key)
+        _, rows = self._durations(key, only)
         fy_end = date.fromisoformat(fy.end)
         ytd = [r for r in rows if r.get("start") == (fy_end + timedelta(days=1)).isoformat() and r["end"] > fy.end and (self._days(r) or 0) < 300]
         out = fy
         if ytd:
             cur = max(ytd, key=lambda r: r["end"])
             cur_days = self._days(cur) or 0
-            prior_end = date.fromisoformat(cur["end"]).replace(year=date.fromisoformat(cur["end"]).year - 1)
+            # A year earlier, within the week the match allows: a period ending
+            # 29 February has no anniversary to replace(year=) into (Lennar).
+            prior_end = date.fromisoformat(cur["end"]) - timedelta(days=365)
             prior = [r for r in rows if r.get("start") == fy.start and abs(date.fromisoformat(r["end"]) - prior_end).days <= 7 and abs((self._days(r) or 0) - cur_days) <= 7]
             if prior:
                 p = min(prior, key=lambda r: r.get("filed") or "9999")
@@ -408,10 +446,17 @@ class Filings:
         da = self.ltm("dAndA")
         if not ebit or not da:
             return None
-        # Both pieces must describe the same twelve months: a filer that
-        # dropped the operating-income tag years ago has no EBITDA here.
-        if abs((date.fromisoformat(ebit.end) - date.fromisoformat(da.end)).days) > 100:
-            return None
+        # Both pieces must describe the same twelve months, to the week: one
+        # period per multiple, never operating income of one year added to
+        # depreciation of another. Where the D&A concept read first ends
+        # elsewhere, another D&A concept the filer tags for the same twelve
+        # months is used (WGL tags utility D&A to the quarter, total D&A only
+        # to the year).
+        same = lambda f: abs((date.fromisoformat(ebit.end) - date.fromisoformat(f.end)).days) <= 7  # noqa: E731
+        if not same(da):
+            da = next((f for f in (self.ltm("dAndA", [t]) for t in CONCEPTS["dAndA"][2] + FALLBACK["dAndA"]) if f and same(f)), None)
+            if not da:
+                return None
         basis = f"operating income + D&A ({ebit.tag.split(':')[1]} + {da.tag.split(':')[1]})"
         if ebit.basis:
             basis = f"{ebit.basis}; {basis}"
@@ -461,10 +506,20 @@ def financials_at(cik: str, asof: str) -> dict:
         out["ltmRevenue"] = round(rev.value / 1e6, 1)
         out["ltmPeriodEnd"] = rev.end
         out["forms"].extend([f"{rev.form} for {rev.period}"] + ([rev.also] if rev.also else []))
+    if rev and rev.end >= floor:
+        out["ltmRevenueEnd"] = rev.end
+        out["revenueTag"] = rev.tag
     if ebitda and ebitda.end >= floor:
         out["ltmEbitda"] = round(ebitda.value / 1e6, 1)
         out["ltmPeriodEnd"] = out.get("ltmPeriodEnd") or ebitda.end
+        out["ltmEbitdaEnd"] = ebitda.end
         out["ebitdaBasis"] = ebitda.basis
+        # The impairment charged inside the same twelve months, as tagged, so
+        # a reader can see an EBITDA that a write-down has depressed.
+        imp = fl.ltm("impairment")
+        if imp and abs((date.fromisoformat(imp.end) - date.fromisoformat(ebitda.end)).days) <= 7 and imp.value > 0:
+            out["ltmImpairment"] = round(imp.value / 1e6, 1)
+            out["impairmentTag"] = imp.tag
     elif ebit and ebit.end >= floor:
         out["ltmEbit"] = round(ebit.value / 1e6, 1)
     parts = {k: fl.instant(k) for k in ("shortTermDebt", "longTermDebt", "cash", "shortTermInvestments")}
@@ -484,3 +539,62 @@ def financials_at(cik: str, asof: str) -> dict:
         out["sharesBasis"] = meta
     out["entityName"] = fl.name
     return out
+
+
+# ── reading stored rows again ───────────────────────────────────────────────
+
+
+#: what financials_at puts on a row
+FINANCIAL_FIELDS = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "netDebt", "ltmPeriodEnd", "ltmRevenueEnd", "ltmEbitdaEnd", "revenueTag", "ltmImpairment", "impairmentTag", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis")
+
+#: The concept list a row's financials were read with. A priced row read before
+#: this version has its company facts read again (one request): those with no
+#: revenue or no EBITDA first, because the concepts added may give them one,
+#: then the rest, because an EBITDA read before may add operating income and
+#: D&A of different twelve months. The budget spreads it over a run or two.
+FINANCIALS_READER = 2
+
+
+def needs_financials_reread(row: dict) -> bool:
+    return (row.get("financialsReader") or 1) < FINANCIALS_READER and row.get("status") == "ok" and row.get("offerPrice") is not None
+
+
+def reread_financials(row: dict) -> dict:
+    """A stored row's financials at announcement read again; nothing else on the row changes."""
+    try:
+        fin = financials_at(row["target"]["cik"], row["announced"])
+    except Exception as e:  # noqa: BLE001
+        row.setdefault("readErrors", []).append(f"company facts: {str(e)[:60]}")
+        return row
+    # Every field the reader owns is replaced, a missing one included: an
+    # EBITDA whose operating income and D&A were for different twelve months
+    # is withdrawn, not left standing beside the corrected revenue.
+    for k in FINANCIAL_FIELDS:
+        row[k] = fin.get(k)
+    row["formsUsed"] = fin.get("forms", [])
+    row["financialsReader"] = FINANCIALS_READER
+    # The share count the transaction statement gives stands where the
+    # company facts carry none, as on a first reading.
+    if not row.get("sharesOut") and row.get("statedShares"):
+        row["sharesOut"] = row["statedShares"]
+        row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
+    return row
+
+
+def reread_stale_financials(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 30) -> int:
+    """The priced rows in `ids` read under an earlier concept list, read again until the budget is spent."""
+    budget = float(os.environ.get("PRECEDENTS_FINANCIALS_MINUTES", minutes)) * 60
+    todo = sorted((i for i in ids if needs_financials_reread(rows[i])), key=lambda i: (rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
+    if not todo:
+        return 0
+    print(f"{len(todo)} priced rows read under the earlier concept list; reading their company facts again for up to {budget / 60:.0f} minutes, those with no revenue or no EBITDA first", file=sys.stderr, flush=True)
+    started, done = time.time(), 0
+    for i in todo:
+        if time.time() - started > budget:
+            break
+        reread_financials(rows[i])
+        done += 1
+        if done % 10 == 0:
+            write(rows)
+    print(f"{done} of {len(todo)} rows' financials read again", file=sys.stderr, flush=True)
+    return done

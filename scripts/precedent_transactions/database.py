@@ -182,6 +182,12 @@ def finalize(row: dict) -> dict:
             row["evLtmRev"] = round(row["ev"] / rev, 2)
         if ebitda and ebitda > 0:
             row["evLtmEbitda"] = round(row["ev"] / ebitda, 2)
+            # EBITDA after a write-down is not the business's earnings. The
+            # multiple stays on the row, but the filed impairment in the same
+            # twelve months is named and puts the EBITDA multiple in doubt.
+            imp = row.get("ltmImpairment")
+            if imp and imp >= 0.10 * ebitda:
+                flag(f"LTM EBITDA of {ebitda:,.1f} is after a tagged impairment of {imp:,.1f} ({imp / ebitda:.0%}): EV / EBITDA is not a multiple of earnings", "ebitda")
     # Cross-checks. The fee-table value is the aggregate the filer computed,
     # so an equity value well below it means the price or the share count was
     # misread; well above it is a minority buyout, where the fee is on the
@@ -224,6 +230,7 @@ METHOD = {
     "premiums": "as stated in the filing, to the closing price before announcement, the 30-day VWAP and the 52-week high (premiumBasis is the sentence matched); unaffectedPrice, vwap30 and high52 are offer / (1 + premium)",
     "financials": "USD millions; sharesOut from the transaction statement when the company facts carry no count at announcement; LTM to the last fiscal period end on or before announcement (fiscal year + YTD - prior YTD), EBITDA = operating income + D&A, net debt = debt - cash and short-term investments at the same balance sheet; sharesOut = cover-page shares (dei) at the last cover date on or before announcement, millions",
     "values": "equityValue = offerPrice x sharesOut; ev = equityValue + netDebt; dealValue = the aggregate value from the filing-fee table, kept as a cross-check",
+    "periods": "each multiple has one period: EV at the deal against LTM revenue to ltmRevenueEnd (revenueTag the concept read), or against LTM EBITDA to ltmEbitdaEnd, whose operating income and D&A end within a week of each other. Revenue and D&A fall back to a utility's or a goods company's own concepts only where none of the usual ones is current. ltmImpairment is the impairment the filing tags inside the EBITDA's twelve months; at 10% of EBITDA or more the row is flagged and doubt includes 'ebitda'",
     "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out",
 }
 
