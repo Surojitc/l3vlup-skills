@@ -11,13 +11,14 @@ sanity checks reaches every row without reading a single filing again.
 
 from __future__ import annotations
 
+import copy
 import json
 import re
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
-from . import parse
+from . import guard, parse
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
@@ -26,14 +27,29 @@ DECKS = DATA / "decks.auto.json"
 OUT = DATA / "precedent-transactions.auto.json"
 
 
+#: the file as it stood the first time this process read it: what guard.py protects on every write
+_baseline: dict[str, dict] | None = None
+
+
 def load_stored() -> dict[str, dict]:
     """Every row already on file, by id, whichever builder wrote it."""
+    global _baseline
     if not OUT.exists():
-        return {}
-    try:
-        return {r["id"]: r for r in json.loads(OUT.read_text()).get("transactions", [])}
-    except Exception:  # noqa: BLE001
-        return {}
+        rows: dict[str, dict] = {}
+    else:
+        try:
+            rows = {r["id"]: r for r in json.loads(OUT.read_text()).get("transactions", [])}
+        except Exception:  # noqa: BLE001
+            rows = {}
+    if _baseline is None:
+        _baseline = copy.deepcopy(rows)
+    return rows
+
+
+def set_baseline(rows: dict[str, dict] | None) -> None:
+    """The observations a write must not lose (tests, and a caller that loads the file itself)."""
+    global _baseline
+    _baseline = copy.deepcopy(rows) if rows is not None else None
 
 
 # ── the sector bucket ────────────────────────────────────────────────────────
@@ -432,13 +448,21 @@ METHOD = {
     "financials": "USD millions; sharesOut from the transaction statement when the company facts carry no count at announcement; LTM to the last fiscal period end on or before announcement (fiscal year + YTD - prior YTD), EBITDA = operating income + D&A, net debt = debt - cash and short-term investments at the same balance sheet; sharesOut = cover-page shares (dei) at the last cover date on or before announcement, millions",
     "values": "equityValue = offerPrice x sharesOut; ev = equityValue + netDebt; dealValue = the aggregate value from the filing-fee table, kept as a cross-check",
     "periods": "each multiple has one period: EV at the deal against LTM revenue to ltmRevenueEnd (revenueTag the concept read), or against LTM EBITDA to ltmEbitdaEnd, whose operating income and D&A end within a week of each other. Revenue and D&A fall back to a utility's or a goods company's own concepts only where none of the usual ones is current. ltmImpairment is the impairment the filing tags inside the EBITDA's twelve months; at 10% of EBITDA or more the row is flagged and doubt includes 'ebitda'",
+    "revisions": "every change a run made to a sourced figure (offer, consideration, deal value, premiums and the unaffected price, shares, LTM revenue, EBITDA and EBIT, net debt): run, field, from, to and cause (a reader version moving forward, a target re-identified, a reclassification, or read again), newest 20 kept. A re-read that fails, or that loses a figure without one of those causes, keeps the prior reading (readErrors says so); a run that would withdraw a figure from more than 5% of the rows carrying it is refused (scripts/precedent_transactions/guard.py)",
     "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out",
 }
 
 
 def write(rows: dict[str, dict]) -> dict:
-    """Finalize every row, order the file most recent first, and write it."""
+    """
+    Finalize every row, order the file most recent first, and write it, after
+    guard.py has put back what this run lost without a reason and checked that
+    no field loses too much at once (GuardRefused leaves the file as it was).
+    """
     dedupe(rows)
+    if _baseline:
+        report = guard.protect(_baseline, rows)
+        guard.check(_baseline, rows, report)
     ordered = sorted((finalize(r) for r in rows.values()), key=lambda r: (r.get("announced") or "", r["id"]), reverse=True)
     counts = {
         "transactions": len(ordered),
