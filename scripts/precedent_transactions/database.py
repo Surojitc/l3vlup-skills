@@ -12,6 +12,7 @@ sanity checks reaches every row without reading a single filing again.
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -121,6 +122,11 @@ def finalize(row: dict) -> dict:
     # there is no filer list to rank, so the parse stands.
     if not row.get("acquirerBasis"):
         row["acquirer"] = parse.acquirer_of(row.get("buyers") or [], (row.get("target") or {}).get("name"))
+    elif row.get("acquirer") and parse._defined_vehicle(re.sub(r"\s+", " ", row["acquirerBasis"]), row["acquirer"]):
+        # A row read before the agreement's own defined terms were honoured
+        # may name the merger vehicle ('ALTA Acquisition Corp. ("Merger Sub")')
+        # as the buyer. The stored sentence says who its parent is.
+        row["acquirer"] = parse.vehicle_parent(row["acquirerBasis"], row["acquirer"], (row.get("target") or {}).get("name") or "")
     row["acquirer"] = parse.pretty(row.get("acquirer")) or None
     if not row.get("source"):
         row["source"] = "SC 13E3"
@@ -410,6 +416,8 @@ METHOD = {
     "dealId": "one transaction: the target's CIK and the date of its earliest reading. A deal read from several filings (a 13E-3 and its proxy, a proxy and its supplement) has one primary row, the latest filing to state an offer; the others are status 'duplicate' with duplicateOf the primary and their own reading kept under readStatus. readings lists every filing of the deal, offerHistory the offers they state where they differ, filledFrom the reading each borrowed field came from. Two buyers each named by the filings are two deals",
     "status": "ok, duplicate (another reading of a deal on file under duplicateOf), no-offer (read, no per-share cash figure stated), no-consideration (an acquirer-side vote: the filer's own holders voted on issuing shares), rejected (a blank-check shell or a fund reorganisation, not a precedent transaction) or error",
     "announced": "the merger agreement date as stated in the transaction statement; the 13E-3 filing date when no agreement date is stated (announcedBasis)",
+    "reverseMergerBasis": "dealType 'reverse-merger': the proxy states that a private company's holders will own the majority (60% or more) of the listed company and its current holders the rest; the sentence and both stakes are kept. Such a row is not a control acquisition of the listed company",
+    "spacEvidence": "for a merger proxy, how often its documents mention a trust account, an initial business combination, a blank-check company and a special purpose acquisition company; a proxy with at least 100 of the first and 5 of any other is a de-SPAC and rejected (spacRule 2), whatever its counterparty is called",
     "offerPrice": "per-share cash consideration as stated in the filing, the most frequently stated figure (offerBasis is the phrase matched)",
     "premiums": "as the filing states them for its own deal, to the unaffected close (the last trading day before the news, as the filing defines it), the 30-trading-day VWAP and the 52-week high; a financial adviser's analysis (an illustrative range, comparable deals) and an earlier proposal are never read as the deal's premium. premiumStatements lists every statement kept with its document, premiumsSetAside the ones left out and why, premiumBasis the sentences chosen",
     "unaffectedGapDays": "days from unaffectedDate to announced; a row whose gap exceeds 90 days is flagged 'long-unaffected-window: ...' with its premiums in doubt, and keeps the filing's own unaffected price. premiumPreAnnouncement (and its date) is the premium the filing states to the last close before the announcement, where it states one",
@@ -440,6 +448,7 @@ def write(rows: dict[str, dict]) -> dict:
         "errors": sum(1 for r in ordered if r.get("status") == "error"),
         "takePrivates": sum(1 for r in ordered if r.get("dealType") == "take-private"),
         "publicMergers": sum(1 for r in ordered if r.get("dealType") == "public merger"),
+        "reverseMergers": sum(1 for r in ordered if r.get("dealType") == "reverse-merger"),
     }
     out = {
         "generatedAt": datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None).isoformat() + "Z",

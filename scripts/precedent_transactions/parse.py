@@ -766,6 +766,47 @@ def named_party(p: str) -> bool:
     return len(words) >= 2 and all(w in _CONNECTIVE or re.match(r"[A-Z0-9“\"]", w) for w in words)
 
 
+#: the defined term a merger agreement gives its vehicle, right after the name:
+#: 'ALTA Acquisition Corp. (“Merger Sub”)'. Whatever the name, that party is the
+#: vehicle and not the buyer, and the party listed before it is its parent.
+_VEHICLE_TERM = re.compile(r"\s*,?\s*\(\s*(?:the\s+)?[“\"]?\s*(?:Merger\s+Sub(?:sidiary)?|Acquisition\s+Sub|Merger\s+Co|Purchaser|Sub|Acquiror\s+Sub)\s*[”\"]?\s*\)", re.I)
+
+
+def _defined_vehicle(seg: str, party: str) -> bool:
+    """Whether the agreement sentence defines this party as its merger vehicle."""
+    for name in (party, party.split(",")[0].strip()):
+        at = seg.find(name)
+        if at >= 0:
+            rest = seg[at + len(name):at + len(name) + 80]
+            rest = re.sub(r"^\s*,?\s*(?:Inc|Corp|Corporation|LLC|Ltd|L\.P)\.?", "", rest)
+            return bool(_VEHICLE_TERM.match(rest))
+    return False
+
+
+def vehicle_parent(sentence: str, vehicle: str, target_name: str) -> str | None:
+    """
+    The buyer behind a merger vehicle a stored row named as its acquirer: the
+    party the agreement sentence lists immediately before the vehicle, where
+    that is a named company and not the target. Anything less certain is None.
+    """
+    m = _AMONG.search(sentence)
+    if not m:
+        return None
+    parties = parse_parties(m.group(1))
+    idx = next((i for i, p in enumerate(parties) if p.strip(" ,;:") == vehicle.strip(" ,;:") or p.startswith(vehicle.split(",")[0])), None)
+    if not idx:
+        return None
+    p = parties[idx - 1]
+    if same_company(p, target_name) or _DEFINED.match(p.strip()) or _VEHICLE.search(p) or is_vehicle(p) or shell_name(p) or not re.match(r"[A-Z0-9]", p.strip()):
+        return None
+    return _clean_party(p)
+
+
+def _clean_party(p: str) -> str:
+    """'Synopsys, Inc., Inc.' (a suffix the clause split counted twice) to 'Synopsys, Inc.'."""
+    return re.sub(r"(,\s*(?:Inc|Corp|Corporation|LLC|Ltd|L\.?P)\.?)(?:,\s*(?:Inc|Corp|Corporation|LLC|Ltd|L\.?P)\.?)+$", r"\1", p.strip(" ,;:"))
+
+
 def parse_acquirer(text: str, target_name: str) -> tuple[str | None, str | None]:
     """
     The buyer, from the merger agreement sentence: the first named party that
@@ -778,11 +819,18 @@ def parse_acquirer(text: str, target_name: str) -> tuple[str | None, str | None]
         parties = parse_parties(m.group(1))
         if len(parties) < 2:
             continue
-        for p in parties:
-            if not named_party(p) or same_company(p, target_name):
+        seg = re.sub(r"\s+", " ", m.group(1))
+        vehicle = [_defined_vehicle(seg, p) for p in parties]
+        for i, p in enumerate(parties):
+            if vehicle[i] or same_company(p, target_name):
+                continue
+            # A name with no corporate suffix ("Synopsys") is still the buyer
+            # where the agreement lists its merger vehicle straight after it.
+            parent = i + 1 < len(parties) and vehicle[i + 1] and not _DEFINED.match(p.strip()) and re.match(r"[A-Z0-9]", p.strip())
+            if not (named_party(p) or parent):
                 continue
             sentence = re.sub(r"\s+", " ", _cut_sentence(m.group(0))).strip()
-            return p.strip(" ,;:"), sentence[:400]
+            return _clean_party(p), sentence[:400]
     return None, None
 
 
@@ -857,6 +905,74 @@ def shell_name(name: str) -> bool:
 def shellish(name: str) -> bool:
     """The wider shell vocabulary, for a filer EDGAR has already coded blank-check."""
     return bool(_SHELLISH.search(name or ""))
+
+
+#: What only a de-SPAC proxy says: the shell holds its IPO money in a trust
+#: account, its public holders may redeem from it, and the merger is its
+#: "initial business combination". A strategic buyer's merger subsidiary called
+#: "ALTA Acquisition Corp." says none of it. Measured on 4,262 stored proxies:
+#: the real de-SPACs mention a trust account 133 to 420 times; ordinary deals
+#: rarely more than a dozen (a bank's trust department, a company that was
+#: itself once a SPAC: Heliogen 6, Lionsgate Studios 6, HWH 28), with Student
+#: Loan Corp's 86 mentions of loan trusts the highest, and none of those names
+#: the shell's business combination or a blank-check company more than a few
+#: times. So both must be present, at counts no stray reference reaches.
+SPAC_TRUST_MIN = 100
+SPAC_IBC_MIN = 5
+
+
+def spac_evidence(text: str) -> dict[str, int]:
+    """How often a document uses the words only a blank-check combination uses."""
+    return {
+        "trustAccount": len(re.findall(r"trust\s+account", text, re.I)),
+        "initialBusinessCombination": len(re.findall(r"initial\s+business\s+combination", text, re.I)),
+        "blankCheck": len(re.findall(r"blank[\s-]check", text, re.I)),
+        "specialPurpose": len(re.findall(r"special\s+purpose\s+acquisition|\bSPAC\b", text, re.I)),
+    }
+
+
+def is_despac(evidence: dict[str, int]) -> bool:
+    """A de-SPAC on the document's own evidence: a trust account and the shell's business combination, never a name."""
+    return evidence.get("trustAccount", 0) >= SPAC_TRUST_MIN and (
+        evidence.get("initialBusinessCombination", 0) >= SPAC_IBC_MIN or evidence.get("blankCheck", 0) >= SPAC_IBC_MIN or evidence.get("specialPurpose", 0) >= SPAC_IBC_MIN
+    )
+
+
+#: the share of the public company the private company's holders must take
+REVERSE_MERGER_MIN = 60
+_PRIVATE = re.compile(r"privately[\s-]held|private\s+(?:company|biotechnology\s+company|operating\s+company)", re.I)
+_HOLDERS = r"(?:stockholders|shareholders|equityholders|equity\s+holders|securityholders|security\s+holders|unitholders)"
+_STAKE = r"(?:will|would|are\s+expected\s+to|is\s+expected\s+to|are\s+anticipated\s+to)\s+(?:collectively\s+|in\s+the\s+aggregate\s+)?own[^.;%]{0,60}?(\d{1,2}(?:\.\d+)?)\s?%"
+_CURRENT = re.compile(r"(?:current|existing|pre-merger|pre-closing)\s+(?:[A-Z][\w&.\-’' ]{1,40}?\s+)?" + _HOLDERS + r"[^.;%]{0,120}?" + _STAKE)
+_OTHER = re.compile(r"(?:former\s+)?(?:[A-Z][\w&.\-]{1,30}(?:’s|'s)\s+|" + _HOLDERS + r"\s+of\s+[A-Z][\w&.\-]{1,30}\s+)" + r"(?:" + _HOLDERS + r"\s+)?(?:[^.;%]{0,80}?)" + _STAKE)
+
+
+def reverse_merger_evidence(text: str) -> dict | None:
+    """
+    A reverse merger on the proxy's own words: one sentence in which the
+    public company's current holders keep a minority of it and another
+    company's holders take the majority ("MabVax's equityholders will own
+    approximately 95%, and Telik's current equityholders will own
+    approximately 5%, of the Telik capital stock"). A control acquisition says
+    the opposite: the target's holders, "former" holders, take a minority of
+    the buyer's shares, and the buyer's current holders keep the majority.
+    """
+    # The incoming holders own a private company: a merger of two listed
+    # companies ("CBC's current shareholders ... 42% ... SCB's shareholders
+    # ... 58%", Six Flags and Cedar Fair at 48.8% and 51.2%) is a merger of
+    # equals or a stock acquisition, not a reverse merger.
+    if not _PRIVATE.search(text):
+        return None
+    for sentence in re.split(r"(?<=[.;])\s+", text):
+        if "own" not in sentence or "%" not in sentence:
+            continue
+        cur = _CURRENT.search(sentence)
+        if not cur or float(cur.group(1)) >= 50:
+            continue
+        others = [float(m.group(1)) for m in _OTHER.finditer(sentence) if m.start() != cur.start() and not (cur.start() <= m.start() < cur.end())]
+        if any(v >= REVERSE_MERGER_MIN for v in others):
+            return {"currentHolders": float(cur.group(1)), "newHolders": max(v for v in others if v >= REVERSE_MERGER_MIN), "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]}
+    return None
 
 
 def reject_reason(name: str, sic: str | None, sic_description: str | None) -> str | None:
