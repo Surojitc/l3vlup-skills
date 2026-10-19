@@ -44,6 +44,56 @@ def parse_agreement_date(text: str) -> str | None:
     return found.most_common(1)[0][0] if found else None
 
 
+_AMENDED = [
+    # "Amendment No. 1 to Agreement and Plan of Merger, dated as of June 24, 2020"
+    r"Amendment(?:\s+No\.\s*\d+)?\s+to\s+(?:the\s+)?(?:Amended\s+and\s+Restated\s+)?(?:Agreement\s+and\s+Plan\s+of\s+Merger|Merger\s+Agreement)[^.]{0,120}?dated(?:\s+as\s+of)?\s+" + _DATE,
+    # "the Agreement and Plan of Merger, dated as of January 30, 2016, as amended on April 13, 2017"
+    r"Agreement\s+and\s+Plan\s+of\s+Merger,?\s+dated(?:\s+as\s+of)?\s+[A-Z][a-z]+\.?\s+\d{1,2},?\s+\d{4},?\s+(?:as\s+amended|as\s+modified)[^.;]{0,60}?(?:on|as\s+of|dated(?:\s+as\s+of)?)\s+" + _DATE,
+    # "Amended and Restated Agreement and Plan of Merger, dated as of July 9, 2017"
+    r"Amended\s+and\s+Restated\s+Agreement\s+and\s+Plan\s+of\s+Merger[^.]{0,120}?dated(?:\s+as\s+of)?\s+" + _DATE,
+]
+
+
+def parse_amendment_date(text: str) -> str | None:
+    """
+    The latest date on which the merger agreement was amended or restated, as
+    the document states it: the agreement whose terms a revised deal records
+    (Alere's $51.00 is the April 2017 amendment's, not the January 2016
+    agreement's $56.00).
+    """
+    dates = []
+    for pat in _AMENDED:
+        for m in re.finditer(pat, text):
+            iso = iso_date(m.group(1), m.group(2), m.group(3))
+            if iso:
+                dates.append(iso)
+    return max(dates) if dates else None
+
+
+_AGREEMENT_LOOSE = [
+    r"(?:[Mm]erger\s+[Aa]greement|Arrangement\s+Agreement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation)|Transaction\s+Agreement|Implementation\s+Agreement)[^.;]{0,80}?dated(?:\s+as\s+of)?\s+" + _DATE,
+    r"dated(?:\s+as\s+of)?\s+" + _DATE + r"[^.;]{0,30}?\((?:as\s+it\s+may\s+be\s+amended[^)]*)?(?:the\s+)?[“\"]\s*(?:[Mm]erger|Arrangement|Transaction|Amalgamation)\s+[Aa]greement",
+    r"[Oo]n\s+" + _DATE + r",\s+[^.;]{0,120}?entered\s+into\s+(?:an?|the)\s+[^.;]{0,40}?[Aa]greement",
+]
+
+
+def parse_agreement_date_loose(text: str, floor: str, ceiling: str) -> str | None:
+    """
+    The agreement date where the document never writes "Agreement and Plan of
+    Merger, dated ...": "the merger agreement, dated as of July 7, 2024",
+    "dated June 15, 2014 (the "Transaction Agreement")", "On March 10, 2014,
+    ... entered into a merger agreement". The most often stated date between
+    `floor` and `ceiling` (the filing), or None.
+    """
+    found: Counter = Counter()
+    for pat in _AGREEMENT_LOOSE:
+        for m in re.finditer(pat, text):
+            iso = iso_date(m.group(1), m.group(2), m.group(3))
+            if iso and floor <= iso <= ceiling:
+                found[iso] += 1
+    return found.most_common(1)[0][0] if found else None
+
+
 # ── the offer ────────────────────────────────────────────────────────────────
 
 _AMT = r"(?:US\s?)?\$\s?(\d{1,4}(?:,\d{3})*\.\d{2,4})"
@@ -95,101 +145,422 @@ def mixed_consideration(text: str) -> bool:
 
 
 # ── the premiums ─────────────────────────────────────────────────────────────
+#
+# A merger proxy states its deal's premium in its own words: "a premium of
+# approximately 32% over the closing stock price of $30.22 of Juniper common
+# stock on January 8, 2024, the last trading day prior to the approval of the
+# Merger". That sentence is the deal's definition of the unaffected price, and
+# when it names the price the price is read, never worked back from a rounded
+# percentage.
+#
+# The same document states other premiums that are not this deal's:
+#
+#   the advisers'   "a reference range of illustrative premiums of 20% to 50%",
+#                   a median of comparable transactions: about other deals
+#   earlier bids    the background recites every proposal before the one
+#                   agreed, each with its premium to a close weeks earlier
+#
+# So each statement is read with the clause after it (the basis, the price and
+# the date it measures against) and the sentence before it (who is speaking).
+# An adviser's analysis is set aside outright. An earlier proposal is set aside
+# where it names a different price or a reference date too far from the
+# agreement, and otherwise ranks below the statement the proxy itself calls
+# unaffected. This is the same rule lib/finance-os/providers/sec-proxy-premiums.ts
+# applies in the site repository, so the two read a proxy alike.
 
-_PREM = re.compile(
-    r"(?:premiums?\s+of\s+(?:approximately|about|roughly|around)?\s*(\d{1,3}(?:\.\d+)?)\s?(?:%|percent)"
-    r"|(?:an?\s+)?(?:approximately|about|roughly|around)?\s*(\d{1,3}(?:\.\d+)?)\s?(?:%|percent)\s+premiums?)"
-    r"\s+(?:to|over|above|compared\s+to|compared\s+with|relative\s+to|on|based\s+on)\s+(?:the\s+|its\s+|that\s+|such\s+)?([^;.]{0,170})",
-    re.I,
-)
-_DAYS = re.compile(r"(\d{1,3}|thirty|sixty|ninety)[- ](?:trading[- ]|calendar[- ])?days?", re.I)
-_PRICE = re.compile(r"\$\s?(\d{1,4}(?:,\d{3})*(?:\.\d{2})?)")
-
-
-def _classify(basis: str) -> str | None:
-    """Which reference price a premium sentence measures against."""
-    b = basis.lower()
-    b = re.split(r",?\s+and\s+(?:an?\s+)?(?:premium|approximately|about)|\(i{1,3}v?\)|\(v\)", b)[0]
-    days = {d.lower() for d in _DAYS.findall(b)}
-    days = {"30" if d == "thirty" else "60" if d == "sixty" else "90" if d == "ninety" else d for d in days}
-    if re.search(r"(52|fifty[- ]two)[- ]week\s+(?:intraday\s+|closing\s+)?high", b):
-        return "high52"
-    if re.search(r"vwap|volume[- ]weighted", b):
-        return "vwap30" if days == {"30"} else None
-    if re.search(r"average|week|month|vwap|volume", b):
-        return None
-    if re.search(r"closing|last\s+(?:reported\s+)?(?:sale|trade|trading)|unaffected|close\s+of|price\s+on\s+[A-Z]|share\s+price\s+of", basis, re.I):
-        return "1day"
-    return None
-
-
-def _stale(basis: str, announced: str | None) -> bool:
-    """Whether a premium is measured to a date too far from the agreement to be this deal's."""
-    if not announced:
-        return False
-    m = re.search(_DATE, basis)
-    iso = iso_date(m.group(1), m.group(2), m.group(3)) if m else None
-    if not iso:
-        return False
-    # A premium is measured to the last trading day before announcement, or to
-    # the last unaffected day where the deal leaked a few weeks earlier. A
-    # reference date older than that belongs to an earlier proposal.
-    gap = (date.fromisoformat(announced) - date.fromisoformat(iso)).days
-    return not -5 <= gap <= 21
+_PRICE = re.compile(r"\$\s?(\d{1,4}(?:,\d{3})*(?:\.\d{1,4})?)")
 
 
 def _refused(before: str, offer: float | None) -> bool:
     """Whether the words leading into a premium name a per-share price other than the one agreed."""
     if not offer:
         return False
-    head = before[before.rfind(". ") + 1:]
+    # Only the statement's own words: a bullet list states the unaffected
+    # price in its first item, and the next item is not "another price".
+    head = before[max(before.rfind(". "), before.rfind("•"), before.rfind(";")) + 1:]
+    # A statement that names the agreed offer itself and restates it ("US$3.50
+    # per ADS or US$0.70 per Share") is the deal's own, whatever else it names.
+    for m in _PRICE.finditer(head):
+        try:
+            if abs(float(m.group(1).replace(",", "")) - offer) <= 0.005 * offer:
+                return False
+        except ValueError:
+            continue
     for m in _PRICE.finditer(head):
         try:
             v = float(m.group(1).replace(",", ""))
         except ValueError:
+            continue
+        if re.match(r"\s*(?:million|billion|thousand)", head[m.end():m.end() + 10], re.I):
+            continue
+        # A reference price ("closing stock price of $32.08") and a payment
+        # beside the cash ("up to $3.00 per DAP Right", a CVR) are not a
+        # different offer for the share.
+        near = head[max(0, m.start() - 60):m.end() + 30]
+        if re.search(r"clos|unaffected|undisturbed|volume[\s-]*weighted|vwap|average|52[\s-]*week|\bhigh\b", head[max(0, m.start() - 60):m.start()], re.I):
+            continue
+        if re.search(r"per\s+(?:\w+\s+){0,2}(?:Right|CVR|warrant|unit)\b|contingent value", near, re.I):
             continue
         if 0.05 <= v <= 10_000 and abs(v - offer) > 0.01 * offer:
             return True
     return False
 
 
-def parse_premiums(text: str, offer: float | None = None, announced: str | None = None) -> dict[str, tuple[float, str]]:
-    """
-    The premiums the document states: {basis: (fraction, sentence)} for 1day,
-    vwap30 and high52, the most often stated figure of each.
+#: an adviser speaking about other deals or a range, never this deal's premium
+_ADVISER = re.compile(
+    r"illustrative|percentile|\bmedian\b|\bmean\b|reference range|range of|comparable|selected (?:precedent |public |take-private )?transactions"
+    r"|precedent|premiums? paid analysis|premia paid analysis|implied (?:equity|per share|enterprise)|\bapplied\b",
+    re.I,
+)
+#: a proposal before the one agreed: ranked below the agreed deal's own statement
+_PROPOSAL = re.compile(r"\bproposal\b|counterproposal|counter-proposal|indication of interest|\bbid\b|\bpreliminary\b|non-binding", re.I)
+#: the proxy's own words for the last price before the news
+_UNAFFECTED = re.compile(
+    r"unaffected|undisturbed|last\s+(?:full\s+)?trading\s+day\s+(?:prior\s+to|before)|latest\s+(?:unaffected\s+)?trading\s+day\s+prior"
+    # the close before the buyer first approached: "the market closing price
+    # prior to Parent's initial offer made on May 24, 2024" (Martin Midstream)
+    r"|prior\s+to\s+[^.;%]{0,40}?\b(?:initial|first)\s+(?:offer|proposal|approach)",
+    re.I,
+)
+#: a percentage that is a premium: the word is beside it
+_PCT = re.compile(r"(?<![\d.$])(\d{1,3}(?:\.\d+)?)\s?(?:%|percent\b)")
+#: what a premium is measured against, near the figure
+_REFERENCE = re.compile(
+    r"\b(?:over|to|above|relative\s+to|compared\s+(?:to|with)|based\s+on|on)\b[^%;]{0,110}?"
+    r"(?:unaffected|undisturbed|closing|close\b|last\s+(?:reported\s+)?(?:sale|trade|trading)|trading\s+(?:day|period)|"
+    r"volume[\s-]*weighted|vwap|52[\s-]*week|fifty[\s-]two[\s-]week|highest|\bhigh\b|average|share\s+price|stock\s+price|price\s+per\s+share|market\s+price)",
+    re.I,
+)
+#: where one statement ends and the next begins: a bullet, a semicolon, a full
+#: stop, a numbered item, or the next premium in a list ("..., and a premium of
+#: 15.2% over ...", "34% to the unaffected close, 26% to the 30-day VWAP")
+_STOP = re.compile(
+    r"[;•]|\.\s+(?=[A-Z(“\"])|\s\((?:i{1,3}|iv|v|vi|\d)\)\s"
+    r"|,?\s+(?:and\s+)?(?:an?\s+)?premiums?\s+of\b"
+    r"|,?\s+(?:and\s+)?(?:an?\s+)?(?:approximately\s+|about\s+)?\d{1,3}(?:\.\d+)?\s?(?:%|percent)\s+(?:premium\b|to\b|over\b|above\b)"
+)
 
-    A merger proxy recites, in its background section, the premium of every
-    proposal that came before the one agreed. Those measure a price that was
-    refused, against a date months before announcement, and they outnumber the
-    real figure. So where the offer and the agreement date are known, a
-    sentence that names a different price, or a reference date that is not
-    just before the agreement, is left out.
+
+def _clause(text: str, at: int) -> str:
+    """The words from a premium figure to the end of its own statement: the next statement, bullet, semicolon or full stop."""
+    tail = text[at:at + 340]
+    m = _STOP.search(tail, 6)
+    return tail[: m.start()] if m else tail
+
+
+def _lead(text: str, at: int) -> str:
+    """The sentence leading into a premium figure, back to the last full stop or bullet."""
+    before = text[max(0, at - 320):at]
+    cut = max(before.rfind(". "), before.rfind("•"), before.rfind("\n"))
+    return before[cut + 1:]
+
+
+#: the agreement's defined term for its own price, beside a premium: "The
+#: Merger Consideration also represents a premium of approximately 4%"
+_AGREED = re.compile(r"\b(?:Merger|Offer|Per\s+Share|Transaction|Cash)\s+(?:Consideration|Price)\b")
+
+
+_LIST_PCT = re.compile(r"\d{1,3}(?:\.\d+)?\s?%")
+
+
+def _respectively(text: str, at: int) -> tuple[str, str] | None:
     """
-    found: dict[str, Counter] = {"1day": Counter(), "vwap30": Counter(), "high52": Counter()}
-    sentence: dict[tuple[str, float], str] = {}
-    for m in _PREM.finditer(text):
-        raw = m.group(1) or m.group(2)
+    The window of one figure in a "respectively" list: "premiums of
+    approximately 57%, 48% and 44% relative to the 30-, 60- and 90-day,
+    respectively, volume-weighted average prices" gives the 57% the 30-day
+    VWAP. None where the figure is not in such a list or the windows do not
+    pair one to one with the figures.
+    """
+    start = at
+    while True:
+        m = re.search(r"(\d{1,3}(?:\.\d+)?\s?%)\s*,?\s*(?:and\s+)?$", text[max(0, start - 24):start])
+        if not m:
+            break
+        start = max(0, start - 24) + m.start(1)
+    tail = text[start:start + 260]
+    run = re.match(r"(?:\d{1,3}(?:\.\d+)?\s?%\s*,?\s*(?:and\s+)?)+", tail)
+    if not run:
+        return None
+    figures = _LIST_PCT.findall(run.group(0))
+    rest = tail[run.end():]
+    if len(figures) < 2 or not re.search(r"\brespectively\b", rest[:160], re.I):
+        return None
+    w = re.search(r"((?:\d{1,3}\s*-?\s*,?\s*(?:and\s+)?){2,})[\s-]*(?:trading[\s-]*|calendar[\s-]*)?(day|week|month)", rest[:160], re.I)
+    if not w:
+        return None
+    windows = re.findall(r"\d{1,3}", w.group(1))
+    if len(windows) != len(figures):
+        return None
+    index = len(_LIST_PCT.findall(text[start:at]))
+    if index >= len(windows):
+        return None
+    basis = "vwap" if re.search(r"volume[\s-]*weighted|vwap", rest[:220], re.I) else "other"
+    return basis, f"{windows[index]}-{w.group(2).lower()}"
+
+
+def _basis(clause: str) -> tuple[str, str | None]:
+    """What a premium is measured against: close, vwap (with its window), high, or other."""
+    w = clause.lower()
+    if re.search(r"volume[\s-]*weighted|vwap", w):
+        m = re.search(r"(\d{1,3}|one|two|three|six|twelve|thirty|sixty|ninety)\s*(?:\(\d{1,3}\)\s*)?[\s-]*(?:consecutive[\s-]*)?(?:trading[\s-]*|calendar[\s-]*)?(day|week|month|year)", w)
+        if not m:
+            return "vwap", None
+        words = {"one": "1", "two": "2", "three": "3", "six": "6", "twelve": "12", "thirty": "30", "sixty": "60", "ninety": "90"}
+        return "vwap", f"{words.get(m.group(1), m.group(1))}-{m.group(2)}"
+    if re.search(r"52[\s-]*week|fifty[\s-]two[\s-]week|highest|\bhigh\b|twelve[\s-]month|\bltm\b", w):
+        # A premium to the period's low is quoted beside the one to its high
+        # and is not a premium to the high.
+        if re.search(r"\blow\b|lowest", w) and not re.search(r"highest|\bhigh\b", w):
+            return "other", None
+        return "high", None
+    if re.search(r"average", w):
+        return "other", None
+    if re.search(r"closing|close\b|unaffected|undisturbed|last\s+(?:reported\s+)?(?:sale|trade|trading)|share\s+price|stock\s+price|market\s+price|price\s+per\s+share", w):
+        return "close", None
+    return "other", None
+
+
+def _price_in(clause: str, offer: float | None) -> float | None:
+    """The reference price a premium clause names, never the offer itself."""
+    for m in _PRICE.finditer(clause):
         try:
-            v = round(float(raw) / 100, 4)
-        except (TypeError, ValueError):
+            v = float(m.group(1).replace(",", ""))
+        except ValueError:
+            continue
+        if re.match(r"\s*(?:million|billion|thousand)", clause[m.end():m.end() + 10], re.I):
+            continue
+        if not 0.05 <= v <= 10_000:
+            continue
+        if offer and abs(v - offer) <= 0.005 * offer:
+            continue
+        return v
+    return None
+
+
+def _date_in(clause: str) -> str | None:
+    m = re.search(_DATE, clause)
+    return iso_date(m.group(1), m.group(2), m.group(3)) if m else None
+
+
+def premium_statements(text: str, offer: float | None = None, announced: str | None = None, cash_only: bool = True) -> tuple[list[dict], list[dict]]:
+    """
+    Every premium the document states for its own deal, and every one set
+    aside with the reason. A statement is
+    {basis, window, premium, price, date, unaffected, proposal, excerpt}.
+    """
+    kept: list[dict] = []
+    aside: list[dict] = []
+    seen: set = set()
+    for m in _PCT.finditer(text):
+        at = m.start()
+        near_before = text[max(0, at - 60):at].lower()
+        near_after = text[m.end():m.end() + 14].lower()
+        # The word is beside the figure, or the figure is an item of a list a
+        # premium sentence opens ("represents a premium of: • approximately
+        # 32% over ...; • approximately 16% over the 52-week high").
+        listed = text[max(0, at - 400):at]
+        listed = listed[listed.rfind(". ") + 1:]
+        if not (re.search(r"premi(?:um|a)", near_before) or re.match(r"\s*premium", near_after) or re.search(r"premi(?:um|a)\s+of\s*:|premia\s+of\b", listed, re.I)):
+            continue
+        # "of 20% to 50%": a range is an analysis, never a deal's premium.
+        # "Between 20% and 50%" is a range too; "57%, 48% and 44%" is a list.
+        between = re.search(r"between\s+(?:approximately\s+)?$", text[max(0, at - 30):at], re.I)
+        if re.match(r"\s*(?:to|-|–)\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16]) or (between and re.match(r"\s*and\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16])) or re.search(r"\d\s?(?:%|percent)?\s*(?:to|-|–)\s*$", text[max(0, at - 12):at]) or re.search(r"between\s+(?:approximately\s+)?\d{1,3}(?:\.\d+)?\s?(?:%|percent)?\s*and\s*$", text[max(0, at - 40):at], re.I):
+            aside.append({"reason": "a range", "excerpt": re.sub(r"\s+", " ", text[max(0, at - 80):at + 120]).strip()})
+            continue
+        # "with premia greater than 200% or less than 0%" is a screen's bound.
+        if re.search(r"(?:greater|less|more|fewer)\s+than\s*$|in\s+excess\s+of\s*$|at\s+least\s*$|up\s+to\s*$", text[max(0, at - 20):at], re.I):
+            aside.append({"reason": "a bound, not a premium", "excerpt": re.sub(r"\s+", " ", text[max(0, at - 80):at + 120]).strip()})
+            continue
+        clause = _clause(text, at)
+        if not _REFERENCE.search(clause[:200]):
+            continue
+        try:
+            v = round(float(m.group(1)) / 100, 4)
+        except ValueError:
             continue
         if not 0 < v <= 3.0:
             continue
-        kind = _classify(m.group(3))
-        if not kind:
+        lead = _lead(text, at)
+        excerpt = re.sub(r"\s+", " ", (lead[-140:] + clause)).strip()[:320]
+        if _ADVISER.search(lead) or _ADVISER.search(clause):
+            aside.append({"reason": "a financial adviser's analysis", "excerpt": excerpt})
             continue
-        if _stale(m.group(3), announced) or _refused(text[max(0, m.start() - 200):m.start()], offer):
+        basis, window = _respectively(text, at) or _basis(clause)
+        price = _price_in(clause, offer)
+        when = _date_in(clause)
+        gap = None
+        # The proxy's own words for the unaffected day often follow the first
+        # figure of a list ("... on October 12, 2012 and approximately 49.2%
+        # ... the last trading day prior to the Company's announcement").
+        own = bool(_UNAFFECTED.search(clause) or _UNAFFECTED.search(text[at:at + 420]) or _UNAFFECTED.search(lead[-160:])) and not _PROPOSAL.search(lead)
+        # Reaching back beyond four months needs the statement's own words:
+        # wording in the next sentence may describe a different date
+        # (ChyronHego's 230% is to a close before an earlier merger).
+        strict = bool(_UNAFFECTED.search(clause) or _UNAFFECTED.search(lead[-160:])) and not _PROPOSAL.search(lead)
+        if announced and when:
+            gap = (date.fromisoformat(announced) - date.fromisoformat(when)).days
+            # A premium is measured to the last trading day before the news.
+            # The proxy says which day that is, and it can be months before
+            # the agreement: the day before a leak, a stake disclosed, the
+            # first proposal (Nordstrom's is nine months earlier). A statement
+            # the proxy itself calls unaffected may reach back two years; any
+            # other may reach back four months; a date after the agreement is
+            # never this deal's reference.
+            if not -5 <= gap <= (730 if strict else 120):
+                aside.append({"reason": f"measured to {when}, not near the agreement of {announced}", "excerpt": excerpt})
+                continue
+        # A different per-share figure leading into the premium is an earlier
+        # bid, for an all-cash deal. Where the consideration includes stock,
+        # the sentence states the value of the whole package ("valued at
+        # $30.00 per Share"), which is never the cash part alone.
+        if offer and cash_only and _refused(text[max(0, at - 220):at], offer):
+            aside.append({"reason": "names a per-share price other than the one agreed", "excerpt": excerpt})
             continue
-        found[kind][v] += 1
-        s = re.sub(r"\s+", " ", text[max(0, m.start() - 90):m.end()]).strip()
-        if m.start() > 90 and " " in s:
-            s = s.split(" ", 1)[1]
-        sentence.setdefault((kind, v), s)
+        row = {
+            "basis": basis,
+            "window": window,
+            "premium": v,
+            "price": price,
+            "date": when,
+            # Days from the reference date to the agreement, where both are known.
+            "gap": gap,
+            "unaffected": bool(_UNAFFECTED.search(clause) or _UNAFFECTED.search(lead[-160:])),
+            # The filing's own defined term ("the unaffected closing price"),
+            # over a description of the day ("the last trading day before").
+            "defined": bool(re.search(r"unaffected|undisturbed", clause + lead[-160:], re.I)),
+            "proposal": bool(_PROPOSAL.search(lead)),
+            # The statement names the agreed offer itself ("The $2.06 per share
+            # proposal represented ..."): the deal's own, among the background's.
+            "namesOffer": bool(_AGREED.search(lead)) or bool(offer) and any(abs(float(p.group(1).replace(",", "")) - offer) <= 0.005 * offer for p in _PRICE.finditer(lead[-200:]) if p.group(1).replace(",", "").replace(".", "").isdigit()),
+            "excerpt": excerpt,
+        }
+        key = (basis, window, v, price, when)
+        if key in seen:
+            for k in kept:
+                if (k["basis"], k["window"], k["premium"], k["price"], k["date"]) == key:
+                    k["count"] = k.get("count", 1) + 1
+            continue
+        seen.add(key)
+        kept.append(row)
+    return kept, aside
+
+
+def _score(s: dict) -> tuple:
+    """
+    Which of several statements of one basis is the deal's own: not a
+    proposal, naming the agreed offer, unaffected, with a price, with a date;
+    then the most repeated, then the most precise ("15.3%" over "15%"), then
+    the first met.
+    """
+    precise = len(f"{s['premium']:.6f}".rstrip("0").split(".")[1]) if "." in f"{s['premium']:.6f}".rstrip("0") else 0
+    return (
+        (0 if s["proposal"] else 3) + (2 if s.get("namesOffer") else 0) + (2 if s["unaffected"] else 0) + (1 if s.get("defined") else 0) + (1 if s.get("price") else 0) + (1 if s.get("date") else 0),
+        s.get("count", 1),
+        # Among equals, the close nearest before the agreement: the background
+        # quotes earlier closes for earlier exchange ratios (Hess: 10.2% to
+        # 29 September against the 4.9% to 20 October, the last day before).
+        -s["gap"] if s.get("gap") is not None and s["gap"] >= 0 else -10_000,
+        precise,
+    )
+
+
+def _stated_price_on(text: str, when: str, offer: float | None) -> tuple[float | None, str | None]:
+    """A closing price the document states for the unaffected date, wherever it says it: '... closing price ... on August 2, 2024 of $62.98'."""
+    best = None
+    for m in re.finditer(_DATE, text):
+        if iso_date(m.group(1), m.group(2), m.group(3)) != when:
+            continue
+        win = text[max(0, m.start() - 160):m.end() + 60]
+        if not re.search(r"clos|unaffected|undisturbed|share price|stock price", win, re.I):
+            continue
+        # The price beside the date, after it ("on August 2, 2024 of $62.98")
+        # or just before it ("of $39.31 as of April 1, 2022").
+        for p in list(_PRICE.finditer(text[m.end():m.end() + 40])) + list(_PRICE.finditer(text[max(0, m.start() - 40):m.start()])):
+            try:
+                v = float(p.group(1).replace(",", ""))
+            except ValueError:
+                continue
+            if 0.05 <= v <= 10_000 and not (offer and abs(v - offer) <= 0.005 * offer):
+                best = (v, re.sub(r"\s+", " ", win + text[m.end():m.end() + 60]).strip()[:300])
+                break
+        if best:
+            return best
+    return None, None
+
+
+def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool, texts: list[str] | None = None) -> dict:
+    """
+    The deal's premiums from every statement kept across its documents:
+
+      premium1Day        the premium to the unaffected close
+      premium30DayVwap   to the 30-trading-day VWAP
+      premium52WeekHigh  to the 52-week high
+      unaffectedPriceStated, unaffectedDate, unaffectedPriceBasis
+                         the reference price and date as the document states them
+
+    The price is read where the document states it, beside the premium or for
+    the same date elsewhere, and kept only where offer / price - 1 agrees with
+    the stated premium to within two points; a cash-and-stock deal's per-share
+    cash is not the whole consideration, so there the stated premium stands
+    alone. Nothing is worked back from a percentage here: finalize does that,
+    for an all-cash deal only, and says it did.
+    """
+    out: dict = {"premium1Day": None, "premium30DayVwap": None, "premium52WeekHigh": None, "unaffectedPriceStated": None, "unaffectedDate": None, "unaffectedPriceBasis": None, "premiumBasis": [], "premiumPreAnnouncement": None, "premiumPreAnnouncementDate": None}
+    pick = lambda xs: max(xs, key=_score) if xs else None  # noqa: E731
+    close = pick([s for s in statements if s["basis"] == "close"])
+    # The 30-day VWAP only where the filing says 30 days: a one-month or
+    # three-month average is another reference and stays in premiumStatements.
+    vwap30 = pick([s for s in statements if s["basis"] == "vwap" and s["window"] == "30-day"])
+    high = pick([s for s in statements if s["basis"] == "high"])
+    if close:
+        out["premium1Day"] = close["premium"]
+        out["unaffectedDate"] = close.get("date")
+        out["premiumBasis"].append(close["excerpt"])
+        price, where = close.get("price"), "stated with the premium"
+        # A price stated elsewhere for the same date is checked against the
+        # offer, so it is read for an all-cash deal only: in a stock deal the
+        # nearest price to the date is as often the acquirer's (Hess: $166.83
+        # is Chevron's close on 20 October 2023).
+        if price is None and close.get("date") and texts and cash_only and offer:
+            for t in texts:
+                price, where = _stated_price_on(t, close["date"], offer)
+                if price:
+                    break
+        if price and cash_only and offer:
+            if abs((offer / price - 1) - close["premium"]) > 0.02:
+                out["unaffectedPriceBasis"] = f"the stated price ${price:,.2f} does not reproduce the stated premium with the offer of ${offer:,.2f}, so it is not used"
+                price = None
+        if price:
+            out["unaffectedPriceStated"] = price
+            out["unaffectedPriceBasis"] = where if where == "stated with the premium" else f"the closing price the filing states for {close['date']}: {where}"
+    # The premium to the last close before the agreement was announced, as its
+    # own basis beside the unaffected one, wherever the filing states it: where
+    # the filing's unaffected day is months earlier (a leak, an approach, a
+    # first agreement since revised) this is the figure comparable with a deal
+    # that had none.
+    pre = pick([s for s in statements if s["basis"] == "close" and s.get("gap") is not None and -1 <= s["gap"] <= 5])
+    if pre:
+        out["premiumPreAnnouncement"] = pre["premium"]
+        out["premiumPreAnnouncementDate"] = pre.get("date")
+    if vwap30:
+        out["premium30DayVwap"] = vwap30["premium"]
+        out["premiumBasis"].append(vwap30["excerpt"])
+    if high:
+        out["premium52WeekHigh"] = high["premium"]
+        out["premiumBasis"].append(high["excerpt"])
+    return out
+
+
+def parse_premiums(text: str, offer: float | None = None, announced: str | None = None) -> dict[str, tuple[float, str]]:
+    """The deal's premiums from one document as {1day, vwap30, high52: (fraction, excerpt)}: premium_statements, chosen."""
+    kept, _ = premium_statements(text, offer, announced)
+    c = choose_premiums(kept, offer, cash_only=False)
     out = {}
-    for kind, c in found.items():
-        if c:
-            v, _ = c.most_common(1)[0]
-            out[kind] = (v, sentence[(kind, v)])
+    for k, f in (("1day", "premium1Day"), ("vwap30", "premium30DayVwap"), ("high52", "premium52WeekHigh")):
+        if c[f] is not None:
+            src = next(s for s in kept if s["premium"] == c[f] and (k != "1day" or s["basis"] == "close"))
+            out[k] = (c[f], src["excerpt"])
     return out
 
 
@@ -395,6 +766,47 @@ def named_party(p: str) -> bool:
     return len(words) >= 2 and all(w in _CONNECTIVE or re.match(r"[A-Z0-9“\"]", w) for w in words)
 
 
+#: the defined term a merger agreement gives its vehicle, right after the name:
+#: 'ALTA Acquisition Corp. (“Merger Sub”)'. Whatever the name, that party is the
+#: vehicle and not the buyer, and the party listed before it is its parent.
+_VEHICLE_TERM = re.compile(r"\s*,?\s*\(\s*(?:the\s+)?[“\"]?\s*(?:Merger\s+Sub(?:sidiary)?|Acquisition\s+Sub|Merger\s+Co|Purchaser|Sub|Acquiror\s+Sub)\s*[”\"]?\s*\)", re.I)
+
+
+def _defined_vehicle(seg: str, party: str) -> bool:
+    """Whether the agreement sentence defines this party as its merger vehicle."""
+    for name in (party, party.split(",")[0].strip()):
+        at = seg.find(name)
+        if at >= 0:
+            rest = seg[at + len(name):at + len(name) + 80]
+            rest = re.sub(r"^\s*,?\s*(?:Inc|Corp|Corporation|LLC|Ltd|L\.P)\.?", "", rest)
+            return bool(_VEHICLE_TERM.match(rest))
+    return False
+
+
+def vehicle_parent(sentence: str, vehicle: str, target_name: str) -> str | None:
+    """
+    The buyer behind a merger vehicle a stored row named as its acquirer: the
+    party the agreement sentence lists immediately before the vehicle, where
+    that is a named company and not the target. Anything less certain is None.
+    """
+    m = _AMONG.search(sentence)
+    if not m:
+        return None
+    parties = parse_parties(m.group(1))
+    idx = next((i for i, p in enumerate(parties) if p.strip(" ,;:") == vehicle.strip(" ,;:") or p.startswith(vehicle.split(",")[0])), None)
+    if not idx:
+        return None
+    p = parties[idx - 1]
+    if same_company(p, target_name) or _DEFINED.match(p.strip()) or _VEHICLE.search(p) or is_vehicle(p) or shell_name(p) or not re.match(r"[A-Z0-9]", p.strip()):
+        return None
+    return _clean_party(p)
+
+
+def _clean_party(p: str) -> str:
+    """'Synopsys, Inc., Inc.' (a suffix the clause split counted twice) to 'Synopsys, Inc.'."""
+    return re.sub(r"(,\s*(?:Inc|Corp|Corporation|LLC|Ltd|L\.?P)\.?)(?:,\s*(?:Inc|Corp|Corporation|LLC|Ltd|L\.?P)\.?)+$", r"\1", p.strip(" ,;:"))
+
+
 def parse_acquirer(text: str, target_name: str) -> tuple[str | None, str | None]:
     """
     The buyer, from the merger agreement sentence: the first named party that
@@ -407,11 +819,18 @@ def parse_acquirer(text: str, target_name: str) -> tuple[str | None, str | None]
         parties = parse_parties(m.group(1))
         if len(parties) < 2:
             continue
-        for p in parties:
-            if not named_party(p) or same_company(p, target_name):
+        seg = re.sub(r"\s+", " ", m.group(1))
+        vehicle = [_defined_vehicle(seg, p) for p in parties]
+        for i, p in enumerate(parties):
+            if vehicle[i] or same_company(p, target_name):
+                continue
+            # A name with no corporate suffix ("Synopsys") is still the buyer
+            # where the agreement lists its merger vehicle straight after it.
+            parent = i + 1 < len(parties) and vehicle[i + 1] and not _DEFINED.match(p.strip()) and re.match(r"[A-Z0-9]", p.strip())
+            if not (named_party(p) or parent):
                 continue
             sentence = re.sub(r"\s+", " ", _cut_sentence(m.group(0))).strip()
-            return p.strip(" ,;:"), sentence[:400]
+            return _clean_party(p), sentence[:400]
     return None, None
 
 
@@ -486,6 +905,74 @@ def shell_name(name: str) -> bool:
 def shellish(name: str) -> bool:
     """The wider shell vocabulary, for a filer EDGAR has already coded blank-check."""
     return bool(_SHELLISH.search(name or ""))
+
+
+#: What only a de-SPAC proxy says: the shell holds its IPO money in a trust
+#: account, its public holders may redeem from it, and the merger is its
+#: "initial business combination". A strategic buyer's merger subsidiary called
+#: "ALTA Acquisition Corp." says none of it. Measured on 4,262 stored proxies:
+#: the real de-SPACs mention a trust account 133 to 420 times; ordinary deals
+#: rarely more than a dozen (a bank's trust department, a company that was
+#: itself once a SPAC: Heliogen 6, Lionsgate Studios 6, HWH 28), with Student
+#: Loan Corp's 86 mentions of loan trusts the highest, and none of those names
+#: the shell's business combination or a blank-check company more than a few
+#: times. So both must be present, at counts no stray reference reaches.
+SPAC_TRUST_MIN = 100
+SPAC_IBC_MIN = 5
+
+
+def spac_evidence(text: str) -> dict[str, int]:
+    """How often a document uses the words only a blank-check combination uses."""
+    return {
+        "trustAccount": len(re.findall(r"trust\s+account", text, re.I)),
+        "initialBusinessCombination": len(re.findall(r"initial\s+business\s+combination", text, re.I)),
+        "blankCheck": len(re.findall(r"blank[\s-]check", text, re.I)),
+        "specialPurpose": len(re.findall(r"special\s+purpose\s+acquisition|\bSPAC\b", text, re.I)),
+    }
+
+
+def is_despac(evidence: dict[str, int]) -> bool:
+    """A de-SPAC on the document's own evidence: a trust account and the shell's business combination, never a name."""
+    return evidence.get("trustAccount", 0) >= SPAC_TRUST_MIN and (
+        evidence.get("initialBusinessCombination", 0) >= SPAC_IBC_MIN or evidence.get("blankCheck", 0) >= SPAC_IBC_MIN or evidence.get("specialPurpose", 0) >= SPAC_IBC_MIN
+    )
+
+
+#: the share of the public company the private company's holders must take
+REVERSE_MERGER_MIN = 60
+_PRIVATE = re.compile(r"privately[\s-]held|private\s+(?:company|biotechnology\s+company|operating\s+company)", re.I)
+_HOLDERS = r"(?:stockholders|shareholders|equityholders|equity\s+holders|securityholders|security\s+holders|unitholders)"
+_STAKE = r"(?:will|would|are\s+expected\s+to|is\s+expected\s+to|are\s+anticipated\s+to)\s+(?:collectively\s+|in\s+the\s+aggregate\s+)?own[^.;%]{0,60}?(\d{1,2}(?:\.\d+)?)\s?%"
+_CURRENT = re.compile(r"(?:current|existing|pre-merger|pre-closing)\s+(?:[A-Z][\w&.\-’' ]{1,40}?\s+)?" + _HOLDERS + r"[^.;%]{0,120}?" + _STAKE)
+_OTHER = re.compile(r"(?:former\s+)?(?:[A-Z][\w&.\-]{1,30}(?:’s|'s)\s+|" + _HOLDERS + r"\s+of\s+[A-Z][\w&.\-]{1,30}\s+)" + r"(?:" + _HOLDERS + r"\s+)?(?:[^.;%]{0,80}?)" + _STAKE)
+
+
+def reverse_merger_evidence(text: str) -> dict | None:
+    """
+    A reverse merger on the proxy's own words: one sentence in which the
+    public company's current holders keep a minority of it and another
+    company's holders take the majority ("MabVax's equityholders will own
+    approximately 95%, and Telik's current equityholders will own
+    approximately 5%, of the Telik capital stock"). A control acquisition says
+    the opposite: the target's holders, "former" holders, take a minority of
+    the buyer's shares, and the buyer's current holders keep the majority.
+    """
+    # The incoming holders own a private company: a merger of two listed
+    # companies ("CBC's current shareholders ... 42% ... SCB's shareholders
+    # ... 58%", Six Flags and Cedar Fair at 48.8% and 51.2%) is a merger of
+    # equals or a stock acquisition, not a reverse merger.
+    if not _PRIVATE.search(text):
+        return None
+    for sentence in re.split(r"(?<=[.;])\s+", text):
+        if "own" not in sentence or "%" not in sentence:
+            continue
+        cur = _CURRENT.search(sentence)
+        if not cur or float(cur.group(1)) >= 50:
+            continue
+        others = [float(m.group(1)) for m in _OTHER.finditer(sentence) if m.start() != cur.start() and not (cur.start() <= m.start() < cur.end())]
+        if any(v >= REVERSE_MERGER_MIN for v in others):
+            return {"currentHolders": float(cur.group(1)), "newHolders": max(v for v in others if v >= REVERSE_MERGER_MIN), "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]}
+    return None
 
 
 def reject_reason(name: str, sic: str | None, sic_description: str | None) -> str | None:

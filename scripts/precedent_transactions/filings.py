@@ -28,6 +28,7 @@ import html
 import json
 import os
 import re
+import sys
 import time
 import urllib.request
 from dataclasses import asdict, dataclass
@@ -57,7 +58,25 @@ CONCEPTS: dict[str, tuple[str, str, list[str]]] = {
     "shortTermDebt": ("Short-term debt", "USD", ["LongTermDebtCurrent", "DebtCurrent", "ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent"]),
     "longTermDebt": ("Long-term debt", "USD", ["LongTermDebtNoncurrent", "LongTermDebtAndCapitalLeaseObligations", "LongTermDebtAndFinanceLeaseLiabilitiesNoncurrent", "LongTermDebt"]),
     "sharesOutstanding": ("Shares outstanding", "shares", ["EntityCommonStockSharesOutstanding", "CommonStockSharesOutstanding", "CommonStockSharesIssued"]),
+    "impairment": ("Impairment charges", "USD", ["AssetImpairmentCharges", "GoodwillImpairmentLoss", "ImpairmentOfIntangibleAssetsExcludingGoodwill", "ImpairmentOfLongLivedAssetsHeldForUse", "GoodwillAndIntangibleAssetImpairment"]),
 }
+
+#: Concepts a filer uses for the whole line where none of the usual ones is
+#: current: a regulated utility's operating revenue (WGL, Delta Natural Gas),
+#: a goods company's net sales before 2018 (Snyder's-Lance, Mead Johnson), a
+#: utility's depreciation inside operating expenses (El Paso Electric). They
+#: are read only when every usual concept is missing or stale at the date,
+#: because a company that tags the total under a usual concept may also tag a
+#: part of it under one of these (goods sales beside service revenue), and the
+#: part must never stand in for the whole.
+FALLBACK: dict[str, list[str]] = {
+    "revenue": ["RegulatedAndUnregulatedOperatingRevenue", "SalesRevenueGoodsNet", "RegulatedOperatingRevenue", "ElectricUtilityRevenue"],
+    "dAndA": ["UtilitiesOperatingExpenseDepreciationAndAmortization", "DepreciationAndAmortizationExcludingNuclearFuel"],
+}
+
+#: the impairment share of EBITDA above which EV / EBITDA is not a multiple of
+#: the business's earnings, the threshold the site's precedent rule applies
+IMPAIRMENT_SHARE = 0.10
 
 
 # ── HTTP ─────────────────────────────────────────────────────────────────────
@@ -175,9 +194,12 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     its own filing carries.
     """
     cik = row["target"]["cik"]
-    premiums: dict[str, tuple[float, str]] = {}
+    statements: list[dict] = []
+    aside: list[dict] = []
+    texts: list[str] = []
     for d in docs:
-        if row["offerPrice"] is not None and "1day" in premiums and row["announcedBasis"] == "merger agreement":
+        own = any(s["basis"] == "close" and s["unaffected"] and not s["proposal"] for s in statements)
+        if row["offerPrice"] is not None and own and row["announcedBasis"] in AGREEMENT_BASES:
             break
         try:
             text = to_text(fetch(d["url"], cap=cap))
@@ -185,10 +207,12 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
             row["readErrors"].append(f"{d['name']}: {str(e)[:60]}")
             continue
         row["documentsRead"].append(d["url"])
+        texts.append(text)
         if row["announcedBasis"] != "merger agreement":
             agreed = parse.parse_agreement_date(text)
             if agreed:
                 row["announced"], row["announcedBasis"] = agreed, "merger agreement"
+        resolve_announcement(row, [text])
         if row["offerPrice"] is None:
             offer, basis = parse.parse_offer(text)
             if offer is not None:
@@ -203,16 +227,11 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
                 row["statedShares"], row["statedSharesBasis"] = round(n, 3), phrase
         # The agreement date, not the filing date, is what a premium is measured
         # to; a proxy is filed weeks later.
-        agreed = row["announced"] if row["announcedBasis"] == "merger agreement" else None
-        for k, v in parse.parse_premiums(text, row.get("offerPrice"), agreed).items():
-            premiums.setdefault(k, v)
-    if "1day" in premiums:
-        row["premium1Day"] = premiums["1day"][0]
-    if "vwap30" in premiums:
-        row["premium30DayVwap"] = premiums["vwap30"][0]
-    if "high52" in premiums:
-        row["premium52WeekHigh"] = premiums["high52"][0]
-    row["premiumBasis"] = [s for _, s in premiums.values()]
+        agreed = row["announced"] if row["announcedBasis"] in AGREEMENT_BASES else None
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
+        statements.extend({**s, "document": d["url"]} for s in kept)
+        aside.extend({**s, "document": d["url"]} for s in set_aside)
+    apply_premiums(row, statements, aside, texts)
     if row["offerPrice"] is None:
         row["status"] = "no-offer"
         return row
@@ -221,16 +240,139 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     except Exception as e:  # noqa: BLE001
         fin = {}
         row["readErrors"].append(f"company facts: {str(e)[:60]}")
-    for k in ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "netDebt", "ltmPeriodEnd", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis"):
+    for k in FINANCIAL_FIELDS:
         if k in fin:
             row[k] = fin[k]
     row["formsUsed"] = fin.get("forms", [])
+    row["financialsReader"] = FINANCIALS_READER
     # A filer that stopped tagging its share count still states it in the
     # transaction statement; that is the count at announcement, near enough.
     if not row.get("sharesOut") and row.get("statedShares"):
         row["sharesOut"] = row["statedShares"]
         row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
     return row
+
+
+#: The premium reading the stored rows were made with. A row read before this
+#: version has its premiums read again from the documents it read (premiums
+#: only: nothing else on the row changes), so a correction reaches every deal
+#: already on file and not only the next one.
+PREMIUM_READER = 2
+
+
+def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: list[str]) -> dict:
+    """The deal's premiums onto its row, with every statement kept and set aside as the provenance behind them."""
+    chosen = parse.choose_premiums(statements, row.get("offerPrice"), cash_only=row.get("consideration") == "cash", texts=texts)
+    for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
+        row[k] = chosen[k]
+    keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "excerpt", "document")
+    row["premiumStatements"] = [{k: s.get(k) for k in keep} for s in statements][:12]
+    row["premiumsSetAside"] = [{k: s.get(k) for k in ("reason", "excerpt", "document")} for s in aside][:8]
+    row["premiumReader"] = PREMIUM_READER
+    return row
+
+
+#: the bases under which "announced" is an agreement's date, so a premium's reference date can be measured against it
+AGREEMENT_BASES = ("merger agreement", "amended merger agreement")
+
+
+def resolve_announcement(row: dict, texts: list[str]) -> dict:
+    """
+    The date of the agreement whose terms the row records, where the row has
+    only the filing date or an agreement date more than a year before the
+    filing (which finalize replaces with the filing date):
+
+      - a revised deal is dated by its latest amendment or restatement
+        (Alere's $51.00 is the April 2017 amendment's; the January 2016
+        agreement goes to announcedOriginal), and
+      - an agreement the filing names without "Agreement and Plan of Merger,
+        dated ..." is read from its other wordings (Paramount's "transaction
+        agreement, dated as of July 7, 2024").
+
+    A filing date stands where neither is stated. A row re-dated here has its
+    financials read again at the new date (financialsReader is cleared).
+    """
+    filed = row.get("filed") or row.get("announced")
+    if not filed:
+        return row
+    floor = (date.fromisoformat(filed[:10]) - timedelta(days=400)).isoformat()
+    current = row.get("announced") or ""
+    if row.get("announcedBasis") in AGREEMENT_BASES and floor <= current <= filed:
+        return row
+    amended = max((d for d in (parse.parse_amendment_date(t) for t in texts) if d and floor <= d <= filed), default=None)
+    loose = None
+    for t in texts:
+        loose = loose or parse.parse_agreement_date_loose(t, floor, filed)
+    if amended and (not loose or amended >= loose):
+        was_agreement = row.get("announcedBasis") in AGREEMENT_BASES and current and current != amended
+        # The first agreement, which may be well over a year before the filing.
+        earlier = [d for t in texts for d in [parse.parse_agreement_date(t) or parse.parse_agreement_date_loose(t, "1990-01-01", amended)] if d and d < amended]
+        original = current if was_agreement else (min(earlier) if earlier else None)
+        if original:
+            row["announcedOriginal"] = original
+        row["announced"], row["announcedBasis"] = amended, "amended merger agreement"
+    elif loose:
+        row["announced"], row["announcedBasis"] = loose, "merger agreement"
+    if row.get("announced") != current:
+        row.pop("financialsReader", None)
+    return row
+
+
+def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
+    """
+    A stored row's premiums read again from the documents it was read from,
+    and nothing else. The offer, the agreement date and the financials stand:
+    they were not what was wrong.
+    """
+    statements: list[dict] = []
+    aside: list[dict] = []
+    texts: list[str] = []
+    urls = row.get("documentsRead") or []
+    for url in urls:
+        try:
+            texts.append(to_text(fetch(url, cap=cap)))
+        except Exception as e:  # noqa: BLE001
+            row.setdefault("readErrors", []).append(f"{url.rsplit('/', 1)[-1]}: {str(e)[:60]}")
+            return row
+    # A row dated by its filing, or by an agreement since revised, is dated
+    # by the agreement it records before any premium is measured against it.
+    resolve_announcement(row, texts)
+    agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
+    for url, text in zip(urls, texts):
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
+        statements.extend({**s, "document": url} for s in kept)
+        aside.extend({**s, "document": url} for s in set_aside)
+    return apply_premiums(row, statements, aside, texts)
+
+
+def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: int | None = None, minutes: float | None = None) -> int:
+    """
+    Read again the premiums of every row in `ids` that an earlier reader
+    wrote, oldest filing first, until the time budget is spent. A run cut
+    short keeps what it read (written every ten rows) and the next run carries
+    on, so a correction to the reader reaches the whole database over a run or
+    two without a step ever overrunning its timeout.
+    """
+    budget = float(os.environ.get("PRECEDENTS_REREAD_MINUTES", minutes if minutes is not None else 40)) * 60
+    todo = sorted((i for i in ids if needs_premium_reread(rows[i])), key=lambda i: rows[i].get("filed") or "")
+    if not todo:
+        return 0
+    print(f"{len(todo)} rows read with an earlier premium reader; reading their premiums again for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
+    started, done = time.time(), 0
+    for i in todo:
+        if time.time() - started > budget:
+            break
+        reread_premiums(rows[i], cap=cap)
+        done += 1
+        if done % 10 == 0:
+            write(rows)
+    print(f"{done} of {len(todo)} rows' premiums read again", file=sys.stderr, flush=True)
+    return done
+
+
+def needs_premium_reread(row: dict) -> bool:
+    """A stored row with documents read and premiums from an earlier reading."""
+    return (row.get("premiumReader") or 1) < PREMIUM_READER and bool(row.get("documentsRead")) and row.get("status") in ("ok", "no-offer")
 
 
 # ── XBRL company facts ───────────────────────────────────────────────────────
@@ -343,21 +485,37 @@ class Filings:
         return f
 
     # ── flows ────────────────────────────────────────────────────────────
-    def _durations(self, key: str) -> tuple[str, list[dict]]:
+    def _durations(self, key: str, only: list[str] | None = None) -> tuple[str, list[dict]]:
         _, unit, tags = CONCEPTS[key]
-        best_tag, best_rows, best_end = None, [], ""
-        for tag in tags:
-            rows = [r for r in self.observations(tag, unit) if r.get("form") in PERIODIC and r.get("start")]
-            if not rows:
-                continue
-            end = max(r["end"] for r in rows)
-            if end > best_end:
-                best_tag, best_rows, best_end = tag, rows, end
-        return best_tag or "", best_rows
+        if only is not None:
+            tags = only
 
-    def annual(self, key: str) -> Fact | None:
+        def best(candidates: list[str]) -> tuple[str, list[dict], str]:
+            best_tag, best_rows, best_end = None, [], ""
+            for tag in candidates:
+                rows = [r for r in self.observations(tag, unit) if r.get("form") in PERIODIC and r.get("start")]
+                if not rows:
+                    continue
+                end = max(r["end"] for r in rows)
+                if end > best_end:
+                    best_tag, best_rows, best_end = tag, rows, end
+            return best_tag or "", best_rows, best_end
+
+        tag, rows, end = best(tags)
+        if only is not None:
+            return tag, rows
+        # The fallback concepts, only where every usual one is missing or more
+        # than fifteen months older than the date (see FALLBACK).
+        floor = (date.fromisoformat(self.asof) - timedelta(days=456)).isoformat() if self.asof else ""
+        if key in FALLBACK and (not rows or (floor and end < floor)):
+            ftag, frows, fend = best(FALLBACK[key])
+            if frows and fend > end:
+                return ftag, frows
+        return tag, rows
+
+    def annual(self, key: str, only: list[str] | None = None) -> Fact | None:
         """The latest fiscal-year figure."""
-        _, rows = self._durations(key)
+        _, rows = self._durations(key, only)
         years = [r for r in rows if r.get("form") in ANNUAL and 340 <= (self._days(r) or 0) <= 400]
         if not years:
             return None
@@ -368,7 +526,7 @@ class Filings:
                 by_end[r["end"]] = r
         return self._fact(key, max(by_end.values(), key=lambda r: r["end"]))
 
-    def ltm(self, key: str) -> Fact | None:
+    def ltm(self, key: str, only: list[str] | None = None) -> Fact | None:
         """
         Last twelve months: fiscal year + current YTD - prior-year YTD.
 
@@ -377,21 +535,23 @@ class Filings:
         end are one subtraction away from the 10-K. When the pieces are not
         there the fiscal year stands, and the basis says which.
         """
-        ck = f"l:{key}"
+        ck = f"l:{key}:{','.join(only) if only else ''}"
         if ck in self._cache:
             return self._cache[ck]
-        fy = self.annual(key)
+        fy = self.annual(key, only)
         if not fy:
             self._cache[ck] = None
             return None
-        _, rows = self._durations(key)
+        _, rows = self._durations(key, only)
         fy_end = date.fromisoformat(fy.end)
         ytd = [r for r in rows if r.get("start") == (fy_end + timedelta(days=1)).isoformat() and r["end"] > fy.end and (self._days(r) or 0) < 300]
         out = fy
         if ytd:
             cur = max(ytd, key=lambda r: r["end"])
             cur_days = self._days(cur) or 0
-            prior_end = date.fromisoformat(cur["end"]).replace(year=date.fromisoformat(cur["end"]).year - 1)
+            # A year earlier, within the week the match allows: a period ending
+            # 29 February has no anniversary to replace(year=) into (Lennar).
+            prior_end = date.fromisoformat(cur["end"]) - timedelta(days=365)
             prior = [r for r in rows if r.get("start") == fy.start and abs(date.fromisoformat(r["end"]) - prior_end).days <= 7 and abs((self._days(r) or 0) - cur_days) <= 7]
             if prior:
                 p = min(prior, key=lambda r: r.get("filed") or "9999")
@@ -408,10 +568,17 @@ class Filings:
         da = self.ltm("dAndA")
         if not ebit or not da:
             return None
-        # Both pieces must describe the same twelve months: a filer that
-        # dropped the operating-income tag years ago has no EBITDA here.
-        if abs((date.fromisoformat(ebit.end) - date.fromisoformat(da.end)).days) > 100:
-            return None
+        # Both pieces must describe the same twelve months, to the week: one
+        # period per multiple, never operating income of one year added to
+        # depreciation of another. Where the D&A concept read first ends
+        # elsewhere, another D&A concept the filer tags for the same twelve
+        # months is used (WGL tags utility D&A to the quarter, total D&A only
+        # to the year).
+        same = lambda f: abs((date.fromisoformat(ebit.end) - date.fromisoformat(f.end)).days) <= 7  # noqa: E731
+        if not same(da):
+            da = next((f for f in (self.ltm("dAndA", [t]) for t in CONCEPTS["dAndA"][2] + FALLBACK["dAndA"]) if f and same(f)), None)
+            if not da:
+                return None
         basis = f"operating income + D&A ({ebit.tag.split(':')[1]} + {da.tag.split(':')[1]})"
         if ebit.basis:
             basis = f"{ebit.basis}; {basis}"
@@ -461,10 +628,20 @@ def financials_at(cik: str, asof: str) -> dict:
         out["ltmRevenue"] = round(rev.value / 1e6, 1)
         out["ltmPeriodEnd"] = rev.end
         out["forms"].extend([f"{rev.form} for {rev.period}"] + ([rev.also] if rev.also else []))
+    if rev and rev.end >= floor:
+        out["ltmRevenueEnd"] = rev.end
+        out["revenueTag"] = rev.tag
     if ebitda and ebitda.end >= floor:
         out["ltmEbitda"] = round(ebitda.value / 1e6, 1)
         out["ltmPeriodEnd"] = out.get("ltmPeriodEnd") or ebitda.end
+        out["ltmEbitdaEnd"] = ebitda.end
         out["ebitdaBasis"] = ebitda.basis
+        # The impairment charged inside the same twelve months, as tagged, so
+        # a reader can see an EBITDA that a write-down has depressed.
+        imp = fl.ltm("impairment")
+        if imp and abs((date.fromisoformat(imp.end) - date.fromisoformat(ebitda.end)).days) <= 7 and imp.value > 0:
+            out["ltmImpairment"] = round(imp.value / 1e6, 1)
+            out["impairmentTag"] = imp.tag
     elif ebit and ebit.end >= floor:
         out["ltmEbit"] = round(ebit.value / 1e6, 1)
     parts = {k: fl.instant(k) for k in ("shortTermDebt", "longTermDebt", "cash", "shortTermInvestments")}
@@ -484,3 +661,62 @@ def financials_at(cik: str, asof: str) -> dict:
         out["sharesBasis"] = meta
     out["entityName"] = fl.name
     return out
+
+
+# ── reading stored rows again ───────────────────────────────────────────────
+
+
+#: what financials_at puts on a row
+FINANCIAL_FIELDS = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "netDebt", "ltmPeriodEnd", "ltmRevenueEnd", "ltmEbitdaEnd", "revenueTag", "ltmImpairment", "impairmentTag", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis")
+
+#: The concept list a row's financials were read with. A priced row read before
+#: this version has its company facts read again (one request): those with no
+#: revenue or no EBITDA first, because the concepts added may give them one,
+#: then the rest, because an EBITDA read before may add operating income and
+#: D&A of different twelve months. The budget spreads it over a run or two.
+FINANCIALS_READER = 2
+
+
+def needs_financials_reread(row: dict) -> bool:
+    return (row.get("financialsReader") or 1) < FINANCIALS_READER and row.get("status") == "ok" and row.get("offerPrice") is not None
+
+
+def reread_financials(row: dict) -> dict:
+    """A stored row's financials at announcement read again; nothing else on the row changes."""
+    try:
+        fin = financials_at(row["target"]["cik"], row["announced"])
+    except Exception as e:  # noqa: BLE001
+        row.setdefault("readErrors", []).append(f"company facts: {str(e)[:60]}")
+        return row
+    # Every field the reader owns is replaced, a missing one included: an
+    # EBITDA whose operating income and D&A were for different twelve months
+    # is withdrawn, not left standing beside the corrected revenue.
+    for k in FINANCIAL_FIELDS:
+        row[k] = fin.get(k)
+    row["formsUsed"] = fin.get("forms", [])
+    row["financialsReader"] = FINANCIALS_READER
+    # The share count the transaction statement gives stands where the
+    # company facts carry none, as on a first reading.
+    if not row.get("sharesOut") and row.get("statedShares"):
+        row["sharesOut"] = row["statedShares"]
+        row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
+    return row
+
+
+def reread_stale_financials(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 30) -> int:
+    """The priced rows in `ids` read under an earlier concept list, read again until the budget is spent."""
+    budget = float(os.environ.get("PRECEDENTS_FINANCIALS_MINUTES", minutes)) * 60
+    todo = sorted((i for i in ids if needs_financials_reread(rows[i])), key=lambda i: (rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
+    if not todo:
+        return 0
+    print(f"{len(todo)} priced rows read under the earlier concept list; reading their company facts again for up to {budget / 60:.0f} minutes, those with no revenue or no EBITDA first", file=sys.stderr, flush=True)
+    started, done = time.time(), 0
+    for i in todo:
+        if time.time() - started > budget:
+            break
+        reread_financials(rows[i])
+        done += 1
+        if done % 10 == 0:
+            write(rows)
+    print(f"{done} of {len(todo)} rows' financials read again", file=sys.stderr, flush=True)
+    return done

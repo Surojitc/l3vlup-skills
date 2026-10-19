@@ -61,6 +61,15 @@ def build_row(tx: dict) -> dict:
     return filings.read_documents(row, docs)
 
 
+def target_moved(row: dict | None, tx: dict) -> bool:
+    """Whether the deck index now names a different target CIK than the stored row was read for."""
+    if not row:
+        return False
+    stored = str((row.get("target") or {}).get("cik") or "").zfill(10)
+    current = str((tx.get("target") or {}).get("cik") or "").zfill(10)
+    return bool(current.strip("0")) and stored != current
+
+
 def build(limit: int | None = None, only: str | None = None, full: bool = False) -> dict:
     """Read the deck index, add or refresh rows, write the database and return it."""
     if not database.DECKS.exists():
@@ -72,7 +81,16 @@ def build(limit: int | None = None, only: str | None = None, full: bool = False)
     # and leaves the merger proxies formindex.py wrote exactly where they are.
     owned = {k: v for k, v in stored.items() if (v.get("source") or "SC 13E3") == "SC 13E3"}
     existing: dict[str, dict] = {} if full else owned
-    todo = [t for t in txs if (only and t["id"] == only) or (not only and t["id"] not in existing)]
+    # A row whose target the deck index has since corrected (the index used to
+    # take the CIK of whichever joint filer the form index listed, which could
+    # be the buyer's) is read again: its financials were the wrong company's,
+    # or none at all.
+    def moved(t: dict) -> bool:
+        return target_moved(owned.get(t["id"]), t)
+
+    todo = [t for t in txs if (only and t["id"] == only) or (not only and (t["id"] not in existing or moved(t)))]
+    if not only:
+        print(f"{sum(1 for t in txs if moved(t))} rows whose target the deck index has corrected, read again", file=sys.stderr)
     if only and not todo:
         raise SystemExit(f"{only} is not in the deck index.")
     if limit:
@@ -81,6 +99,8 @@ def build(limit: int | None = None, only: str | None = None, full: bool = False)
     # --full with --only means "read that one again", not "start the universe
     # over", so the other rows stay where they are.
     rows = {k: v for k, v in stored.items() if k not in owned} if (full and not only) else dict(stored)
+    if not only:
+        filings.reread_stale_premiums(rows, [k for k in owned if k in rows], database.write, minutes=20)
     for i, tx in enumerate(todo, 1):
         try:
             row = database.finalize(build_row(tx))
@@ -95,6 +115,9 @@ def build(limit: int | None = None, only: str | None = None, full: bool = False)
         # Write as it goes, so a run cut short keeps what it read.
         if i % 10 == 0:
             database.write(rows)
+    # Rows read under the earlier concept list, after the new filings.
+    if not only:
+        filings.reread_stale_financials(rows, [k for k in owned if k in rows], database.write, minutes=15)
     out = database.write(rows)
     c = out["counts"]
     print(f"\n{c['transactions']} transactions: {c['withOffer']} with an offer price, {c['withMultiples']} with EV / LTM EBITDA, {c['withPremium']} with a stated premium, {c['flagged']} flagged for checking, {c['noOffer']} with no offer found, {c['errors']} errors.", file=sys.stderr)

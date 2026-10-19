@@ -64,6 +64,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
 import sys
 import time
@@ -98,6 +99,18 @@ _REPORTS = {"10-K", "10-K405", "10-KSB", "10-KT", "10-Q", "10-QSB", "20-F", "40-
 
 #: how many filers are worth a submissions request before the first is taken
 _TRIES = 5
+
+#: the de-SPAC rule a row was judged by. Version 1 rejected a proxy whose
+#: merger agreement named a counterparty called "... Acquisition Corp.", which
+#: took Synopsys's merger subsidiary for a shell and threw out its purchase of
+#: Ansys with 60 other strategic and sponsor deals; those rows are read again.
+SPAC_RULE = 2
+_OLD_DESPAC = "de-SPAC: the counterparty is a blank-check shell"
+
+
+def wrongly_rejected(row: dict) -> bool:
+    """A row the name-only de-SPAC rule rejected, to be read again under the evidence rule."""
+    return row.get("status") == "rejected" and row.get("error") == _OLD_DESPAC and (row.get("spacRule") or 1) < SPAC_RULE
 
 
 # ── the quarterly form index ─────────────────────────────────────────────────
@@ -487,6 +500,9 @@ def build_proxy_row(cand: dict) -> dict:
                 r["acquirer"], r["acquirerBasis"] = acq, basis
         seen["stock"] = seen.get("stock") or parse.mixed_consideration(text)
         seen["acquirerSide"] = seen.get("acquirerSide") or parse.acquirer_side(text)
+        ev = parse.spac_evidence(text)
+        seen["spac"] = {k: seen.get("spac", {}).get(k, 0) + v for k, v in ev.items()}
+        seen["reverse"] = seen.get("reverse") or parse.reverse_merger_evidence(text)
 
     row = filings.read_documents(row, [doc], cap=DOC_CAP, on_text=on_text)
     # All stock is still a merger and still gives a premium; it gives no cash
@@ -497,13 +513,78 @@ def build_proxy_row(cand: dict) -> dict:
         row["offerPrice"], row["offerBasis"] = None, None
         row["status"] = "no-consideration"
         row["error"] = "the filer's own holders voted on issuing shares, not on being acquired"
-    elif row.get("acquirer") and parse.shell_name(row["acquirer"]):
-        # A de-SPAC read from the operating company's side: the shell is the
-        # counterparty rather than the filer, and $10.00 a trust unit is not
-        # an offer price.
-        row["status"] = "rejected"
-        row["error"] = "de-SPAC: the counterparty is a blank-check shell"
+    else:
+        judge_spac(row, seen.get("spac") or {}, seen.get("reverse"))
+    row["spacRule"] = SPAC_RULE
     return row
+
+
+def judge_spac(row: dict, ev: dict[str, int], reverse: dict | None = None) -> dict:
+    """
+    A de-SPAC read from the operating company's side is rejected: the shell is
+    the counterparty rather than the filer, and $10.00 a trust unit is not an
+    offer price. It is known by what the proxy describes (the shell's trust
+    account and its initial business combination), never by a counterparty's
+    name: a strategic buyer's merger subsidiary is as often "... Acquisition
+    Corp." as a shell is. The counts stay on the row, so the call can be
+    checked against the filing.
+    """
+    row["spacEvidence"] = dict(ev)
+    if parse.is_despac(ev):
+        row["status"] = "rejected"
+        row["error"] = f"de-SPAC: the proxy describes the counterparty's trust account ({ev['trustAccount']} mentions) and its initial business combination ({ev['initialBusinessCombination']})"
+    elif reverse:
+        # Not a SPAC, and not a control acquisition either: a private
+        # company's holders take the majority of the listed one (MabVax into
+        # Telik, Viveve into PLC Systems). Kept, and labelled for what it is,
+        # with the proxy's sentence that says so.
+        row["dealType"] = "reverse-merger"
+        row["reverseMergerBasis"] = reverse
+    row["spacRule"] = SPAC_RULE
+    return row
+
+
+def needs_spac_check(row: dict, forms: tuple[str, ...] = ("DEFM14A", "DEFM14C")) -> bool:
+    """An accepted proxy judged before the evidence rule: it may be a de-SPAC the name test missed."""
+    return (row.get("spacRule") or 1) < SPAC_RULE and row.get("status") in ("ok", "no-offer", "no-consideration") and bool(row.get("documentsRead")) and row.get("source") in forms
+
+
+def check_stale_spac(rows: dict[str, dict], write, *, forms: tuple[str, ...] = ("DEFM14A", "DEFM14C"), minutes: float = 20) -> int:
+    """
+    Every accepted proxy judged by the name-only rule is read again for the
+    evidence, oldest first, within a time budget; a run cut short keeps what
+    it read and the next carries on. Odysseus, D-Wave, Hagerty and BigBear.ai,
+    each a shell's $10.00 a unit, had been stored as acquisitions. Only the
+    documents already read are fetched, and only the de-SPAC call can change.
+    """
+    budget = float(os.environ.get("PRECEDENTS_SPAC_MINUTES", minutes)) * 60
+    todo = sorted((k for k, r in rows.items() if needs_spac_check(r, forms)), key=lambda k: rows[k].get("filed") or "")
+    if not todo:
+        return 0
+    print(f"{len(todo)} proxies judged by the name-only de-SPAC rule; checking their evidence for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
+    started, done, rejected, reverse_mergers = time.time(), 0, 0, 0
+    for k in todo:
+        if time.time() - started > budget:
+            break
+        r, ev, reverse = rows[k], {}, None
+        try:
+            for url in r["documentsRead"]:
+                text = filings.to_text(filings.fetch(url, cap=DOC_CAP))
+                for name, n in parse.spac_evidence(text).items():
+                    ev[name] = ev.get(name, 0) + n
+                reverse = reverse or parse.reverse_merger_evidence(text)
+        except Exception as e:  # noqa: BLE001
+            # Left unjudged, so the next run tries again.
+            print(f"  {k}: {type(e).__name__}: {str(e)[:80]}", file=sys.stderr)
+            continue
+        judge_spac(r, ev, reverse)
+        rejected += r["status"] == "rejected"
+        reverse_mergers += r.get("dealType") == "reverse-merger"
+        done += 1
+        if done % 10 == 0:
+            write(rows)
+    print(f"{done} of {len(todo)} checked, {rejected} found to be de-SPACs and rejected, {reverse_mergers} labelled reverse mergers", file=sys.stderr, flush=True)
+    return done
 
 
 def _buyer_type(acquirer: str | None) -> str | None:
@@ -654,9 +735,21 @@ def build(limit: int | None = None, since: int = 2020, only: str | None = None, 
         todo.append(c)
     if only and not todo:
         raise SystemExit(f"{only} is not in the merger index.")
+    # Rows the name-only de-SPAC rule rejected are read again, first: they are
+    # deals the database should have had all along.
+    if not only:
+        again = [{"form": r.get("source") or "DEFM14A", "name": r["target"]["name"], "cik": r["target"]["cik"], "filed": r.get("filed") or r.get("announced"), "accession": r["id"], "file": ""} for r in rows.values() if wrongly_rejected(r) and (r.get("source") or "SC 13E3") in forms]
+        if again:
+            print(f"{len(again)} rows rejected by the earlier name-only de-SPAC rule, read again under the evidence rule", file=sys.stderr)
+        todo = again + todo
+        # And proxies the name rule accepted are checked for the evidence.
+        check_stale_spac(rows, database.write, forms=tuple(f for f in forms if f != "SC 13E3"))
     if limit:
         todo = todo[:limit]
     print(f"{len(cands)} {' and '.join(forms)} filings since {since}, {len(known)} already in the database, {spacs} blank-check shells and {dups} deals already read from another filing skipped, {len(todo)} to read", file=sys.stderr)
+
+    if not only:
+        filings.reread_stale_premiums(rows, [k for k in owned if k in rows], database.write, cap=DOC_CAP, minutes=60)
 
     read = 0
     for i, c in enumerate(todo, 1):
@@ -672,6 +765,9 @@ def build(limit: int | None = None, since: int = 2020, only: str | None = None, 
         # Write as it goes, so a run cut short keeps what it read.
         if i % 10 == 0:
             database.write(rows)
+    # Rows read under the earlier concept list, after the new filings.
+    if not only:
+        filings.reread_stale_financials(rows, [k for k in owned if k in rows], database.write, minutes=30)
     out = database.write(rows)
     c = out["counts"]
     print(f"\n{read} filings read. {c['transactions']} transactions on file: {c['publicMergers']} public mergers, {c['takePrivates']} take-privates, {c['withOffer']} with an offer price, {c['withMultiples']} with EV / LTM EBITDA, {c['withPremium']} with a stated premium, {c['flagged']} flagged for checking, {c['noOffer']} with no offer found, {c['noConsideration']} acquirer-side votes, {c['rejected']} rejected, {c['errors']} errors.", file=sys.stderr)

@@ -18,6 +18,7 @@ import {
   rate,
   sectorOf,
   stripHtml,
+  subjectOf,
 } from '../../lib/decks.mjs';
 
 let passed = 0;
@@ -306,6 +307,56 @@ test('the date next to the title beats one left in the template', () => {
   assert.equal(findCoverDate('Di s cuss ion Materia l s Janu a ry 11, 2024'), '11 January 2024');
   // A date after the filing is a misread, not a meeting.
   assert.equal(findCoverDate('Discussion Materials March 1, 2027', { filedOn: '2026-09-01' }), null);
+});
+
+// ── The target of a joint 13E-3: the subject company, CIK and all ──────────
+// Avangrid's going-private statement (0001193125-24-165806), the header as
+// EDGAR serves it, cut to its SEC-HEADER. The form index lists the filing
+// under Iberdrola's CIK, the filing person; the subject is Avangrid.
+
+const AVANGRID = `<pre>&lt;SEC-HEADER&gt;0001193125-24-165806.hdr.sgml : 20240621
+ACCESSION NUMBER:		0001193125-24-165806
+CONFORMED SUBMISSION TYPE:	SC 13E3
+GROUP MEMBERS:		ARIZONA MERGER SUB, INC.
+GROUP MEMBERS:		AVANGRID, INC.
+
+SUBJECT COMPANY:	
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			Avangrid, Inc.
+		CENTRAL INDEX KEY:			0001634997
+		STANDARD INDUSTRIAL CLASSIFICATION:	ELECTRIC SERVICES [4911]
+		FISCAL YEAR END:			1231
+
+FILED BY:		
+
+	COMPANY DATA:	
+		COMPANY CONFORMED NAME:			Iberdrola, S.A.
+		CENTRAL INDEX KEY:			0001360587
+		STANDARD INDUSTRIAL CLASSIFICATION:	UNKNOWN SIC - 8880 [8880]
+&lt;/SEC-HEADER&gt;</pre>`;
+
+test('a filing found under the buyer\'s CIK takes the subject company\'s CIK as the target', () => {
+  const got = subjectOf(parseHeader(AVANGRID), '0001360587');
+  assert.equal(got.target.name, 'Avangrid, Inc.');
+  assert.equal(got.target.cik, '0001634997');
+  assert.equal(got.target.sic, '4911');
+  assert.equal(got.subjectCik, '0001634997');
+  assert.deepEqual(got.filers, ['Iberdrola, S.A.']);
+});
+
+test('found under the subject\'s own CIK, the answer is the same', () => {
+  const got = subjectOf(parseHeader(AVANGRID), '0001634997');
+  assert.equal(got.target.cik, '0001634997');
+  assert.deepEqual(got.filers, ['Iberdrola, S.A.']);
+});
+
+test('a header naming no subject keeps the index line\'s CIK and says so with a null subjectCik', () => {
+  const got = subjectOf({ subjects: [], filers: [{ name: 'Acme Holdings LLC', cik: '0000000009' }] }, '0000000001', 'Target Inc');
+  assert.equal(got.target.cik, '0000000001');
+  assert.equal(got.target.name, 'Target Inc');
+  assert.equal(got.subjectCik, null);
+  assert.deepEqual(got.filers, ['Acme Holdings LLC']);
 });
 
 console.log(`${passed} passed`);
