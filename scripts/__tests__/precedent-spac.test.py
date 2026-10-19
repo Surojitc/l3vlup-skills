@@ -108,6 +108,31 @@ formindex.judge_spac(row, {k: accepted["Fidelity & Guaranty Life"][k] for k in (
 eq("a deal the evidence clears keeps its status", (row["status"], row.get("error")), ("ok", None))
 eq("a take-private 13E-3 is never re-checked here", formindex.needs_spac_check({"status": "ok", "source": "SC 13E3", "documentsRead": ["u"]}), False)
 
+# Reverse mergers: back from the name rule, but not control acquisitions.
+rv = FIX["reverse"]
+m = parse.reverse_merger_evidence(rv["MABVAX THERAPEUTICS HOLDINGS, INC."]["text"])
+eq("MabVax into Telik: MabVax's holders take 85% of Telik's stock, Telik's current holders keep 15%", (m["newHolders"], m["currentHolders"]), (85.0, 15.0))
+v = parse.reverse_merger_evidence(rv["VIVEVE MEDICAL, INC."]["text"])
+eq("Viveve into PLC Systems: PLC's current holders keep 37.2%, Viveve's former holders take 62.8%", (v["currentHolders"], v["newHolders"]), (37.2, 62.8))
+private = " The company is a privately held company."
+for name, why in (
+    ("MOMENTIVE GLOBAL INC.", "Zendesk's current holders keep 78%: Momentive is acquired"),
+    ("Qorvo, Inc.", "former Qorvo holders take 37% of Skyworks: Qorvo is acquired"),
+    ("California BanCorp", "42% and 58%: a merger of two listed banks, under the 60% bar"),
+    ("Six Flags Entertainment Corp/OLD", "48.8% and 51.2%: a merger of equals"),
+):
+    eq(f"{name} is not a reverse merger ({why}), even beside a mention of a private company", parse.reverse_merger_evidence(rv[name]["text"] + private), None)
+eq("and without a private company in the proxy, no ownership split is a reverse merger", parse.reverse_merger_evidence("Current Acme holders will own approximately 20%, and Beta's holders will own approximately 80%, of Acme's common stock."), None)
+
+row = {"id": "rm", "status": "ok", "source": "DEFM14A", "dealType": "public merger", "offerPrice": 4.19, "documentsRead": ["u"], "target": {"name": "MABVAX THERAPEUTICS HOLDINGS, INC."}}
+formindex.judge_spac(row, {"trustAccount": 0, "initialBusinessCombination": 0, "blankCheck": 0, "specialPurpose": 0}, m)
+eq("judged: kept with its status, labelled dealType reverse-merger, the proxy's sentence and stakes on the row", (row["status"], row["dealType"], row["reverseMergerBasis"]["newHolders"]), ("ok", "reverse-merger", 85.0))
+row = {"id": "sp", "status": "ok", "source": "DEFM14A", "dealType": "public merger", "documentsRead": ["u"], "target": {"name": "S"}}
+formindex.judge_spac(row, {k: accepted["Odysseus (Cayman) Ltd"][k] for k in ("trustAccount", "initialBusinessCombination", "blankCheck", "specialPurpose")}, m)
+eq("a de-SPAC stays rejected as a de-SPAC, not relabelled", (row["status"], row["dealType"]), ("rejected", "public merger"))
+from precedent_transactions import database  # noqa: E402
+eq("the database counts reverse mergers apart from public mergers", "reverseMergers" in database.write.__code__.co_consts or "reverseMergers" in open(database.__file__).read(), True)
+
 eq("a stray phrase is not evidence", parse.is_despac(parse.spac_evidence("The Company's former SPAC sponsor holds a trust account at a bank.")), False)
 eq("a counterparty's name is not evidence", parse.is_despac(parse.spac_evidence("by and among Acme Inc., Hero Acquisition Corporation and Target Inc.")), False)
 

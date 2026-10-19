@@ -226,6 +226,7 @@ METHOD = {
     "acquirer": "for a take-private, the buyer a page names from the 13E-3 filer list; for a merger proxy, the first named party of the merger agreement sentence that is neither the target nor a merger vehicle (acquirerBasis is the sentence), null where the parties are named only by defined term",
     "status": "ok, no-offer (read, no per-share cash figure stated), no-consideration (an acquirer-side vote: the filer's own holders voted on issuing shares), rejected (a blank-check shell or a fund reorganisation, not a precedent transaction) or error",
     "announced": "the merger agreement date as stated in the transaction statement; the 13E-3 filing date when no agreement date is stated (announcedBasis)",
+    "reverseMergerBasis": "dealType 'reverse-merger': the proxy states that a private company's holders will own the majority (60% or more) of the listed company and its current holders the rest; the sentence and both stakes are kept. Such a row is not a control acquisition of the listed company",
     "spacEvidence": "for a merger proxy, how often its documents mention a trust account, an initial business combination, a blank-check company and a special purpose acquisition company; a proxy with at least 100 of the first and 5 of any other is a de-SPAC and rejected (spacRule 2), whatever its counterparty is called",
     "offerPrice": "per-share cash consideration as stated in the filing, the most frequently stated figure (offerBasis is the phrase matched)",
     "premiums": "as stated in the filing, to the closing price before announcement, the 30-day VWAP and the 52-week high (premiumBasis is the sentence matched); unaffectedPrice, vwap30 and high52 are offer / (1 + premium)",
@@ -251,6 +252,7 @@ def write(rows: dict[str, dict]) -> dict:
         "errors": sum(1 for r in ordered if r.get("status") == "error"),
         "takePrivates": sum(1 for r in ordered if r.get("dealType") == "take-private"),
         "publicMergers": sum(1 for r in ordered if r.get("dealType") == "public merger"),
+        "reverseMergers": sum(1 for r in ordered if r.get("dealType") == "reverse-merger"),
     }
     out = {
         "generatedAt": datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None).isoformat() + "Z",

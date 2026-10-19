@@ -502,6 +502,7 @@ def build_proxy_row(cand: dict) -> dict:
         seen["acquirerSide"] = seen.get("acquirerSide") or parse.acquirer_side(text)
         ev = parse.spac_evidence(text)
         seen["spac"] = {k: seen.get("spac", {}).get(k, 0) + v for k, v in ev.items()}
+        seen["reverse"] = seen.get("reverse") or parse.reverse_merger_evidence(text)
 
     row = filings.read_documents(row, [doc], cap=DOC_CAP, on_text=on_text)
     # All stock is still a merger and still gives a premium; it gives no cash
@@ -513,12 +514,12 @@ def build_proxy_row(cand: dict) -> dict:
         row["status"] = "no-consideration"
         row["error"] = "the filer's own holders voted on issuing shares, not on being acquired"
     else:
-        judge_spac(row, seen.get("spac") or {})
+        judge_spac(row, seen.get("spac") or {}, seen.get("reverse"))
     row["spacRule"] = SPAC_RULE
     return row
 
 
-def judge_spac(row: dict, ev: dict[str, int]) -> dict:
+def judge_spac(row: dict, ev: dict[str, int], reverse: dict | None = None) -> dict:
     """
     A de-SPAC read from the operating company's side is rejected: the shell is
     the counterparty rather than the filer, and $10.00 a trust unit is not an
@@ -532,6 +533,13 @@ def judge_spac(row: dict, ev: dict[str, int]) -> dict:
     if parse.is_despac(ev):
         row["status"] = "rejected"
         row["error"] = f"de-SPAC: the proxy describes the counterparty's trust account ({ev['trustAccount']} mentions) and its initial business combination ({ev['initialBusinessCombination']})"
+    elif reverse:
+        # Not a SPAC, and not a control acquisition either: a private
+        # company's holders take the majority of the listed one (MabVax into
+        # Telik, Viveve into PLC Systems). Kept, and labelled for what it is,
+        # with the proxy's sentence that says so.
+        row["dealType"] = "reverse-merger"
+        row["reverseMergerBasis"] = reverse
     row["spacRule"] = SPAC_RULE
     return row
 
@@ -554,25 +562,28 @@ def check_stale_spac(rows: dict[str, dict], write, *, forms: tuple[str, ...] = (
     if not todo:
         return 0
     print(f"{len(todo)} proxies judged by the name-only de-SPAC rule; checking their evidence for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
-    started, done, rejected = time.time(), 0, 0
+    started, done, rejected, reverse_mergers = time.time(), 0, 0, 0
     for k in todo:
         if time.time() - started > budget:
             break
-        r, ev = rows[k], {}
+        r, ev, reverse = rows[k], {}, None
         try:
             for url in r["documentsRead"]:
-                for name, n in parse.spac_evidence(filings.to_text(filings.fetch(url, cap=DOC_CAP))).items():
+                text = filings.to_text(filings.fetch(url, cap=DOC_CAP))
+                for name, n in parse.spac_evidence(text).items():
                     ev[name] = ev.get(name, 0) + n
+                reverse = reverse or parse.reverse_merger_evidence(text)
         except Exception as e:  # noqa: BLE001
             # Left unjudged, so the next run tries again.
             print(f"  {k}: {type(e).__name__}: {str(e)[:80]}", file=sys.stderr)
             continue
-        judge_spac(r, ev)
+        judge_spac(r, ev, reverse)
         rejected += r["status"] == "rejected"
+        reverse_mergers += r.get("dealType") == "reverse-merger"
         done += 1
         if done % 10 == 0:
             write(rows)
-    print(f"{done} of {len(todo)} checked, {rejected} found to be de-SPACs and rejected", file=sys.stderr, flush=True)
+    print(f"{done} of {len(todo)} checked, {rejected} found to be de-SPACs and rejected, {reverse_mergers} labelled reverse mergers", file=sys.stderr, flush=True)
     return done
 
 

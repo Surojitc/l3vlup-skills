@@ -567,6 +567,43 @@ def is_despac(evidence: dict[str, int]) -> bool:
     )
 
 
+#: the share of the public company the private company's holders must take
+REVERSE_MERGER_MIN = 60
+_PRIVATE = re.compile(r"privately[\s-]held|private\s+(?:company|biotechnology\s+company|operating\s+company)", re.I)
+_HOLDERS = r"(?:stockholders|shareholders|equityholders|equity\s+holders|securityholders|security\s+holders|unitholders)"
+_STAKE = r"(?:will|would|are\s+expected\s+to|is\s+expected\s+to|are\s+anticipated\s+to)\s+(?:collectively\s+|in\s+the\s+aggregate\s+)?own[^.;%]{0,60}?(\d{1,2}(?:\.\d+)?)\s?%"
+_CURRENT = re.compile(r"(?:current|existing|pre-merger|pre-closing)\s+(?:[A-Z][\w&.\-’' ]{1,40}?\s+)?" + _HOLDERS + r"[^.;%]{0,120}?" + _STAKE)
+_OTHER = re.compile(r"(?:former\s+)?(?:[A-Z][\w&.\-]{1,30}(?:’s|'s)\s+|" + _HOLDERS + r"\s+of\s+[A-Z][\w&.\-]{1,30}\s+)" + r"(?:" + _HOLDERS + r"\s+)?(?:[^.;%]{0,80}?)" + _STAKE)
+
+
+def reverse_merger_evidence(text: str) -> dict | None:
+    """
+    A reverse merger on the proxy's own words: one sentence in which the
+    public company's current holders keep a minority of it and another
+    company's holders take the majority ("MabVax's equityholders will own
+    approximately 95%, and Telik's current equityholders will own
+    approximately 5%, of the Telik capital stock"). A control acquisition says
+    the opposite: the target's holders, "former" holders, take a minority of
+    the buyer's shares, and the buyer's current holders keep the majority.
+    """
+    # The incoming holders own a private company: a merger of two listed
+    # companies ("CBC's current shareholders ... 42% ... SCB's shareholders
+    # ... 58%", Six Flags and Cedar Fair at 48.8% and 51.2%) is a merger of
+    # equals or a stock acquisition, not a reverse merger.
+    if not _PRIVATE.search(text):
+        return None
+    for sentence in re.split(r"(?<=[.;])\s+", text):
+        if "own" not in sentence or "%" not in sentence:
+            continue
+        cur = _CURRENT.search(sentence)
+        if not cur or float(cur.group(1)) >= 50:
+            continue
+        others = [float(m.group(1)) for m in _OTHER.finditer(sentence) if m.start() != cur.start() and not (cur.start() <= m.start() < cur.end())]
+        if any(v >= REVERSE_MERGER_MIN for v in others):
+            return {"currentHolders": float(cur.group(1)), "newHolders": max(v for v in others if v >= REVERSE_MERGER_MIN), "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]}
+    return None
+
+
 def reject_reason(name: str, sic: str | None, sic_description: str | None) -> str | None:
     """Why a filer is not a precedent target, once EDGAR's industry code is known; None when it is one."""
     sic = str(sic or "")
