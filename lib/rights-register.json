@@ -434,10 +434,12 @@
       "termsUrl": "https://www.iex.io/legal/hist-data-terms",
       "termsReadUrls": [
         "https://www.iex.io/legal/hist-data-terms",
+        "https://cdn.prod.website-files.com/696f8ac812dcabe749e3aa49/6a963ef0d60054a54c2a79ba_IEX%20Market%20Data%20Policies%20-%20September%202026_Clean.pdf",
+        "https://www.iex.io/resources/trading/fee-schedule",
         "https://iextrading.com/api/1.0/hist"
       ],
       "businessUse": "permitted",
-      "businessUseBasis": "Supplied by L3VLUP and not independently confirmed in this review: IEX Market Data Policies (Sept 2026) s.15 \"IEX does not require an IEX Data Subscriber Agreement from any Person who receives, uses, or distributes IEX Historical Data in accordance with the IEX Historical Data Terms of Use.\" The Terms of Use (read) place no bar on commercial use; clause 01 even covers persons who \"distribute, sell, lease, furnish\" it, subject to attribution.",
+      "businessUseBasis": "IEX Market Data Policies (September 2026, read in full) s.15: \"IEX does not require an IEX Data Subscriber Agreement from any Person who receives, uses, or distributes IEX Historical Data in accordance with the IEX Historical Data Terms of Use.\" s.1 defines IEX Historical Data as the T+1 files at iextrading.com/stats/#historical-stats. The Terms of Use place no bar on commercial use; clause 01 covers persons who \"distribute, sell, lease, furnish\" it, subject to attribution. The fee schedule (effective 1 Oct 2026) charges only for real-time feeds.",
       "displayRights": "yes",
       "displayRightsBasis": "Terms clause 01 permits distributing or providing access if IEX is cited with the prescribed text and link.",
       "derivedUseRights": "conditional",
@@ -445,7 +447,7 @@
       "storageRights": "conditional",
       "storageRightsBasis": "Not addressed by the Terms of Use. Permitted by absence of restriction; written confirmation requested. The collector keeps only a per-symbol working history outside the repository, in the Actions cache.",
       "redistribution": "Clause 01: any distribution or access requires the attribution below. Clause 03: IEX keeps ownership of the data. Clauses 08 and 10: the data covers IEX trading only and is \"a reference point only, rather than ... a basis for making trading decisions\". Clauses 04-07, 09: as-is, no warranty, indemnity by the user.",
-      "attribution": "Data provided for free by IEX. By accessing or using IEX Historical Data, you agree to the IEX Historical Data Terms of Use. (with a link to https://www.iex.io/legal/hist-data-terms; the repo's lib/iex-tops.mjs IEX_TERMS_URL currently points at https://iextrading.com/iex-historical-data-terms/, which answers 301 to https://exchange.iex.io/products/market-data-connectivity/hist-terms/)",
+      "attribution": "Data provided for free by IEX. By accessing or using IEX Historical Data, you agree to the IEX Historical Data Terms of Use. (with a link to https://www.iex.io/legal/hist-data-terms)",
       "notes": "Open actions: (1) written confirmation from IEX on storage and derived use; (2) I could not locate the s.15 sentence in a search, so it rests on the quote supplied to this review; (3) the lib/iex-tops.mjs IEX_TERMS_URL differs from the governing URL named here; (4) the output now publishes a daily reference price and a weekly history, so display of prices (not only categories) falls under clause 01 and clause 08 (IEX-only, reference use). Source files moved from market-context to market-reference during this branch.",
       "lastReviewed": "2026-10-19"
     },
