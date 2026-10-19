@@ -13,13 +13,9 @@ Tests: `scripts/__tests__/market-reference.test.mjs`.
 
 ## 1. Rights
 
-Read on 19 October 2026 from IEX's own documents.
+Read on 19 October 2026 from IEX's own documents, and approved the same day. The conclusion:
 
-**IEX Market Data Policies, September 2026, §15:**
-
-> "IEX does not require an IEX Data Subscriber Agreement from any Person who receives, uses, or distributes IEX Historical Data in accordance with the IEX Historical Data Terms of Use."
-
-§1 defines IEX Historical Data as the T+1 files at `iextrading.com/stats/#historical-stats`. The same note says real-time or delayed data that someone stores is *not* Historical Data. What this collector reads is the HIST files themselves.
+> IEX Historical Data Terms expressly permit distribution of IEX Historical Data subject to the required attribution. The HIST product is provided free on a T+1 basis. The terms do not state a separate commercial-use restriction for HIST.
 
 **IEX Historical Data Terms of Use** (<https://www.iex.io/legal/hist-data-terms>), clause 01:
 
@@ -27,26 +23,32 @@ Read on 19 October 2026 from IEX's own documents.
 
 The other clauses cover:
 
-- ownership (03): IEX keeps its rights;
+- ownership (03): IEX keeps its rights in the data;
 - no warranty and no liability (04–06, 09);
 - indemnity (07);
 - illegal use (02);
-- a reminder that the data reflects IEX trading only and is a reference point, not a basis for trading (08, 10).
+- the data reflects IEX trading only and is a reference point, not a view of the broader market or a basis for trading (08, 10). This is why the price is named an IEX reference price and every file carries the disclaimer in §2.
 
-No clause restricts business use, storage or derived calculations. The only fee on the fee schedule is for real-time feeds, and IEX charges nothing for HIST.
+**IEX Market Data Policies, September 2026, §15:**
+
+> "IEX does not require an IEX Data Subscriber Agreement from any Person who receives, uses, or distributes IEX Historical Data in accordance with the IEX Historical Data Terms of Use."
+
+§1 of the Policies defines IEX Historical Data as the T+1 files at `iextrading.com/stats/#historical-stats`. The fee schedule charges nothing for HIST.
+
+**HIST is not the real-time feeds.** Everything above is about HIST, the free T+1 historical files. IEX's real-time TOPS and DEEP feeds are distributed under a separate regime: a Data Subscriber Agreement, the Policies and the fee schedule. The Policies also say that real-time or delayed data someone stores does not become Historical Data. The HIST files are captures in the TOPS message format, but reading them is not receiving the real-time TOPS feed. Nothing here reads a real-time IEX feed, and nothing here implies these rights extend to one.
 
 | Question | Answer |
 |---|---|
-| A. May a business download HIST/TOPS? | Yes. No restriction to personal use; §15 contemplates any Person |
-| B. Store daily observations? | Not addressed by the terms; nothing prohibits it |
-| C. Display a trade-derived reference price? | Yes, with the attribution. Clause 01 covers any distribution or provision of access |
+| A. May a business download HIST? | Yes. HIST is free, T+1, and §15 requires no subscriber agreement of any Person |
+| B. Store daily observations? | The terms set no separate storage restriction for HIST. The daily database stays private, in the Actions cache (§5) |
+| C. Display a trade-derived reference price? | Yes. Clause 01 expressly contemplates distributing or providing access, with the attribution |
 | D. Display a trailing high and low? | Yes, as C |
-| E. Use the price in market cap, P/E, EV and multiples? | Not addressed; nothing prohibits it. §11 of the Policies, written for subscribers, lets derived data be distributed free of charge |
+| E. Use the price in market cap, P/E, EV and multiples? | The terms state no separate restriction on it. The figures are shown with the attribution and the clause 08 reference-point disclaimer |
 | F. Attribution | The clause 01 text above, with a link to the terms, wherever the data is shown |
-| G. Registration or agreement? | None. §15 says so expressly |
-| H. Raw trade vs reference price vs ratios? | The terms draw no distinction. All are IEX historical data or built from it. Clause 08 asks that it be understood as IEX-only trading |
+| G. Registration or agreement? | None for HIST (§15). The real-time feeds are a different matter |
+| H. Raw trade vs reference price vs ratios? | The terms draw no distinction. Only the daily reference price and figures built from it are published; no raw trades or intraday history |
 
-Written confirmation is not required to proceed. It is worth having on record for storage and derived use, which the terms leave unaddressed. The message to send to IEX Market Data (`marketops@iextrading.com`):
+Written confirmation from IEX is not required to proceed. It is worth having on record. The message to send to IEX Market Data (`marketops@iextrading.com`):
 
 > We use IEX HIST/TOPS historical trade files to calculate one end-of-day IEX reference price per US equity. We would display that dated IEX reference price, its trailing 52-week high/low, and valuation ratios calculated from it inside a web-based financial-analysis application. We do not provide the raw feed or intraday trade history. Is this permitted, and what attribution or agreement is required?
 
