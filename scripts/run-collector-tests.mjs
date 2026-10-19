@@ -49,6 +49,7 @@ export const SUITES = [
   'publication-persistence',
   'workflow-permissions',
   'collector-tests',
+  'precedent-transactions',
 ];
 
 const failed = [];
