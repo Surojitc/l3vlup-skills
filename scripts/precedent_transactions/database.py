@@ -316,6 +316,16 @@ def _day(row: dict) -> date | None:
         return None
 
 
+def _original(row: dict) -> date | None:
+    """The first agreement of a revised deal, where the row records an amendment of it."""
+    if row.get("announcedBasis") != "amended merger agreement" or not row.get("announcedOriginal"):
+        return None
+    try:
+        return date.fromisoformat(row["announcedOriginal"][:10])
+    except ValueError:
+        return None
+
+
 def _agreed(row: dict) -> date | None:
     return _day(row) if row.get("announcedBasis") == "merger agreement" else None
 
@@ -330,6 +340,16 @@ def _buyer(row: dict) -> str | None:
 
 def same_deal(a: dict, b: dict) -> bool:
     """Whether two readings of one target are the same transaction (see above)."""
+    # A revised deal is dated by its amendment and keeps the agreement it
+    # amended as announcedOriginal: a reading of that agreement, by the same
+    # buyer, is the same deal (iRobot's $61.00 of August 2022, revised to
+    # $51.75 in July 2023).
+    for x, y in ((a, b), (b, a)):
+        oa, gy = _original(x), _agreed(y) or _original(y)
+        if oa and gy and abs((oa - gy).days) <= SAME_AGREEMENT_DAYS:
+            bx, by = _buyer(x), _buyer(y)
+            if not (bx and by) or parse.same_company(bx, by) or parse.same_registrant(bx, by):
+                return True
     ba, bb = _buyer(a), _buyer(b)
     if ba and bb and not parse.same_company(ba, bb) and not parse.same_registrant(ba, bb):
         return False
@@ -388,7 +408,7 @@ def dedupe(rows: dict[str, dict]) -> dict[str, dict]:
             r.pop(k, None)
     for group in deal_groups(rows):
         primary = _primary(group)
-        first = min(_day(r) or date.max for r in group)
+        first = min(min(d for d in (_day(r), _original(r)) if d) if (_day(r) or _original(r)) else date.max for r in group)
         primary["dealId"] = f"{str(primary['target']['cik']).zfill(10)}:{first.isoformat() if first != date.max else primary['id']}"
         if len(group) == 1:
             continue
@@ -397,10 +417,18 @@ def dedupe(rows: dict[str, dict]) -> dict[str, dict]:
         if len({o for _, o in offers}) > 1:
             primary["offerHistory"] = [{"filed": f, "offerPrice": o} for f, o in offers]
         filled: dict[str, str] = {}
-        for _, fields, probe in _BORROW:
+        for what, fields, probe in _BORROW:
             if primary.get(probe) not in (None, [], ""):
                 continue
-            donor = next((r for r in sorted(group, key=lambda r: r.get("filed") or "", reverse=True) if r is not primary and r.get(probe) not in (None, [], "")), None)
+            candidates = [r for r in sorted(group, key=lambda r: r.get("filed") or "", reverse=True) if r is not primary and r.get(probe) not in (None, [], "")]
+            if what == "premiums":
+                # A premium belongs to the offer it was stated for: a reading
+                # of the same offer may lend its premium, a reading of a
+                # different offer never does (iRobot's $51.75 is not 22% over
+                # anything: the 22% was the $61.00 offer's).
+                po = primary.get("offerPrice")
+                candidates = [r for r in candidates if po is None or r.get("offerPrice") is None or abs(r["offerPrice"] - po) <= 0.005 * po]
+            donor = next(iter(candidates), None)
             if donor:
                 for f in fields:
                     if donor.get(f) not in (None, [], "") and primary.get(f) in (None, [], ""):
@@ -441,9 +469,9 @@ METHOD = {
     "reverseMergerBasis": "dealType 'reverse-merger': the proxy states that a private company's holders will own the majority (60% or more) of the listed company and its current holders the rest; the sentence and both stakes are kept. Such a row is not a control acquisition of the listed company",
     "spacEvidence": "for a merger proxy, how often its documents mention a trust account, an initial business combination, a blank-check company and a special purpose acquisition company; a proxy with at least 100 of the first and 5 of any other is a de-SPAC and rejected (spacRule 2), whatever its counterparty is called",
     "offerPrice": "per-share cash consideration as stated in the filing, the most frequently stated figure (offerBasis is the phrase matched)",
-    "premiums": "as the filing states them for its own deal, to the unaffected close (the last trading day before the news, as the filing defines it), the 30-trading-day VWAP and the 52-week high; a financial adviser's analysis (an illustrative range, comparable deals) and an earlier proposal are never read as the deal's premium. premiumStatements lists every statement kept with its document, premiumsSetAside the ones left out and why, premiumBasis the sentences chosen",
+    "premiums": "as the filing states them for its own deal, to the unaffected close (the last trading day before the news, as the filing defines it), the 30-trading-day VWAP and the 52-week high; a financial adviser's analysis (an illustrative range, comparable deals) and an earlier proposal are never read as the deal's premium. premiumStatements lists every statement kept with its document, premiumsSetAside the ones left out and why, premiumBasis the sentences chosen. A 30-day VWAP or 52-week-high premium measured to the same day as a kept unaffected statement is kept with sharesReference true, and fills only a basis the agreement window left empty; a premium is borrowed from another reading only where that reading states the same offer",
     "unaffectedGapDays": "days from unaffectedDate to announced; a row whose gap exceeds 90 days is flagged 'long-unaffected-window: ...' with its premiums in doubt, and keeps the filing's own unaffected price. premiumPreAnnouncement (and its date) is the premium the filing states to the last close before the announcement, where it states one",
-    "announcedBasis": "merger agreement (the agreement's date as stated), amended merger agreement (a revised deal: the latest amendment or restatement, announcedOriginal the first agreement's date) or filing date (no agreement date stated)",
+    "announcedBasis": "merger agreement (the agreement's date as stated), amended merger agreement (a revised deal: the latest amendment or restatement, where the filings state that it revised the agreed price to the row's offer; announcedOriginal the first agreement's date, which also dates the deal's dealId) or filing date (no agreement date stated)",
     "unaffectedPrice": "the closing price the filing states for the unaffected date (unaffectedPriceMethod 'stated', unaffectedDate the date); for an all-cash deal whose filing states only the percentage, offer / (1 + premium1Day) ('computed from the offer and the stated premium'); none for a deal paid partly in stock. vwap30 and high52 are offer / (1 + premium), all-cash deals only",
     "financials": "USD millions; sharesOut from the transaction statement when the company facts carry no count at announcement; LTM to the last fiscal period end on or before announcement (fiscal year + YTD - prior YTD), EBITDA = operating income + D&A, net debt = debt - cash and short-term investments at the same balance sheet; sharesOut = cover-page shares (dei) at the last cover date on or before announcement, millions",
     "values": "equityValue = offerPrice x sharesOut; ev = equityValue + netDebt; dealValue = the aggregate value from the filing-fee table, kept as a cross-check",

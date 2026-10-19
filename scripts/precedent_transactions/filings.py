@@ -228,7 +228,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
         # The agreement date, not the filing date, is what a premium is measured
         # to; a proxy is filed weeks later.
         agreed = row["announced"] if row["announcedBasis"] in AGREEMENT_BASES else None
-        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"))
         statements.extend({**s, "document": d["url"]} for s in kept)
         aside.extend({**s, "document": d["url"]} for s in set_aside)
     apply_premiums(row, statements, aside, texts)
@@ -257,7 +257,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
 #: version has its premiums read again from the documents it read (premiums
 #: only: nothing else on the row changes), so a correction reaches every deal
 #: already on file and not only the next one.
-PREMIUM_READER = 2
+PREMIUM_READER = 3
 
 
 def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: list[str]) -> dict:
@@ -265,7 +265,7 @@ def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: 
     chosen = parse.choose_premiums(statements, row.get("offerPrice"), cash_only=row.get("consideration") == "cash", texts=texts)
     for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
         row[k] = chosen[k]
-    keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "excerpt", "document")
+    keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "sharesReference", "excerpt", "document")
     row["premiumStatements"] = [{k: s.get(k) for k in keep} for s in statements][:12]
     row["premiumsSetAside"] = [{k: s.get(k) for k in ("reason", "excerpt", "document")} for s in aside][:8]
     row["premiumReader"] = PREMIUM_READER
@@ -297,9 +297,14 @@ def resolve_announcement(row: dict, texts: list[str]) -> dict:
         return row
     floor = (date.fromisoformat(filed[:10]) - timedelta(days=400)).isoformat()
     current = row.get("announced") or ""
-    if row.get("announcedBasis") in AGREEMENT_BASES and floor <= current <= filed:
-        return row
     amended = max((d for d in (parse.parse_amendment_date(t) for t in texts) if d and floor <= d <= filed), default=None)
+    # A row already dated by an agreement stands, unless the documents state a
+    # later amendment of it that changed the price the row records: iRobot's
+    # $51.75 is the July 2023 amendment's ("reduced from $61.00 in cash, to
+    # $51.75 in cash"). Most amendments are technical and leave the terms, the
+    # announcement and the premium's reference where they were.
+    if row.get("announcedBasis") in AGREEMENT_BASES and floor <= current <= filed and not (amended and amended > current and parse.price_revised(texts, row.get("offerPrice"))):
+        return row
     loose = None
     for t in texts:
         loose = loose or parse.parse_agreement_date_loose(t, floor, filed)
@@ -339,7 +344,7 @@ def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
     resolve_announcement(row, texts)
     agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
     for url, text in zip(urls, texts):
-        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash")
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"))
         statements.extend({**s, "document": url} for s in kept)
         aside.extend({**s, "document": url} for s in set_aside)
     return apply_premiums(row, statements, aside, texts)
