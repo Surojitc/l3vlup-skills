@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-18T05:26:02.066Z",
-  "count": 3259,
+  "generatedAt": "2026-10-19T13:50:54.019Z",
+  "count": 3281,
   "roles": {
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b": {
       "slug": "cohere-machine-learning-intern-co-op-winter-2027",
@@ -1216,6 +1216,14 @@
       "slug": "flow-traders-senior-software-engineer-c-2",
       "since": "2026-10-12"
     },
+    "greenhouse-flowtraders-8064096": {
+      "slug": "flow-traders-graduate-trader-2",
+      "since": "2026-10-19"
+    },
+    "greenhouse-flowtraders-8090609": {
+      "slug": "flow-traders-ai-engineer",
+      "since": "2026-10-19"
+    },
     "greenhouse-flowtraders-8094581": {
       "slug": "flow-traders-graduate-quantitative-trader",
       "since": "2026-09-18"
@@ -1538,6 +1546,10 @@
     "greenhouse-imc-4867453101": {
       "slug": "imc-trading-otc-trader-digital-assets-asia",
       "since": "2026-10-12"
+    },
+    "greenhouse-imc-4871352101": {
+      "slug": "imc-trading-hardware-engineer-asia",
+      "since": "2026-10-19"
     },
     "greenhouse-imc-4871364101": {
       "slug": "imc-trading-performance-engineer-asia",
@@ -2228,6 +2240,10 @@
     "greenhouse-lincolninternational-8267537": {
       "slug": "lincoln-international-research-analyst-capital-advisory",
       "since": "2026-10-12"
+    },
+    "greenhouse-lincolninternational-8300504": {
+      "slug": "lincoln-international-2027-full-time-analyst-consumer-manda",
+      "since": "2026-10-19"
     },
     "greenhouse-lyft-8767534002": {
       "slug": "lyft-software-engineer-intern-test-automation-summer-2027",
@@ -6749,6 +6765,10 @@
       "slug": "jpmorgan-chase-credit-trading-private-credit-analyst",
       "since": "2026-10-13"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210793877": {
+      "slug": "jpmorgan-chase-equity-research-taiwan-tech-hardware-analyst-associate",
+      "since": "2026-10-19"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210794017": {
       "slug": "jpmorgan-chase-asset-management-securitized-credit-research-analyst-vice-president-executive-director-abs-focused",
       "since": "2026-10-13"
@@ -6868,6 +6888,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210797491": {
       "slug": "jpmorgan-chase-asset-management-global-market-strategist-milan-executive-director",
       "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210797771": {
+      "slug": "jpmorgan-chase-us-equity-research-large-cap-software-associate",
+      "since": "2026-10-19"
     },
     "oracle-jpmc-fa-oraclecloud-com-210797827": {
       "slug": "jpmorgan-chase-commercial-and-investment-bank-ficc-electronic-sales-analyst",
@@ -7139,6 +7163,10 @@
     "talnet-morganstanley-tal-net-21522": {
       "slug": "morgan-stanley-2027-technology-industrial-placement-programme-london",
       "since": "2026-09-18"
+    },
+    "talnet-morganstanley-tal-net-21569": {
+      "slug": "morgan-stanley-2027-technology-internship-budapest",
+      "since": "2026-10-19"
     },
     "talnet-morganstanley-tal-net-21581": {
       "slug": "morgan-stanley-2027-sales-and-trading-off-cycle-internship-paris",
@@ -8004,6 +8032,10 @@
       "slug": "accenture-apprenticeship-digital-business-developer-efz-all-genders",
       "since": "2026-10-16"
     },
+    "workday-accenture-R00365279": {
+      "slug": "accenture-data-and-ai-internship-program",
+      "since": "2026-10-19"
+    },
     "workday-athene-R253683": {
       "slug": "apollo-global-management-2026-summer-associate-treasury-and-business-management",
       "since": "2026-09-18"
@@ -8051,6 +8083,10 @@
     "workday-barclays-JR-0000112103-1": {
       "slug": "barclays-limits-and-otc-trading-technology-lead-vp",
       "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000115921": {
+      "slug": "barclays-agency-cmo-trading-analyst",
+      "since": "2026-10-19"
     },
     "workday-barclays-JR-0000116727": {
       "slug": "barclays-credit-quantitative-developer",
@@ -9270,6 +9306,10 @@
       "slug": "bmo-capital-markets-quantitative-developer-alpha-research-team-gam-summer-2027-co-op-internship-12-months",
       "since": "2026-09-18"
     },
+    "workday-bmo-R260026763-3": {
+      "slug": "bmo-capital-markets-commercial-banking-credit-analyst-internship-montreal-summer-2027-co-op-internship-4-months",
+      "since": "2026-10-19"
+    },
     "workday-bmo-R260026800": {
       "slug": "bmo-capital-markets-business-analyst-winter-2027-co-op-internship-4-months-us",
       "since": "2026-09-25"
@@ -9726,9 +9766,21 @@
       "slug": "citi-young-apprentice-c00-mumbai-7",
       "since": "2026-10-13"
     },
+    "workday-citi-261002085": {
+      "slug": "citi-banking-debt-capital-markets-internship-s-o-paulo-brazil-2027",
+      "since": "2026-10-19"
+    },
     "workday-citi-261002380": {
       "slug": "citi-young-apprentice-c00-chennai-2",
       "since": "2026-10-15"
+    },
+    "workday-citi-261002885": {
+      "slug": "citi-technology-infrastructure-summer-analyst-internship-philippines-2027",
+      "since": "2026-10-19"
+    },
+    "workday-citi-261002901": {
+      "slug": "citi-technology-cyber-security-summer-analyst-internship-philippines-2027",
+      "since": "2026-10-19"
     },
     "workday-citi-26945311": {
       "slug": "citi-services-summer-analyst-program-new-york-city-us-2027",
@@ -10184,6 +10236,10 @@
     "workday-citi-26998100": {
       "slug": "citi-functions-enterprise-services-and-public-affairs-summer-analyst-new-york-usa-2027",
       "since": "2026-09-30"
+    },
+    "workday-citi-26998300": {
+      "slug": "citi-markets-sales-and-trading-internship-s-o-paulo-brazil-2027",
+      "since": "2026-10-19"
     },
     "workday-citi-26998927": {
       "slug": "citi-jovem-aprendiz-legal-apprentice-s-o-paulo-brazil-2026",
@@ -10987,6 +11043,10 @@
       "slug": "ing-internship-ing-corporate-finance-manda",
       "since": "2026-09-18"
     },
+    "workday-ing-REQ-10121708": {
+      "slug": "ing-esg-risk-internship",
+      "since": "2026-10-19"
+    },
     "workday-ing-REQ-10121730-1": {
       "slug": "ing-intern-finance-product-control",
       "since": "2026-09-24"
@@ -11231,9 +11291,29 @@
       "slug": "ing-intern-portfolio-management",
       "since": "2026-10-16"
     },
+    "workday-ing-REQ-10123362": {
+      "slug": "ing-recruitment-internship-ing-hubs-romania",
+      "since": "2026-10-19"
+    },
     "workday-ing-REQ-10123430": {
       "slug": "ing-intern-hr-operations",
       "since": "2026-10-16"
+    },
+    "workday-ing-REQ-10123437": {
+      "slug": "ing-cybersecurity-intern-3",
+      "since": "2026-10-19"
+    },
+    "workday-ing-REQ-10123439": {
+      "slug": "ing-cybersecurity-intern-2",
+      "since": "2026-10-19"
+    },
+    "workday-ing-REQ-10123442": {
+      "slug": "ing-cybersecurity-intern-1",
+      "since": "2026-10-19"
+    },
+    "workday-ing-REQ-10123449": {
+      "slug": "ing-intern-europe",
+      "since": "2026-10-19"
     },
     "workday-intel-JR0281401": {
       "slug": "intel-practical-engineering-student-kiryat-gat",
@@ -11768,6 +11848,10 @@
     "workday-intel-JR0288222-1": {
       "slug": "intel-ai-application-development-intern",
       "since": "2026-10-16"
+    },
+    "workday-intel-JR0288311": {
+      "slug": "intel-graduate-talent-payroll-specialist-contract",
+      "since": "2026-10-19"
     },
     "workday-investpsp-R4850": {
       "slug": "psp-investments-intern-private-equity-london-6-months-off-cycle-january-june-2027",
@@ -12626,6 +12710,10 @@
     "workday-nvidia-JR2027850": {
       "slug": "nvidia-low-power-asic-engineer-new-college-grad-2027",
       "since": "2026-10-14"
+    },
+    "workday-nvidia-JR2027871": {
+      "slug": "nvidia-signal-and-power-integrity-engineer-new-college-graduate-2027",
+      "since": "2026-10-19"
     },
     "workday-omers-JR-8378": {
       "slug": "omers-student-private-equity-analyst-summer-2027-4-months",
