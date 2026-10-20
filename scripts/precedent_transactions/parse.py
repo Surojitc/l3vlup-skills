@@ -1005,7 +1005,8 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         # statement that names the agreed consideration itself stands.
         if targets and price and not names_offer and all(abs((t / price - 1) - v) > PREMIUM_FIT for t in targets):
             t, unit = min(ties, key=lambda tu: abs((tu[0] / price - 1) - v))
-            aside.append({"reason": f"measures ${price * (1 + v):,.2f} a {unit} (${price:,.2f} plus {v:.1%}), not the offer of ${t:,.2f} a {unit}: another price's premium", "excerpt": excerpt})
+            a = "an" if unit == "ADS" else "a"
+            aside.append({"reason": f"measures ${price * (1 + v):,.2f} {a} {unit} (${price:,.2f} plus {v:.1%}), not the offer of ${t:,.2f} {a} {unit}: another price's premium", "excerpt": excerpt})
             continue
         row = {
             "basis": basis,
@@ -1160,7 +1161,7 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
             fits = [(v, u) for v, u in ties if abs((v / price - 1) - close["premium"]) <= PREMIUM_FIT]
             if not fits:
                 v, u = ties[0]
-                out["unaffectedPriceBasis"] = f"the stated price ${price:,.2f} does not reproduce the stated premium with the offer of ${v:,.2f} a {u}, so it is not used"
+                out["unaffectedPriceBasis"] = f"the stated price ${price:,.2f} does not reproduce the stated premium with the offer of ${v:,.2f} {'an' if u == 'ADS' else 'a'} {u}, so it is not used"
                 price = None
             else:
                 unit = min(fits, key=lambda vu: abs((vu[0] / price - 1) - close["premium"]))[1]
