@@ -340,8 +340,12 @@ PREMIUM_READER = 5
 #: as the filing states it on the reference day or from its stated parts. Each
 #: part is kept with its passage and document (offerComponents), and a row
 #: read before this version has its offer read again from its documents, so
-#: the guard records every change under this version.
-OFFER_READER = 2
+#: the guard records every change under this version. 3: a ratio in a
+#: holding company's shares for another company's shares is that company's
+#: share exchange, not the target's consideration (Siliconware was paid cash;
+#: ASE's shares moved into ASE Industrial Holding), and a re-read that finds
+#: no stock puts back the cash the offer reader had called cash and stock.
+OFFER_READER = 3
 
 #: the fields the offer reader owns, cleared before each reading
 OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved")
@@ -372,13 +376,18 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
                 if offer != row.get("offerPrice"):
                     row["offerPrice"], row["offerBasis"] = offer, basis
                 break
+    # Cash and stock is the offer reader's own call where no document says
+    # the consideration is mixed: on a re-read it is made again, so a
+    # correction that finds no stock puts the cash back.
+    if reread and row.get("consideration") == "cash and stock" and not any(parse.mixed_consideration(t) for t in texts):
+        row["consideration"] = "cash"
     for k in OFFER_FIELDS:
         row.pop(k, None)
     row["offerReader"] = OFFER_READER
     if row.get("offerPrice") is None:
         return row
     agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
-    o = parse.read_offer(texts, row["offerPrice"], row.get("offerBasis"), agreed, row.get("announcedOriginal"))
+    o = parse.read_offer(texts, row["offerPrice"], row.get("offerBasis"), agreed, row.get("announcedOriginal"), (row.get("target") or {}).get("name"))
     if o["perShare"]:
         # The price read was the price per ADS: the row's price is per share.
         row["offerPrice"], row["offerBasis"] = o["perShare"]
