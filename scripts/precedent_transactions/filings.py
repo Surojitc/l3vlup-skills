@@ -228,16 +228,16 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
             row["consideration"] = "cash and stock"
         if on_text:
             on_text(row, text)
-        if "statedShares" not in row:
-            n, phrase = parse.parse_shares(text)
-            if n:
-                row["statedShares"], row["statedSharesBasis"] = round(n, 3), phrase
         # The agreement date, not the filing date, is what a premium is measured
         # to; a proxy is filed weeks later.
         agreed = row["announced"] if row["announcedBasis"] in AGREEMENT_BASES else None
         kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"))
         statements.extend({**s, "document": d["url"]} for s in kept)
         aside.extend({**s, "document": d["url"]} for s in set_aside)
+    # The share count from every document read: what each class receives can
+    # sit in a different document from the count of each (parse.stated_shares).
+    if "statedShares" not in row:
+        set_stated_shares(row, parse.stated_shares(texts, company=row["target"].get("name"), offer=row.get("offerPrice")))
     # The documents read, the premiums are read again against the whole offer:
     # its parts can sit in different documents (the ADS ratio on a cover, the
     # package's value in the proxy).
@@ -266,9 +266,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     row["financialsReader"] = FINANCIALS_READER
     # A filer that stopped tagging its share count still states it in the
     # transaction statement; that is the count at announcement, near enough.
-    if not row.get("sharesOut") and row.get("statedShares"):
-        row["sharesOut"] = row["statedShares"]
-        row["sharesBasis"] = {"tag": STATED, "phrase": row.get("statedSharesBasis")}
+    _stated_fallback(row)
     return row
 
 
@@ -923,9 +921,12 @@ FINANCIAL_FIELDS = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "ltmEbitE
 #: (parse.outstanding_count). A row whose share count is the stated one, or
 #: whose stated count's phrase now fails, has the count read again from its
 #: own documents (stated_shares_stale); nothing else is asked of EDGAR, and
-#: a row with neither is stamped without a request. The budget spreads it
-#: over a run or two.
-FINANCIALS_READER = 4
+#: a row with neither is stamped without a request. 5: where the documents
+#: state the target's share classes, the count is the sum of the classes that
+#: receive the consideration on the same terms, or none (parse.stated_shares),
+#: and a count naming another company is passed over; read again the same way.
+#: The budget spreads it over a run or two.
+FINANCIALS_READER = 5
 #: the version at which the company-facts reading last changed: a row read at
 #: it or later is not asked for its company facts again when only the share
 #: count's reading moves on
@@ -982,8 +983,9 @@ def stated_shares_stale(row: dict) -> bool:
 def reread_stated_shares(row: dict, *, cap: int | None = None) -> bool:
     """
     A stale stated share count read again from the documents the row was read
-    from, in their order, the first that states one giving it, as on a first
-    reading; none stated, none kept. False where a document could not be
+    from, as on a first reading (parse.stated_shares: the first that states
+    one gives it, all of them read for the target's classes and what each
+    receives); none stated, none kept. False where a document could not be
     fetched: the row keeps what it has and is asked again next run.
     """
     if not stated_shares_stale(row):
@@ -995,24 +997,45 @@ def reread_stated_shares(row: dict, *, cap: int | None = None) -> bool:
         except Exception as e:  # noqa: BLE001
             row.setdefault("readErrors", []).append(f"{url.rsplit('/', 1)[-1]}: {str(e)[:60]}")
             return False
-    row.pop("statedShares", None)
-    row.pop("statedSharesBasis", None)
-    for text in texts:
-        n, phrase = parse.parse_shares(text)
-        if n:
-            row["statedShares"], row["statedSharesBasis"] = round(n, 3), phrase
-            break
+    for k in ("statedShares", "statedSharesBasis", "statedSharesClasses"):
+        row.pop(k, None)
+    set_stated_shares(row, parse.stated_shares(texts, company=(row.get("target") or {}).get("name"), offer=row.get("offerPrice")))
     return True
 
 
+def set_stated_shares(row: dict, reading: dict | None) -> None:
+    """
+    A stated share reading put on a row: statedShares (millions, to the
+    thousand) and statedSharesBasis (the phrase), and, where the documents
+    state classes, statedSharesClasses: each class's count, the classes summed
+    and the sentence that shows they receive the same consideration, those
+    left out and why, or why there is no count.
+    """
+    if not reading:
+        return
+    if reading.get("count"):
+        row["statedShares"], row["statedSharesBasis"] = round(reading["count"], 3), reading.get("phrase")
+    if reading.get("classes"):
+        row["statedSharesClasses"] = {k: reading[k] for k in ("classes", "summed", "terms", "excluded", "why") if reading.get(k)}
+
+
 def _stated_fallback(row: dict) -> None:
-    """The share count the transaction statement gives, where the company facts carry none; a stated count withdrawn takes sharesOut with it."""
+    """The share count the transaction statement gives, where the company facts carry none; a stated count withdrawn takes sharesOut with it. A sum of classes says which, on sharesBasis."""
     if (row.get("sharesBasis") or {}).get("tag") == STATED and row.get("sharesOut") != row.get("statedShares"):
         row["sharesOut"] = None
         row["sharesBasis"] = None
     if not row.get("sharesOut") and row.get("statedShares"):
         row["sharesOut"] = row["statedShares"]
-        row["sharesBasis"] = {"tag": STATED, "phrase": row.get("statedSharesBasis")}
+        row["sharesBasis"] = None
+    if row.get("sharesOut") and (row.get("sharesBasis") is None or row["sharesBasis"].get("tag") == STATED):
+        basis = {"tag": STATED, "phrase": row.get("statedSharesBasis")}
+        classes = row.get("statedSharesClasses") or {}
+        if classes.get("summed"):
+            basis["classes"] = classes["summed"]
+            basis["terms"] = classes.get("terms")
+            if classes.get("excluded"):
+                basis["excluded"] = classes["excluded"]
+        row["sharesBasis"] = basis
 
 
 def reread_financials(row: dict, *, cap: int | None = None) -> dict:

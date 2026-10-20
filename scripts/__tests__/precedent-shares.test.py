@@ -156,20 +156,21 @@ y = rows["MY"]
 eq("China Ming Yang: 1,895,118 option shares give way to the 160,534,813 Shares outstanding", (FIX["MY"]["stored"]["sharesOut"], y["sharesOut"]), (1.895, 160.535))
 eq("China Ming Yang: equity value $2.51 x 160.535m = $402.9m, 1.77 times the $228.2m fee table", (y["equityValue"], round(y["equityValue"] / 228.22725, 2)), (402.9, 1.77))
 
-# Sungy and Perfect World state their shares by class, and the reader takes
-# one class: the count stated most often. That is a count the filing states
-# as outstanding, but not all of them, and it is left for its own change.
+# Sungy and Perfect World state their shares by class. Read one count at a
+# time the reader took one class; it now sums the classes the merger pays the
+# same price per share (precedent-share-classes.test.py works both by hand).
 # Sungy: "based on 80,653,284 Class A ordinary shares and 109,386,066 Class B
-# ordinary shares issued and outstanding as of that date", twice; $0.8166 x
-# 80.653m = $65.861m. With the Class B: 190,039,350 shares, $155.2m.
+# ordinary shares issued and outstanding as of that date"; 80,653,284 +
+# 109,386,066 = 190,039,350, and $0.8166 x 190.039m = $155.186m.
 o = rows["GOMO"]
-eq("Sungy: 3,391,108 option shares give way to the 80,653,284 Class A shares the proxy states", (FIX["GOMO"]["stored"]["sharesOut"], o["sharesOut"]), (3.391, 80.653))
-eq("Sungy: equity value $0.8166 x 80.653m = $65.9m (one class of two)", o["equityValue"], 65.9)
-# Perfect World: "As of the date of this Agreement, (i) 29,671,195 Class A
-# Shares are issued and outstanding"; $4.04 x 29.671m = $119.871m.
+eq("Sungy: 3,391,108 option shares give way to its two classes, 190,039,350 shares", (FIX["GOMO"]["stored"]["sharesOut"], o["sharesOut"]), (3.391, 190.039))
+eq("Sungy: equity value $0.8166 x 190.039m = $155.2m", o["equityValue"], 155.2)
+# Perfect World: "(i) 29,671,195 Class A Shares are issued and outstanding,
+# ... (ii) 219,266,335 Class B Shares are issued and outstanding"; 29,671,195
+# + 219,266,335 = 248,937,530, and $4.04 x 248.938m = $1,005.708m.
 p = rows["PWRD"]
-eq("Perfect World: 20,011,450 option shares give way to the 29,671,195 Class A Shares issued and outstanding", (FIX["PWRD"]["stored"]["sharesOut"], p["sharesOut"]), (20.011, 29.671))
-eq("Perfect World: equity value $4.04 x 29.671m = $119.9m (one class of two)", p["equityValue"], 119.9)
+eq("Perfect World: 20,011,450 option shares give way to its two classes, 248,937,530 shares", (FIX["PWRD"]["stored"]["sharesOut"], p["sharesOut"]), (20.011, 248.938))
+eq("Perfect World: equity value $4.04 x 248.938m = $1,005.7m", p["equityValue"], 1005.7)
 
 # ── none stated, none made up ────────────────────────────────────────────────
 
@@ -228,7 +229,7 @@ eq("a document that cannot be fetched leaves the row as it was, at its version, 
 eq("every row read is at the financials reader's version", {k: r["financialsReader"] for k, r in rows.items()}, {k: filings.FINANCIALS_READER for k in rows})
 eq("a row read at this version is not due again", any(filings.needs_financials_reread(r) for r in rows.values()), False)
 eq("a row read at version 3 is due", filings.needs_financials_reread({**FIX["VRNA"]["stored"], "financialsReader": 3}), True)
-eq("the version moved from 3 to 4, and the company facts' reading did not", (filings.FINANCIALS_READER, filings.FACTS_CONCEPTS), (4, 3))
+eq("the version moved from 3 to 4 and on to 5 (share classes), and the company facts' reading did not", (filings.FINANCIALS_READER, filings.FACTS_CONCEPTS), (5, 3))
 
 # ── the guard ────────────────────────────────────────────────────────────────
 
@@ -236,9 +237,9 @@ base = {k: {**FIX[k]["stored"]} for k in ("TEDU", "JMEI")}
 cur = {k: copy.deepcopy(rows[k]) for k in ("TEDU", "JMEI")}
 report = guard.protect(base, cur)
 rev = [(x["from"], x["to"], x["cause"]) for x in cur["TEDU"].get("revisions") or [] if x["field"] == "sharesOut"]
-eq("guard: Tarena's count moving from 1.48m to 56.213m is recorded, caused by the financials reader", rev, [(1.48, 56.213, "financialsReader 3 to 4")])
+eq("guard: Tarena's count moving from 1.48m to 56.213m is recorded, caused by the financials reader", rev, [(1.48, 56.213, f"financialsReader 3 to {filings.FINANCIALS_READER}")])
 rev = [(x["from"], x["to"], x["cause"]) for x in cur["JMEI"].get("revisions") or [] if x["field"] == "sharesOut"]
-eq("guard: Jumei's options count withdrawn under the reader's version stands, and is recorded", (cur["JMEI"].get("sharesOut"), rev), (None, [(0.393, None, "financialsReader 3 to 4")]))
+eq("guard: Jumei's options count withdrawn under the reader's version stands, and is recorded", (cur["JMEI"].get("sharesOut"), rev), (None, [(0.393, None, f"financialsReader 3 to {filings.FINANCIALS_READER}")]))
 lost = {"JMEI": {**FIX["JMEI"]["stored"]}}
 now = {"JMEI": {**copy.deepcopy(rows["JMEI"]), "financialsReader": 3}}
 guard.protect(lost, now)
@@ -247,7 +248,7 @@ eq("guard: a count lost with no reader moving is put back", now["JMEI"]["sharesO
 # ── every row's count, read from the excerpts ────────────────────────────────
 
 eq("the counts read, row by row (each excerpt gave the same count as its whole document when it was cut)", {k: (r.get("statedShares")) for k, r in rows.items()},
-   {"TEDU": 56.213, "GSUM": 35.051, "MOBI": 235.179, "DANG": 411.434, "MY": 160.535, "GOMO": 80.653, "PWRD": 29.671, "JMEI": None, "PALM": 171.086, "VRNA": 31.859})
+   {"TEDU": 56.213, "GSUM": 35.051, "MOBI": 235.179, "DANG": 411.434, "MY": 160.535, "GOMO": 190.039, "PWRD": 248.938, "JMEI": None, "PALM": 171.086, "VRNA": 31.859})
 
 # ── the pure reader, on the filings' own wordings ────────────────────────────
 
