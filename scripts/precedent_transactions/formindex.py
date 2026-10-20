@@ -803,7 +803,7 @@ def build(limit: int | None = None, since: int = 2020, only: str | None = None, 
             database.write(rows)
     # Rows read under the earlier concept list, after the new filings.
     if not only:
-        filings.reread_stale_financials(rows, [k for k in owned if k in rows], database.write, minutes=30)
+        filings.reread_stale_financials(rows, [k for k in owned if k in rows], database.write, minutes=30, cap=DOC_CAP)
     out = database.write(rows)
     c = out["counts"]
     print(f"\n{read} filings read. {c['transactions']} transactions on file: {c['publicMergers']} public mergers, {c['takePrivates']} take-privates, {c['withOffer']} with an offer price, {c['withMultiples']} with EV / LTM EBITDA, {c['withPremium']} with a stated premium, {c['flagged']} flagged for checking, {c['noOffer']} with no offer found, {c['noConsideration']} acquirer-side votes, {c['rejected']} rejected, {c['errors']} errors.", file=sys.stderr)

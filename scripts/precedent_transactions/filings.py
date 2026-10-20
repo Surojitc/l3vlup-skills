@@ -268,7 +268,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     # transaction statement; that is the count at announcement, near enough.
     if not row.get("sharesOut") and row.get("statedShares"):
         row["sharesOut"] = row["statedShares"]
-        row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
+        row["sharesBasis"] = {"tag": STATED, "phrase": row.get("statedSharesBasis")}
     return row
 
 
@@ -921,32 +921,121 @@ def financials_at(cik: str, asof: str) -> dict:
 #: what financials_at puts on a row
 FINANCIAL_FIELDS = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "ltmEbitEnd", "netDebt", "ltmPeriodEnd", "ltmRevenueEnd", "ltmEbitdaEnd", "revenueTag", "ltmImpairment", "impairmentTag", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis")
 
-#: The concept list a row's financials were read with. A priced row read before
-#: this version has its company facts read again (one request): those with no
-#: revenue or no EBITDA first, because the concepts added may give them one,
-#: then the rest, because an EBITDA read before may add operating income and
-#: D&A of different twelve months. The budget spreads it over a run or two.
-FINANCIALS_READER = 3
+#: The reading a row's financials were made with. 3: the concept list (a
+#: priced row read before it has its company facts read again, one request:
+#: those with no revenue or no EBITDA first, because the concepts added may
+#: give them one, then the rest, because an EBITDA read before may add
+#: operating income and D&A of different twelve months). 4: the share count
+#: the transaction statement states is a count of the shares outstanding,
+#: never the shares issuable under options, awards, warrants or convertibles
+#: (parse.outstanding_count). A row whose share count is the stated one, or
+#: whose stated count's phrase now fails, has the count read again from its
+#: own documents (stated_shares_stale); nothing else is asked of EDGAR, and
+#: a row with neither is stamped without a request. The budget spreads it
+#: over a run or two.
+FINANCIALS_READER = 4
+#: the version at which the company-facts reading last changed: a row read at
+#: it or later is not asked for its company facts again when only the share
+#: count's reading moves on
+FACTS_CONCEPTS = 3
 
 #: days before a target whose company facts were not found (EDGAR answers 404:
 #: it filed before XBRL, or not as itself) is asked again, rather than every month
 FACTS_404_RETRY_DAYS = 183
 
+#: what sharesOut says when it is the count the transaction statement states
+STATED = "stated in the transaction statement"
 
-def needs_financials_reread(row: dict, today: date | None = None) -> bool:
-    if not ((row.get("financialsReader") or 1) < FINANCIALS_READER and row.get("status") == "ok" and row.get("offerPrice") is not None):
-        return False
+
+def _facts_due(row: dict, today: date | None = None) -> bool:
+    """Whether a row's company facts are to be asked for: read under an earlier concept list, or a 404 that has waited its six months."""
     missing = row.get("companyFactsMissing")
     if missing:
         try:
             return ((today or date.today()) - date.fromisoformat(missing[:10])).days >= FACTS_404_RETRY_DAYS
         except ValueError:
             return True
+    return (row.get("financialsReader") or 1) < FACTS_CONCEPTS
+
+
+def needs_financials_reread(row: dict, today: date | None = None) -> bool:
+    if not (row.get("status") == "ok" and row.get("offerPrice") is not None):
+        return False
+    # A 404 waits its six months for the company facts, but not for the share
+    # count, which is read from the row's own documents.
+    return (row.get("financialsReader") or 1) < FINANCIALS_READER or _facts_due(row, today)
+
+
+def stated_shares_stale(row: dict) -> bool:
+    """
+    Whether the row's stated share count is to be read again from its
+    documents: where it is the row's share count (the company facts carry
+    none), always, because the count chosen is the one stated most often and
+    passing over an award's or a holding's mention of the same number can
+    change which that is; elsewhere, where the phrase kept with it is one the
+    reader now passes over (the phrase is the whole match, so it is judged
+    again on its own). A stated count beside the company facts' count is not
+    the one equity value is built on, so its phrase is enough (the words
+    before a count are not kept with it, so a count only they disqualify is
+    judged when the row's documents are next read).
+    """
+    if row.get("statedShares") is None:
+        return False
+    if (row.get("sharesBasis") or {}).get("tag") == STATED:
+        return True
+    n, _ = parse.parse_shares(row.get("statedSharesBasis") or "")
+    return n is None or round(n, 3) != row["statedShares"]
+
+
+def reread_stated_shares(row: dict, *, cap: int | None = None) -> bool:
+    """
+    A stale stated share count read again from the documents the row was read
+    from, in their order, the first that states one giving it, as on a first
+    reading; none stated, none kept. False where a document could not be
+    fetched: the row keeps what it has and is asked again next run.
+    """
+    if not stated_shares_stale(row):
+        return True
+    texts = []
+    for url in row.get("documentsRead") or []:
+        try:
+            texts.append(to_text(fetch(url, cap=cap)))
+        except Exception as e:  # noqa: BLE001
+            row.setdefault("readErrors", []).append(f"{url.rsplit('/', 1)[-1]}: {str(e)[:60]}")
+            return False
+    row.pop("statedShares", None)
+    row.pop("statedSharesBasis", None)
+    for text in texts:
+        n, phrase = parse.parse_shares(text)
+        if n:
+            row["statedShares"], row["statedSharesBasis"] = round(n, 3), phrase
+            break
     return True
 
 
-def reread_financials(row: dict) -> dict:
+def _stated_fallback(row: dict) -> None:
+    """The share count the transaction statement gives, where the company facts carry none; a stated count withdrawn takes sharesOut with it."""
+    if (row.get("sharesBasis") or {}).get("tag") == STATED and row.get("sharesOut") != row.get("statedShares"):
+        row["sharesOut"] = None
+        row["sharesBasis"] = None
+    if not row.get("sharesOut") and row.get("statedShares"):
+        row["sharesOut"] = row["statedShares"]
+        row["sharesBasis"] = {"tag": STATED, "phrase": row.get("statedSharesBasis")}
+
+
+def reread_financials(row: dict, *, cap: int | None = None) -> dict:
     """A stored row's financials at announcement read again; nothing else on the row changes."""
+    # The share count first: a document that cannot be fetched leaves the row
+    # as it was, at the reader it was read with, for the next run.
+    if not reread_stated_shares(row, cap=cap):
+        return row
+    if not _facts_due(row):
+        # Only the share count's reading moved since this row's company facts
+        # were read (or EDGAR said it has none, and the six months are not up):
+        # no request, and the facts stand as they were read.
+        row["financialsReader"] = FINANCIALS_READER
+        _stated_fallback(row)
+        return row
     try:
         fin = financials_at(row["target"]["cik"], row["announced"])
     except Exception as e:  # noqa: BLE001
@@ -957,6 +1046,10 @@ def reread_financials(row: dict) -> dict:
         if "404" in str(e):
             row["companyFactsMissing"] = date.today().isoformat()
             row["readErrors"] = [x for x in (row.get("readErrors") or []) if "404" not in x] + [f"company facts: {str(e)[:60]}"]
+            # The share count was read at this version all the same; the
+            # marker, not the version, brings the facts back in six months.
+            row["financialsReader"] = FINANCIALS_READER
+            _stated_fallback(row)
         else:
             row.setdefault("readErrors", []).append(f"company facts: {str(e)[:60]}")
         return row
@@ -970,26 +1063,34 @@ def reread_financials(row: dict) -> dict:
     row["financialsReader"] = FINANCIALS_READER
     # The share count the transaction statement gives stands where the
     # company facts carry none, as on a first reading.
-    if not row.get("sharesOut") and row.get("statedShares"):
-        row["sharesOut"] = row["statedShares"]
-        row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
+    _stated_fallback(row)
     return row
 
 
-def reread_stale_financials(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 30) -> int:
-    """The priced rows in `ids` read under an earlier concept list, read again until the budget is spent."""
+def reread_stale_financials(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 30, cap: int | None = None) -> int:
+    """The priced rows in `ids` read under an earlier financials reader, read again until the budget is spent."""
     budget = float(os.environ.get("PRECEDENTS_FINANCIALS_MINUTES", minutes)) * 60
-    todo = sorted((i for i in ids if needs_financials_reread(rows[i])), key=lambda i: (rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
-    if not todo:
+    due = [i for i in ids if needs_financials_reread(rows[i])]
+    if not due:
         return 0
-    print(f"{len(todo)} priced rows read under the earlier concept list; reading their company facts again for up to {budget / 60:.0f} minutes, those with no revenue or no EBITDA first", file=sys.stderr, flush=True)
-    started, done = time.time(), 0
+    # The rows that need a request (company facts, or a stated share count
+    # read again from the documents) first, those with no revenue or no EBITDA
+    # first among them; a row whose only change is the version is stamped
+    # without one, and the file is written every ten requests, not every ten rows.
+    asks = lambda i: _facts_due(rows[i]) or stated_shares_stale(rows[i])  # noqa: E731
+    todo = sorted(due, key=lambda i: (not asks(i), rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
+    n_ask = sum(1 for i in due if asks(i))
+    print(f"{len(todo)} priced rows read under an earlier financials reader, {n_ask} needing a request (company facts, or a stated share count read again from the documents); reading them for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
+    started, done, asked = time.time(), 0, 0
     for i in todo:
         if time.time() - started > budget:
             break
-        reread_financials(rows[i])
+        ask = asks(i)
+        reread_financials(rows[i], cap=cap)
         done += 1
-        if done % 10 == 0:
-            write(rows)
-    print(f"{done} of {len(todo)} rows' financials read again", file=sys.stderr, flush=True)
+        if ask:
+            asked += 1
+            if asked % 10 == 0:
+                write(rows)
+    print(f"{done} of {len(todo)} rows' financials read again, {asked} with a request", file=sys.stderr, flush=True)
     return done
