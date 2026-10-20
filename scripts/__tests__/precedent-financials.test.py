@@ -134,7 +134,10 @@ finally:
     filings.fetch_json = real
 eq("any other failure is no 404: nothing is recorded and the next run asks again", (flaky.get("companyFactsMissing"), filings.needs_financials_reread(flaky)), (None, True))
 
-found = dict(held, target={"cik": FIX["CAPRI"]["cik"], "name": "Capri Holdings Ltd"}, announced=FIX["CAPRI"]["announced"])
+eq("the share count is read at this version all the same: the marker, not the version, brings the facts back", held.get("financialsReader"), filings.FINANCIALS_READER)
+
+# Six months on, the facts are asked for again.
+found = dict(held, target={"cik": FIX["CAPRI"]["cik"], "name": "Capri Holdings Ltd"}, announced=FIX["CAPRI"]["announced"], companyFactsMissing=(today - timedelta(days=filings.FACTS_404_RETRY_DAYS)).isoformat())
 filings.reread_financials(found)
 eq("once EDGAR has the facts, the marker goes and the row is read at this version", (found.get("companyFactsMissing"), found.get("financialsReader"), found.get("ltmEbit")), (None, filings.FINANCIALS_READER, 528.0))
 

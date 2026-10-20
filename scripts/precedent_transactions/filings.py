@@ -228,20 +228,20 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
             row["consideration"] = "cash and stock"
         if on_text:
             on_text(row, text)
-        if "statedShares" not in row:
-            n, phrase = parse.parse_shares(text)
-            if n:
-                row["statedShares"], row["statedSharesBasis"] = round(n, 3), phrase
         # The agreement date, not the filing date, is what a premium is measured
         # to; a proxy is filed weeks later.
         agreed = row["announced"] if row["announcedBasis"] in AGREEMENT_BASES else None
         kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"))
         statements.extend({**s, "document": d["url"]} for s in kept)
         aside.extend({**s, "document": d["url"]} for s in set_aside)
+    # The share count from every document read: what each class receives can
+    # sit in a different document from the count of each (parse.stated_shares).
+    if "statedShares" not in row:
+        set_stated_shares(row, parse.stated_shares(texts, company=target_names(row, urls, texts), offer=row.get("offerPrice")))
     # The documents read, the premiums are read again against the whole offer:
     # its parts can sit in different documents (the ADS ratio on a cover, the
     # package's value in the proxy).
-    if texts and row.get("offerPrice") is not None:
+    if texts:
         resolve_offer(row, urls, texts)
         statements, aside = tied_statements(row, urls, texts)
     apply_premiums(row, statements, aside, texts)
@@ -266,9 +266,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     row["financialsReader"] = FINANCIALS_READER
     # A filer that stopped tagging its share count still states it in the
     # transaction statement; that is the count at announcement, near enough.
-    if not row.get("sharesOut") and row.get("statedShares"):
-        row["sharesOut"] = row["statedShares"]
-        row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
+    _stated_fallback(row)
     return row
 
 
@@ -330,8 +328,10 @@ def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, min
 #: the shares is the buyer's (set_aside_buyer). 5: the price is the whole
 #: offer (resolve_offer), per share or per ADS, cash and stock alike; a
 #: premium on a package whose value cannot be found stands untied and says so
-#: (premiumTie).
-PREMIUM_READER = 5
+#: (premiumTie). 6: a premium that prices another instrument's terms (a capped
+#: call's cap, a conversion, exercise or strike price) is set aside: TESCO's
+#: 75% is the cap on Nabors' capped calls, and its own premium is 19%.
+PREMIUM_READER = 6
 
 
 #: The offer reading the stored rows were made with. 2: the whole offer
@@ -340,12 +340,30 @@ PREMIUM_READER = 5
 #: as the filing states it on the reference day or from its stated parts. Each
 #: part is kept with its passage and document (offerComponents), and a row
 #: read before this version has its offer read again from its documents, so
-#: the guard records every change under this version. 3: a ratio in a
+#: the guard records every change under this version. 3: a ratio written out
+#: as a compound ("seventy-two": Zhangmen) is read, a price per ADS over the
+#: ratio is kept to eight significant figures rather than four decimal places
+#: ($0.56 / 72 = $0.0077778 a share, not $0.0078), a per-share price the
+#: filing states is kept only where times the ratio it comes back to the price
+#: per ADS (Youku's rounded $1.53 x 18 is not $27.60), and the offer per ADS
+#: is the one read or the one the filing states beside the product (LAIX's
+#: $1.90, not $0.1357 x 14 = $1.8998). finalize values the shares only at a
+#: price per share (equityValueBasis). 4: an all-stock deal is read too
+#: (parse.read_stock_offer): a row with no cash price was left with
+#: no offer at all, though its proxy states what the acquirer's shares were
+#: worth ("The Arrangement values the Common Shares at $4.62 per share based on
+#: Nabors' closing share price of $6.80 on August 11, 2017": TESCO, 0.68 x
+#: $6.80 = $4.624). The package is valued by the rules a package with stock
+#: already had, a price read that is the package's stated value is taken as
+#: that value, the row's consideration is "stock" where no cash is part of it,
+#: and a stock package's premium is tied only on the day its value is stated
+#: for, the row saying so where it is not (premiumTie). 5: a ratio in a
 #: holding company's shares for another company's shares is that company's
 #: share exchange, not the target's consideration (Siliconware was paid cash;
-#: ASE's shares moved into ASE Industrial Holding), and a re-read that finds
-#: no stock puts back the cash the offer reader had called cash and stock.
-OFFER_READER = 3
+#: ASE's shares moved into ASE Industrial Holding), on a package with cash and
+#: an all-stock reading alike, and a re-read that finds no stock puts back the
+#: cash the offer reader had called cash and stock.
+OFFER_READER = 5
 
 #: the fields the offer reader owns, cleared before each reading
 OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved")
@@ -384,16 +402,23 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
     for k in OFFER_FIELDS:
         row.pop(k, None)
     row["offerReader"] = OFFER_READER
-    if row.get("offerPrice") is None:
-        return row
     agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
-    o = parse.read_offer(texts, row["offerPrice"], row.get("offerBasis"), agreed, row.get("announcedOriginal"), (row.get("target") or {}).get("name"))
+    # With no cash price the deal is read as one paid in stock: the value its
+    # filing states for the acquirer's shares, or the ratio times the close it
+    # states, and nothing where it states neither (parse.read_stock_offer).
+    o = parse.read_offer(texts, row.get("offerPrice"), row.get("offerBasis"), agreed, row.get("announcedOriginal"), (row.get("target") or {}).get("name"))
+    if row.get("offerPrice") is None and not o["stock"]:
+        return row
     if o["perShare"]:
         # The price read was the price per ADS: the row's price is per share.
         row["offerPrice"], row["offerBasis"] = o["perShare"]
     flat = [re.sub(r"\s+", " ", t) for t in texts]
     row["offerComponents"] = [{**c, "document": _where(urls, flat, c.get("excerpt")), "reader": OFFER_READER} for c in o["components"]][:12]
-    if o["stock"] and row.get("consideration") == "cash":
+    if o["allStock"]:
+        # Paid in the acquirer's shares alone: no cash price was read, or the
+        # price read is the stated value of shares the ratio alone makes up.
+        row["consideration"] = "stock"
+    elif o["stock"] and row.get("consideration") in ("cash", None):
         row["consideration"] = "cash and stock"
     if o["implied"] is not None:
         row["offerImplied"], row["offerImpliedMethod"], row["offerImpliedDate"], row["offerImpliedBasis"] = o["implied"], o["method"], o["date"], o["basis"]
@@ -441,15 +466,29 @@ def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: 
     # the row says so: setting every such statement aside would take the
     # premium off some 330 stock deals whose proxies state it plainly.
     row.pop("premiumTie", None)
+    # A package with stock is worth what the acquirer's shares are worth on the
+    # day: its premium is checked against the whole offer where it is measured
+    # on the day the offer is valued (premium_statements), or where the price
+    # it states reproduces it from the whole offer (Coventry's 30.2% is the
+    # $42.08 of 17 August over the $32.32 unaffected close of 14 August), and
+    # stands untied, saying so, where it is measured on another day or on none
+    # and nothing checks it (TWC's 17% is to 11 February, the package valued on
+    # the 12th).
+    valued_on = row.get("offerImpliedDate") if row.get("consideration") != "cash" else None
     if row.get("offerReader") and statements:
         if row.get("offerUnresolved"):
             row["premiumTie"] = f"untied: the offer is unresolved ({row['offerUnresolved']}); the premium is the filing's own statement, not checked against the offer"
+        elif offer_ties(row) and chosen.get("premium1DayUntied"):
+            row["premiumTie"] = f"untied: the premium {chosen['premium1DayUntied']}; a stock package's premium over its unaffected price is often measured on its value at signing, so the premium is the filing's own statement, not checked against the offer"
+        elif offer_ties(row) and valued_on and chosen["premium1Day"] is not None and chosen["unaffectedDate"] != valued_on and chosen["unaffectedPriceStated"] is None:
+            on = f"measured to {chosen['unaffectedDate']}" if chosen["unaffectedDate"] else "measured to no stated day"
+            row["premiumTie"] = f"untied: the premium is {on} and the whole offer is valued on {valued_on}; a package with stock is worth what the acquirer's shares are worth on the day, so the premium is the filing's own statement, not checked against the offer"
         elif offer_ties(row):
             row["premiumTie"] = "tied to the whole offer"
     for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedPricePer", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
         row[k] = chosen[k]
     keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "sharesReference", "excerpt", "document")
-    row["premiumStatements"] = [{k: s.get(k) for k in keep} for s in statements][:12]
+    row["premiumStatements"] = [{**{k: s.get(k) for k in keep}, **({"untied": s["untied"]} if s.get("untied") else {})} for s in statements][:12]
     row["premiumsSetAside"] = [{k: s.get(k) for k in ("reason", "excerpt", "document")} for s in aside][:8]
     row["premiumReader"] = PREMIUM_READER
     return row
@@ -922,32 +961,168 @@ def financials_at(cik: str, asof: str) -> dict:
 #: what financials_at puts on a row
 FINANCIAL_FIELDS = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "ltmEbitEnd", "netDebt", "ltmPeriodEnd", "ltmRevenueEnd", "ltmEbitdaEnd", "revenueTag", "ltmImpairment", "impairmentTag", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis")
 
-#: The concept list a row's financials were read with. A priced row read before
-#: this version has its company facts read again (one request): those with no
-#: revenue or no EBITDA first, because the concepts added may give them one,
-#: then the rest, because an EBITDA read before may add operating income and
-#: D&A of different twelve months. The budget spreads it over a run or two.
-FINANCIALS_READER = 3
+#: The reading a row's financials were made with. 3: the concept list (a
+#: priced row read before it has its company facts read again, one request:
+#: those with no revenue or no EBITDA first, because the concepts added may
+#: give them one, then the rest, because an EBITDA read before may add
+#: operating income and D&A of different twelve months). 4: the share count
+#: the transaction statement states is a count of the shares outstanding,
+#: never the shares issuable under options, awards, warrants or convertibles
+#: (parse.outstanding_count). A row whose share count is the stated one, or
+#: whose stated count's phrase now fails, has the count read again from its
+#: own documents (stated_shares_stale); nothing else is asked of EDGAR, and
+#: a row with neither is stamped without a request. 5: where the documents
+#: state the target's share classes, the count is the sum of the classes that
+#: receive the consideration on the same terms, or none (parse.stated_shares),
+#: and a count naming another company is passed over; read again the same way.
+#: The budget spreads it over a run or two.
+FINANCIALS_READER = 5
+#: the version at which the company-facts reading last changed: a row read at
+#: it or later is not asked for its company facts again when only the share
+#: count's reading moves on
+FACTS_CONCEPTS = 3
 
 #: days before a target whose company facts were not found (EDGAR answers 404:
 #: it filed before XBRL, or not as itself) is asked again, rather than every month
 FACTS_404_RETRY_DAYS = 183
 
+#: what sharesOut says when it is the count the transaction statement states
+STATED = "stated in the transaction statement"
 
-def needs_financials_reread(row: dict, today: date | None = None) -> bool:
-    if not ((row.get("financialsReader") or 1) < FINANCIALS_READER and row.get("status") == "ok" and row.get("offerPrice") is not None):
-        return False
+
+def _facts_due(row: dict, today: date | None = None) -> bool:
+    """Whether a row's company facts are to be asked for: read under an earlier concept list, or a 404 that has waited its six months."""
     missing = row.get("companyFactsMissing")
     if missing:
         try:
             return ((today or date.today()) - date.fromisoformat(missing[:10])).days >= FACTS_404_RETRY_DAYS
         except ValueError:
             return True
+    return (row.get("financialsReader") or 1) < FACTS_CONCEPTS
+
+
+def needs_financials_reread(row: dict, today: date | None = None) -> bool:
+    if not (row.get("status") == "ok" and row.get("offerPrice") is not None):
+        return False
+    # A 404 waits its six months for the company facts, but not for the share
+    # count, which is read from the row's own documents.
+    return (row.get("financialsReader") or 1) < FINANCIALS_READER or _facts_due(row, today)
+
+
+def stated_shares_stale(row: dict) -> bool:
+    """
+    Whether the row's stated share count is to be read again from its
+    documents: where it is the row's share count (the company facts carry
+    none), always, because the count chosen is the one stated most often and
+    passing over an award's or a holding's mention of the same number can
+    change which that is; elsewhere, where the phrase kept with it is one the
+    reader now passes over (the phrase is the whole match, so it is judged
+    again on its own). A stated count beside the company facts' count is not
+    the one equity value is built on, so its phrase is enough (the words
+    before a count are not kept with it, so a count only they disqualify is
+    judged when the row's documents are next read).
+    """
+    if row.get("statedShares") is None:
+        return False
+    if (row.get("sharesBasis") or {}).get("tag") == STATED:
+        return True
+    n, _ = parse.parse_shares(row.get("statedSharesBasis") or "")
+    return n is None or round(n, 3) != row["statedShares"]
+
+
+def reread_stated_shares(row: dict, *, cap: int | None = None) -> bool:
+    """
+    A stale stated share count read again from the documents the row was read
+    from, as on a first reading (parse.stated_shares: the first that states
+    one gives it, all of them read for the target's classes and what each
+    receives); none stated, none kept. False where a document could not be
+    fetched: the row keeps what it has and is asked again next run.
+    """
+    if not stated_shares_stale(row):
+        return True
+    texts = []
+    for url in row.get("documentsRead") or []:
+        try:
+            texts.append(to_text(fetch(url, cap=cap)))
+        except Exception as e:  # noqa: BLE001
+            row.setdefault("readErrors", []).append(f"{url.rsplit('/', 1)[-1]}: {str(e)[:60]}")
+            return False
+    for k in ("statedShares", "statedSharesBasis", "statedSharesClasses"):
+        row.pop(k, None)
+    set_stated_shares(row, parse.stated_shares(texts, company=target_names(row, row.get("documentsRead") or [], texts), offer=row.get("offerPrice")))
     return True
 
 
-def reread_financials(row: dict) -> dict:
+def target_names(row: dict, urls: list[str], texts: list[str]) -> tuple[str, ...]:
+    """
+    The names a share count may call the target by: its name now, and the
+    name on the cover of a document filed in its own EDGAR folder (the
+    registrant, or a 13E-3's subject company). PhenixFIN's merger proxy was
+    filed as Medley Capital Corporation, and states "54,474,211 shares of MCC
+    Common Stock outstanding": the target's own count, under its old name.
+    """
+    target = row.get("target") or {}
+    names = [target.get("name")] if target.get("name") else []
+    try:
+        folder = f"/data/{int(target.get('cik') or 0)}/"
+    except ValueError:
+        folder = None
+    for url, text in zip(urls, texts):
+        if folder and folder in url:
+            names += [n for n in parse.registrant_names(text) if n not in names]
+    return tuple(names)
+
+
+def set_stated_shares(row: dict, reading: dict | None) -> None:
+    """
+    A stated share reading put on a row: statedShares (millions, to the
+    thousand) and statedSharesBasis (the phrase), and, where the documents
+    state classes, statedSharesClasses: each class's count, the classes summed
+    and the sentence that shows they receive the same consideration, those
+    left out and why, or why there is no count.
+    """
+    if not reading:
+        return
+    if reading.get("count"):
+        row["statedShares"], row["statedSharesBasis"] = round(reading["count"], 3), reading.get("phrase")
+    if reading.get("classes"):
+        row["statedSharesClasses"] = {k: reading[k] for k in ("classes", "summed", "terms", "excluded", "classPrices", "why") if reading.get(k)}
+
+
+def _stated_fallback(row: dict) -> None:
+    """The share count the transaction statement gives, where the company facts carry none; a stated count withdrawn takes sharesOut with it. A sum of classes says which, on sharesBasis."""
+    if (row.get("sharesBasis") or {}).get("tag") == STATED and row.get("sharesOut") != row.get("statedShares"):
+        row["sharesOut"] = None
+        row["sharesBasis"] = None
+    if not row.get("sharesOut") and row.get("statedShares"):
+        row["sharesOut"] = row["statedShares"]
+        row["sharesBasis"] = None
+    if row.get("sharesOut") and (row.get("sharesBasis") is None or row["sharesBasis"].get("tag") == STATED):
+        basis = {"tag": STATED, "phrase": row.get("statedSharesBasis")}
+        classes = row.get("statedSharesClasses") or {}
+        if classes.get("summed"):
+            basis["classes"] = classes["summed"]
+            basis["terms"] = classes.get("terms")
+            if classes.get("excluded"):
+                basis["excluded"] = classes["excluded"]
+            if classes.get("classPrices"):
+                basis["classPrices"] = classes["classPrices"]
+        row["sharesBasis"] = basis
+
+
+def reread_financials(row: dict, *, cap: int | None = None) -> dict:
     """A stored row's financials at announcement read again; nothing else on the row changes."""
+    # The share count first: a document that cannot be fetched leaves the row
+    # as it was, at the reader it was read with, for the next run.
+    if not reread_stated_shares(row, cap=cap):
+        return row
+    if not _facts_due(row):
+        # Only the share count's reading moved since this row's company facts
+        # were read (or EDGAR said it has none, and the six months are not up):
+        # no request, and the facts stand as they were read.
+        row["financialsReader"] = FINANCIALS_READER
+        _stated_fallback(row)
+        return row
     try:
         fin = financials_at(row["target"]["cik"], row["announced"])
     except Exception as e:  # noqa: BLE001
@@ -958,6 +1133,10 @@ def reread_financials(row: dict) -> dict:
         if "404" in str(e):
             row["companyFactsMissing"] = date.today().isoformat()
             row["readErrors"] = [x for x in (row.get("readErrors") or []) if "404" not in x] + [f"company facts: {str(e)[:60]}"]
+            # The share count was read at this version all the same; the
+            # marker, not the version, brings the facts back in six months.
+            row["financialsReader"] = FINANCIALS_READER
+            _stated_fallback(row)
         else:
             row.setdefault("readErrors", []).append(f"company facts: {str(e)[:60]}")
         return row
@@ -971,26 +1150,34 @@ def reread_financials(row: dict) -> dict:
     row["financialsReader"] = FINANCIALS_READER
     # The share count the transaction statement gives stands where the
     # company facts carry none, as on a first reading.
-    if not row.get("sharesOut") and row.get("statedShares"):
-        row["sharesOut"] = row["statedShares"]
-        row["sharesBasis"] = {"tag": "stated in the transaction statement", "phrase": row.get("statedSharesBasis")}
+    _stated_fallback(row)
     return row
 
 
-def reread_stale_financials(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 30) -> int:
-    """The priced rows in `ids` read under an earlier concept list, read again until the budget is spent."""
+def reread_stale_financials(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 30, cap: int | None = None) -> int:
+    """The priced rows in `ids` read under an earlier financials reader, read again until the budget is spent."""
     budget = float(os.environ.get("PRECEDENTS_FINANCIALS_MINUTES", minutes)) * 60
-    todo = sorted((i for i in ids if needs_financials_reread(rows[i])), key=lambda i: (rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
-    if not todo:
+    due = [i for i in ids if needs_financials_reread(rows[i])]
+    if not due:
         return 0
-    print(f"{len(todo)} priced rows read under the earlier concept list; reading their company facts again for up to {budget / 60:.0f} minutes, those with no revenue or no EBITDA first", file=sys.stderr, flush=True)
-    started, done = time.time(), 0
+    # The rows that need a request (company facts, or a stated share count
+    # read again from the documents) first, those with no revenue or no EBITDA
+    # first among them; a row whose only change is the version is stamped
+    # without one, and the file is written every ten requests, not every ten rows.
+    asks = lambda i: _facts_due(rows[i]) or stated_shares_stale(rows[i])  # noqa: E731
+    todo = sorted(due, key=lambda i: (not asks(i), rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
+    n_ask = sum(1 for i in due if asks(i))
+    print(f"{len(todo)} priced rows read under an earlier financials reader, {n_ask} needing a request (company facts, or a stated share count read again from the documents); reading them for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
+    started, done, asked = time.time(), 0, 0
     for i in todo:
         if time.time() - started > budget:
             break
-        reread_financials(rows[i])
+        ask = asks(i)
+        reread_financials(rows[i], cap=cap)
         done += 1
-        if done % 10 == 0:
-            write(rows)
-    print(f"{done} of {len(todo)} rows' financials read again", file=sys.stderr, flush=True)
+        if ask:
+            asked += 1
+            if asked % 10 == 0:
+                write(rows)
+    print(f"{done} of {len(todo)} rows' financials read again, {asked} with a request", file=sys.stderr, flush=True)
     return done

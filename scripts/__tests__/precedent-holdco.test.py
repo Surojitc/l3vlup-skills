@@ -22,7 +22,7 @@ exchanged for 0.5 HoldCo common share", and "all of ASE's issued and
 outstanding shares to be exchanged for ... common shares of HoldCo at an
 exchange ratio of each ASE common share for 0.5 HoldCo common share".
 
-The offer reader (version 3) knows the target's name. A ratio paid in a
+The offer reader (version 5) knows the target's name. A ratio paid in a
 holding company's shares, for shares the sentence names as another company's
 (not "the Company", the target's own name, a word of it or its initials),
 is that company's share exchange and not the target holders' consideration.
@@ -110,6 +110,26 @@ for name, sentence in (
      "it shall be fair and reasonable for all of ASE’s issued and outstanding shares to be exchanged for and in consideration of newly issued common shares of HoldCo at an exchange ratio of each ASE common share for 0.5 HoldCo common share resulting in ASE to become a wholly-owned subsidiary of HoldCo."),
 ):
     eq(f"ASE's exchange ({name}) is not Siliconware's consideration", parse.stock_terms([sentence, sentence], 51.2, TARGET)["ratio"], None)
+# "holding company" in words is a holding company too. (The pattern is
+# _HOLDCO_SHARES: the buyer-type pattern of the same old name, _HOLDCO,
+# shadowed it, reads Holdco but not "holding company".)
+hc = "each ordinary share of Alpha Group will be exchanged for the right to receive 0.5 ordinary shares of the new holding company."
+eq("another company's exchange into 'the new holding company' is not the target's consideration", parse.stock_terms([hc, hc], None, "Beta Corp")["ratio"], None)
+
+# ── the all-stock reading (#195) passes over the same exchange ──────────────
+
+# With no cash price the offer reader reads the deal as one paid in stock
+# (parse.read_stock_offer). ASE's 0.5 HoldCo share must never become that
+# reading's consideration: with Siliconware's name there is no stock at all,
+# and the row is left with no offer, as before; without it the 0.5 would be
+# read as an all-stock package.
+o = parse.read_offer(texts, None, None, "2016-06-30", None, TARGET)
+eq("all-stock reading: ASE's exchange gives Siliconware no stock", (o["stock"], o["allStock"], [c for c in o["components"] if c["part"] == "stock"]), (False, False, []))
+eq("all-stock reading: without the target's name the 0.5 would be read", [c.get("exchangeRatio") for c in parse.read_offer(texts, None, None, "2016-06-30", None, None)["components"] if c["part"] == "stock"], [0.5])
+nocash = copy.deepcopy(stored)
+nocash["offerPrice"], nocash["offerBasis"], nocash["consideration"] = None, None, None
+filings.resolve_offer(nocash, [x["url"] for x in FIX["SPIL"]["documents"]], texts)
+eq("all-stock reading: a row with no cash price is not made stock by ASE's exchange", (nocash.get("consideration"), nocash.get("offerImplied"), nocash.get("offerComponents")), (None, None, None))
 
 # The target's own holders paid in the holding company's shares keep the
 # ratio, however the filing names the target: as the Company, by its name, by
@@ -138,7 +158,10 @@ eq("one whose document says the package is mixed keeps cash and stock", (parse.m
 
 # ── the version ──────────────────────────────────────────────────────────────
 
-eq("the offer reader is version 3", filings.OFFER_READER, 3)
+# 3 and 4 are #189's and #195's readers; this rule is 5, so a row read
+# under either is read again.
+eq("the offer reader is version 5", filings.OFFER_READER, 5)
+eq("a row read under version 4 is due a re-read", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "offerReader": 4, "documentsRead": ["x"], "status": "ok"}), True)
 eq("a row read under version 2 is due a re-read", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "offerReader": 2, "documentsRead": ["x"], "status": "ok"}), True)
 
 print(f"\n{passed} passed, {failed} failed")

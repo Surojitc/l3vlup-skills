@@ -508,7 +508,9 @@ def build_proxy_row(cand: dict) -> dict:
     row = filings.read_documents(row, [doc], cap=DOC_CAP, on_text=on_text)
     # All stock is still a merger and still gives a premium; it gives no cash
     # price, so the row says so and finalize keeps it out of the multiples.
-    if seen.get("stock") and row.get("offerPrice") is None:
+    # (Unless the offer reader found cash in the package: a sum of the
+    # filing's own, a ratio times a price plus cash.)
+    if seen.get("stock") and row.get("offerPrice") is None and row.get("consideration") != "cash and stock":
         row["consideration"] = "stock"
     if seen.get("acquirerSide"):
         row["offerPrice"], row["offerBasis"] = None, None
@@ -712,7 +714,9 @@ def build_13e3_row(cand: dict) -> dict:
     row = filings.read_documents(row, docs, cap=DOC_CAP, on_text=on_text)
     # An affiliate merger paid in stock is rare but real, and its cash figure
     # is not the price; the premium the filing states still is.
-    if seen.get("stock") and row.get("offerPrice") is None:
+    # (Unless the offer reader found cash in the package: a sum of the
+    # filing's own, a ratio times a price plus cash.)
+    if seen.get("stock") and row.get("offerPrice") is None and row.get("consideration") != "cash and stock":
         row["consideration"] = "stock"
     row["buyerType"] = _buyer_type(row.get("acquirer"))
     return row
@@ -803,7 +807,7 @@ def build(limit: int | None = None, since: int = 2020, only: str | None = None, 
             database.write(rows)
     # Rows read under the earlier concept list, after the new filings.
     if not only:
-        filings.reread_stale_financials(rows, [k for k in owned if k in rows], database.write, minutes=30)
+        filings.reread_stale_financials(rows, [k for k in owned if k in rows], database.write, minutes=30, cap=DOC_CAP)
     out = database.write(rows)
     c = out["counts"]
     print(f"\n{read} filings read. {c['transactions']} transactions on file: {c['publicMergers']} public mergers, {c['takePrivates']} take-privates, {c['withOffer']} with an offer price, {c['withMultiples']} with EV / LTM EBITDA, {c['withPremium']} with a stated premium, {c['flagged']} flagged for checking, {c['noOffer']} with no offer found, {c['noConsideration']} acquirer-side votes, {c['rejected']} rejected, {c['errors']} errors.", file=sys.stderr)
