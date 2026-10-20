@@ -14,7 +14,7 @@ which now prices a deal on offerImplied, could not use it. TESCO was the other
 side of it: its price read, $4.62, is not cash but the value the proxy states
 for 0.68 of a Nabors share, so its package stood "unresolved".
 
-The reader (OFFER_READER 3, parse.read_stock_offer) now reads such a deal by
+The reader (OFFER_READER 4, parse.read_stock_offer) now reads such a deal by
 the rules a package with stock already had: the value the filing states on the
 last trading day before the announcement, as the agreed price, or on a date
 near the agreement; else the filing's own sum or product of its parts. A value
@@ -175,7 +175,17 @@ own = copy.deepcopy(FIX["TESCO"]["stored"])
 filings.resolve_offer(own, [d["url"] for d in FIX["TESCO"]["documents"]], [d["text"] for d in FIX["TESCO"]["documents"]], reread=True)
 filings.apply_premiums(own, nineteen, [], [d["text"] for d in FIX["TESCO"]["documents"]])
 eq("TESCO: its own 19% premium ties to the whole offer", (own["premium1Day"], own["unaffectedDate"], own["premiumTie"]), (0.19, "2017-08-11", "tied to the whole offer"))
-eq("TESCO: the capped call's 75%, measured on no stated day, cannot tie and says so", (t["premium1Day"], (t["premiumTie"] or "").startswith("untied: the premium is measured to no stated day")), (0.75, True))
+# Read whole, with #187's rule in place: all five copies of the cap are set
+# aside and the 19% is the statement chosen, so the row itself ties.
+eq("TESCO: the capped call's 75% is set aside in all five copies", (sum(s["reason"].startswith("the terms of another instrument") for s in t["premiumsSetAside"]), any(s["premium"] == 0.75 for s in t["_statements"])), (5, False))
+eq("TESCO: read whole, its own 19% ties to the whole offer", (t["premium1Day"], t["unaffectedDate"], t["premiumTie"]), (0.19, "2017-08-11", "tied to the whole offer"))
+# A premium measured on no stated day cannot tie to a package valued on 11
+# August, and says so: the 19% sentence without the date before it.
+undated, _ = parse.premium_statements("This represents a premium of 19% to TESCO's closing share price on the NASDAQ Stock Market.", None, "2017-08-13", cash_only=False, ties=[(4.62, "share")], tie_date="2017-08-11")
+loose = copy.deepcopy(FIX["TESCO"]["stored"])
+filings.resolve_offer(loose, [d["url"] for d in FIX["TESCO"]["documents"]], [d["text"] for d in FIX["TESCO"]["documents"]], reread=True)
+filings.apply_premiums(loose, undated, [], [d["text"] for d in FIX["TESCO"]["documents"]])
+eq("TESCO: a premium measured on no stated day cannot tie and says so", (loose["premium1Day"], loose["unaffectedDate"], (loose["premiumTie"] or "").startswith("untied: the premium is measured to no stated day and the whole offer is valued on 2017-08-11")), (0.19, None, True))
 
 # ── a premium the filing measures on another value of the package ────────────
 
