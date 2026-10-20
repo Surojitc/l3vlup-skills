@@ -169,6 +169,10 @@ eq("EDGAR's name today is not the proxy's: Memorial's filing under 'Range Resour
    parse.filer_is_buyer("Memorial Resource Development Corp. \n (Name of Registrant as Specified in its Charter) \n JOINT PROXY STATEMENT/PROSPECTUS. This document is a prospectus of Range Resources Corporation. Range will acquire all of the outstanding shares of Memorial in the merger.", "Range Resources - Louisiana, Inc."), None)
 eq("the first word alone names the company only as a whole name: Symmetry Surgical is not Symmetry Medical",
    parse.filer_is_buyer("Symmetry Medical Inc. \n (Name of Registrant as Specified in its Charter) \n The spin-off shares are described in the prospectus of Symmetry Surgical Inc., which is attached.", "Symmetry Medical Inc."), None)
+eq("a parent buying out its partnership: 'Williams' is defined for The Williams Companies, so it is not Williams Partners",
+   parse.filer_is_buyer("Williams Partners L.P. \n (Name of Registrant as Specified in its Charter) \n The Williams Companies, Inc. (“Williams”) and Williams Partners L.P. (“WPZ”) have agreed to a merger. This document is a prospectus of Williams. Pursuant to the merger agreement, Williams will acquire all of the outstanding common units of WPZ.", "WILLIAMS PARTNERS L.P."), None)
+eq("and the partnership's own initials are its own: 'Cheniere will acquire CQH' is CQH's proxy as the target",
+   parse.filer_is_buyer("Cheniere Energy Partners LP Holdings, LLC \n (Name of Registrant as Specified in its Charter) \n Cheniere Energy Partners LP Holdings, LLC (“CQH”) ... Q: What is the proposed transaction? A: Cheniere and CQH have agreed that Cheniere will acquire CQH by merging CQH with and into Merger Sub.", "Cheniere Energy Partners LP Holdings, LLC"), None)
 eq("a target's proxy that says the buyer will acquire it is the target's",
    parse.filer_is_buyer("Acme Corp. \n (Name of Registrant as Specified in its Charter) \n Acme Corp. (the “Company”) ... pursuant to which the merger agreement provides that Parent will acquire the Company.", "Acme Corp."), None)
 eq("an acquisition in the filer's history is not this deal: no agreement words near it, deep in the document",

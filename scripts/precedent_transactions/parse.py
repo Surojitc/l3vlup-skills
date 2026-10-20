@@ -1056,16 +1056,31 @@ def filer_aliases(text: str, name: str) -> set[str]:
         out.add(" ".join(words[:2]))
     head = text[:120_000]
     if base:
-        pat = r"\s+".join(re.escape(w) for w in base.split()) + r"[^()]{0,40}?\(([^()]{1,160})\)"
+        pat = r"\s+".join(re.escape(w) for w in base.split()) + r"[^()]{0,20}?\(([^()]{1,160})\)"
         for m in list(re.finditer(pat, head, re.I))[:5]:
             for term in re.findall(r"[“\"]\s*([^”\"]{1,40}?)\s*[”\"]", m.group(1)):
                 t = norm_name(term)
-                # its own short name ("Transocean", "Victory Capital") or "the
-                # Company"; not "the combined company", nor another party's
-                # term defined in the same parenthesis
-                if t and t not in _PRONOUNS and (t.split()[0] == words[0] or t == "company"):
+                # its own short name ("Transocean", "Victory Capital"), its
+                # initials ("CQH" for Cheniere Energy Partners LP Holdings) or
+                # "the Company"; not "the combined company", nor another
+                # party's term defined in the same parenthesis
+                acronym = term.strip().isupper() and len(term.strip()) <= 6 and term.strip()[0].lower() == base[0]
+                if t and t not in _PRONOUNS and (t.split()[0] == words[0] or t == "company" or acronym):
                     out.add(t)
+    # A first word the document defines for another company is that
+    # company's: "The Williams Companies, Inc. (“Williams”)" in Williams
+    # Partners' proxy, "Cheniere Energy, Inc. (“Cheniere”)" in CQH's.
+    for m in _DEFINES.finditer(head):
+        full, t = norm_name(m.group(1)), norm_name(m.group(2))
+        if t and full and base not in full and full not in base:
+            out.discard(t + "$")
+            if t == (words[0] if words else None):
+                out.discard(t)
     return {a for a in out if a}
+
+
+#: a company and the term the document defines for it: 'Transocean Ltd. (“Transocean”)'
+_DEFINES = re.compile(r"((?:[Tt]he\s+)?[A-Z][\w&.\-’']*(?:\s+(?:&|of|and|[A-Z][\w&.,\-’']*)){0,6})\s*\(\s*(?:the\s+|together\s+with\s+its\s+subsidiaries,\s+)?[“\"]\s*([^”\"]{1,40}?)\s*[”\"]")
 
 
 def _is(alias: set[str], captured: str) -> bool:
