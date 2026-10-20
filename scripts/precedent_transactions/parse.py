@@ -263,7 +263,7 @@ _COUNT = r"(\d{1,3}(?:\.\d{1,4})?|" + "|".join(sorted((re.escape(w) for w in _NU
 _ADS_RATIO = re.compile(
     r"\b(?:ADSs?|American\s+[Dd]epositary\s+[Ss]hares?)\b[”\")]*\s*(?:\([^)]{0,60}\)\s*)?,?\s*(?:evidenced\s+by\s+[^,]{0,60},\s*)?"
     r"(?:each\s+(?:of\s+which\s+)?|which\s+)?represent(?:s|ing)?\s+(?:a\s+beneficial\s+(?:ownership\s+)?interest\s+in\s+)?"
-    + _COUNT + r"(?:\s*\(\d{1,3}\))?\s+(?:of\s+(?:the\s+Company[’']s\s+|our\s+)?)?(?:[A-Z][\w.&’'-]*\s+){0,2}?(?:Class\s+[A-Z]\s+)?(?:[Oo]rdinary\s+|[Cc]ommon\s+)?[Ss]hares\b",
+    + _COUNT + r"(?:\s*\(\d{1,3}\))?\s+(?:of\s+(?:the\s+Company[’']s\s+|our\s+)?)?(?:[A-Z][\w.&’'-]*\s+){0,2}?(?:Class\s+[A-Z]\s+)?(?:[Oo]rdinary\s+|[Cc]ommon\s+)?[Ss]hares?\b",
 )
 
 
@@ -283,6 +283,13 @@ def ads_ratio(texts: list[str]) -> tuple[float | None, str | None]:
     phrase: dict[float, str] = {}
     for text in texts:
         for m in _ADS_RATIO.finditer(text):
+            # Not a ratio being changed ("an ADS consolidation from one ADS
+            # representing 19 common shares to one ADS representing one common
+            # share": Pactera), and not the acquirer's own ADSs ("each Parent
+            # ADS represents five ordinary shares of Parent": Chiasma).
+            before = text[max(0, m.start() - 120):m.start()]
+            if re.search(r"consolidation|ratio\s+change|change\s+(?:in|of|to)\s+the\s+(?:ADS\s+)?ratio|\bfrom\s+one\s*$", before, re.I) or re.search(r"\bParent\s*$|\bParent[’']s\s*$", before):
+                continue
             v = _count(m.group(1))
             if not v or not 0.01 <= v <= 1000:
                 continue
