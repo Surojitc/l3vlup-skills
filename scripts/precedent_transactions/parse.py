@@ -1270,7 +1270,11 @@ _LINKED = re.compile(r"\b(?:issuable|underlying|subject\s+to|reserved|pursuant\s
 _PERCENT = re.compile(r"(\d+(?:\.\d+)?)?\s*(?:%|percent\b|per\s+cent\b)|\bmajority\b", re.I)
 _INSTRUMENT = re.compile(r"\b(?:options?|warrants?|RSUs?|PSUs?|restricted\s+(?:stock|share)\s+(?:units?|awards?)|preferred)\b", re.I)
 _SECOND_COUNT = re.compile(r"\d{1,3}(?:,\d{3})+")
-#: the words just before a count that make it something else: the shares a
+#: the words just before a count that make it something else: a dollar sign
+#: ("Net assets at end of year $ 729,856,881 Shares outstanding at end of
+#: year 54,474,211": PhenixFIN's net assets, read as its shares), shares a
+#: holder offers to buy ("the Company offered to purchase 284,984 shares of
+#: its issued and outstanding common shares": a tender), the shares a
 #: security converts into or an option buys ("325,000 shares of Series B
 #: Preferred Stock outstanding, convertible into 38,235,294 shares of Palm
 #: common stock, and 51,000 shares of Series C Preferred Stock outstanding";
@@ -1278,8 +1282,8 @@ _SECOND_COUNT = re.compile(r"\d{1,3}(?:,\d{3})+")
 #: is outstanding"), or a holder's stake ("collectively held 449,196 shares of
 #: the then-outstanding CGC common stock"); "held by 67 holders of record"
 #: after a count is not one
-_LED = re.compile(r"(?:convertible|exercisable|exchangeable|settled|settleable)\s+(?:in|into|for)|(?:options?|warrants?|rights?|units?|awards?)\s+(?:to\s+(?:purchase|acquire|receive)|for|covering|over)|\b(?:beneficially\s+)?(?:own|owns|owned|hold|holds|held)|\bpurchase\s+of", re.I)
-_LED_END = re.compile(r"(?:" + _LED.pattern + r")\s+(?:(?:up\s+to|approximately|an\s+aggregate\s+of|a\s+total\s+of|of\s+record)\s+)?$", re.I)
+_LED = re.compile(r"(?:offer(?:ed|s|ing)?|agree(?:d|s)?|propose(?:d|s)?|elect(?:ed|s)?)\s+to\s+(?:purchase|acquire|buy|repurchase|redeem)|(?:convertible|exercisable|exchangeable|settled|settleable)\s+(?:in|into|for)|(?:options?|warrants?|rights?|units?|awards?|RSUs?|PSUs?)\s+(?:to\s+(?:purchase|acquire|receive)|for|covering|over|relating\s+to|in\s+respect\s+of|with\s+respect\s+to)|\b(?:beneficially\s+)?(?:own|owns|owned|hold|holds|held)|\bpurchase\s+of", re.I)
+_LED_END = re.compile(r"(?:" + _LED.pattern + r")\s+(?:(?:up\s+to|approximately|an\s+aggregate\s+of|a\s+total\s+of|of\s+record)\s+)?$|\$\s*$", re.I)
 
 
 def outstanding_count(gap: str) -> bool:
@@ -1318,31 +1322,38 @@ def parse_shares(text: str, *, company: str | None = None, evidence: list[str] |
 # alone, $65.9m of $155.2m, Perfect World's $119.9m against a fee table of
 # $868.7m, and BBX's its 195,045 Class B shares, $2.0m.
 #
-# So where one sentence states the count of each of two or more classes of the
-# target outstanding (a class statement), the count for equity value is the
-# sum of the classes that receive the merger consideration on the same terms,
-# and only where the filing shows that they do: a sentence whose subject names
-# the classes together ("Each Class A ordinary share ... and each Class B
-# ordinary share ... shall be cancelled ... in exchange for the right to
-# receive US$0.81667"), directly or through a term defined as them together
-# ("the Class A Shares and the Class B Shares, together the “Shares”"), or
-# names each in its own clause with the same consideration. A class the filing
-# shows is not acquired ("each share of Class B Common Stock ... shall be
-# cancelled ... and no consideration shall be delivered"; "14,951,625 shares
-# of Company Class B Common Stock, all of which will be cancelled") is left out
-# of the sum and named with the reason. A class whose terms the filing does
-# not show, or shows to differ, leaves no count at all, and the reading says
-# why: a count of one class of several is not the company's, and a count is
-# never made up.
+# Economic ownership decides, not the number of classes in the capitalisation
+# table. Where one sentence states the count of each of two or more classes of
+# the target outstanding (a class statement), the count for equity value is
+# the sum of the classes that receive the merger consideration, and only where
+# the filing shows that they do: a clause from its "each" to its "right to
+# receive" naming the classes together ("Each Class A ordinary share ... and
+# each Class B ordinary share ... shall be cancelled ... in exchange for the
+# right of the holder of such Share to receive US$0.81667"), directly or
+# through a term defined as them together ("the Class A Shares and the Class B
+# Shares, together the “Shares”"), or each in its own clause at the same price.
+# A class the filing shows has no economic interest ("Our Class X Common Stock
+# and Class Y Common Stock do not have any of the economic rights":
+# Endeavor), is cancelled for no consideration, or is paid a nominal sum for
+# its votes (under 1% of the offer: Pluralsight's $0.0001) is left out and
+# named with the reason; a class exchanged into the paid class before the
+# merger counts with it ("all of which will be cancelled as a result of the
+# Exchanges": Neff; Emdeon). Where the filing prices each class reliably,
+# each is counted at its own price (Unified Grocers' Class E at $100.00 beside
+# $200.27), and equity value is the sum. A class whose terms the filing does
+# not show leaves no count at all, and the reading says why: a count of one
+# class of several is not the company's, and a count is never made up.
 #
 # A count is the target's own. "137,008,911 shares of EXPE and 12,799,999
 # shares of Expedia class B common stock" in a Liberty Interactive proxy, or
 # "75,848,502 shares of BFC’s Class A Common Stock" in BBX Capital's, is
 # another company's, so a count whose words name an issuer (its name, or a
 # ticker or short name) is read only where that issuer is the target: a word
-# of its name, its initials, or a name the documents define as the Company or
-# directly after the target's own name ("Emdeon Inc. (“Emdeon” or the
-# “Company”)"). Preferred stock, ADSs and partnership units are not classes of
+# of one of its names (its name now, or the one its own filing's cover gives:
+# PhenixFIN filed as Medley Capital Corporation), a ticker whose letters run
+# through that name, or a short name the documents define directly after it
+# ("Medley Capital Corporation (“MCC”)"). A count that names the target beats
+# one that names no one, however often the unnamed is stated. Preferred stock, ADSs and partnership units are not classes of
 # this kind: preferred is a claim beside the common, an ADS is a different
 # unit (a count of them never mixes into a count of shares), and a
 # partnership's units are read as before.
@@ -1367,6 +1378,14 @@ _TOTAL_NOUN = re.compile(r"\b(?i:common\s+stock|common\s+shares|ordinary\s+share
 _OF_WHICH = re.compile(r"\bof\s+which\b|\bauthori[sz]ed\b", re.I)
 #: an authorized total by the words before it ("Authorized 1,600,000 shares;
 #: issued: 220,383 and 196,802 shares", a balance sheet in thousands)
+#: a part of the outstanding: "100,886 Shares of the Fund’s issued and
+#: outstanding Shares" (a tender), "284,984 shares of its issued and outstanding"
+_PARTITIVE = re.compile(r"(?<!all\s)\bof\s+(?:the\s+|its\s+|our\s+|their\s+)(?:[A-Z][\w’']*\s+){0,3}(?:issued\s+and\s+)?$")
+#: words after "outstanding" that make the count a part of the outstanding:
+#: "7,341,052 shares of common stock outstanding and held by stockholders
+#: other than Mr. Fertitta" (Landry's), "9,159,929 shares of common stock of
+#: GTC outstanding that were not beneficially owned by LFB"
+_NOT_ALL = re.compile(r"\s*,?\s*(?:and\s+)?(?:that\s+(?:were|are)\s+not|which\s+(?:were|are)\s+not|not\s+(?:held|owned|beneficially)|(?:held|owned)\s+by\s+(?:stockholders|shareholders|holders|persons)\s+other\s+than|other\s+than)\b", re.I)
 _AUTHORIZED_LEAD = re.compile(r"\bauthori[sz]ed\b[\s\w,:;]{0,30}$", re.I)
 _GENERIC = frozenset("""
 shares share of the our its their company company's issued common ordinary stock capital class series voting nonvoting non-voting
@@ -1390,6 +1409,8 @@ _EACH = re.compile(r"\b(?i:each)\s+(?!(?i:holder|record|certificate|book|option|
 #: Per Share Price" is not the Class A's "Per Share Price")
 _MONEY_AFTER = re.compile(r"(?:US)?\$\s?(\d[\d,]*(?:\.\d+)?)|\b((?:(?:class|series)\s+[A-Z](?:-\d)?\s+)?(?:per\s+share\s+)?(?:merger\s+consideration|offer\s+price|per\s+share\s+(?:consideration|price|amount)|cash\s+consideration))\b", re.I)
 _TOGETHER = re.compile(r"\b(?:collectively|together)\b[^“”\"()]{0,60}?[“\"]\s*(?:the\s+)?([^”\"]{2,60}?)\s*[”\"]", re.I)
+_NON_ECONOMIC = re.compile(r"\b(?:do|does|shall|will)\s+not\s+(?:have|carry|entitle\s+\w+\s+to)\s+any(?:\s+of\s+the)?\s+economic\s+(?:rights?|interest)|\b(?:has|have|carry|carries|with)\s+no\s+economic\s+(?:rights?|interest)|\bnon-?economic\b|\b(?:vote|voting)[- ]only\b|\bvoting\s+rights\s+only\b", re.I)
+_CANCELLED_FREE = re.compile(r"\b(?:will|shall)\s+(?:automatically\s+)?be\s+(?:automatically\s+)?cancel+ed(?:\s+and\s+(?:retired|extinguished|cease\s+to\s+exist))?\s+(?:without\s+any\s+conversion|for\s+no\s+consideration|without\s+(?:any\s+)?(?:payment|consideration))", re.I)
 _ALL_CANCELLED = re.compile(r",?\s*all\s+of\s+which\s+(?:will|shall)\s+be\s+(?:cancel+ed|retired|exchanged)", re.I)
 
 
@@ -1424,6 +1445,13 @@ def _labels(s: str) -> list[str]:
     return out
 
 
+def _names(company: str | tuple[str, ...] | list[str] | None) -> tuple[str, ...]:
+    """The target's names as one tuple: its name, and any it filed under."""
+    if not company:
+        return ()
+    return (company,) if isinstance(company, str) else tuple(n for n in company if n)
+
+
 def _name_words(company: str) -> list[str]:
     return [w for w in re.findall(r"[a-z0-9&]+", company.lower().replace("’", "'").replace("'s ", " ")) if w]
 
@@ -1445,11 +1473,29 @@ _COMPANY_DEFINED = re.compile(r"((?:[A-Z][\w&.,’'-]*\s+){1,6}?)(?:[^()“”\"
 
 
 @lru_cache(maxsize=256)
-def _company_is_target(company: str, texts: tuple[str, ...]) -> bool:
-    """Whether "the Company" of the documents is the target: true where they define it as a name of the target's, or do not define it."""
-    own = {w for w in _name_words(company) if w not in _NAME_FILLER}
+def _company_is_target(names: tuple[str, ...], texts: tuple[str, ...]) -> bool:
+    """Whether "the Company" of the documents is the target: true where they define it as one of the target's names, or do not define it."""
+    own = {w for n in names for w in _name_words(n) if w not in _NAME_FILLER}
     names = [m.group(1) for t in texts for m in _COMPANY_DEFINED.finditer(t)]
     return not names or any(own & {w for w in _name_words(n) if w not in _NAME_FILLER} for n in names)
+
+
+#: the name a filing is made under, from its cover: "MEDLEY CAPITAL
+#: CORPORATION (Name of Registrant as Specified In Its Charter)"
+#: (never an S-4's "Exact name of registrant", which is the acquirer's)
+_COVER_NAME = re.compile(r"((?:[A-Z][\w&.,’'-]*\s+){1,8})\(\s*(?i:name\s+of\s+(?:the\s+)?(?:registrant|subject\s+company|issuer))\b")
+
+
+def registrant_names(text: str) -> list[str]:
+    """The names a document's cover says it is filed for (the registrant, or a 13E-3's subject company), at most two, in the order they appear."""
+    out: list[str] = []
+    for m in _COVER_NAME.finditer(text[:20000]):
+        # the words after the cover's own headings ("... RULE 13E-3
+        # THEREUNDER GTC BIOTHERAPEUTICS, INC. (Name of the Issuer)")
+        n = re.split(r"(?i)\b(?:thereunder|1934|act|statement|amendment(?:\s+no\.?)?(?:\s+\d+)?|13e-3|e-3|14a|14c|14d-9|schedule|rule|to)\b\.?", _flat(m.group(1)))[-1].strip(" ,.")
+        if n and any(w not in _NAME_FILLER for w in _name_words(n)) and n not in out:
+            out.append(n)
+    return out[:2]
 
 
 def _in_order(letters: str, word: str) -> bool:
@@ -1458,12 +1504,22 @@ def _in_order(letters: str, word: str) -> bool:
 
 
 @lru_cache(maxsize=1024)
-def _is_target(issuer: str, company: str | None, texts: tuple[str, ...], *, generic_company: bool = False) -> bool:
-    """Whether the issuer a mention names is the target: no issuer named, a word of the target's name, its initials, or a name the documents give it. A mention of "the Company" is the target's unless the documents define the Company as another."""
-    if not company:
+def _is_target(issuer: str, names: tuple[str, ...], texts: tuple[str, ...], *, generic_company: bool = False) -> bool:
+    """
+    Whether the issuer a mention names is the target: no issuer named, or one
+    of the target's names (its name now, or the one its own filing was made
+    under: Medley Capital Corporation for PhenixFIN) by a word, its initials
+    or a short name the documents give it. A mention of "the Company" is the
+    target's unless the documents define the Company as another.
+    """
+    if not names:
         return True
     if not issuer:
-        return not generic_company or _company_is_target(company, texts)
+        return not generic_company or _company_is_target(names, texts)
+    return any(_names_target(issuer, n, texts) for n in names)
+
+
+def _names_target(issuer: str, company: str, texts: tuple[str, ...]) -> bool:
     first = issuer.split()[0]
     words = _name_words(company)
     own = [w for w in words if w not in _NAME_FILLER]
@@ -1482,8 +1538,9 @@ def _is_target(issuer: str, company: str | None, texts: tuple[str, ...], *, gene
     whole = "".join(w for w in words if w not in ("inc", "incorporated", "corp", "corporation", "co", "ltd", "limited", "plc", "llc", "lp", "the", "and", "of", "&"))
     if 2 <= len(letters) <= 6 and first.replace("&", "").isupper() and whole[:1] == letters[:1] and _in_order(letters, whole):
         return True
-    q = re.escape(first)
-    defined_as_company = re.compile(r"\((?:[^()]{0,80}?)[“\"]\s*" + q + r"\s*[,”\"](?:[^()]{0,80}?)[“\"]\s*(?:the\s+)?Company\s*[,”\"]|\((?:[^()]{0,80}?)[“\"]\s*(?:the\s+)?Company\s*[,”\"](?:[^()]{0,80}?)[“\"]\s*" + q + r"\s*[,”\"]", re.I)
+    # the short name as the documents quote it: all of it ("FSIC III"), or its first word
+    qs = [re.escape(issuer).replace(r"\ ", r"\s+")] + ([re.escape(first)] if " " in issuer else [])
+    q = "(?:" + "|".join(qs) + ")"
     # A short name defined directly after the first word of the target's
     # name, with only its words, suffixes and punctuation between ("Emdeon
     # Inc. (“Emdeon”"), never another name ("Abraxis, Celgene Corporation
@@ -1491,7 +1548,7 @@ def _is_target(issuer: str, company: str | None, texts: tuple[str, ...], *, gene
     name = r"(?:[\s,.’']|\b(?:" + "|".join(re.escape(w) for w in sorted(set(words) | _NAME_FILLER, key=len, reverse=True)) + r")\b){0,60}"
     after_name = [re.compile(r"\b" + re.escape(w) + r"\b" + name + r"\(\s*(?:the\s+)?[“\"]\s*(?:the\s+)?" + q + r"\s*[,”\"]", re.I) for w in own[:1]]
     for t in texts:
-        if defined_as_company.search(t) or any(p.search(t) for p in after_name):
+        if any(p.search(t) for p in after_name):
             return True
     return False
 
@@ -1557,7 +1614,7 @@ def _mentions(sent: str) -> list[dict]:
 
 
 @lru_cache(maxsize=16)
-def _statements(text: str, company: str | None, texts: tuple[str, ...]) -> list[dict]:
+def _statements(text: str, names: tuple[str, ...], texts: tuple[str, ...]) -> list[dict]:
     """
     The class statements in a document: the counts of two or more classes of
     the target outstanding, stated in one sentence, each a dict of its
@@ -1578,10 +1635,11 @@ def _statements(text: str, company: str | None, texts: tuple[str, ...]) -> list[
             run.clear()
 
         for m in _mentions(sent):
-            if m["award"] or m["total"]:
+            if m["award"] or m["total"] or re.search(r"\brestricted\b", m["desc"], re.I):
+                # "4,650,661 restricted Class A shares": a part of the class
                 continue
             ok = (m["out"] and m["kind"] == "shares" and m["stock"] and m["n"] >= 1000 and len(m["labels"]) <= 1
-                  and _is_target(m["issuer"], company, texts, generic_company=bool(re.search(r"\bCompany", m["desc"]))))
+                  and _is_target(m["issuer"], names, texts, generic_company=bool(re.search(r"\bCompany", m["desc"]))))
             if not ok:
                 if m["kind"] != "preferred" and m["n"] >= 1000:
                     close()
@@ -1612,6 +1670,7 @@ def _terms(texts: tuple[str, ...]) -> tuple[list[tuple[frozenset, float | str | 
     """
     groups: list[tuple[frozenset, float | str | None, str]] = []
     excluded: dict[str, str] = {}
+    exchanged: set[str] = set()
     for t in texts:
         defined: dict[str, frozenset] = {}
         for a, b in _sentences(t):
@@ -1627,7 +1686,24 @@ def _terms(texts: tuple[str, ...]) -> tuple[list[tuple[frozenset, float | str | 
                 # 100% of the outstanding shares of BBX Capital’s Class B
                 # Common Stock, all of which will be canceled")
                 if not _SUBSET.search(sent[max(0, m.start() - 200):m.end()]) and not re.search(r"\b(?:own|owns|owned|hold|holds)\b", sent[max(0, m.start() - 200):m.end()], re.I):
-                    excluded.setdefault(_labels(m.group(0))[-1], _flat(m.group(0))[:200])
+                    after = sent[m.end():m.end() + 80]
+                    why = "exchanged" if re.match(r"\s*(?:as\s+a\s+result\s+of|upon|in\s+connection\s+with)\s+the\s+(?:Exchanges?|exchange)", after, re.I) else "cancelled"
+                    excluded.setdefault(_labels(m.group(0))[-1], f"{why}: " + _flat(m.group(0) + after)[:240])
+            # A class with votes and no economic interest is not bought for
+            # the price ("Our Class X Common Stock and Class Y Common Stock do
+            # not have any of the economic rights ... associated with our Class
+            # A Common Stock": Endeavor; "vote-only Class B Common Stock":
+            # Fathom), and nor is a class cancelled without conversion ("shares
+            # of Company Class X Common Stock and Company Class Y Common Stock
+            # ... will be automatically cancelled without any conversion thereof").
+            for m in _NON_ECONOMIC.finditer(sent):
+                before = re.split(r"[;•,:“”\"()]", sent[max(0, m.start() - 300):m.start()])[-1]
+                for lab in _stock_labels(before) or _stock_labels(sent[m.end():m.end() + 60])[:1]:
+                    excluded.setdefault(lab, "voting rights only, no economic interest: " + _flat(sent[max(0, m.start() - 160):m.end()])[-240:])
+            for m in _CANCELLED_FREE.finditer(sent):
+                head = _cancelled_class(sent[max(0, m.start() - 400):m.start()])
+                for lab in _stock_labels(head):
+                    excluded.setdefault(lab, "cancelled for no consideration: " + _flat(head + " " + m.group(0))[-240:])
             prev = 0
             for v in _RECEIVES.finditer(sent):
                 subject = sent[prev:v.start()]
@@ -1653,6 +1729,7 @@ def _terms(texts: tuple[str, ...]) -> tuple[list[tuple[frozenset, float | str | 
                 if labs:
                     for x in re.finditer(r"\bresulting\s+from\s+(?:the\s+)?(?:exchange|conversion|redemption)\s+of\b[^.;]{0,300}", span, re.I):
                         labs |= set(_labels(x.group(0)))
+                        exchanged |= set(_labels(x.group(0)))
                 # "each share of Common Stock and Class B Stock": the class
                 # named only as common stock, where another is named by letter
                 if labs and any(not re.search(r"(?:\b(?i:class|series)\s+[A-Z](?:-\d)?|voting)\s*$", bare[max(0, c.start() - 14):c.start()])
@@ -1668,14 +1745,51 @@ def _terms(texts: tuple[str, ...]) -> tuple[list[tuple[frozenset, float | str | 
                 if _NEGATED.search(span) or _NEGATED.search(sent[v.start():v.end() + 80]):
                     if not _SUBSET.search(span):
                         for lab in labs:
-                            excluded.setdefault(lab, quote)
+                            excluded.setdefault(lab, "not converted into the consideration: " + quote)
                     continue
                 after = sent[v.end():v.end() + 160]
                 # the first price named after the verb, a par value aside
                 k = next((x for x in _MONEY_AFTER.finditer(after) if not re.search(r"par\s+value\s*(?:of\s*)?$", after[max(0, x.start() - 16):x.start()], re.I)), None)
                 key = None if not k else (float(k.group(1).replace(",", "")) if k.group(1) else re.sub(r"\s+", " ", k.group(2).lower()))
                 groups.append((frozenset(labs), key, quote))
+    # What is left of a class once it has been exchanged into the class the
+    # price is paid on is cancelled for nothing, but the class was bought:
+    # Emdeon's Class B, exchanged with its EBS Units into Class A
+    for lab in exchanged:
+        if excluded.get(lab, "").startswith("cancelled for no consideration"):
+            del excluded[lab]
     return groups, excluded
+
+
+def _stock_labels(s: str) -> list[str]:
+    """The classes a passage names as stock ("Class B Common Stock", "Class X shares"), not as the name of something else ("the Class A exchange ratio")."""
+    return [lab for lab in _labels(s) if lab in ("voting", "nonvoting") or re.search(r"\b" + (re.escape(lab) if " " in lab else r"(?i:class)\s+" + re.escape(lab)) + r"\b\s+(?:(?i:common|ordinary|shares?|stock))\b", s)]
+
+
+def _cancelled_class(before: str) -> str:
+    """
+    The class a "will be cancelled without consideration" clause is about: its
+    subject from "each", "all" or a list marker's "shares of" to the first
+    word that narrows it ("that", "which", "other than"), parentheticals aside;
+    nothing where the subject is an award, a holder's shares or a part of the
+    class ("all outstanding shares of Emdeon Class B common stock that are not
+    converted", "Gato will contribute 15,744,913 shares ... which shares will
+    be cancelled").
+    """
+    bare = before
+    while True:
+        b2 = re.sub(r"\([^()]*\)", " ", bare)
+        if b2 == bare:
+            break
+        bare = b2
+    starts = list(re.finditer(r"\b(?i:each|all)\b|\(\s*(?:[ivx]{1,4}|[A-Za-z])\s*\)\s+(?=(?i:shares)\b)|^\s*(?=(?i:shares)\s+of\b)", bare))
+    if not starts:
+        return ""
+    head = bare[starts[-1].start():]
+    if _INSTRUMENT.search(head) or _SUBSET.search(head) or re.search(r"\b(?:own|owns|owned|hold|holds|contribut\w*)\b", head, re.I):
+        return ""
+    cut = re.search(r"\b(?:that|which|who|other\s+than|except|not)\b", head, re.I)
+    return head[:cut.start()] if cut else head
 
 
 def _quote(span: str, verb: str) -> str:
@@ -1694,14 +1808,19 @@ def _resolve(classes: list[tuple[str, float]], groups, excluded, offer: float | 
     terms, which are not acquired, and the count. A clause that prices a class
     at a dollar amount other than the offer (Pluralsight's Class B and C
     shares, "$0.0001", beside the Class A's $20.26) is no evidence that it
-    shares the offer, and the reading says what it receives.
+    shares the offer. Where the filing prices each class reliably (one
+    dollar amount a share, in a clause of its own) the classes are counted at
+    their own prices (classPrices) and equity value is the sum; a class priced
+    at under 1% of the offer is a nominal payment for votes, not a share of the
+    company, and is left out and named.
     """
     labs = [c for c, _ in classes]
     mine = set(labs)
     same: set[str] = set()
     terms = None
-    differs: dict[str, float] = {}
+    differs: dict[str, dict[float, str]] = {}
     by_key: dict = {}
+    terms_priced = False
     # A class priced by a consideration of its own ("the Class B Per Share
     # Price") does not share the offer's, whatever else names it with others.
     own_terms = {}
@@ -1717,22 +1836,50 @@ def _resolve(classes: list[tuple[str, float]], groups, excluded, offer: float | 
             continue
         if isinstance(key, float) and offer and abs(key / offer - 1) > 0.005:
             for c in hit:
-                differs.setdefault(c, key)
+                differs.setdefault(c, {}).setdefault(round(key, 6), phrase)
             continue
-        if len(hit) >= 2 and len(hit) > len(same):
-            same, terms = set(hit), phrase
+        if isinstance(key, str) and re.match(r"(?:class|series)\s", key):
+            # a consideration named for one class is no evidence that the
+            # classes beside it share the offer
+            continue
+        priced_here = isinstance(key, float)
+        if len(hit) >= 2 and (len(hit) > len(same) or (hit == same and priced_here and not terms_priced)):
+            # the clause that names the price is the one quoted, where there is one
+            same, terms, terms_priced = set(hit), phrase, priced_here
         if key is not None:
             k = round(key, 4) if isinstance(key, float) else key
             by_key.setdefault(k, set()).update(hit)
             if len(by_key[k]) >= 2 and len(by_key[k]) > len(same):
-                same, terms = set(by_key[k]), phrase
-    out = [c for c in labs if c in excluded and c not in same]
+                same, terms, terms_priced = set(by_key[k]), phrase, priced_here
+    # A class shown not to be bought (cancelled for nothing, or votes without
+    # an economic interest) is left out even where a broad term names it with
+    # the others ("each share of Company Common Stock").
+    firm = {c for c, why in excluded.items() if not why.startswith("not converted")}
+    out = [c for c in labs if c in firm or (c in excluded and c not in same)]
+    # A class paid a nominal amount (under 1% of the offer: Pluralsight's
+    # Class B and C, "$0.0001", beside $20.26) is paid for its votes, not
+    # bought as a share of the company: left out and named.
+    for c in labs:
+        if c not in out and c not in same and c in differs and len(differs[c]) == 1 and offer:
+            price, passage = next(iter(differs[c].items()))
+            if price < 0.01 * offer:
+                out.append(c)
+                excluded = {**excluded, c: f"nominal consideration of ${price:,.6g} a share against the offer's ${offer:,.6g}: {passage}"}
+    # A class whose remainder is cancelled once it has been exchanged into
+    # the class that is paid ("all of which will be cancelled as a result of
+    # the Exchanges": Neff) is bought as that class.
+    swapped = [c for c in out if excluded[c].startswith("exchanged")]
+    out = [c for c in out if c not in swapped]
+    same -= set(out)
+    same -= set(swapped)
     if not same:
-        rest = mine - set(out)
+        rest = mine - set(out) - set(swapped)
         for g, key, phrase in groups:
             if g & mine == rest and len(rest) == 1 and not (isinstance(key, float) and offer and abs(key / offer - 1) > 0.005):
                 same, terms = set(rest), phrase
                 break
+    if same and swapped:
+        same |= set(swapped)
     unknown = [c for c in labs if c not in same and c not in out]
     named = [{"class": c, "count": round(n / 1e6, 3)} for c, n in classes]
     # A class under 1% of the shares whose terms the filing does not show
@@ -1744,12 +1891,23 @@ def _resolve(classes: list[tuple[str, float]], groups, excluded, offer: float | 
         out += small
         excluded = {**excluded, **{c: "terms not shown; under 1% of the shares" for c in small}}
         unknown = []
+    priced = {c: next(iter(differs[c].items())) for c in unknown if c in differs and len(differs[c]) == 1}
+    if same and unknown and all(c in priced for c in unknown):
+        counts = dict(classes)
+        # price None: the offer's, whatever the offer reader later makes it
+        parts = [{"class": _class_name(c), "count": round(counts[c] / 1e6, 6), "price": None, "terms": terms} for c in labs if c in same]
+        parts += [{"class": _class_name(c), "count": round(counts[c] / 1e6, 6), "price": priced[c][0], "terms": priced[c][1]} for c in labs if c in unknown]
+        r = {"count": round(sum(counts[c] for c in labs if c in same or c in unknown) / 1e6, 6), "classes": named,
+             "summed": [_class_name(c) for c in labs if c in same or c in unknown], "terms": terms, "classPrices": parts}
+        if out:
+            r["excluded"] = [{"class": _class_name(c), "why": excluded[c]} for c in out]
+        return r
     if unknown or not same:
         diff = [c for c in unknown if c in differs]
         if any(c in own_terms for c in unknown):
             why = "; ".join(f"{_class_name(c)} receives {own_terms[c].title().replace('Per Share', 'per share')}" for c in unknown if c in own_terms) + ", its own consideration: the classes are not summed"
         elif diff:
-            why = "; ".join(f"{_class_name(c)} receives ${differs[c]:,.6g} a share" for c in diff) + f", not the offer's ${offer:,.6g}: the classes are not summed"
+            why = "; ".join(f"{_class_name(c)} receives " + " or ".join(f"${x:,.6g}" for x in differs[c]) + " a share" for c in diff) + f", not the offer's ${offer:,.6g}, and the filing does not price every class: the classes are not summed"
         else:
             why = "the filing states " + ", ".join(_class_name(c) for c in labs) + " outstanding and does not show that " + ("they receive" if len(unknown) != 1 else _class_name(unknown[0]) + " receives") + " the same consideration per share"
         return {"count": None, "classes": named, "why": why}
@@ -1764,7 +1922,7 @@ def _class_name(lab: str) -> str:
     return {"common": "the common stock", "voting": "the voting common stock", "nonvoting": "the nonvoting common stock"}.get(lab, f"Class {lab}" if len(lab) <= 3 else lab)
 
 
-def read_shares(text: str, *, company: str | None = None, evidence: list[str] | None = None, classes: set[str] | None = None, offer: float | None = None) -> dict | None:
+def read_shares(text: str, *, company: str | tuple[str, ...] | None = None, evidence: list[str] | None = None, classes: set[str] | None = None, offer: float | None = None) -> dict | None:
     """
     The share count a document states for the target, in millions, as
     {"count", "phrase"} plus, where it states classes, "classes", "summed",
@@ -1773,20 +1931,24 @@ def read_shares(text: str, *, company: str | None = None, evidence: list[str] | 
     receives, and `classes` the target's classes they state (stated_shares);
     the document itself where they are not given.
 
-    The candidates are the single counts that pass (_SHARES, as parse_shares
-    has read them since the option counts were passed over) and the class
-    statements the consideration resolves; the count is the one stated most
-    often, the largest of those tied. Where the document states the target's
-    classes, a single count of one class is not a candidate, and neither is a
-    count of "common stock" where that is one of the classes: a total that
-    names no class ("56,212,520 Shares outstanding", the Shares being both
-    classes) still is. Where the classes leave no count, and no total is
-    stated, there is none, and the reading says why.
+    A class statement the consideration resolves is the count, the one stated
+    most often (the largest of those tied): the classes, each judged on what
+    it receives. Without one, the single counts that pass (_SHARES, as
+    parse_shares has read them since the option counts were passed over) are
+    the candidates, those that name the target before those that name no one.
+    Where the document states the target's classes, a single count of one
+    class is not a candidate, and neither is a count of "common stock" where
+    that is one of the classes: a total that names no class still is. Where
+    the classes leave no count, and no total is stated, there is none, and
+    the reading says why.
     """
     texts = tuple(evidence or [text])
-    statements = copy.deepcopy(_statements(text, company, texts))
+    names = _names(company)
+    statements = copy.deepcopy(_statements(text, names, texts))
     found: Counter = Counter()
     best: dict[float, dict] = {}
+    named: set[float] = set()
+    resolved: set[float] = set()
     failed = None
     everyone: set[str] = set(classes or ())
     for s in statements:
@@ -1810,6 +1972,7 @@ def read_shares(text: str, *, company: str | None = None, evidence: list[str] | 
                 continue
             found[r["count"]] += 1
             best.setdefault(r["count"], r)
+            resolved.add(r["count"])
         if failed is None and not found:
             failed = {"count": None, "phrase": statements[0]["phrase"], "classes": [{"class": c, "count": round(n / 1e6, 3)} for c, n in statements[0]["classes"]],
                       "why": "the filing states " + ", ".join(_class_name(c) for c in sorted(everyone)) + " outstanding and no one sentence states them all"}
@@ -1818,12 +1981,14 @@ def read_shares(text: str, *, company: str | None = None, evidence: list[str] | 
         gap = m.group("gap")
         own = _SECOND_COUNT.split(gap, 1)[0]
         lead = text[max(0, m.start() - 60):m.start()]
-        if v < 0.1 or not outstanding_count(gap) or _OF_WHICH.search(own) or ":" in own or text[m.end():m.end() + 2].lstrip().startswith(":") or _LED_END.search(lead) or _AUTHORIZED_LEAD.search(lead):
+        if v < 0.1 or not outstanding_count(gap) or _OF_WHICH.search(own) or re.search(r"\bof\s+which\b", gap, re.I) or _PARTITIVE.search(gap) or ":" in own \
+                or (own != gap and re.search(r"\bissued\s+and\s*$", own, re.I)) or _NOT_ALL.match(text[m.end():m.end() + 60]) or text[m.end():m.end() + 2].lstrip().startswith(":") or _LED_END.search(lead) or _AUTHORIZED_LEAD.search(lead):
             continue
         desc = m.group(0)[len(m.group(1)):]
         e = _DESC_END.search(desc)
         desc = desc[:e.start()] if e else desc
-        if not _is_target(_issuer(desc), company, texts, generic_company=bool(re.search(r"\bCompany", desc))):
+        issuer = _issuer(desc)
+        if not _is_target(issuer, names, texts, generic_company=bool(re.search(r"\bCompany", desc))):
             continue
         if everyone and (_labels(desc) or "common" in everyone or _UNITS.search(desc) or not _TOTAL_NOUN.search(desc)
                          or round(v, 3) in class_counts):
@@ -1833,13 +1998,27 @@ def read_shares(text: str, *, company: str | None = None, evidence: list[str] | 
         v = round(v, 6)
         found[v] += 1
         best.setdefault(v, {"count": v, "phrase": _flat(m.group(0))})
+        if issuer or re.search(r"\b(?:our|its|Company|Company’s|Company's)\b", desc):
+            named.add(v)
+    if resolved:
+        # The target's classes, each judged on what it receives, are the
+        # count: a single figure beside them may include a class the merger
+        # does not buy (Baldwin's "140,242,358 shares of Baldwin’s common
+        # stock" counts the Class B cancelled without consideration).
+        found = Counter({v: c for v, c in found.items() if v in resolved})
+    elif named:
+        # A count the document ties to the target (its name, a short name of
+        # it, "our" or "the Company") is preferred to one that names no one,
+        # however often the unnamed is stated: an unnamed count can be any
+        # party's, or no count of shares at all.
+        found = Counter({v: c for v, c in found.items() if v in named})
     if not found:
         return failed
     top = found.most_common(1)[0][1]
     return best[max(k for k, c in found.items() if c == top)]
 
 
-def stated_shares(texts: list[str], company: str | None = None, offer: float | None = None) -> dict | None:
+def stated_shares(texts: list[str], company: str | tuple[str, ...] | None = None, offer: float | None = None) -> dict | None:
     """
     The share count a row's documents state, read as read_shares reads one:
     the first document, in their order, that gives a count, every document
@@ -1848,13 +2027,14 @@ def stated_shares(texts: list[str], company: str | None = None, offer: float | N
     has two). None stated: the first reading that says why, else None.
     """
     texts = tuple(texts)
+    names = _names(company)
     classes: set[str] = set()
     for t in texts:
-        for s in _statements(t, company, texts):
+        for s in _statements(t, names, texts):
             classes |= {c for c, _ in s["classes"]}
     failed = None
     for t in texts:
-        r = read_shares(t, company=company, evidence=texts, classes=classes, offer=offer)
+        r = read_shares(t, company=names, evidence=texts, classes=classes, offer=offer)
         if r and r.get("count"):
             return r
         failed = failed or r

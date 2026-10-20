@@ -237,7 +237,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     # The share count from every document read: what each class receives can
     # sit in a different document from the count of each (parse.stated_shares).
     if "statedShares" not in row:
-        set_stated_shares(row, parse.stated_shares(texts, company=row["target"].get("name"), offer=row.get("offerPrice")))
+        set_stated_shares(row, parse.stated_shares(texts, company=target_names(row, urls, texts), offer=row.get("offerPrice")))
     # The documents read, the premiums are read again against the whole offer:
     # its parts can sit in different documents (the ADS ratio on a cover, the
     # package's value in the proxy).
@@ -999,8 +999,28 @@ def reread_stated_shares(row: dict, *, cap: int | None = None) -> bool:
             return False
     for k in ("statedShares", "statedSharesBasis", "statedSharesClasses"):
         row.pop(k, None)
-    set_stated_shares(row, parse.stated_shares(texts, company=(row.get("target") or {}).get("name"), offer=row.get("offerPrice")))
+    set_stated_shares(row, parse.stated_shares(texts, company=target_names(row, row.get("documentsRead") or [], texts), offer=row.get("offerPrice")))
     return True
+
+
+def target_names(row: dict, urls: list[str], texts: list[str]) -> tuple[str, ...]:
+    """
+    The names a share count may call the target by: its name now, and the
+    name on the cover of a document filed in its own EDGAR folder (the
+    registrant, or a 13E-3's subject company). PhenixFIN's merger proxy was
+    filed as Medley Capital Corporation, and states "54,474,211 shares of MCC
+    Common Stock outstanding": the target's own count, under its old name.
+    """
+    target = row.get("target") or {}
+    names = [target.get("name")] if target.get("name") else []
+    try:
+        folder = f"/data/{int(target.get('cik') or 0)}/"
+    except ValueError:
+        folder = None
+    for url, text in zip(urls, texts):
+        if folder and folder in url:
+            names += [n for n in parse.registrant_names(text) if n not in names]
+    return tuple(names)
 
 
 def set_stated_shares(row: dict, reading: dict | None) -> None:
@@ -1016,7 +1036,7 @@ def set_stated_shares(row: dict, reading: dict | None) -> None:
     if reading.get("count"):
         row["statedShares"], row["statedSharesBasis"] = round(reading["count"], 3), reading.get("phrase")
     if reading.get("classes"):
-        row["statedSharesClasses"] = {k: reading[k] for k in ("classes", "summed", "terms", "excluded", "why") if reading.get(k)}
+        row["statedSharesClasses"] = {k: reading[k] for k in ("classes", "summed", "terms", "excluded", "classPrices", "why") if reading.get(k)}
 
 
 def _stated_fallback(row: dict) -> None:
@@ -1035,6 +1055,8 @@ def _stated_fallback(row: dict) -> None:
             basis["terms"] = classes.get("terms")
             if classes.get("excluded"):
                 basis["excluded"] = classes["excluded"]
+            if classes.get("classPrices"):
+                basis["classPrices"] = classes["classPrices"]
         row["sharesBasis"] = basis
 
 
