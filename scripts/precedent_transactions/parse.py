@@ -928,7 +928,7 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
     # The figures the filing may name as this deal's own: the whole offer and
     # the cash part of it ("$27.30 in cash and 0.3885 of an Aetna common share
     # ... represents a premium of"), never a different bid.
-    named = targets + ([offer] if offer and targets and all(abs(offer - t) > 0.005 * t for t in targets) else [])
+    named = targets + ([offer] if offer and all(abs(offer - t) > 0.005 * t for t in targets) else [])
     kept: list[dict] = []
     aside: list[dict] = []
     #: statements outside the window on their own wording, kept if another
