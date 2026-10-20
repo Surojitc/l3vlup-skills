@@ -256,7 +256,12 @@ _NUMBER_WORDS = {
     "eighteen": 18, "nineteen": 19, "twenty": 20, "twenty-five": 25, "thirty": 30, "forty": 40, "fifty": 50,
     "one hundred": 100, "two hundred": 200,
 }
-_COUNT = r"(\d{1,3}(?:\.\d{1,4})?|" + "|".join(sorted((re.escape(w) for w in _NUMBER_WORDS), key=len, reverse=True)) + r")"
+_TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
+_UNITS = {w: n for w, n in _NUMBER_WORDS.items() if n < 10}
+#: a compound written out, as the filings and their conversion to text leave
+#: it: "seventy-two", "seventy -two" (Zhangmen's cover), "seventy two"
+_COMPOUND = r"(?:" + "|".join(_TENS) + r")(?:\s*-\s*|\s+)(?:" + "|".join(_UNITS) + r")\b"
+_COUNT = r"(\d{1,3}(?:\.\d{1,4})?|" + _COMPOUND + "|" + "|".join(sorted((re.escape(w) for w in list(_NUMBER_WORDS) + list(_TENS)), key=len, reverse=True)) + r")"
 #: "ADSs, each representing four Shares", "each ADS represents 50 Shares",
 #: "each Verona ADS represents a beneficial interest in eight Verona ordinary
 #: shares", "American Depositary Shares, each of which represents 18 Ordinary Shares"
@@ -268,9 +273,16 @@ _ADS_RATIO = re.compile(
 
 
 def _count(word: str) -> float | None:
-    w = word.lower()
+    w = re.sub(r"\s*-\s*|\s+", "-", word.lower().strip())
+    if w.replace("-", " ") in _NUMBER_WORDS:
+        return float(_NUMBER_WORDS[w.replace("-", " ")])
     if w in _NUMBER_WORDS:
         return float(_NUMBER_WORDS[w])
+    if w in _TENS:
+        return float(_TENS[w])
+    tens, _, unit = w.partition("-")
+    if tens in _TENS and unit in _UNITS:
+        return float(_TENS[tens] + _UNITS[unit])
     try:
         return float(w)
     except ValueError:
@@ -494,6 +506,43 @@ def _quoted(texts: list[str], value: float) -> tuple[int, int, str | None, str |
     return ads, share, ads_at, share_at
 
 
+def _exact(v: float) -> float:
+    """
+    A price kept to eight significant figures, not four decimal places: a
+    price per ADS over the ratio is a long quotient ($0.56 / 72 =
+    $0.0077778 a share, which Zhangmen's filing states; four places would
+    make it $0.0078, and $0.5616 an ADS), and times the ratio it must come
+    back to the price per ADS.
+    """
+    return float(f"{v:.8g}")
+
+
+def _stated_per_share(texts: list[str], value: float) -> tuple[float | None, str | None]:
+    """The price the filings quote per share within half a percent of `value`, with its passage; (None, None) where none is."""
+    for text in texts:
+        for m in re.finditer(_MONEY, text):
+            try:
+                v = float(m.group(1).replace(",", ""))
+            except ValueError:
+                continue
+            if abs(v - value) <= 0.005 * value and _PER_SHARE_AFTER.search(text[m.end():m.end() + 60]):
+                return v, re.sub(r"\s+", " ", text[max(0, m.start() - 80):m.end() + 60]).strip()
+    return None, None
+
+
+def _stated_per_ads(texts: list[str], value: float) -> float | None:
+    """The price the filings quote per ADS within half a cent of `value`, or None."""
+    for text in texts:
+        for m in re.finditer(_MONEY, text):
+            try:
+                v = float(m.group(1).replace(",", ""))
+            except ValueError:
+                continue
+            if abs(v - value) <= 0.005 and (_PER_ADS_AFTER.search(text[m.end():m.end() + 60]) or _PER_ADS_BEFORE.search(text[max(0, m.start() - 40):m.start()])):
+                return v
+    return None
+
+
 def offer_unit(texts: list[str], offer: float) -> tuple[str | None, str | None]:
     """'ADS' where the filings quote the offer per ADS more often than per share, 'share' the other way, None where they never say; with a passage."""
     ads, share, ads_at, share_at = _quoted(texts, offer)
@@ -577,9 +626,17 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
     if per_ads and ratio:
         # The per-share price is the one the filing states beside the per-ADS
         # one; the ADS price over the stated ratio otherwise, and it says so.
-        each = round(offer / ratio, 4)
-        _, n_share, _, at = _quoted(texts, each)
-        out["perShare"] = (each, at if n_share else f"${offer:,.4g} per ADS / {ratio:g} shares per ADS, as the filing states the ratio")
+        # The stated figure is kept as stated, where times the ratio it comes
+        # back to the price per ADS to half a cent: LAIX's US$0.1357 a share
+        # (x 14 = $1.8998, for US$1.90 an ADS) is what the filing pays, though
+        # $1.90 / 14 is $0.13571429. A rounded figure that does not come back
+        # (Youku's $1.53 x 18 = $27.54, for $27.60 an ADS) is not the price.
+        each = _exact(offer / ratio)
+        stated_each, at = _stated_per_share(texts, each)
+        if stated_each is not None and abs(stated_each * ratio - offer) > 0.005:
+            stated_each, at = None, None
+        out["perShare"] = (stated_each, at) if stated_each is not None else (each, f"${offer:,.4g} per ADS / {ratio:g} shares per ADS, as the filing states the ratio")
+        each = out["perShare"][0]
         out["components"].append({"part": "cash", "value": each, "per": "share", "excerpt": out["perShare"][1]})
     terms = stock_terms(texts, None if per_ads else offer)
     stated = implied_values(texts)
@@ -620,7 +677,7 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
         out["ties"] = [(offer, "ADS")]
         return out
     elif not stock:
-        out["implied"], out["method"] = (offer / ratio if per_ads and ratio else offer), "cash"
+        out["implied"], out["method"] = (out["perShare"][0] if out["perShare"] else offer), "cash"
         out["basis"] = "the per-share cash is the whole consideration"
     else:
         # The package's value on the reference day, as the filing states it;
@@ -653,10 +710,16 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
                 out["unresolved"] = "the consideration includes stock and the filing states its value on no day near the agreement" + (
                     f" (only at {practicable[0]['date'] or 'the proxy date'}: ${practicable[0]['value']:,.2f})" if practicable else "") + ", nor parts that add up to it"
     if out["implied"] is not None:
-        out["implied"] = round(out["implied"], 4)
+        out["implied"] = _exact(out["implied"])
         ties = [(out["implied"], "share")]
         if ratio:
-            out["perAds"] = round(out["implied"] * ratio, 4)
+            # The price per ADS the filing states, where it states the
+            # product ("US$1.90 in cash per ADS" beside "US$0.1357 ... per
+            # Ordinary Share" and fourteen shares an ADS: LAIX); the product
+            # otherwise. $0.1357 x 14 is $1.8998, a figure no filing gave.
+            # An offer read per ADS is its own price per ADS.
+            product = out["implied"] * ratio
+            out["perAds"] = offer if per_ads and not stock else (_stated_per_ads(texts, product) or round(product, 4))
             ties.append((out["perAds"], "ADS"))
         out["ties"] = ties
     return out
