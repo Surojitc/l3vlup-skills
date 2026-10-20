@@ -316,8 +316,11 @@ def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, min
 #: The premium reading the stored rows were made with. A row read before this
 #: version has its premiums read again from the documents it read (premiums
 #: only: nothing else on the row changes), so a correction reaches every deal
-#: already on file and not only the next one.
-PREMIUM_READER = 3
+#: already on file and not only the next one. 4: a statement whose reference
+#: price plus its premium is not the final offer is another bid's (Baldwin's
+#: 83% is the $31.75 Round 2 bid's), and a joint proxy whose registrant issues
+#: the shares is the buyer's (set_aside_buyer).
+PREMIUM_READER = 4
 
 
 def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: list[str]) -> dict:
@@ -334,6 +337,14 @@ def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: 
 
 #: the bases under which "announced" is an agreement's date, so a premium's reference date can be measured against it
 AGREEMENT_BASES = ("merger agreement", "amended merger agreement")
+
+#: The rule that dates a row. 2: the loose reading takes only the deal's own
+#: agreement ("entered into a merger agreement", "an Asset Purchase
+#: Agreement"), not any agreement the proxy recites (a settlement, a credit
+#: facility, a confidentiality agreement). A row dated under an earlier
+#: rule is resolved again with its premiums; the guard lets a date move only
+#: when this moves, and the financials then move with it.
+ANNOUNCED_READER = 2
 
 
 def resolve_announcement(row: dict, texts: list[str]) -> dict:
@@ -355,6 +366,7 @@ def resolve_announcement(row: dict, texts: list[str]) -> dict:
     filed = row.get("filed") or row.get("announced")
     if not filed:
         return row
+    row["announcedReader"] = ANNOUNCED_READER
     floor = (date.fromisoformat(filed[:10]) - timedelta(days=400)).isoformat()
     current = row.get("announced") or ""
     amended = max((d for d in (parse.parse_amendment_date(t) for t in texts) if d and floor <= d <= filed), default=None)
@@ -383,6 +395,22 @@ def resolve_announcement(row: dict, texts: list[str]) -> dict:
     return row
 
 
+def set_aside_buyer(row: dict, found: dict | None) -> dict:
+    """
+    A proxy whose registrant issues the shares is the buyer's, not the
+    target's (parse.filer_is_buyer): no price, no premium and no multiple of
+    its own, the same verdict as an acquirer-side vote. Only a merger proxy
+    still standing as a deal is judged: a de-SPAC or a rejection stands.
+    """
+    if not found or (row.get("source") or "SC 13E3") not in ("DEFM14A", "DEFM14C") or row.get("status") not in ("ok", "no-offer"):
+        return row
+    row["offerPrice"], row["offerBasis"] = None, None
+    row["status"] = "no-consideration"
+    row["error"] = "the filer issues the shares: it is the buyer in a joint proxy, not the company acquired"
+    row["acquirerSideBasis"] = found.get("evidence") or []
+    return row
+
+
 def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
     """
     A stored row's premiums read again from the documents it was read from,
@@ -407,7 +435,11 @@ def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
         kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"))
         statements.extend({**s, "document": url} for s in kept)
         aside.extend({**s, "document": url} for s in set_aside)
-    return apply_premiums(row, statements, aside, texts)
+    row = apply_premiums(row, statements, aside, texts)
+    # A stored merger proxy read again is asked the joint-proxy question too:
+    # Teledyne's proxy for FLIR stood as a deal for FLIR at $56.00.
+    name = (row.get("target") or {}).get("name") or ""
+    return set_aside_buyer(row, parse.filer_is_buyer(texts[0], name) if texts else None)
 
 
 def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: int | None = None, minutes: float | None = None) -> int:
@@ -436,8 +468,9 @@ def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: 
 
 
 def needs_premium_reread(row: dict) -> bool:
-    """A stored row with documents read and premiums from an earlier reading."""
-    return (row.get("premiumReader") or 1) < PREMIUM_READER and bool(row.get("documentsRead")) and row.get("status") in ("ok", "no-offer")
+    """A stored row with documents read and premiums, or its date, from an earlier reading."""
+    stale = (row.get("premiumReader") or 1) < PREMIUM_READER or (row.get("announcedReader") or 1) < ANNOUNCED_READER
+    return stale and bool(row.get("documentsRead")) and row.get("status") in ("ok", "no-offer")
 
 
 # ── XBRL company facts ───────────────────────────────────────────────────────
