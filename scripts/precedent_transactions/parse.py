@@ -1223,16 +1223,89 @@ def parse_premiums(text: str, offer: float | None = None, announced: str | None 
 
 # ── the share count the document states ──────────────────────────────────────
 
-_SHARES = re.compile(r"(\d{1,3}(?:,\d{3}){1,3})\s+(?:shares\s+of\s+|)(?:the\s+)?(?:Company\s+|Company’s\s+|Company's\s+)?(?:Class\s+A\s+)?(?:[Cc]ommon\s+[Ss]tock|[Cc]ommon\s+[Ss]hares|[Oo]rdinary\s+[Ss]hares|[Cc]ommon\s+[Uu]nits|[Ss]hares)[^.;]{0,80}?(?:issued\s+and\s+)?outstanding", re.I)
+_SHARES = re.compile(r"(\d{1,3}(?:,\d{3}){1,3})\s+(?:shares\s+of\s+|)(?:the\s+)?(?:Company\s+|Company’s\s+|Company's\s+)?(?:Class\s+A\s+)?(?:[Cc]ommon\s+[Ss]tock|[Cc]ommon\s+[Ss]hares|[Oo]rdinary\s+[Ss]hares|[Cc]ommon\s+[Uu]nits|[Ss]hares)(?P<gap>[^.;]{0,80}?)(?:issued\s+and\s+)?outstanding", re.I)
+
+# What a count beside "outstanding" can be other than the shares outstanding.
+# The take-private cover's fee table reads "1,480,457 shares issuable under all
+# outstanding and unexercised options" (Tarena), and from 2015 to 2021 that was
+# the only count on the cover of Tarena, Gridsum, SKY-MOBI, Dangdang, China Ming
+# Yang, Sungy and Perfect World, so it became their share count: Tarena's
+# equity value read $5.9m against a fee table of $129m. "Outstanding" there
+# belongs to the options; the shares are the ones they would issue. So a count
+# is the shares outstanding only where the words between it and "outstanding"
+# (a parenthetical that opens and closes inside them aside: "(including
+# Shares represented by ADSs)") tie it to nothing else:
+#
+#   an award or a security   issuable, underlying, subject to, reserved,
+#                            pursuant to, available under, upon exercise,
+#                            conversion, vesting or settlement, granted, held
+#                            in treasury, in exchange for, will remain
+#   a holding                a percentage of the outstanding under 100%, or a
+#                            majority of it ("33,691,292 shares ...
+#                            representing approximately 47% of the
+#                            outstanding": Delek's stake in Alon)
+#   another instrument       options, warrants, RSUs, restricted stock or share
+#                            units or awards, or preferred stock, named before
+#                            any second count ("Shares, In-the-Money Company
+#                            Stock Options and Company RSUs outstanding";
+#                            "325,000 shares of Series B Preferred Stock
+#                            outstanding", which was Palm's count; but
+#                            "46,756,282 Common Shares, 555,336 Options and
+#                            1,452,913 RSUs outstanding" is still a count of
+#                            the shares)
+#   half a parenthetical     "(145,300 of which were subject to outstanding",
+#                            "held in treasury), and (ii) 475,515 Shares": the
+#                            "outstanding" is inside a clause the count is not
+#
+# and only where the words just before it do not make it the shares a security
+# converts into, an option or award buys, or a holder owns (_LED_END).
+#
+# A count that fails is passed over, and another the document states, or
+# none, is read in its place: never a count made up. The count is always of
+# shares (common, ordinary or Class A) or of a partnership's common units,
+# never of ADSs, so it is valued at a price per share.
+_LINKED = re.compile(r"\b(?:issuable|underlying|subject\s+to|reserved|pursuant\s+to|available\s+(?:for|under)|with\s+respect\s+to|in\s+exchange\s+for|exercis\w*|conver\w*|vest\w*|settle\w*|granted|treasury|remain\w*)\b", re.I)
+_PERCENT = re.compile(r"(\d+(?:\.\d+)?)?\s*(?:%|percent\b|per\s+cent\b)|\bmajority\b", re.I)
+_INSTRUMENT = re.compile(r"\b(?:options?|warrants?|RSUs?|PSUs?|restricted\s+(?:stock|share)\s+(?:units?|awards?)|preferred)\b", re.I)
+_SECOND_COUNT = re.compile(r"\d{1,3}(?:,\d{3})+")
+#: the words just before a count that make it something else: the shares a
+#: security converts into or an option buys ("325,000 shares of Series B
+#: Preferred Stock outstanding, convertible into 38,235,294 shares of Palm
+#: common stock, and 51,000 shares of Series C Preferred Stock outstanding";
+#: "the limited option to acquire up to 5,500,000 shares of Common Stock that
+#: is outstanding"), or a holder's stake ("collectively held 449,196 shares of
+#: the then-outstanding CGC common stock"); "held by 67 holders of record"
+#: after a count is not one
+_LED = re.compile(r"(?:convertible|exercisable|exchangeable|settled|settleable)\s+(?:in|into|for)|(?:options?|warrants?|rights?|units?|awards?)\s+(?:to\s+(?:purchase|acquire|receive)|for|covering|over)|\b(?:beneficially\s+)?(?:own|owns|owned|hold|holds|held)|\bpurchase\s+of", re.I)
+_LED_END = re.compile(r"(?:" + _LED.pattern + r")\s+(?:(?:up\s+to|approximately|an\s+aggregate\s+of|a\s+total\s+of|of\s+record)\s+)?$", re.I)
+
+
+def outstanding_count(gap: str) -> bool:
+    """Whether the words between a count of shares and "outstanding" make it the shares outstanding, not an award's, a holding's or a sub-clause's."""
+    g = gap
+    while True:
+        bare = re.sub(r"\([^()]*\)", " ", g)
+        if bare == g:
+            break
+        g = bare
+    if "(" in g or ")" in g:
+        return False
+    if _LINKED.search(g):
+        return False
+    for m in _PERCENT.finditer(g):
+        if m.group(0).lower() == "majority" or m.group(1) is None or float(m.group(1)) < 100:
+            return False
+    own = _SECOND_COUNT.split(g, 1)[0]
+    return not _INSTRUMENT.search(own)
 
 
 def parse_shares(text: str) -> tuple[float | None, str | None]:
-    """Shares outstanding as the transaction statement states them (Item 1(b)), in millions, with the phrase; the largest figure stated more than once, else the first."""
+    """Shares outstanding as the transaction statement states them (Item 1(b)), in millions, with the phrase; the largest figure stated more than once, else the first. A count that outstanding_count passes over is not one."""
     found: Counter = Counter()
     phrase: dict[float, str] = {}
     for m in _SHARES.finditer(text):
         v = float(m.group(1).replace(",", "")) / 1e6
-        if v < 0.1:
+        if v < 0.1 or not outstanding_count(m.group("gap")) or _LED_END.search(text[max(0, m.start() - 60):m.start()]):
             continue
         found[v] += 1
         phrase.setdefault(v, re.sub(r"\s+", " ", m.group(0)).strip())
