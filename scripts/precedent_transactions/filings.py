@@ -339,8 +339,9 @@ def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: 
 AGREEMENT_BASES = ("merger agreement", "amended merger agreement")
 
 #: The rule that dates a row. 2: the loose reading takes only the deal's own
-#: agreement ("entered into a merger agreement"), not any agreement the proxy
-#: recites (a settlement, a credit facility). A row dated under an earlier
+#: agreement ("entered into a merger agreement", "an Asset Purchase
+#: Agreement"), not any agreement the proxy recites (a settlement, a credit
+#: facility, a confidentiality agreement). A row dated under an earlier
 #: rule is resolved again with its premiums; the guard lets a date move only
 #: when this moves, and the financials then move with it.
 ANNOUNCED_READER = 2

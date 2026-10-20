@@ -107,8 +107,20 @@ def price_revised(texts: list[str], offer: float | None) -> bool:
     return False
 
 
-#: the agreement a merger proxy is about, by its own names for it
-_DEAL_AGREEMENT = r"(?:[Mm]erger\s+[Aa]greement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation|Arrangement|Reorganization)|[Aa]rrangement\s+[Aa]greement|[Tt]ransaction\s+[Aa]greement|[Ii]mplementation\s+[Aa]greement|[Bb]usiness\s+[Cc]ombination\s+[Aa]greement|[Aa]malgamation\s+[Aa]greement|[Cc]ombination\s+[Aa]greement|Plan\s+of\s+Merger)\b"
+#: the agreement a merger proxy is about, by its own names for it: a merger,
+#: arrangement, amalgamation, transaction, implementation or business
+#: combination agreement, and, for the asset sales and share purchases a proxy
+#: also puts to a vote, the purchase, sale, contribution, acquisition or share
+#: exchange agreement. A credit, settlement, lease, employment, voting,
+#: confidentiality or subscription agreement never dates a deal, nor does a
+#: securities or note purchase agreement (a financing).
+_DEAL_AGREEMENT = (
+    r"(?:[Mm]erger\s+[Aa]greement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation|Arrangement|Reorganization|Share\s+Exchange)|Plan\s+of\s+(?:Merger|Share\s+Exchange)"
+    r"|[Aa]rrangement\s+[Aa]greement|[Aa]malgamation\s+[Aa]greement|[Tt]ransaction\s+[Aa]greement|[Ii]mplementation\s+[Aa]greement|(?:[Bb]usiness\s+)?[Cc]ombination\s+[Aa]greement"
+    r"|(?:[Aa]sset|[Ss]tock|[Ss]hare|[Ee]quity|[Uu]nit|[Mm]embership\s+[Ii]nterests?|[Ss]tock\s+and\s+[Aa]sset)\s+[Pp]urchase\s+[Aa]greement|Purchase\s+Agreement"
+    r"|(?:[Aa]sset\s+)?[Pp]urchase\s+and\s+[Ss]ale\s+[Aa]greement|[Ss]ale\s+and\s+[Pp]urchase\s+[Aa]greement|(?:[Aa]sset\s+)?Sale\s+Agreement|[Cc]ontribution\s+(?:(?:and|&)\s+[Ee]xchange\s+)?[Aa]greement|[Aa]cquisition\s+[Aa]greement"
+    r"|(?:[Ss]hare|[Ee]quity)\s+[Ee]xchange\s+[Aa]greement|Simplification\s+Agreement|Unification\s+Agreement|[Dd]efinitive\s+(?:[a-z]+\s+)?agreement)\b"
+)
 
 _AGREEMENT_LOOSE = [
     r"(?:[Mm]erger\s+[Aa]greement|Arrangement\s+Agreement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation)|Transaction\s+Agreement|Implementation\s+Agreement)[^.;]{0,80}?dated(?:\s+as\s+of)?\s+" + _DATE,
@@ -118,7 +130,7 @@ _AGREEMENT_LOOSE = [
     # used to count, and a proxy recites dozens: TESCO's mediated settlement
     # agreement, ADTRAN's revolving credit agreement and Gaia's line of credit
     # outnumbered the merger itself, and the financials were read at their dates.
-    r"[Oo]n\s+" + _DATE + r",\s+[^.;]{0,120}?entered\s+into\s+(?:an?|the)\s+(?:(?:[Aa]mended\s+and\s+[Rr]estated|[Dd]efinitive)\s+)?" + _DEAL_AGREEMENT,
+    r"[Oo]n\s+" + _DATE + r",\s+[^.;]{0,120}?entered\s+into\s+(?:an?|the)\s+(?:(?:[Aa]mended\s+and\s+[Rr]estated|[Dd]efinitive|[Bb]inding|[Mm]aster)\s+)?" + _DEAL_AGREEMENT,
 ]
 
 

@@ -15,7 +15,10 @@ were wrong:
                          settlement agreement (and its EBITDA read at that
                          date, $93.5m becoming -$131.7m), ADTRAN's revolving
                          credit agreement, Gaia's line of credit. It now takes
-                         only the deal's own agreement, and the guard lets a
+                         only the deal's own agreement (a merger, arrangement
+                         or combination agreement, or the purchase, sale,
+                         contribution or share exchange agreement of an asset
+                         sale or share purchase), and the guard lets a
                          date move only when announcedReader moves, putting
                          the financials back with it when it does not.
   the buyer as target    in a joint proxy both companies' holders vote and the
@@ -99,18 +102,23 @@ a = dated("ADTRAN")
 eq("ADTRAN: dated by the business combination agreement of 30 August 2021", (a["announced"], a["announcedBasis"]), ("2021-08-30", "merger agreement"))
 eq("Gaia: the old reading took a subsidiary's line of credit of 23 July 2015", old_reading("GAIA"), "2015-07-23")
 g = dated("GAIA")
-eq("Gaia: a membership interest purchase is no merger agreement, so the filing date stands", (g["announced"], g["announcedBasis"]), ("2016-06-10", "filing date"))
+eq("Gaia: dated by the deal it put to its holders, the Membership Interest Purchase Agreement of 10 May 2016", (g["announced"], g["announcedBasis"]), ("2016-05-10", "merger agreement"))
 w = dated("ADSW")
 eq("Advanced Disposal: a revised deal is still dated by its amendment of 24 June 2020, the April 2019 agreement kept", (w["announced"], w["announcedBasis"], w["announcedOriginal"]), ("2020-06-24", "amended merger agreement", "2019-04-14"))
 eq("every row the date rule resolves carries the rule's version", (t["announcedReader"], w["announcedReader"]), (filings.ANNOUNCED_READER, filings.ANNOUNCED_READER))
-eq("a re-dated row has its financials read again; one whose date stands does not", ("financialsReader" in dated("TESCO", financialsReader=3), "financialsReader" in dated("GAIA", financialsReader=3)), (False, True))
+eq("a re-dated row has its financials read again; one whose date stands does not", ("financialsReader" in dated("TESCO", financialsReader=3), "financialsReader" in dated("TESCO", announced="2017-08-13", announcedBasis="merger agreement", financialsReader=3)), (False, True))
 eq("a row dated under an earlier rule is due a re-read with its premiums", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": 1, "documentsRead": ["x"], "status": "ok"}), True)
 eq("and one dated under this rule, with current premiums, is not", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "documentsRead": ["x"], "status": "ok"}), False)
 for wording, want in [
     ("On March 10, 2014, the Company entered into a merger agreement with Parent", "2014-03-10"),
     ("On July 9, 2017, the parties entered into an Agreement and Plan of Merger", "2017-07-09"),
     ("On May 2, 2022, the Company entered into a definitive Merger Agreement with Parent", "2022-05-02"),
+    ("On January 23, 2020, the Company entered into a share purchase agreement with the Buyer Consortium", "2020-01-23"),
+    ("On November 26, 2017, Civeo entered into a Purchase Agreement with the Noralta shareholders", "2017-11-26"),
     ("On June 1, 2022, the Company entered into an amended and restated credit agreement with its lenders", None),
+    ("On June 1, 2022, the Company entered into a Securities Purchase Agreement with certain investors", None),
+    ("On June 1, 2022, the Company entered into a mutual confidentiality agreement with Party A", None),
+    ("On June 1, 2022, the Company entered into a voting agreement with its largest holder", None),
     ("On June 1, 2022, the Company entered into a lease agreement for its headquarters", None),
     ("On June 1, 2022, the Company entered into an employment agreement with its chief executive", None),
 ]:
