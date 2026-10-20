@@ -508,7 +508,9 @@ def build_proxy_row(cand: dict) -> dict:
     row = filings.read_documents(row, [doc], cap=DOC_CAP, on_text=on_text)
     # All stock is still a merger and still gives a premium; it gives no cash
     # price, so the row says so and finalize keeps it out of the multiples.
-    if seen.get("stock") and row.get("offerPrice") is None:
+    # (Unless the offer reader found cash in the package: a sum of the
+    # filing's own, a ratio times a price plus cash.)
+    if seen.get("stock") and row.get("offerPrice") is None and row.get("consideration") != "cash and stock":
         row["consideration"] = "stock"
     if seen.get("acquirerSide"):
         row["offerPrice"], row["offerBasis"] = None, None
@@ -712,7 +714,9 @@ def build_13e3_row(cand: dict) -> dict:
     row = filings.read_documents(row, docs, cap=DOC_CAP, on_text=on_text)
     # An affiliate merger paid in stock is rare but real, and its cash figure
     # is not the price; the premium the filing states still is.
-    if seen.get("stock") and row.get("offerPrice") is None:
+    # (Unless the offer reader found cash in the package: a sum of the
+    # filing's own, a ratio times a price plus cash.)
+    if seen.get("stock") and row.get("offerPrice") is None and row.get("consideration") != "cash and stock":
         row["consideration"] = "stock"
     row["buyerType"] = _buyer_type(row.get("acquirer"))
     return row

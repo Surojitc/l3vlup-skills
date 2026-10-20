@@ -241,7 +241,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     # The documents read, the premiums are read again against the whole offer:
     # its parts can sit in different documents (the ADS ratio on a cover, the
     # package's value in the proxy).
-    if texts and row.get("offerPrice") is not None:
+    if texts:
         resolve_offer(row, urls, texts)
         statements, aside = tied_statements(row, urls, texts)
     apply_premiums(row, statements, aside, texts)
@@ -348,8 +348,17 @@ PREMIUM_READER = 6
 #: per ADS (Youku's rounded $1.53 x 18 is not $27.60), and the offer per ADS
 #: is the one read or the one the filing states beside the product (LAIX's
 #: $1.90, not $0.1357 x 14 = $1.8998). finalize values the shares only at a
-#: price per share (equityValueBasis).
-OFFER_READER = 3
+#: price per share (equityValueBasis). 4: an all-stock deal is read too
+#: (parse.read_stock_offer): a row with no cash price was left with
+#: no offer at all, though its proxy states what the acquirer's shares were
+#: worth ("The Arrangement values the Common Shares at $4.62 per share based on
+#: Nabors' closing share price of $6.80 on August 11, 2017": TESCO, 0.68 x
+#: $6.80 = $4.624). The package is valued by the rules a package with stock
+#: already had, a price read that is the package's stated value is taken as
+#: that value, the row's consideration is "stock" where no cash is part of it,
+#: and a stock package's premium is tied only on the day its value is stated
+#: for, the row saying so where it is not (premiumTie).
+OFFER_READER = 4
 
 #: the fields the offer reader owns, cleared before each reading
 OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved")
@@ -383,16 +392,23 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
     for k in OFFER_FIELDS:
         row.pop(k, None)
     row["offerReader"] = OFFER_READER
-    if row.get("offerPrice") is None:
-        return row
     agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
-    o = parse.read_offer(texts, row["offerPrice"], row.get("offerBasis"), agreed, row.get("announcedOriginal"))
+    # With no cash price the deal is read as one paid in stock: the value its
+    # filing states for the acquirer's shares, or the ratio times the close it
+    # states, and nothing where it states neither (parse.read_stock_offer).
+    o = parse.read_offer(texts, row.get("offerPrice"), row.get("offerBasis"), agreed, row.get("announcedOriginal"))
+    if row.get("offerPrice") is None and not o["stock"]:
+        return row
     if o["perShare"]:
         # The price read was the price per ADS: the row's price is per share.
         row["offerPrice"], row["offerBasis"] = o["perShare"]
     flat = [re.sub(r"\s+", " ", t) for t in texts]
     row["offerComponents"] = [{**c, "document": _where(urls, flat, c.get("excerpt")), "reader": OFFER_READER} for c in o["components"]][:12]
-    if o["stock"] and row.get("consideration") == "cash":
+    if o["allStock"]:
+        # Paid in the acquirer's shares alone: no cash price was read, or the
+        # price read is the stated value of shares the ratio alone makes up.
+        row["consideration"] = "stock"
+    elif o["stock"] and row.get("consideration") in ("cash", None):
         row["consideration"] = "cash and stock"
     if o["implied"] is not None:
         row["offerImplied"], row["offerImpliedMethod"], row["offerImpliedDate"], row["offerImpliedBasis"] = o["implied"], o["method"], o["date"], o["basis"]
@@ -440,15 +456,29 @@ def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: 
     # the row says so: setting every such statement aside would take the
     # premium off some 330 stock deals whose proxies state it plainly.
     row.pop("premiumTie", None)
+    # A package with stock is worth what the acquirer's shares are worth on the
+    # day: its premium is checked against the whole offer where it is measured
+    # on the day the offer is valued (premium_statements), or where the price
+    # it states reproduces it from the whole offer (Coventry's 30.2% is the
+    # $42.08 of 17 August over the $32.32 unaffected close of 14 August), and
+    # stands untied, saying so, where it is measured on another day or on none
+    # and nothing checks it (TWC's 17% is to 11 February, the package valued on
+    # the 12th).
+    valued_on = row.get("offerImpliedDate") if row.get("consideration") != "cash" else None
     if row.get("offerReader") and statements:
         if row.get("offerUnresolved"):
             row["premiumTie"] = f"untied: the offer is unresolved ({row['offerUnresolved']}); the premium is the filing's own statement, not checked against the offer"
+        elif offer_ties(row) and chosen.get("premium1DayUntied"):
+            row["premiumTie"] = f"untied: the premium {chosen['premium1DayUntied']}; a stock package's premium over its unaffected price is often measured on its value at signing, so the premium is the filing's own statement, not checked against the offer"
+        elif offer_ties(row) and valued_on and chosen["premium1Day"] is not None and chosen["unaffectedDate"] != valued_on and chosen["unaffectedPriceStated"] is None:
+            on = f"measured to {chosen['unaffectedDate']}" if chosen["unaffectedDate"] else "measured to no stated day"
+            row["premiumTie"] = f"untied: the premium is {on} and the whole offer is valued on {valued_on}; a package with stock is worth what the acquirer's shares are worth on the day, so the premium is the filing's own statement, not checked against the offer"
         elif offer_ties(row):
             row["premiumTie"] = "tied to the whole offer"
     for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedPricePer", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
         row[k] = chosen[k]
     keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "sharesReference", "excerpt", "document")
-    row["premiumStatements"] = [{k: s.get(k) for k in keep} for s in statements][:12]
+    row["premiumStatements"] = [{**{k: s.get(k) for k in keep}, **({"untied": s["untied"]} if s.get("untied") else {})} for s in statements][:12]
     row["premiumsSetAside"] = [{k: s.get(k) for k in ("reason", "excerpt", "document")} for s in aside][:8]
     row["premiumReader"] = PREMIUM_READER
     return row

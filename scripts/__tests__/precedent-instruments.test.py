@@ -86,11 +86,14 @@ eq("TESCO: and none is kept", any(s["premium"] == 0.75 for s in t["premiumStatem
 eq("TESCO: the premium is the deal's own 19%", t["premium1Day"], 0.19)
 eq("TESCO: the 19% states no price of its own, so none is attached", t["unaffectedPriceStated"], None)
 eq("TESCO: the 19% is the statement chosen", any("premium of 19% to TESCO" in b for b in t["premiumBasis"]), True)
-# 0.68 of a Nabors share and no cash: the filing's value of it ($4.62 on 11
-# August) is not in a form the offer reader reads, so the premium stands as
-# the filing's own statement, untied, and says so.
+# 0.68 of a Nabors share and no cash. The offer reader (version 4, #195) reads
+# the all-stock package at the value the filing states, $4.62 on 11 August
+# 2017, the day the 19% is measured on ("on the same date"): $4.62 / $3.90 =
+# 1.1846, inside two points of 19%, so the premium ties to the whole offer.
+# (Before #195 the package's value was not read and the 19% stood untied.)
 eq("TESCO: the package is stock (0.68 of a Nabors share), read as before", any(c.get("exchangeRatio") == 0.68 for c in t["offerComponents"]), True)
-eq("TESCO: the 19% stands untied, as the row says", (t["premiumTie"] or "").startswith("untied"), True)
+eq("TESCO: the whole offer is the $4.62 stated for 11 August 2017, paid in stock", (t["offerImplied"], t["offerImpliedDate"], t["consideration"]), (4.62, "2017-08-11", "stock"))
+eq("TESCO: the 19%, measured on the day the package is valued, ties to the whole offer", (t["unaffectedDate"], t["premiumTie"]), ("2017-08-11", "tied to the whole offer"))
 
 # ── other instruments, from the real filings the rule changed ────────────────
 
