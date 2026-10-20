@@ -357,8 +357,13 @@ PREMIUM_READER = 6
 #: already had, a price read that is the package's stated value is taken as
 #: that value, the row's consideration is "stock" where no cash is part of it,
 #: and a stock package's premium is tied only on the day its value is stated
-#: for, the row saying so where it is not (premiumTie).
-OFFER_READER = 4
+#: for, the row saying so where it is not (premiumTie). 5: a ratio in a
+#: holding company's shares for another company's shares is that company's
+#: share exchange, not the target's consideration (Siliconware was paid cash;
+#: ASE's shares moved into ASE Industrial Holding), on a package with cash and
+#: an all-stock reading alike, and a re-read that finds no stock puts back the
+#: cash the offer reader had called cash and stock.
+OFFER_READER = 5
 
 #: the fields the offer reader owns, cleared before each reading
 OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved")
@@ -389,6 +394,11 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
                 if offer != row.get("offerPrice"):
                     row["offerPrice"], row["offerBasis"] = offer, basis
                 break
+    # Cash and stock is the offer reader's own call where no document says
+    # the consideration is mixed: on a re-read it is made again, so a
+    # correction that finds no stock puts the cash back.
+    if reread and row.get("consideration") == "cash and stock" and not any(parse.mixed_consideration(t) for t in texts):
+        row["consideration"] = "cash"
     for k in OFFER_FIELDS:
         row.pop(k, None)
     row["offerReader"] = OFFER_READER
@@ -396,7 +406,7 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
     # With no cash price the deal is read as one paid in stock: the value its
     # filing states for the acquirer's shares, or the ratio times the close it
     # states, and nothing where it states neither (parse.read_stock_offer).
-    o = parse.read_offer(texts, row.get("offerPrice"), row.get("offerBasis"), agreed, row.get("announcedOriginal"))
+    o = parse.read_offer(texts, row.get("offerPrice"), row.get("offerBasis"), agreed, row.get("announcedOriginal"), (row.get("target") or {}).get("name"))
     if row.get("offerPrice") is None and not o["stock"]:
         return row
     if o["perShare"]:

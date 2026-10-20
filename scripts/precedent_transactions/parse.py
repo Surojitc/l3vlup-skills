@@ -343,7 +343,57 @@ _RECEIVE = re.compile(r"right\s+to\s+receive|converted\s+(?:automatically\s+)?in
 _NOT_HOLDERS = re.compile(r"option|warrant|restricted|\bRSU|\bPSU|award|rollover|roll-over|Rollover|preferred|Class\s+C\s+unit|Affiliated\s+Unitholder|Excluded|dividend|distribution|\bOP\s+units?\b|operating\s+partnership\s+units?|including\s+[^)]{0,40}treasury\s+shares", re.I)
 
 
-def stock_terms(texts: list[str], cash: float | None = None) -> dict:
+#: shares received in a holding company formed for the deal
+_HOLDCO_SHARES = re.compile(r"\bHold[Cc]o\b|\bholding\s+company\b", re.I)
+_PARTY = r"([A-Z][\w&.’'-]*(?:\s+[A-Z][\w&.’'-]*){0,2}?)"
+#: whose shares a share exchange is for: "each outstanding common share, par
+#: value NT$10 per share, of ASE", "Each ASE common share", "all of ASE’s
+#: issued and outstanding shares"
+_EXCHANGED = [
+    re.compile(r"\b[Ee]ach\s+(?:outstanding\s+|issued\s+and\s+outstanding\s+)?(?:[Cc]ommon\s+|[Oo]rdinary\s+)?share\b[^.;]{0,80}?\bof\s+" + _PARTY + r"(?=[\s,(]|$)"),
+    re.compile(r"\b[Ee]ach\s+" + _PARTY + r"\s+(?:[Cc]ommon\s+|[Oo]rdinary\s+)?[Ss]hares?\b"),
+    re.compile(_PARTY + r"[’']s\s+(?:issued\s+and\s+outstanding\s+)?shares\b"),
+]
+
+
+def _party_names_target(name: str, target: str) -> bool:
+    """Whether a name a filing gives a company is the target's: 'the Company', its own name, a word of it, or its initials ('SPIL')."""
+    n = norm_name(name)
+    if n in ("", "the", "company", "the company", "issuer", "the issuer"):
+        return True
+    if same_company(name, target):
+        return True
+    # Initials: those of the name without its suffixes, then any of the
+    # suffixes' in order ("SPIL" for Siliconware Precision Industries Co Ltd).
+    full = "".join(w[0] for w in re.sub(r"[^a-z0-9 ]+", " ", (target or "").lower()).split())
+    short = "".join(w[0] for w in norm_name(target).split())
+    compact = n.replace(" ", "")
+    rest = iter(full[len(short):])
+    if len(short) >= 2 and compact.startswith(short) and all(c in rest for c in compact[len(short):]):
+        return True
+    short = norm_name(target).split()
+    return any(len(w) > 3 and w in short for w in n.split())
+
+
+def _another_company_into_holdco(lead: str, received: str, target: str | None) -> bool:
+    """
+    Whether a ratio is another company's shares moving into a holding
+    company: the shares received are the holding company's, and the shares
+    exchanged are named for a company that is not the target. Siliconware's
+    holders were paid cash; "each outstanding common share ... of ASE ...
+    will be exchanged for the right to receive 0.5 common shares ... of
+    HoldCo" is ASE becoming HoldCo's subsidiary.
+    """
+    if not target or not _HOLDCO_SHARES.search(received):
+        return False
+    found = [(m.start(), m.group(1)) for pat in _EXCHANGED for m in pat.finditer(lead)]
+    if not found:
+        return False
+    party = max(found)[1]
+    return not _HOLDCO_SHARES.search(party) and not _party_names_target(party, target)
+
+
+def stock_terms(texts: list[str], cash: float | None = None, target: str | None = None) -> dict:
     """
     What the holders receive in stock, where the consideration sentence says:
     {"ratio": (value, passage) | None, "fixed": (dollars, passage) | None}.
@@ -355,6 +405,9 @@ def stock_terms(texts: list[str], cash: float | None = None) -> dict:
     fixed in dollars counts only beside the cash it is paid with ("(1)
     $1.73 in cash and (2) a fraction of a share ... dividing $1.27 by"): an
     all-stock election's dollar amount is the whole package, not a part.
+    Where the target is named (`target`), a ratio in a holding company's
+    shares for another company's shares is that company's share exchange,
+    not the target holders' consideration (_another_company_into_holdco).
     """
     ratios: Counter = Counter()
     rphrase: dict[float, str] = {}
@@ -374,6 +427,8 @@ def stock_terms(texts: list[str], cash: float | None = None) -> dict:
             lead = text[max(0, m.start() - 220):m.start()]
             lead = lead[max(lead.rfind(". "), lead.rfind(";")) + 1:]
             if not _RECEIVE.search(lead) or _NOT_HOLDERS.search(lead) or _PROPOSAL.search(lead):
+                continue
+            if _another_company_into_holdco(lead, text[m.start():m.end() + 60], target):
                 continue
             v = float(m.group(1))
             if not 0.001 <= v <= 50 or v == 1.0:
@@ -807,7 +862,7 @@ def _stated_basis(best: dict, ratio: float | None) -> str:
     return f"the value of the whole consideration as the filing states it{' on ' + best['date'] if best['date'] else ''}{check}: {best['excerpt']}"
 
 
-def read_stock_offer(texts: list[str], announced: str | None = None, original: str | None = None) -> dict:
+def read_stock_offer(texts: list[str], announced: str | None = None, original: str | None = None, target: str | None = None) -> dict:
     """
     The whole offer where no cash price was read: an all-stock deal, paid in
     the acquirer's shares (or units) at an exchange ratio. The rules are the
@@ -819,10 +874,13 @@ def read_stock_offer(texts: list[str], announced: str | None = None, original: s
     A value stated only at the proxy's practicable date is a component and
     never the tie, no ratio is assumed and no price is looked up: with none
     of these the offer is unresolved and says why. A deal with no stock in
-    it is left as it was read, with nothing.
+    it is left as it was read, with nothing. Where the target is named, a
+    holding company's share exchange for another company's shares is not
+    its consideration (stock_terms), here as on a package with cash: such a
+    ratio never becomes an all-stock target's offer.
     """
     out: dict = {"components": [], "stock": False, "allStock": False, "implied": None, "method": None, "date": None, "basis": None, "adsRatio": None, "perAds": None, "perShare": None, "ties": [], "unresolved": None}
-    terms = stock_terms(texts)
+    terms = stock_terms(texts, None, target)
     sums = summed_values(texts)
     if not (terms["ratio"] or sums or any(mixed_consideration(t) for t in texts)):
         return out
@@ -882,7 +940,7 @@ def read_stock_offer(texts: list[str], announced: str | None = None, original: s
     return out
 
 
-def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, announced: str | None = None, original: str | None = None) -> dict:
+def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, announced: str | None = None, original: str | None = None, target: str | None = None) -> dict:
     """
     The whole offer for one deal, each part with its passage:
 
@@ -901,7 +959,7 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
     """
     out: dict = {"components": [], "stock": False, "allStock": False, "implied": None, "method": None, "date": None, "basis": None, "adsRatio": None, "perAds": None, "perShare": None, "ties": [], "unresolved": None}
     if offer is None:
-        return read_stock_offer(texts, announced, original)
+        return read_stock_offer(texts, announced, original, target)
     per_ads = bool(offer_basis and re.search(r"per\s+ADS\b|per\s+American\s+Depositary", offer_basis, re.I))
     unit, uphrase = offer_unit(texts, offer)
     if not per_ads and unit == "ADS":
@@ -926,7 +984,7 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
         out["perShare"] = (stated_each, at) if stated_each is not None else (each, f"${offer:,.4g} per ADS / {ratio:g} shares per ADS, as the filing states the ratio")
         each = out["perShare"][0]
         out["components"].append({"part": "cash", "value": each, "per": "share", "excerpt": out["perShare"][1]})
-    terms = stock_terms(texts, None if per_ads else offer)
+    terms = stock_terms(texts, None if per_ads else offer, target)
     stated = implied_values(texts)
     sums = summed_values(texts)
     if terms["ratio"]:
@@ -2721,8 +2779,8 @@ _ACQUIRES = re.compile(_CO + r"\s+(?:will|would|has\s+agreed\s+to|agreed\s+to|is
 _ISSUED = re.compile(r"(?:exchanged\s+for|converted\s+into\s+the\s+right\s+to\s+receive|right\s+to\s+receive)\s+(?:approximately\s+)?\d+\.\d{2,6}\s+(?:of\s+an?\s+)?(?:registered\s+|newly\s+issued\s+|fully\s+paid\s+|validly\s+issued\s+)*(?:ordinary\s+|common\s+)?shares?\s+of\s+" + _CO)
 #: the company whose holders are paid: 'each Valaris Share ... exchanged for', 'each share of common stock ... of the Company ... converted into the right to receive'
 _HOLDERS_PAID = [
-    re.compile(r"\beach\s+(?:issued\s+and\s+outstanding\s+|outstanding\s+)?(?:share\s+of\s+)?" + _CO + r"\s+(?:[Cc]ommon\s+|[Oo]rdinary\s+|[Cc]lass\s+[A-C]\s+)?(?:[Ss]hares?|[Ss]tock|[Uu]nits?)\b[^.;]{0,240}?(?:converted\s+into|exchanged\s+for|right\s+to\s+receive)"),
-    re.compile(r"\beach\s+(?:issued\s+and\s+outstanding\s+|outstanding\s+)?(?:share|unit)\s+of\s+(?:[Cc]ommon|[Cc]lass\s+[A-C]|[Oo]rdinary)[^.;]{0,80}?\bof\s+" + _CO + r"[^.;]{0,200}?(?:converted\s+into|exchanged\s+for|right\s+to\s+receive)"),
+    re.compile(r"\b[Ee]ach\s+(?:issued\s+and\s+outstanding\s+|outstanding\s+)?(?:share\s+of\s+)?" + _CO + r"\s+(?:[Cc]ommon\s+|[Oo]rdinary\s+|[Cc]lass\s+[A-C]\s+)?(?:[Ss]hares?|[Ss]tock|[Uu]nits?)\b[^.;]{0,240}?(?:converted\s+into|exchanged\s+for|right\s+to\s+receive)"),
+    re.compile(r"\b[Ee]ach\s+(?:issued\s+and\s+outstanding\s+|outstanding\s+)?(?:share|unit)\s+of\s+(?:[Cc]ommon|[Cc]lass\s+[A-C]|[Oo]rdinary)[^.;]{0,80}?\bof\s+" + _CO + r"[^.;]{0,200}?(?:converted\s+into|exchanged\s+for|right\s+to\s+receive)"),
     re.compile(_CO + r"(?:’s|'s)?\s+(?:stockholders|shareholders|unitholders)\s+will\s+(?:be\s+entitled\s+to\s+)?receive\s+(?:US)?\$\s?\d"),
 ]
 #: what puts an acquisition statement inside this deal rather than in the filer's history
