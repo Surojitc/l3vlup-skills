@@ -108,7 +108,8 @@ eq("Advanced Disposal: a revised deal is still dated by its amendment of 24 June
 eq("every row the date rule resolves carries the rule's version", (t["announcedReader"], w["announcedReader"]), (filings.ANNOUNCED_READER, filings.ANNOUNCED_READER))
 eq("a re-dated row has its financials read again; one whose date stands does not", ("financialsReader" in dated("TESCO", financialsReader=3), "financialsReader" in dated("TESCO", announced="2017-08-13", announcedBasis="merger agreement", financialsReader=3)), (False, True))
 eq("a row dated under an earlier rule is due a re-read with its premiums", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": 1, "documentsRead": ["x"], "status": "ok"}), True)
-eq("and one dated under this rule, with current premiums, is not", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "documentsRead": ["x"], "status": "ok"}), False)
+eq("and one dated under this rule, with current premiums and offer, is not", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "offerReader": filings.OFFER_READER, "documentsRead": ["x"], "status": "ok"}), False)
+eq("one whose offer was read by an earlier reader is due a re-read", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "documentsRead": ["x"], "status": "ok"}), True)
 for wording, want in [
     ("On March 10, 2014, the Company entered into a merger agreement with Parent", "2014-03-10"),
     ("On July 9, 2017, the parties entered into an Agreement and Plan of Merger", "2017-07-09"),

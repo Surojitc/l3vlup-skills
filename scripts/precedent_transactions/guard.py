@@ -14,7 +14,7 @@ Against the file as it stood when the run began (the baseline):
     back as it was, and the run logs it for review;
   - a sourced field that goes from a value to nothing is put back, unless the
     reader that owns the field moved forward on that row in this run (a
-    premiumReader or financialsReader bump: a correction that withdraws a
+    premiumReader, financialsReader or offerReader bump: a correction that withdraws a
     figure on purpose, such as an adviser's range read as a premium or an
     EBITDA whose parts were for different twelve months), the row's target
     changed (it was read for the wrong company), or the row was reclassified
@@ -69,8 +69,11 @@ MAX_REVISIONS = 20
 #: withdraws merger vehicles and fragments ("Wolverine Merger Corporation",
 #: "Inc.") with no version to say so, so guarding it would keep the worse name.
 SOURCED: dict[str, str | None] = {
-    "offerPrice": None,
-    "consideration": None,
+    "offerPrice": "offerReader",
+    "consideration": "offerReader",
+    "offerImplied": "offerReader",
+    "adsRatio": "offerReader",
+    "offerPerAds": "offerReader",
     "dealValue": None,
     "premium1Day": "premiumReader",
     "premium30DayVwap": "premiumReader",
