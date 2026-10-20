@@ -328,8 +328,10 @@ def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, min
 #: the shares is the buyer's (set_aside_buyer). 5: the price is the whole
 #: offer (resolve_offer), per share or per ADS, cash and stock alike; a
 #: premium on a package whose value cannot be found stands untied and says so
-#: (premiumTie).
-PREMIUM_READER = 5
+#: (premiumTie). 6: a premium that prices another instrument's terms (a capped
+#: call's cap, a conversion, exercise or strike price) is set aside: TESCO's
+#: 75% is the cap on Nabors' capped calls, and its own premium is 19%.
+PREMIUM_READER = 6
 
 
 #: The offer reading the stored rows were made with. 2: the whole offer
@@ -338,8 +340,16 @@ PREMIUM_READER = 5
 #: as the filing states it on the reference day or from its stated parts. Each
 #: part is kept with its passage and document (offerComponents), and a row
 #: read before this version has its offer read again from its documents, so
-#: the guard records every change under this version.
-OFFER_READER = 2
+#: the guard records every change under this version. 3: a ratio written out
+#: as a compound ("seventy-two": Zhangmen) is read, a price per ADS over the
+#: ratio is kept to eight significant figures rather than four decimal places
+#: ($0.56 / 72 = $0.0077778 a share, not $0.0078), a per-share price the
+#: filing states is kept only where times the ratio it comes back to the price
+#: per ADS (Youku's rounded $1.53 x 18 is not $27.60), and the offer per ADS
+#: is the one read or the one the filing states beside the product (LAIX's
+#: $1.90, not $0.1357 x 14 = $1.8998). finalize values the shares only at a
+#: price per share (equityValueBasis).
+OFFER_READER = 3
 
 #: the fields the offer reader owns, cleared before each reading
 OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved")

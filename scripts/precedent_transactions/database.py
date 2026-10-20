@@ -133,6 +133,22 @@ ACQUIRER_READER = 2
 LONG_UNAFFECTED_DAYS = 90
 
 
+def _price_per_share(row: dict) -> float | None:
+    """
+    The row's offer per share, or None where it is quoted per ADS with no
+    ratio stated. The offer reader turns a price per ADS into one per share
+    where the filing states the ratio, and leaves it per ADS (offerPerAds,
+    with no offerImplied) where it does not; a row it has not read is judged
+    by the phrase its price was read from.
+    """
+    offer = row.get("offerPrice")
+    if row.get("offerReader"):
+        per_ads = row.get("offerImplied") is None and row.get("offerPerAds") is not None and row.get("offerPerAds") == offer and not row.get("adsRatio")
+    else:
+        per_ads = bool(re.search(r"per\s+(?:ADS|American\s+Depositary)", row.get("offerBasis") or "", re.I))
+    return None if per_ads else offer
+
+
 def finalize(row: dict) -> dict:
     """
     The derived fields from the stored reading: the acquirer, the reference
@@ -176,7 +192,7 @@ def finalize(row: dict) -> dict:
         flags.append(text)
         doubt.add(puts_in_doubt)
 
-    for k in ("unaffectedPrice", "unaffectedPriceMethod", "vwap30", "high52", "equityValue", "ev", "evLtmRev", "evLtmEbitda", "evLtmEbit", "dealValueRatio", "doubt", "unaffectedGapDays"):
+    for k in ("unaffectedPrice", "unaffectedPriceMethod", "vwap30", "high52", "equityValue", "equityValueBasis", "ev", "evLtmRev", "evLtmEbitda", "evLtmEbit", "dealValueRatio", "doubt", "unaffectedGapDays"):
         row.pop(k, None)
     # Days from the filing's unaffected date to the announcement. The filing
     # defines the unaffected day and its price is the record, but a reference
@@ -243,12 +259,30 @@ def finalize(row: dict) -> dict:
     if row.get("premium1Day") is not None and row["premium1Day"] > 1.5:
         flag(f"premium of {row['premium1Day']:.0%}: distressed or misread", "premiums")
     shares = row.get("sharesOut")
-    if shares:
+    # Equity value is a price times a count in the same unit. The count is
+    # always of shares: the company facts' cover count, or the transaction
+    # statement's count of its ordinary or common shares (parse_shares never
+    # reads a count of ADSs). LAIX's 50,173,363 are Ordinary Shares, and its
+    # $0.1357 is per Ordinary Share: $6.8m, which the filing's own funding
+    # need confirms ($1.92m for the 28.3% the buyers did not hold). So the
+    # price must be per share: an offer quoted only per ADS, with no ratio to
+    # turn it into a price per share, gives no equity value at all.
+    each = _price_per_share(row)
+    if shares and each is None:
+        flag("the offer is quoted per ADS and the filing states no ADS ratio: no price per share to value the shares with", "multiples")
+    if shares and each is not None:
         # Classes bought at prices of their own: equity value is each class's
         # count times its own price (sharesBasis.classPrices, each with the
-        # passage that prices it), never the offer times them all.
+        # passage that prices it), never the offer times them all. A class
+        # priced at the offer (price None) takes the offer per share.
         parts = (row.get("sharesBasis") or {}).get("classPrices")
-        row["equityValue"] = round(sum(p["count"] * (offer if p["price"] is None else p["price"]) for p in parts), 1) if parts else round(offer * shares, 1)
+        tag = (row.get("sharesBasis") or {}).get("tag") or "company facts"
+        if parts:
+            row["equityValue"] = round(sum(p["count"] * (each if p["price"] is None else p["price"]) for p in parts), 1)
+            row["equityValueBasis"] = " + ".join(f"${each if p['price'] is None else p['price']:,.8g} a share x {p['count']:,.3f}m {p['class']} shares" for p in parts) + f" ({tag})"
+        else:
+            row["equityValue"] = round(each * shares, 1)
+            row["equityValueBasis"] = f"${each:,.8g} a share x {shares:,.3f}m shares ({tag})"
         row["ev"] = round(row["equityValue"] + (row.get("netDebt") or 0.0), 1)
         if row.get("netDebt") is None:
             flag("no balance sheet at announcement: EV = equity value", "multiples")
@@ -602,12 +636,12 @@ METHOD = {
     "reverseMergerBasis": "dealType 'reverse-merger': the proxy states that a private company's holders will own the majority (60% or more) of the listed company and its current holders the rest; the sentence and both stakes are kept. Such a row is not a control acquisition of the listed company",
     "spacEvidence": "for a merger proxy, how often its documents mention a trust account, an initial business combination, a blank-check company and a special purpose acquisition company; a proxy with at least 100 of the first and 5 of any other is a de-SPAC and rejected (spacRule 2), whatever its counterparty is called",
     "offerPrice": "per-share cash consideration as stated in the filing, the most frequently stated figure (offerBasis is the phrase matched)",
-    "premiums": "as the filing states them for its own deal, to the unaffected close (the last trading day before the news, as the filing defines it), the 30-trading-day VWAP and the 52-week high; a financial adviser's analysis (an illustrative range, comparable deals) and an earlier proposal are never read as the deal's premium, nor, for an all-cash deal, a statement whose reference price plus its premium is not the final offer to within two points (another bid's), unless it names the agreed consideration. premiumStatements lists every statement kept with its document, premiumsSetAside the ones left out and why, premiumBasis the sentences chosen. A 30-day VWAP or 52-week-high premium measured to the same day as a kept unaffected statement is kept with sharesReference true, and fills only a basis the agreement window left empty; a premium is borrowed from another reading only where that reading states the same offer",
+    "premiums": "as the filing states them for its own deal, to the unaffected close (the last trading day before the news, as the filing defines it), the 30-trading-day VWAP and the 52-week high; a financial adviser's analysis (an illustrative range, comparable deals), an earlier proposal and the terms of another instrument (a capped call's cap, a conversion, exercise or strike price) are never read as the deal's premium, nor, for an all-cash deal, a statement whose reference price plus its premium is not the final offer to within two points (another bid's), unless it names the agreed consideration. premiumStatements lists every statement kept with its document, premiumsSetAside the ones left out and why, premiumBasis the sentences chosen. A 30-day VWAP or 52-week-high premium measured to the same day as a kept unaffected statement is kept with sharesReference true, and fills only a basis the agreement window left empty; a premium is borrowed from another reading only where that reading states the same offer",
     "unaffectedGapDays": "days from unaffectedDate to announced; a row whose gap exceeds 90 days is flagged 'long-unaffected-window: ...' with its premiums in doubt, and keeps the filing's own unaffected price. premiumPreAnnouncement (and its date) is the premium the filing states to the last close before the announcement, where it states one",
     "announcedBasis": "merger agreement (the agreement's date as stated), amended merger agreement (a revised deal: the latest amendment or restatement, where the filings state that it revised the agreed price to the row's offer; announcedOriginal the first agreement's date, which also dates the deal's dealId) or filing date (no agreement date stated)",
     "unaffectedPrice": "the closing price the filing states for the unaffected date (unaffectedPriceMethod 'stated', unaffectedDate the date); for an all-cash deal whose filing states only the percentage, offer / (1 + premium1Day) ('computed from the offer and the stated premium'); none for a deal paid partly in stock. vwap30 and high52 are offer / (1 + premium), all-cash deals only",
     "financials": "USD millions; sharesOut from the transaction statement when the company facts carry no count at announcement: the count of shares (common, ordinary or Class A) or common units it states as outstanding, never of ADSs, the most often stated; a count of shares issuable under or underlying options, awards, RSUs, warrants, convertibles or plans, reserved, held in treasury, authorized, a holding stated as a percentage of the outstanding, a count of preferred stock, or a count of another company's shares (one whose words name an issuer other than the target) is passed over, and where the statement gives no other there is no count and no equity value; a count is the target's when its words name the target by its name, the name its own filing's cover gives (a former name), a ticker or a short name the documents define for it, and a count that names the target beats one that names no one; where the documents state the count of each of the target's share classes, the count is the sum of the classes the filing shows receive the merger consideration (sharesBasis.classes names them and sharesBasis.terms quotes the clause), a class it shows has no economic interest, is cancelled for no consideration or is paid a nominal sum for its votes is left out and named with the reason (sharesBasis.excluded), a class exchanged into the paid class before the merger counts with it, where the filing prices each class reliably each is counted at its own price (sharesBasis.classPrices, with the passage), and a class whose terms it does not show leaves no count and no equity value (statedSharesClasses.why); LTM to the last fiscal period end on or before announcement (fiscal year + YTD - prior YTD), EBITDA = operating income + D&A, net debt = debt - cash and short-term investments at the same balance sheet; sharesOut = cover-page shares (dei) at the last cover date on or before announcement, millions. Revenue is the filed total: a larger Revenues figure for the same period replaces a part of it (a REIT's contract revenue beside its rent). A figure under $1m keeps thousands, so 0.0 means the filing says zero. companyFactsMissing is the day EDGAR last answered that it has no company facts for the target; such a row keeps what it has and is asked again after 183 days",
-    "values": "equityValue = offerPrice x sharesOut, or, where sharesBasis.classPrices prices the classes apart, the sum of each class's count times its own price; ev = equityValue + netDebt; dealValue = the aggregate value from the filing-fee table, kept as a cross-check; evLtmEbit = ev / ltmEbit, LTM operating income to ltmEbitEnd, kept whether or not EBITDA could be built",
+    "values": "equityValue = offerPrice x sharesOut, both per share (equityValueBasis says so): sharesOut is a count of shares, never of ADSs, and an offer quoted only per ADS with no ratio stated gives no equity value; where sharesBasis.classPrices prices the classes apart, equityValue is the sum of each class's count times its own price (a class priced at the offer at the offer per share); ev = equityValue + netDebt; dealValue = the aggregate value from the filing-fee table, kept as a cross-check; evLtmEbit = ev / ltmEbit, LTM operating income to ltmEbitEnd, kept whether or not EBITDA could be built",
     "periods": "each multiple has one period: EV at the deal against LTM revenue to ltmRevenueEnd (revenueTag the concept read), or against LTM EBITDA to ltmEbitdaEnd, whose operating income and D&A end within a week of each other. Revenue and D&A fall back to a utility's or a goods company's own concepts only where none of the usual ones is current. ltmImpairment is the impairment the filing tags inside the EBITDA's twelve months; at 10% of EBITDA or more the row is flagged and doubt includes 'ebitda'",
     "revisions": "every change a run made to a sourced figure or the acquirer (offer, consideration, deal value, premiums and the unaffected price, shares, LTM revenue, EBITDA and EBIT, net debt): run, field, from, to and cause (a reader version moving forward, a target re-identified, a reclassification, or read again), newest 20 kept. A re-read that fails, or that loses a figure without one of those causes, keeps the prior reading (readErrors says so); a run that would withdraw a figure from more than 5% of the rows carrying it is refused (scripts/precedent_transactions/guard.py)",
     "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out",

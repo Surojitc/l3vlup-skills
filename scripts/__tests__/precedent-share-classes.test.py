@@ -449,6 +449,11 @@ eq("the classes' total beside them is passed over (MINDBODY)", read("There were 
    (48.016533, ["Class A", "Class B"], None))
 eq("an ADS count beside a class is never added to it", read("There were 80,653,284 Class A ordinary shares and 1,234,567 ADSs outstanding.", "Sungy Mobile Ltd"), (80.653284, None, None))
 eq("a single class reads as before (Landry's)", read("there were 7,341,052 shares of common stock outstanding", "LANDRYS RESTAURANTS INC"), (7.341052, None, None))
+# The award test is the share-count reader's (options, warrants, RSUs:
+# _AWARD_INSTRUMENT), never the premium reader's cap or conversion price
+# (_INSTRUMENT): VOXX's RSU count is an award's, its Class A count is not.
+eq("an RSU's count is marked an award by the award pattern, not the premium reader's", [(m["n"], m["award"]) for m in parse._mentions("(i) 20,253,775 shares of Class A Common Stock were issued and outstanding; and (iv) Company RSUs relating to 1,032,158 shares of Company Common Stock were outstanding.")],
+   [(20253775.0, False), (1032158.0, True)])
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

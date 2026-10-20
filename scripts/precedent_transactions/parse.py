@@ -258,7 +258,12 @@ _NUMBER_WORDS = {
     "eighteen": 18, "nineteen": 19, "twenty": 20, "twenty-five": 25, "thirty": 30, "forty": 40, "fifty": 50,
     "one hundred": 100, "two hundred": 200,
 }
-_COUNT = r"(\d{1,3}(?:\.\d{1,4})?|" + "|".join(sorted((re.escape(w) for w in _NUMBER_WORDS), key=len, reverse=True)) + r")"
+_TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
+_UNITS = {w: n for w, n in _NUMBER_WORDS.items() if n < 10}
+#: a compound written out, as the filings and their conversion to text leave
+#: it: "seventy-two", "seventy -two" (Zhangmen's cover), "seventy two"
+_COMPOUND = r"(?:" + "|".join(_TENS) + r")(?:\s*-\s*|\s+)(?:" + "|".join(_UNITS) + r")\b"
+_COUNT = r"(\d{1,3}(?:\.\d{1,4})?|" + _COMPOUND + "|" + "|".join(sorted((re.escape(w) for w in list(_NUMBER_WORDS) + list(_TENS)), key=len, reverse=True)) + r")"
 #: "ADSs, each representing four Shares", "each ADS represents 50 Shares",
 #: "each Verona ADS represents a beneficial interest in eight Verona ordinary
 #: shares", "American Depositary Shares, each of which represents 18 Ordinary Shares"
@@ -270,9 +275,16 @@ _ADS_RATIO = re.compile(
 
 
 def _count(word: str) -> float | None:
-    w = word.lower()
+    w = re.sub(r"\s*-\s*|\s+", "-", word.lower().strip())
+    if w.replace("-", " ") in _NUMBER_WORDS:
+        return float(_NUMBER_WORDS[w.replace("-", " ")])
     if w in _NUMBER_WORDS:
         return float(_NUMBER_WORDS[w])
+    if w in _TENS:
+        return float(_TENS[w])
+    tens, _, unit = w.partition("-")
+    if tens in _TENS and unit in _UNITS:
+        return float(_TENS[tens] + _UNITS[unit])
     try:
         return float(w)
     except ValueError:
@@ -496,6 +508,43 @@ def _quoted(texts: list[str], value: float) -> tuple[int, int, str | None, str |
     return ads, share, ads_at, share_at
 
 
+def _exact(v: float) -> float:
+    """
+    A price kept to eight significant figures, not four decimal places: a
+    price per ADS over the ratio is a long quotient ($0.56 / 72 =
+    $0.0077778 a share, which Zhangmen's filing states; four places would
+    make it $0.0078, and $0.5616 an ADS), and times the ratio it must come
+    back to the price per ADS.
+    """
+    return float(f"{v:.8g}")
+
+
+def _stated_per_share(texts: list[str], value: float) -> tuple[float | None, str | None]:
+    """The price the filings quote per share within half a percent of `value`, with its passage; (None, None) where none is."""
+    for text in texts:
+        for m in re.finditer(_MONEY, text):
+            try:
+                v = float(m.group(1).replace(",", ""))
+            except ValueError:
+                continue
+            if abs(v - value) <= 0.005 * value and _PER_SHARE_AFTER.search(text[m.end():m.end() + 60]):
+                return v, re.sub(r"\s+", " ", text[max(0, m.start() - 80):m.end() + 60]).strip()
+    return None, None
+
+
+def _stated_per_ads(texts: list[str], value: float) -> float | None:
+    """The price the filings quote per ADS within half a cent of `value`, or None."""
+    for text in texts:
+        for m in re.finditer(_MONEY, text):
+            try:
+                v = float(m.group(1).replace(",", ""))
+            except ValueError:
+                continue
+            if abs(v - value) <= 0.005 and (_PER_ADS_AFTER.search(text[m.end():m.end() + 60]) or _PER_ADS_BEFORE.search(text[max(0, m.start() - 40):m.start()])):
+                return v
+    return None
+
+
 def offer_unit(texts: list[str], offer: float) -> tuple[str | None, str | None]:
     """'ADS' where the filings quote the offer per ADS more often than per share, 'share' the other way, None where they never say; with a passage."""
     ads, share, ads_at, share_at = _quoted(texts, offer)
@@ -579,9 +628,17 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
     if per_ads and ratio:
         # The per-share price is the one the filing states beside the per-ADS
         # one; the ADS price over the stated ratio otherwise, and it says so.
-        each = round(offer / ratio, 4)
-        _, n_share, _, at = _quoted(texts, each)
-        out["perShare"] = (each, at if n_share else f"${offer:,.4g} per ADS / {ratio:g} shares per ADS, as the filing states the ratio")
+        # The stated figure is kept as stated, where times the ratio it comes
+        # back to the price per ADS to half a cent: LAIX's US$0.1357 a share
+        # (x 14 = $1.8998, for US$1.90 an ADS) is what the filing pays, though
+        # $1.90 / 14 is $0.13571429. A rounded figure that does not come back
+        # (Youku's $1.53 x 18 = $27.54, for $27.60 an ADS) is not the price.
+        each = _exact(offer / ratio)
+        stated_each, at = _stated_per_share(texts, each)
+        if stated_each is not None and abs(stated_each * ratio - offer) > 0.005:
+            stated_each, at = None, None
+        out["perShare"] = (stated_each, at) if stated_each is not None else (each, f"${offer:,.4g} per ADS / {ratio:g} shares per ADS, as the filing states the ratio")
+        each = out["perShare"][0]
         out["components"].append({"part": "cash", "value": each, "per": "share", "excerpt": out["perShare"][1]})
     terms = stock_terms(texts, None if per_ads else offer)
     stated = implied_values(texts)
@@ -622,7 +679,7 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
         out["ties"] = [(offer, "ADS")]
         return out
     elif not stock:
-        out["implied"], out["method"] = (offer / ratio if per_ads and ratio else offer), "cash"
+        out["implied"], out["method"] = (out["perShare"][0] if out["perShare"] else offer), "cash"
         out["basis"] = "the per-share cash is the whole consideration"
     else:
         # The package's value on the reference day, as the filing states it;
@@ -655,10 +712,16 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
                 out["unresolved"] = "the consideration includes stock and the filing states its value on no day near the agreement" + (
                     f" (only at {practicable[0]['date'] or 'the proxy date'}: ${practicable[0]['value']:,.2f})" if practicable else "") + ", nor parts that add up to it"
     if out["implied"] is not None:
-        out["implied"] = round(out["implied"], 4)
+        out["implied"] = _exact(out["implied"])
         ties = [(out["implied"], "share")]
         if ratio:
-            out["perAds"] = round(out["implied"] * ratio, 4)
+            # The price per ADS the filing states, where it states the
+            # product ("US$1.90 in cash per ADS" beside "US$0.1357 ... per
+            # Ordinary Share" and fourteen shares an ADS: LAIX); the product
+            # otherwise. $0.1357 x 14 is $1.8998, a figure no filing gave.
+            # An offer read per ADS is its own price per ADS.
+            product = out["implied"] * ratio
+            out["perAds"] = offer if per_ads and not stock else (_stated_per_ads(texts, product) or round(product, 4))
             ties.append((out["perAds"], "ADS"))
         out["ties"] = ties
     return out
@@ -740,6 +803,18 @@ def _refused(before: str, offer) -> bool:
 _ADVISER = re.compile(
     r"illustrative|percentile|\bmedian\b|\bmean\b|reference range|range of|comparable|selected (?:precedent |public |take-private )?transactions"
     r"|precedent|premiums? paid analysis|premia paid analysis|implied (?:equity|per share|enterprise)|\bapplied\b",
+    re.I,
+)
+#: the terms of another instrument, priced as a premium to the share price and
+#: never the deal's: a capped call's cap ("subject to a cap representing a
+#: price per share of $31.45, an approximately 75.0% premium over our share
+#: price of $17.97": Nabors' exchangeable notes, in TESCO's proxy), a
+#: convertible's conversion price ("an initial conversion price reflecting a
+#: 15% premium to the VWAP"), a warrant's exercise or strike price ("an
+#: exercise price equal to the greater of (a) a 20% premium on the 30-day VWAP")
+_INSTRUMENT = re.compile(
+    r"\bcapped\s+calls?\b|\bcap\s+price\b|\b(?:subject\s+to\s+)?an?\s+(?:cap|ceiling|limit)\s+(?:representing|of|equal\s+to|at)\b"
+    r"|\b(?:conversion|exercise|strike)\s+price\b|\bconversion\s+premium\b",
     re.I,
 )
 #: a proposal before the one agreed: ranked below the agreed deal's own statement
@@ -980,6 +1055,18 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         excerpt = re.sub(r"\s+", " ", (lead[-140:] + clause)).strip()[:320]
         if _ADVISER.search(lead) or _ADVISER.search(clause):
             aside.append({"reason": "a financial adviser's analysis", "excerpt": excerpt})
+            continue
+        # A cap, a conversion price or an exercise price is set at a premium to
+        # the share price: it is the price of another instrument, not the
+        # premium the deal pays (TESCO's proxy carries Nabors' capped calls at
+        # 75%; the deal's own premium is the 19% beside its $4.62 a share).
+        # The sentence is read back to its full stop, across the line breaks a
+        # wrapped paragraph carries: one of TESCO's five copies breaks the line
+        # between "a price per share of $31.45, an" and "approximately 75.0%".
+        said = text[max(0, at - 240):at]
+        said = said[max(said.rfind(". "), said.rfind("•")) + 1:]
+        if _INSTRUMENT.search(said):
+            aside.append({"reason": "the terms of another instrument (a cap, a conversion or exercise price), not the deal's premium", "excerpt": re.sub(r"\s+", " ", said[-140:] + clause).strip()[:320]})
             continue
         basis, window = _respectively(text, at) or _basis(clause)
         price = _price_in(clause, targets or offer, v)
@@ -1268,7 +1355,7 @@ _SHARES = re.compile(r"(\d{1,3}(?:,\d{3}){1,3})\s+(?:shares\s+of\s+|)(?:the\s+)?
 # never of ADSs, so it is valued at a price per share.
 _LINKED = re.compile(r"\b(?:issuable|underlying|subject\s+to|reserved|pursuant\s+to|available\s+(?:for|under)|with\s+respect\s+to|in\s+exchange\s+for|exercis\w*|conver\w*|vest\w*|settle\w*|granted|treasury|remain\w*)\b", re.I)
 _PERCENT = re.compile(r"(\d+(?:\.\d+)?)?\s*(?:%|percent\b|per\s+cent\b)|\bmajority\b", re.I)
-_INSTRUMENT = re.compile(r"\b(?:options?|warrants?|RSUs?|PSUs?|restricted\s+(?:stock|share)\s+(?:units?|awards?)|preferred)\b", re.I)
+_AWARD_INSTRUMENT = re.compile(r"\b(?:options?|warrants?|RSUs?|PSUs?|restricted\s+(?:stock|share)\s+(?:units?|awards?)|preferred)\b", re.I)
 _SECOND_COUNT = re.compile(r"\d{1,3}(?:,\d{3})+")
 #: the words just before a count that make it something else: a dollar sign
 #: ("Net assets at end of year $ 729,856,881 Shares outstanding at end of
@@ -1302,7 +1389,7 @@ def outstanding_count(gap: str) -> bool:
         if m.group(0).lower() == "majority" or m.group(1) is None or float(m.group(1)) < 100:
             return False
     own = _SECOND_COUNT.split(g, 1)[0]
-    return not _INSTRUMENT.search(own)
+    return not _AWARD_INSTRUMENT.search(own)
 
 
 def parse_shares(text: str, *, company: str | None = None, evidence: list[str] | None = None, offer: float | None = None) -> tuple[float | None, str | None]:
@@ -1368,7 +1455,7 @@ _CONNECTOR = re.compile(r"\s*[,;]?\s*(?:and|or)?\s*(?:\(\s*(?:[ivx]{1,4}|[a-zA-Z
 _STOCK = re.compile(r"\b(?:stock|shares?|common)\b", re.I)
 _PREFERRED = re.compile(r"\b(?:preferred|preference)\b", re.I)
 _ADS = re.compile(r"\bADSs?\b|\bAmerican\s+Depositary\b|\bdepositary\s+shares\b", re.I)
-_UNITS = re.compile(r"\bunits?\b", re.I)
+_UNIT_NOUN = re.compile(r"\bunits?\b", re.I)
 #: what a count names where it is the total of the classes: the common stock,
 #: the ordinary shares, or the Shares as a defined term
 _TOTAL_NOUN = re.compile(r"\b(?i:common\s+stock|common\s+shares|ordinary\s+shares|capital\s+stock)\b|\bShares\b")
@@ -1587,9 +1674,9 @@ def _mentions(sent: str) -> list[dict]:
         since = re.split(r";|\(\s*(?:[ivx]{1,4}|[a-zA-Z]|\d{1,2})\s*\)", since)[-1][-80:]
         mention = {"n": float(m.group(1).replace(",", "")), "start": m.start(), "end": m.end(), "desc": desc, "seg": seg,
                    "labels": _labels(desc), "stock": bool(_STOCK.search(desc)),
-                   "kind": "preferred" if _PREFERRED.search(desc) else "ads" if _ADS.search(desc) else "units" if _UNITS.search(desc) else "shares",
+                   "kind": "preferred" if _PREFERRED.search(desc) else "ads" if _ADS.search(desc) else "units" if _UNIT_NOUN.search(desc) else "shares",
                    "issuer": _issuer(desc),
-                   "award": bool(_INSTRUMENT.search(since)) and not _PREFERRED.search(since),
+                   "award": bool(_AWARD_INSTRUMENT.search(since)) and not _PREFERRED.search(since),
                    "total": bool(re.search(r"\b(?:total|aggregate|in\s+all|altogether)\b(?:\s+of)?\s*$", since, re.I)
                                  or re.search(r"^[^,;()]{0,80}?\b(?:comprised|consisting|composed|made\s+up)\s+of\b", seg, re.I))}
         o = re.search(r"\boutstanding\b", seg, re.I)
@@ -1786,7 +1873,7 @@ def _cancelled_class(before: str) -> str:
     if not starts:
         return ""
     head = bare[starts[-1].start():]
-    if _INSTRUMENT.search(head) or _SUBSET.search(head) or re.search(r"\b(?:own|owns|owned|hold|holds|contribut\w*)\b", head, re.I):
+    if _AWARD_INSTRUMENT.search(head) or _SUBSET.search(head) or re.search(r"\b(?:own|owns|owned|hold|holds|contribut\w*)\b", head, re.I):
         return ""
     cut = re.search(r"\b(?:that|which|who|other\s+than|except|not)\b", head, re.I)
     return head[:cut.start()] if cut else head
@@ -1990,7 +2077,7 @@ def read_shares(text: str, *, company: str | tuple[str, ...] | None = None, evid
         issuer = _issuer(desc)
         if not _is_target(issuer, names, texts, generic_company=bool(re.search(r"\bCompany", desc))):
             continue
-        if everyone and (_labels(desc) or "common" in everyone or _UNITS.search(desc) or not _TOTAL_NOUN.search(desc)
+        if everyone and (_labels(desc) or "common" in everyone or _UNIT_NOUN.search(desc) or not _TOTAL_NOUN.search(desc)
                          or round(v, 3) in class_counts):
             # Beside the target's classes, a count is the total only where it
             # names the stock or the Shares, not units, and is not one class's.
