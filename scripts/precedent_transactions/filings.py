@@ -330,8 +330,10 @@ def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, min
 #: the shares is the buyer's (set_aside_buyer). 5: the price is the whole
 #: offer (resolve_offer), per share or per ADS, cash and stock alike; a
 #: premium on a package whose value cannot be found stands untied and says so
-#: (premiumTie).
-PREMIUM_READER = 5
+#: (premiumTie). 6: a premium that prices another instrument's terms (a capped
+#: call's cap, a conversion, exercise or strike price) is set aside: TESCO's
+#: 75% is the cap on Nabors' capped calls, and its own premium is 19%.
+PREMIUM_READER = 6
 
 
 #: The offer reading the stored rows were made with. 2: the whole offer

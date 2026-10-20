@@ -740,6 +740,18 @@ _ADVISER = re.compile(
     r"|precedent|premiums? paid analysis|premia paid analysis|implied (?:equity|per share|enterprise)|\bapplied\b",
     re.I,
 )
+#: the terms of another instrument, priced as a premium to the share price and
+#: never the deal's: a capped call's cap ("subject to a cap representing a
+#: price per share of $31.45, an approximately 75.0% premium over our share
+#: price of $17.97": Nabors' exchangeable notes, in TESCO's proxy), a
+#: convertible's conversion price ("an initial conversion price reflecting a
+#: 15% premium to the VWAP"), a warrant's exercise or strike price ("an
+#: exercise price equal to the greater of (a) a 20% premium on the 30-day VWAP")
+_INSTRUMENT = re.compile(
+    r"\bcapped\s+calls?\b|\bcap\s+price\b|\b(?:subject\s+to\s+)?an?\s+(?:cap|ceiling|limit)\s+(?:representing|of|equal\s+to|at)\b"
+    r"|\b(?:conversion|exercise|strike)\s+price\b|\bconversion\s+premium\b",
+    re.I,
+)
 #: a proposal before the one agreed: ranked below the agreed deal's own statement
 _PROPOSAL = re.compile(r"\bproposal\b|counterproposal|counter-proposal|indication of interest|\bbid\b|\bpreliminary\b|non-binding", re.I)
 #: the proxy's own words for the last price before the news
@@ -978,6 +990,18 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         excerpt = re.sub(r"\s+", " ", (lead[-140:] + clause)).strip()[:320]
         if _ADVISER.search(lead) or _ADVISER.search(clause):
             aside.append({"reason": "a financial adviser's analysis", "excerpt": excerpt})
+            continue
+        # A cap, a conversion price or an exercise price is set at a premium to
+        # the share price: it is the price of another instrument, not the
+        # premium the deal pays (TESCO's proxy carries Nabors' capped calls at
+        # 75%; the deal's own premium is the 19% beside its $4.62 a share).
+        # The sentence is read back to its full stop, across the line breaks a
+        # wrapped paragraph carries: one of TESCO's five copies breaks the line
+        # between "a price per share of $31.45, an" and "approximately 75.0%".
+        said = text[max(0, at - 240):at]
+        said = said[max(said.rfind(". "), said.rfind("•")) + 1:]
+        if _INSTRUMENT.search(said):
+            aside.append({"reason": "the terms of another instrument (a cap, a conversion or exercise price), not the deal's premium", "excerpt": re.sub(r"\s+", " ", said[-140:] + clause).strip()[:320]})
             continue
         basis, window = _respectively(text, at) or _basis(clause)
         price = _price_in(clause, targets or offer, v)
