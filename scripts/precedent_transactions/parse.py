@@ -377,8 +377,12 @@ def stock_terms(texts: list[str], cash: float | None = None) -> dict:
 _WHOLE = r"(?:merger|transaction|scheme|offer|per[\s-]share|total|aggregate|unit)\s+consideration"
 #: a stated value of the whole package, each with its amount as group 1
 _IMPLIED = [
-    # "the merger consideration represented approximately $42.08 in value for each share"
-    re.compile(r"\b" + _WHOLE + r"\s+represent(?:ed|s)\s+(?:approximately\s+)?" + _MONEY + r"\s+in\s+(?:implied\s+)?value\s+(?:for|per)\s+each", re.I),
+    # "the merger consideration represented approximately $42.08 in value for each share",
+    # "the exchange ratio represented approximately $21.31 in value for each share of CVLY
+    # common stock", "the merger consideration represented an implied value of $5.67 per share",
+    # "the exchange ratio represented approximately $185.12 in Equity Residential common shares
+    # for each share of AvalonBay common stock"
+    re.compile(r"\b(?:" + _WHOLE + r"|exchange\s+ratio)\s+represent(?:ed|s)\s+(?:approximately\s+|an\s+implied\s+value\s+of\s+(?:approximately\s+)?)?" + _MONEY + r"(?:\s+in\s+(?:implied\s+)?value|\s+in\s+[^$.;]{0,60}?\b(?:shares|units|stock))?\s+(?:for\s+each|per)\b", re.I),
     # "The consideration to be received by JPE Unitholders ... is valued at $8.63 per unit based on the closing price of AMID Common Units as of October 21, 2016"
     re.compile(r"\b(?:the\s+)?(?:" + _WHOLE + r"|consideration\s+to\s+be\s+received\s+by)\b[^.;$]{0,100}?\b(?:is|was|will\s+be)\s+valued\s+at\s+(?:approximately\s+)?" + _MONEY + r"\s+per\s+(?:share|unit|ADS)\b", re.I),
     # "the implied value of the unit consideration for each QRE common unit and Class B unit was $22.48"
@@ -389,19 +393,119 @@ _IMPLIED = [
     re.compile(r"implied\s+value\s+of\s+the\s+" + _WHOLE + r"\s+at\s+the\s+offer\s+price\s+of\s+" + _MONEY, re.I),
     # "representing total merger consideration of approximately $140.00 per share": an example, never the tie
     re.compile(r"representing\s+(?:total|aggregate)\s+(?:\w+\s+)?consideration\s+of\s+(?:approximately\s+)?" + _MONEY + r"\s+per\s+(?:share|unit|ADS)\b", re.I),
+    # "the implied value of the Merger Consideration payable to holders of EFSI Common Stock
+    # was $46.72", "the value of the per share merger consideration payable to holders of
+    # Blue Foundry common stock was approximately $11.67"
+    re.compile(r"\bvalue\s+of\s+the\s+(?:per[\s-]share\s+)?(?:merger|transaction|offer|arrangement|scheme)\s+consideration\s+(?:payable|to\s+be\s+(?:received|paid))\b[^$.;]{0,100}?\b(?:was|is|would\s+be)\s+(?:approximately\s+)?" + _MONEY, re.I),
+    # "the implied value of the merger consideration as of July 12, 2019, the last full
+    # trading day before the announcement of the merger, of approximately $14.74 for each share"
+    re.compile(r"\bimplied\s+value\s+of\s+the\s+" + _WHOLE + r"\s+as\s+of\s+[A-Z][a-z]+\.?\s+\d{1,2},?\s+\d{4},[^$.;]{0,120}?,\s+of\s+(?:approximately\s+)?" + _MONEY + r"\s+(?:for\s+each|per)\b", re.I),
+    # "the implied price of Marathon Oil common stock based on the exchange ratio pursuant to
+    # the merger agreement was $29.xx"
+    re.compile(r"\bimplied\s+(?:price|value)\s+(?:of|per)\s+[^$.;]{0,60}?\bbased\s+on\s+the\s+exchange\s+ratio\b[^$.;]{0,80}?\b(?:was|is)\s+(?:approximately\s+)?" + _MONEY, re.I),
+    # the filing's own sum of the stock's value and the cash: "the per share stock
+    # consideration ... represented approximately $18.12 in value ..., which, when
+    # added to the $4.08 per share cash merger consideration, equated to approximately
+    # $22.20 in value for each share" (Taylor Capital)
+    re.compile(r"\bwhen\s+added\s+to\s+the\s+[^$.;]{0,10}\$\s?\d[\d,]*(?:\.\d+)?[^.;$]{0,80}?,?\s+(?:equated|equals?|amounted|represented|resulted\s+in)\s+(?:to\s+)?(?:approximately\s+)?" + _MONEY + r"\s+in\s+(?:implied\s+)?value", re.I),
 ]
-#: the day a value is measured on, by the filing's own description of it
-_REFERENCE_DAY = re.compile(r"last\s+(?:full\s+)?trading\s+(?:day|date)\s+(?:before|prior\s+to|preceding)\s+(?:the\s+)?(?:public\s+)?(?:announcement|execution|signing|disclosure)", re.I)
+#: Wordings that name the package less exactly, read only in a sentence that
+#: values it on a market price ("based on the closing price of ..."), as an
+#: all-stock proxy does: "The Arrangement values the Common Shares at $4.62 per
+#: share based on Nabors' closing share price of $6.80" (TESCO), "the merger
+#: consideration ... values Essential common stock at $43.18 per share based on
+#: American Water's closing price", "The consideration implies a total offer
+#: value of $13.49 per share" (Gatos), "This represents a value of $63.12 per
+#: share" (TriCo), "the offer would represent a value to American stockholders
+#: of approximately $7.32 per share" (Hess), "implied value per Crestwood common
+#: unit of $26.00",
+#: "implied consideration of $11.36 for each share" (Leggett & Platt), "the
+#: implied merger consideration that a USB shareholder would be entitled to
+#: receive for each share ... would be $10.88".
+_IMPLIED_MARKET = [
+    re.compile(r"\b(?:arrangement|merger|transaction|consideration|exchange\s+ratio|offer)\b[^$.;]{0,80}?\bvalues\s+(?:each\s+|the\s+)?[^$.;]{0,60}?\bat\s+(?:approximately\s+)?" + _MONEY + r"\s+per\s+(?:share|unit)\b", re.I),
+    re.compile(r"\b(?:implies|implied|represents|represented|would\s+represent)\s+(?:a\s+|an\s+)?(?:total\s+offer\s+|implied\s+)?value\s+(?:to\s+[^$.;]{0,60}?\s+)?of\s+(?:approximately\s+)?" + _MONEY + r"\s+(?:per|for\s+each)\b", re.I),
+    re.compile(r"\bimplied\s+value\s+per\s+[^$.;]{0,40}?\s+of\s+(?:approximately\s+)?" + _MONEY, re.I),
+    re.compile(r"\bimplied\s+(?:merger\s+)?consideration\s+(?:of\s+(?:approximately\s+)?" + _MONEY + r"\s+(?:for\s+each|per)\b|that\s+[^$.;]{0,80}?\bentitled\s+to\s+receive\s+for\s+each\s+[^$.;]{0,80}?\s+would\s+be\s+(?:approximately\s+)?" + _MONEY + r")", re.I),
+]
+#: a value of the stock alone, which is the package only where it is all stock
+_STOCK_PART = re.compile(r"exchange\s+ratio|stock\s+consideration|share\s+consideration|stock\s+portion|stock\s+component|per\s+share\s+stock", re.I)
+#: a value that is not the agreed package's: a proposal's ("the total proposed
+#: consideration implied a value of approximately $6.80": Udemy), a bid recited
+#: in the background ("Liberty Global was offering $12.68 in cash and a blend of
+#: 0.484 shares ... an implied value of approximately $42.25": Virgin Media), or
+#: one an adviser's analysis is compared with
+_NOT_AGREED = re.compile(r"\bpropos(?:ed|ing)\s+(?:consideration|price|exchange|terms)|\btotal\s+proposed\b|\b(?:was|were|is)\s+offering\b|\banalys[ie]s\b|\bindicated\s+an?\b", re.I)
+#: what a market-valued sentence says: the value rests on a close
+_ON_MARKET = re.compile(r"\bbased\s+(?:up)?on\b[^;]{0,120}?\bclos", re.I)
+#: the day a value is measured on, by the filing's own description of it: "the
+#: last trading day before the public announcement", "the last trading day on
+#: the NYSE prior to execution of the Arrangement Agreement", "the trading day
+#: immediately preceding the public announcement"
+_REFERENCE_DAY = re.compile(r"(?:last\s+(?:full\s+)?trading\s+(?:day|date)|trading\s+day\s+immediately)\s+(?:on\s+the\s+[A-Z]\w*\s+)?(?:immediately\s+)?(?:before|prior\s+to|preceding)\s+(?:the\s+)?(?:public\s+)?(?:announcement|execution|signing|disclosure)", re.I)
 _PRACTICABLE = re.compile(r"practicable|prior\s+to\s+the\s+(?:date\s+of\s+)?(?:mailing|printing|filing)|date\s+of\s+this\s+(?:proxy|document|joint|information|prospectus|offer)", re.I)
 
 
 def _sentence(text: str, start: int, end: int) -> str:
     """The sentence around text[start:end]: back to the last full stop or bullet, on to the next full stop."""
+    return _sentence_at(text, start, end)[0]
+
+
+def _sentence_at(text: str, start: int, end: int) -> tuple[str, int]:
+    """The sentence around text[start:end], and where in it text[start] falls."""
     before = text[max(0, start - 400):start]
     cut = max(before.rfind(". "), before.rfind("•"))
     after = text[end:end + 240]
     stop = re.search(r"\.\s+(?=[A-Z(“\"])|•", after)
-    return before[cut + 1:] + text[start:end] + (after[: stop.start()] if stop else after)
+    lead = before[cut + 1:]
+    return lead + text[start:end] + (after[: stop.start()] if stop else after), len(lead)
+
+
+#: where one value's clause ends and another's begins inside a sentence: "...
+#: represented approximately $73.59 in value for each share of Berry Common
+#: Stock, and based on the closing price of Amcor Ordinary Shares on January
+#: 22, 2025, the last trading day before the date of the accompanying joint
+#: proxy statement/prospectus, the Exchange Ratio represented approximately
+#: $X": each value is measured on the date in its own clause
+_CLAUSE_BREAK = re.compile(r";\s|,\s+(?:and|while|whereas)\s+(?=(?:based|on|as\s+of|using|at)\b)", re.I)
+
+
+def _own_clause(sentence: str, at: int) -> str:
+    """The clause of `sentence` that holds position `at`."""
+    cuts = [0] + [m.end() for m in _CLAUSE_BREAK.finditer(sentence)] + [len(sentence) + 1]
+    for a, b in zip(cuts, cuts[1:]):
+        if a <= at < b:
+            return sentence[a:b]
+    return sentence
+
+
+def _first_date(text: str) -> str | None:
+    """The first real date in `text`."""
+    for m in re.finditer(_DATE, text):
+        d = iso_date(m.group(1), m.group(2), m.group(3))
+        if d:
+            return d
+    return None
+
+
+def _priced_at(clause: str, value: float) -> float | None:
+    """The market price a value statement rests on, where its own clause states one: "based on Nabors' closing share price of $6.80"."""
+    for m in re.finditer(_MONEY, clause):
+        try:
+            v = float(m.group(1).replace(",", ""))
+        except ValueError:
+            continue
+        if abs(v - value) <= 0.0005 * max(value, 1) or not 0.01 <= v <= 10_000:
+            continue
+        before, after = clause[max(0, m.start() - 80):m.start()], clause[m.end():m.end() + 30]
+        # The close a premium is measured over is the target's, not the one
+        # the value rests on ("... $7.32 per share, representing a premium of
+        # 9.4% over the closing price of $6.69 per share of American common stock").
+        if re.search(r"premi(?:um|a)", before, re.I):
+            continue
+        if re.search(r"\bprice\b[^$.;]{0,60}$|\bclos\w*[^$.;]{0,60}$", before, re.I) or re.match(r"\s+(?:per\s+share\s+)?clos\w*\s+(?:sale\s+|share\s+|stock\s+)?price", after, re.I):
+            return v
+    return None
 
 
 def implied_values(texts: list[str]) -> list[dict]:
@@ -414,35 +518,110 @@ def implied_values(texts: list[str]) -> list[dict]:
     out: list[dict] = []
     seen: set = set()
     for text in texts:
-        for pat in _IMPLIED:
+        for market, pat in [(False, p) for p in _IMPLIED] + [(True, p) for p in _IMPLIED_MARKET]:
             for m in pat.finditer(text):
                 try:
-                    v = float(m.group(1).replace(",", ""))
-                except ValueError:
+                    v = float(next(g for g in m.groups() if g).replace(",", ""))
+                except (StopIteration, ValueError):
                     continue
                 if not 0.05 <= v <= 10_000:
                     continue
-                sentence = _sentence(text, m.start(), m.end())
+                sentence, at = _sentence_at(text, m.start(), m.end())
                 # An adviser's illustration, or a value an earlier or rival
                 # proposal carried, is not this deal's package.
                 if (_ADVISER.search(sentence) and "offer price" not in m.group(0).lower()) or _PROPOSAL.search(sentence):
                     continue
-                d = _date_in(sentence)
+                if market and not _ON_MARKET.search(sentence):
+                    continue
+                if _NOT_AGREED.search(sentence):
+                    continue
+                # The date and the day are the value's own clause's, where it
+                # states one: a sentence can value the package twice, on the
+                # reference day and on the proxy's.
+                clause = _own_clause(sentence, at)
+                where = clause if _first_date(clause) else sentence
+                d = _first_date(where)
                 if "offer price" in m.group(0).lower():
                     day = "offer price"
-                elif _PRACTICABLE.search(sentence):
+                elif _PRACTICABLE.search(where):
                     day = "practicable"
-                elif _REFERENCE_DAY.search(sentence):
+                elif _REFERENCE_DAY.search(where):
                     day = "reference"
                 elif re.search(r"total\s+(?:\w+\s+)?consideration\s+of", m.group(0), re.I):
                     day = "example"
                 else:
                     day = "dated" if d else "undated"
+                # What the exchange ratio or the stock consideration is worth
+                # is the whole package only where the package is all stock:
+                # Taylor Capital's "per share stock consideration to be issued
+                # at the 0.64318 exchange ratio represented approximately
+                # $18.12" sits beside $4.08 in cash. A value the filing also
+                # states as the merger consideration's is the package's.
+                part = bool(_STOCK_PART.search(m.group(0)[:30] + " " + sentence[max(0, at - 60):at]))
                 key = (v, d, day)
                 if key in seen:
+                    if not part:
+                        for x in out:
+                            if (x["value"], x["date"], x["day"]) == key:
+                                x.pop("of", None)
                     continue
                 seen.add(key)
-                out.append({"value": v, "date": d, "day": day, "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]})
+                s = {"value": v, "date": d, "day": day, "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]}
+                if part:
+                    s["of"] = "stock"
+                # The market price the value rests on, where its clause states
+                # it: the check that a stock part alone makes up the value.
+                price = _priced_at(clause, v)
+                if price is not None:
+                    s["price"] = price
+                out.append(s)
+    return out
+
+
+#: the filing's own product, a close times the exchange ratio with no cash
+#: beside it: "total consideration was calculated based on the closing price
+#: of Hess common stock of $52.78 on July 26, 2010, multiplied by the exchange
+#: ratio of 0.1373" (a close to the cent, followed by whatever punctuation)
+_CLOSE = r"(?:US)?\$\s?(\d{1,4}(?:,\d{3})*\.\d{2,4})(?!\d|\s*(?:million|billion))"
+_PRODUCT = [
+    re.compile(r"closing\s+(?:sale\s+|stock\s+|share\s+)?price\s+of\s+[^.;$]{0,120}?(?<![A-Z£€])" + _CLOSE + r"\s+(?:per\s+(?:share|unit)\s+)?(?:as\s+of|on)\s+" + _DATE + r",?\s+multiplied\s+by\s+(?:the\s+)?(?:exchange\s+ratio\s+(?:of\s+)?)?(?:[^.;$\d]{0,40}?)?(\d{1,2}\.\d{1,5})(?!\s*,?\s+plus)", re.I),
+    re.compile(r"closing\s+(?:sale\s+|stock\s+|share\s+)?price\s+of\s+[^.;$]{0,120}?\s+(?:as\s+of|on)\s+" + _DATE + r",?\s+of\s+(?<![A-Z£€])" + _CLOSE + r"(?:\s+per\s+(?:share|unit))?,?\s+multiplied\s+by\s+(?:the\s+)?(?:exchange\s+ratio\s+(?:of\s+)?)?(?:[^.;$\d]{0,40}?)?(\d{1,2}\.\d{1,5})(?!\s*,?\s+plus)", re.I),
+]
+
+
+def priced_values(texts: list[str], ratio: float) -> list[dict]:
+    """
+    The value of an all-stock package as the filing works it: the acquirer's
+    close it states, on the date it states, multiplied by the exchange ratio
+    (_PRODUCT), where that ratio is the one the consideration sentence gives.
+    Nothing is multiplied here that the filing does not multiply itself: a
+    close stated alone is not taken as the acquirer's, since a sentence that
+    values the package names the value, and a lone figure in one is as often
+    that value, a ten-day average, a proposal's or a price in another
+    currency. {value, date, day, price, excerpt}.
+    """
+    out: list[dict] = []
+    seen: set = set()
+    for text in texts:
+        for i, pat in enumerate(_PRODUCT):
+            for m in pat.finditer(text):
+                g = m.groups()
+                price_s, (mo, dd, yy), r_s = (g[0], g[1:4], g[4]) if i == 0 else (g[3], g[0:3], g[4])
+                try:
+                    price, r = float(price_s.replace(",", "")), float(r_s)
+                except ValueError:
+                    continue
+                d = iso_date(mo, dd, yy)
+                if not d or abs(r - ratio) > 1e-9 or not 0.01 <= price <= 10_000:
+                    continue
+                sentence = _sentence(text, m.start(), m.end())
+                if _ADVISER.search(sentence) or _PROPOSAL.search(sentence):
+                    continue
+                day = "practicable" if _PRACTICABLE.search(sentence) else "reference" if _REFERENCE_DAY.search(sentence) else "dated"
+                if (price, d) in seen:
+                    continue
+                seen.add((price, d))
+                out.append({"value": round(ratio * price, 4), "date": d, "day": day, "price": price, "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]})
     return out
 
 
@@ -545,6 +724,109 @@ def payout_values(texts: list[str], offer: float) -> list[dict]:
     return out
 
 
+def _near(day: str | None, announced: str | None, original: str | None) -> bool:
+    """Whether a value's date falls in the window before the agreement (or the original agreement) that a reference day can."""
+    if not day:
+        return False
+    for anchor in (announced, original):
+        if anchor:
+            gap = (date.fromisoformat(anchor) - date.fromisoformat(day)).days
+            if -5 <= gap <= 120:
+                return True
+    return False
+
+
+def _stock_alone(ratio: float | None, s: dict) -> bool:
+    """Whether the exchange ratio times the close a stated value rests on gives that value, to the cent the filing rounds to: the stock is the whole of it."""
+    if not ratio or s.get("price") is None:
+        return False
+    return abs(ratio * s["price"] - s["value"]) <= 0.0051 + 0.001 * s["value"]
+
+
+def _ranked(stated: list[dict], announced: str | None, original: str | None) -> list[dict]:
+    """The stated values a premium may be tied to, best first: the reference day near the agreement, the agreed price itself, a date near the agreement."""
+    ranked = [s for s in stated if s["day"] == "reference" and (_near(s["date"], announced, original) or not announced)]
+    ranked += [s for s in stated if s["day"] == "offer price"]
+    ranked += [s for s in stated if s["day"] == "dated" and _near(s["date"], announced, original)]
+    return ranked
+
+
+def _stated_basis(best: dict, ratio: float | None) -> str:
+    check = f"; {ratio:g} x ${best['price']:,.2f} = ${ratio * best['price']:,.4f}, so the stock alone makes it up" if _stock_alone(ratio, best) else ""
+    return f"the value of the whole consideration as the filing states it{' on ' + best['date'] if best['date'] else ''}{check}: {best['excerpt']}"
+
+
+def read_stock_offer(texts: list[str], announced: str | None = None, original: str | None = None) -> dict:
+    """
+    The whole offer where no cash price was read: an all-stock deal, paid in
+    the acquirer's shares (or units) at an exchange ratio. The rules are the
+    ones read_offer applies to a package with stock, with no cash floor: the
+    value the filing states on the reference day, or as the agreed price, or
+    on a date near the agreement; else the filing's own sum; else the
+    exchange ratio times the acquirer's close, as the filing multiplies them,
+    on a date near the agreement (priced_values).
+    A value stated only at the proxy's practicable date is a component and
+    never the tie, no ratio is assumed and no price is looked up: with none
+    of these the offer is unresolved and says why. A deal with no stock in
+    it is left as it was read, with nothing.
+    """
+    out: dict = {"components": [], "stock": False, "allStock": False, "implied": None, "method": None, "date": None, "basis": None, "adsRatio": None, "perAds": None, "perShare": None, "ties": [], "unresolved": None}
+    terms = stock_terms(texts)
+    sums = summed_values(texts)
+    if not (terms["ratio"] or sums or any(mixed_consideration(t) for t in texts)):
+        return out
+    out["stock"] = True
+    # A sum of the filing's own is a ratio times a price plus cash: the
+    # package has cash in it that the reader did not find as the price.
+    out["allStock"] = not sums
+    ratio = terms["ratio"][0] if terms["ratio"] else None
+    if terms["ratio"]:
+        out["components"].append({"part": "stock", "exchangeRatio": ratio, "excerpt": terms["ratio"][1]})
+    ads, aphrase = ads_ratio(texts)
+    if ads:
+        out["adsRatio"] = ads
+        out["components"].append({"part": "ADS ratio", "value": ads, "excerpt": aphrase})
+    stated = implied_values(texts)
+    priced = priced_values(texts, ratio) if ratio else []
+    for s in stated:
+        out["components"].append({"part": "stated value", "value": s["value"], "date": s["date"], "day": s["day"], **({"price": s["price"]} if s.get("price") is not None else {}), **({"of": "stock"} if s.get("of") else {}), "excerpt": s["excerpt"]})
+    for s in sums:
+        out["components"].append({"part": "filing's sum", "value": s["value"], "date": s["date"], "parts": s["parts"], "excerpt": s["excerpt"]})
+    for s in priced:
+        out["components"].append({"part": "acquirer's close", "value": s["price"], "date": s["date"], "day": s["day"], "excerpt": s["excerpt"]})
+    ranked = _ranked(stated, announced, original)
+    summed = [s for s in sums if _near(s["date"], announced, original) or not announced]
+    computed = [s for s in priced if (s["day"] == "reference" and (_near(s["date"], announced, original) or not announced)) or (s["day"] == "dated" and _near(s["date"], announced, original))]
+    if ranked:
+        best = ranked[0]
+        out["implied"], out["method"], out["date"] = best["value"], "stated", best["date"]
+        out["basis"] = _stated_basis(best, ratio)
+    elif summed:
+        s = summed[0]
+        out["implied"], out["method"], out["date"] = s["value"], "computed from stated components", s["date"]
+        p = s["parts"]
+        out["basis"] = f"{p['ratio']} x ${p['price']:,.2f} (the acquirer's close on {s['date']}, as stated) + ${p['cash']:,.2f} cash, as the filing adds it: {s['excerpt']}"
+    elif computed:
+        s = computed[0]
+        out["implied"], out["method"], out["date"] = s["value"], "computed from stated components", s["date"]
+        out["basis"] = f"{ratio:g} x ${s['price']:,.2f} (the acquirer's close on {s['date']}, as stated) = ${s['value']:,.4f}, as the filing multiplies them: {s['excerpt']}"
+    else:
+        practicable = [s for s in stated if s["day"] in ("practicable", "example")]
+        out["unresolved"] = "the consideration is stock and the filing states its value on no day near the agreement" + (
+            f" (only at {practicable[0]['date'] or 'the proxy date'}: ${practicable[0]['value']:,.2f})" if practicable else "") + (
+            ", nor multiplies the exchange ratio by the acquirer's close" if ratio else ", nor an exchange ratio")
+    if out["implied"] is not None and ads:
+        # The target's holders hold ADSs: a value stated for each share or for
+        # each ADS cannot be told apart without a cash price to read the unit
+        # from, so nothing is tied to it.
+        out["unresolved"] = f"the consideration is stock and the target's shares trade as ADSs of {ads:g}; the value stated (${out['implied']:,.2f}) does not say which it is for"
+        out["implied"] = out["method"] = out["date"] = out["basis"] = None
+    if out["implied"] is not None:
+        out["implied"] = round(out["implied"], 4)
+        out["ties"] = [(out["implied"], "share")]
+    return out
+
+
 def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, announced: str | None = None, original: str | None = None) -> dict:
     """
     The whole offer for one deal, each part with its passage:
@@ -562,9 +844,9 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
       ties        what a premium may be tied to, as (value, unit) pairs
       unresolved  why there is nothing to tie to, where there is not
     """
-    out: dict = {"components": [], "stock": False, "implied": None, "method": None, "date": None, "basis": None, "adsRatio": None, "perAds": None, "perShare": None, "ties": [], "unresolved": None}
+    out: dict = {"components": [], "stock": False, "allStock": False, "implied": None, "method": None, "date": None, "basis": None, "adsRatio": None, "perAds": None, "perShare": None, "ties": [], "unresolved": None}
     if offer is None:
-        return out
+        return read_stock_offer(texts, announced, original)
     per_ads = bool(offer_basis and re.search(r"per\s+ADS\b|per\s+American\s+Depositary", offer_basis, re.I))
     unit, uphrase = offer_unit(texts, offer)
     if not per_ads and unit == "ADS":
@@ -589,21 +871,14 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
     if terms["fixed"]:
         out["components"].append({"part": "stock", "fixedValue": terms["fixed"][0], "excerpt": terms["fixed"][1]})
     for s in stated:
-        out["components"].append({"part": "stated value", "value": s["value"], "date": s["date"], "day": s["day"], "excerpt": s["excerpt"]})
+        out["components"].append({"part": "stated value", "value": s["value"], "date": s["date"], "day": s["day"], **({"price": s["price"]} if s.get("price") is not None else {}), **({"of": "stock"} if s.get("of") else {}), "excerpt": s["excerpt"]})
     for s in sums:
         out["components"].append({"part": "filing's sum", "value": s["value"], "date": s["date"], "parts": s["parts"], "excerpt": s["excerpt"]})
     stock = bool(terms["ratio"] or terms["fixed"] or sums or any(mixed_consideration(t) for t in texts))
     out["stock"] = stock
 
     def near(day: str | None) -> bool:
-        if not day:
-            return False
-        for anchor in (announced, original):
-            if anchor:
-                gap = (date.fromisoformat(anchor) - date.fromisoformat(day)).days
-                if -5 <= gap <= 120:
-                    return True
-        return False
+        return _near(day, announced, original)
 
     payouts = payout_values(texts, offer) if not stock and not per_ads else []
     for s in payouts:
@@ -628,15 +903,26 @@ def read_offer(texts: list[str], offer: float | None, offer_basis: str | None, a
         # a date near the agreement; then the filing's own sum on such a date;
         # then a stock part fixed in dollars added to the cash.
         # A package with stock is worth more than its cash: a smaller value
-        # is a part of it (the stock alone, a dividend), not the whole.
-        whole = [s for s in stated if per_ads or s["value"] > offer * 1.005]
-        ranked = [s for s in whole if s["day"] == "reference" and (near(s["date"]) or not announced)]
-        ranked += [s for s in whole if s["day"] == "offer price"]
-        ranked += [s for s in whole if s["day"] == "dated" and near(s["date"])]
+        # is a part of it (the stock alone, a dividend), not the whole. A
+        # value equal to the price read, where the filing never calls that
+        # price cash, is the price read: the figure parse_offer found is the
+        # value of the whole package ("the implied offer price of $4.62 per
+        # Common Share at an exchange ratio of 0.68 of a Nabors Share": TESCO,
+        # paid in Nabors shares alone), and the package is worth it.
+        as_read = not (offer_basis and re.search(r"\bcash\b", offer_basis, re.I)) and not per_ads
+        whole = [s for s in stated if (as_read and abs(s["value"] - offer) <= 0.005 * offer) or (s.get("of") != "stock" and (per_ads or s["value"] > offer * 1.005))]
+        ranked = _ranked(whole, announced, original)
         if ranked:
             best = ranked[0]
             out["implied"], out["method"], out["date"] = best["value"], "stated", best["date"]
-            out["basis"] = f"the value of the whole consideration as the filing states it{' on ' + best['date'] if best['date'] else ''}: {best['excerpt']}"
+            sratio = terms["ratio"][0] if terms["ratio"] else None
+            out["basis"] = _stated_basis(best, sratio)
+            if abs(best["value"] - offer) <= 0.005 * offer:
+                # Not cash: the price read is the package's value. Where the
+                # ratio times the close the value rests on gives the value,
+                # the stock is the whole of it.
+                out["components"][0] = {**out["components"][0], "part": "price read", "note": "the value the filing states for the whole package, not cash"}
+                out["allStock"] = _stock_alone(sratio, best)
         else:
             summed = [s for s in sums if near(s["date"]) or not announced]
             if summed:
@@ -750,6 +1036,8 @@ _UNAFFECTED = re.compile(
     r"|prior\s+to\s+[^.;%]{0,40}?\b(?:initial|first)\s+(?:offer|proposal|approach)",
     re.I,
 )
+#: a premium measured on a day the sentence before it names
+_SAME_DAY = re.compile(r"\b(?:on|as\s+of)\s+(?:the\s+)?(?:same|that|such)\s+(?:date|day)\b", re.I)
 #: a percentage that is a premium: the word is beside it
 _PCT = re.compile(r"(?<![\d.$])(\d{1,3}(?:\.\d+)?)\s?(?:%|percent\b)")
 #: what a premium is measured against, near the figure
@@ -982,6 +1270,17 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         basis, window = _respectively(text, at) or _basis(clause)
         price = _price_in(clause, targets or offer, v)
         when = _date_in(clause)
+        # "This represents a premium of 19% to TESCO's closing share price on
+        # the NASDAQ Stock Market on the same date": the day the sentence
+        # before it values the stock package on ("based on Nabors' closing
+        # share price of $6.80 on ... August 11, 2017"). Read so only where
+        # that last date stated before the figure is the day the package is
+        # valued (`tie_date`), so the statement is held to that value; the
+        # background's "on that date" after each proposal is left as it was.
+        if not when and tie_date and not cash_only and _SAME_DAY.search(clause[:200]):
+            back = [d for d in (iso_date(x.group(1), x.group(2), x.group(3)) for x in re.finditer(_DATE, text[max(0, at - 500):at])) if d]
+            if back and back[-1] == tie_date:
+                when = tie_date
         gap = None
         outside = None
         # The proxy's own words for the unaffected day often follow the first
@@ -1015,7 +1314,10 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         if targets and cash_only and _refused(text[max(0, at - 220):at], named):
             aside.append({"reason": "names a per-share price other than the one agreed", "excerpt": excerpt})
             continue
-        names_offer = bool(_AGREED.search(lead)) or any(abs(float(p.group(1).replace(",", "")) - t) <= 0.005 * t for p in _PRICE.finditer(lead[-200:]) if p.group(1).replace(",", "").replace(".", "").isdigit() for t in named)
+        # A package's value is stated to the cent: a figure half a percent
+        # from it is another figure (Jarden's $60.21, the analysts' price
+        # target, beside its $60.03), where a cash price is matched as before.
+        names_offer = bool(_AGREED.search(lead)) or any(abs(float(p.group(1).replace(",", "")) - t) <= (0.005 * t if cash_only or t == offer else 0.0051) for p in _PRICE.finditer(lead[-200:]) if p.group(1).replace(",", "").replace(".", "").isdigit() for t in named)
         # A premium is the deal's only at the deal's price. Where the
         # statement gives its reference price, the price it measures is that
         # reference plus the premium, and for an all-cash deal that must be the
@@ -1025,11 +1327,22 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         # Sponsors' $31.75 Round 2 bid; the $32.50 agreed is 87.5%. A
         # statement that names the agreed consideration itself stands.
         same_day = cash_only or tie_date is None or when == tie_date
+        untied = None
         if targets and price and not names_offer and same_day and all(abs((t / price - 1) - v) > PREMIUM_FIT for t in targets):
             t, unit = min(ties, key=lambda tu: abs((tu[0] / price - 1) - v))
             a = "an" if unit == "ADS" else "a"
-            aside.append({"reason": f"measures ${price * (1 + v):,.2f} {a} {unit} (${price:,.2f} plus {v:.1%}), not the offer of ${t:,.2f} {a} {unit}: another price's premium", "excerpt": excerpt})
-            continue
+            measures = f"measures ${price * (1 + v):,.2f} {a} {unit} (${price:,.2f} plus {v:.1%}), not the offer of ${t:,.2f} {a} {unit}"
+            # A stock package's premium over the price the filing defines as
+            # unaffected is often measured on the package's value at signing,
+            # not on the unaffected day (SolarCity: 20% over its $21.19
+            # unaffected close of 21 June 2016, where the 0.110 Tesla shares
+            # were worth $24.16 that day). It is the deal's own statement, so it
+            # stands, untied and saying so, below any statement that ties.
+            if not cash_only and re.search(r"unaffected|undisturbed", clause + lead[-160:], re.I) and not _PROPOSAL.search(lead):
+                untied = f"{measures} on the day the package is valued"
+            else:
+                aside.append({"reason": f"{measures}: another price's premium", "excerpt": excerpt})
+                continue
         row = {
             "basis": basis,
             "window": window,
@@ -1048,6 +1361,8 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
             "namesOffer": names_offer,
             "excerpt": excerpt,
         }
+        if untied:
+            row["untied"] = untied
         if outside:
             pending.append((row, outside))
             continue
@@ -1158,7 +1473,7 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
     # kept unaffected statement (sharesReference) fills a basis the window
     # left empty; it never displaces one inside the window (Distribution
     # Solutions: the 14.2% to the 30-day VWAP stands, not a misfiled 81%).
-    pick = lambda xs: max(xs, key=lambda s: (not s.get("sharesReference"), _score(s))) if xs else None  # noqa: E731
+    pick = lambda xs: max(xs, key=lambda s: (not s.get("sharesReference"), not s.get("untied"), _score(s))) if xs else None  # noqa: E731
     close = pick([s for s in statements if s["basis"] == "close"])
     # The 30-day VWAP only where the filing says 30 days: a one-month or
     # three-month average is another reference and stays in premiumStatements.
@@ -1166,6 +1481,7 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
     high = pick([s for s in statements if s["basis"] == "high"])
     if close:
         out["premium1Day"] = close["premium"]
+        out["premium1DayUntied"] = close.get("untied")
         out["unaffectedDate"] = close.get("date")
         out["premiumBasis"].append(close["excerpt"])
         price, where = close.get("price"), "stated with the premium"
