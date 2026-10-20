@@ -107,10 +107,18 @@ def price_revised(texts: list[str], offer: float | None) -> bool:
     return False
 
 
+#: the agreement a merger proxy is about, by its own names for it
+_DEAL_AGREEMENT = r"(?:[Mm]erger\s+[Aa]greement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation|Arrangement|Reorganization)|[Aa]rrangement\s+[Aa]greement|[Tt]ransaction\s+[Aa]greement|[Ii]mplementation\s+[Aa]greement|[Bb]usiness\s+[Cc]ombination\s+[Aa]greement|[Aa]malgamation\s+[Aa]greement|[Cc]ombination\s+[Aa]greement|Plan\s+of\s+Merger)\b"
+
 _AGREEMENT_LOOSE = [
     r"(?:[Mm]erger\s+[Aa]greement|Arrangement\s+Agreement|Agreement\s+and\s+Plan\s+of\s+(?:Merger|Amalgamation)|Transaction\s+Agreement|Implementation\s+Agreement)[^.;]{0,80}?dated(?:\s+as\s+of)?\s+" + _DATE,
     r"dated(?:\s+as\s+of)?\s+" + _DATE + r"[^.;]{0,30}?\((?:as\s+it\s+may\s+be\s+amended[^)]*)?(?:the\s+)?[“\"]\s*(?:[Mm]erger|Arrangement|Transaction|Amalgamation)\s+[Aa]greement",
-    r"[Oo]n\s+" + _DATE + r",\s+[^.;]{0,120}?entered\s+into\s+(?:an?|the)\s+[^.;]{0,40}?[Aa]greement",
+    # "On August 13, 2017, Tesco Corporation entered into an Arrangement
+    # Agreement": only the deal's own agreement. Any agreement entered into
+    # used to count, and a proxy recites dozens: TESCO's mediated settlement
+    # agreement, ADTRAN's revolving credit agreement and Gaia's line of credit
+    # outnumbered the merger itself, and the financials were read at their dates.
+    r"[Oo]n\s+" + _DATE + r",\s+[^.;]{0,120}?entered\s+into\s+(?:an?|the)\s+(?:(?:[Aa]mended\s+and\s+[Rr]estated|[Dd]efinitive)\s+)?" + _DEAL_AGREEMENT,
 ]
 
 
@@ -397,6 +405,11 @@ def _date_in(clause: str) -> str | None:
 #: nothing about how near the reference is to the agreement
 HIGH_REACH_DAYS = 372
 
+#: how far offer / reference price - 1 may sit from a stated premium, in
+#: points, before the statement is taken to measure another price: rounding
+#: of the percentage and of the price, never a different bid
+PREMIUM_FIT = 0.02
+
 
 def premium_statements(text: str, offer: float | None = None, announced: str | None = None, cash_only: bool = True, original: str | None = None) -> tuple[list[dict], list[dict]]:
     """
@@ -496,6 +509,18 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         if offer and cash_only and _refused(text[max(0, at - 220):at], offer):
             aside.append({"reason": "names a per-share price other than the one agreed", "excerpt": excerpt})
             continue
+        names_offer = bool(_AGREED.search(lead)) or bool(offer) and any(abs(float(p.group(1).replace(",", "")) - offer) <= 0.005 * offer for p in _PRICE.finditer(lead[-200:]) if p.group(1).replace(",", "").replace(".", "").isdigit())
+        # A premium is the deal's only at the deal's price. Where the
+        # statement gives its reference price, the price it measures is that
+        # reference plus the premium, and for an all-cash deal that must be the
+        # final offer to within rounding (two points, the tolerance the
+        # unaffected price is held to below). Baldwin's "That price
+        # represented an approximately 83% premium to ... $17.33" is the
+        # Sponsors' $31.75 Round 2 bid; the $32.50 agreed is 87.5%. A
+        # statement that names the agreed consideration itself stands.
+        if offer and cash_only and price and not names_offer and abs((offer / price - 1) - v) > PREMIUM_FIT:
+            aside.append({"reason": f"measures ${price * (1 + v):,.2f} a share (${price:,.2f} plus {v:.1%}), not the offer of ${offer:,.2f}: another price's premium", "excerpt": excerpt})
+            continue
         row = {
             "basis": basis,
             "window": window,
@@ -511,7 +536,7 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
             "proposal": bool(_PROPOSAL.search(lead)),
             # The statement names the agreed offer itself ("The $2.06 per share
             # proposal represented ..."): the deal's own, among the background's.
-            "namesOffer": bool(_AGREED.search(lead)) or bool(offer) and any(abs(float(p.group(1).replace(",", "")) - offer) <= 0.005 * offer for p in _PRICE.finditer(lead[-200:]) if p.group(1).replace(",", "").replace(".", "").isdigit()),
+            "namesOffer": names_offer,
             "excerpt": excerpt,
         }
         if outside:
@@ -639,7 +664,7 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
                 if price:
                     break
         if price and cash_only and offer:
-            if abs((offer / price - 1) - close["premium"]) > 0.02:
+            if abs((offer / price - 1) - close["premium"]) > PREMIUM_FIT:
                 out["unaffectedPriceBasis"] = f"the stated price ${price:,.2f} does not reproduce the stated premium with the offer of ${offer:,.2f}, so it is not used"
                 price = None
         if price:
@@ -958,6 +983,137 @@ def acquirer_side(text: str) -> bool:
     if not issuance:
         return False
     return not re.search(r"converted into the right to receive", text, re.I)
+
+
+#: words that open many company names and name none of them on their own
+_GENERIC_FIRST = {"first", "american", "united", "national", "general", "new", "global", "international", "capital", "the", "north", "south", "east", "west", "great", "pacific", "atlantic", "central", "western", "eastern", "southern", "northern", "community", "citizens", "peoples", "home", "us", "u s", "china", "bank", "royal", "standard", "republic", "federal", "liberty", "union", "allied", "advanced", "applied", "digital", "premier", "summit", "pioneer", "heritage"}
+_PRONOUNS = {"we", "us", "our", "ours", "it", "its"}
+#: a company named in running text: up to six capitalised words, "&", "of", "and" between them
+_CO = r"((?:the\s+)?[A-Z][\w&.\-’']*(?:\s+(?:&|of|and|[A-Z][\w&.\-’']*)){0,5})"
+_ACQUIRES = re.compile(_CO + r"\s+(?:will|would|has\s+agreed\s+to|agreed\s+to|is\s+to|proposes\s+to)\s+acquire\s+(?:all\s+(?:of\s+)?)?(?:the\s+)?(?:issued\s+and\s+)?(?:outstanding\s+)?(?:[a-z\s]{0,30}?(?:shares|stock|interests?|units)\s+of\s+)?" + _CO)
+#: an exchange ratio paid in the issuer's shares: 'exchanged for 15.235 registered shares of Transocean'
+_ISSUED = re.compile(r"(?:exchanged\s+for|converted\s+into\s+the\s+right\s+to\s+receive|right\s+to\s+receive)\s+(?:approximately\s+)?\d+\.\d{2,6}\s+(?:of\s+an?\s+)?(?:registered\s+|newly\s+issued\s+|fully\s+paid\s+|validly\s+issued\s+)*(?:ordinary\s+|common\s+)?shares?\s+of\s+" + _CO)
+#: the company whose holders are paid: 'each Valaris Share ... exchanged for', 'each share of common stock ... of the Company ... converted into the right to receive'
+_HOLDERS_PAID = [
+    re.compile(r"\beach\s+(?:issued\s+and\s+outstanding\s+|outstanding\s+)?(?:share\s+of\s+)?" + _CO + r"\s+(?:[Cc]ommon\s+|[Oo]rdinary\s+|[Cc]lass\s+[A-C]\s+)?(?:[Ss]hares?|[Ss]tock|[Uu]nits?)\b[^.;]{0,240}?(?:converted\s+into|exchanged\s+for|right\s+to\s+receive)"),
+    re.compile(r"\beach\s+(?:issued\s+and\s+outstanding\s+|outstanding\s+)?(?:share|unit)\s+of\s+(?:[Cc]ommon|[Cc]lass\s+[A-C]|[Oo]rdinary)[^.;]{0,80}?\bof\s+" + _CO + r"[^.;]{0,200}?(?:converted\s+into|exchanged\s+for|right\s+to\s+receive)"),
+    re.compile(_CO + r"(?:’s|'s)?\s+(?:stockholders|shareholders|unitholders)\s+will\s+(?:be\s+entitled\s+to\s+)?receive\s+(?:US)?\$\s?\d"),
+]
+#: what puts an acquisition statement inside this deal rather than in the filer's history
+_THIS_DEAL = re.compile(r"pursuant\s+to\s+which|[Mm]erger\s+[Aa]greement|[Bb]usiness\s+[Cc]ombination|[Aa]rrangement|[Tt]ransaction\s+[Aa]greement|the\s+(?:proposed\s+)?(?:acquisition|merger|transaction)\b|[Aa]t\s+the\s+closing|[Ee]ffective\s+[Tt]ime")
+_PROSPECTUS_OF = re.compile(r"\bPROSPECTUS\s+OF\s+" + r"((?:THE\s+)?[A-Z][A-Z0-9&.,\-’' ]{2,80}?)(?=\s*(?:\n|FOR\b|RELATING\b|PROXY\b|\(|$))|\b[Pp]rospectus\s+of\s+" + _CO)
+_SUBJECT_HEADER = re.compile(r"SUBJECT COMPANY:\s*COMPANY DATA:\s*COMPANY CONFORMED NAME:\s*([^\n]+)")
+
+
+_REGISTRANT = re.compile(r"\(\s*(?:Exact\s+)?[Nn]ame\s+of\s+(?:[Rr]egistrant|[Cc]ompany)\s+[Aa]s\s+[Ss]pecified\s+[Ii]n\s+[Ii]ts\s+[Cc]harter\s*\)")
+
+
+def cover_registrant(text: str) -> str | None:
+    """
+    The registrant's name as the proxy's cover prints it, which is its name on
+    the day it filed. EDGAR's own name is today's: Memorial Resource
+    Development files under 'Range Resources - Louisiana, Inc.' now, FLIR
+    under 'Teledyne FLIR, LLC', and read against today's name the target's
+    proxy would look like the buyer's.
+    """
+    m = _REGISTRANT.search(text[:30_000])
+    if not m:
+        return None
+    lines = [ln.strip() for ln in text[max(0, m.start() - 300): m.start()].splitlines() if ln.strip()]
+    if not lines:
+        return None
+    name = re.sub(r"^.*(?:☒|☐|☑|\[\s*[xX]?\s*\])\s*", "", lines[-1]).strip(" ,")
+    return name if 2 <= len(name) <= 120 and re.search(r"[A-Za-z]", name) else None
+
+
+def filer_aliases(text: str, name: str) -> set[str]:
+    """
+    The names a proxy calls its own registrant by: the EDGAR name without its
+    suffix, the terms it defines for itself on first mention ('Transocean
+    Ltd. (“Transocean”)', '(“we,” “Victory,” or “Victory Capital”)'), and the
+    first word where that word names one company and not a hundred.
+    """
+    base = norm_name(re.sub(r"/[A-Z]{2}/?", " ", name or ""))
+    out = {base} if base else set()
+    words = base.split()
+    if len(words) > 1 and words[0] not in _GENERIC_FIRST and len(words[0]) >= 4:
+        # The first word alone stands for the company only as a whole name:
+        # "Symmetry Surgical" is the spin-off, not Symmetry Medical.
+        out.add(words[0] + "$")
+    if len(words) > 2:
+        out.add(" ".join(words[:2]))
+    head = text[:120_000]
+    if base:
+        pat = r"\s+".join(re.escape(w) for w in base.split()) + r"[^()]{0,40}?\(([^()]{1,160})\)"
+        for m in list(re.finditer(pat, head, re.I))[:5]:
+            for term in re.findall(r"[“\"]\s*([^”\"]{1,40}?)\s*[”\"]", m.group(1)):
+                t = norm_name(term)
+                # its own short name ("Transocean", "Victory Capital") or "the
+                # Company"; not "the combined company", nor another party's
+                # term defined in the same parenthesis
+                if t and t not in _PRONOUNS and (t.split()[0] == words[0] or t == "company"):
+                    out.add(t)
+    return {a for a in out if a}
+
+
+def _is(alias: set[str], captured: str) -> bool:
+    n = norm_name(re.sub(r"^the\s+", "", captured.strip(), flags=re.I))
+    if not n:
+        return False
+    # A whole alias, or one followed by the noun it qualifies ("Transocean
+    # Shares", "Great Plains Energy. It"); a bare first word only exactly.
+    return any(n == a[:-1] if a.endswith("$") else (n == a or n.startswith(a + " ")) for a in alias)
+
+
+def filer_is_buyer(text: str, name: str) -> dict | None:
+    """
+    Whether the registrant whose proxy this is buys rather than is bought, in
+    a joint proxy where the test acquirer_side applies (an issuance proposal,
+    no 'converted into the right to receive') cannot tell: both companies'
+    holders vote, and the target's shares are described converting. A joint
+    proxy/prospectus names the company issuing the shares, and the issuer is
+    the buyer:
+
+      - the cover's 'PROSPECTUS OF X' (the registrant on the buyer's S-4),
+      - 'X will acquire all of the issued and outstanding shares of Y',
+      - 'each Y share ... exchanged for 15.235 registered shares of X',
+      - the SUBJECT COMPANY of the submission header, where the document
+        carries one and it is another company.
+
+    The registrant is the buyer when one of those names it as the issuer or
+    acquirer and nothing in the document names it as the company acquired, or
+    as the company whose shares are converted or exchanged. Returns the
+    evidence, or None. Transocean's proxy for Valaris and Victory Capital's
+    for First Eagle are the cases.
+    """
+    alias = filer_aliases(text, cover_registrant(text) or name)
+    if not alias:
+        return None
+    head = text[:150_000]
+    buyer: list[str] = []
+    bought: list[str] = []
+    for m in _PROSPECTUS_OF.finditer(head[:30_000]):
+        who = m.group(1) or m.group(2) or ""
+        (buyer if _is(alias, who) else bought).append(f"prospectus of {who.strip()[:60]}")
+    for m in _ACQUIRES.finditer(head):
+        if _is(alias, m.group(2)):
+            bought.append(re.sub(r"\s+", " ", m.group(0))[:120])
+        elif _is(alias, m.group(1)) and m.start() < 40_000 and _THIS_DEAL.search(_clause(head, m.start()) if False else head[max(0, m.start() - 300): m.end() + 300]):
+            buyer.append(re.sub(r"\s+", " ", m.group(0))[:120])
+    for m in _ISSUED.finditer(head):
+        if _is(alias, m.group(1)):
+            buyer.append(re.sub(r"\s+", " ", m.group(0))[:120])
+    for pat in _HOLDERS_PAID:
+        for m in pat.finditer(text):
+            if _is(alias, m.group(1)):
+                bought.append(re.sub(r"\s+", " ", m.group(0))[:120])
+                break
+    sub = _SUBJECT_HEADER.search(text[:20_000])
+    if sub:
+        (bought if _is(alias, sub.group(1)) else buyer).append(f"subject company {sub.group(1).strip()[:60]}")
+    if buyer and not bought:
+        return {"evidence": buyer[:3]}
+    return None
 
 
 # ── the buyer type, the way the deck index cuts it ───────────────────────────

@@ -500,6 +500,7 @@ def build_proxy_row(cand: dict) -> dict:
                 r["acquirer"], r["acquirerBasis"] = acq, basis
         seen["stock"] = seen.get("stock") or parse.mixed_consideration(text)
         seen["acquirerSide"] = seen.get("acquirerSide") or parse.acquirer_side(text)
+        seen["filerBuys"] = seen.get("filerBuys") or parse.filer_is_buyer(text, r["target"]["name"])
         ev = parse.spac_evidence(text)
         seen["spac"] = {k: seen.get("spac", {}).get(k, 0) + v for k, v in ev.items()}
         seen["reverse"] = seen.get("reverse") or parse.reverse_merger_evidence(text)
@@ -515,6 +516,7 @@ def build_proxy_row(cand: dict) -> dict:
         row["error"] = "the filer's own holders voted on issuing shares, not on being acquired"
     else:
         judge_spac(row, seen.get("spac") or {}, seen.get("reverse"))
+        filings.set_aside_buyer(row, seen.get("filerBuys"))
     row["spacRule"] = SPAC_RULE
     return row
 
@@ -549,16 +551,50 @@ def needs_spac_check(row: dict, forms: tuple[str, ...] = ("DEFM14A", "DEFM14C"))
     return (row.get("spacRule") or 1) < SPAC_RULE and row.get("status") in ("ok", "no-offer", "no-consideration") and bool(row.get("documentsRead")) and row.get("source") in forms
 
 
+#: the years de-SPACs cluster in: the 2018-2023 boom holds 52 of the 65 the
+#: October 2026 dry run found among 3,399 proxies
+SPAC_YEARS = ("2018", "2023")
+
+
+def _shell_price(offer) -> bool:
+    """A trust unit's $10.00 (a few cents of interest either side), or a warrant's $11.50 strike."""
+    return isinstance(offer, (int, float)) and (9.5 <= offer <= 10.6 or abs(offer - 11.5) < 0.005)
+
+
+def spac_check_order(rows: dict[str, dict]) -> list[str]:
+    """
+    The order the stale proxies are checked in, most likely de-SPAC first, so
+    a run cut short by its budget has spent it where the misreadings are: a
+    shell's price ($10.00 a unit, $11.50 a warrant) or a shell's name as the
+    counterparty, then the 2018-2023 boom, then the rest, newest first within
+    each. Against the 65 de-SPACs a full check of 3,399 proxies found in
+    October 2026, the first 545 checks (a 20-minute run at EDGAR's slowest)
+    reach 0 of them oldest first, 8 newest first and 45 in this order; the
+    first 1,200 reach 2, 38 and 58.
+    """
+    def tier(r: dict) -> int:
+        acq = r.get("acquirer") or ""
+        if _shell_price(r.get("offerPrice")) or (acq and (parse.shell_name(acq) or parse.shellish(acq))):
+            return 0
+        if SPAC_YEARS[0] <= (r.get("filed") or "")[:4] <= SPAC_YEARS[1]:
+            return 1
+        return 2
+
+    newest = sorted(rows, key=lambda k: rows[k].get("filed") or "", reverse=True)
+    return sorted(newest, key=lambda k: tier(rows[k]))
+
+
 def check_stale_spac(rows: dict[str, dict], write, *, forms: tuple[str, ...] = ("DEFM14A", "DEFM14C"), minutes: float = 20) -> int:
     """
     Every accepted proxy judged by the name-only rule is read again for the
-    evidence, oldest first, within a time budget; a run cut short keeps what
-    it read and the next carries on. Odysseus, D-Wave, Hagerty and BigBear.ai,
-    each a shell's $10.00 a unit, had been stored as acquisitions. Only the
-    documents already read are fetched, and only the de-SPAC call can change.
+    evidence, most likely de-SPAC first (spac_check_order), within a time
+    budget; a run cut short keeps what it read and the next carries on.
+    Odysseus, D-Wave, Hagerty and BigBear.ai, each a shell's $10.00 a unit,
+    had been stored as acquisitions. Only the documents already read are
+    fetched, and only the de-SPAC call can change.
     """
     budget = float(os.environ.get("PRECEDENTS_SPAC_MINUTES", minutes)) * 60
-    todo = sorted((k for k, r in rows.items() if needs_spac_check(r, forms)), key=lambda k: rows[k].get("filed") or "")
+    todo = spac_check_order({k: r for k, r in rows.items() if needs_spac_check(r, forms)})
     if not todo:
         return 0
     print(f"{len(todo)} proxies judged by the name-only de-SPAC rule; checking their evidence for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)

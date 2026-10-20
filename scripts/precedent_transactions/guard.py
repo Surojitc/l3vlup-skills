@@ -21,7 +21,13 @@ Against the file as it stood when the run began (the baseline):
     (rejected, duplicate, a different deal type);
   - every change to a sourced field, kept or withdrawn, is recorded on the row
     under `revisions` with the run, the old value, the new one and the cause,
-    so a published figure can always be traced back to what it replaced.
+    so a published figure can always be traced back to what it replaced;
+  - the announcement date is watched the same way, because the financials are
+    read at it: a date that moves without announcedReader moving (or the
+    target or the classification changing) is put back with its basis, and so
+    are the financials and their reader, since they were read at the wrong
+    date. A date that moves for a reason is recorded, and so is every
+    financial figure that moved with it, under the re-dating as the cause.
 
 And once per write, a run-level check: if any sourced field is withdrawn, after
 the protection above, from more than MAX_FIELD_LOSS of the rows that carried it
@@ -78,6 +84,15 @@ SOURCED: dict[str, str | None] = {
     "ltmEbit": "financialsReader",
     "netDebt": "financialsReader",
 }
+
+#: the announcement date and what describes it. It is not a figure the guard
+#: counts, but the LTM financials are read at it, so a date that moves for no
+#: reason would re-read them at the wrong date: TESCO's EBITDA went from $93.5m
+#: to -$131.7m on a settlement agreement's date. Owned by announcedReader.
+DATE_FIELDS = ("announced", "announcedBasis", "announcedOriginal")
+DATE_READER = "announcedReader"
+#: what is read at the announcement date, put back with the date
+AT_DATE = ("sharesOut", "ltmRevenue", "ltmEbitda", "ltmEbit", "ltmEbitEnd", "netDebt", "ltmPeriodEnd", "ltmRevenueEnd", "ltmEbitdaEnd", "revenueTag", "ltmImpairment", "impairmentTag", "balanceSheetDate", "ebitdaBasis", "netDebtBasis", "sharesBasis", "formsUsed", "financialsReader", "companyFactsMissing")
 
 #: statuses a row can be moved to on purpose by a classification, after which its figures no longer count
 SET_ASIDE = ("rejected", "duplicate", "no-consideration")
@@ -143,11 +158,25 @@ def protect(baseline: dict[str, dict], rows: dict[str, dict]) -> dict:
             rows[rid] = kept
             report["restoredRows"].append({"id": rid, "why": f"re-read ended in error: {str(cur.get('error') or '')[:100]}"})
             continue
+        redated = None
+        if prev.get("announced") and prev.get("announced") != cur.get("announced"):
+            why = _cause(prev, cur, DATE_READER)
+            if why is None:
+                for k in DATE_FIELDS + AT_DATE:
+                    if k in prev:
+                        cur[k] = copy.deepcopy(prev[k])
+                    else:
+                        cur.pop(k, None)
+                report["keptPrior"].append({"id": rid, "field": "announced", "value": prev.get("announced")})
+            else:
+                _revise(cur, "announced", prev.get("announced"), cur.get("announced"), why)
+                report["revised"] += 1
+                redated = f"re-dated {prev.get('announced')} to {cur.get('announced')} ({why})"
         for field, reader in SOURCED.items():
             before, after = prev.get(field), cur.get(field)
             if before == after:
                 continue
-            cause = _cause(prev, cur, reader)
+            cause = _cause(prev, cur, reader) or (redated if reader == "financialsReader" else None)
             if _empty(after) and not _empty(before) and cause is None:
                 cur[field] = copy.deepcopy(before)
                 report["keptPrior"].append({"id": rid, "field": field, "value": before})
