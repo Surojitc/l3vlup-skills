@@ -328,8 +328,9 @@ def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, min
 #: price plus its premium is not the final offer is another bid's (Baldwin's
 #: 83% is the $31.75 Round 2 bid's), and a joint proxy whose registrant issues
 #: the shares is the buyer's (set_aside_buyer). 5: the price is the whole
-#: offer (resolve_offer), per share or per ADS, cash and stock alike, and a
-#: premium on a package whose value cannot be found is left out with the reason.
+#: offer (resolve_offer), per share or per ADS, cash and stock alike; a
+#: premium on a package whose value cannot be found stands untied and says so
+#: (premiumTie).
 PREMIUM_READER = 5
 
 
@@ -416,7 +417,7 @@ def tied_statements(row: dict, urls: list[str], texts: list[str]) -> tuple[list[
     agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
     ties = offer_ties(row)
     for url, text in zip(urls, texts):
-        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"), ties=ties)
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"), ties=ties, tie_date=row.get("offerImpliedDate"))
         statements.extend({**s, "document": url} for s in kept)
         aside.extend({**s, "document": url} for s in set_aside)
     return statements, aside
@@ -424,13 +425,18 @@ def tied_statements(row: dict, urls: list[str], texts: list[str]) -> tuple[list[
 
 def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: list[str]) -> dict:
     """The deal's premiums onto its row, with every statement kept and set aside as the provenance behind them."""
-    if row.get("offerUnresolved") and row.get("offerReader") and statements:
-        # Nothing to tie a premium to: the stated premiums are kept on file as
-        # set aside, with the reason, and none is the deal's.
-        why = f"the offer is unresolved ({row['offerUnresolved']}), so no premium can be tied to it"
-        aside = [{"reason": why, "excerpt": s.get("excerpt"), "document": s.get("document")} for s in statements] + aside
-        statements = []
     chosen = parse.choose_premiums(statements, row.get("offerPrice"), cash_only=row.get("consideration") == "cash", texts=texts, ties=offer_ties(row))
+    # Where the package includes stock and the filing gives no value for it,
+    # there is nothing to check a premium against. The premium is then the
+    # filing's own statement, untied, as it was before the offer reader, and
+    # the row says so: setting every such statement aside would take the
+    # premium off some 330 stock deals whose proxies state it plainly.
+    row.pop("premiumTie", None)
+    if row.get("offerReader") and statements:
+        if row.get("offerUnresolved"):
+            row["premiumTie"] = f"untied: the offer is unresolved ({row['offerUnresolved']}); the premium is the filing's own statement, not checked against the offer"
+        elif offer_ties(row):
+            row["premiumTie"] = "tied to the whole offer"
     for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedPricePer", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
         row[k] = chosen[k]
     keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "sharesReference", "excerpt", "document")

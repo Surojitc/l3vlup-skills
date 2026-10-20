@@ -247,7 +247,8 @@ def mixed_consideration(text: str) -> bool:
 #           per Share") is worth that stated total, and its premiums are to it.
 #
 # Where the consideration includes stock and none of these gives its value, the
-# offer is unresolved and says why: there is nothing to tie a premium to.
+# offer is unresolved and says why: there is nothing to tie a premium to, and
+# the filing's own statement stands untied (filings.apply_premiums).
 
 _NUMBER_WORDS = {
     "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
@@ -314,7 +315,11 @@ _RATIO = re.compile(
 )
 #: who receives what: the consideration sentence, not an option or a rollover
 _RECEIVE = re.compile(r"right\s+to\s+receive|converted\s+(?:automatically\s+)?into|entitled\s+to\s+receive|will\s+receive|exchanged\s+for|receive\s+the\s+following", re.I)
-_NOT_HOLDERS = re.compile(r"option|warrant|restricted|\bRSU|\bPSU|award|rollover|roll-over|Rollover|preferred|Class\s+C\s+unit|Affiliated\s+Unitholder|Excluded|dividend|distribution", re.I)
+#: Also an operating partnership's units (Taubman's OP unitholders could elect
+#: Simon units; its shareholders were paid cash), and the acquirer's own shares
+#: moving into a holding company ("each ASE share ... (including ASE's
+#: treasury shares), will be transferred to HoldCo"; Siliconware was paid cash).
+_NOT_HOLDERS = re.compile(r"option|warrant|restricted|\bRSU|\bPSU|award|rollover|roll-over|Rollover|preferred|Class\s+C\s+unit|Affiliated\s+Unitholder|Excluded|dividend|distribution|\bOP\s+units?\b|operating\s+partnership\s+units?|including\s+[^)]{0,40}treasury\s+shares", re.I)
 
 
 def stock_terms(texts: list[str], cash: float | None = None) -> dict:
@@ -884,7 +889,7 @@ HIGH_REACH_DAYS = 372
 PREMIUM_FIT = 0.02
 
 
-def premium_statements(text: str, offer: float | None = None, announced: str | None = None, cash_only: bool = True, original: str | None = None, ties: list[tuple[float, str]] | None = None) -> tuple[list[dict], list[dict]]:
+def premium_statements(text: str, offer: float | None = None, announced: str | None = None, cash_only: bool = True, original: str | None = None, ties: list[tuple[float, str]] | None = None, tie_date: str | None = None) -> tuple[list[dict], list[dict]]:
     """
     Every premium the document states for its own deal, and every one set
     aside with the reason. A statement is
@@ -909,6 +914,13 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
     it, as (value, unit) pairs, per share and per ADS: that is what a premium
     is measured on, cash and stock alike. Without `ties`, an all-cash deal's
     per-share cash is the offer, and a deal with stock has none to tie to.
+    A package with stock is worth what the acquirer's shares are worth on the
+    day, so its statements are held to it only on the day its value is
+    stated (`tie_date`): TWC's 17% is measured with Comcast's price of 11
+    February 2014, the $158.82 with that of 12 February. And only an all-cash
+    deal's lead-in is read for another price: a stock deal's names the
+    acquirer's ("based on the $23.69 closing price per share of Taylor
+    Morrison common stock").
     """
     if ties is None:
         ties = [(offer, "share")] if (offer and cash_only) else []
@@ -991,7 +1003,7 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         # bid, for an all-cash deal. Where the consideration includes stock,
         # the sentence states the value of the whole package ("valued at
         # $30.00 per Share"), which is never the cash part alone.
-        if targets and _refused(text[max(0, at - 220):at], named):
+        if targets and cash_only and _refused(text[max(0, at - 220):at], named):
             aside.append({"reason": "names a per-share price other than the one agreed", "excerpt": excerpt})
             continue
         names_offer = bool(_AGREED.search(lead)) or any(abs(float(p.group(1).replace(",", "")) - t) <= 0.005 * t for p in _PRICE.finditer(lead[-200:]) if p.group(1).replace(",", "").replace(".", "").isdigit() for t in named)
@@ -1003,7 +1015,8 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         # represented an approximately 83% premium to ... $17.33" is the
         # Sponsors' $31.75 Round 2 bid; the $32.50 agreed is 87.5%. A
         # statement that names the agreed consideration itself stands.
-        if targets and price and not names_offer and all(abs((t / price - 1) - v) > PREMIUM_FIT for t in targets):
+        same_day = cash_only or tie_date is None or when == tie_date
+        if targets and price and not names_offer and same_day and all(abs((t / price - 1) - v) > PREMIUM_FIT for t in targets):
             t, unit = min(ties, key=lambda tu: abs((tu[0] / price - 1) - v))
             a = "an" if unit == "ADS" else "a"
             aside.append({"reason": f"measures ${price * (1 + v):,.2f} {a} {unit} (${price:,.2f} plus {v:.1%}), not the offer of ${t:,.2f} {a} {unit}: another price's premium", "excerpt": excerpt})
@@ -1151,7 +1164,7 @@ def choose_premiums(statements: list[dict], offer: float | None, cash_only: bool
         # offer, so it is read for an all-cash deal only: in a stock deal the
         # nearest price to the date is as often the acquirer's (Hess: $166.83
         # is Chevron's close on 20 October 2023).
-        if price is None and close.get("date") and texts and ties:
+        if price is None and close.get("date") and texts and ties and cash_only:
             for t in texts:
                 price, where = _stated_price_on(t, close["date"], [v for v, _ in ties])
                 if price:

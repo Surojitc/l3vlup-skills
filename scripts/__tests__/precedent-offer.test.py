@@ -30,9 +30,12 @@ rows, and in most of them the premium was right and the offer was misread:
 
 The offer reader (parse.read_offer, filings.resolve_offer) now puts the offer
 in the terms the premium uses, keeps every part of it with its passage, its
-document and the reader's version, and where the consideration includes stock
+document and the reader's version. Where the consideration includes stock
 and nothing gives its value (LaSalle: $37.80 cash or 0.92 of a Pebblebrook
-share, at the holder's election) it leaves the premium out and says why.
+share, at the holder's election) the offer is unresolved: nothing is made up,
+and the filing's own premium stands untied, as it did before, with the row
+saying so (premiumTie). Setting such statements aside took the premium off
+some 330 stock deals in the first dry run and tripped the rollback guard.
 
 Every figure below is worked by hand from the filing's own words, quoted in
 the comment beside it. The fixtures are the passages of each deal's real
@@ -223,12 +226,14 @@ eq("Symetra: $32.00 cash with a $0.50 special dividend, $32.50 in all", (s["offe
 lho = rows["LHO"]
 # "(a) 0.92 common shares ... of Pebblebrook ... or (b) $37.80 in cash", at
 # the holder's election; the filing states the package's value on no day near
-# the agreement. Nothing to tie a premium to.
+# the agreement. Nothing to tie a premium to: the filing's own statement
+# stands, untied, and the row says so.
 eq("LaSalle: a cash-or-stock election is not cash", lho["consideration"], "cash and stock")
 eq("LaSalle: the offer is unresolved, and says why", "includes stock" in (lho.get("offerUnresolved") or ""), True)
 eq("LaSalle: no implied offer is made up", lho.get("offerImplied"), None)
-eq("LaSalle: no premium", lho["premium1Day"], None)
-eq("LaSalle: each statement set aside names the unresolved offer", any("the offer is unresolved" in a["reason"] for a in lho["premiumsSetAside"]), True)
+eq("LaSalle: the filing's 48% over $24.39 stands as stated", (lho["premium1Day"], lho["unaffectedPriceStated"]), (0.48, 24.39))
+eq("LaSalle: and the row says it is untied, and why", (lho.get("premiumTie") or "").startswith("untied: the offer is unresolved"), True)
+eq("a tied row says so", (rows["CVH"].get("premiumTie"), rows["ACAP"].get("premiumTie")), ("tied to the whole offer", "tied to the whole offer"))
 
 # ── control: an all-cash deal is unchanged ───────────────────────────────────
 
@@ -266,6 +271,38 @@ o2 = parse.read_offer(["holders will receive US$2.00 in cash per ADS. The ADSs t
 eq("quoted per ADS with no ratio: the offer ties per ADS only", (o2["implied"], o2["perAds"], o2["ties"]), (None, 2.0, [(2.0, "ADS")]))
 o3 = parse.read_offer(["converted into the right to receive $10.00 in cash and 0.5000 of a share of Acquirer common stock. converted into the right to receive $10.00 in cash and 0.5000 of a share of Acquirer common stock."], 10.0, "$10.00 in cash")
 eq("an exchange ratio with no value stated is not computed from a price the filing never gives", (o3["stock"], o3["implied"], bool(o3["unresolved"])), (True, None, True))
+
+# ── stock deals: what the first dry run got wrong ────────────────────────────
+
+# Taubman's shareholders were paid cash; its operating partnership's unitholders
+# could elect Simon units. Siliconware was paid cash; ASE's own shares moved
+# into the holding company. Neither is stock in the target holders' package.
+op = "Upon completion, holders of Taubman OP units who are not Taubman family members will be entitled to receive, at their election, the common stock merger consideration or 0.5703 Simon OP units for each Taubman OP unit."
+eq("an operating partnership's unit election is not the shareholders' consideration", parse.stock_terms([op, op])["ratio"], None)
+ase = "each ASE share, issued immediately prior to the Effective Time (including ASE’s treasury shares), will be transferred to HoldCo in consideration for the right to receive 0.5 HoldCo shares."
+eq("an acquirer's own shares moving into a holding company are not the target's consideration", parse.stock_terms([ase, ase])["ratio"], None)
+
+# William Lyon (Taylor Morrison stock): "the implied value of the Merger
+# Consideration was $21.45 per share, based on the $23.69 closing price per
+# share of Taylor Morrison common stock on November 5, 2019 ... represented an
+# implied premium of approximately 16.6% over the closing price per share of
+# William Lyon Homes Class A common stock on November 5, 2019". The $23.69 in
+# the lead-in is the acquirer's price, not another bid.
+wlh = ("the fact that the implied value of the Merger Consideration was $21.45 per share, based on the $23.69 closing price per share of Taylor Morrison common stock on November 5, 2019, "
+       "the last full trading day before the announcement of the merger agreement, represented an implied premium of approximately 16.6% over the closing price per share of William Lyon Homes Class A common stock on November 5, 2019, the last full trading day before the announcement of the merger agreement")
+k, a = parse.premium_statements(wlh, 2.5, "2019-11-05", cash_only=False, ties=[(21.45, "share")], tie_date="2019-11-05")
+eq("William Lyon: a stock deal's lead-in naming the acquirer's price does not refuse its premium", [x["premium"] for x in k], [0.166])
+
+# TWC (Comcast stock): "a premium of approximately 17% implied by the merger
+# exchange ratio to the closing price of TWC common stock of $139.40 per share
+# on February 11, 2014". $139.40 x 1.17 = $163.10 against the $158.82 the
+# filing states for 12 February (Comcast's price moved a day): another day's
+# value of the same package, so not held to it.
+twc = "a premium of approximately 17% implied by the merger exchange ratio to the closing price of TWC common stock of $139.40 per share on February 11, 2014, the last trading day prior to the announcement"
+k, a = parse.premium_statements(twc, 54.72, "2014-02-12", cash_only=False, ties=[(158.82, "share")], tie_date="2014-02-12")
+eq("TWC: a stock package's premium measured on another day stands", [x["premium"] for x in k], [0.17])
+k, a = parse.premium_statements(twc.replace("February 11", "February 12"), 54.72, "2014-02-12", cash_only=False, ties=[(158.82, "share")], tie_date="2014-02-12")
+eq("TWC: on the day the value is stated, it is held to it ($163.10 is not $158.82)", ([x["premium"] for x in k], any(x["reason"].startswith("measures $163.10") for x in a)), ([], True))
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
