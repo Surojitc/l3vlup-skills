@@ -197,6 +197,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     statements: list[dict] = []
     aside: list[dict] = []
     texts: list[str] = []
+    urls: list[str] = []
     for d in docs:
         own = any(s["basis"] == "close" and s["unaffected"] and not s["proposal"] for s in statements)
         if row["offerPrice"] is not None and own and row["announcedBasis"] in AGREEMENT_BASES:
@@ -208,6 +209,7 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
             continue
         row["documentsRead"].append(d["url"])
         texts.append(text)
+        urls.append(d["url"])
         if "securitiesSought" not in row:
             sought = parse.securities_sought(text)
             if sought:
@@ -236,6 +238,12 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
         kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"))
         statements.extend({**s, "document": d["url"]} for s in kept)
         aside.extend({**s, "document": d["url"]} for s in set_aside)
+    # The documents read, the premiums are read again against the whole offer:
+    # its parts can sit in different documents (the ADS ratio on a cover, the
+    # package's value in the proxy).
+    if texts and row.get("offerPrice") is not None:
+        resolve_offer(row, urls, texts)
+        statements, aside = tied_statements(row, urls, texts)
     apply_premiums(row, statements, aside, texts)
     reason = parse.not_control_reason(row.get("securitiesSought"))
     if reason:
@@ -319,14 +327,117 @@ def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, min
 #: already on file and not only the next one. 4: a statement whose reference
 #: price plus its premium is not the final offer is another bid's (Baldwin's
 #: 83% is the $31.75 Round 2 bid's), and a joint proxy whose registrant issues
-#: the shares is the buyer's (set_aside_buyer).
-PREMIUM_READER = 4
+#: the shares is the buyer's (set_aside_buyer). 5: the price is the whole
+#: offer (resolve_offer), per share or per ADS, cash and stock alike; a
+#: premium on a package whose value cannot be found stands untied and says so
+#: (premiumTie).
+PREMIUM_READER = 5
+
+
+#: The offer reading the stored rows were made with. 2: the whole offer
+#: (parse.read_offer): a contingent payment is not the price, the offer per
+#: ADS from the ADS ratio the filing states, and a package with stock valued
+#: as the filing states it on the reference day or from its stated parts. Each
+#: part is kept with its passage and document (offerComponents), and a row
+#: read before this version has its offer read again from its documents, so
+#: the guard records every change under this version.
+OFFER_READER = 2
+
+#: the fields the offer reader owns, cleared before each reading
+OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved")
+
+
+def _where(urls: list[str], flat: list[str], excerpt: str | None) -> str | None:
+    """The document a passage was read from."""
+    if not excerpt:
+        return None
+    probe = excerpt[20:100] if len(excerpt) > 120 else excerpt
+    for url, t in zip(urls, flat):
+        if probe in t:
+            return url
+    return None
+
+
+def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool = False) -> dict:
+    """
+    The whole offer onto the row, every part with its passage, its document
+    and this reader's version. On a re-read the per-share cash is read again
+    too (a stored row may carry a contingent payment as its price); a reading
+    that finds none keeps the stored figure.
+    """
+    if reread:
+        for text in texts:
+            offer, basis = parse.parse_offer(text)
+            if offer is not None:
+                if offer != row.get("offerPrice"):
+                    row["offerPrice"], row["offerBasis"] = offer, basis
+                break
+    for k in OFFER_FIELDS:
+        row.pop(k, None)
+    row["offerReader"] = OFFER_READER
+    if row.get("offerPrice") is None:
+        return row
+    agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
+    o = parse.read_offer(texts, row["offerPrice"], row.get("offerBasis"), agreed, row.get("announcedOriginal"))
+    if o["perShare"]:
+        # The price read was the price per ADS: the row's price is per share.
+        row["offerPrice"], row["offerBasis"] = o["perShare"]
+    flat = [re.sub(r"\s+", " ", t) for t in texts]
+    row["offerComponents"] = [{**c, "document": _where(urls, flat, c.get("excerpt")), "reader": OFFER_READER} for c in o["components"]][:12]
+    if o["stock"] and row.get("consideration") == "cash":
+        row["consideration"] = "cash and stock"
+    if o["implied"] is not None:
+        row["offerImplied"], row["offerImpliedMethod"], row["offerImpliedDate"], row["offerImpliedBasis"] = o["implied"], o["method"], o["date"], o["basis"]
+    if o["adsRatio"]:
+        row["adsRatio"] = o["adsRatio"]
+    if o["perAds"] is not None:
+        row["offerPerAds"] = o["perAds"]
+    if o["unresolved"]:
+        row["offerUnresolved"] = o["unresolved"]
+    return row
+
+
+def offer_ties(row: dict) -> list[tuple[float, str]] | None:
+    """What a premium is tied to: the whole offer per share and per ADS, [] where it is unresolved, None for a row read before the offer reader."""
+    if not row.get("offerReader") or (row.get("offerReader") or 1) < OFFER_READER:
+        return None
+    if row.get("offerImplied") is None:
+        # Quoted per ADS with no ratio stated: the ADS price alone.
+        return [(row["offerPerAds"], "ADS")] if row.get("offerPerAds") is not None and not row.get("offerUnresolved") else []
+    ties = [(row["offerImplied"], "share")]
+    if row.get("offerPerAds") is not None:
+        ties.append((row["offerPerAds"], "ADS"))
+    return ties
+
+
+def tied_statements(row: dict, urls: list[str], texts: list[str]) -> tuple[list[dict], list[dict]]:
+    """Every document's premium statements, tied to the row's whole offer."""
+    statements: list[dict] = []
+    aside: list[dict] = []
+    agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
+    ties = offer_ties(row)
+    for url, text in zip(urls, texts):
+        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"), ties=ties, tie_date=row.get("offerImpliedDate"))
+        statements.extend({**s, "document": url} for s in kept)
+        aside.extend({**s, "document": url} for s in set_aside)
+    return statements, aside
 
 
 def apply_premiums(row: dict, statements: list[dict], aside: list[dict], texts: list[str]) -> dict:
     """The deal's premiums onto its row, with every statement kept and set aside as the provenance behind them."""
-    chosen = parse.choose_premiums(statements, row.get("offerPrice"), cash_only=row.get("consideration") == "cash", texts=texts)
-    for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
+    chosen = parse.choose_premiums(statements, row.get("offerPrice"), cash_only=row.get("consideration") == "cash", texts=texts, ties=offer_ties(row))
+    # Where the package includes stock and the filing gives no value for it,
+    # there is nothing to check a premium against. The premium is then the
+    # filing's own statement, untied, as it was before the offer reader, and
+    # the row says so: setting every such statement aside would take the
+    # premium off some 330 stock deals whose proxies state it plainly.
+    row.pop("premiumTie", None)
+    if row.get("offerReader") and statements:
+        if row.get("offerUnresolved"):
+            row["premiumTie"] = f"untied: the offer is unresolved ({row['offerUnresolved']}); the premium is the filing's own statement, not checked against the offer"
+        elif offer_ties(row):
+            row["premiumTie"] = "tied to the whole offer"
+    for k in ("premium1Day", "premium30DayVwap", "premium52WeekHigh", "unaffectedPriceStated", "unaffectedPricePer", "unaffectedDate", "unaffectedPriceBasis", "premiumBasis", "premiumPreAnnouncement", "premiumPreAnnouncementDate"):
         row[k] = chosen[k]
     keep = ("basis", "window", "premium", "price", "date", "unaffected", "proposal", "namesOffer", "sharesReference", "excerpt", "document")
     row["premiumStatements"] = [{k: s.get(k) for k in keep} for s in statements][:12]
@@ -413,9 +524,10 @@ def set_aside_buyer(row: dict, found: dict | None) -> dict:
 
 def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
     """
-    A stored row's premiums read again from the documents it was read from,
-    and nothing else. The offer, the agreement date and the financials stand:
-    they were not what was wrong.
+    A stored row's premiums read again from the documents it was read from.
+    The agreement date and the financials stand: they were not what was
+    wrong. The offer is read again only where an earlier offer reader read it
+    (resolve_offer), and premiums are then tied to the whole offer.
     """
     statements: list[dict] = []
     aside: list[dict] = []
@@ -430,11 +542,9 @@ def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
     # A row dated by its filing, or by an agreement since revised, is dated
     # by the agreement it records before any premium is measured against it.
     resolve_announcement(row, texts)
-    agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
-    for url, text in zip(urls, texts):
-        kept, set_aside = parse.premium_statements(text, row.get("offerPrice"), agreed, cash_only=row.get("consideration") == "cash", original=row.get("announcedOriginal"))
-        statements.extend({**s, "document": url} for s in kept)
-        aside.extend({**s, "document": url} for s in set_aside)
+    if (row.get("offerReader") or 1) < OFFER_READER:
+        resolve_offer(row, urls, texts, reread=True)
+    statements, aside = tied_statements(row, urls, texts)
     row = apply_premiums(row, statements, aside, texts)
     # A stored merger proxy read again is asked the joint-proxy question too:
     # Teledyne's proxy for FLIR stood as a deal for FLIR at $56.00.
@@ -468,8 +578,8 @@ def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: 
 
 
 def needs_premium_reread(row: dict) -> bool:
-    """A stored row with documents read and premiums, or its date, from an earlier reading."""
-    stale = (row.get("premiumReader") or 1) < PREMIUM_READER or (row.get("announcedReader") or 1) < ANNOUNCED_READER
+    """A stored row with documents read and premiums, its date or its offer from an earlier reading."""
+    stale = (row.get("premiumReader") or 1) < PREMIUM_READER or (row.get("announcedReader") or 1) < ANNOUNCED_READER or (row.get("offerReader") or 1) < OFFER_READER
     return stale and bool(row.get("documentsRead")) and row.get("status") in ("ok", "no-offer")
 
 
