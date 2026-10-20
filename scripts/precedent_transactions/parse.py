@@ -1290,7 +1290,7 @@ _SHARES = re.compile(r"(\d{1,3}(?:,\d{3}){1,3})\s+(?:shares\s+of\s+|)(?:the\s+)?
 # never of ADSs, so it is valued at a price per share.
 _LINKED = re.compile(r"\b(?:issuable|underlying|subject\s+to|reserved|pursuant\s+to|available\s+(?:for|under)|with\s+respect\s+to|in\s+exchange\s+for|exercis\w*|conver\w*|vest\w*|settle\w*|granted|treasury|remain\w*)\b", re.I)
 _PERCENT = re.compile(r"(\d+(?:\.\d+)?)?\s*(?:%|percent\b|per\s+cent\b)|\bmajority\b", re.I)
-_INSTRUMENT = re.compile(r"\b(?:options?|warrants?|RSUs?|PSUs?|restricted\s+(?:stock|share)\s+(?:units?|awards?)|preferred)\b", re.I)
+_AWARD_INSTRUMENT = re.compile(r"\b(?:options?|warrants?|RSUs?|PSUs?|restricted\s+(?:stock|share)\s+(?:units?|awards?)|preferred)\b", re.I)
 _SECOND_COUNT = re.compile(r"\d{1,3}(?:,\d{3})+")
 #: the words just before a count that make it something else: the shares a
 #: security converts into or an option buys ("325,000 shares of Series B
@@ -1320,7 +1320,7 @@ def outstanding_count(gap: str) -> bool:
         if m.group(0).lower() == "majority" or m.group(1) is None or float(m.group(1)) < 100:
             return False
     own = _SECOND_COUNT.split(g, 1)[0]
-    return not _INSTRUMENT.search(own)
+    return not _AWARD_INSTRUMENT.search(own)
 
 
 def parse_shares(text: str) -> tuple[float | None, str | None]:
