@@ -304,5 +304,12 @@ eq("TWC: a stock package's premium measured on another day stands", [x["premium"
 k, a = parse.premium_statements(twc.replace("February 11", "February 12"), 54.72, "2014-02-12", cash_only=False, ties=[(158.82, "share")], tie_date="2014-02-12")
 eq("TWC: on the day the value is stated, it is held to it ($163.10 is not $158.82)", ([x["premium"] for x in k], any(x["reason"].startswith("measures $163.10") for x in a)), ([], True))
 
+# Cymer (ASML stock): the only premium in the proxy is an adviser's grid, "at
+# various trading prices that ranged from a (25.0%) to a 25.0% premium to the
+# $52.81 closing price of ASML ordinary shares": a range, never the deal's.
+cym = "on a pro forma basis, including and excluding Synergies, at various trading prices that ranged from a (25.0%) to a 25.0% premium to the $52.81 closing price of ASML ordinary shares on October 15, 2012"
+k, a = parse.premium_statements(cym, 20.0, "2012-10-16", cash_only=False, ties=[(81.64, "share")], tie_date="2012-10-16")
+eq("Cymer: a range with a negative lower bound in parentheses is a range", ([x["premium"] for x in k], [x["reason"] for x in a]), ([], ["a range"]))
+
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

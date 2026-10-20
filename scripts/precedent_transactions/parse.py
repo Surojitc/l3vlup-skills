@@ -949,7 +949,9 @@ def premium_statements(text: str, offer: float | None = None, announced: str | N
         # "of 20% to 50%": a range is an analysis, never a deal's premium.
         # "Between 20% and 50%" is a range too; "57%, 48% and 44%" is a list.
         between = re.search(r"between\s+(?:approximately\s+)?$", text[max(0, at - 30):at], re.I)
-        if re.match(r"\s*(?:to|-|–)\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16]) or (between and re.match(r"\s*and\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16])) or re.search(r"\d\s?(?:%|percent)?\s*(?:to|-|–)\s*$", text[max(0, at - 12):at]) or re.search(r"between\s+(?:approximately\s+)?\d{1,3}(?:\.\d+)?\s?(?:%|percent)?\s*and\s*$", text[max(0, at - 40):at], re.I):
+        if re.match(r"\s*(?:to|-|–)\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16]) or (between and re.match(r"\s*and\s*\d{1,3}(?:\.\d+)?\s?(?:%|percent)", text[m.end():m.end() + 16])) or re.search(r"\d\s?(?:%|percent)?\)?\s*(?:to|-|–)\s*(?:an?\s+)?$", text[max(0, at - 16):at]) or re.search(r"between\s+(?:approximately\s+)?\d{1,3}(?:\.\d+)?\s?(?:%|percent)?\s*and\s*$", text[max(0, at - 40):at], re.I):
+            # Including a negative lower bound in parentheses: Cymer's "from a
+            # (25.0%) to a 25.0% premium to the $52.81 closing price of ASML".
             aside.append({"reason": "a range", "excerpt": re.sub(r"\s+", " ", text[max(0, at - 80):at + 120]).strip()})
             continue
         # "with premia greater than 200% or less than 0%" is a screen's bound.
