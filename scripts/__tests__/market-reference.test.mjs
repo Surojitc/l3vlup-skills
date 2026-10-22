@@ -344,7 +344,7 @@ const stateFrom = (calendar, priceOf) => {
   const wf = readFileSync('.github/workflows/market-reference.yml', 'utf8');
   check('the state lives in the runner temp directory', /--state "\$RUNNER_TEMP\/market-reference\/state\.json\.gz"/.test(wf));
   check('and in the Actions cache, never in a commit', /actions\/cache\/restore@/.test(wf) && /actions\/cache\/save@/.test(wf));
-  check('it publishes through the shared publisher as market-reference, without merging', /producer: market-reference/.test(wf) && /merge: false/.test(wf));
+  check('it publishes through the shared publisher as market-reference, and validated data publication is merged automatically', /uses: \.\/\.github\/workflows\/publish-data\.yml/.test(wf) && /producer: market-reference/.test(wf) && /merge: true/.test(wf) && !/merge: false/.test(wf));
   eq('one daily run and one retry, weekday sessions only; no six-hourly polling', [...wf.matchAll(/cron: '([^']+)'/g)].map((m) => m[1]), ['40 11 * * 2-6', '40 17 * * 2-6']);
 }
 
