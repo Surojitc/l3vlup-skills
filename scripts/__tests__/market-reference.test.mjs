@@ -248,7 +248,9 @@ const stateFrom = (calendar, priceOf) => {
   const r4 = classify(cand(0.5), ev([filing('8-K', '2026-09-30', 'reported third quarter results')]));
   eq('a split-shaped move no filing explains, with no share counts: UNRESOLVED', [r4.type, r4.ratio, r4.confirmed], [ACTION.UNRESOLVED, null, false]);
   eq('a large move that is no ratio, with no action behind it: an ordinary price move', classify(cand(0.43), ev([filing('8-K', '2026-09-30', 'announced topline results; the merger agreement was terminated')])), null);
-  eq('a split-shaped fall whose share count did not move, with nothing filed: an ordinary move', classify(cand(2 / 3), ev([], [{ end: '2026-08-01', val: 104.8e6 }, { end: '2026-11-15', val: 105e6 }])), null);
+  const flatShares = classify(cand(2 / 3), ev([], [{ end: '2026-08-01', val: 104.8e6 }, { end: '2026-11-15', val: 105e6 }]));
+  eq('a split-shaped fall whose share count did not move, with nothing filed: UNRESOLVED, never ordinary on the count alone', [flatShares.type, flatShares.ratio, /rules out a split but does not explain the move/.test(flatShares.reason)], [ACTION.UNRESOLVED, null, true]);
+  eq('only affirmative filing evidence classifies a split-shaped move that has been read: it is never ordinary', [[], [filing('8-K', '2026-09-30', 'reported results')]].map((f) => classify(cand(0.5), ev(f, [{ end: '2026-08-01', val: 100e6 }, { end: '2026-11-01', val: 100e6 }]))?.type), [ACTION.UNRESOLVED, ACTION.UNRESOLVED]);
   const r5 = classify(cand(0.5), ev([filing('8-K', '2026-09-10', 'a two-for-one stock split')], [{ end: '2026-08-01', val: 100e6 }, { end: '2026-11-01', val: 101e6 }]));
   eq('a stated split the share count contradicts: UNRESOLVED, not confirmed', [r5.type, r5.ratio, /do not move as it would/.test(r5.reason)], [ACTION.UNRESOLVED, null, true]);
   eq('a stated ratio the move does not match is not this move\'s split', classify(cand(0.5), ev([filing('8-K', '2026-09-10', 'a three-for-one stock split')])).type, ACTION.UNRESOLVED);
@@ -285,6 +287,15 @@ const stateFrom = (calendar, priceOf) => {
   const stored = { [D]: { shape: 0.5, change: 0.5, result: { type: ACTION.SPLIT, ratio: 0.5, confirmed: true } } };
   const res = resolverFor(stored);
   eq('a stored result applies to its own move, and never to a different one on the same date', [res(cand(0.5), D)?.type, res(cand(0.51), D)?.type, res(cand(0.5), '2026-10-02')?.type], [ACTION.SPLIT, ACTION.UNRESOLVED, ACTION.UNRESOLVED]);
+  // A split-shaped move stored as ordinary under the earlier rule (an unchanged share count) is not used, and is read again.
+  const legacy = { [D]: { shape: 2 / 3, change: 2 / 3, result: null, checkedAt: '2026-10-22T16:00:00Z', checks: 1 } };
+  eq('a split-shaped move stored as ordinary is not trusted: it stands UNRESOLVED until read again', resolverFor(legacy)(cand(2 / 3), D)?.type, ACTION.UNRESOLVED);
+  eq('a move with no split shape stored as ordinary stays ordinary', resolverFor({ [D]: { shape: null, change: 0.43, result: null } })(cand(0.43), D), null);
+  const ls = emptyState();
+  ls.calendar = calendarOf(30, '2026-09-01');
+  ls.calendar.forEach((d, i) => recordDay(ls, d, { SRPT: o(i < 20 ? 150 : 100) }, {}));
+  ls.actions = { SRPT: { [ls.calendar[20]]: { shape: 2 / 3, change: 100 / 150, result: null, checkedAt: '2026-10-22T16:00:00Z', checks: 1 } } };
+  eq('and it is queued to be read again on the next run', pendingEvidence(ls, { now: new Date('2026-10-22T17:00:00Z') }).map((q) => q.symbol), ['SRPT']);
 
   // The event boundary, window by window. 253 days of 100 + i/10, the action between index b-1 and b (a 1/6 move).
   const cal = calendarOf(253);
