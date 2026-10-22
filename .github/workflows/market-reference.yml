@@ -164,8 +164,7 @@ jobs:
     with:
       producer: market-reference
       artifact: market-reference-refresh
-      # Open the data pull request and stop. The same two proofs collect.yml
-      # names before its line became `true`: one run whose pull request a
-      # human reads and merges, and a second that updates that pull request
-      # rather than opening another. Then a narrow pull request of its own.
-      merge: false
+      # Two clean publication cycles have now been reviewed. Publish the
+      # validated market-reference data automatically so production prices
+      # cannot go stale waiting for a daily manual data-PR merge.
+      merge: true
