@@ -23,7 +23,7 @@
     {
       "id": "sec-edgar-structured",
       "owner": "U.S. Securities and Exchange Commission",
-      "source": "EDGAR structured data: data.sec.gov submissions and XBRL companyfacts APIs; www.sec.gov/Archives/edgar (filing indexes, index.json, full-index form index, 13F information tables); www.sec.gov/cgi-bin/browse-edgar (SIC lists); efts.sec.gov full-text search; www.sec.gov/files/company_tickers.json; www.sec.gov/data/foiadocsfailsdatahtm (fails-to-deliver files)",
+      "source": "EDGAR structured data: data.sec.gov submissions, XBRL companyfacts and companyconcept APIs; www.sec.gov/Archives/edgar (filing indexes, index.json, full-index form index, 13F information tables); www.sec.gov/cgi-bin/browse-edgar (SIC lists); efts.sec.gov full-text search; www.sec.gov/files/company_tickers.json and company_tickers_exchange.json; www.sec.gov/data/foiadocsfailsdatahtm (fails-to-deliver files)",
       "collectors": [
         "scripts/sync_funds.py",
         "scripts/funds_history.py",
@@ -34,7 +34,8 @@
         "scripts/discover-letters.mjs",
         "scripts/enumerate-letters.mjs",
         "skills/company-profile/build.py",
-        "skills/comps-set-builder/build.py"
+        "skills/comps-set-builder/build.py",
+        "scripts/sync-market-reference.mjs"
       ],
       "outputs": [
         "data/funds.auto.json",
@@ -50,6 +51,7 @@
         "data/cusip-tickers.auto.json",
         "data/letters.discovery.json",
         "data/letters.exhibits.json",
+        "data/market-reference.auto.json",
         "samples/"
       ],
       "termsUrl": "https://www.sec.gov/privacy.htm",
@@ -79,7 +81,8 @@
         "scripts/retrieve-letters.mjs",
         "scripts/select-letters.mjs",
         "scripts/letters-thumbnails.mjs",
-        "scripts/thesis-pilot.mjs"
+        "scripts/thesis-pilot.mjs",
+        "scripts/sync-market-reference.mjs"
       ],
       "outputs": [
         "data/decks.auto.json",
@@ -89,7 +92,8 @@
         "data/letters.validations.json",
         "data/letters.thumbnails.json",
         "data/letters/thumbs/",
-        "data/thesis/claims.pending.json"
+        "data/thesis/claims.pending.json",
+        "data/market-reference.auto.json"
       ],
       "termsUrl": "https://www.sec.gov/privacy.htm",
       "termsReadUrls": [
@@ -105,7 +109,7 @@
       "storageRightsBasis": "The pipeline retains no original: documents are fetched into a per-run directory that is deleted at the end (ephemeral-sec mode); only metadata, measurements and WebP previews are committed.",
       "redistribution": "Authors keep copyright. Only excerpts and previews with a credit and a link to the filing on sec.gov. No document is cached, proxied or republished whole. SEC fair-access rules apply: 15 MiB cap per document, a 403 or 429 stops the run.",
       "attribution": "Credit the filer and link the filing on sec.gov (L3VLUP rule); the SEC asks for citation of the SEC as source.",
-      "notes": "Not covered by the SEC's public-information statement as to the authors' copyright. Pipeline design already treats these as excerpt-only. A human should confirm that the thumbnail previews (a rendered page of an author's letter) sit inside the excerpt allowance. thesis-pilot.mjs also sends document text to the Anthropic API as a processor; that is a service, not a data source, and its terms are outside this register.",
+      "notes": "Not covered by the SEC's public-information statement as to the authors' copyright. Pipeline design already treats these as excerpt-only. A human should confirm that the thumbnail previews (a rendered page of an author's letter) sit inside the excerpt allowance. thesis-pilot.mjs also sends document text to the Anthropic API as a processor; that is a service, not a data source, and its terms are outside this register. sync-market-reference.mjs reads 8-K, 6-K, 10-Q, 10-K and proxy text near a large IEX price move only to classify it (a split ratio, or a spin-off, distribution or reorganisation): the published file carries the classification, a reason of a few words, the form, accession and a link to the document on sec.gov, never the document's text.",
       "lastReviewed": "2026-10-19"
     },
     {

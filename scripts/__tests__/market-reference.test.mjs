@@ -13,6 +13,10 @@
  *      thin or early-closing name gets no reference price;
  *   3. a stale observation, an unconfirmed jump, a split and a ratio-shaped
  *      collapse are each handled by rule, never by guessing;
+ *   3b. corporate actions: a large move is a candidate, classified on SEC
+ *      filing evidence; only a confirmed split rescales, at the filing's
+ *      ratio; any other action bounds the history, each window returning on
+ *      its own; malformed or unknown classifications never rescale;
  *   4. the 52-week high and low, the bases of the 1, 3, 6 and 12-month
  *      changes, the drawdown and the volatility, worked by hand;
  *   5. the files: dated, attributed, never called a close, and no daily
@@ -33,18 +37,25 @@ import {
   buildReference,
   COLUMNS,
   emptyState,
+  loadState,
   maxDrawdown,
+  pendingEvidence,
   pendingDays,
   pruneState,
   readyToPublish,
   realisedVolatility,
   recordDay,
+  recordEvidence,
+  resolverFor,
+  STATE_VERSION,
   recordFailure,
   rowFor,
   splitRatio,
   topsDays,
   weekly,
 } from '../../lib/market-reference.mjs';
+import { ACTION, classify, publishedAction, readFilingText } from '../../lib/corporate-actions.mjs';
+import { gatherEvidence, tickerIndex } from '../../lib/corporate-action-evidence.mjs';
 import { dayCapture, frame, nyMs, pcap, pcapng, systemMessage, tradeMessage } from './fixtures/iex-capture.mjs';
 
 let pass = 0;
@@ -149,6 +160,16 @@ const read = (buf, chunk = buf.length) => {
 }
 
 // ── 3. stale, jumps and splits ───────────────────────────────────────────
+const calendarOf = (n, from = '2025-10-01') => {
+  const out = [];
+  const d = new Date(`${from}T00:00:00Z`);
+  while (out.length < n) {
+    const wd = d.getUTCDay();
+    if (wd !== 0 && wd !== 6) out.push(d.toISOString().slice(0, 10));
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return out;
+};
 const o = (p, grade = 'H', dollars = p * 100000) => [p, grade, 60, 200, 15, dollars];
 const flatYear = (p = 100, n = 253) => Array.from({ length: n }, () => o(p));
 {
@@ -163,17 +184,185 @@ const flatYear = (p = 100, n = 253) => Array.from({ length: n }, () => o(p));
   eq('the same jump on a HIGH day stands', [rowFor(jumpH).status, rowFor(jumpH).price], ['ok', 160]);
 
   eq('split ratios: 2-for-1, 1-for-10, 3-for-2, and a fall that is no ratio', [splitRatio(0.5), splitRatio(10.1), splitRatio(1 / 1.5), splitRatio(0.43)], [0.5, 10, 1 / 1.5, null]);
+  // A halving shaped exactly like a 2-for-1 split. On its shape alone it is a candidate, never an adjustment.
   const split = Array.from({ length: 253 }, (_, i) => (i < 200 ? o(200, 'H', 2e7) : o(100, 'H', 2e7)));
-  const adj = adjustForSplits(split);
-  eq('a 2-for-1 split on ordinary dollar volume divides the earlier prices', [adj.splits, adj.prices[0], adj.prices[252], adj.latestJump], [[{ index: 200, ratio: 0.5 }], 100, 100, null]);
-  const rs = rowFor(split);
-  eq('so the year is flat on today\'s basis: high and low 100, no drawdown, the split listed', [rs.high52, rs.low52, rs.drawdownPeak, rs.splits], [100, 100, null, [[200, 0.5]]]);
+  const unread = adjustForSplits(split);
+  eq('a split-shaped halving no filing has confirmed rescales nothing and bounds the history at its date', [unread.splits, unread.prices[0], unread.boundary, unread.actions.map((a) => [a.action.type, a.action.ratio, a.action.pending])], [[], 200, 200, [['UNRESOLVED', null, true]]]);
+  const ru = rowFor(split);
+  eq('so no 52-week figure spans it, and the price stands', [ru.price, ru.high52, ru.low52, ru.statsStatus, ru.splits], [100, null, null, 'history', []]);
+  // The same move with the company's 8-K stating the split, and the cover share count doubling.
+  const cal253 = calendarOf(253);
+  const splitEvidence = { date: cal253[200], cik: 1, filings: [{ form: '8-K', filed: cal253[190], accession: '0000000001-26-000001', url: 'https://www.sec.gov/Archives/edgar/data/1/000000000126000001/split8k.htm', text: '<p>The Board approved a two-for-one stock split of the Company&#8217;s common stock.</p>' }], shares: [{ end: cal253[150], val: 50e6 }, { end: cal253[230], val: 100e6 }] };
+  const confirmed = (c) => classify(c, splitEvidence);
+  const adj = adjustForSplits(split, confirmed, cal253);
+  eq('a 2-for-1 split its 8-K states divides the earlier prices at the filing\'s ratio', [adj.splits, adj.prices[0], adj.prices[252], adj.latestJump, adj.boundary], [[{ index: 200, ratio: 0.5 }], 100, 100, null, null]);
+  const rs = rowFor(split, confirmed, cal253);
+  eq('so the year is flat on today\'s basis: high and low 100, no drawdown, the split listed', [rs.high52, rs.low52, rs.drawdownPeak, rs.splits, rs.historyValidFrom], [100, 100, null, [[200, 0.5]], null]);
+  eq('and the row carries the classification with its SEC provenance', rs.corporateActions, [{ corporate_action_type: 'CONFIRMED_SPLIT', corporate_action_effective_date: cal253[200], action_ratio: 0.5, action_confirmed: true, corporate_action_reason: `2-for-1 stock split, stated in the 8-K filed ${cal253[190]}; share count 50m on ${cal253[150]} and 100m on ${cal253[230]}`, evidence_source: '8-K', evidence_filing: '0000000001-26-000001', evidence_url: 'https://www.sec.gov/Archives/edgar/data/1/000000000126000001/split8k.htm' }]);
   const crash = Array.from({ length: 253 }, (_, i) => (i < 200 ? o(200, 'H', 2e7) : i === 200 ? o(100, 'H', 2e8) : o(100, 'H', 2e7)));
   const rc = rowFor(crash);
-  eq('a ratio-shaped halving on ten times the dollar volume: priced, 52-week figures withheld', [rc.price, rc.statsStatus, rc.high52], [100, 'unexplained-jump', null]);
+  eq('a ratio-shaped halving on ten times the dollar volume: priced, 52-week figures withheld behind the boundary', [rc.price, rc.statsStatus, rc.high52, rc.splits.length], [100, 'history', null, 0]);
   const fall = Array.from({ length: 253 }, (_, i) => (i < 240 ? o(100) : o(43)));
   const rf = rowFor(fall);
   eq('a 57% fall that matches no ratio is a fall', [rf.price, rf.high52, rf.low52], [43, 100, 43]);
+}
+
+const stateFrom = (calendar, priceOf) => {
+  const s = emptyState();
+  s.calendar = calendar;
+  calendar.forEach((date, i) => {
+    const obs = {};
+    for (const [sym, f] of Object.entries(priceOf)) {
+      const p = f(i);
+      if (p !== null) obs[sym] = o(p);
+    }
+    recordDay(s, date, obs, { open: 0, close: 0 });
+  });
+  return s;
+};
+
+// ── 3b. corporate actions: candidates, evidence, the boundary ────────────
+{
+  // What a filing says, on real filings' sentences (CrowdStrike, Tilray, Service Properties, Carvana, Corteva).
+  const splitsIn = (t) => readFilingText(t).splits.map((x) => x.ratio);
+  eq('a stated split ratio is read in figures and in words', [splitsIn('approved a four-for-one stock split'), splitsIn('a 3-for-2 stock split'), splitsIn('a 1:20 reverse split'), splitsIn('a five-for-one forward stock split of the Class A common stock')], [[0.25], [2 / 3], [20], [0.2]]);
+  eq('a reverse split stated after a par value: "$0.0001 per share ..., at a ratio of one-for-ten"', splitsIn('approved a reverse stock split of the Company\'s outstanding shares of common stock, par value $0.0001 per share ("Common Stock"), at a ratio of one-for-ten (the "Reverse Stock Split")'), [10]);
+  eq('"every five of our common shares ... converted and reclassified into one" is 1-for-5', splitsIn('Pursuant to the Reverse Share Split, every five of our common shares of beneficial interest, par value $.01 per share, issued and outstanding as of the Share Split Time were converted and reclassified into one common share of beneficial interest'), [5]);
+  eq('"each share ... subdivided and reclassified into five shares" is 5-for-1', splitsIn('to effect a stock split. At the Effective Time, each share of the Company\'s Class A common stock issued and outstanding immediately prior to the Effective Time will be automatically subdivided and reclassified into five shares of the Class A common stock'), [0.2]);
+  eq('figures that only sit near the word split are not a ratio', [splitsIn('the Stock Split and an increase in authorised shares from 7,756,156 to 52,000,000'), splitsIn('none-for-one split'), splitsIn('every two shares of preferred stock were converted into one share')], [[], [], []]);
+  const corteva = readFilingText('<p>On October 1, 2026, Corteva, Inc. completed the previously announced separation of its seed business through a pro rata distribution of all of the outstanding shares of NewCo to Corteva stockholders.</p>');
+  eq('a separation by distribution is a corporate action, with no split ratio', [corteva.splits, corteva.other.map((x) => x.kind)], [[], ['separation', 'distribution']]);
+
+  const D = '2026-10-01';
+  const url = (n) => `https://www.sec.gov/Archives/edgar/data/1/0000000001260000${String(n).padStart(2, '0')}/doc${n}.htm`;
+  const filing = (form, filed, text, n = 1) => ({ form, filed, accession: `0000000001-26-0000${String(n).padStart(2, '0')}`, url: url(n), text });
+  const cand = (change) => ({ index: 10, change, splitShaped: splitRatio(change), ordinaryVolume: true, grade: 'H' });
+  const ev = (filings, shares = []) => ({ date: D, cik: 1, filings, shares });
+
+  const r1 = classify(cand(0.25), ev([filing('8-K', '2026-09-10', 'a four-for-one stock split')], [{ end: '2026-08-01', val: 250e6 }, { end: '2026-11-01', val: 1000e6 }]));
+  eq('a normal split: CONFIRMED_SPLIT at the 8-K\'s ratio, with the filing named', [r1.type, r1.ratio, r1.confirmed, r1.evidenceSource, r1.evidenceUrl], [ACTION.SPLIT, 0.25, true, '8-K', url(1)]);
+  const r2 = classify(cand(10.2), ev([filing('8-K', '2026-09-28', 'a one-for-ten reverse stock split')]));
+  eq('a reverse split: CONFIRMED_REVERSE_SPLIT at the stated 10, not the day\'s 10.2', [r2.type, r2.ratio], [ACTION.REVERSE, 10]);
+  const r3 = classify(cand(1 / 6), ev([filing('8-K', D, 'completed the separation of its seed business; the spin-off was effected by a pro rata distribution')]));
+  eq('Corteva: a 6-for-1-shaped move a spin-off explains is OTHER_CORPORATE_ACTION, never a guessed 6-for-1', [r3.type, r3.ratio, r3.confirmed, r3.reason], [ACTION.OTHER, null, true, `spin-off described in the 8-K filed ${D}`]);
+  const r4 = classify(cand(0.5), ev([filing('8-K', '2026-09-30', 'reported third quarter results')]));
+  eq('a split-shaped move no filing explains, with no share counts: UNRESOLVED', [r4.type, r4.ratio, r4.confirmed], [ACTION.UNRESOLVED, null, false]);
+  eq('a large move that is no ratio, with no action behind it: an ordinary price move', classify(cand(0.43), ev([filing('8-K', '2026-09-30', 'announced topline results; the merger agreement was terminated')])), null);
+  eq('a split-shaped fall whose share count did not move, with nothing filed: an ordinary move', classify(cand(2 / 3), ev([], [{ end: '2026-08-01', val: 104.8e6 }, { end: '2026-11-15', val: 105e6 }])), null);
+  const r5 = classify(cand(0.5), ev([filing('8-K', '2026-09-10', 'a two-for-one stock split')], [{ end: '2026-08-01', val: 100e6 }, { end: '2026-11-01', val: 101e6 }]));
+  eq('a stated split the share count contradicts: UNRESOLVED, not confirmed', [r5.type, r5.ratio, /do not move as it would/.test(r5.reason)], [ACTION.UNRESOLVED, null, true]);
+  eq('a stated ratio the move does not match is not this move\'s split', classify(cand(0.5), ev([filing('8-K', '2026-09-10', 'a three-for-one stock split')])).type, ACTION.UNRESOLVED);
+  eq('a split mentioned only in an annual report months before is not confirmed on its own', classify(cand(0.5), ev([filing('10-K', '2026-05-01', 'the two-for-one stock split effected in 2024')])).type, ACTION.UNRESOLVED);
+  eq('a spin-off mentioned in a 10-K or a proxy establishes nothing', classify(cand(0.5), ev([filing('10-K', '2026-09-01', 'risks related to the spin-off'), filing('DEF 14A', '2026-09-15', 'a special dividend', 2)])).type, ACTION.UNRESOLVED);
+  eq('an exchange ratio counts only behind a split-shaped move', [classify(cand(0.5), ev([filing('8-K', D, 'at the exchange ratio of 0.5 shares')])).type, classify(cand(0.55), ev([filing('8-K', D, 'at the exchange ratio of 0.5 shares')]))], [ACTION.OTHER, null]);
+  eq('no evidence read yet: split-shaped is UNRESOLVED and pending, anything else ordinary', [classify(cand(0.5), null).type, classify(cand(0.5), null).pending, classify(cand(0.43), null)], [ACTION.UNRESOLVED, true, null]);
+
+  // What is published.
+  const pub = publishedAction({ type: ACTION.OTHER, ratio: 0.5, confirmed: true, reason: 'x', evidenceSource: '8-K', evidenceFiling: 'a', evidenceUrl: 'https://evil.example/doc.htm' }, D);
+  eq('a non-split action never carries a ratio, and only an EDGAR document is published as evidence', [pub.action_ratio, pub.evidence_url], [null, null]);
+  eq('a split\'s ratio is published as the filing states it, never rounded', publishedAction({ type: ACTION.SPLIT, ratio: 1 / 3, confirmed: true }, D).action_ratio, 1 / 3);
+
+  // A confirmed split needs evidence and a ratio; nothing else, and nothing malformed, rescales.
+  const halving = Array.from({ length: 253 }, (_, i) => o(i < 240 ? 200 : 100));
+  const bad = [
+    ['a split with no ratio', { type: ACTION.SPLIT, ratio: null, confirmed: true }],
+    ['an unconfirmed split', { type: ACTION.SPLIT, ratio: 0.5, confirmed: false }],
+    ['a split whose ratio points the wrong way', { type: ACTION.SPLIT, ratio: 2, confirmed: true }],
+    ['a reverse split below one', { type: ACTION.REVERSE, ratio: 0.5, confirmed: true }],
+    ['an OTHER action carrying a ratio', { type: ACTION.OTHER, ratio: 0.5, confirmed: true }],
+    ['a class this code does not know', { type: 'STOCK_DIVIDEND', ratio: 0.5, confirmed: true }],
+    ['a bare string', 'CONFIRMED_SPLIT'],
+    ['a ratio of Infinity', { type: ACTION.SPLIT, ratio: Infinity, confirmed: true }],
+  ];
+  for (const [name, action] of bad) {
+    const a = adjustForSplits(halving, () => action);
+    check(`${name} rescales nothing and bounds the history`, a.splits.length === 0 && a.prices[0] === 200 && a.boundary === 240 && [ACTION.OTHER, ACTION.UNRESOLVED].includes(a.actions[0]?.action.type), JSON.stringify(a.actions));
+  }
+  const rowBad = rowFor(halving, () => ({ type: ACTION.OTHER, ratio: 0.5, confirmed: true }), calendarOf(253));
+  eq('and the published row of an OTHER action carries no ratio', [rowBad.corporateActions[0].action_ratio, rowBad.splits], [null, []]);
+
+  // A stored classification is used only for the move it was made for.
+  const stored = { [D]: { shape: 0.5, change: 0.5, result: { type: ACTION.SPLIT, ratio: 0.5, confirmed: true } } };
+  const res = resolverFor(stored);
+  eq('a stored result applies to its own move, and never to a different one on the same date', [res(cand(0.5), D)?.type, res(cand(0.51), D)?.type, res(cand(0.5), '2026-10-02')?.type], [ACTION.SPLIT, ACTION.UNRESOLVED, ACTION.UNRESOLVED]);
+
+  // The event boundary, window by window. 253 days of 100 + i/10, the action between index b-1 and b (a 1/6 move).
+  const cal = calendarOf(253);
+  const other = () => ({ type: ACTION.OTHER, ratio: null, confirmed: true, reason: 'spin-off described in the 8-K', evidenceSource: '8-K', evidenceFiling: null, evidenceUrl: null });
+  const bounded = (b) => rowFor(Array.from({ length: 253 }, (_, i) => o(i < b ? 600 + i : 100 + i / 10)), other, cal);
+  const late = bounded(240);
+  eq('12 days after a spin-off: the price stands, every trailing window crossing it is withheld', [late.price, late.historyValidFrom, late.statsStatus, late.base1m, late.base3m, late.vol3m, late.high52, late.low52, late.vol12m, late.drawdownPeak], [125.2, cal[240], 'history', null, null, null, null, null, null, null]);
+  const mid = bounded(200);
+  eq('52 days after: the 1-month change returns, its base after the event; 3, 6 and 12 months and the 52 weeks stay withheld', [mid.base1m, mid.base1mDate, mid.base3m, mid.base6m, mid.base12m, mid.vol3m, mid.high52], [123.1, 231, null, null, null, null, null]);
+  const old = bounded(150);
+  eq('102 days after: the 3-month change and 3-month volatility return; 6 and 12 months and the 52 weeks do not', [old.base3m, old.base3mDate, typeof old.vol3m, old.vol3mReturns, old.base6m, old.base12m, old.high52, old.vol12m], [118.9, 189, 'number', 63, null, null, null, null]);
+  const just = bounded(189);
+  eq('a window starting on the event day lies after it: the 3-month change and its 63 returns come back exactly then', [just.base3m, just.base3mDate, typeof just.vol3m, just.vol3mReturns], [118.9, 189, 'number', 63]);
+  const oneShort = bounded(190);
+  eq('one day later and neither does: the base would sit before the event', [oneShort.base3m, oneShort.vol3m], [null, null]);
+  eq('a year after the event every figure is back', [bounded(0).historyValidFrom, typeof bounded(0).high52], [null, 'number']);
+
+  // State: classifications persist beside the days, under the same version; the backfill survives.
+  const s = emptyState();
+  s.calendar = calendarOf(30, '2026-09-01');
+  s.calendar.forEach((d, i) => recordDay(s, d, { SPLT: o(i < 20 ? 200 : 100), MOVE: o(i < 25 ? 100 : 43), QUIET: o(50), GONE: i < 10 ? o(i < 5 ? 100 : 50) : undefined }, {}));
+  for (const d of s.calendar) if (!s.days[d].obs.GONE) delete s.days[d].obs.GONE;
+  const queue = pendingEvidence(s);
+  eq('the candidates to read: split-shaped first, then the most recent; a symbol no longer priced waits', queue.map((q) => [q.symbol, q.date]), [['SPLT', s.calendar[20]], ['MOVE', s.calendar[25]]]);
+  const evSplit = { checked: true, date: s.calendar[20], cik: 1, filings: [filing('8-K', s.calendar[15], 'a two-for-one stock split')], shares: [] };
+  recordEvidence(s, 'SPLT', queue[0].date, queue[0].candidate, evSplit, new Date('2026-10-14T12:00:00Z'));
+  recordEvidence(s, 'MOVE', queue[1].date, queue[1].candidate, { checked: false, error: 'HTTP 503' }, new Date('2026-10-14T12:00:00Z'));
+  eq('a classified candidate is not read again; an unreadable one is, a few times', pendingEvidence(s, { now: new Date('2026-10-14T13:00:00Z') }).map((q) => q.symbol), ['MOVE']);
+  recordEvidence(s, 'SPLT', queue[0].date, queue[0].candidate, { checked: false, error: 'HTTP 503' }, new Date('2026-10-14T14:00:00Z'));
+  eq('evidence that cannot be read keeps the classification already held', s.actions.SPLT[queue[0].date].result.type, ACTION.SPLIT);
+  const round = loadState(JSON.parse(JSON.stringify(s)));
+  eq('the state keeps its version and carries the classifications through a save', [STATE_VERSION, round.version, round.actions.SPLT[queue[0].date].result.ratio, Object.keys(round.days).length], [2, 2, 0.5, 30]);
+  eq('a state saved before classifications existed loads with none, its days intact', [Object.keys(loadState({ version: 2, calendar: s.calendar, days: s.days, failed: {} }).actions).length, Object.keys(loadState({ version: 2, calendar: s.calendar, days: s.days, failed: {} }).days).length], [0, 30]);
+  pruneState(s, s.calendar.slice(25).map((date) => ({ date, link: 'x' })), 5);
+  eq('a classification leaves the state with its day', Object.keys(s.actions), ['MOVE']);
+
+  // One symbol's bad record never touches another, or the file.
+  const s2 = stateFrom(calendarOf(260), { ABCD: (i) => 100 + i, HALF: (i) => (i < 250 ? 200 : 100) });
+  const halfDate = s2.calendar[250];
+  s2.actions = { HALF: { [halfDate]: { shape: 0.5, change: 0.5, get result() { throw new Error('corrupt'); } } } };
+  const built = buildReference(s2, { generatedAt: 'x', attribution: IEX_ATTRIBUTION, termsUrl: 'x', methodology: { version: METHODOLOGY_VERSION } });
+  eq('a symbol whose record cannot be read is skipped, and the others publish as before', [Object.keys(built.reference.symbols), built.reference.counts.skipped, built.reference.symbols.ABCD[built.reference.columns.indexOf('high52')]], [['ABCD'], 1, 359]);
+  s2.actions = { HALF: { [halfDate]: { shape: 0.5, change: 0.5, result: { type: ACTION.OTHER, ratio: null, confirmed: true, reason: 'spin-off', evidenceSource: '8-K', evidenceFiling: null, evidenceUrl: null } } } };
+  const b2 = buildReference(s2, { generatedAt: 'x', attribution: IEX_ATTRIBUTION, termsUrl: 'x', methodology: { version: METHODOLOGY_VERSION } });
+  const half = Object.fromEntries(b2.reference.columns.map((c, i) => [c, b2.reference.symbols.HALF[i]]));
+  eq('a bounded symbol publishes its boundary and its action; the counts say so', [half.historyValidFrom, half.corporateActions[0].corporate_action_type, half.high52, b2.reference.counts.otherActions, b2.reference.counts.bounded], [halfDate, ACTION.OTHER, null, 1, 1]);
+  check('and its weekly chart starts after the action: no week before it on the same line', b2.history.H.symbols.HALF.every(([d]) => d >= 250), JSON.stringify(b2.history.H.symbols.HALF.slice(0, 2)));
+}
+
+// The SEC evidence reader, over a fake EDGAR.
+{
+  const tickers = tickerIndex({ fields: ['cik', 'name', 'ticker', 'exchange'], data: [[1, 'Split Co', 'SPLT', 'Nasdaq'], [2, 'Class Co', 'BRK-B', 'NYSE'], ['x', 'Bad', 'BAD', 'NYSE']] });
+  eq('the ticker map: integer CIKs only, a class written with a dash', tickers, { SPLT: 1, 'BRK-B': 2 });
+  const sub = { filings: { recent: { form: ['8-K', '8-K', '10-K', '8-K', 'S-8'], filingDate: ['2026-09-20', '2026-09-25', '2026-03-01', '2026-09-26', '2026-09-27'], accessionNumber: ['0000000001-26-000001', '0000000001-26-000002', '0000000001-26-000003', '0000000001-26-000004', '0000000001-26-000005'], primaryDocument: ['a.htm', '../../evil.htm', 'k.htm', 'c.htm', 's8.htm'] } } };
+  const seen = [];
+  const site = {
+    'https://data.sec.gov/submissions/CIK0000000001.json': sub,
+    'https://www.sec.gov/Archives/edgar/data/1/000000000126000001/a.htm': 'a two-for-one stock split',
+    'https://www.sec.gov/Archives/edgar/data/1/000000000126000001/index.json': { directory: { item: [{ name: 'ex99-1.htm' }, { name: 'https://evil.example/x.htm' }] } },
+    'https://www.sec.gov/Archives/edgar/data/1/000000000126000001/ex99-1.htm': 'press release',
+    'https://www.sec.gov/Archives/edgar/data/1/000000000126000004/c.htm': 'results',
+    'https://www.sec.gov/Archives/edgar/data/1/000000000126000004/index.json': { directory: { item: [] } },
+    'https://data.sec.gov/api/xbrl/companyconcept/CIK0000000001/dei/EntityCommonStockSharesOutstanding.json': { units: { shares: [{ end: '2026-08-01', val: 1e6, form: '10-Q', accn: 'x' }] } },
+  };
+  const get = async (u) => {
+    seen.push(u);
+    if (!(u in site)) throw new Error('HTTP 404');
+    return site[u];
+  };
+  const e = await gatherEvidence({ symbol: 'SPLT', date: '2026-10-01', tickers, get, splitShaped: false });
+  eq('a move not shaped like a split reads current reports only, nearest first, with their press releases', e.filings.map((f) => [f.form, f.filed, /press release/.test(f.text)]), [['8-K', '2026-09-26', false], ['8-K', '2026-09-20', true]]);
+  check('every request is on sec.gov, and no path a filing supplied is followed', seen.every((u) => /^https:\/\/(www|data)\.sec\.gov\//.test(u)) && !seen.some((u) => /evil/.test(u)), seen.join(' '));
+  eq('the cover share counts come with it', e.shares, [{ end: '2026-08-01', val: 1e6, form: '10-Q', accession: 'x' }]);
+  eq('a symbol with no SEC registrant has nothing to read, and says so', await gatherEvidence({ symbol: 'XLK', date: '2026-10-01', tickers, get }), { checked: true, date: '2026-10-01', cik: null, filings: [], shares: [] });
+  const limited = await gatherEvidence({ symbol: 'SPLT', date: '2026-10-01', tickers, get: async (u) => { if (/c\.htm$/.test(u)) { const err = new Error('SEC answered 429'); err.stop = true; throw err; } return get(u); }, splitShaped: false });
+  eq('a rate limit is never swallowed: the read stops and nothing is concluded', [limited.checked, limited.stop], [false, true]);
+  const down = await gatherEvidence({ symbol: 'SPLT', date: '2026-10-01', tickers, get: async () => { throw new Error('HTTP 503'); } });
+  eq('EDGAR down is not evidence', [down.checked, down.stop], [false, false]);
 }
 
 // ── 4. the 52-week figures, by hand ──────────────────────────────────────
@@ -212,29 +401,6 @@ const flatYear = (p = 100, n = 253) => Array.from({ length: n }, () => o(p));
 }
 
 // ── 5. the published files ──────────────────────────────────────────────
-const calendarOf = (n, from = '2025-10-01') => {
-  const out = [];
-  const d = new Date(`${from}T00:00:00Z`);
-  while (out.length < n) {
-    const wd = d.getUTCDay();
-    if (wd !== 0 && wd !== 6) out.push(d.toISOString().slice(0, 10));
-    d.setUTCDate(d.getUTCDate() + 1);
-  }
-  return out;
-};
-const stateFrom = (calendar, priceOf) => {
-  const s = emptyState();
-  s.calendar = calendar;
-  calendar.forEach((date, i) => {
-    const obs = {};
-    for (const [sym, f] of Object.entries(priceOf)) {
-      const p = f(i);
-      if (p !== null) obs[sym] = o(p);
-    }
-    recordDay(s, date, obs, { open: 0, close: 0 });
-  });
-  return s;
-};
 {
   const cal = calendarOf(260);
   const s = stateFrom(cal, {
@@ -253,7 +419,7 @@ const stateFrom = (calendar, priceOf) => {
   eq('the 52-week high and low with their dates', [row.high52, reference.calendar[row.high52Date], row.low52, reference.calendar[row.low52Date]], [359, cal[259], 108, cal[8]]);
   const gone = Object.fromEntries(reference.columns.map((c, i) => [c, reference.symbols.GONE[i]]));
   eq('a symbol that stopped trading is listed as stale, with no price', [gone.status, gone.price], ['stale', null]);
-  eq('the counts say how many are priced', reference.counts, { listed: 4, priced: 3, high: 3, usable: 0, stale: 1, discontinuity: 0, fullYear: 2 });
+  eq('the counts say how many are priced, and how many carry a corporate action', reference.counts, { listed: 4, priced: 3, high: 3, usable: 0, stale: 1, discontinuity: 0, fullYear: 2, confirmedSplits: 0, otherActions: 0, unresolved: 0, bounded: 0, skipped: 0 });
   eq('the source names the price for what it is', [reference.source.price, reference.source.disclaimer], ['IEX reference price', 'Venue-specific IEX reference price; not a consolidated closing price.']);
   check('the attribution IEX requires travels with the data', reference.source.attribution === IEX_ATTRIBUTION && history.A.source.attribution === IEX_ATTRIBUTION);
   check('nothing calls it a close', !/"(close|closingPrice|officialClose|nbbo)"/i.test(JSON.stringify(reference)) && !/consolidated close"/i.test(JSON.stringify(reference)));
@@ -336,6 +502,67 @@ const stateFrom = (calendar, priceOf) => {
   writeFileSync(join(work, 'index.json'), JSON.stringify(index));
   const fourth = run('--capture', `2026-10-01=${broken}`);
   check('a day IEX has not finished posting is recorded and retried later, and the run is not red', fourth.status === 0 && /2026-10-01: not read .*attempt 1/.test(fourth.stdout), fourth.stdout);
+  rmSync(work, { recursive: true, force: true });
+}
+
+// The corporate-action stage, end to end on a fake EDGAR.
+{
+  const work = mkdtempSync(join(tmpdir(), 'market-reference-ca-'));
+  const cal = calendarOf(30, '2026-08-03');
+  const ev = 20;
+  const s = emptyState();
+  const index = {};
+  for (const [i, date] of cal.entries()) {
+    recordDay(s, date, { SPLT: o(i < ev ? 200 : 100), SPIN: o(i < ev ? 600 : 100), UNRS: o(i < ev ? 80 : 40), NORM: o(50) }, { open: 0, close: 0 });
+    index[date.replaceAll('-', '')] = [{ feed: 'TOPS', version: '1.6', link: `https://example.invalid/${date}`, size: '1' }];
+  }
+  s.calendar = [...cal];
+  const statePath = join(work, 'state.json.gz');
+  const fresh = gzipSync(JSON.stringify(s));
+  writeFileSync(statePath, fresh);
+  writeFileSync(join(work, 'index.json'), JSON.stringify(index));
+  const acc = (cik, n) => `${String(cik).padStart(10, '0')}-26-${String(n).padStart(6, '0')}`;
+  const doc = (cik, n, name) => `https://www.sec.gov/Archives/edgar/data/${cik}/${acc(cik, n).replaceAll('-', '')}/${name}`;
+  const recent = (cik, rows) => ({ filings: { recent: { form: rows.map((r) => r[0]), filingDate: rows.map((r) => r[1]), accessionNumber: rows.map((_, n) => acc(cik, n + 1)), primaryDocument: rows.map((r) => r[2]) } } });
+  const site = {
+    'https://www.sec.gov/files/company_tickers_exchange.json': { fields: ['cik', 'name', 'ticker', 'exchange'], data: [[1, 'Split Co', 'SPLT', 'Nasdaq'], [2, 'Spin Co', 'SPIN', 'NYSE'], [3, 'Unr Co', 'UNRS', 'NYSE'], [4, 'Norm Co', 'NORM', 'NYSE']] },
+    'https://data.sec.gov/submissions/CIK0000000001.json': recent(1, [['8-K', cal[ev - 5], 'split.htm']]),
+    [doc(1, 1, 'split.htm')]: '<p>The Board declared a two-for-one stock split.</p>',
+    'https://data.sec.gov/submissions/CIK0000000002.json': recent(2, [['8-K', cal[ev], 'spin.htm']]),
+    [doc(2, 1, 'spin.htm')]: '<p>The Company completed the separation of its seed business through a pro rata distribution.</p>',
+    'https://data.sec.gov/submissions/CIK0000000003.json': recent(3, []),
+  };
+  const fixture = join(work, 'sec.json');
+  writeFileSync(fixture, JSON.stringify(site));
+  const out = join(work, 'market-reference.auto.json');
+  const hist = join(work, 'market-history');
+  const run = (...extra) => spawnSync(process.execPath, ['scripts/sync-market-reference.mjs', '--state', statePath, '--out', out, '--history-dir', hist, '--index', join(work, 'index.json'), ...extra], { encoding: 'utf8' });
+  const rowOf = (sym) => {
+    const ref = JSON.parse(readFileSync(out, 'utf8'));
+    return Object.fromEntries(ref.columns.map((c, i) => [c, ref.symbols[sym][i]]));
+  };
+
+  const off = run();
+  check('with --index the stage is off by default: offline runs never reach the network', off.status === 0 && /not read on this run/.test(off.stdout), off.stdout + off.stderr);
+  eq('unread, a split-shaped move is unresolved and bounded, never rescaled', [rowOf('SPLT').corporateActions[0].corporate_action_type, rowOf('SPLT').historyValidFrom, rowOf('SPLT').splits], ['UNRESOLVED', cal[ev], []]);
+
+  const on = run('--evidence', fixture);
+  check('the stage classifies every candidate and logs counts, never a price', on.status === 0 && /3 candidates classified \(1 splits, 0 reverse splits, 1 other actions, 1 unresolved, 0 ordinary moves\)/.test(on.stdout) && !/\b(200|100|600|80|40)\b(?!\s*(candidates|SEC|symbols))/.test(on.stdout.replace(/[\d-]{10}/g, '')), on.stdout + on.stderr);
+  check('a classification made after the file was written replaces it, though the date has not moved', !/left as it is/.test(on.stdout) && /wrote /.test(on.stdout), on.stdout);
+  const sp = rowOf('SPLT');
+  eq('the confirmed split rescales at the 8-K\'s ratio, with its provenance', [sp.splits, sp.historyValidFrom, sp.corporateActions[0].action_ratio, sp.corporateActions[0].evidence_url], [[[ev, 0.5]], null, 0.5, doc(1, 1, 'split.htm')]);
+  const sn = rowOf('SPIN');
+  eq('the spin-off is OTHER: no ratio, no rescale, bounded at its date', [sn.corporateActions[0].corporate_action_type, sn.corporateActions[0].action_ratio, sn.splits, sn.historyValidFrom, sn.price], ['OTHER_CORPORATE_ACTION', null, [], cal[ev], 100]);
+  eq('the unexplained halving stays UNRESOLVED; the quiet name carries nothing', [rowOf('UNRS').corporateActions[0].corporate_action_type, rowOf('NORM').corporateActions, rowOf('NORM').historyValidFrom], ['UNRESOLVED', [], null]);
+  eq('the methodology is the new version', JSON.parse(readFileSync(out, 'utf8')).methodology.version, 'iex-ref-2');
+
+  const again = run('--evidence', fixture);
+  check('a run with nothing new to classify leaves the file alone', again.status === 0 && /every candidate is classified/.test(again.stdout) && /left as it is/.test(again.stdout), again.stdout);
+
+  writeFileSync(statePath, fresh);
+  writeFileSync(fixture, JSON.stringify({ ...site, 'https://data.sec.gov/submissions/CIK0000000001.json': 429 }));
+  const limited = run('--evidence', fixture);
+  check('a 429 stops the stage for the run, the run stays green, and nothing unread is concluded', limited.status === 0 && /stopped: SEC answered 429/.test(limited.stdout) && rowOf('SPLT').corporateActions[0].corporate_action_type === 'UNRESOLVED' && rowOf('SPLT').splits.length === 0, limited.stdout + limited.stderr);
   rmSync(work, { recursive: true, force: true });
 }
 

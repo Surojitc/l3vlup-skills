@@ -119,7 +119,7 @@ Every entry below has at least one field `unverified`, a terms page that could n
 - `janestreet-jobs-feed` (terms not located; unverified: businessUse, displayRights, derivedUseRights, storageRights).
 - `employer-careers-pages` (terms not located; unverified: businessUse, storageRights).
 
-Other things a reviewer should know: the Anthropic API (`scripts/thesis-pilot.mjs`, `scripts/thesis-auth-check.mjs`) and Firecrawl (`scripts/detect-career-changes.mjs`) are processors, not data sources, and are outside this register. `scripts/daily-post.mjs` only posts out.
+Other things a reviewer should know: the Anthropic API (`scripts/thesis-pilot.mjs`, `scripts/thesis-auth-check.mjs`) and Firecrawl (`scripts/detect-career-changes.mjs`) are processors, not data sources, and are outside this register. `scripts/daily-post.mjs` only posts out. `scripts/sync-market-reference.mjs` reads two SEC sources besides IEX: EDGAR's structured APIs (`sec-edgar-structured`: submissions, share counts, the ticker map) and the text of filings near a large price move (`sec-edgar-filing-documents`), read only to classify the move. It publishes the classification, a short reason, the form, accession and a link to the filing on sec.gov, never the document's text.
 
 ## Keeping it current
 
