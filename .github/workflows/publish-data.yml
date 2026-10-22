@@ -24,6 +24,43 @@ name: Publish collected data
 # scripts/publication-contracts.mjs, looked up by a producer id that must
 # already be in that table. A caller cannot ask it to publish somewhere else.
 #
+# SCHEDULED AND REVIEW PUBLICATIONS NEVER SHARE A BRANCH
+# ------------------------------------------------------
+# On 20 October 2026 a controlled run of collect.yml, dispatched from a
+# feature branch (run 81), opened data pull request #192 on the producer's
+# one branch and, under G1, left it for a person. Two minutes later the
+# scheduled run from main rebuilt that same branch from main and its own
+# files, force-pushed it and merged #192. Nothing unreviewed reached main,
+# but the copy opened for review was replaced and the pull request a person
+# had been asked to read was merged with different contents.
+#
+# So there are now two paths, decided by publicationTarget() in main's
+# scripts/publication-contracts.mjs from GitHub's own `github.ref` and
+# `github.run_id`:
+#
+#   scheduled  collected by refs/heads/main and not marked review-only.
+#              The contract's branch, rebuilt and force-pushed as before,
+#              its pull request updated and, when the caller says `merge`,
+#              merged. Exactly what every daily run did before this change.
+#   review     anything else: a dispatch from another branch, or a run
+#              whose caller passed `review: true`. A branch of its own,
+#              `<contract branch>-review-<run id>`, a draft pull request
+#              titled "review: ...", whose body says who collected it and
+#              that it needs a person. Never merged here, whatever `merge`
+#              says, and outside the scheduled queue (see `concurrency`).
+#
+# The only thing a caller can add is `review: true`, and it moves a run one
+# way only: off the scheduled branch and away from merging. It names no
+# branch. The review branch comes from the contract and the run id, and a
+# scheduled run cannot reach it because a contract branch may not carry the
+# review marker (scripts/__tests__/publication-contracts.test.mjs).
+#
+# And before the scheduled path rewrites its branch it reads the commits on
+# any pull request open there. If one was not made by a scheduled
+# publication collected by main (a controlled run whose workflow file
+# predates this change, or a person), it leaves the branch and the pull
+# request alone and fails the run (scripts/check-publication-branch.mjs).
+#
 # WHAT IT TAKES FROM THE HANDOFF, AND WHAT IT REFUSES TO
 # ------------------------------------------------------
 # One invariant holds this whole design up: unprivileged collection may
@@ -64,6 +101,11 @@ on:
         required: false
         default: true
         type: boolean
+      review:
+        description: 'Publish for review only: a branch and draft pull request of this run alone, never merged. A run from any ref but main is review-only whatever this says.'
+        required: false
+        default: false
+        type: boolean
     outputs:
       number:
         description: 'The data pull request, if one was opened or updated'
@@ -78,8 +120,18 @@ on:
 # request that predates the first. Serialised, the second rebuilds on the
 # first's result. `cancel-in-progress: false`: a publication half-done is
 # worse than a publication that waits.
+#
+# A review publication queues in a group of its own, one per run. It writes
+# only its own branch and merges nothing, so it has nothing to wait for; and
+# it must not wait here, because GitHub keeps one pending run per group: a
+# review run queued behind a scheduled one would cancel any other scheduled
+# publication already waiting, and that publication's collection would be
+# lost for the day. Two review runs have two run ids, so two groups and two
+# branches, and neither can overwrite the other. The condition is the same as
+# publicationTarget()'s: main, and not marked review-only, is scheduled. The
+# scheduled group is still the literal `publish-data`.
 concurrency:
-  group: publish-data
+  group: ${{ (github.ref == 'refs/heads/main' && !inputs.review) && 'publish-data' || format('publish-data-review-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
@@ -115,16 +167,22 @@ jobs:
           name: ${{ inputs.artifact }}
           path: ${{ runner.temp }}/handoff
 
-      # Where this producer publishes, read from the contract rather than
-      # taken from the caller. Everything the shell below uses arrives through
-      # the environment; no expression is interpolated into a command.
+      # Where this run publishes, read from the contract rather than taken
+      # from the caller: the scheduled branch for a run collected by main,
+      # its own review branch for any other (see the header). The ref and the
+      # run id are GitHub's, not the caller's; `review` can only make a run a
+      # review run. Everything the shell below uses arrives through the
+      # environment; no expression is interpolated into a command.
       - name: Read the producer's contract
         id: contract
         env:
           PRODUCER: ${{ inputs.producer }}
+          REF: ${{ github.ref }}
+          RUN_ID: ${{ github.run_id }}
+          REVIEW: ${{ inputs.review }}
         run: |
           set -euo pipefail
-          node scripts/publication-target.mjs "$PRODUCER" >> "$GITHUB_OUTPUT"
+          node scripts/publication-target.mjs "$PRODUCER" --ref "$REF" --run-id "$RUN_ID" --review "$REVIEW" >> "$GITHUB_OUTPUT"
           cat "$GITHUB_OUTPUT"
 
       - name: Open or update the data pull request
@@ -134,6 +192,10 @@ jobs:
           PRODUCER: ${{ inputs.producer }}
           BRANCH: ${{ steps.contract.outputs.branch }}
           TITLE: ${{ steps.contract.outputs.title }}
+          REVIEW: ${{ steps.contract.outputs.review }}
+          KIND: ${{ steps.contract.outputs.kind }}
+          COLLECTED_BY: ${{ steps.contract.outputs.collected_by }}
+          RUN_ID: ${{ steps.contract.outputs.run_id }}
         run: |
           set -euo pipefail
           git config user.name  "l3vlup-bot"
@@ -142,7 +204,10 @@ jobs:
           # Rebuilt on the main this job checked out, every time. A refresh
           # nobody merged yesterday is replaced rather than stacked behind
           # today's, and the diff is always against the current default branch.
+          # A review run rebuilds its own branch the same way; only a re-run
+          # of that same run ever finds it already there.
           git checkout -q -B "$BRANCH"
+          base=$(git rev-parse HEAD)
 
           # The archive is read, and judged, before it is unpacked.
           #
@@ -185,12 +250,20 @@ jobs:
           # Again from this checkout, not the handoff. The pull request body
           # is written here for the same reason: prose a collector composed
           # would otherwise describe the change to whoever reviews it.
+          #
+          # A review body opens by saying it is review-only, names the ref
+          # that collected it and the main it was judged against; the
+          # scheduled body is unchanged.
+          report=(--ref main)
+          if [ "$REVIEW" = "true" ]; then
+            report=(--ref "$COLLECTED_BY" --review "$COLLECTED_BY" --base "$base")
+          fi
           git diff --cached --name-only > "$RUNNER_TEMP/publishing.txt"
           node scripts/validate-data-publication.mjs \
             --producer "$PRODUCER" \
             --staged "$RUNNER_TEMP/publishing.txt" \
             --report "$RUNNER_TEMP/pr-body.md" \
-            --ref main \
+            "${report[@]}" \
             --run-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" > /dev/null
 
           if git diff --cached --quiet; then
@@ -198,19 +271,52 @@ jobs:
             echo "number=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git commit -q -m "$TITLE $(date -u +%Y-%m-%d) [skip ci]"
+          # The trailers say which path made the commit. The scheduled path
+          # reads them back, below, before it rewrites its branch.
+          git commit -q -m "$TITLE $(date -u +%Y-%m-%d) [skip ci]" \
+            --trailer "Publication: $KIND" \
+            --trailer "Collected-by: $COLLECTED_BY" \
+            --trailer "Publication-run: $RUN_ID"
 
           # Forcing is safe here and only here: the non-fast-forward rule
-          # guards the default branch, and this branch has one author.
+          # guards the default branch, and this branch has one author. These
+          # checks are what keep it to one author.
+          if [ "$REVIEW" = "true" ]; then
+            # A review run writes the branch named for its own run and no
+            # other, so nothing it does can reach the scheduled one.
+            case "$BRANCH" in
+              *-review-"$RUN_ID") ;;
+              *) echo "::error::a review run may write only its own review branch, not $BRANCH"; exit 1 ;;
+            esac
+          else
+            case "$BRANCH" in
+              *-review-*) echo "::error::the scheduled publication never writes a review branch, and $BRANCH is one"; exit 1 ;;
+            esac
+            # A pull request already open on the scheduled branch is updated
+            # only if the scheduled path made every commit on it. Anything
+            # else is somebody's review copy, and it is left as it is.
+            open=$(gh pr list --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')
+            if [ -n "$open" ]; then
+              gh pr view "$open" --json commits > "$RUNNER_TEMP/open-commits.json"
+              node scripts/check-publication-branch.mjs \
+                --producer "$PRODUCER" \
+                --pr "$open" \
+                --commits "$RUNNER_TEMP/open-commits.json"
+            fi
+          fi
           git push -q --force origin "HEAD:refs/heads/$BRANCH"
 
           number=$(gh pr list --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')
           title="$TITLE $(date -u +%Y-%m-%d)"
+          # A review pull request opens as a draft, so even a person cannot
+          # merge it without first saying it is ready.
+          draft=()
+          if [ "$REVIEW" = "true" ]; then draft=(--draft); fi
           if [ -n "$number" ]; then
             gh pr edit "$number" --title "$title" --body-file "$RUNNER_TEMP/pr-body.md"
             echo "updated #$number"
           else
-            if ! gh pr create --base main --head "$BRANCH" \
+            if ! gh pr create --base main --head "$BRANCH" "${draft[@]}" \
                  --title "$title" --body-file "$RUNNER_TEMP/pr-body.md" > "$RUNNER_TEMP/pr.txt" 2>&1; then
               cat "$RUNNER_TEMP/pr.txt"
               echo "::error::could not open the data pull request. If the message above says GitHub Actions is not permitted to create pull requests, that is a repository setting: Settings, Actions, General, Workflow permissions. Nothing has been published and the collected files are on the $BRANCH branch."
@@ -225,26 +331,41 @@ jobs:
       # called workflow `github.ref` is the caller's ref: a collection
       # dispatched from a feature branch ran that branch's collector, which
       # nobody has reviewed, so its pull request is opened for inspection and
-      # left for a person, whatever the caller passed as `merge`.
-      - name: Leave a collection from another branch for a person
-        if: steps.pr.outputs.number != '' && inputs.merge && github.ref != 'refs/heads/main'
+      # left for a person, whatever the caller passed as `merge`. The same
+      # holds for a run marked review-only from main, and both now publish on
+      # a review branch of their own (see the header).
+      - name: Leave a collection from another branch, or marked review-only, for a person
+        if: steps.pr.outputs.number != '' && (github.ref != 'refs/heads/main' || steps.contract.outputs.review == 'true')
         env:
           NUMBER: ${{ steps.pr.outputs.number }}
           REF: ${{ github.ref }}
-        run: echo "::notice::data pull request #$NUMBER was collected by $REF, not main; it is open for review and will not be merged automatically"
+          BRANCH: ${{ steps.contract.outputs.branch }}
+        run: echo "::notice::data pull request #$NUMBER was collected by $REF for review, on $BRANCH; it is a draft for a person and will not be merged automatically"
 
+      # Three conditions, any one of which keeps a review pull request out:
+      # the caller's ref, the contract's verdict, and, inside the step, the
+      # branch the pull request actually comes from.
       - name: Merge the data pull request
         id: merge
-        if: steps.pr.outputs.number != '' && inputs.merge && github.ref == 'refs/heads/main'
+        if: steps.pr.outputs.number != '' && inputs.merge && github.ref == 'refs/heads/main' && steps.contract.outputs.review == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Through the environment rather than into the script text. Nothing
           # a collector read reaches this job at all, and this is the habit
           # that keeps it that way.
           NUMBER: ${{ steps.pr.outputs.number }}
+          BRANCH: ${{ steps.contract.outputs.branch }}
         run: |
           set -euo pipefail
           number="$NUMBER"
+          case "$BRANCH" in
+            *-review-*) echo "::error::$BRANCH is a review branch; a review pull request is never merged automatically"; exit 1 ;;
+          esac
+          head=$(gh pr view "$number" --json headRefName --jq .headRefName)
+          if [ "$head" != "$BRANCH" ]; then
+            echo "::error::#$number comes from $head, not the scheduled branch $BRANCH; it is left for a person"
+            exit 1
+          fi
           # Squash, because the ruleset allows nothing else. It requires no
           # approving review and no status check, so the merge is immediate;
           # the repository has auto-merge switched off, which is why this is a

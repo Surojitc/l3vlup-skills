@@ -338,14 +338,21 @@ check('the pull request body is a file, never an argument', /--body-file/.test(p
 // that must already be in the contract table. If a caller could name the
 // branch, a caller could publish anywhere.
 check('the branch is looked up from the contract', /publication-target\.mjs "\$PRODUCER"/.test(publishScripts));
-for (const key of ['BRANCH', 'TITLE']) {
-  const line = reusable.lines.find((l) => l.trim().startsWith(`${key}:`));
-  check(`the publisher's ${key} comes from the contract, not from its caller`, !!line && /\$\{\{ steps\.contract\.outputs\./.test(line), line);
+// Every line, in every step: the PR step, the notice and the merge all read
+// the branch, and each must read the contract's.
+for (const key of ['BRANCH', 'TITLE', 'REVIEW', 'KIND', 'COLLECTED_BY', 'RUN_ID']) {
+  const lines = reusable.lines.filter((l) => l.trim().startsWith(`${key}:`));
+  // The contract step itself is the one place REVIEW and RUN_ID come from
+  // GitHub and the caller's boolean; every later step reads its verdict.
+  const later = lines.filter((l) => !/\$\{\{ (inputs\.review|github\.run_id) \}\}/.test(l));
+  check(`the publisher's ${key} comes from the contract, not from its caller`, later.length > 0 && later.every((l) => /\$\{\{ steps\.contract\.outputs\.[a-z_]+ \}\}$/.test(l.trim())), later.join(' | '));
 }
 // Every reference, not only the interpolated ones: `inputs.merge` is read in
 // an `if:` without braces, and a smuggled `inputs.branch` would be too.
+// `review` is the fourth, and it is a boolean that names no place: it can
+// only move a run from the scheduled branch to its own review branch.
 const inputsUsed = Array.from(new Set(Array.from(reusable.text.matchAll(/\binputs\.([a-z_]+)/g)).map((m) => m[1]))).sort();
-eq('the publisher reads three inputs and no others', inputsUsed, ['artifact', 'merge', 'producer']);
+eq('the publisher reads four inputs and no others', inputsUsed, ['artifact', 'merge', 'producer', 'review']);
 const inputsStart = reusable.lines.findIndex((l) => l.trim() === 'inputs:');
 const inputsBlock = [];
 for (let i = inputsStart + 1; i < reusable.lines.length; i += 1) {
@@ -355,7 +362,12 @@ for (let i = inputsStart + 1; i < reusable.lines.length; i += 1) {
   if (/^ {6}[a-z_]+:$/.test(line)) inputsBlock.push(line.trim().slice(0, -1));
 }
 const inputsDeclared = inputsBlock.sort();
-eq('and declares exactly those three', inputsDeclared, ['artifact', 'merge', 'producer']);
+eq('and declares exactly those four', inputsDeclared, ['artifact', 'merge', 'producer', 'review']);
+{
+  const at = reusable.lines.findIndex((l) => l === '      review:');
+  const block = reusable.lines.slice(at, at + 5).join('\n');
+  check('review is a boolean, false unless a caller says otherwise', /type: boolean/.test(block) && /default: false/.test(block), block);
+}
 check('an existing pull request is found before a new one is opened', publishScripts.indexOf('gh pr list') < publishScripts.indexOf('gh pr create'));
 check('a pull request that could not be opened stops the run rather than being merged', /if: steps\.pr\.outputs\.number != '' && inputs\.merge/.test(publishText));
 check('a merge that fails leaves the pull request open and fails the run', /could not be merged[\s\S]*?exit 1/.test(publishScripts));
@@ -389,8 +401,64 @@ eq('the publisher runs two actions, both pinned by digest', publishUses, [
 check('the publisher installs no toolchain', !/setup-node|setup-python|npm (ci|install)|pip install/.test(publishText));
 check('the publisher reaches nothing but GitHub', !/curl|wget|fetch\(/.test(publishScripts));
 // One group across every caller: two producers committing into the same
-// branch history at once is how one of them publishes over the other.
-check('publishers are serialised repository-wide', /^concurrency:\n {2}group: publish-data\n {2}cancel-in-progress: false$/m.test(reusable.text));
+// branch history at once is how one of them publishes over the other. A
+// review publication queues alone, one group per run, so it can never
+// displace a scheduled publication waiting in the shared one. The condition
+// is publicationTarget()'s, written out; the scheduled value is the literal.
+check(
+  'scheduled publishers are serialised repository-wide, and each review run queues alone',
+  /^concurrency:\n {2}group: \$\{\{ \(github\.ref == 'refs\/heads\/main' && !inputs\.review\) && 'publish-data' \|\| format\('publish-data-review-\{0\}', github\.run_id\) \}\}\n {2}cancel-in-progress: false$/m.test(reusable.text),
+  reusable.text.match(/^concurrency:\n.*\n.*/m)?.[0],
+);
+
+// ── 5b. scheduled and review publications never share a branch ──────────
+// 20 October 2026: a controlled run's pull request (#192) sat on the
+// scheduled branch, and the scheduled run two minutes later force-pushed it
+// and merged it with its own contents. These pin the separation in the
+// workflow; publication-contracts.test.mjs pins the rule, and
+// publication-review.test.mjs runs these very scripts against real git.
+{
+  const steps = publishText.split('      - name: ');
+  const step = (prefix) => steps.find((x) => x.startsWith(prefix)) ?? '';
+  const contract = step("Read the producer's contract");
+  check('the target is decided from the run\'s own ref and id, by main\'s script', /node scripts\/publication-target\.mjs "\$PRODUCER" --ref "\$REF" --run-id "\$RUN_ID" --review "\$REVIEW"/.test(contract), contract);
+  eq(
+    'and those arrive from GitHub and the caller\'s boolean, and from nothing else',
+    contract.split('\n').filter((l) => /^ {10}[A-Z_]+:/.test(l)).map((l) => l.trim()),
+    ['PRODUCER: ${{ inputs.producer }}', 'REF: ${{ github.ref }}', 'RUN_ID: ${{ github.run_id }}', 'REVIEW: ${{ inputs.review }}'],
+  );
+  const pr = step('Open or update the data pull request');
+  const prRun = pr.slice(pr.indexOf('run: |'));
+  check('the scheduled path refuses to write a review branch', /\*-review-\*\) echo "::error::the scheduled publication never writes a review branch/.test(prRun));
+  check('a review run writes only the branch named for its own run', /\*-review-"\$RUN_ID"\) ;;/.test(prRun));
+  check(
+    'before the scheduled path force-pushes, it reads the commits on any open pull request there and lets main\'s check decide',
+    /gh pr view "\$open" --json commits > "\$RUNNER_TEMP\/open-commits\.json"/.test(prRun) &&
+      /node scripts\/check-publication-branch\.mjs[\s\\]*--producer "\$PRODUCER"[\s\\]*--pr "\$open"[\s\\]*--commits "\$RUNNER_TEMP\/open-commits\.json"/.test(prRun) &&
+      prRun.indexOf('check-publication-branch.mjs') < prRun.indexOf('git push'),
+  );
+  check('every commit says which path made it', /--trailer "Publication: \$KIND"[\s\\]*--trailer "Collected-by: \$COLLECTED_BY"[\s\\]*--trailer "Publication-run: \$RUN_ID"/.test(prRun));
+  check('a review pull request is opened as a draft', /if \[ "\$REVIEW" = "true" \]; then draft=\(--draft\); fi/.test(prRun) && /gh pr create --base main --head "\$BRANCH" "\$\{draft\[@\]\}"/.test(prRun));
+  check('and its body is written by main\'s gate, saying it is for review', /report=\(--ref "\$COLLECTED_BY" --review "\$COLLECTED_BY" --base "\$base"\)/.test(prRun) && /"\$\{report\[@\]\}"/.test(prRun));
+  check('the scheduled body still says it was collected by main', /report=\(--ref main\)/.test(prRun));
+
+  const merge = step('Merge the data pull request');
+  const cond = merge.split('\n').find((l) => l.trim().startsWith('if:'))?.trim();
+  eq('merging needs the caller\'s ref to be main and the contract to say scheduled', cond, "if: steps.pr.outputs.number != '' && inputs.merge && github.ref == 'refs/heads/main' && steps.contract.outputs.review == 'false'");
+  check('and the merge step itself refuses a review branch', /\*-review-\*\) echo "::error::\$BRANCH is a review branch/.test(merge));
+  check('and a pull request whose head is not the scheduled branch', /headRefName[\s\S]*?if \[ "\$head" != "\$BRANCH" \]/.test(merge) && merge.indexOf('headRefName') < merge.indexOf('gh pr merge'));
+  const notice = step('Leave a collection from another branch');
+  eq('a review publication is announced whatever merge says', notice.split('\n').find((l) => l.trim().startsWith('if:'))?.trim(), "if: steps.pr.outputs.number != '' && (github.ref != 'refs/heads/main' || steps.contract.outputs.review == 'true')");
+
+  // The one caller that offers review-only, and what it may pass. Every
+  // other caller passes nothing, so on main it is scheduled and on any other
+  // ref it is review-only regardless.
+  const col = workflows.find((w) => w.file === 'collect.yml').text;
+  eq('collect.yml marks a run review-only only from its own boolean dispatch input', [...col.matchAll(/^\s+review:\s*(.+)$/gm)].map((m) => m[1]), ['${{ inputs.review_only == true }}']);
+  for (const f of ['build-samples.yml', 'discover-ats.yml', 'market-reference.yml']) {
+    eq(`${f} passes no review flag, so only its ref decides`, /^\s+review:/m.test(workflows.find((w) => w.file === f).text), false);
+  }
+}
 
 // A downstream announcement waits for the merge. The daily social post reads
 // the calendar, the deal tape and the chartbook, so announcing a collection

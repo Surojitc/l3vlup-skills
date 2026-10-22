@@ -47,6 +47,7 @@ export const SUITES = [
   'publication-contracts',
   'publication-freshness',
   'publication-persistence',
+  'publication-review',
   'workflow-permissions',
   'market-reference',
   'rights-register',

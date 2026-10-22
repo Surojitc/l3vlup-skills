@@ -4,7 +4,14 @@
  *
  *   node scripts/validate-data-publication.mjs --producer open-data \
  *        --staged staged.txt [--report body.md] [--ref main] [--run-url URL]
+ *        [--review refs/heads/feature --base <sha>]
  *        [--now 2026-09-20T12:00:00Z]   (tests only; see below)
+ *
+ * `--review` is the ref a review run was collected from: the pull request
+ * body then opens by saying it is review-only, will not be merged
+ * automatically and needs a person, and names the commit of main its files
+ * were judged against (`--base`). The scheduled path passes neither, and its
+ * body is unchanged.
  *
  * Reads the staged list and the working tree, reads the previous copy of each
  * file straight out of `git show HEAD:<path>`, and asks
@@ -125,7 +132,15 @@ const reportPath = arg('report');
 if (reportPath) {
   writeFileSync(
     reportPath,
-    publicationReport({ producer, stats, staged, runUrl: arg('run-url'), ref: arg('ref'), extra: arg('extra') }),
+    publicationReport({
+      producer,
+      stats,
+      staged,
+      runUrl: arg('run-url'),
+      ref: arg('ref'),
+      extra: arg('extra'),
+      review: arg('review') ? { ref: arg('review'), base: arg('base') } : undefined,
+    }),
   );
   console.log(`report -> ${reportPath}`);
 }

@@ -48,6 +48,7 @@ const FETCHES_NOTHING_EXTERNAL = {
   'scripts/check-freshness.mjs': 'publication gate: compares file dates on disk',
   'scripts/keep-published-observations.mjs': 'publication gate: merges against the previously committed files via git',
   'scripts/publication-target.mjs': 'prints which files a producer may publish',
+  'scripts/check-publication-branch.mjs': 'publication gate: reads the commit list of an open data pull request from a local file',
   'scripts/thesis-feed-check.mjs': 'validates a claims feed file on disk',
   'scripts/thesis-failure-check.mjs': 'validates a failure report file on disk',
 };
