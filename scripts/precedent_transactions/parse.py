@@ -164,15 +164,66 @@ _OFFER_PATTERNS = [
     rf"cash\s+(?:equal\s+to|of|in\s+the\s+amount\s+of|payment\s+of)\s+{_AMT}",
     rf"{_AMT}\s+per\s+(?:share|unit|ADS)\s+(?:in\s+cash|merger\s+consideration|offer|purchase\s+price|consideration)",
     rf"(?:offer|purchase|per\s+share)\s+price\s+of\s+{_AMT}",
+    # Medley Management's "(ii) cash in an amount equal to $3.44 per share"
+    rf"cash\s+in\s+an\s+amount\s+equal\s+to\s+{_AMT}",
 ]
+#: the offer patterns read before offerReader 6, by which a tie is still settled as it was
+_OFFER_PATTERNS_BEFORE = len(_OFFER_PATTERNS) - 1
 _NOT_OFFER = re.compile(r"par\s+value|increase\s+of|decrease\s+of|less\s+than|more\s+than|in\s+excess\s+of|reduction\s+of|per\s+share\s+for\s+the\s+(?:first|second|third|fourth)|fee|expense|dividend|termination", re.I)
+#: the issuer buying its own shares, which is never a deal's price: 'On May 21,
+#: 2018, the Company offered to purchase 284,984 shares of its issued and
+#: outstanding common shares at a purchase price of $9.24 per share' (a
+#: business development company's quarterly tender, recited in FS Investment
+#: Corp III's merger proxy), a repurchase programme, an odd-lot or
+#: self-tender offer
+_SELF_TENDER = re.compile(
+    r"\b(?:offer(?:ed|s|ing)?|agreed|commenced\s+an?\s+(?:\w+\s+)?offer)\s+to\s+(?:re)?purchase\s+(?:up\s+to\s+)?(?:approximately\s+)?[\d,.]*\s*(?:million\s+)?(?:of\s+)?(?:shares|units)\s+of\s+(?:its|our)\b"
+    r"|\b(?:its|our)\s+(?:own\s+)?(?:shares|units|common\s+(?:stock|shares))\s+(?:in|through)\s+(?:a|an|the)\s+(?:\w+\s+){0,2}(?:tender|repurchase)"
+    r"|\b(?:share|stock|unit)\s+repurchase|\brepurchase\s+(?:program|programme|plan|offer)|\brepurchased\s+(?:approximately\s+)?[\d,.]+\s+(?:million\s+)?(?:shares|units)"
+    r"|\bodd[\s-]lot|\bself[\s-]tender|\bissuer\s+tender|\btender\s+offer\s+program",
+    re.I,
+)
+#: a dollar figure that is a number of shares: '$0.4041 shares of', 'of a share of'
+_SHARES_AFTER = re.compile(r"\s*(?:of\s+(?:an?|one)\s+)?(?:(?!per\b|a\b|each\b|for\b|in\b)\w+\s+){0,3}?(?:shares?|units?)\s+of\b", re.I)
+#: the sentence that pays the holders for their shares, not a recital: 'will be
+#: converted into the right to receive', 'you will receive', the defined
+#: merger consideration
+_PAYS = re.compile(r"converted\s+(?:automatically\s+)?into\s+(?:the\s+right\s+to\s+receive|cash)|\bright\s+to\s+receive\b|\bwill\s+(?:be\s+entitled\s+to\s+)?receive\b|[“\"]\s*(?:Merger|Offer|Per\s+Share)\s+(?:Consideration|Price)\s*[”\"]", re.I)
+#: a payment in the same words to someone other than the holders of the shares bought
+_NOT_PAID = re.compile(r"contingent|conditional|\bCVRs?\b|option|warrant|restricted|\bRSUs?\b|\bPSUs?\b|award|preferred|redemption|liquidation|\bput\b|dividend|distribution|\bwould\b|\bnotes?\b", re.I)
+#: what the background says of a price before the agreed one, in the words a
+#: background uses for it: 'Sierra would acquire MDLY for $3.75 in cash
+#: consideration and 0.41 shares ... (the “Initial Proposal”)', 'the July 12,
+#: 2018 framework ... $3.75 cash consideration'. Not the word "proposal" on its
+#: own, which is also the vote put to the holders ("the merger proposal").
+_EARLIER = re.compile(
+    r"\b(?:initial|first|revised|second|third|final|preliminary|written|verbal|oral|original|prior|earlier|competing|alternative|unsolicited|best\s+and\s+final)\s+(?:non-binding\s+)?(?:proposal|offer|bid|indication)s?\b"
+    r"|\bnon-binding\b|\bindications?\s+of\s+interest\b|\bcounter-?(?:proposal|offer)s?\b|\bframework\b|\bterm\s+sheet\b|\bbids?\b|(?-i:\b(?:Party|Bidder|Company|Sponsor|Bank)\s+[A-Z0-9]\b)",
+    re.I,
+)
 
 
-def parse_offer(text: str) -> tuple[float | None, str | None]:
-    """The per-share cash consideration: the figure the document states most often, with the phrase it was read from."""
-    found: Counter = Counter()
-    phrase: dict[float, str] = {}
-    for pat in _OFFER_PATTERNS:
+def offer_refusal(text: str, start: int, end: int) -> str | None:
+    """Why the dollar figure at text[start:end] is not this deal's price, or None: a count of shares, the issuer buying its own shares, or an earlier proposal."""
+    if _SHARES_AFTER.match(text[end:end + 40]):
+        return "an exchange ratio printed with a dollar sign, not dollars"
+    sentence = _sentence(text, start, end)
+    if _SELF_TENDER.search(sentence):
+        return "the issuer buying its own shares (a repurchase or self-tender), not the deal"
+    if _EARLIER.search(sentence):
+        return "a proposal, framework or bid before the one agreed, not the deal's terms"
+    return None
+
+
+def offer_candidates(text: str) -> list[dict]:
+    """
+    Every per-share cash figure the offer patterns find: {value, phrase,
+    refused, pays, excerpt}. `refused` says why a figure is not this deal's
+    price (offer_refusal); `pays` is whether its sentence is the one that pays
+    the holders for their shares (_PAYS), and the excerpt is the sentence.
+    """
+    out: list[dict] = []
+    for k, pat in enumerate(_OFFER_PATTERNS):
         for m in re.finditer(pat, text):
             before = text[max(0, m.start() - 60):m.start()]
             if _NOT_OFFER.search(before) or _NOT_OFFER.search(m.group(0)):
@@ -187,20 +238,75 @@ def parse_offer(text: str) -> tuple[float | None, str | None]:
             # (Fusion), "a maximum aggregate amount of $4.90 in cash" (Innocoll).
             lead = text[max(0, m.start() - 200):m.start()]
             lead = lead[max(lead.rfind(". "), lead.rfind(";"), lead.rfind("•")) + 1:]
-            if re.search(r"contingent|\bCVRs?\b|milestone", lead + m.group(0)) or re.match(r"[^.;]{0,20}per\s+CVR", text[m.end():m.end() + 30]):
-                continue
+            cvr = bool(re.search(r"contingent|\bCVRs?\b|milestone", lead + m.group(0)) or re.match(r"[^.;]{0,20}per\s+CVR", text[m.end():m.end() + 30]))
             try:
                 v = float(m.group(1).replace(",", ""))
             except ValueError:
                 continue
             if not 0.05 <= v <= 10_000:
                 continue
-            found[v] += 1
-            phrase.setdefault(v, re.sub(r"\s+", " ", m.group(0)).strip())
+            sentence = _sentence(text, m.start(), m.end())
+            # A contingent value right's payment is never counted (parse_offer
+            # passes over it, as it always has), but it is a reason a stored
+            # price is not the price: Spectrum stood at a CVR's "$0.20".
+            refused = "a contingent payment (a CVR or milestone), not the price" if cvr else offer_refusal(text, m.start(1), m.end(1))
+            pays = not refused and bool(_PAYS.search(sentence)) and not _NOT_PAID.search(sentence)
+            out.append({"value": v, "phrase": re.sub(r"\s+", " ", m.group(0)).strip(), "refused": refused, "pays": pays, "cvr": cvr, "earlier": k < _OFFER_PATTERNS_BEFORE, "excerpt": re.sub(r"\s+", " ", sentence).strip()[:400]})
+    return out
+
+
+def parse_offer(text: str) -> tuple[float | None, str | None]:
+    """
+    The per-share cash consideration, with the phrase it was read from: the
+    figure the document states most often, as it always was, unless every
+    passage stating it is one the reader refuses (offer_refusal: an earlier
+    proposal, framework or bid the background recites, the issuer's own
+    repurchase or self-tender, a share count printed with a dollar sign).
+    Then the price is the figure stated most often in the sentences that pay
+    the holders for their shares, and where there is none, there is no price:
+    the runner-up of a count is never promoted on frequency alone (a
+    preferred stock's liquidation preference, an option payout). FS
+    Investment Corp III's only figure was a 2018 quarterly tender's $9.24;
+    Welbilt's $15.00 is Party A's proposal. Medley Management's agreed $3.44,
+    in its consideration sentence, outnumbers the first framework's $3.75 as
+    soon as "cash in an amount equal to" is read.
+    """
+    cands = [c for c in offer_candidates(text) if not c["cvr"]]
+    found: Counter = Counter(c["value"] for c in cands)
     if not found:
         return None, None
-    v, _ = found.most_common(1)[0]
+    paying: Counter = Counter(c["value"] for c in cands if c["pays"])
+    before: Counter = Counter(c["value"] for c in cands if c["earlier"])
+    phrase = {}
+    for c in cands:
+        if not c["refused"]:
+            phrase.setdefault(c["value"], c["phrase"])
+    # A tie is settled as the earlier patterns settled it, so the phrase this
+    # reader adds moves no price it does not decide (Williams keeps the $43.50
+    # cash election over the mixed election's $8.00).
+    v = max(found, key=lambda x: (found[x], before[x]))
+    if v in phrase:
+        return v, phrase[v]
+    if not paying:
+        return None, None
+    v = max(paying, key=lambda x: (paying[x], found[x]))
     return v, phrase[v]
+
+
+def refused_offer(texts: list[str], offer: float | None) -> dict | None:
+    """
+    Where a stored price is no longer read: whether every passage the offer
+    patterns find it in is refused (offer_refusal), and why, with the first
+    such passage. None where the figure is still read somewhere, or is found
+    nowhere: a reading that cannot see the figure at all is no reason to
+    withdraw it.
+    """
+    if offer is None:
+        return None
+    seen = [c for t in texts for c in offer_candidates(t) if abs(c["value"] - offer) < 0.00005]
+    if not seen or any(not c["refused"] for c in seen):
+        return None
+    return {"reason": seen[0]["refused"], "excerpt": seen[0]["excerpt"]}
 
 
 _MIXED = re.compile(r"[“\"](?:Exchange Ratio|Stock Consideration|Share Consideration|Stock Election|Cash Election|Mixed Consideration)[”\"]|\d\.\d{2,4}\s+(?:of\s+an?\s+|validly\s+issued\s+|fully\s+paid\s+)*(?:shares?|units?)\s+of\b", re.I)

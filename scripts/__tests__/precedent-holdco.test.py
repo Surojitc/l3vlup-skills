@@ -158,9 +158,9 @@ eq("one whose document says the package is mixed keeps cash and stock", (parse.m
 
 # ── the version ──────────────────────────────────────────────────────────────
 
-# 3 and 4 are #189's and #195's readers; this rule is 5, so a row read
-# under either is read again.
-eq("the offer reader is version 5", filings.OFFER_READER, 5)
+# 3 and 4 are #189's and #195's readers; this rule is 5 (6 adds the price
+# read where the holders are paid), so a row read under either is read again.
+eq("the offer reader is version 5 or later", filings.OFFER_READER >= 5, True)
 eq("a row read under version 4 is due a re-read", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "offerReader": 4, "documentsRead": ["x"], "status": "ok"}), True)
 eq("a row read under version 2 is due a re-read", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "offerReader": 2, "documentsRead": ["x"], "status": "ok"}), True)
 
