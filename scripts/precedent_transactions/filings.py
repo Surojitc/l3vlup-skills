@@ -363,10 +363,19 @@ PREMIUM_READER = 6
 #: ASE's shares moved into ASE Industrial Holding), on a package with cash and
 #: an all-stock reading alike, and a re-read that finds no stock puts back the
 #: cash the offer reader had called cash and stock.
-OFFER_READER = 5
+#: 6: a price is read where the holders are paid, not where it is recited
+#: (parse.offer_refusal): never the issuer's own repurchase or self-tender (FS
+#: Investment Corp III and IV stood at the $9.24 of a 2018 quarterly tender),
+#: never a proposal, framework or bid the background recites (Medley
+#: Management at its first framework's $3.75 cash rather than the agreed $3.44;
+#: Welbilt at Party A's $15.00), never a share count printed with a dollar
+#: sign. Where every passage of the figure stated most often is refused, the
+#: price is the one the sentences paying the holders state, and with none the
+#: stored price is withdrawn with the reason (offerWithdrawn) rather than kept.
+OFFER_READER = 6
 
 #: the fields the offer reader owns, cleared before each reading
-OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved")
+OFFER_FIELDS = ("offerComponents", "offerImplied", "offerImpliedMethod", "offerImpliedDate", "offerImpliedBasis", "adsRatio", "offerPerAds", "offerUnresolved", "offerWithdrawn")
 
 
 def _where(urls: list[str], flat: list[str], excerpt: str | None) -> str | None:
@@ -387,6 +396,7 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
     too (a stored row may carry a contingent payment as its price); a reading
     that finds none keeps the stored figure.
     """
+    refused = None
     if reread:
         for text in texts:
             offer, basis = parse.parse_offer(text)
@@ -394,6 +404,12 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
                 if offer != row.get("offerPrice"):
                     row["offerPrice"], row["offerBasis"] = offer, basis
                 break
+        else:
+            # Nothing read. The stored figure stands where this reader cannot
+            # see it at all, and is withdrawn where every passage it is stated
+            # in is one the reader now refuses: a price is never kept because
+            # an earlier reader took it from the wrong sentence.
+            refused = parse.refused_offer(texts, row.get("offerPrice"))
     # Cash and stock is the offer reader's own call where no document says
     # the consideration is mixed: on a re-read it is made again, so a
     # correction that finds no stock puts the cash back.
@@ -402,12 +418,20 @@ def resolve_offer(row: dict, urls: list[str], texts: list[str], *, reread: bool 
     for k in OFFER_FIELDS:
         row.pop(k, None)
     row["offerReader"] = OFFER_READER
+    if refused:
+        was = row.get("offerPrice")
+        row["offerPrice"], row["offerBasis"] = None, None
+        row["offerWithdrawn"] = f"no per-share price is stated where the holders are paid; the ${was:,.4g} read before is {refused['reason']}: {refused['excerpt'][:300]}"
+        if row.get("status") == "ok":
+            row["status"] = "no-offer"
     agreed = row.get("announced") if row.get("announcedBasis") in AGREEMENT_BASES else None
     # With no cash price the deal is read as one paid in stock: the value its
     # filing states for the acquirer's shares, or the ratio times the close it
     # states, and nothing where it states neither (parse.read_stock_offer).
     o = parse.read_offer(texts, row.get("offerPrice"), row.get("offerBasis"), agreed, row.get("announcedOriginal"), (row.get("target") or {}).get("name"))
     if row.get("offerPrice") is None and not o["stock"]:
+        if row.get("offerWithdrawn"):
+            row["offerUnresolved"] = row["offerWithdrawn"]
         return row
     if o["perShare"]:
         # The price read was the price per ADS: the row's price is per share.

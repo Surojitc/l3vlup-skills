@@ -150,10 +150,10 @@ eq("and one priced per share keeps it", database.finalize({"status": "ok", "offe
 
 # ── the version ──────────────────────────────────────────────────────────────
 
-# Version 3 is this rule; 4 adds the all-stock offer (#195) and 5 the
-# holding company's share exchange (#188), so a row read under 3 is read
-# again too.
-eq("the offer reader is version 5", filings.OFFER_READER, 5)
+# Version 3 is this rule; 4 adds the all-stock offer (#195), 5 the holding
+# company's share exchange (#188) and 6 the price read where the holders are
+# paid, so a row read under 3 is read again too.
+eq("the offer reader is version 6", filings.OFFER_READER, 6)
 eq("a row read under version 3 is due a re-read", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "offerReader": 3, "documentsRead": ["x"], "status": "ok"}), True)
 eq("a row read under version 2 is due a re-read", filings.needs_premium_reread({"premiumReader": filings.PREMIUM_READER, "announcedReader": filings.ANNOUNCED_READER, "offerReader": 2, "documentsRead": ["x"], "status": "ok"}), True)
 
