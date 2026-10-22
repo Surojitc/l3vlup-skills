@@ -45,6 +45,7 @@ import copy
 import json
 import re
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -210,8 +211,12 @@ rows = {
     "shell": {"filed": "2014-05-01", "offerPrice": 7.0, "acquirer": "Landcadia Acquisition Corp."},
     "boom2": {"filed": "2018-02-01", "offerPrice": 15.0},
 }
-eq("a shell's price or name first, then the 2018-2023 boom, then the rest, newest first within each",
-   formindex.spac_check_order(rows), ["warrant", "shell", "old-10", "boom", "boom2", "new", "old"])
+# On the day of the 22 October 2026 finding, "new" (February 2026) is a filing
+# of the last 24 months, and is checked before the boom (filings.recent_first).
+eq("a shell's price or name first, then the last 24 months, then the 2018-2023 boom, then the rest, newest first within each",
+   formindex.spac_check_order(rows, today=date(2026, 10, 22)), ["warrant", "shell", "old-10", "new", "boom", "boom2", "old"])
+eq("two years on, the same proxy is no longer recent and waits behind the boom",
+   formindex.spac_check_order(rows, today=date(2028, 10, 22)), ["warrant", "shell", "old-10", "boom", "boom2", "new", "old"])
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
