@@ -70,6 +70,49 @@ def target_moved(row: dict | None, tx: dict) -> bool:
     return bool(current.strip("0")) and stored != current
 
 
+def filed_under(txs: list[dict]) -> dict[str, dict]:
+    """
+    Each statement the deck index lists inside a deal (an amendment, a second
+    filer's copy) with that deal, where the statement is not the deal's own id:
+    a row stored under such an accession belongs to the deal's subject company.
+    """
+    out: dict[str, dict] = {}
+    for t in txs:
+        for f in t.get("filings") or []:
+            accn = f.get("accession")
+            if accn and accn != t["id"]:
+                out.setdefault(accn, t)
+    return out
+
+
+def reidentify_orphans(rows: dict[str, dict], txs: list[dict]) -> int:
+    """
+    Rows the deck index no longer lists as a deal of their own but files under
+    another deal, stored under a different company than that deal's subject,
+    take the subject and the deal's buyer group, and so become a reading of
+    that deal. Liberty TripAdvisor's last 13E-3 amendment was filed from
+    Tripadvisor's EDGAR folder and stored as a deal for Tripadvisor, its
+    buyer, with Tripadvisor's revenue and share count.
+    """
+    deals = {t["id"] for t in txs}
+    inside = filed_under(txs)
+    moved = 0
+    for rid, row in rows.items():
+        if rid in deals or (row.get("source") or "SC 13E3") != "SC 13E3" or "subjectBasis" in row:
+            continue
+        t = inside.get(rid)
+        if t and target_moved(row, t):
+            name = (t.get("target") or {}).get("name") or "the subject company"
+            filings.reidentify_target(row, t["target"], f"the deck index files {rid} under the take-private of {name} ({t['id']}), its subject company")
+            row["sector"] = t.get("sector") or row.get("sector")
+            # and the deal's buyer group, which the stray row held an early copy of
+            if t.get("buyers"):
+                row["buyers"] = t["buyers"]
+                row["buyerType"] = t.get("buyerType") or row.get("buyerType")
+            moved += 1
+    return moved
+
+
 def build(limit: int | None = None, only: str | None = None, full: bool = False) -> dict:
     """Read the deck index, add or refresh rows, write the database and return it."""
     if not database.DECKS.exists():
@@ -100,6 +143,9 @@ def build(limit: int | None = None, only: str | None = None, full: bool = False)
     # over", so the other rows stay where they are.
     rows = {k: v for k, v in stored.items() if k not in owned} if (full and not only) else dict(stored)
     if not only:
+        moved = reidentify_orphans(rows, txs)
+        if moved:
+            print(f"{moved} rows filed under another deal's subject company re-identified", file=sys.stderr)
         filings.reread_stale_premiums(rows, [k for k in owned if k in rows], database.write, minutes=20)
         filings.reread_stale_securities(rows, [k for k in owned if k in rows], database.write, minutes=10)
     for i, tx in enumerate(todo, 1):

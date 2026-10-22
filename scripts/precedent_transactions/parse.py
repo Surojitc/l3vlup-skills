@@ -2806,8 +2806,21 @@ def cover_registrant(text: str) -> str | None:
     lines = [ln.strip() for ln in text[max(0, m.start() - 300): m.start()].splitlines() if ln.strip()]
     if not lines:
         return None
-    name = re.sub(r"^.*(?:☒|☐|☑|\[\s*[xX]?\s*\])\s*", "", lines[-1]).strip(" ,")
+    # A long name wraps onto two lines ("Crescent Capital" / "BDC, Inc."):
+    # the lines above the label belong to it until one is the cover's own
+    # wording (a checkbox, a box's caption, a rule number).
+    parts = [lines.pop()]
+    while lines and len(parts) < 3 and not _COVER_LABEL.search(lines[-1]) and len(" ".join([lines[-1]] + parts)) <= 120:
+        parts.insert(0, lines.pop())
+    name = re.sub(r"^.*(?:☒|☐|☑|\[\s*[xX]?\s*\])\s*", "", " ".join(parts)).strip(" ,")
+    # A cover that prints no name above the label leaves only its own wording.
+    if _COVER_LABEL.search(name):
+        return None
     return name if 2 <= len(name) <= 120 and re.search(r"[A-Za-z]", name) else None
+
+
+#: a line of the proxy cover that is not part of the registrant's name
+_COVER_LABEL = re.compile(r"☒|☐|☑|\[\s*[xX]?\s*\]|§|\bRule\b|\b14[ac]-\d|Statement|Materials|Commission|Registrant|Exchange\s+Act|^\W*[xXoý¨]\W*$|^\(?\d\)", re.I)
 
 
 def filer_aliases(text: str, name: str) -> set[str]:
@@ -2830,7 +2843,12 @@ def filer_aliases(text: str, name: str) -> set[str]:
     if base:
         pat = r"\s+".join(re.escape(w) for w in base.split()) + r"[^()]{0,20}?\(([^()]{1,160})\)"
         for m in list(re.finditer(pat, head, re.I))[:5]:
-            for term in re.findall(r"[“\"]\s*([^”\"]{1,40}?)\s*[”\"]", m.group(1)):
+            # A document whose quotation marks did not survive the conversion
+            # to text defines its terms bare: 'Fidelity National Financial,
+            # Inc. ( FNF )'. A bare parenthesis is a term only where it is one
+            # short name.
+            terms = re.findall(r"[“\"]\s*([^”\"]{1,40}?)\s*[”\"]", m.group(1)) or ([m.group(1).strip()] if re.fullmatch(r"\s*[A-Z][\w&.\-’']*(?:\s+[A-Z][\w&.\-’']*){0,2}\s*", m.group(1)) else [])
+            for term in terms:
                 t = norm_name(term)
                 # its own short name ("Transocean", "Victory Capital"), its
                 # initials ("CQH" for Cheniere Energy Partners LP Holdings) or
@@ -2838,7 +2856,10 @@ def filer_aliases(text: str, name: str) -> set[str]:
                 # party's term defined in the same parenthesis
                 acronym = term.strip().isupper() and len(term.strip()) <= 6 and term.strip()[0].lower() == base[0]
                 if t and t not in _PRONOUNS and (t.split()[0] == words[0] or t == "company" or acronym):
-                    out.add(t)
+                    # A word that opens a hundred names ("Liberty") stands
+                    # for the registrant only as the whole name, never as
+                    # the start of another's ("Liberty Expedia").
+                    out.add(t + "$" if t in _GENERIC_FIRST else t)
     # A first word the document defines for another company is that
     # company's: "The Williams Companies, Inc. (“Williams”)" in Williams
     # Partners' proxy, "Cheniere Energy, Inc. (“Cheniere”)" in CQH's.
@@ -2912,6 +2933,222 @@ def filer_is_buyer(text: str, name: str) -> dict | None:
         (bought if _is(alias, sub.group(1)) else buyer).append(f"subject company {sub.group(1).strip()[:60]}")
     if buyer and not bought:
         return {"evidence": buyer[:3]}
+    return None
+
+
+# ── whose holders are paid ─────────────────────────────────────────────────
+#
+# A precedent's target is the company whose shareholders receive the
+# consideration. filer_is_buyer asks who issues the shares in a joint
+# proxy/prospectus; this asks who is paid, and with what, from the sentences
+# that say so:
+#
+#   'each issued and outstanding share of Nellix capital stock ... will
+#    automatically be converted into the right or potential right to receive
+#    shares of our common stock'                     (Endologix's proxy)
+#   'For each share of Alcentra Capital common stock, Alcentra Capital
+#    stockholders will receive (a) 0.4041 shares of Crescent Capital Maryland
+#    BDC Common Stock and (b) $3.1784 in cash'       (Crescent Capital BDC's)
+#   'our issuance to equity holders of Earth Friendly Energy Group Holdings,
+#    LLC ... of 8.7 million shares of our Class A Common Stock ... as
+#    consideration for the merger'                    (Real Goods Solar's)
+#
+# Each names the company paid, and what it is paid with. The registrant is
+# not the company acquired where the front of its proxy names another
+# company's holders as paid, never its own, and says the payment is in the
+# registrant's own stock (or its issuance, or that the registrant will acquire
+# the other). All three are needed: a target's proxy also names the buyer's
+# holders, its own short name may escape the aliases, and a payment in a third
+# company's stock says nothing of who pays. Its own holders are paid where a
+# sentence names them, or says "you will receive $", or pays them a special
+# dividend beside the deal (Dr Pepper Snapple's $103.75). A registrant's holders exchanging
+# into its own successor ('one share of Crescent Capital Maryland BDC common
+# stock ... for each share of Crescent Capital BDC common stock') are not paid
+# by anyone: a reincorporation counts on neither side. A defined term
+# ('Company', 'Parent') or a pronoun names nobody and is passed over.
+
+_SHARE_WORDS = r"(?:[Cc]ommon\s+|[Oo]rdinary\s+|[Cc]apital\s+|[Pp]referred\s+|[Cc]lass\s+[A-C]\s+(?:[Cc]ommon\s+)?|[Ss]eries\s+[A-C]\s+(?:[Cc]ommon\s+)?)?(?:[Ss]hares?|[Ss]tock|[Uu]nits?|[Ii]nterests?)\b"
+_PAID = [
+    # 'each [issued and outstanding] share of X [common] stock ... converted into / exchanged for / right to receive'
+    re.compile(r"\beach\s+(?:issued\s+and\s+outstanding\s+|outstanding\s+)?(?:share|unit)\s+of\s+" + _CO + r"\s+" + _SHARE_WORDS + r"(?:(?!\b(?:was|were|had\s+been)\s+(?:automatically\s+)?(?:converted|exchanged)\b)[^.;]){0,240}?(?:converted\s+into|exchanged\s+for|right\s+(?:or\s+potential\s+right\s+)?to\s+receive)"),
+    # 'For each share of X common stock, X stockholders will receive'; 'X stockholders will be entitled to receive'
+    re.compile(_CO + r"(?:’s|'s)?\s+(?:stockholders|shareholders|unitholders|equityholders|equity\s+holders|securityholders|members)\s+(?:will|shall)\s+(?:each\s+)?(?:be\s+entitled\s+to\s+)?receive\b"),
+    # 'holders of GCI Class A Common Stock ... each will receive'
+    re.compile(r"\bholders\s+of\s+(?:outstanding\s+)?(?:shares\s+of\s+)?" + _CO + r"\s+" + _SHARE_WORDS + r"(?:(?!\b(?:vot\w*|should|may|aware|other\s+than)\b)[^.;]){0,160}?\b(?:will|shall)\s+(?:each\s+)?(?:be\s+entitled\s+to\s+)?receive\b"),
+    # 'our issuance to equity holders of Earth Friendly ... of 8.7 million shares'
+    re.compile(r"\b(?:issu(?:e|es|ed|ing|ance)|deliver(?:y|s|ed|ing)?)\s+to\s+(?:the\s+)?(?:former\s+)?(?:equity\s*holders|stockholders|shareholders|members|unitholders|securityholders|holders)\s+of\s+" + _CO),
+    # 'you will receive $16.99 in cash ... for each share of Meredith Common Stock'
+    re.compile(r"\byou\s+will\s+(?:be\s+entitled\s+to\s+)?receive\b[^.;]{0,200}?\bfor\s+each\s+(?:share|unit)\s+of\s+" + _CO),
+    # '... will receive 1.4663 shares of Colony NorthStar ... for each share of Colony common stock they own'
+    re.compile(r"\breceive\b(?:[^.;]|\.(?=\d)){0,200}?\bfor\s+each\s+(?:share|unit)\s+of\s+" + _CO + r"\s+" + _SHARE_WORDS + r"\s+(?:that\s+)?(?:they|you|such\s+holders?)\s+(?:own|hold)"),
+    # 'common stockholders of NRF will receive 1.0996 shares'
+    re.compile(r"\b(?:stockholders|shareholders|unitholders)\s+of\s+" + _CO + r"(?:\s+\([^)]{0,40}\))?\s+(?:will|shall)\s+(?:each\s+)?(?:be\s+entitled\s+to\s+)?receive\b"),
+]
+#: the registrant's own holders paid, in its own words: 'you will receive $6.10',
+#: 'the special cash dividend will be payable in cash to all holders of record of
+#: the outstanding shares of our common stock' (Dr Pepper Snapple's $103.75)
+_OURS_PAID = re.compile(
+    r"\b(?:you|our\s+(?:stockholders|shareholders|unitholders))\s+will\s+(?:be\s+entitled\s+to\s+)?receive\s+(?:US)?\$\s?\d"
+    r"|\bspecial\s+(?:cash\s+)?dividend\b[^.;]{0,160}?\b(?:holders|stockholders|shareholders)\s+of\s+(?:record\s+of\s+)?(?:the\s+)?(?:outstanding\s+)?shares\s+of\s+our\b"
+)
+#: a holder's own share becoming one share of the registrant's successor: a reincorporation, not a payment
+_ONE_FOR_ONE = re.compile(r"^[^.;]{0,80}?\bone\s+(?:share|unit)\s+of\s+" + _CO)
+#: what the holders are paid with, in the words after the sentence's subject: the registrant's own stock
+_OUR_STOCK = re.compile(r"\b(?:shares?|units?)\s+of\s+(?:our|its)\s+(?:[Cc]lass\s+[A-C]\s+)?(?:common|ordinary|capital)\b|\bour\s+(?:[Cc]lass\s+[A-C]\s+)?(?:common|ordinary)\s+(?:stock|shares|units)\b")
+_STOCK_OF = re.compile(r"\b(?:shares?|units?)\s+of\s+(?:the\s+)?" + _CO + r"\s+" + _SHARE_WORDS)
+#: the registrant's own issuance: 'our issuance to equity holders of', 'we will issue to the stockholders of'
+_WE_ISSUE = re.compile(r"\b(?:our\s+issuance|we\s+(?:will|would|propose\s+to|have\s+agreed\s+to)\s+issue)\s+to\b")
+#: the agreement a reorganization is made under: 'Agreement and Plan of Reorganization ... (the reorganization agreement), whereby'
+_PLAN = re.compile(r"[Aa]greement\s+and\s+[Pp]lan\s+of\s+(?:[Mm]erger|[Rr]eorganization)|[Rr]eorganization\s+[Aa]greement")
+#: a name that names nobody: a defined term, a pronoun, a class of shares
+_NOBODY = {"company", "companys", "acquired", "acquiring", "target", "surviving", "combined", "funds", "parent", "buyer", "purchaser", "acquiror", "acquirer", "holdco", "holdings", "topco", "bidco", "newco", "merger sub", "merger", "partnership", "trust", "fund", "issuer", "such", "each", "all", "any", "the", "its", "our", "your", "their", "new", "old",
+           "common", "class", "preferred", "series", "ordinary", "capital", "voting", "nonvoting", "restricted", "unvested", "vested", "eligible", "dissenting", "excluded", "public", "unaffiliated", "outstanding", "lp", "op", "units", "shares", "stock"}
+#: how far into a proxy its own account of the deal runs: the letter, the
+#: notice, the summary and the questions and answers. Past it are annexed
+#: financial statements, which recite the acquisitions of other companies.
+PAID_HEAD = 150_000
+
+
+def _who(captured: str) -> str:
+    """
+    A captured name without what is not the name: the sentence before it
+    ('... of the Code. Company'), its article, a successor's 'New' ('New
+    Eaton' is Eaton's holding company) and a possessive with whatever follows
+    it ("Knight’s Series A-1 Preferred" is Knight).
+    """
+    n = re.sub(r"\s+", " ", captured.strip())
+    n = n.rsplit(". ", 1)[-1]
+    n = re.split(r"(?:’|')s?\b", n, 1)[0]
+    n = re.sub(r"\s+(?:and|&|of)$", "", re.sub(r"^(?:the|The|New)\s+", "", n).strip(" ,"))
+    # the class of shares a greedy capture took with the name: "SRT Common", "GCI Class A Common"
+    return re.sub(r"(?:\s+(?:Class|Series)\s+[A-C](?:-\d)?)?(?:\s+(?:Common|Ordinary|Preferred|Voting))*$", "", n) or n
+
+
+#: a captured 'holder' that is a security, not a company
+_SECURITY = re.compile(r"\b(?:Notes?|Debentures?|Bonds?|Warrants?|Preferred|Options?|Rights|Units)\b", re.I)
+
+
+def _registrant_names(text: str, name: str) -> set[str]:
+    """
+    Every name the registrant goes by, for telling its holders from another
+    company's: filer_aliases, and the whole name itself with its article
+    dropped ("The Pep Boys – Manny, Moe & Jack" is "Pep Boys"; filer_aliases
+    drops a one-word name the document also defines, so Novell lost
+    "Novell"), its first two words, a three-letter first word the document
+    defines for no one else ("SBA"), and the name it says it will be called
+    ("Kinetic Concepts, Inc., which we refer to as KCI").
+    """
+    cover = cover_registrant(text)
+    out = set(filer_aliases(text, cover or name))
+    head = text[:120_000]
+    for n in {cover, name}:
+        base = re.sub(r"^the\s+", "", norm_name(re.sub(r"/[A-Z]{2}/?", " ", n or "")))
+        words = base.split()
+        if not words:
+            continue
+        out.add(base)
+        if len(words) > 1 and words[0] not in _GENERIC_FIRST:
+            out.add(" ".join(words[:2]))
+            # a short first word ("SBA" of SBA Communications) as the whole
+            # name only, where the document defines it for no other company
+            if len(words[0]) == 3 and not any(norm_name(d.group(2)) == words[0] and base not in norm_name(d.group(1)) for d in _DEFINES.finditer(head)):
+                out.add(words[0] + "$")
+        # 'Kinetic Concepts, Inc., which we refer to as KCI'
+        pat = r"\s+".join(re.escape(w) for w in base.split()) + r"[^()]{0,20}?,?\s+(?:which|whom)\s+we\s+(?:will\s+)?refer\s+to\s+(?:herein\s+)?as\s+(?:the\s+)?[“\"]?\s*([A-Z][\w&.\-’']*(?:\s+[A-Z][\w&.\-’']*){0,2})"
+        for m in list(re.finditer(pat, head, re.I))[:3]:
+            t = norm_name(m.group(1))
+            if t and t not in _PRONOUNS:
+                out.add(t + "$" if t in _GENERIC_FIRST else t)
+    return out
+
+
+def _registrant(alias: set[str], who: str) -> bool:
+    """Whether a captured name is the registrant: itself, or one of a pair ("Extraction and Crestone Peak")."""
+    return _is(alias, who) or any(_is(alias, part) for part in re.split(r"\s+(?:and|&)\s+", who) if part)
+
+
+def holders_paid(text: str, name: str) -> dict:
+    """
+    Who the front of the proxy (PAID_HEAD) says is paid, against the
+    registrant's own names (filer_aliases): {"registrant": [passage, ...],
+    "other": [(company, passage), ...], "payer": [passage, ...]}, the last
+    being the passages that pay another company's holders in the
+    registrant's own stock or say the registrant issues it.
+    """
+    alias = _registrant_names(text, name)
+    out: dict = {"registrant": [], "other": [], "payer": []}
+    if not alias:
+        return out
+    head = text[:PAID_HEAD]
+    for k, pat in enumerate(_PAID):
+        for m in pat.finditer(head):
+            who = _who(m.group(1))
+            n = norm_name(who)
+            if not n or n in _NOBODY or n.split()[0] in _NOBODY or _VEHICLE.search(who) or is_vehicle(who) or _SECURITY.search(who):
+                continue
+            passage = re.sub(r"\s+", " ", head[max(0, m.start() - 40): m.end() + 120]).strip()[:280]
+            after = head[m.end(): m.end() + 240]
+            after = after[: (re.search(r"\.\s+(?=[A-Z])|;", after) or re.search(r"$", after)).start()]
+            if _registrant(alias, who):
+                received = re.search(r"\breceive\b(.*)$", m.group(0), re.S)
+                one = _ONE_FOR_ONE.match(after) or (received and _ONE_FOR_ONE.match(received.group(1)))
+                if one and _is(alias, _who(one.group(1))):
+                    continue
+                out["registrant"].append(passage)
+                continue
+            out["other"].append((pretty(who), passage))
+            lead = head[max(0, m.start() - 60): m.start()]
+            if _OUR_STOCK.search(after) or _WE_ISSUE.search(lead + m.group(0)) or any(_is(alias, _who(s.group(1))) for s in _STOCK_OF.finditer(after)):
+                out["payer"].append(passage)
+    for m in _OURS_PAID.finditer(head):
+        out["registrant"].append(re.sub(r"\s+", " ", head[max(0, m.start() - 40): m.end() + 120]).strip()[:280])
+    # 'Liberty Interactive will acquire GCI through a reorganization': the
+    # registrant says it is the buyer, in its own account of this deal.
+    for m in _ACQUIRES.finditer(head[:40_000]):
+        near = head[max(0, m.start() - 300): m.end() + 300]
+        if _is(alias, _who(m.group(1))) and not _registrant(alias, _who(m.group(2))) and (_THIS_DEAL.search(near) or _PLAN.search(near)):
+            out["payer"].append(re.sub(r"\s+", " ", m.group(0))[:280])
+    return out
+
+
+def paid_elsewhere(text: str, name: str) -> dict | None:
+    """
+    Whether the proxy pays another company's holders, in the registrant's own
+    stock, and never the registrant's own holders: the evidence, or None. The
+    registrant is then the buyer, not the company acquired, however its proxy
+    reads a price.
+    """
+    paid = holders_paid(text, name)
+    if paid["other"] and paid["payer"] and not paid["registrant"]:
+        others = sorted({c for c, _ in paid["other"]})
+        return {"paid": others[:3], "evidence": paid["payer"][:3]}
+    return None
+
+
+#: a registrant redeeming its own stock for a subsidiary's: 'We refer to the
+#: redemption and the resulting separation of Splitco from FNF pursuant to the
+#: redemption as the Split-Off'
+_SPLIT_OFF = re.compile(r"\bseparation\s+of\s+" + _CO + r"\s+from\s+" + _CO + r"\s+pursuant\s+to\s+the\s+redemptions?\b[^.;]{0,40}?\bas\s+the\s+[“\"]?\s*Split-?[Oo]ff\b")
+
+
+def split_off(text: str, name: str) -> dict | None:
+    """
+    Whether the proxy puts a split-off to the registrant's own holders: the
+    registrant redeems its own (often tracking) stock for the shares of a
+    subsidiary it separates, as FNF did FNFV for Cannae and Liberty
+    Interactive its Ventures stock for Liberty Expedia. No company is
+    acquired and nobody pays a price, whatever figures the proxy recites. The
+    evidence, or None; a proxy that also says the registrant's holders are
+    paid in a merger is not one.
+    """
+    alias = filer_aliases(text, cover_registrant(text) or name)
+    if not alias:
+        return None
+    for m in _SPLIT_OFF.finditer(text[:PAID_HEAD]):
+        if _is(alias, re.sub(r"^(?:the|The)\s+", "", m.group(2))):
+            if holders_paid(text, name)["registrant"]:
+                return None
+            return {"evidence": [re.sub(r"\s+", " ", m.group(0))[:240]]}
     return None
 
 

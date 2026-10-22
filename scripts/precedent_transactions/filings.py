@@ -570,7 +570,145 @@ def set_aside_buyer(row: dict, found: dict | None) -> dict:
     return row
 
 
-def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
+#: The rule that says which company a row is about. 2: the company whose
+#: holders are paid. A merger proxy that pays another company's holders in the
+#: registrant's own stock is the buyer's (parse.paid_elsewhere: Endologix for
+#: Nellix, Real Goods Solar for Earth Friendly, Crescent Capital BDC for
+#: Alcentra), one that puts a split-off to its own holders acquires nothing
+#: (parse.split_off: FNF's FNFV redemption, Liberty Interactive's and Liberty
+#: Media's), and either is set aside with its reason rather than kept as a deal
+#: for the wrong company. The name is the one the registrant filed under (the
+#: form index), not the one EDGAR shows today: Meredith, not "Hawkeye
+#: Acquisition, Inc.", the vehicle Gray merged into it; Brigham Minerals, not
+#: "MNRL Sub Inc.". A take-private statement the deck index now files under
+#: another deal's subject company takes that company (Liberty TripAdvisor's
+#: last 13E-3 amendment was stored under Tripadvisor, its buyer). A row judged
+#: before this version is judged again from its first document, and the guard
+#: records each change under this version.
+TARGET_READER = 2
+
+
+def set_aside_target(row: dict, split: dict | None, paid: dict | None) -> dict:
+    """
+    A merger proxy that is not the acquired company's own: a split-off is
+    rejected (nothing is acquired), a proxy that pays another company's
+    holders in the registrant's stock is the buyer's (no-consideration, as an
+    acquirer-side vote is). Only a row still standing as a deal is judged.
+    """
+    if (row.get("source") or "SC 13E3") not in ("DEFM14A", "DEFM14C") or row.get("status") not in ("ok", "no-offer"):
+        return row
+    # A reverse merger is kept and labelled for what it is (formindex.judge_spac):
+    # the private company's holders are paid in the listed company's stock by design.
+    if row.get("dealType") == "reverse-merger" and not split:
+        return row
+    if split:
+        row["offerPrice"], row["offerBasis"] = None, None
+        row["status"] = "rejected"
+        row["error"] = "a split-off: the filer redeems its own stock for a subsidiary's shares, and no company is acquired"
+        row["targetBasis"] = split.get("evidence") or []
+    elif paid:
+        row["offerPrice"], row["offerBasis"] = None, None
+        row["status"] = "no-consideration"
+        row["error"] = f"the consideration is paid to {', '.join(paid.get('paid') or ['another company'])}'s holders, in the filer's own stock: the filer is the buyer, not the company acquired"
+        row["targetBasis"] = paid.get("evidence") or []
+    return row
+
+
+def name_as_filed(row: dict, filed: str | None) -> dict:
+    """
+    The target under the name it filed under. EDGAR's name is today's, and a
+    company bought is often renamed for the vehicle merged into it ("Hawkeye
+    Acquisition, Inc." for Meredith); today's name is kept beside it as
+    currentName, since it is the one EDGAR searches by.
+    """
+    target = row.get("target") or {}
+    filed = (filed or "").strip()
+    if filed and parse.norm_name(filed) != parse.norm_name(target.get("name")):
+        target.setdefault("currentName", target.get("name"))
+        target["name"] = filed
+    return row
+
+
+def _reading_status(row: dict) -> str | None:
+    """A row's own reading's status: a duplicate keeps it as readStatus, and is judged on it."""
+    return row.get("readStatus") if row.get("status") == "duplicate" else row.get("status")
+
+
+def judge_target(row: dict, text: str | None, filed: str | None = None) -> dict:
+    """
+    A stored merger proxy's target judged again from its first document: the
+    name it filed under, then whose holders it pays. A duplicate is judged on
+    its own reading, which dedupe restores before it re-decides the deal: a
+    buyer's earlier proxy left standing as a duplicate would otherwise become
+    the deal's primary once the later one is set aside.
+    """
+    name_as_filed(row, filed)
+    if text:
+        name = (row.get("target") or {}).get("name") or ""
+        dup = row.get("status") == "duplicate"
+        if dup:
+            row["status"] = row.get("readStatus")
+        set_aside_buyer(row, parse.filer_is_buyer(text, name))
+        set_aside_target(row, parse.split_off(text, name), parse.paid_elsewhere(text, name))
+        if dup:
+            row["readStatus"], row["status"] = row["status"], "duplicate"
+    row["targetReader"] = TARGET_READER
+    return row
+
+
+def reidentify_target(row: dict, target: dict, basis: str) -> dict:
+    """
+    A row stored under the wrong company takes the right one. What was read
+    at the old company's CIK (the share count, the LTM, the balance sheet) is
+    dropped, so the financials pass reads it again at the new one.
+    """
+    row["target"] = {k: target.get(k) for k in ("name", "cik", "sic", "sicDescription", "state")}
+    row["targetBasis"] = [basis]
+    # The buyer is derived again from the deal's buyer group (database.finalize).
+    for k in FINANCIAL_FIELDS + ("formsUsed", "financialsReader", "companyFactsMissing", "acquirer"):
+        row.pop(k, None)
+    row["targetReader"] = TARGET_READER
+    return row
+
+
+def needs_target_reread(row: dict) -> bool:
+    """A merger proxy still standing as a reading of a deal (a duplicate on its own reading) whose target was judged under an earlier rule."""
+    return (row.get("targetReader") or 1) < TARGET_READER and (row.get("source") or "SC 13E3") in ("DEFM14A", "DEFM14C") and _reading_status(row) in ("ok", "no-offer") and bool(row.get("documentsRead"))
+
+
+def reread_stale_targets(rows: dict[str, dict], ids: list[str], write, *, filed: dict[str, str] | None = None, cap: int | None = None, minutes: float = 15) -> int:
+    """
+    Judge again the target of every merger proxy in `ids` judged under an
+    earlier rule, from its first document only, until the time budget is
+    spent; a run cut short carries on next time. `filed` maps an accession to
+    the name its filer filed under (the form index).
+    """
+    budget = float(os.environ.get("PRECEDENTS_TARGET_MINUTES", minutes)) * 60
+    todo = sorted((i for i in ids if needs_target_reread(rows[i])), key=lambda i: rows[i].get("filed") or "")
+    if not todo:
+        return 0
+    print(f"{len(todo)} merger proxies whose target was judged under an earlier rule; judging them again for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
+    started, done, aside = time.time(), 0, 0
+    for i in todo:
+        if time.time() - started > budget:
+            break
+        row = rows[i]
+        try:
+            text = to_text(fetch(row["documentsRead"][0], cap=cap))
+        except Exception as e:  # noqa: BLE001
+            row.setdefault("readErrors", []).append(f"{row['documentsRead'][0].rsplit('/', 1)[-1]}: {str(e)[:60]}")
+            continue
+        status = row.get("status")
+        judge_target(row, text, (filed or {}).get(i))
+        aside += row.get("status") != status
+        done += 1
+        if done % 10 == 0:
+            write(rows)
+    print(f"{done} of {len(todo)} targets judged again, {aside} set aside", file=sys.stderr, flush=True)
+    return done
+
+
+def reread_premiums(row: dict, *, cap: int | None = None, filed: str | None = None) -> dict:
     """
     A stored row's premiums read again from the documents it was read from.
     The agreement date and the financials stand: they were not what was
@@ -594,13 +732,15 @@ def reread_premiums(row: dict, *, cap: int | None = None) -> dict:
         resolve_offer(row, urls, texts, reread=True)
     statements, aside = tied_statements(row, urls, texts)
     row = apply_premiums(row, statements, aside, texts)
-    # A stored merger proxy read again is asked the joint-proxy question too:
-    # Teledyne's proxy for FLIR stood as a deal for FLIR at $56.00.
-    name = (row.get("target") or {}).get("name") or ""
-    return set_aside_buyer(row, parse.filer_is_buyer(texts[0], name) if texts else None)
+    # A stored merger proxy read again is asked the joint-proxy question too
+    # (Teledyne's proxy for FLIR stood as a deal for FLIR at $56.00), and
+    # whose holders it pays.
+    if texts and (row.get("source") or "SC 13E3") in ("DEFM14A", "DEFM14C"):
+        return judge_target(row, texts[0], filed)
+    return row
 
 
-def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: int | None = None, minutes: float | None = None) -> int:
+def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: int | None = None, minutes: float | None = None, filed: dict[str, str] | None = None) -> int:
     """
     Read again the premiums of every row in `ids` that an earlier reader
     wrote, oldest filing first, until the time budget is spent. A run cut
@@ -617,7 +757,7 @@ def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: 
     for i in todo:
         if time.time() - started > budget:
             break
-        reread_premiums(rows[i], cap=cap)
+        reread_premiums(rows[i], cap=cap, filed=(filed or {}).get(i))
         done += 1
         if done % 10 == 0:
             write(rows)

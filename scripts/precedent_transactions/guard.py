@@ -22,6 +22,10 @@ Against the file as it stood when the run began (the baseline):
   - every change to a sourced field, kept or withdrawn, is recorded on the row
     under `revisions` with the run, the old value, the new one and the cause,
     so a published figure can always be traced back to what it replaced;
+  - which company a row is about is recorded too: a change of the target's
+    name, and a status the target rule set aside (the buyer's proxy, a
+    split-off), each under targetReader when that rule moved on the row, and
+    the figures such a row loses are recorded with that cause;
   - the announcement date is watched the same way, because the financials are
     read at it: a date that moves without announcedReader moving (or the
     target or the classification changing) is put back with its basis, and so
@@ -127,15 +131,28 @@ def _reclassified(prev: dict, cur: dict) -> bool:
     return (cur.get("status") in SET_ASIDE and prev.get("status") not in SET_ASIDE) or (cur.get("dealType") != prev.get("dealType"))
 
 
+#: the rule that says which company a row is about (filings.TARGET_READER)
+TARGET_READER = "targetReader"
+
+
+def _by_target_rule(prev: dict, cur: dict) -> str:
+    """' under targetReader 1 to 2' where the target rule moved on this row, else nothing."""
+    return f" under {TARGET_READER} {prev.get(TARGET_READER) or 1} to {cur.get(TARGET_READER)}" if _advanced(prev, cur, TARGET_READER) else ""
+
+
 def _cause(prev: dict, cur: dict, reader: str | None) -> str | None:
     """Why a sourced field may have changed on purpose, or None."""
     if _advanced(prev, cur, reader):
         return f"{reader} {prev.get(reader) or 1} to {cur.get(reader)}"
     if _target(prev) != _target(cur):
-        return "target re-identified"
+        return "target re-identified" + _by_target_rule(prev, cur)
     if _reclassified(prev, cur):
-        return f"reclassified {prev.get('status')}/{prev.get('dealType')} to {cur.get('status')}/{cur.get('dealType')}"
+        return f"reclassified {prev.get('status')}/{prev.get('dealType')} to {cur.get('status')}/{cur.get('dealType')}" + _by_target_rule(prev, cur)
     return None
+
+
+def _name(row: dict) -> str | None:
+    return (row.get("target") or {}).get("name")
 
 
 def _revise(row: dict, field: str, before, after, cause: str) -> None:
@@ -177,6 +194,13 @@ def protect(baseline: dict[str, dict], rows: dict[str, dict]) -> dict:
                 _revise(cur, "announced", prev.get("announced"), cur.get("announced"), why)
                 report["revised"] += 1
                 redated = f"re-dated {prev.get('announced')} to {cur.get('announced')} ({why})"
+        # Which company the row is about is recorded too: its name, and a
+        # status the target rule set aside. Neither is a figure the guard puts
+        # back, but a reader can always see what the row used to be.
+        for field, before, after in (("target.name", _name(prev), _name(cur)), ("status", prev.get("status"), cur.get("status"))):
+            if before != after and (field == "target.name" or (_advanced(prev, cur, TARGET_READER) and after in ("no-consideration", "rejected"))):
+                _revise(cur, field, before, after, (f"{TARGET_READER} {prev.get(TARGET_READER) or 1} to {cur.get(TARGET_READER)}" if _advanced(prev, cur, TARGET_READER) else _cause(prev, cur, None) or "read again"))
+                report["revised"] += 1
         for field, reader in SOURCED.items():
             before, after = prev.get(field), cur.get(field)
             if before == after:
