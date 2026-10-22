@@ -270,6 +270,51 @@ def read_documents(row: dict, docs: list[dict], *, cap: int | None = None, on_te
     return row
 
 
+# ── the order rows due a re-read are worked through ──────────────────────────
+#
+# Every pass below reads again the stored rows an earlier reader wrote, inside
+# a time budget, and a run cut short leaves the rest due for the next. On 22
+# October 2026 review run 3 hit those budgets before reaching 182 ok rows, almost
+# all filed between September 2025 and October 2026, because each pass worked
+# oldest filing first. Those rows kept the 11 October reading, and Finance OS's
+# default Premiums Paid sample, drawn from recent deals, fell to 24.
+#
+# So every pass now does the rows filed in the last RECENT_MONTHS first, then
+# the rest, keeping its own priority inside each group. Nothing is skipped: a
+# row not reached keeps its old reader version, so it is still due and the next
+# run starts on it. Rows are due only when a reader version moves, and a new
+# filing is read at the current versions, so the due set only shrinks between
+# version bumps and the older rows are reached once the recent ones are done.
+
+#: how far back a filing counts as recent for the re-read passes
+RECENT_MONTHS = 24
+
+
+def recent_cutoff(today: date | None = None) -> str:
+    """The first filing date that counts as recent: RECENT_MONTHS before today, as an ISO date."""
+    t = today or date.today()
+    months = t.year * 12 + (t.month - 1) - RECENT_MONTHS
+    y, m = divmod(months, 12)
+    m += 1
+    last = (date(y + (m == 12), m % 12 + 1, 1) - timedelta(days=1)).day
+    return date(y, m, min(t.day, last)).isoformat()
+
+
+def is_recent(row: dict, cutoff: str) -> bool:
+    """Whether a row was filed on or after `cutoff` (its announcement date where it records no filing date)."""
+    return (row.get("filed") or row.get("announced") or "")[:10] >= cutoff
+
+
+def recent_first(ids, rows: dict[str, dict], key=None, today: date | None = None) -> list[str]:
+    """
+    `ids` with the rows filed in the last RECENT_MONTHS first, then the rest,
+    each group in the pass's own order: by `key` where one is given, else as
+    `ids` came (the sort is stable).
+    """
+    cutoff = recent_cutoff(today)
+    return sorted(ids, key=lambda i: (not is_recent(rows[i], cutoff), key(i) if key else 0))
+
+
 #: The securities-class reading the stored rows were made with. A 13E-3 row
 #: read before it has its cover read again (one cached document): a tender for
 #: warrants, notes or a dividend-bearing preferred is rejected, with the reason.
@@ -301,9 +346,9 @@ def reread_securities(row: dict) -> dict:
 
 
 def reread_stale_securities(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 10) -> int:
-    """The stored 13E-3 rows in `ids` read before the securities-class reading, read again until the budget is spent."""
+    """The stored 13E-3 rows in `ids` read before the securities-class reading, read again until the budget is spent, recent filings first (recent_first)."""
     budget = float(os.environ.get("PRECEDENTS_SECURITIES_MINUTES", minutes)) * 60
-    todo = [i for i in ids if needs_securities_reread(rows[i])]
+    todo = recent_first([i for i in ids if needs_securities_reread(rows[i])], rows)
     if not todo:
         return 0
     print(f"{len(todo)} rows read before the securities-class reading; reading their covers for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
@@ -704,11 +749,12 @@ def reread_stale_targets(rows: dict[str, dict], ids: list[str], write, *, filed:
     """
     Judge again the target of every merger proxy in `ids` judged under an
     earlier rule, from its first document only, until the time budget is
-    spent; a run cut short carries on next time. `filed` maps an accession to
-    the name its filer filed under (the form index).
+    spent; a run cut short carries on next time. Filings of the last
+    RECENT_MONTHS first, then the rest, oldest first within each (recent_first).
+    `filed` maps an accession to the name its filer filed under (the form index).
     """
     budget = float(os.environ.get("PRECEDENTS_TARGET_MINUTES", minutes)) * 60
-    todo = sorted((i for i in ids if needs_target_reread(rows[i])), key=lambda i: rows[i].get("filed") or "")
+    todo = recent_first([i for i in ids if needs_target_reread(rows[i])], rows, key=lambda i: rows[i].get("filed") or "")
     if not todo:
         return 0
     print(f"{len(todo)} merger proxies whose target was judged under an earlier rule; judging them again for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
@@ -767,13 +813,14 @@ def reread_premiums(row: dict, *, cap: int | None = None, filed: str | None = No
 def reread_stale_premiums(rows: dict[str, dict], ids: list[str], write, *, cap: int | None = None, minutes: float | None = None, filed: dict[str, str] | None = None) -> int:
     """
     Read again the premiums of every row in `ids` that an earlier reader
-    wrote, oldest filing first, until the time budget is spent. A run cut
-    short keeps what it read (written every ten rows) and the next run carries
-    on, so a correction to the reader reaches the whole database over a run or
-    two without a step ever overrunning its timeout.
+    wrote, filings of the last RECENT_MONTHS first and then the rest, oldest
+    first within each (recent_first), until the time budget is spent. A run
+    cut short keeps what it read (written every ten rows) and the next run
+    carries on, so a correction to the reader reaches the whole database over
+    a run or two without a step ever overrunning its timeout.
     """
     budget = float(os.environ.get("PRECEDENTS_REREAD_MINUTES", minutes if minutes is not None else 40)) * 60
-    todo = sorted((i for i in ids if needs_premium_reread(rows[i])), key=lambda i: rows[i].get("filed") or "")
+    todo = recent_first([i for i in ids if needs_premium_reread(rows[i])], rows, key=lambda i: rows[i].get("filed") or "")
     if not todo:
         return 0
     print(f"{len(todo)} rows read with an earlier premium reader; reading their premiums again for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
@@ -1319,17 +1366,19 @@ def reread_financials(row: dict, *, cap: int | None = None) -> dict:
 
 
 def reread_stale_financials(rows: dict[str, dict], ids: list[str], write, *, minutes: float = 30, cap: int | None = None) -> int:
-    """The priced rows in `ids` read under an earlier financials reader, read again until the budget is spent."""
+    """The priced rows in `ids` read under an earlier financials reader, read again until the budget is spent, recent filings first (recent_first)."""
     budget = float(os.environ.get("PRECEDENTS_FINANCIALS_MINUTES", minutes)) * 60
     due = [i for i in ids if needs_financials_reread(rows[i])]
     if not due:
         return 0
-    # The rows that need a request (company facts, or a stated share count
-    # read again from the documents) first, those with no revenue or no EBITDA
-    # first among them; a row whose only change is the version is stamped
-    # without one, and the file is written every ten requests, not every ten rows.
+    # Filings of the last RECENT_MONTHS first, then the rest (recent_first).
+    # Within each, the rows that need a request (company facts, or a stated
+    # share count read again from the documents) first, those with no revenue
+    # or no EBITDA first among them; a row whose only change is the version is
+    # stamped without one, and the file is written every ten requests, not
+    # every ten rows.
     asks = lambda i: _facts_due(rows[i]) or stated_shares_stale(rows[i])  # noqa: E731
-    todo = sorted(due, key=lambda i: (not asks(i), rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
+    todo = recent_first(due, rows, key=lambda i: (not asks(i), rows[i].get("ltmRevenue") is not None and rows[i].get("ltmEbitda") is not None, rows[i].get("filed") or ""))
     n_ask = sum(1 for i in due if asks(i))
     print(f"{len(todo)} priced rows read under an earlier financials reader, {n_ask} needing a request (company facts, or a stated share count read again from the documents); reading them for up to {budget / 60:.0f} minutes", file=sys.stderr, flush=True)
     started, done, asked = time.time(), 0, 0
