@@ -5,7 +5,9 @@ One dated price per US-listed stock per trading day, from IEX's free historical 
 Code:
 
 - `lib/iex-tops.mjs`: the capture reader and the quality gate
-- `lib/market-reference.mjs`: the daily database, splits, the 52-week figures and the published files
+- `lib/market-reference.mjs`: the daily database, the event boundary, the 52-week figures and the published files
+- `lib/corporate-actions.mjs`: candidates, what a filing says, and the classification (pure)
+- `lib/corporate-action-evidence.mjs`: the SEC filings and share counts read for one candidate
 - `scripts/sync-market-reference.mjs`: the collector
 - `.github/workflows/market-reference.yml`
 
@@ -54,7 +56,7 @@ Written confirmation from IEX is not required to proceed. It is worth having on 
 
 ## 2. The IEX reference price
 
-**Methodology `iex-ref-1`:** the last eligible trade that printed on IEX in the final 30 minutes of the regular session.
+**Methodology `iex-ref-2`** (`iex-ref-1` until 22 October 2026, which inferred splits from the price alone; see section 4a): the last eligible trade that printed on IEX in the final 30 minutes of the regular session.
 
 - **Eligible:** not an odd lot, not extended hours, not broken. A broken last trade gives way to the one before; two broken leave no price.
 - **The window** is measured back from the session-end event in the capture, so a half day is judged against 1pm.
@@ -77,8 +79,8 @@ Graded on IEX's own trading in the symbol that day:
 **After grading:**
 
 - **Stale:** the latest graded day is more than 2 trading days before the as-of date. The price is withheld (`status: stale`).
-- **Discontinuity:** a move of more than 40% into the latest day, on a USABLE day, that is not an inferred split. The price is withheld until a later day confirms or replaces it. The same move on a HIGH day stands.
-- **Unexplained jump:** a move shaped like a split ratio on dollar volume over three times the 20-day median. The price stands if graded, but the 52-week figures are withheld while it is in the window.
+- **Discontinuity:** a move of more than 40% into the latest day, on a USABLE day, that no filing explains as a corporate action. The price is withheld until a later day confirms or replaces it. The same move on a HIGH day stands.
+- **A corporate action or an unresolved move** keeps the price and withholds the trailing figures that span it (section 4a).
 
 **On 16 October 2026** (the full capture, 62.8 GB decompressed):
 
@@ -92,7 +94,7 @@ Graded on IEX's own trading in the symbol that day:
 
 ## 4. The 52-week figures
 
-All are on daily reference prices, split-adjusted to today's share basis. A figure is stated only when 80% of the trading days in its window have a graded price.
+All are on daily reference prices, adjusted for confirmed splits to today's share basis. A figure is stated only when 80% of the trading days in its window have a graded price, and only when its whole window, base date included, lies on or after any `historyValidFrom` (section 4a).
 
 | Field | Definition |
 |---|---|
@@ -103,14 +105,36 @@ All are on daily reference prices, split-adjusted to today's share basis. A figu
 
 Position in the range, % below the high and % above the low are recomputed on the site from the price, the high and the low. Every figure is reproducible from published inputs except volatility, which needs the daily series. Its method and return count are published, and the suite recomputes it by hand.
 
-**Splits** are inferred, because the free feed announces none for stocks IEX does not list. The test is an overnight change over 40%, within 3% of a whole ratio, on ordinary dollar volume. Earlier prices are divided by the ratio, and the row lists each split with its date.
+## 4a. Corporate actions and the event boundary
+
+A move of more than 40% overnight may be a split, a reverse split, a spin-off, a special distribution, a reorganisation, a share-class change or an ordinary price move. The price series cannot tell them apart: Corteva's 1 October 2026 separation of its seed business left a price one sixth of the day before, exactly the shape of a 6-for-1 split, and `iex-ref-1` adjusted it as one. So the price test now only proposes **candidates**, and each is classified on the company's own SEC filings.
+
+**Evidence, in order:**
+
+1. **The filing.** The 8-K, 6-K, 10-Q, 10-K, registration and proxy filings within 120 days before and 45 after the date (current reports only for a move not shaped like a split), with an 8-K's EX-99 press release. A stated split ratio (`four-for-one stock split`, `at a ratio of one-for-ten`, `every five shares ... reclassified into one`) that the move matches within 15% confirms a split. A spin-off, separation, pro rata distribution, special dividend, reclassification or holding-company reorganisation described in a current report within 45 days before and 15 after makes it another action. An exchange ratio counts only behind a split-shaped move.
+2. **The share count** on the filing covers (`dei:EntityCommonStockSharesOutstanding`) either side of the date: corroboration only. A count that moves as a stated split would is cited; one that plainly does not (more than 25% off) makes the split UNRESOLVED; a split-shaped move no filing explains, whose count did not move at all across the date, is an ordinary move. A count never confirms a split, or sets a ratio, on its own.
+
+| Class | When | Prices | Published |
+|---|---|---|---|
+| `CONFIRMED_SPLIT`, `CONFIRMED_REVERSE_SPLIT` | a filing states the split and the move matches it | earlier prices multiplied by the filing's ratio, never a rounded inferred one | the ratio, the reason, the form, accession and link |
+| `OTHER_CORPORATE_ACTION` | a current report describes a non-split action | never rescaled | no ratio; `historyValidFrom` is the date |
+| `UNRESOLVED` | split-shaped and no filing explains it, the evidence conflicts, or no filing has been read yet | never rescaled | `historyValidFrom` is the date |
+| `ORDINARY_PRICE_MOVE` | no split shape and no action, or the share count rules a split out | as they are | nothing |
+
+**The event boundary.** With an OTHER or UNRESOLVED action, `historyValidFrom` is the date of the latest one. A figure is stated only when its whole window lies on or after it: the 1-month change from 21 trading days after, the 3-month change and volatility from 63, the 6-month change from 126, and the 52-week high, low, drawdown, 12-month change and volatility from 252. Each returns on its own as post-event history accumulates. The price itself stands. The weekly chart starts at the boundary. The row carries `corporateActions` (`corporate_action_type`, `corporate_action_effective_date`, `action_ratio`, `action_confirmed`, `corporate_action_reason`, `evidence_source`, `evidence_filing`, `evidence_url`) and `historyValidFrom`, which the site reads (L3vlup `lib/finance-os/providers/market-reference.ts`).
+
+**Safety.** Only a confirmed split with a finite ratio pointing the right way rescales; anything else, including a class the code does not know or a malformed record, is treated as UNRESOLVED. A stored classification applies only to the exact move it was made for. A symbol whose record cannot be read is left out of the file without touching another. `evidence_url` is published only for a document in EDGAR's archive.
+
+**The evidence stage** runs after the days are read, within 60 minutes: split-shaped candidates first, then the most recent, for symbols priced in the last three days. Requests go to sec.gov only, with `SEC_USER_AGENT` (default `L3VLUP Research (contact: suro@l3vlup.com)`), at most eight a second; a 403 or 429 ends the stage for that run. A company's submissions and share counts are fetched once a run. An UNRESOLVED candidate is read again weekly, six times at most, since filings can lag the move; an unreadable one keeps whatever it had. The classifications live in the daily database beside the days, under the same state version, so the year already read is kept. The published file is rewritten whenever any figure or classification changes, not only when a new day arrives.
+
+On the filings themselves (22 October 2026): CrowdStrike 4-for-1 (8-K 3 June 2026), Netflix 10-for-1, ServiceNow 5-for-1, Carvana 5-for-1, Texas Pacific Land 3-for-1 and StoneX 3-for-2 confirm as splits; Tilray 1-for-10, Service Properties 1-for-5, Amcor 1-for-5 and DuPont 1-for-3 as reverse splits; Corteva and Liberty Latin America as other actions; Sarepta's, ZoomInfo's and Rackspace's 3:2-shaped falls as ordinary moves; AstraZeneca's ADS-to-share change (no stated split) and every ETF (no SEC company registrant in the ticker map) stand UNRESOLVED.
 
 ## 5. What is published, and what is not
 
 | File | Holds |
 |---|---|
-| `data/market-reference.auto.json` | Per symbol: price, date, grade, seconds before the close, trades, late trades, IEX dollar volume, lag, status; the 52-week figures above; coverage; splits. Dates are indexes into the file's `calendar`. About 725 KB for 4,000 symbols |
-| `data/market-history/<A-Z>.auto.json` | One reference price per week per symbol (the last of the week), split-adjusted, for the range chart. 26 shards, about 3 MB in all, the largest about 120 KB |
+| `data/market-reference.auto.json` | Per symbol: price, date, grade, seconds before the close, trades, late trades, IEX dollar volume, lag, status; the 52-week figures above; coverage; confirmed splits; corporate actions with their SEC provenance; `historyValidFrom`. Dates are indexes into the file's `calendar`. About 725 KB for 4,000 symbols |
+| `data/market-history/<A-Z>.auto.json` | One reference price per week per symbol (the last of the week), adjusted for confirmed splits and starting after any other corporate action, for the range chart. 26 shards, about 3 MB in all, the largest about 120 KB |
 
 **Never published:** the daily database (every symbol, every day, about 17 MB compressed for a year). It lives only in the GitHub Actions cache. The collector refuses a state path inside the working tree, and the publication contract refuses any other path. The 15 GB captures are streamed and never written to disk.
 
@@ -137,11 +161,13 @@ Publication goes through `publish-data.yml` with `merge: false` until the two-ru
 node scripts/sync-market-reference.mjs --state /tmp/mr/state.json.gz --max-days 1
 ```
 
-`--index <file>` and `--capture <date>=<file.gz>` read local files.
+`--index <file>` and `--capture <date>=<file.gz>` read local files. `--evidence off` skips the SEC stage (the default with `--index`), `--evidence <file.json>` answers it from a fixture of URL to content, and `--evidence-minutes` bounds it.
 
 ## 7. Not covered
 
 - Consolidated prices, the official close, intraday prices or anything sooner than the next morning.
 - Dividends: prices are split-adjusted only, so a 12-month change is a price change, not a total return.
 - Ticker changes: a renamed company starts a new history.
+- ETF and fund splits: funds are not in SEC's company ticker map, so a fund's split stands UNRESOLVED and its 52-week figures return a year after it.
+- A split the filings state in words the reader does not know stays UNRESOLVED, never adjusted.
 - Markets outside the United States.
