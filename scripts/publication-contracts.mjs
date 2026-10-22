@@ -611,8 +611,15 @@ export function displayRef(ref) {
  *
  * Returns `{ problems }` when the run cannot be placed, and the run is then
  * published nowhere.
+ *
+ * `seed` is the branch a run's precedent collector was started from instead
+ * of main's copy of its files (collect.yml's `seed_ref`, applied by
+ * scripts/precedent-seed.mjs). A seeded run is a review run or it is no run:
+ * the rule is here, beside the one that decides review, so the seed step and
+ * this table cannot disagree about it. Only the producer that owns those
+ * files can be seeded.
  */
-export function publicationTarget(producer, { ref, runId, review } = {}) {
+export function publicationTarget(producer, { ref, runId, review, seed } = {}) {
   const contract = CONTRACTS[producer];
   if (!contract) return { problems: [`no publication contract named ${producer ?? '(none)'}`] };
   const problems = [];
@@ -627,9 +634,18 @@ export function publicationTarget(producer, { ref, runId, review } = {}) {
   if (problems.length) return { problems };
 
   const isReview = ref !== SCHEDULED_REF || flag === 'true';
+  const seeded = seed !== undefined && seed !== null && String(seed) !== '';
+  if (seeded) {
+    if (producer !== SEEDED_PRODUCER) return { problems: [`${producer} has no seed: only ${SEEDED_PRODUCER}'s precedent collector can start from one`] };
+    if (/[\r\n]/.test(String(seed))) return { problems: ['the seed is not a single line'] };
+    // A seeded run's guard compares it against the seed, not against main, so
+    // its output is fit for a person to read and never for main unread.
+    if (!isReview) return { problems: ['a run started from a seed is review-only, and this one is not: dispatch it with review_only, or from a branch other than main. Nothing has been collected or published'] };
+  }
   return {
     problems: [],
     review: isReview,
+    seeded,
     branch: isReview ? reviewBranch(producer, runId) : contract.branch,
     title: isReview ? `review: ${contract.title}` : contract.title,
     label: contract.label,
@@ -682,6 +698,136 @@ export function foreignCommits(commits) {
     }
   }
   return out;
+}
+
+// ── where the precedent collector started: published main, or a seed ──────
+//
+// THE FINDING THIS ANSWERS
+// ------------------------
+// On 22 October 2026 controlled review runs of collect.yml were dispatched
+// from branches carrying an earlier run's data/precedent-transactions.auto.json
+// as their starting state. The collecting job checks out main, on purpose (a
+// queued run must collect against current data), so every run started from
+// the file published on 11 October and the seed was ignored. Each run then
+// re-read rows under new reader versions within fixed time budgets and
+// stopped short of the same rows, so nothing accumulated from run to run.
+//
+// THE RULE
+// --------
+// A run may be started from a seed: a branch of this repository whose copies
+// of SEED_PATHS replace main's before any collector runs, and nothing else of
+// it is taken (scripts/precedent-seed.mjs). Only a review run may be seeded
+// (publicationTarget). The precedent guard's baseline is then the seed, so
+// what it keeps and the revisions it records are relative to the seed, while
+// the pull request's diff is against main.
+//
+// The collector records which dataset it started from in the file it writes,
+// as `startedFrom` (database.started_from), and that record is read here
+// twice: a scheduled publication whose precedent file says it started from a
+// seed is refused (seedPublicationProblems), and a review body names the seed's
+// ref, commit, generation time and sha256 (startedFromLines).
+
+/** The producer whose collector can be seeded, and the files a seed may replace. */
+export const SEEDED_PRODUCER = 'open-data';
+export const SEED_PATHS = Object.freeze(['data/precedent-transactions.auto.json', 'data/merger-index.auto.json']);
+/** The file that records where its run started. */
+export const STARTED_FROM_PATH = 'data/precedent-transactions.auto.json';
+
+const COMMIT_ID = /^[0-9a-f]{40}$/;
+const SHA256_HEX = /^[0-9a-f]{64}$/;
+const ISO_STAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$/;
+const SEED_REF_SHOWN = /^refs\/heads\/[A-Za-z0-9._\/-]{1,200}$/;
+
+/**
+ * Why a branch name cannot be a seed, or nothing. The name reaches `git
+ * fetch` as an argument and a pull request body as text, so it is held to a
+ * plain shape rather than cleaned: letters, digits and `._/-`, no `..`, no
+ * leading dash or slash, no `.lock` component. A branch of this repository
+ * only: a pull request ref, a tag or a full ref name is refused.
+ */
+export function seedBranchProblems(name) {
+  const n = typeof name === 'string' ? name : '';
+  if (!n) return ['the seed is empty'];
+  if (n.length > 200) return ['the seed branch name is longer than 200 characters'];
+  if (!/^[A-Za-z0-9._\/-]+$/.test(n)) return [`the seed must be a branch name of letters, digits and ._/- only, got ${JSON.stringify(n)}`];
+  if (n.startsWith('-') || n.startsWith('/') || n.endsWith('/') || n.endsWith('.')) return [`the seed ${JSON.stringify(n)} is not a branch name`];
+  if (n.includes('..') || n.includes('//') || n.split('/').some((c) => c === '' || c.startsWith('.') || c.endsWith('.lock'))) return [`the seed ${JSON.stringify(n)} is not a branch name`];
+  if (n.startsWith('refs/')) return [`the seed is a branch name, without refs/heads/: got ${JSON.stringify(n)}`];
+  return [];
+}
+
+/**
+ * The `startedFrom` record a precedent file carries, as it may be shown, or
+ * null when it has none. A value outside its shape is described rather than
+ * quoted, as displayRef does, so the record cannot put markup into a body.
+ */
+export function startedFrom(file) {
+  const s = file && typeof file === 'object' ? file.startedFrom : undefined;
+  if (!s || typeof s !== 'object' || Array.isArray(s)) return null;
+  const shown = (v, re) => (typeof v === 'string' && re.test(v) ? v : null);
+  const dataset = ['seed', 'published main', 'file on disk'].includes(s.dataset) ? s.dataset : 'unrecognised';
+  return {
+    dataset,
+    ref: shown(s.ref, SEED_REF_SHOWN),
+    commit: shown(s.commit, COMMIT_ID),
+    generatedAt: shown(s.generatedAt, ISO_STAMP),
+    sha256: shown(s.sha256, SHA256_HEX),
+    run: shown(s.run === undefined || s.run === null ? '' : String(s.run), RUN_ID),
+  };
+}
+
+/**
+ * The scheduled path never publishes a seeded collection. The seed step
+ * already refuses to seed a run that is not review-only; this is the same
+ * rule a second time, in the job that can merge, judged on what the
+ * collector itself recorded rather than on how the run was dispatched.
+ *
+ * `review` is whether this publication is a review one. Only the publisher's
+ * own call knows that, so validate-data-publication.mjs applies this when it
+ * is writing the pull request body, and the collecting job's pre-flight,
+ * which cannot know where its run will land, does not.
+ */
+export function seedPublicationProblems(producer, { staged, read }, { review }) {
+  if (producer !== SEEDED_PRODUCER || !staged.includes(STARTED_FROM_PATH)) return [];
+  const s = startedFrom(read(STARTED_FROM_PATH));
+  if (s?.dataset === 'seed' && !review) {
+    return [`the precedent transactions database was collected from a seed (${s.ref ?? 'an unrecognised ref'}), not from main; a seeded collection is published for review only, never on the scheduled branch`];
+  }
+  return [];
+}
+
+/**
+ * What a review body says about where the precedent collector started, or
+ * nothing when this publication carries no precedent file. `runId` is this
+ * publication's run: a record written by another run (a seed file no
+ * collector in this run rewrote carries its own run's record) is not
+ * presented as this run's.
+ */
+export function startedFromLines(producer, { staged, read }, runId) {
+  if (producer !== SEEDED_PRODUCER || !staged.includes(STARTED_FROM_PATH)) return [];
+  const s = startedFrom(read(STARTED_FROM_PATH));
+  const code = (v) => (v ? `\`${v}\`` : 'not recorded');
+  const head = ['### Where the precedent collector started', ''];
+  if (!s || (runId && s.run && s.run !== String(runId)) || (runId && !s.run)) {
+    return [
+      ...head,
+      `The precedent transactions database does not record that this run wrote it${s?.run ? ` (its record is run ${s.run}'s)` : ''}, so which dataset its figures started from is not known here. If this run was seeded and the collector did not finish a write, the file is the seed as fetched.`,
+      '',
+    ];
+  }
+  if (s.dataset === 'seed') {
+    return [
+      ...head,
+      `**This run started from a seed, not from main:** ${code(s.ref)} at commit ${code(s.commit)}. The seed's precedent file was generated at ${code(s.generatedAt)}, sha256 ${code(s.sha256)}.`,
+      '',
+      'The precedent guard compared this run against the seed: every figure it kept and every revision it recorded is relative to the seed, not to main. The diff of this pull request is against main, so it shows the seed\'s changes and this run\'s together.',
+      '',
+    ];
+  }
+  if (s.dataset === 'published main') {
+    return [...head, `This run started from published main at ${code(s.commit)}: precedent file generated at ${code(s.generatedAt)}, sha256 ${code(s.sha256)}.`, ''];
+  }
+  return [...head, `The precedent transactions database says it started from ${s.dataset === 'file on disk' ? 'the file on disk, outside the collection workflow' : 'an unrecognised dataset'}: generated at ${code(s.generatedAt)}, sha256 ${code(s.sha256)}.`, ''];
 }
 
 /** Every path any producer may publish, for the cross-producer overlap check. */
@@ -1095,7 +1241,7 @@ export function alsoChanged(paths) {
 }
 
 /** The pull request body: what was collected, what moved, what was checked. */
-export function publicationReport({ producer, stats, staged, runUrl, ref, extra, review }) {
+export function publicationReport({ producer, stats, staged, runUrl, ref, extra, review, started = [] }) {
   const contract = CONTRACTS[producer] ?? { label: producer };
   const lines = [
     `## ${contract.label[0].toUpperCase()}${contract.label.slice(1)}`,
@@ -1114,6 +1260,10 @@ export function publicationReport({ producer, stats, staged, runUrl, ref, extra,
       `> Its branch belongs to that run alone: the scheduled publication never writes to it, force-pushes it or merges it. Every file was judged against \`main\`${review.base && /^[0-9a-f]{7,40}$/.test(review.base) ? ` at \`${review.base}\`` : ''}. If \`main\` has published a newer copy of any of these files since, merging would replace it with this older one, so check before merging, or close this and delete the branch.`,
       '',
     );
+    // Where the precedent collector started (startedFromLines), for review
+    // bodies only: the scheduled body is unchanged, and a scheduled run is
+    // never seeded.
+    lines.push(...started);
   }
   lines.push(
     'Opened by the collection workflow. Every file below is generated; nothing here is hand-written.',

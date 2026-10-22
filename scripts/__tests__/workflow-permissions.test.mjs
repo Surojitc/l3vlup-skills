@@ -808,5 +808,54 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
 }
 
 
+// ── a review run started from a seed ───────────────────────────────────
+// 22 October 2026: review runs dispatched from branches carrying an earlier
+// run's precedent file all started from published main, because this job
+// checks out main. `seed_ref` replaces main's two precedent files with a
+// branch's before any collector runs, and nothing else of the branch. These
+// pin how the workflow reaches it; scripts/__tests__/precedent-seed.test.mjs
+// runs the script against real git, and publication-review.test.mjs runs the
+// publisher over a seeded collection.
+{
+  const col = workflows.find((w) => w.file === 'collect.yml');
+  const job = col.jobs.find((j) => j.name === 'collect');
+  const body = job.body.join('\n');
+  const steps = body.split('\n      - ');
+  const seedStep = steps.find((x) => x.startsWith('name: Start the precedent collector')) ?? '';
+  {
+    const at = col.lines.findIndex((l) => l === '      seed_ref:');
+    const block = at > -1 ? col.lines.slice(at, at + 4).join('\n') : '';
+    check('collect.yml offers seed_ref, a string that is empty unless a person types one', /type: string/.test(block) && /default: ''/.test(block), block);
+  }
+  check('the seed step exists, with an id the precedent steps read', /^name: Start the precedent collector[^\n]*\n\s+id: seed\n/.test(seedStep), seedStep.slice(0, 200));
+  eq(
+    'it is given the seed, the run\'s own ref and id, and the review flag, through the environment only',
+    seedStep.split('\n').filter((l) => /^ {10}[A-Z_]+:/.test(l)).map((l) => l.trim()),
+    ['SEED_REF: ${{ inputs.seed_ref }}', 'REF: ${{ github.ref }}', 'RUN_ID: ${{ github.run_id }}', 'REVIEW: ${{ inputs.review_only }}'],
+  );
+  check(
+    'and runs main\'s script, which decides review with publicationTarget, with the record outside the checkout',
+    /node scripts\/precedent-seed\.mjs --seed "\$\{SEED_REF:-\}" --ref "\$REF" --run-id "\$RUN_ID" --review "\$\{REVIEW:-\}" --record "\$RUNNER_TEMP\/precedent-start\.json" >> "\$GITHUB_OUTPUT"/.test(seedStep),
+    seedStep,
+  );
+  check('a seed that cannot be applied fails the run: no continue-on-error', !/continue-on-error/.test(seedStep));
+  check('nothing is interpolated into its script', !seedStep.slice(seedStep.indexOf('run: |')).includes('${{'));
+  check('it runs on every run that runs the precedent collector', /if: github\.event\.schedule == '0 8 1 \* \*' \|\| github\.event_name == 'workflow_dispatch'/.test(seedStep));
+  const at = (name) => body.indexOf(`- name: ${name}`);
+  const seedAt = at('Start the precedent collector');
+  check(
+    'it runs before any collector, and before anything else can change the checkout',
+    seedAt > -1 && seedAt < at('Test the publication contract') && seedAt < at('Economic calendar') && seedAt < at('Precedent transactions (take-privates)') && seedAt < at('Precedent transactions (public mergers)'),
+  );
+  for (const name of ['Precedent transactions (take-privates)', 'Precedent transactions (public mergers)']) {
+    const st = steps.find((x) => x.startsWith(`name: ${name}`)) ?? '';
+    check(`${name} is told where the run started`, /\n {10}PRECEDENTS_STARTED_FROM: \$\{\{ steps\.seed\.outputs\.record \}\}\n/.test(st), st);
+  }
+  eq('seed_ref is read by the seed step and nowhere else in the workflow', [...col.text.matchAll(/inputs\.seed_ref/g)].length, 1);
+  const pub = col.jobs.find((j) => j.name === 'publish').body.join('\n');
+  check('the publisher is handed no seed: what it writes about one, it reads from the collected file', !/seed/i.test(pub));
+}
+
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

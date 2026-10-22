@@ -10,8 +10,15 @@
  * `--review` is the ref a review run was collected from: the pull request
  * body then opens by saying it is review-only, will not be merged
  * automatically and needs a person, and names the commit of main its files
- * were judged against (`--base`). The scheduled path passes neither, and its
- * body is unchanged.
+ * were judged against (`--base`), and, where the precedent database is part
+ * of it, which dataset that collector started from: published main, or the
+ * seed's ref, commit, generation time and sha256. The scheduled path passes
+ * neither, and its body is unchanged.
+ *
+ * With `--report`, this is the publisher's own call, the one that knows which
+ * path the run publishes on, and a scheduled publication of a precedent file
+ * that says it started from a seed is refused (seedPublicationProblems). The
+ * collecting job's pre-flight passes no `--report` and is not asked.
  *
  * Reads the staged list and the working tree, reads the previous copy of each
  * file straight out of `git show HEAD:<path>`, and asks
@@ -31,7 +38,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { CONTRACTS, contractProblems, publicationReport } from './publication-contracts.mjs';
+import { CONTRACTS, contractProblems, publicationReport, seedPublicationProblems, startedFromLines } from './publication-contracts.mjs';
 
 function arg(name) {
   const i = process.argv.indexOf(`--${name}`);
@@ -109,9 +116,13 @@ function existedBefore(path) {
 }
 
 const { problems, stats } = contractProblems(producer, { staged, read, readPrev, existedBefore }, now);
+const reportPath = arg('report');
+if (reportPath) problems.push(...seedPublicationProblems(producer, { staged, read }, { review: Boolean(arg('review')) }));
 
 if (problems.length) {
-  for (const p of problems) console.log(`::error::${p}`);
+  // On stderr: the publisher sends this script's stdout to /dev/null, so a
+  // refusal printed there reached the run log as a bare count and no reason.
+  for (const p of problems) console.error(`::error::${p}`);
   console.error(`\nrefusing to publish ${producer}: ${problems.length} problem(s)`);
   process.exit(1);
 }
@@ -128,7 +139,6 @@ for (const s of stats) {
   }
 }
 
-const reportPath = arg('report');
 if (reportPath) {
   writeFileSync(
     reportPath,
@@ -140,6 +150,9 @@ if (reportPath) {
       ref: arg('ref'),
       extra: arg('extra'),
       review: arg('review') ? { ref: arg('review'), base: arg('base') } : undefined,
+      // GitHub's own run id, set on every runner: a precedent file whose
+      // record names another run is not described as this run's start.
+      started: arg('review') ? startedFromLines(producer, { staged, read }, process.env.GITHUB_RUN_ID) : [],
     }),
   );
   console.log(`report -> ${reportPath}`);

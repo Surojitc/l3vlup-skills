@@ -40,6 +40,18 @@ on:
         description: 'Review only: open a draft pull request on a branch of this run alone, and never merge it'
         type: boolean
         default: false
+      # A review run's starting state for the precedent collector: a branch of
+      # this repository, typically an earlier review run's
+      # automation/open-data-refresh-review-<run id>, whose copies of
+      # data/precedent-transactions.auto.json and data/merger-index.auto.json
+      # replace main's before any collector runs. Data only: nothing else of
+      # the branch is read, and never its code. Refused unless the run is
+      # review-only, so it can only take a run further from publication. See
+      # the seed step below and scripts/precedent-seed.mjs.
+      seed_ref:
+        description: 'Review only: start the precedent collector from this branch''s copy of its two data files (for example an earlier review run''s branch). Refused unless the run is review-only'
+        type: string
+        default: ''
 
 # The floor every job here inherits, stated rather than left to a repository
 # setting no one reads. A job that says nothing about permissions gets
@@ -115,6 +127,40 @@ jobs:
       - name: Note when the collection began
         id: began
         run: echo "at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      # Which dataset the precedent collector starts from, settled before any
+      # step can change the checkout. On 22 October 2026 review runs were
+      # dispatched from branches carrying an earlier run's precedent file as
+      # their starting state, and every one started from published main
+      # instead, because this job checks out main (above): progress across
+      # review runs could not accumulate.
+      #
+      # With no seed (the monthly schedule, and any dispatch without one) this
+      # changes nothing and records that the run starts from published main.
+      # With `seed_ref`, main's script refuses the run unless it is
+      # review-only (publicationTarget), fetches that branch, takes the two
+      # precedent files at their exact paths and nothing else, checks each is
+      # the JSON its collector reads, and writes them over main's copies.
+      #
+      # A seeded run's guard baseline is then the seed: what it keeps and the
+      # revisions it records are relative to the seed, not to main. The review
+      # pull request's diff is against main and says so, naming the seed's
+      # ref, commit, generatedAt and sha256.
+      #
+      # No continue-on-error: a seed that cannot be applied exactly fails the
+      # run before anything is collected. The record is written outside the
+      # checkout, and the precedent steps copy it into the file as startedFrom.
+      - name: Start the precedent collector from published main, or from a seed
+        id: seed
+        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        env:
+          SEED_REF: ${{ inputs.seed_ref }}
+          REF: ${{ github.ref }}
+          RUN_ID: ${{ github.run_id }}
+          REVIEW: ${{ inputs.review_only }}
+        run: |
+          set -euo pipefail
+          node scripts/precedent-seed.mjs --seed "${SEED_REF:-}" --ref "$REF" --run-id "$RUN_ID" --review "${REVIEW:-}" --record "$RUNNER_TEMP/precedent-start.json" >> "$GITHUB_OUTPUT"
 
       # The gate that decides what this run may publish, checked before the
       # run spends an hour collecting something it would then refuse.
@@ -192,6 +238,10 @@ jobs:
       # stopping the step short still leaves the run able to commit its
       # progress. Being killed by the job timeout instead would throw it away.
       #
+      # Which dataset both steps start from, main or a review run's seed, is
+      # the seed step's record near the top of this job; each write carries it
+      # as startedFrom, so a reviewer can see what the guard compared against.
+      #
       # Both the database and the quarterly form index are committed already,
       # seeded from a local run, so the first scheduled run here is incremental
       # from the start. Without the index cache it would re-download 67
@@ -202,6 +252,7 @@ jobs:
         timeout-minutes: 60
         env:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+          PRECEDENTS_STARTED_FROM: ${{ steps.seed.outputs.record }}
         run: python3 scripts/sync_precedent_transactions.py precedents
 
       - name: Precedent transactions (public mergers)
@@ -210,6 +261,7 @@ jobs:
         timeout-minutes: 180
         env:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+          PRECEDENTS_STARTED_FROM: ${{ steps.seed.outputs.record }}
         run: python3 scripts/sync_precedent_transactions.py mergers
 
       # The CUSIP-to-ticker map the holdings pages are read through, and the

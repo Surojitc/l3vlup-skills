@@ -205,7 +205,7 @@ let minutes = 0;
  * One publish job, step by step, as the runner would run it.
  * `by` is what the collected file says, so each run's copy is recognisable.
  */
-function publish({ ref, runId, by, review = false, merge = true, producer = 'open-data' }) {
+function publish({ ref, runId, by, review = false, merge = true, producer = 'open-data', files = {} }) {
   minutes += 1;
   const ws = tmp('pubreview-run-');
   const checkout = join(ws, 'checkout');
@@ -216,7 +216,9 @@ function publish({ ref, runId, by, review = false, merge = true, producer = 'ope
   const stage = join(ws, 'stage');
   mkdirSync(join(stage, 'data'), { recursive: true });
   writeFileSync(join(stage, QUEUE), JSON.stringify({ generatedAt: new Date(Date.now() - 3_600_000 + minutes * 60_000).toISOString(), by }));
-  execFileSync('tar', ['-cf', join(temp, 'handoff', 'publishable.tar'), QUEUE], { cwd: stage });
+  // Any other files this collection produced, such as a precedent database.
+  for (const [path, value] of Object.entries(files)) writeFileSync(join(stage, path), JSON.stringify(value));
+  execFileSync('tar', ['-cf', join(temp, 'handoff', 'publishable.tar'), QUEUE, ...Object.keys(files)], { cwd: stage });
 
   const ctx = {
     'inputs.producer': producer, 'inputs.merge': merge, 'inputs.review': review, 'inputs.artifact': 'open-data-refresh',
@@ -350,7 +352,49 @@ try {
     eq('...so review run 81 is still open', pr(a.number).state, 'open');
   }
 
-  // ── 9. the other producers on the same road ──
+  // ── 9. a review run started from a seed (22 October 2026) ──
+  // The precedent collector records where it started in the file it writes
+  // (startedFrom). The publisher is handed no seed: what it says about one,
+  // and whether it refuses one, it reads from that file with main's gate.
+  {
+    const PRE = 'data/precedent-transactions.auto.json';
+    const SEED = 'refs/heads/automation/open-data-refresh-review-81';
+    const COMMIT = 'a'.repeat(40);
+    const SHA = 'b'.repeat(64);
+    const precedents = (run, dataset = 'seed') => ({
+      generatedAt: new Date(Date.now() - 30 * 60_000).toISOString(),
+      startedFrom: dataset === 'seed'
+        ? { dataset, ref: SEED, commit: COMMIT, generatedAt: '2026-10-21T09:12:00Z', sha256: SHA, main: 'c'.repeat(40), run: String(run) }
+        : { dataset, ref: MAIN, commit: 'c'.repeat(40), generatedAt: '2026-10-11T17:59:57Z', sha256: 'd'.repeat(64), run: String(run) },
+      method: {},
+      counts: { transactions: 1 },
+      transactions: [{ id: '0000000000-26-000001' }],
+    });
+    const before = { main: onMain(), sched: tip(SCHED) };
+
+    const s1 = publish({ ref: FEATURE, runId: 89, by: 'seeded review run 89', files: { [PRE]: precedents(89) } });
+    const b1 = pr(s1.number)?.body ?? '';
+    eq('a seeded review run publishes on its own review branch, as a draft', [s1.steps.pr.code, s1.steps.contract.outputs.branch, pr(s1.number)?.draft, !!s1.steps.merge], [0, `${SCHED}-review-89`, true, false]);
+    check('...its body names the seed\'s ref, commit, generatedAt and sha256', b1.includes(`\`${SEED}\``) && b1.includes(`\`${COMMIT}\``) && b1.includes('`2026-10-21T09:12:00Z`') && b1.includes(`\`${SHA}\``), b1.slice(0, 1500));
+    check('...and says the guard compared against the seed, the diff against main', /relative to the seed, not to main/.test(b1) && /diff of this pull request is against main/.test(b1), b1.slice(0, 1500));
+    check('...after the review notice and before the table', b1.indexOf('Review only') < b1.indexOf('started from a seed') && b1.indexOf('started from a seed') < b1.indexOf('| File |'));
+
+    const s2 = publish({ ref: MAIN, runId: 90, by: 'scheduled run 90, seeded', files: { [PRE]: precedents(90) } });
+    check('a scheduled publication of a seeded collection is refused by main\'s gate', s2.steps.pr.code !== 0 && /never on the scheduled branch/.test(s2.steps.pr.log), s2.steps.pr.log);
+    eq('...nothing reaches the scheduled branch or main, and nothing is merged', [tip(SCHED), onMain(), !!s2.steps.merge, s2.number ?? null], [before.sched, before.main, false, null]);
+
+    const s3 = publish({ ref: MAIN, runId: 91, by: 'review-only run 91, unseeded', review: true, files: { [PRE]: precedents(91, 'published main') } });
+    check('an unseeded review run says it started from published main', s3.steps.pr.code === 0 && /started from published main/.test(pr(s3.number)?.body ?? ''), pr(s3.number)?.body?.slice(0, 1200));
+
+    const s4 = publish({ ref: FEATURE, runId: 92, by: 'review run 92, file from run 89', files: { [PRE]: precedents(89) } });
+    check('a precedent file whose record is another run\'s is not described as this run\'s start', /does not record that this run wrote it/.test(pr(s4.number)?.body ?? '') && !(pr(s4.number)?.body ?? '').includes(COMMIT), pr(s4.number)?.body?.slice(0, 1200));
+
+    const s5 = publish({ ref: MAIN, runId: 93, by: 'scheduled run 93', files: { [PRE]: precedents(93, 'published main') } });
+    eq('an unseeded scheduled run publishes and merges exactly as before', [s5.steps.pr.code, pr(s5.number)?.state, onMain()], [0, 'merged', 'scheduled run 93']);
+    check('...and its body is the scheduled one, with no section about where it started', !/precedent collector started/.test(pr(s5.number)?.body ?? ''));
+  }
+
+  // ── 10. the other producers on the same road ──
   for (const producer of ['tracker', 'market-reference', 'ats-registry']) {
     const ctx = { 'github.ref': FEATURE, 'inputs.review': false, 'github.run_id': '91' };
     eq(`${producer}: a run from another branch queues alone`, evaluate(groupExpr, ctx), 'publish-data-review-91');
