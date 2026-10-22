@@ -754,6 +754,410 @@
       "discoveredVia": "https://www.trinitylifesciences.com/careers/",
       "discoveredAt": "2026-09-19",
       "postingsAtDiscovery": 87
+    },
+    {
+      "firm": "Addepar",
+      "ats": "greenhouse",
+      "token": "addepar1",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "AIG",
+      "ats": "workday",
+      "tenant": "aig",
+      "shard": "wd1",
+      "site": "aig",
+      "tier": "Other",
+      "discoveredVia": "https://www.aig.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 434
+    },
+    {
+      "firm": "BP",
+      "ats": "workday",
+      "tenant": "bpinternational",
+      "shard": "wd3",
+      "site": "bpCareers",
+      "tier": "Other",
+      "discoveredVia": "https://careers.bp.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 288
+    },
+    {
+      "firm": "Bridgewater Associates",
+      "ats": "greenhouse",
+      "token": "bridgewater89",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Carta",
+      "ats": "greenhouse",
+      "token": "carta",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Clear Street",
+      "ats": "greenhouse",
+      "token": "clearstreet",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Deliveroo",
+      "ats": "greenhouse",
+      "token": "deliveroo",
+      "tier": "Big Tech"
+    },
+    {
+      "firm": "DRW",
+      "ats": "greenhouse",
+      "token": "drweng",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "Ebury",
+      "ats": "greenhouse",
+      "token": "ebury",
+      "tier": "Fintech",
+      "discoveredVia": "https://careers.ebury.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 143
+    },
+    {
+      "firm": "ExodusPoint",
+      "ats": "greenhouse",
+      "token": "exoduspoint",
+      "tier": "Multi-Manager"
+    },
+    {
+      "firm": "Hudson River Trading",
+      "ats": "greenhouse",
+      "token": "wehrtyou",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "LionTree",
+      "ats": "greenhouse",
+      "token": "liontree",
+      "tier": "Elite Boutique"
+    },
+    {
+      "firm": "LSEG",
+      "ats": "workday",
+      "tenant": "lseg",
+      "shard": "wd3",
+      "site": "Careers",
+      "tier": "Fintech",
+      "discoveredVia": "https://www.lseg.com/en/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 670
+    },
+    {
+      "firm": "Monzo",
+      "ats": "greenhouse",
+      "token": "monzo",
+      "tier": "Fintech",
+      "discoveredVia": "https://monzo.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 73
+    },
+    {
+      "firm": "MUFG",
+      "ats": "workday",
+      "tenant": "mufgub",
+      "shard": "wd3",
+      "site": "MUFG-Careers",
+      "tier": "Middle Market",
+      "discoveredVia": "https://www.mufgemea.com/careers/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 687
+    },
+    {
+      "firm": "Nasdaq",
+      "ats": "workday",
+      "tenant": "nasdaq",
+      "shard": "wd1",
+      "site": "Global_External_Site",
+      "tier": "Fintech",
+      "discoveredVia": "https://www.nasdaq.com/about/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 172
+    },
+    {
+      "firm": "Northern Trust",
+      "ats": "workday",
+      "tenant": "ntrs",
+      "shard": "wd1",
+      "site": "northerntrust",
+      "tier": "Middle Market",
+      "discoveredVia": "https://careers.northerntrust.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 629
+    },
+    {
+      "firm": "OakNorth",
+      "ats": "ashby",
+      "token": "oaknorth",
+      "tier": "Fintech",
+      "discoveredVia": "https://oaknorth.com/careers/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 25
+    },
+    {
+      "firm": "Optiver",
+      "ats": "greenhouse",
+      "token": "optiverus",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "PDT Partners",
+      "ats": "greenhouse",
+      "token": "pdtpartners",
+      "tier": "Systematic",
+      "discoveredVia": "https://pdtpartners.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 11
+    },
+    {
+      "firm": "Piper Sandler",
+      "ats": "workday",
+      "tenant": "pipersandler",
+      "shard": "wd501",
+      "site": "Piper_Sandler_Careers",
+      "tier": "Middle Market",
+      "discoveredVia": "https://www.pipersandler.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 53
+    },
+    {
+      "firm": "Prudential Financial",
+      "ats": "workday",
+      "tenant": "pru",
+      "shard": "wd5",
+      "site": "Careers",
+      "tier": "Other",
+      "discoveredVia": "https://jobs.prudential.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 164
+    },
+    {
+      "firm": "S&P Global",
+      "ats": "workday",
+      "tenant": "spgi",
+      "shard": "wd5",
+      "site": "SPGI_Careers",
+      "tier": "Fintech",
+      "discoveredVia": "https://careers.spglobal.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 303
+    },
+    {
+      "firm": "Scale AI",
+      "ats": "greenhouse",
+      "token": "scaleai",
+      "tier": "AI Lab"
+    },
+    {
+      "firm": "State Street",
+      "ats": "workday",
+      "tenant": "statestreet",
+      "shard": "wd1",
+      "site": "Global",
+      "tier": "Middle Market",
+      "discoveredVia": "https://careers.statestreet.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 1324
+    },
+    {
+      "firm": "StepStone Group",
+      "ats": "greenhouse",
+      "token": "stepstone",
+      "tier": "Asset Manager"
+    },
+    {
+      "firm": "TPG",
+      "ats": "greenhouse",
+      "token": "tpgcareers",
+      "tier": "Megafund",
+      "discoveredVia": "https://www.tpg.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 21
+    },
+    {
+      "firm": "T. Rowe Price",
+      "ats": "workday",
+      "tenant": "troweprice",
+      "shard": "wd5",
+      "site": "TRowePrice",
+      "tier": "Asset Manager",
+      "discoveredVia": "https://www.troweprice.com/en/us/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 133
+    },
+    {
+      "firm": "TD Bank Group",
+      "ats": "workday",
+      "tenant": "td",
+      "shard": "wd3",
+      "site": "TD_Bank_Careers",
+      "tier": "Middle Market",
+      "discoveredVia": "https://careers.td.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 1759
+    },
+    {
+      "firm": "Tower Research Capital",
+      "ats": "greenhouse",
+      "token": "towerresearchcapital",
+      "tier": "Trading Tech",
+      "discoveredVia": "https://www.tower-research.com/open-positions",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 101
+    },
+    {
+      "firm": "Trading 212",
+      "ats": "ashby",
+      "token": "trading212",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Travelers",
+      "ats": "workday",
+      "tenant": "travelers",
+      "shard": "wd5",
+      "site": "External",
+      "tier": "Other",
+      "discoveredVia": "https://careers.travelers.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 408
+    },
+    {
+      "firm": "U.S. Bank",
+      "ats": "workday",
+      "tenant": "usbank",
+      "shard": "wd1",
+      "site": "US_Bank_Careers",
+      "tier": "Middle Market",
+      "discoveredVia": "https://careers.usbank.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 1275
+    },
+    {
+      "firm": "Vercel",
+      "ats": "greenhouse",
+      "token": "vercel",
+      "tier": "Enterprise Tech",
+      "discoveredVia": "https://vercel.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 95
+    },
+    {
+      "firm": "Virtu Financial",
+      "ats": "greenhouse",
+      "token": "virtu",
+      "tier": "Trading Tech",
+      "discoveredVia": "https://www.virtu.com/careers/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 48
+    },
+    {
+      "firm": "Voleon",
+      "ats": "ashby",
+      "token": "voleon",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Wellington Management",
+      "ats": "workday",
+      "tenant": "wellington",
+      "shard": "wd5",
+      "site": "External",
+      "tier": "Asset Manager",
+      "discoveredVia": "https://www.wellington.com/en/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 123
+    },
+    {
+      "firm": "Winton",
+      "ats": "greenhouse",
+      "token": "winton",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Zopa",
+      "ats": "lever",
+      "token": "zopa",
+      "tier": "Fintech",
+      "discoveredVia": "https://www.zopa.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 37
+    },
+    {
+      "firm": "XTX Markets",
+      "ats": "greenhouse",
+      "token": "xtxmarketstechnologies",
+      "tier": "Trading Tech",
+      "discoveredVia": "https://www.xtxmarkets.com/careers/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 7
+    },
+    {
+      "firm": "Vatic Labs",
+      "ats": "greenhouse",
+      "token": "vaticlabs",
+      "tier": "Trading Tech",
+      "discoveredVia": "https://vaticlabs.com/careers/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 7
+    },
+    {
+      "firm": "Schroders",
+      "ats": "oracle",
+      "host": "ekbq.fa.em2.oraclecloud.com",
+      "site": "CX_2",
+      "tier": "Asset Manager",
+      "discoveredVia": "https://www.schroders.com/en-gb/uk/careers/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 94
+    },
+    {
+      "firm": "BNY",
+      "ats": "oracle",
+      "host": "eofe.fa.us2.oraclecloud.com",
+      "site": "BNY",
+      "tier": "Middle Market",
+      "discoveredVia": "https://www.bny.com/corporate/global/en/about-us/careers/work-with-us.html",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 1381
+    },
+    {
+      "firm": "Chubb",
+      "ats": "oracle",
+      "host": "fa-ewgu-saasfaprod1.fa.ocs.oraclecloud.com",
+      "site": "CX_2001",
+      "tier": "Other",
+      "discoveredVia": "https://careers.chubb.com/",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 735
+    },
+    {
+      "firm": "BDO USA",
+      "ats": "oracle",
+      "host": "ebqb.fa.us2.oraclecloud.com",
+      "site": "BDOEntryLevelCareers",
+      "tier": "Other",
+      "discoveredVia": "https://www.bdo.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 692
+    },
+    {
+      "firm": "Grant Thornton US",
+      "ats": "oracle",
+      "host": "ehzq.fa.us2.oraclecloud.com",
+      "site": "CX_1",
+      "tier": "Other",
+      "discoveredVia": "https://www.grantthornton.com/careers",
+      "discoveredAt": "2026-10-22",
+      "postingsAtDiscovery": 170
     }
   ]
 }
