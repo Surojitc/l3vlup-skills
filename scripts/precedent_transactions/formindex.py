@@ -453,7 +453,10 @@ def build_proxy_row(cand: dict) -> dict:
     sub = filings.submissions(cand["cik"])
     sic = str(sub.get("sic") or "") or None
     sic_description = sub.get("sicDescription") or None
-    name = (sub.get("name") or cand["name"] or "").strip()
+    # The name the registrant filed under, from the form index. EDGAR's own is
+    # today's, and a company bought is often renamed after the vehicle merged
+    # into it: Meredith files under "Hawkeye Acquisition, Inc." now.
+    name = (cand["name"] or sub.get("name") or "").strip()
     row: dict = {
         "id": cand["accession"],
         "source": cand["form"],
@@ -501,6 +504,8 @@ def build_proxy_row(cand: dict) -> dict:
         seen["stock"] = seen.get("stock") or parse.mixed_consideration(text)
         seen["acquirerSide"] = seen.get("acquirerSide") or parse.acquirer_side(text)
         seen["filerBuys"] = seen.get("filerBuys") or parse.filer_is_buyer(text, r["target"]["name"])
+        seen["splitOff"] = seen.get("splitOff") or parse.split_off(text, r["target"]["name"])
+        seen["paidElsewhere"] = seen.get("paidElsewhere") or parse.paid_elsewhere(text, r["target"]["name"])
         ev = parse.spac_evidence(text)
         seen["spac"] = {k: seen.get("spac", {}).get(k, 0) + v for k, v in ev.items()}
         seen["reverse"] = seen.get("reverse") or parse.reverse_merger_evidence(text)
@@ -519,7 +524,12 @@ def build_proxy_row(cand: dict) -> dict:
     else:
         judge_spac(row, seen.get("spac") or {}, seen.get("reverse"))
         filings.set_aside_buyer(row, seen.get("filerBuys"))
+        filings.set_aside_target(row, seen.get("splitOff"), seen.get("paidElsewhere"))
+    current = (sub.get("name") or "").strip()
+    if current and parse.norm_name(current) != parse.norm_name(name):
+        row["target"]["currentName"] = current
     row["spacRule"] = SPAC_RULE
+    row["targetReader"] = filings.TARGET_READER
     return row
 
 
@@ -789,7 +799,11 @@ def build(limit: int | None = None, since: int = 2020, only: str | None = None, 
     print(f"{len(cands)} {' and '.join(forms)} filings since {since}, {len(known)} already in the database, {spacs} blank-check shells and {dups} deals already read from another filing skipped, {len(todo)} to read", file=sys.stderr)
 
     if not only:
-        filings.reread_stale_premiums(rows, [k for k in owned if k in rows], database.write, cap=DOC_CAP, minutes=60)
+        # The name each proxy's registrant filed under, for the stored rows
+        # judged before the target rule read it.
+        filed = {c["accession"]: c["name"] for c in cands if c["form"] != "SC 13E3"}
+        filings.reread_stale_targets(rows, [k for k in owned if k in rows], database.write, filed=filed, cap=DOC_CAP, minutes=15)
+        filings.reread_stale_premiums(rows, [k for k in owned if k in rows], database.write, cap=DOC_CAP, minutes=60, filed=filed)
 
     read = 0
     for i, c in enumerate(todo, 1):
