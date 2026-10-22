@@ -12,8 +12,11 @@ sanity checks reaches every row without reading a single filing again.
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
+import os
 import re
+import sys
 from difflib import SequenceMatcher
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
@@ -30,11 +33,19 @@ OUT = DATA / "precedent-transactions.auto.json"
 
 #: the file as it stood the first time this process read it: what guard.py protects on every write
 _baseline: dict[str, dict] | None = None
+#: that same file's generatedAt and sha256, for a run that was not told where it started
+_first_read: dict = {}
+
+#: where collect.yml's seed step (scripts/precedent-seed.mjs) leaves its record
+#: of the dataset this run started from: published main, or a seed. Outside the
+#: checkout, so the record itself is never published.
+STARTED_FROM_ENV = "PRECEDENTS_STARTED_FROM"
+_START_KEYS = ("dataset", "ref", "commit", "generatedAt", "sha256", "mergerIndex", "main", "run")
 
 
 def load_stored() -> dict[str, dict]:
     """Every row already on file, by id, whichever builder wrote it."""
-    global _baseline
+    global _baseline, _first_read
     if not OUT.exists():
         rows: dict[str, dict] = {}
     else:
@@ -43,8 +54,44 @@ def load_stored() -> dict[str, dict]:
         except Exception:  # noqa: BLE001
             rows = {}
     if _baseline is None:
+        # The guard's baseline is this file as first read: in a seeded run,
+        # the seed, which the seed step has already written here.
         _baseline = copy.deepcopy(rows)
+        _first_read = _describe(OUT)
     return rows
+
+
+def _describe(path: Path) -> dict:
+    """A file's generatedAt and sha256, or nothing when it cannot be read."""
+    try:
+        raw = path.read_bytes()
+    except OSError:
+        return {}
+    try:
+        stamp = json.loads(raw).get("generatedAt")
+    except Exception:  # noqa: BLE001
+        stamp = None
+    return {"generatedAt": stamp if isinstance(stamp, str) else None, "sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def started_from() -> dict:
+    """
+    Which dataset this run started from, as the seed step recorded it: published
+    main at a commit, or a seed (its branch, commit, generatedAt and sha256).
+    Every write carries it, so a reviewer can tell what a run's guard compared
+    against without reading its revision causes. Outside the workflow there is
+    no record, and the file as this process first read it is described instead.
+    """
+    path = os.environ.get(STARTED_FROM_ENV)
+    if path:
+        try:
+            rec = json.loads(Path(path).read_text())
+            if isinstance(rec, dict) and rec.get("dataset") in ("seed", "published main"):
+                return {k: rec[k] for k in _START_KEYS if k in rec}
+        except (OSError, ValueError):
+            pass
+        print(f"{STARTED_FROM_ENV} names {path}, which is not a start record; the file on disk is described instead", file=sys.stderr, flush=True)
+    return {"dataset": "file on disk", **_first_read}
 
 
 def set_baseline(rows: dict[str, dict] | None) -> None:
@@ -646,6 +693,7 @@ METHOD = {
     "values": "equityValue = offerPrice x sharesOut, both per share (equityValueBasis says so): sharesOut is a count of shares, never of ADSs, and an offer quoted only per ADS with no ratio stated gives no equity value; where sharesBasis.classPrices prices the classes apart, equityValue is the sum of each class's count times its own price (a class priced at the offer at the offer per share); ev = equityValue + netDebt; dealValue = the aggregate value from the filing-fee table, kept as a cross-check; evLtmEbit = ev / ltmEbit, LTM operating income to ltmEbitEnd, kept whether or not EBITDA could be built",
     "periods": "each multiple has one period: EV at the deal against LTM revenue to ltmRevenueEnd (revenueTag the concept read), or against LTM EBITDA to ltmEbitdaEnd, whose operating income and D&A end within a week of each other. Revenue and D&A fall back to a utility's or a goods company's own concepts only where none of the usual ones is current. ltmImpairment is the impairment the filing tags inside the EBITDA's twelve months; at 10% of EBITDA or more the row is flagged and doubt includes 'ebitda'",
     "revisions": "every change a run made to a sourced figure or the acquirer (offer, consideration, deal value, premiums and the unaffected price, shares, LTM revenue, EBITDA and EBIT, net debt): run, field, from, to and cause (a reader version moving forward, a target re-identified, a reclassification, or read again), newest 20 kept. A re-read that fails, or that loses a figure without one of those causes, keeps the prior reading (readErrors says so); a run that would withdraw a figure from more than 5% of the rows carrying it is refused (scripts/precedent_transactions/guard.py)",
+    "startedFrom": "the dataset this run started from, which is the precedent guard's baseline: 'published main' (the commit, and the precedent file's generatedAt and sha256), or 'seed' for a review run started from another branch's copy of this file and the merger index (its ref and commit, the seed file's generatedAt and sha256, and the main it replaced). A seeded run's kept figures and revisions are relative to the seed, not to main, and a seeded run is never published on the scheduled branch (scripts/precedent-seed.mjs). 'file on disk' is a run outside the workflow",
     "flags": "rows whose figures fail a sanity check (stock in the consideration, equity value far from the fee-table value, a premium above 150%, multiples out of range) are kept but flagged, and select() leaves them out",
 }
 
@@ -680,6 +728,7 @@ def write(rows: dict[str, dict]) -> dict:
     }
     out = {
         "generatedAt": datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None).isoformat() + "Z",
+        "startedFrom": started_from(),
         "method": METHOD,
         "counts": counts,
         "transactions": ordered,

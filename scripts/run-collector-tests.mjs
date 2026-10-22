@@ -53,6 +53,7 @@ export const SUITES = [
   'rights-register',
   'collector-tests',
   'precedent-transactions',
+  'precedent-seed',
 ];
 
 const failed = [];
