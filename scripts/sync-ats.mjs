@@ -40,6 +40,8 @@ import {
   experiencedProgrammeType,
   experiencedVertical,
   firmTypeForTier,
+  juniorSeatAtTradingFirm,
+  namesNonTargetFunction,
 } from '../lib/seniority.mjs';
 import { COMPLETE_TIMEOUT_MS, walkCompleteBoard, withRetry } from '../lib/complete-board.mjs';
 import {
@@ -231,12 +233,28 @@ const CLASS_YEAR_CAMPUS =
   /\b(grads?|analysts?|summer|(?:engineer(?:ing)?|trainee(?:ship)?|development)\s+program(?:me)?)\b/i;
 
 export function isEarlyCareer(title) {
-  if (SENIOR.test(title)) return false;
-  if (FOR_EXPERIENCED.test(title)) return false;
-  if (MANAGER.test(title) && !STRONG_EARLY_CAREER.test(title)) return false;
-  if (EARLY_CAREER.test(title)) return true;
-  if (JUNIOR_FRONT_OFFICE.test(title)) return true;
-  return CLASS_YEAR.test(title) && CLASS_YEAR_CAMPUS.test(title);
+  return earlyCareerAdmission(title) !== null;
+}
+
+/**
+ * Why a title is early career: 'campus' for a campus word or shape, or
+ * 'stated-level' when the only evidence is a stated level ("Entry-Level",
+ * "Early Careers") that says nothing about the work. Null when it is not.
+ *
+ * The distinction matters downstream (toOpportunity): a stated level on its
+ * own admits "Collections, Fraud & Accounts Entry-Level Specialist" and
+ * "Early Careers Manufacturing Technician" as readily as an entry-level
+ * engineer, so those rows must also name work this tracker is for.
+ */
+const STATED_LEVEL_ONLY = /\b(entry[\s-]?level|early[\s-]?careers)\b/gi;
+export function earlyCareerAdmission(title) {
+  if (SENIOR.test(title)) return null;
+  if (FOR_EXPERIENCED.test(title)) return null;
+  if (MANAGER.test(title) && !STRONG_EARLY_CAREER.test(title)) return null;
+  const campus = (t) =>
+    EARLY_CAREER.test(t) || JUNIOR_FRONT_OFFICE.test(t) || (CLASS_YEAR.test(t) && CLASS_YEAR_CAMPUS.test(t));
+  if (!campus(title)) return null;
+  return campus(title.replace(STATED_LEVEL_ONLY, ' ')) ? 'campus' : 'stated-level';
 }
 
 /* ------------------------- consulting classification ---------------------- */
@@ -724,13 +742,26 @@ export function toOpportunity(job, firm) {
   // "Software Engineer", so a title-only test threw away the entire board and
   // reported the firm as having nothing open.
   if (!job.title) return null;
-  if (!job.earlyCareerConfirmed && !isEarlyCareer(job.title)) return null;
+  const admission = job.earlyCareerConfirmed ? 'campus' : earlyCareerAdmission(job.title);
+  // A "Junior …" seat at a trading or quant firm is early career when the
+  // rest of the title is a seat the experienced classifier would take there
+  // (see isJuniorSeatAtTradingFirm); never at a bank, never on "junior" alone.
+  const juniorSeat = !admission && !SENIOR.test(job.title) ? juniorSeatAtTradingFirm(job.title, firm.tier) : null;
+  if (!admission && !juniorSeat) return null;
   // No null check: inferVertical always classifies, falling back to 'Other'.
-  const vertical = inferVertical(job.title, {
+  const inferred = inferVertical(job.title, {
     firm: firm.firm,
     department: job.department,
     location: job.location,
   });
+  // A junior seat whose title names no area is placed the way an experienced
+  // one is: "Junior Commodities Fundamental Analyst" at a multi-manager is a
+  // hedge fund seat, not Other.
+  const vertical = juniorSeat ? (experiencedVertical(inferred, juniorSeat, firm.tier) ?? inferred) : inferred;
+  // A stated level alone says nothing about the work: such a row must name a
+  // seat this tracker covers, so "Entry-Level Specialist" in collections or a
+  // manufacturing technician is not published (A0 decisions, 13 October).
+  if (admission === 'stated-level' && (vertical === 'Other' || namesNonTargetFunction(job.title))) return null;
   const { programmeType, level } = inferProgrammeAndLevel(job.title);
   const tags = ['Auto-sourced'];
   if (job.department) tags.push(job.department);
