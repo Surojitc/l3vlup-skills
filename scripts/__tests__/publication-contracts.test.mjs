@@ -28,6 +28,13 @@ import {
   groupMovement,
   publicationReport,
   archiveMemberProblems,
+  publicationTarget,
+  reviewBranch,
+  isReviewBranch,
+  foreignCommits,
+  displayRef,
+  SCHEDULED_REF,
+  REVIEW_MARKER,
 } from '../publication-contracts.mjs';
 
 let pass = 0;
@@ -542,6 +549,130 @@ check(
   'refusing an archive writes nothing to the working tree',
   !sh('git status --porcelain 2>/dev/null || echo "not a repo"').includes('escaped'),
 );
+
+// ── 7. where a run publishes: the scheduled branch, or one of its own ────
+// 20 October 2026: a controlled run from a feature branch (run 81) opened
+// #192 on the scheduled branch, and the scheduled run two minutes later
+// force-pushed that branch and merged #192 with its own contents. These pin
+// the rule that ends it, in the module and through the CLI the publisher runs.
+{
+  const MAIN = 'refs/heads/main';
+  eq('the scheduled ref is main, written once', SCHEDULED_REF, MAIN);
+
+  for (const [id, c] of Object.entries(CONTRACTS)) {
+    // A run from main keeps the contract's branch, and may merge.
+    const sched = publicationTarget(id, { ref: MAIN, runId: '39747733203' });
+    eq(`${id}: a run from main publishes to the contract's branch`, [sched.problems, sched.review, sched.branch, sched.title, sched.kind], [[], false, c.branch, c.title, 'scheduled']);
+    eq(`${id}: an explicit review: false from main is the same`, publicationTarget(id, { ref: MAIN, runId: '1', review: 'false' }).branch, c.branch);
+    eq(`${id}: an empty review (the schedule, where inputs are absent) is the same`, publicationTarget(id, { ref: MAIN, runId: '1', review: '' }).branch, c.branch);
+
+    // A run from anywhere else gets a branch of its own, never the contract's.
+    for (const ref of ['refs/heads/ccr-d7cb454b-j6ri1l-collect-run-data', 'refs/heads/main-copy', 'refs/heads/mainx', 'refs/tags/v1', 'main', 'refs/heads/Main']) {
+      const t = publicationTarget(id, { ref, runId: '81' });
+      eq(`${id}: a run from ${ref} gets the review branch`, [t.review, t.branch, t.kind], [true, `${c.branch}-review-81`, 'review']);
+    }
+    const marked = publicationTarget(id, { ref: MAIN, runId: '81', review: 'true' });
+    eq(`${id}: a run from main marked review-only gets the review branch too`, [marked.review, marked.branch], [true, `${c.branch}-review-81`]);
+    check(`${id}: a review title says so first`, marked.title === `review: ${c.title}`, marked.title);
+
+    // Deterministic from main's rule and the run id: the same inputs, the
+    // same branch; a different run, a different branch.
+    eq(`${id}: the review branch is the contract's plus the run id`, reviewBranch(id, '81'), `${c.branch}${REVIEW_MARKER}81`);
+    eq(`${id}: the same run always gets the same branch`, publicationTarget(id, { ref: 'refs/heads/x', runId: '81' }).branch, publicationTarget(id, { ref: 'refs/heads/y', runId: '81', review: 'true' }).branch);
+    check(`${id}: two review runs never share a branch`, reviewBranch(id, '81') !== reviewBranch(id, '82'));
+
+    // The scheduled branch can never be a review branch, so no scheduled run
+    // can address one; and no review branch is any producer's scheduled one.
+    check(`${id}: the contract's branch carries no review marker`, !c.branch.includes(REVIEW_MARKER), c.branch);
+    check(`${id}: the scheduled branch is not a review branch`, !isReviewBranch(c.branch));
+    check(`${id}: the review branch is one`, isReviewBranch(reviewBranch(id, '81')));
+    check(`${id}: no review branch is any producer's scheduled branch`, !Object.values(CONTRACTS).some((o) => o.branch === reviewBranch(id, '81')));
+  }
+
+  // Nothing a caller passes can name the branch: only the run id varies it,
+  // and a run id that is not a run id is refused rather than cleaned.
+  for (const runId of ['', undefined, null, '0', '-1', '81a', '81\nbranch=main', '../81', ' 81', '1'.repeat(21)]) {
+    const t = publicationTarget('open-data', { ref: 'refs/heads/x', runId });
+    check(`a run id of ${JSON.stringify(runId)} is refused`, t.problems.length > 0 && !t.branch, JSON.stringify(t));
+  }
+  eq('...and reviewBranch gives nothing for one', reviewBranch('open-data', '81/../x'), null);
+  for (const review of ['yes', '1', 'TRUE', 'false\n']) {
+    check(`a review flag of ${JSON.stringify(review)} is refused`, publicationTarget('open-data', { ref: MAIN, runId: '1', review }).problems.length > 0);
+  }
+  for (const ref of ['', undefined, 'refs/heads/x\nbranch=main']) {
+    check(`a ref of ${JSON.stringify(ref)} is refused`, publicationTarget('open-data', { ref, runId: '1' }).problems.length > 0);
+  }
+  check('an unknown producer is refused', publicationTarget('nobody', { ref: MAIN, runId: '1' }).problems.length > 0);
+  // A ref is shown, never trusted: one outside the plain shape is described.
+  eq('a plain ref is shown as it is', displayRef('refs/heads/ccr-d7cb454b-j6ri1l-collect-run-data'), 'refs/heads/ccr-d7cb454b-j6ri1l-collect-run-data');
+  eq('a ref with markup in it is described, not quoted', displayRef('refs/heads/a`b<script>'), 'an unrecognised ref');
+  eq('...and the commit trailer carries the description too', publicationTarget('open-data', { ref: 'refs/heads/a`b', runId: '1' }).collectedBy, 'an unrecognised ref');
+
+  // The CLI the publisher runs, as a process, printing step outputs.
+  const target = new URL('../publication-target.mjs', import.meta.url).pathname;
+  const outputs = (args) => {
+    try {
+      const out = execFileSync(process.execPath, [target, ...args], { encoding: 'utf8', stdio: 'pipe' });
+      return { code: 0, out: Object.fromEntries(out.trim().split('\n').map((l) => [l.slice(0, l.indexOf('=')), l.slice(l.indexOf('=') + 1)])) };
+    } catch (err) {
+      return { code: err.status, out: `${err.stdout}${err.stderr}` };
+    }
+  };
+  eq('CLI: a scheduled run prints the contract branch and may merge', outputs(['open-data', '--ref', MAIN, '--run-id', '39747733203', '--review', 'false']), {
+    code: 0,
+    out: { branch: 'automation/open-data-refresh', title: 'chore(data): open data', label: 'the open-data collection', review: 'false', kind: 'scheduled', collected_by: MAIN, run_id: '39747733203' },
+  });
+  eq('CLI: the run of 20 October would have had a branch of its own', outputs(['open-data', '--ref', 'refs/heads/feature', '--run-id', '81', '--review', 'false']).out.branch, 'automation/open-data-refresh-review-81');
+  eq('CLI: and been marked as review', outputs(['open-data', '--ref', 'refs/heads/feature', '--run-id', '81', '--review', 'false']).out.review, 'true');
+  // A caller whose workflow file predates review branches passes the
+  // producer alone. Guessing "scheduled" for it is the incident, so it fails.
+  const legacy = outputs(['open-data']);
+  check('CLI: a caller that passes only the producer is refused, not guessed at', legacy.code === 1 && /github\.ref/.test(legacy.out), JSON.stringify(legacy));
+  check('CLI: an unknown producer is refused', outputs(['nobody', '--ref', MAIN, '--run-id', '1']).code === 1);
+
+  // ── the scheduled path's check on its own branch ──
+  const commit = (lines, oid = 'a'.repeat(40)) => ({ oid, messageHeadline: 'chore(data): open data 2026-10-20 [skip ci]', messageBody: lines.join('\n') });
+  const scheduled = commit(['Publication: scheduled', `Collected-by: ${MAIN}`, 'Publication-run: 39747733203']);
+  eq('a commit the scheduled path made is not foreign', foreignCommits([scheduled]), []);
+  eq('nor are several, from successive scheduled runs', foreignCommits([scheduled, scheduled]), []);
+  const rv = foreignCommits([commit(['Publication: review', 'Collected-by: refs/heads/feature', 'Publication-run: 81'], 'b'.repeat(40))]);
+  check('a review commit on the scheduled branch is foreign, and says whose', rv.length === 1 && rv[0].oid === 'b'.repeat(12) && /review publication collected by refs\/heads\/feature/.test(rv[0].why), JSON.stringify(rv));
+  check('a commit from before the trailers (the run of 20 October) is foreign', foreignCommits([commit([])]).length === 1);
+  check('a commit marked scheduled but collected elsewhere is foreign', foreignCommits([commit(['Publication: scheduled', 'Collected-by: refs/heads/feature'])]).length === 1);
+  check('a commit collected by main but marked review is foreign', foreignCommits([commit(['Publication: review', `Collected-by: ${MAIN}`])]).length === 1);
+  check('one foreign commit among scheduled ones is enough', foreignCommits([scheduled, commit([]), scheduled]).length === 1);
+  check('an answer with no commits refuses rather than passes', foreignCommits([]).length === 1 && foreignCommits(null).length === 1 && foreignCommits({}).length === 1);
+
+  const branchCli = new URL('../check-publication-branch.mjs', import.meta.url).pathname;
+  const bdir = mkdtempSync(join(tmpdir(), 'pubbranch-'));
+  const branchCheck = (body) => {
+    const f = join(bdir, `c${Math.random().toString(36).slice(2)}.json`);
+    writeFileSync(f, typeof body === 'string' ? body : JSON.stringify(body));
+    try {
+      return { code: 0, out: execFileSync(process.execPath, [branchCli, '--producer', 'open-data', '--pr', '192', '--commits', f], { encoding: 'utf8', stdio: 'pipe' }) };
+    } catch (err) {
+      return { code: err.status, out: `${err.stdout}${err.stderr}` };
+    }
+  };
+  eq('CLI: the scheduled path may update its own open pull request', branchCheck({ commits: [scheduled] }).code, 0);
+  const refusedBranch = branchCheck({ commits: [commit([])] });
+  check('CLI: it refuses one that holds a commit it did not make, and names the pull request', refusedBranch.code === 1 && /#192/.test(refusedBranch.out) && /left exactly as it is/.test(refusedBranch.out), refusedBranch.out);
+  eq('CLI: a file that does not parse refuses', branchCheck('not json').code, 1);
+  eq('CLI: a pull request number that is not one is refused', (() => { try { execFileSync(process.execPath, [branchCli, '--producer', 'open-data', '--pr', '1;x', '--commits', '/dev/null'], { stdio: 'pipe' }); return 0; } catch (e) { return e.status; } })(), 2);
+
+  // ── what a review pull request says ──
+  const reviewBody = publicationReport({ producer: 'open-data', stats, staged: ['data/newsflow.auto.json'], runUrl: 'https://example.invalid/run/81', ref: 'refs/heads/feature', review: { ref: 'refs/heads/feature', base: 'd2593472abcdef' } });
+  check('a review body says first that it is review only and will not be merged automatically', reviewBody.indexOf('Review only. This pull request will not be merged automatically.') > -1 && reviewBody.indexOf('Review only') < reviewBody.indexOf('| File |'));
+  check('...names the run and the ref that collected it', reviewBody.includes('`refs/heads/feature`') && reviewBody.includes('https://example.invalid/run/81'));
+  check('...says it needs a person', /needs a person to read the diff and approve it/.test(reviewBody));
+  check('...says the scheduled publication never touches its branch', /the scheduled publication never writes to it, force-pushes it or merges it/.test(reviewBody));
+  check('...and names the main it was judged against, and why that matters', reviewBody.includes('`d2593472abcdef`') && /merging would replace it with this older one/.test(reviewBody));
+  check('a review body built from a strange ref quotes none of it', !publicationReport({ producer: 'open-data', stats, staged: [], ref: 'refs/heads/a`b', review: { ref: 'refs/heads/a`b' } }).includes('a`b'));
+  const schedBody = publicationReport({ producer: 'open-data', stats, staged: ['data/newsflow.auto.json'], runUrl: 'https://example.invalid/run/1', ref: 'main' });
+  check('a scheduled body opens exactly as it did', schedBody.startsWith('## The open-data collection\n\nOpened by the collection workflow.'), schedBody.slice(0, 80));
+  check('...and ends exactly as it did', schedBody.endsWith('Collected by `main`.\n\nhttps://example.invalid/run/1'), schedBody.slice(-80));
+  check('and carries no review notice', !/Review only/.test(body));
+}
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

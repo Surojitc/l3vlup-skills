@@ -539,6 +539,151 @@ export function freshnessSummary(producer, report) {
   return lines.join('\n') + '\n';
 }
 
+// ── where a run publishes: the scheduled branch, or a review branch of its own ──
+//
+// THE INCIDENT THIS ANSWERS
+// -------------------------
+// On 20 October 2026 collect.yml was dispatched from a feature branch: a
+// controlled run, number 81. Its publisher rebuilt the producer's one branch
+// (`automation/open-data-refresh`) on main, committed the run's files, opened
+// data pull request #192 and, correctly under G1, did not merge it. Two
+// minutes later the scheduled run from main reached its own publisher, which
+// rebuilt the same branch from main plus the day's files, force-pushed it and
+// merged #192. Nothing unreviewed reached main, but the copy that was opened
+// for review was silently replaced, and the pull request a person had been
+// asked to read was merged with different contents. A later scheduled run
+// updating a still-open review pull request would lose it the same way.
+//
+// The defect was that both kinds of run shared one branch. G1 decided who
+// may merge; nothing decided who may write.
+//
+// THE RULE
+// --------
+// A run is *scheduled* only when it was collected by `refs/heads/main` and
+// nobody marked it review-only. It publishes to the contract's branch, as it
+// always has, and may merge.
+//
+// Every other run is a *review* run. It publishes to
+// `<contract branch>-review-<run id>`: a branch named by this rule, from the
+// contract and the run id GitHub assigned, and by nothing a caller or a
+// collector supplied. It is never merged automatically, whatever `merge`
+// says, and no scheduled run can address it, because a scheduled run's branch
+// is the contract's and the contract's branches may not contain the review
+// marker (pinned in the suite). Two review runs have two run ids and so two
+// branches. A re-run of the same run is the same run, and updates its own.
+export const SCHEDULED_REF = 'refs/heads/main';
+export const REVIEW_MARKER = '-review-';
+
+// GitHub run ids are decimal integers. Anything else is refused rather than
+// cleaned, so a branch name can never carry a character the rule did not put
+// there.
+const RUN_ID = /^[1-9][0-9]{0,19}$/;
+// For display only (the pull request body and the commit trailer). A ref
+// outside this shape is described rather than quoted, so it cannot put markup
+// into a body a person is asked to trust. It never decides the branch.
+const DISPLAYABLE_REF = /^refs\/(heads|tags)\/[A-Za-z0-9._\/-]{1,200}$/;
+
+/** The review branch for one run of one producer, or null if either is unusable. */
+export function reviewBranch(producer, runId) {
+  const contract = CONTRACTS[producer];
+  if (!contract || !RUN_ID.test(String(runId ?? ''))) return null;
+  return `${contract.branch}${REVIEW_MARKER}${runId}`;
+}
+
+/** Is this a branch the review rule could have produced, for any producer? */
+export function isReviewBranch(branch) {
+  return Object.values(CONTRACTS).some((c) => typeof branch === 'string' && branch.startsWith(`${c.branch}${REVIEW_MARKER}`));
+}
+
+/** A ref as it may be shown to a reader. */
+export function displayRef(ref) {
+  return DISPLAYABLE_REF.test(String(ref ?? '')) ? ref : 'an unrecognised ref';
+}
+
+/**
+ * Where one run of one producer publishes, and whether it may merge.
+ *
+ * `ref` is `github.ref` and `runId` is `github.run_id`, both set by GitHub
+ * for the run; `review` is the caller's boolean, which can only move a run
+ * from the scheduled branch to a review branch, never the other way. An empty
+ * or absent `review` is false; anything that is not a boolean's spelling is
+ * refused, because a value nobody meant should not decide where data lands.
+ *
+ * Returns `{ problems }` when the run cannot be placed, and the run is then
+ * published nowhere.
+ */
+export function publicationTarget(producer, { ref, runId, review } = {}) {
+  const contract = CONTRACTS[producer];
+  if (!contract) return { problems: [`no publication contract named ${producer ?? '(none)'}`] };
+  const problems = [];
+  if (typeof ref !== 'string' || !ref || /[\r\n]/.test(ref)) problems.push('the run\'s ref (github.ref) is missing or not a single line');
+  if (!RUN_ID.test(String(runId ?? ''))) problems.push(`the run id (github.run_id) is missing or not a run id: ${JSON.stringify(runId ?? null)}`);
+  const flag = review === undefined || review === null ? '' : String(review);
+  if (!['', 'true', 'false'].includes(flag)) problems.push(`review must be true or false, got ${JSON.stringify(flag)}`);
+  for (const [key, value] of [['branch', contract.branch], ['title', contract.title], ['label', contract.label]]) {
+    if (typeof value !== 'string' || /[\r\n]/.test(value)) problems.push(`${producer}'s ${key} is not a single-line string`);
+  }
+  if (contract.branch.includes(REVIEW_MARKER)) problems.push(`${producer}'s contract branch carries the review marker`);
+  if (problems.length) return { problems };
+
+  const isReview = ref !== SCHEDULED_REF || flag === 'true';
+  return {
+    problems: [],
+    review: isReview,
+    branch: isReview ? reviewBranch(producer, runId) : contract.branch,
+    title: isReview ? `review: ${contract.title}` : contract.title,
+    label: contract.label,
+    // What the commit's trailers say about who made it, read back by the
+    // scheduled path before it rewrites its own branch (see foreignCommits):
+    // `Publication: <kind>`, `Collected-by: <collectedBy>`, `Publication-run: <runId>`.
+    kind: isReview ? 'review' : 'scheduled',
+    collectedBy: displayRef(ref),
+    runId: String(runId),
+  };
+}
+
+/**
+ * Commits on the scheduled branch's open pull request that the scheduled
+ * path did not make.
+ *
+ * The scheduled publisher force-pushes its branch, which is safe only while
+ * the branch has one author. Before it does, it reads the commits on the open
+ * pull request there and refuses to touch the branch if any of them lacks
+ * the scheduled path's trailers. That is the case of the incident above when
+ * the controlled run's caller predates this rule (its workflow file comes
+ * from the branch it was dispatched on), and of a person pushing to the
+ * branch by hand: either way someone else's work is on it, and the scheduled
+ * run would otherwise replace it and merge the result.
+ *
+ * A guard against accidents, not against a hostile branch: a workflow file on
+ * a branch can write any trailer it likes. The ruleset and the review of
+ * that branch are what stand against malice.
+ *
+ * A commit from before these trailers existed is foreign too. The cost is
+ * one refusal, the first time a pull request opened by the old code is still
+ * open when the new code runs; the alternative is to merge a review copy.
+ *
+ * @param commits the `commits` array of `gh pr view --json commits`
+ */
+export function foreignCommits(commits) {
+  if (!Array.isArray(commits) || commits.length === 0) return [{ oid: '(unreadable)', why: 'the pull request\'s commits could not be read' }];
+  const out = [];
+  for (const c of commits) {
+    const body = typeof c?.messageBody === 'string' ? c.messageBody : '';
+    const lines = body.split('\n').map((l) => l.trim());
+    const ours = lines.includes('Publication: scheduled') && lines.includes(`Collected-by: ${SCHEDULED_REF}`);
+    if (!ours) {
+      const by = lines.find((l) => l.startsWith('Collected-by: '))?.slice('Collected-by: '.length);
+      const path = lines.find((l) => l.startsWith('Publication: '))?.slice('Publication: '.length);
+      out.push({
+        oid: String(c?.oid ?? '').slice(0, 12) || '(no id)',
+        why: path || by ? `made by a ${path ?? 'unmarked'} publication collected by ${displayRef(by)}` : 'carries no publication trailers (made by hand, or by a publisher that predates review branches)',
+      });
+    }
+  }
+  return out;
+}
+
 /** Every path any producer may publish, for the cross-producer overlap check. */
 export function allPaths() {
   const out = [];
@@ -950,16 +1095,32 @@ export function alsoChanged(paths) {
 }
 
 /** The pull request body: what was collected, what moved, what was checked. */
-export function publicationReport({ producer, stats, staged, runUrl, ref, extra }) {
+export function publicationReport({ producer, stats, staged, runUrl, ref, extra, review }) {
   const contract = CONTRACTS[producer] ?? { label: producer };
   const lines = [
     `## ${contract.label[0].toUpperCase()}${contract.label.slice(1)}`,
     '',
+  ];
+  // A review pull request says so first, before a reader reaches the table,
+  // and names what a person has to check that no gate can: whether main has
+  // moved on since. G2 was judged against main at `base`; a hand merge later
+  // is not judged again.
+  if (review) {
+    const shown = displayRef(review.ref);
+    lines.push(
+      '> [!WARNING]',
+      `> **Review only. This pull request will not be merged automatically.** It was opened by a controlled collection run from \`${shown}\`${runUrl ? ` (${runUrl})` : ''}, not by the scheduled publication, and it needs a person to read the diff and approve it.`,
+      '>',
+      `> Its branch belongs to that run alone: the scheduled publication never writes to it, force-pushes it or merges it. Every file was judged against \`main\`${review.base && /^[0-9a-f]{7,40}$/.test(review.base) ? ` at \`${review.base}\`` : ''}. If \`main\` has published a newer copy of any of these files since, merging would replace it with this older one, so check before merging, or close this and delete the branch.`,
+      '',
+    );
+  }
+  lines.push(
     'Opened by the collection workflow. Every file below is generated; nothing here is hand-written.',
     '',
     '| File | Entries | Generated |',
     '|---|---:|---|',
-  ];
+  );
   for (const s of stats) {
     const moved = s.before === null || s.before === undefined ? '' : ` (was ${s.before})`;
     lines.push(`| ${s.name} | ${s.entries ?? '—'}${moved} | ${s.stamp ?? '—'} |`);
@@ -986,7 +1147,7 @@ export function publicationReport({ producer, stats, staged, runUrl, ref, extra 
     '',
   );
   if (extra) lines.push(extra, '');
-  if (ref) lines.push(`Collected by \`${ref}\`.`);
+  if (ref) lines.push(`Collected by \`${review ? displayRef(ref) : ref}\`.`);
   if (runUrl) lines.push('', runUrl);
   return lines.join('\n');
 }

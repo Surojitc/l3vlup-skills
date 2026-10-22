@@ -31,6 +31,15 @@ on:
         description: 'Rebuild all 26 years of Treasury history (slow, ~9 min)'
         type: boolean
         default: false
+      # A controlled run of main's own code, for a person to read before
+      # anything is published. Its pull request goes on a branch of its own
+      # and is never merged, exactly like a run dispatched from another
+      # branch, which is review-only without asking (publish-data.yml). It
+      # can only take a run away from merging, never towards it.
+      review_only:
+        description: 'Review only: open a draft pull request on a branch of this run alone, and never merge it'
+        type: boolean
+        default: false
 
 # The floor every job here inherits, stated rather than left to a repository
 # setting no one reads. A job that says nothing about permissions gets
@@ -51,6 +60,16 @@ permissions:
 # run to hang for an hour. It would show as cancelled and cost that run's
 # collection, never corrupt one; and whichever order runs publish in, a
 # file older than main's copy is refused (publication-contracts, G2).
+#
+# A controlled run, dispatched from another branch or marked review-only,
+# queues here too, and that is deliberate: two collections at once would
+# share the careers renderer and the SEC's patience, and the scheduled one
+# would publish whatever that cost it. What it no longer shares is anything
+# after collection. It publishes on a review branch of its own, in a
+# publication queue of its own, and the scheduled run cannot write to or
+# merge it (publish-data.yml). The one-waiting-run rule above still applies:
+# a controlled dispatch waiting here when a scheduled run arrives is
+# cancelled, and vice versa, so dispatch one well clear of the schedule.
 concurrency:
   group: collect-open-data
   cancel-in-progress: false
@@ -403,6 +422,10 @@ jobs:
     with:
       producer: open-data
       artifact: open-data-refresh
+      # Review-only when the dispatch asked for it. On the schedule the input
+      # is absent and this is false. A run from any ref but main is review-only
+      # whatever this says; this can never make one merge.
+      review: ${{ inputs.review_only == true }}
       # Open the data pull request and stop, on the schedule and by hand
       # alike. Not an input with a default: an input is a thing somebody can
       # get wrong at four in the morning, and the point of this stage is that
@@ -435,6 +458,12 @@ jobs:
       # (G2); the archive and the staged diff are judged by main's own gate
       # before anything is committed. A merge that the repository refuses
       # leaves the pull request open and the run red.
+      #
+      # And since 20 October 2026 (run 81, #192): `true` reaches only the
+      # scheduled branch. A controlled run publishes on
+      # automation/open-data-refresh-review-<run id>, as a draft that is never
+      # merged here, and the scheduled run refuses to rewrite its own branch
+      # while a pull request it did not make is open there.
       merge: true
 
   # Downstream notification, and only once the data is actually on main. The

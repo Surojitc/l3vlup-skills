@@ -2,7 +2,8 @@
  * The safety contract generated data must meet before it can persist to main
  * without a person merging it. Four rules:
  *
- *   G1  only data collected by main's own code may be merged automatically
+ *   G1  only data collected by main's own code may be merged automatically,
+ *       and a run that may not merge publishes on a review branch of its own
  *   G2  a staged file may not be older than the copy already on main
  *   G3  a dated board-check observation is written once
  *   G4  open-data collections run one at a time, and publications queue
@@ -192,6 +193,7 @@ const wf = (f) => readFileSync(join(ROOT, '.github', 'workflows', f), 'utf8');
 {
   const pub = wf('publish-data.yml');
   check('G1: the merge step requires the caller\'s ref to be main', /name: Merge the data pull request\n\s+id: merge\n\s+if: steps\.pr\.outputs\.number != '' && inputs\.merge && github\.ref == 'refs\/heads\/main'/.test(pub));
+  check('G1: ...and the contract to have placed the run on the scheduled branch', /id: merge\n\s+if: [^\n]*&& steps\.contract\.outputs\.review == 'false'\n/.test(pub));
   const notice = pub.split('- name: ').find((s) => s.startsWith('Leave a collection from another branch'));
   check('G1: a collection from another branch is announced, not merged', notice && /github\.ref != 'refs\/heads\/main'/.test(notice) && !/gh pr merge/.test(notice));
   check('G1: the branch name reaches the shell only through the environment', notice && !/run:.*\$\{\{/.test(notice));
@@ -212,7 +214,14 @@ const wf = (f) => readFileSync(join(ROOT, '.github', 'workflows', f), 'utf8');
   eq('G4: open-data collections share one group and are never cancelled', conc(wf('collect.yml')), ['collect-open-data', 'false']);
   eq('G4: the tracker already has its own', conc(wf('build-samples.yml')), ['build-samples', 'false']);
   eq('G4: so does discovery', conc(wf('discover-ats.yml')), ['discover-ats', 'false']);
-  eq('G4: publications queue repository-wide and are never cancelled', conc(pub), ['publish-data', 'false']);
+  // The publisher's group is an expression now: the literal `publish-data`
+  // for a scheduled run, and one group per run for a review run, which
+  // writes only its own branch and must never displace a scheduled
+  // publication waiting in the shared queue (GitHub keeps one waiting run per
+  // group). Read the two values off the expression.
+  const pubConc = pub.match(/^concurrency:\n\s+group: \$\{\{ \(github\.ref == 'refs\/heads\/main' && !inputs\.review\) && '([a-z-]+)' \|\| format\('([a-z{}0-9-]+)', github\.run_id\) \}\}\n\s+cancel-in-progress: (\S+)/m);
+  eq('G4: scheduled publications queue repository-wide and are never cancelled', pubConc && [pubConc[1], pubConc[3]], ['publish-data', 'false']);
+  eq('G4: a review publication queues alone, by its run id', pubConc && pubConc[2], 'publish-data-review-{0}');
   const groups = ['collect.yml', 'build-samples.yml', 'discover-ats.yml'].map((f) => conc(wf(f))[0]);
   eq('G4: no producer shares the publication queue\'s group (it would deadlock behind itself)', groups.includes('publish-data'), false);
 
