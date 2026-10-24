@@ -1,6 +1,6 @@
 {
   "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
-  "current": "2026-09-27",
+  "current": "2026-10-24",
   "fingerprints": {
     "99b4a6dabe727975": {
       "method": "2026-09-24",
@@ -31,6 +31,11 @@
       "method": "2026-09-27",
       "note": "Experienced and lateral rows (lib/seniority.mjs) from boards already read in full at finance and trading firms, published as programmeType 'Lateral / Experienced' or 'MBA Hire', level Experienced. Same method for board checks: every record's n, roles, status and carried ids are computed from early-career rows only, exactly as before (toOpportunity is unchanged; a differential run over the 16 finance boards read on 12 October gave identical early-career rows), so the Hiring Pulse compares across the change. Experienced rows reach the feed and the history snapshot's ids, never a board record, the collapse guard or the snapshot's count.",
       "recorded": "2026-10-12"
+    },
+    "98d917eca505441d": {
+      "method": "2026-10-24",
+      "note": "Experienced rows at a bulge-bracket bank: an allowance of 150 chosen one row from each seniority-and-area pair in turn, instead of 60 in seat order (#152, 13 Oct). Changes which experienced rows JPMorgan Chase, Barclays and the other bulge-bracket boards yield; trading firms and every other tier unchanged. Days either side do not compare for those boards.",
+      "recorded": "2026-10-24"
     }
   }
 }
