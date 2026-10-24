@@ -248,6 +248,18 @@
       "firstSeen": "2026-10-16",
       "lastConfirmed": "2026-10-24"
     },
+    "greenhouse-duolingo-8863967002": {
+      "closingDate": "2026-11-06",
+      "source": "ats-field",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "greenhouse-duolingo-8888045002": {
+      "closingDate": "2026-11-19",
+      "source": "ats-field",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
     "greenhouse-gusto-8257115": {
       "closingDate": "2026-10-26",
       "source": "ats-field",
@@ -1352,6 +1364,48 @@
       "firstSeen": "2026-10-23",
       "lastConfirmed": "2026-10-23"
     },
+    "workday-capgroup-JR5917": {
+      "closingDate": "2026-12-01",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-capgroup-JR5918": {
+      "closingDate": "2026-12-01",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-capgroup-JR5920": {
+      "closingDate": "2026-12-01",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-capgroup-JR5921": {
+      "closingDate": "2026-12-01",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-capgroup-JR5922": {
+      "closingDate": "2026-12-01",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-capgroup-JR7201": {
+      "closingDate": "2026-11-01",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-capgroup-JR7204": {
+      "closingDate": "2026-11-01",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
     "workday-cibc-2616141-1": {
       "closingDate": "2026-11-05",
       "source": "workday-detail",
@@ -2390,6 +2444,66 @@
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
     },
+    "workday-rbc-R-0000186008-1": {
+      "closingDate": "2026-12-11",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000186213-1": {
+      "closingDate": "2026-12-11",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000186214": {
+      "closingDate": "2026-12-11",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000188791": {
+      "closingDate": "2026-11-13",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000189965": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000189977": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000189986": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000190145-1": {
+      "closingDate": "2026-11-30",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000190146-1": {
+      "closingDate": "2026-12-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000190165": {
+      "closingDate": "2026-12-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-24",
+      "lastConfirmed": "2026-10-24"
+    },
     "workday-santander-Req0843024": {
       "closingDate": "2026-10-31",
       "source": "workday-detail",
@@ -2926,6 +3040,38 @@
     }
   },
   "misses": {
+    "ashby-alan-142ad7db-6962-43d9-90f7-b69f0b66261f|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-alan-207a6ec4-1831-44a3-af4e-4ec42e7b7528|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-alan-71fa3e9d-1f5f-4e3f-a1de-e68b3c85803a|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-alan-9c4eb7ab-2297-4981-ac31-ef57a349f9c9|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-alan-d457e0f1-2418-4759-b4ed-e41fdff50bf0|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-alan-d6503250-7e22-45da-bad7-b4c80d8e3401|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-alan-de4c30ae-698f-43e9-84d1-f458955fd671|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-ardea-partners-4d9a30ba-a359-4062-a5ae-80d51311d959|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
@@ -2965,6 +3111,22 @@
     "ashby-harvey-d40e15aa-2351-4be8-ac8f-1faf60bfcdbf|jsonld": {
       "checkedAt": "2026-10-12",
       "attempts": 3
+    },
+    "ashby-lendable-a0ed2d2c-1c24-4d53-8ab4-af7e7ac06e20|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-lendable-a2214edc-39e3-4c70-8a09-875bb991062f|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-lendable-e001dc0b-6e0f-46a7-95ba-38a3733db2f4|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-lendable-eabb1e2a-86c3-48e6-836c-af967e0e71d2|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "ashby-modal-38888294-6bc7-4dab-b072-6d0f0c2ed79a|jsonld": {
       "checkedAt": "2026-10-15",
@@ -3026,6 +3188,18 @@
       "checkedAt": "2026-10-15",
       "attempts": 5
     },
+    "ashby-qonto-3afddd9a-325e-4719-87d8-4c7d65c8b1bd|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-qonto-7503f1f7-10be-4601-9dee-327082b04cc0|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-qonto-92f42c49-04ae-460b-8c35-1654c950285d|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "ashby-ramp-a13ae586-f4cb-4385-8822-c42b9b54ed74|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 4
@@ -3049,6 +3223,10 @@
     "ashby-ramp-fcf118cc-521a-4a62-9d13-945e5b6e3cb8|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 4
+    },
+    "ashby-red-gate-2449a05b-81da-40de-b64d-3436c8ddb1df|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "ashby-replit-7c3c9d29-cec2-4367-8564-eadaed165aea|jsonld": {
       "checkedAt": "2026-10-18",
@@ -3136,6 +3314,14 @@
     },
     "ashby-voleon-ef2b0892-1772-4240-a535-4043d66d848e|jsonld": {
       "checkedAt": "2026-10-23",
+      "attempts": 1
+    },
+    "ashby-wincent-3f749456-0b82-48e0-ade8-d24bd39d22b1|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "ashby-wincent-984bf12c-8d80-431f-9789-04a9739cfc99|jsonld": {
+      "checkedAt": "2026-10-24",
       "attempts": 1
     },
     "greenhouse-addepar1-8756273002|jsonld": {
@@ -3254,6 +3440,34 @@
       "checkedAt": "2026-10-22",
       "attempts": 3
     },
+    "greenhouse-alixpartners-6254480003|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-alixpartners-6574165003|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-alixpartners-7452959003|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-alixpartners-7537505003|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-alixpartners-7809994003|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-alixpartners-7810004003|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-alixpartners-8016759003|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "greenhouse-anthropic-5425724008|jsonld": {
       "checkedAt": "2026-10-03",
       "attempts": 3
@@ -3318,6 +3532,34 @@
       "checkedAt": "2026-10-15",
       "attempts": 4
     },
+    "greenhouse-bitpanda-4940716101|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-bitpanda-4987398101|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-bitpanda-4996280101|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-bitpanda-4999438101|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-bitpanda-4999439101|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-block-5108007008|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-block-5108009008|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "greenhouse-brex-8864170002|jsonld": {
       "checkedAt": "2026-10-24",
       "attempts": 4
@@ -3338,12 +3580,88 @@
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
+    "greenhouse-capco-8280810|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "greenhouse-carta-5640725003|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
     "greenhouse-carta-7807641003|jsonld": {
       "checkedAt": "2026-10-23",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-4467334|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-5174914|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-7894191|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8053945|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8053996|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8054054|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8064581|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8120300|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8128811|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8160288|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8186451|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8186465|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8186469|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8199212|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8212081|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8243522|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8249052|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-charlesriverassociates-8300673|jsonld": {
+      "checkedAt": "2026-10-24",
       "attempts": 1
     },
     "greenhouse-clearstreet-8256262|jsonld": {
@@ -3694,12 +4012,156 @@
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
+    "greenhouse-duolingo-8881612002|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-duolingo-8888721002|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-duolingo-8888848002|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4686253005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4691295005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4691298005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4702083005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4708586005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4719106005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4719118005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4719119005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4719125005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4719126005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4719134005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4719135005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4721555005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4722749005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4725689005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4730886005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4732429005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4732683005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4732697005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4732700005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4733133005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4733138005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4733877005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4733880005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4736603005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4736720005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4736954005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4741016005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4742955005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-dvtrading-4742962005|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "greenhouse-ebury-4990911101|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
     "greenhouse-ebury-5001786101|jsonld": {
       "checkedAt": "2026-10-23",
+      "attempts": 1
+    },
+    "greenhouse-elixirr-7950016|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-engineersgate-7946542|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-engineersgate-8317827|jsonld": {
+      "checkedAt": "2026-10-24",
       "attempts": 1
     },
     "greenhouse-exoduspoint-8806119002|jsonld": {
@@ -3798,6 +4260,10 @@
       "checkedAt": "2026-10-22",
       "attempts": 1
     },
+    "greenhouse-flowdesk-4998666101|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "greenhouse-flowtraders-4782837|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
@@ -3869,6 +4335,30 @@
     "greenhouse-gemini-8247993|jsonld": {
       "checkedAt": "2026-10-17",
       "attempts": 3
+    },
+    "greenhouse-genevatrading-5235738007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-genevatrading-5242063007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-genevatrading-5242180007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-genevatrading-5242190007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-genevatrading-5242196007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-genevatrading-5242246007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "greenhouse-gusto-8001931|jsonld": {
       "checkedAt": "2026-10-15",
@@ -4238,6 +4728,26 @@
       "checkedAt": "2026-10-03",
       "attempts": 3
     },
+    "greenhouse-keystone-7636079|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-keystone-8109232|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-keystone-8109240|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-keystone-8201221|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-keystone-8204134|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "greenhouse-lincolninternational-8060090|jsonld": {
       "checkedAt": "2026-10-22",
       "attempts": 3
@@ -4420,6 +4930,10 @@
     },
     "greenhouse-mangroup-5012806101|jsonld": {
       "checkedAt": "2026-10-23",
+      "attempts": 1
+    },
+    "greenhouse-marshallwace-8879188002|jsonld": {
+      "checkedAt": "2026-10-24",
       "attempts": 1
     },
     "greenhouse-mongodb-8209134|jsonld": {
@@ -4797,6 +5311,10 @@
     "greenhouse-point72-8885733002|jsonld": {
       "checkedAt": "2026-10-24",
       "attempts": 3
+    },
+    "greenhouse-quadraturecapital-4255974|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "greenhouse-quberesearchandtechnologies-8546914002|jsonld": {
       "checkedAt": "2026-10-22",
@@ -5394,6 +5912,34 @@
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
+    "greenhouse-veritiongroupllcinternships-5260165007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-veritiongroupllcinternships-5260449007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-veritiongroupllcinternships-5260466007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-veritiongroupllcinternships-5260594007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-veritiongroupllcinternships-5260610007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-veritiongroupllcinternships-5260623007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "greenhouse-veritiongroupllcinternships-5264435007|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "greenhouse-virtu-5208637002|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
@@ -5798,6 +6344,30 @@
       "checkedAt": "2026-10-19",
       "attempts": 4
     },
+    "lever-belvederetrading-337314ee-4de5-4b96-a419-1b9287a7df68|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "lever-belvederetrading-34369a5c-55c0-4e9f-9d2e-4f21b9418bee|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "lever-belvederetrading-8f06f221-8777-4a4d-b035-40882db5f4a0|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "lever-belvederetrading-cbde47db-c60b-4339-a8f4-a8e4f30505ab|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "lever-belvederetrading-fb74cb4d-a250-47c7-96a5-0450095add27|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "lever-belvederetrading-fd619115-ced7-4d59-bd2b-0948b5ee5fde|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "lever-palantir-09846827-b931-4a9f-bd64-c3bb8860187b|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
@@ -6145,6 +6715,14 @@
     "lever-palantir-fd3603a9-7016-45c6-9c8d-04c9279ab85e|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
+    },
+    "lever-raine-7ce3c933-b860-4a6f-8c2a-a83d51608972|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "lever-raine-e07652af-67ae-4d64-a2ad-6ba4b203c132|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "lever-zopa-962f3756-6e45-480f-984c-64e024b57c4f|jsonld": {
       "checkedAt": "2026-10-23",
@@ -9146,6 +9724,78 @@
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
+    "workday-alantra-JR132|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR132|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR355|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR355|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR395|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR395|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR425|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR425|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR43|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR43|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR466|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR466|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR485|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR485|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR486|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR486|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR48|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-alantra-JR48|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
     "workday-athene-R253683|jsonld": {
       "checkedAt": "2026-09-09",
       "attempts": 3
@@ -10377,6 +11027,14 @@
     "workday-blackstone-45868|workday-detail": {
       "checkedAt": "2026-10-20",
       "attempts": 3
+    },
+    "workday-capgroup-JR7404-1|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-capgroup-JR7404-1|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "workday-capitalone-R1000018-1|workday-detail": {
       "checkedAt": "2026-10-21",
@@ -11641,6 +12299,78 @@
     "workday-citi-26999554|workday-detail": {
       "checkedAt": "2026-10-20",
       "attempts": 3
+    },
+    "workday-gresearch-R3679|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3679|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3682|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3682|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3686|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3686|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3691|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3691|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3746|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3746|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3759|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3759|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3760|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3760|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3773|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3773|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3795|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-gresearch-R3795|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "workday-guidehouse-38913|jsonld": {
       "checkedAt": "2026-10-12",
@@ -15937,6 +16667,22 @@
     "workday-raymondjames-R-0013502|workday-detail": {
       "checkedAt": "2026-10-24",
       "attempts": 2
+    },
+    "workday-rbc-R-0000187837-1|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-rbc-R-0000187837-1|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-rbc-R-0000188801|jsonld": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
+    },
+    "workday-rbc-R-0000188801|workday-detail": {
+      "checkedAt": "2026-10-24",
+      "attempts": 1
     },
     "workday-spgi-327499-2|jsonld": {
       "checkedAt": "2026-10-23",
