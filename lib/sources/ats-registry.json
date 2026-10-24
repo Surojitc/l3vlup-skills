@@ -1158,6 +1158,215 @@
       "discoveredVia": "https://www.grantthornton.com/careers",
       "discoveredAt": "2026-10-22",
       "postingsAtDiscovery": 170
+    },
+    {
+      "firm": "Alan",
+      "ats": "ashby",
+      "token": "alan",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Alantra",
+      "ats": "workday",
+      "tenant": "alantra",
+      "shard": "wd3",
+      "site": "Alantra",
+      "tier": "Middle Market",
+      "discoveredVia": "https://www.alantra.com/careers/apply/",
+      "discoveredAt": "2026-10-24",
+      "postingsAtDiscovery": 51
+    },
+    {
+      "firm": "AlixPartners",
+      "ats": "greenhouse",
+      "token": "alixpartners",
+      "tier": "Independent Advisory"
+    },
+    {
+      "firm": "Ardea Partners",
+      "ats": "ashby",
+      "token": "ardea-partners",
+      "tier": "Elite Boutique",
+      "discoveredVia": "https://www.ardeapartners.com/careers",
+      "discoveredAt": "2026-10-24",
+      "postingsAtDiscovery": 3
+    },
+    {
+      "firm": "Belvedere Trading",
+      "ats": "lever",
+      "token": "belvederetrading",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "Bitpanda",
+      "ats": "greenhouse",
+      "token": "bitpanda",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Block",
+      "ats": "greenhouse",
+      "token": "block",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Capco",
+      "ats": "greenhouse",
+      "token": "capco",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.capco.com/Careers/Job-Search",
+      "discoveredAt": "2026-10-24",
+      "postingsAtDiscovery": 726
+    },
+    {
+      "firm": "Capital Group",
+      "ats": "workday",
+      "tenant": "capgroup",
+      "shard": "wd1",
+      "site": "capitalgroupcareers",
+      "tier": "Asset Manager",
+      "discoveredVia": "https://www.capitalgroup.com/about-us/careers.html",
+      "discoveredAt": "2026-10-24",
+      "postingsAtDiscovery": 189
+    },
+    {
+      "firm": "Charles River Associates",
+      "ats": "greenhouse",
+      "token": "charlesriverassociates",
+      "tier": "Consulting"
+    },
+    {
+      "firm": "Duolingo",
+      "ats": "greenhouse",
+      "token": "duolingo",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "DV Trading",
+      "ats": "greenhouse",
+      "token": "dvtrading",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "Elixirr",
+      "ats": "greenhouse",
+      "token": "elixirr",
+      "tier": "Consulting"
+    },
+    {
+      "firm": "Engineers Gate",
+      "ats": "greenhouse",
+      "token": "engineersgate",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Flowdesk",
+      "ats": "greenhouse",
+      "token": "flowdesk",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "G-Research",
+      "ats": "workday",
+      "tenant": "gresearch",
+      "shard": "wd103",
+      "site": "G-Research",
+      "tier": "Systematic",
+      "discoveredVia": "https://www.gresearch.com/vacancies/",
+      "discoveredAt": "2026-10-24",
+      "postingsAtDiscovery": 65
+    },
+    {
+      "firm": "Geneva Trading",
+      "ats": "greenhouse",
+      "token": "genevatrading",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "GSA Capital",
+      "ats": "greenhouse",
+      "token": "gsacapital",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Keystone",
+      "ats": "greenhouse",
+      "token": "keystone",
+      "tier": "Consulting"
+    },
+    {
+      "firm": "Lendable",
+      "ats": "ashby",
+      "token": "lendable",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Mako",
+      "ats": "greenhouse",
+      "token": "mako",
+      "tier": "Trading Tech"
+    },
+    {
+      "firm": "Marshall Wace",
+      "ats": "greenhouse",
+      "token": "marshallwace",
+      "tier": "Multi-Manager"
+    },
+    {
+      "firm": "Qonto",
+      "ats": "ashby",
+      "token": "qonto",
+      "tier": "Fintech"
+    },
+    {
+      "firm": "Quadrature Capital",
+      "ats": "greenhouse",
+      "token": "quadraturecapital",
+      "tier": "Systematic"
+    },
+    {
+      "firm": "Raine",
+      "ats": "lever",
+      "token": "raine",
+      "tier": "Elite Boutique"
+    },
+    {
+      "firm": "RBC",
+      "ats": "workday",
+      "tenant": "rbc",
+      "shard": "wd3",
+      "site": "RBCEARLYTALENT1",
+      "tier": "Middle Market",
+      "discoveredVia": "https://jobs.rbc.com/ca/en",
+      "discoveredAt": "2026-10-24",
+      "postingsAtDiscovery": 20
+    },
+    {
+      "firm": "Redgate",
+      "ats": "ashby",
+      "token": "red-gate",
+      "tier": "Enterprise Tech"
+    },
+    {
+      "firm": "Teneo",
+      "ats": "greenhouse",
+      "token": "teneo",
+      "tier": "Independent Advisory"
+    },
+    {
+      "firm": "Verition Fund Management",
+      "ats": "greenhouse",
+      "token": "veritiongroupllcinternships",
+      "tier": "Multi-Manager",
+      "discoveredVia": "https://www.verition.com/internships",
+      "discoveredAt": "2026-10-24",
+      "postingsAtDiscovery": 7
+    },
+    {
+      "firm": "Wincent",
+      "ats": "ashby",
+      "token": "wincent",
+      "tier": "Trading Tech"
     }
   ]
 }
