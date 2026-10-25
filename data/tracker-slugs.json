@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-24T19:16:34.348Z",
-  "count": 4558,
+  "generatedAt": "2026-10-25T06:26:27.451Z",
+  "count": 4565,
   "roles": {
     "ashby-alan-142ad7db-6962-43d9-90f7-b69f0b66261f": {
       "slug": "alan-general-secretary-associate-intern",
@@ -10672,6 +10672,10 @@
       "slug": "morgan-stanley-2027-firm-risk-management-summer-analyst-program-singapore",
       "since": "2026-09-01"
     },
+    "talnet-morganstanley-tal-net-21495": {
+      "slug": "morgan-stanley-2027-non-financial-risk-summer-analyst-programme-glasgow",
+      "since": "2026-10-25"
+    },
     "talnet-morganstanley-tal-net-21503": {
       "slug": "morgan-stanley-2027-finance-industrial-placement-programme-london",
       "since": "2026-09-18"
@@ -10703,6 +10707,18 @@
     "talnet-morganstanley-tal-net-21522": {
       "slug": "morgan-stanley-2027-technology-industrial-placement-programme-london",
       "since": "2026-09-18"
+    },
+    "talnet-morganstanley-tal-net-21528": {
+      "slug": "morgan-stanley-2027-finance-internship-program-budapest",
+      "since": "2026-10-25"
+    },
+    "talnet-morganstanley-tal-net-21537": {
+      "slug": "morgan-stanley-2027-quantitative-finance-developer-internship-program-budapest",
+      "since": "2026-10-25"
+    },
+    "talnet-morganstanley-tal-net-21542": {
+      "slug": "morgan-stanley-2027-risk-management-internship-program-non-quantitative-budapest",
+      "since": "2026-10-25"
     },
     "talnet-morganstanley-tal-net-21549": {
       "slug": "morgan-stanley-2027-risk-management-internship-program-quantitative-budapest",
@@ -16383,6 +16399,18 @@
     "workday-mufgub-10079356-WD-1": {
       "slug": "mufg-2027-mufg-uk-summer-analyst-programme-structured-trading-group",
       "since": "2026-10-23"
+    },
+    "workday-mufgub-10079443-WD-1": {
+      "slug": "mufg-mufg-analyst-programme-2027-corporate-functions",
+      "since": "2026-10-25"
+    },
+    "workday-mufgub-10079444-WD-1": {
+      "slug": "mufg-mufg-analyst-programme-2027-global-corporate-banking",
+      "since": "2026-10-25"
+    },
+    "workday-mufgub-10079445-WD-2": {
+      "slug": "mufg-mufg-analyst-programme-2027-global-operations",
+      "since": "2026-10-25"
     },
     "workday-mufgub-10079446-WD-1": {
       "slug": "mufg-summer-internship-programme-2027-global-compliance",
