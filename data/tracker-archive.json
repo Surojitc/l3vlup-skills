@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T06:26:27.451Z",
-  "count": 4598,
+  "generatedAt": "2026-10-25T11:57:12.338Z",
+  "count": 4602,
   "roles": {
     "accenture-accenture-construct-intern-talent-pool": {
       "id": "workday-accenture-R00310637",
@@ -45796,6 +45796,21 @@
       "lastSeen": "2026-09-01",
       "slug": "morgan-stanley-2027-finance-summer-analyst-program-new-york"
     },
+    "morgan-stanley-2027-finance-summer-analyst-programme-glasgow": {
+      "id": "talnet-morganstanley-tal-net-21490",
+      "firm": "Morgan Stanley",
+      "role": "2027 Finance Summer Analyst Programme (Glasgow)",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Glasgow",
+      "region": "UK",
+      "level": "Internship",
+      "applicationUrl": "https://morganstanley.tal.net/vx/lang-en-GB/mobile-0/brand-2/candidate/so/pm/1/pl/1/opp/21490-2027-Finance-Summer-Analyst-Programme-Glasgow/en-GB",
+      "slug": "morgan-stanley-2027-finance-summer-analyst-programme-glasgow",
+      "firstSeen": "2026-10-25",
+      "lastSeen": "2026-10-25"
+    },
     "morgan-stanley-2027-financial-resources-and-strategy-industrial-placement-internship-london": {
       "id": "talnet-morganstanley-tal-net-21513",
       "firm": "Morgan Stanley",
@@ -45904,6 +45919,22 @@
       "slug": "morgan-stanley-2027-fixed-income-research-off-cycle-internship-london",
       "firstSeen": "2026-09-29",
       "lastSeen": "2026-10-15"
+    },
+    "morgan-stanley-2027-fund-services-summer-analyst-programme-accounting-glasgow": {
+      "id": "talnet-morganstanley-tal-net-21491",
+      "firm": "Morgan Stanley",
+      "role": "2027 Fund Services Summer Analyst Programme - Accounting (Glasgow)",
+      "vertical": "Operations",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Glasgow",
+      "region": "UK",
+      "level": "Internship",
+      "applicationUrl": "https://morganstanley.tal.net/vx/lang-en-GB/mobile-0/brand-2/candidate/so/pm/1/pl/1/opp/21491-2027-Fund-Services-Summer-Analyst-Programme-Accounting-Glasgow/en-GB",
+      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
+      "slug": "morgan-stanley-2027-fund-services-summer-analyst-programme-accounting-glasgow",
+      "firstSeen": "2026-10-25",
+      "lastSeen": "2026-10-25"
     },
     "morgan-stanley-2027-global-capital-markets-industrial-placement-summer-analyst-program-hong-kong": {
       "id": "talnet-morganstanley-tal-net-21294",
@@ -46975,6 +47006,22 @@
       "firstSeen": "2026-10-25",
       "lastSeen": "2026-10-25"
     },
+    "morgan-stanley-2027-operations-industrial-placement-programme-frankfurt": {
+      "id": "talnet-morganstanley-tal-net-21480",
+      "firm": "Morgan Stanley",
+      "role": "2027 Operations Industrial Placement Programme (Frankfurt)",
+      "vertical": "Operations",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Frankfurt",
+      "region": "Europe",
+      "level": "Graduate",
+      "applicationUrl": "https://morganstanley.tal.net/vx/lang-en-GB/mobile-0/brand-2/candidate/so/pm/1/pl/1/opp/21480-2027-Operations-Industrial-Placement-Programme-Frankfurt/en-GB",
+      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
+      "slug": "morgan-stanley-2027-operations-industrial-placement-programme-frankfurt",
+      "firstSeen": "2026-10-25",
+      "lastSeen": "2026-10-25"
+    },
     "morgan-stanley-2027-operations-off-cycle-internship-paris": {
       "id": "talnet-morganstanley-tal-net-22238",
       "firm": "Morgan Stanley",
@@ -47366,6 +47413,22 @@
       "firstSeen": "2026-09-01",
       "lastSeen": "2026-09-01",
       "slug": "morgan-stanley-2027-technology-summer-analyst-program-singapore"
+    },
+    "morgan-stanley-2027-technology-summer-analyst-programme-application-development-glasgow": {
+      "id": "talnet-morganstanley-tal-net-21481",
+      "firm": "Morgan Stanley",
+      "role": "2027 Technology Summer Analyst Programme - Application Development (Glasgow)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Glasgow",
+      "region": "UK",
+      "level": "Internship",
+      "applicationUrl": "https://morganstanley.tal.net/vx/lang-en-GB/mobile-0/brand-2/candidate/so/pm/1/pl/1/opp/21481-2027-Technology-Summer-Analyst-Programme-Application-Development-Glasgow/en-GB",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "morgan-stanley-2027-technology-summer-analyst-programme-application-development-glasgow",
+      "firstSeen": "2026-10-25",
+      "lastSeen": "2026-10-25"
     },
     "morgan-stanley-2027-technology-summer-analyst-programme-london": {
       "id": "talnet-morganstanley-tal-net-21520",
@@ -50098,8 +50161,8 @@
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Big Tech",
-      "location": "China, Shanghai",
-      "region": "Asia",
+      "location": "3 Locations",
+      "region": "US",
       "level": "Graduate",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/Developer-Technology-Engineer---New-College-Graduate-2027_JR2023566",
       "recommendedPrepSlug": "software-engineering-interview-prep",
