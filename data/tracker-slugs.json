@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T11:57:12.338Z",
-  "count": 4569,
+  "generatedAt": "2026-10-26T13:29:25.355Z",
+  "count": 4635,
   "roles": {
     "ashby-alan-142ad7db-6962-43d9-90f7-b69f0b66261f": {
       "slug": "alan-general-secretary-associate-intern",
@@ -2168,6 +2168,10 @@
       "slug": "flowdesk-senior-it-engineer-new-york",
       "since": "2026-10-24"
     },
+    "greenhouse-flowdesk-5016114101": {
+      "slug": "flowdesk-junior-options-trader",
+      "since": "2026-10-26"
+    },
     "greenhouse-flowtraders-3234877": {
       "slug": "flow-traders-digital-assets-trader",
       "since": "2026-10-12"
@@ -2323,6 +2327,10 @@
     "greenhouse-flowtraders-8304623": {
       "slug": "flow-traders-core-data-engineer-us",
       "since": "2026-10-23"
+    },
+    "greenhouse-flowtraders-8324146": {
+      "slug": "flow-traders-senior-software-engineer-otctech",
+      "since": "2026-10-26"
     },
     "greenhouse-gemini-7875125": {
       "slug": "gemini-software-engineering-intern-fall-2026",
@@ -3652,6 +3660,10 @@
       "slug": "man-group-senior-c-engineer",
       "since": "2026-10-13"
     },
+    "greenhouse-mangroup-5007743101": {
+      "slug": "man-group-quant-researcher-multi-strat",
+      "since": "2026-10-26"
+    },
     "greenhouse-mangroup-5011118101": {
       "slug": "man-group-python-data-engineer",
       "since": "2026-10-22"
@@ -3659,6 +3671,14 @@
     "greenhouse-mangroup-5011857101": {
       "slug": "man-group-quant-macro-trend",
       "since": "2026-10-22"
+    },
+    "greenhouse-mangroup-5012801101": {
+      "slug": "man-group-systematic-fast-trading-intern",
+      "since": "2026-10-26"
+    },
+    "greenhouse-mangroup-5012802101": {
+      "slug": "man-group-solutions-intern",
+      "since": "2026-10-26"
     },
     "greenhouse-mangroup-5012806101": {
       "slug": "man-group-systematic-quant-intern",
@@ -4560,6 +4580,22 @@
       "slug": "point72-2027-summer-internship-software-engineer",
       "since": "2026-10-15"
     },
+    "greenhouse-point72-8893935002": {
+      "slug": "point72-2027-software-engineer-campus-graduate-program-iit-madras",
+      "since": "2026-10-26"
+    },
+    "greenhouse-point72-8893936002": {
+      "slug": "point72-2027-software-engineer-campus-graduate-program-iit-hyderabad",
+      "since": "2026-10-26"
+    },
+    "greenhouse-point72-8893939002": {
+      "slug": "point72-2027-software-engineer-campus-graduate-program-iit-kanpur",
+      "since": "2026-10-26"
+    },
+    "greenhouse-point72-8893940002": {
+      "slug": "point72-2027-software-engineer-campus-graduate-program-iit-bhu",
+      "since": "2026-10-26"
+    },
     "greenhouse-point72-8905015002": {
       "slug": "point72-associate-investment-professional-development",
       "since": "2026-10-21"
@@ -4910,6 +4946,10 @@
     "greenhouse-quberesearchandtechnologies-8857906002": {
       "slug": "qube-research-and-technologies-quantitative-developer-python-c",
       "since": "2026-10-12"
+    },
+    "greenhouse-quberesearchandtechnologies-8870423002": {
+      "slug": "qube-research-and-technologies-2027-internship-technology",
+      "since": "2026-10-26"
     },
     "greenhouse-quberesearchandtechnologies-8883229002": {
       "slug": "qube-research-and-technologies-quantitative-developer-front-end-react-c",
@@ -10437,6 +10477,14 @@
       "slug": "jpmorgan-chase-securities-services-buyside-trading-services-sales-vice-president",
       "since": "2026-10-21"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210801172": {
+      "slug": "jpmorgan-chase-corporate-banking-vice-president-coverage-banker-melbourne",
+      "since": "2026-10-26"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210801173": {
+      "slug": "jpmorgan-chase-corporate-banking-vice-president-coverage-banker-perth",
+      "since": "2026-10-26"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210801790": {
       "slug": "jpmorgan-chase-2027-machine-learning-center-of-excellence-nlp-summer-associate",
       "since": "2026-10-20"
@@ -10444,6 +10492,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210801956": {
       "slug": "jpmorgan-chase-global-investment-banking-syndicated-leveraged-finance-analyst-hong-kong",
       "since": "2026-10-20"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210802030": {
+      "slug": "jpmorgan-chase-risk-management-market-risk-coverage-lead-vice-president",
+      "since": "2026-10-26"
     },
     "oracle-jpmc-fa-oraclecloud-com-210802065": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-banking-global-markets-off-cycle-internship-london-uk",
@@ -11224,9 +11276,25 @@
       "slug": "accenture-innovation-analyst-internship",
       "since": "2026-09-20"
     },
+    "workday-accenture-14712076": {
+      "slug": "accenture-enigma-csol-intern",
+      "since": "2026-10-26"
+    },
     "workday-accenture-14778770-1": {
       "slug": "accenture-cloud-devops-engineer-intern",
       "since": "2026-09-28"
+    },
+    "workday-accenture-14804709": {
+      "slug": "accenture-enigma-csol-internship-2",
+      "since": "2026-10-26"
+    },
+    "workday-accenture-14811480": {
+      "slug": "accenture-payroll-internship",
+      "since": "2026-10-26"
+    },
+    "workday-accenture-14818045": {
+      "slug": "accenture-campaign-management-internship",
+      "since": "2026-10-26"
     },
     "workday-accenture-14833180": {
       "slug": "accenture-talent-advancement-program-graduate-analyst",
@@ -11631,6 +11699,10 @@
     "workday-accenture-R00365279": {
       "slug": "accenture-data-and-ai-internship-program",
       "since": "2026-10-19"
+    },
+    "workday-accenture-R00366294": {
+      "slug": "accenture-intern-ceo-advisory",
+      "since": "2026-10-26"
     },
     "workday-accenture-R00366373": {
       "slug": "accenture-insurance-operations-associate-fresh-graduates-welcomed",
@@ -12046,6 +12118,10 @@
     "workday-barclays-JR-0000124204": {
       "slug": "barclays-uk-corporate-banking-summer-internship-programme-2027-birmingham",
       "since": "2026-09-01"
+    },
+    "workday-barclays-JR-0000124209": {
+      "slug": "barclays-international-corporate-banking-graduate-programme-2027-madrid",
+      "since": "2026-10-26"
     },
     "workday-barclays-JR-0000124213-1": {
       "slug": "barclays-capital-markets-graduate-programme-2027-london",
@@ -14281,9 +14357,17 @@
       "slug": "fti-consulting-2027-consultant-mba-intern-strategy-and-transformation",
       "since": "2026-10-01"
     },
+    "workday-fticonsulting-JR260639": {
+      "slug": "fti-consulting-2027-summer-internship-strategic-communications",
+      "since": "2026-10-26"
+    },
     "workday-fticonsulting-JR260641": {
       "slug": "fti-consulting-intern-business-transformation-corporate-finance",
       "since": "2026-09-01"
+    },
+    "workday-fticonsulting-JR260642": {
+      "slug": "fti-consulting-2027-summer-internship-tmt-business-transformation-corporate-finance",
+      "since": "2026-10-26"
     },
     "workday-fticonsulting-JR260661": {
       "slug": "fti-consulting-intern-business-transformation-tmt-corporate-finance",
@@ -14293,9 +14377,17 @@
       "slug": "fti-consulting-2027-graduate-placement-in-strategic-communications",
       "since": "2026-10-01"
     },
+    "workday-fticonsulting-JR260670": {
+      "slug": "fti-consulting-2027-analyst-intern-fti-capital-advisors",
+      "since": "2026-10-26"
+    },
     "workday-fticonsulting-JR260677": {
       "slug": "fti-consulting-2027-business-analyst-intern-strategy-and-transformation",
       "since": "2026-10-01"
+    },
+    "workday-fticonsulting-JR260678": {
+      "slug": "fti-consulting-2027-summer-internship-strategic-communication",
+      "since": "2026-10-26"
     },
     "workday-fticonsulting-JR260682": {
       "slug": "fti-consulting-intern-economic-and-financial-consulting",
@@ -14308,9 +14400,21 @@
         "fti-consulting-intern-human-resources"
       ]
     },
+    "workday-fticonsulting-JR260695": {
+      "slug": "fti-consulting-2027-summer-internship-tax-advisory",
+      "since": "2026-10-26"
+    },
     "workday-fticonsulting-JR260711": {
       "slug": "fti-consulting-mba-intern-business-transformation",
       "since": "2026-10-01"
+    },
+    "workday-fticonsulting-JR260712": {
+      "slug": "fti-consulting-summer-internship-data-tech-and-transformation-corporate-finance",
+      "since": "2026-10-26"
+    },
+    "workday-fticonsulting-JR260723": {
+      "slug": "fti-consulting-2027-summer-internship-economic-and-financial-consulting",
+      "since": "2026-10-26"
     },
     "workday-fticonsulting-JR260724": {
       "slug": "fti-consulting-2027-intern-financial-communications-strategic-communications",
@@ -14342,6 +14446,18 @@
       "slug": "fti-consulting-2027-intern-forensic-accounting-investigation-and-compliance",
       "since": "2026-09-01"
     },
+    "workday-fticonsulting-JR260761": {
+      "slug": "fti-consulting-2027-graduate-scheme-data-tech-and-transformation",
+      "since": "2026-10-26"
+    },
+    "workday-fticonsulting-JR260764": {
+      "slug": "fti-consulting-2027-intern-corporate-finance-2",
+      "since": "2026-10-26"
+    },
+    "workday-fticonsulting-JR260771": {
+      "slug": "fti-consulting-2027-summer-internship-data-and-analytics",
+      "since": "2026-10-26"
+    },
     "workday-fticonsulting-JR260773": {
       "slug": "fti-consulting-2027-graduate-scheme-global-insurance-services",
       "since": "2026-10-01"
@@ -14353,6 +14469,10 @@
     "workday-fticonsulting-JR260827": {
       "slug": "fti-consulting-2027-internship-capital-market-services",
       "since": "2026-10-01"
+    },
+    "workday-fticonsulting-JR260836": {
+      "slug": "fti-consulting-2027-summer-internship-cybersecurity",
+      "since": "2026-10-26"
     },
     "workday-fticonsulting-JR260857": {
       "slug": "fti-consulting-2027-intern-marketing",
@@ -14386,6 +14506,10 @@
       "slug": "fti-consulting-2027-graduate-scheme-cyber-security",
       "since": "2026-10-01"
     },
+    "workday-fticonsulting-JR260971": {
+      "slug": "fti-consulting-2027-graduate-intern-economic-and-financial-consulting",
+      "since": "2026-10-26"
+    },
     "workday-fticonsulting-JR260991": {
       "slug": "fti-consulting-et-2027-graduate-scheme-digital-forensics",
       "since": "2026-10-01"
@@ -14402,6 +14526,22 @@
       "slug": "fti-consulting-2027-intern-corporate-finance-europe",
       "since": "2026-09-01"
     },
+    "workday-fticonsulting-JR261177": {
+      "slug": "fti-consulting-graduate-associate-business-transformation-corporate-finance",
+      "since": "2026-10-26"
+    },
+    "workday-fticonsulting-JR261178": {
+      "slug": "fti-consulting-graduate-associate-restructuring-corporate-finance",
+      "since": "2026-10-26"
+    },
+    "workday-fticonsulting-JR261179": {
+      "slug": "fti-consulting-graduate-associate-transactions-advisory-corporate-finance",
+      "since": "2026-10-26"
+    },
+    "workday-fticonsulting-JR261182": {
+      "slug": "fti-consulting-2027-business-analyst-graduate-program-strategy-and-transformation-saudi-nationals-only",
+      "since": "2026-10-26"
+    },
     "workday-fticonsulting-JR261203": {
       "slug": "fti-consulting-graduate-program-corporate-finance-consultant-janvier-2027",
       "since": "2026-09-28"
@@ -14413,6 +14553,10 @@
     "workday-fticonsulting-JR261446": {
       "slug": "fti-consulting-intern-consultant-cyber-threat-intelligence-cti-and-investigation-num-rique-dfir",
       "since": "2026-09-29"
+    },
+    "workday-fticonsulting-JR261462": {
+      "slug": "fti-consulting-2027-summer-internship-corporate-finance",
+      "since": "2026-10-26"
     },
     "workday-fticonsulting-JR261504": {
       "slug": "fti-consulting-graduate-consultant-economic-and-financial-consulting-asia",
@@ -14545,6 +14689,10 @@
     "workday-guidehouse-45783": {
       "slug": "guidehouse-technical-associate-application-developer-campus-2027",
       "since": "2026-10-23"
+    },
+    "workday-guidehouse-45899": {
+      "slug": "guidehouse-it-cybersecurity-compliance-technical-associate-campus-2027",
+      "since": "2026-10-26"
     },
     "workday-hl-R2525": {
       "slug": "houlihan-lokey-3-month-internship-financial-restructuring-q3-2026",
@@ -14711,6 +14859,62 @@
     "workday-hl-R3671": {
       "slug": "houlihan-lokey-graduate-financial-analyst-corporate-finance-manda",
       "since": "2026-10-23"
+    },
+    "workday-hl-R3675": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-power-utilities-and-renewables-class-of-2029-minneapolis",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3676": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-power-utilities-and-renewables-class-of-2029-dallas",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3677": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-financial-restructuring-class-of-2029-minneapolis",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3678": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-financial-restructuring-class-of-2029-new-york",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3679": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-financial-restructuring-class-of-2029-chicago",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3680": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-financial-restructuring-class-of-2029-los-angeles",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3683": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-capital-solutions-class-of-2029-chicago-private-debt-advisory",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3684": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-secondaries-and-directs-advisory-groups-class-of-2029-new-york",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3685": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-primary-capital-advisory-class-of-2029-new-york",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3686": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-real-estate-lodging-and-leisure-class-of-2029-new-york",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3688": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-capital-solutions-class-of-2029-new-york-private-debt-advisory",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3689": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-capital-solutions-class-of-2029-los-angeles-private-debt-advisory",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3690": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-general-partner-advisory-class-of-2029-new-york",
+      "since": "2026-10-26"
+    },
+    "workday-hl-R3691": {
+      "slug": "houlihan-lokey-2028-summer-financial-analyst-class-of-2029-equity-private-placements-new-york",
+      "since": "2026-10-26"
     },
     "workday-huron-JR-0016124": {
       "slug": "huron-consulting-group-digital-consulting-intern-summer-2027-montreal-spring-2028-graduates",
@@ -16013,6 +16217,10 @@
       "slug": "intel-dft-design-engineering-intern",
       "since": "2026-10-20"
     },
+    "workday-intel-JR0288531": {
+      "slug": "intel-haifa-lab-support-student",
+      "since": "2026-10-26"
+    },
     "workday-intel-JR0288600": {
       "slug": "intel-intel-foundry-pcc-semiconductor-manufacturing-student-technician-ice-program",
       "since": "2026-10-23"
@@ -16311,6 +16519,10 @@
     "workday-mizuho-R7482": {
       "slug": "mizuho-summer-2027-compliance-internship",
       "since": "2026-10-21"
+    },
+    "workday-mizuho-R7483": {
+      "slug": "mizuho-2028-houston-energy-investment-banking-summer-analyst",
+      "since": "2026-10-26"
     },
     "workday-mizuho-R7490": {
       "slug": "mizuho-summer-2027-regulatory-reporting-internship",
@@ -17195,6 +17407,14 @@
       "slug": "nvidia-software-engineer-agent-performance-modeling-new-college-grad-2026",
       "since": "2026-10-21"
     },
+    "workday-nvidia-JR2028452": {
+      "slug": "nvidia-asic-physical-design-engineer-new-college-grad-2027",
+      "since": "2026-10-26"
+    },
+    "workday-nvidia-JR2028456": {
+      "slug": "nvidia-asic-engineer-networking-chip-design-new-college-grad-2027",
+      "since": "2026-10-26"
+    },
     "workday-nvidia-JR2028499": {
       "slug": "nvidia-research-intern-robotics-2027",
       "since": "2026-10-24"
@@ -17530,6 +17750,10 @@
       "slug": "rbc-internship-regulatory-reporting-us",
       "since": "2026-10-24"
     },
+    "workday-rbc-R-0000191191": {
+      "slug": "rbc-business-analyst-rbc-amplify-2027-toronto",
+      "since": "2026-10-26"
+    },
     "workday-santander-Req0843024": {
       "slug": "santander-candidatura-spontanea-per-internship-santander-consumer-italia",
       "since": "2026-09-18"
@@ -17710,9 +17934,17 @@
       "slug": "sandp-global-market-intelligence-sales-associate-internship",
       "since": "2026-10-24"
     },
+    "workday-statestreet-R-789905": {
+      "slug": "state-street-fx-junior-trader-off",
+      "since": "2026-10-26"
+    },
     "workday-statestreet-R-791221-1": {
       "slug": "state-street-early-careers-finance-economics-accounting-associate-level",
       "since": "2026-10-23"
+    },
+    "workday-statestreet-R-798960": {
+      "slug": "state-street-apprentice-accounting-finance",
+      "since": "2026-10-26"
     },
     "workday-statestreet-R-799807": {
       "slug": "state-street-operations-early-career-entry-program",
@@ -17721,6 +17953,14 @@
     "workday-statestreet-R-800207": {
       "slug": "state-street-edm-change-delivery-analyst-new-graduate",
       "since": "2026-10-24"
+    },
+    "workday-statestreet-R-800242": {
+      "slug": "state-street-state-street-undergraduate-finance-summer-internship-2027",
+      "since": "2026-10-26"
+    },
+    "workday-statestreet-R-800244": {
+      "slug": "state-street-state-street-markets-rising-junior-summer-internship-2027",
+      "since": "2026-10-26"
     },
     "workday-td-1506721": {
       "slug": "td-bank-group-job-posting-title-landh-product-management-intern-co-op-winter-2027",
@@ -18310,6 +18550,10 @@
       "slug": "visa-business-solution-intern-morocco",
       "since": "2026-09-18"
     },
+    "workday-visa-REF086769W": {
+      "slug": "visa-product-intern-for-current-students-graduating-in-2028",
+      "since": "2026-10-26"
+    },
     "workday-visa-REF086773W": {
       "slug": "visa-coop-trainee-for-current-students-second-semester-coop-starting-in-january-2027",
       "since": "2026-09-18"
@@ -18322,6 +18566,10 @@
       "slug": "visa-vas-intern-students-graduating-summer-2028-or-december-2027",
       "since": "2026-09-18"
     },
+    "workday-visa-REF086779W": {
+      "slug": "visa-issuing-solutions-intern-for-current-students-graduating-in-2028",
+      "since": "2026-10-26"
+    },
     "workday-visa-REF086781W": {
       "slug": "visa-vca-intern-graduates-summer-2028-december-2027",
       "since": "2026-09-18"
@@ -18333,6 +18581,10 @@
     "workday-visa-REF086785W": {
       "slug": "visa-vca-intern-morocco",
       "since": "2026-09-18"
+    },
+    "workday-visa-REF086786W": {
+      "slug": "visa-consulting-intern-for-current-students-graduating-in-2028",
+      "since": "2026-10-26"
     },
     "workday-visa-REF086795W": {
       "slug": "visa-vca-intern-students-graduating-summer-2028-or-december-2027-us",
@@ -18550,6 +18802,10 @@
       "slug": "wells-fargo-2027-public-affairs-summer-internship-early-careers",
       "since": "2026-09-18"
     },
+    "workday-wf-R-557386": {
+      "slug": "wells-fargo-2027-technology-program-intern",
+      "since": "2026-10-26"
+    },
     "workday-wf-R-562488": {
       "slug": "wells-fargo-branch-banking-management-military-apprentice-safe-tampa-fl",
       "since": "2026-10-09"
@@ -18754,6 +19010,14 @@
     "workday-wf-R-581926": {
       "slug": "wells-fargo-branch-banking-management-military-apprentice-safe-fort-collins-co",
       "since": "2026-10-16"
+    },
+    "workday-wf-R-583066": {
+      "slug": "wells-fargo-2027-technology-summer-internship-early-careers-data-engineering",
+      "since": "2026-10-26"
+    },
+    "workday-wf-R-583417": {
+      "slug": "wells-fargo-2027-technology-summer-internship-early-careers-cybersecurity",
+      "since": "2026-10-26"
     }
   }
 }
