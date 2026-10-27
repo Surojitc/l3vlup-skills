@@ -1,18 +1,12 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-26",
+  "updatedAt": "2026-10-27",
   "entries": {
     "eightfold-campusjobs-mlp-com-755953958409": {
       "closingDate": "2026-11-18",
       "source": "jsonld",
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
-    },
-    "eightfold-campusjobs-mlp-com-755956742250": {
-      "closingDate": "2027-03-10",
-      "source": "jsonld",
-      "firstSeen": "2026-09-11",
-      "lastConfirmed": "2026-09-11"
     },
     "eightfold-campusjobs-mlp-com-755957778817": {
       "closingDate": "2027-01-28",
@@ -246,133 +240,133 @@
       "closingDate": "2026-11-02",
       "source": "ats-field",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-duolingo-8863967002": {
       "closingDate": "2026-11-06",
       "source": "ats-field",
       "firstSeen": "2026-10-24",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-duolingo-8888045002": {
       "closingDate": "2026-11-19",
       "source": "ats-field",
       "firstSeen": "2026-10-24",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
-    "greenhouse-gusto-8257115": {
-      "closingDate": "2026-10-26",
-      "source": "ats-field",
-      "firstSeen": "2026-10-14",
-      "lastConfirmed": "2026-10-26"
+    "greenhouse-lincolninternational-8324552": {
+      "closingDate": "2026-11-11",
+      "source": "prose",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-monzo-8232726": {
       "closingDate": "2026-11-01",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-point72-8845395002": {
       "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-09-30",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-robinhood-8198241": {
       "closingDate": "2026-12-19",
       "source": "ats-field",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-stepstone-8282599": {
       "closingDate": "2026-11-13",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-stepstone-8282723": {
       "closingDate": "2026-10-30",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-virtu-8745933002": {
-      "closingDate": "2026-12-11",
+      "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "greenhouse-virtu-8746197002": {
-      "closingDate": "2026-12-11",
+      "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-blackrock-tal-net-12223": {
       "closingDate": "2026-12-04",
       "source": "prose",
       "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-blackrock-tal-net-12229": {
       "closingDate": "2026-11-30",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-morganstanley-tal-net-21511": {
       "closingDate": "2026-11-27",
       "source": "prose",
       "firstSeen": "2026-09-07",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-morganstanley-tal-net-22047": {
       "closingDate": "2026-11-27",
       "source": "prose",
       "firstSeen": "2026-09-12",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-morganstanley-tal-net-22313": {
       "closingDate": "2026-11-30",
       "source": "prose",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1426": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1427": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1428": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1429": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1430": {
       "closingDate": "2027-05-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1431": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1432": {
       "closingDate": "2026-12-01",
@@ -384,115 +378,115 @@
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1435": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1449": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1451": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1473": {
       "closingDate": "2026-10-31",
       "source": "ats-field",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1504": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1505": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1517": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1518": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1520": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1521": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1522": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1526": {
       "closingDate": "2026-10-31",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1527": {
       "closingDate": "2026-10-31",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1528": {
       "closingDate": "2026-10-31",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1548": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1549": {
       "closingDate": "2027-03-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1558": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-20",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "talnet-nomuracampus-tal-net-1570": {
       "closingDate": "2026-11-01",
       "source": "ats-field",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-10-26"
+      "lastConfirmed": "2026-10-27"
     },
     "workday-accenture-R00235738": {
       "closingDate": "2027-12-31",
@@ -583,6 +577,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-09-20",
       "lastConfirmed": "2026-10-24"
+    },
+    "workday-accenture-R00356070": {
+      "closingDate": "2026-10-30",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
     },
     "workday-accenture-R00358147": {
       "closingDate": "2026-11-29",
@@ -776,12 +776,6 @@
       "firstSeen": "2026-10-23",
       "lastConfirmed": "2026-10-23"
     },
-    "workday-barclays-JR-0000079762": {
-      "closingDate": "2026-10-26",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-20",
-      "lastConfirmed": "2026-10-20"
-    },
     "workday-barclays-JR-0000087866": {
       "closingDate": "2026-10-30",
       "source": "workday-detail",
@@ -800,12 +794,6 @@
       "firstSeen": "2026-10-21",
       "lastConfirmed": "2026-10-21"
     },
-    "workday-barclays-JR-0000102369": {
-      "closingDate": "2026-10-26",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-21",
-      "lastConfirmed": "2026-10-21"
-    },
     "workday-barclays-JR-0000102423": {
       "closingDate": "2026-10-27",
       "source": "workday-detail",
@@ -817,12 +805,6 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-22",
       "lastConfirmed": "2026-10-22"
-    },
-    "workday-barclays-JR-0000115921": {
-      "closingDate": "2026-10-26",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-19",
-      "lastConfirmed": "2026-10-19"
     },
     "workday-barclays-JR-0000117561": {
       "closingDate": "2026-11-01",
@@ -1244,23 +1226,11 @@
       "firstSeen": "2026-10-24",
       "lastConfirmed": "2026-10-24"
     },
-    "workday-bmo-R260002086-2": {
-      "closingDate": "2026-10-26",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-24",
-      "lastConfirmed": "2026-10-24"
-    },
     "workday-bmo-R260022348": {
       "closingDate": "2026-10-31",
       "source": "workday-detail",
       "firstSeen": "2026-10-22",
       "lastConfirmed": "2026-10-22"
-    },
-    "workday-bmo-R260026697-3": {
-      "closingDate": "2026-10-26",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-20",
-      "lastConfirmed": "2026-10-25"
     },
     "workday-bmo-R260029417": {
       "closingDate": "2026-11-03",
@@ -1268,11 +1238,11 @@
       "firstSeen": "2026-10-20",
       "lastConfirmed": "2026-10-20"
     },
-    "workday-bmo-R260029806": {
-      "closingDate": "2026-10-26",
+    "workday-bmo-R260029934": {
+      "closingDate": "2026-10-30",
       "source": "workday-detail",
-      "firstSeen": "2026-10-24",
-      "lastConfirmed": "2026-10-24"
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
     },
     "workday-bpinternational-RQ115461-2": {
       "closingDate": "2027-02-28",
@@ -2030,11 +2000,17 @@
       "firstSeen": "2026-10-21",
       "lastConfirmed": "2026-10-21"
     },
-    "workday-intel-JR0286719": {
-      "closingDate": "2026-12-25",
+    "workday-ing-REQ-10123790": {
+      "closingDate": "2026-11-11",
       "source": "workday-detail",
-      "firstSeen": "2026-09-11",
-      "lastConfirmed": "2026-09-11"
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-ing-REQ-10123860": {
+      "closingDate": "2026-11-30",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
     },
     "workday-intel-JR0286876": {
       "closingDate": "2026-11-30",
@@ -2049,12 +2025,6 @@
       "lastConfirmed": "2026-09-11"
     },
     "workday-intel-JR0287026": {
-      "closingDate": "2026-12-04",
-      "source": "workday-detail",
-      "firstSeen": "2026-09-11",
-      "lastConfirmed": "2026-09-11"
-    },
-    "workday-intel-JR0287047": {
       "closingDate": "2026-12-04",
       "source": "workday-detail",
       "firstSeen": "2026-09-11",
@@ -2468,11 +2438,11 @@
       "firstSeen": "2026-10-21",
       "lastConfirmed": "2026-10-21"
     },
-    "workday-omers-JR-8509": {
-      "closingDate": "2026-10-26",
+    "workday-omers-JR-8434": {
+      "closingDate": "2026-11-02",
       "source": "workday-detail",
-      "firstSeen": "2026-10-14",
-      "lastConfirmed": "2026-10-14"
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
     },
     "workday-omers-JR-8524": {
       "closingDate": "2026-10-30",
@@ -2582,11 +2552,41 @@
       "firstSeen": "2026-10-26",
       "lastConfirmed": "2026-10-26"
     },
+    "workday-rbc-R-0000191194": {
+      "closingDate": "2026-11-16",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-rbc-R-0000191197-1": {
+      "closingDate": "2026-11-16",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-rbc-R-0000191200-1": {
+      "closingDate": "2026-11-16",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-rbc-R-0000191204-1": {
+      "closingDate": "2026-11-16",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
     "workday-santander-Req0843024": {
       "closingDate": "2026-10-31",
       "source": "workday-detail",
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
+    },
+    "workday-santander-Req1600069": {
+      "closingDate": "2026-10-28",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
     },
     "workday-santander-Req1613138": {
       "closingDate": "2026-12-21",
@@ -2605,18 +2605,6 @@
       "source": "workday-detail",
       "firstSeen": "2026-09-24",
       "lastConfirmed": "2026-09-24"
-    },
-    "workday-santander-Req1615122": {
-      "closingDate": "2026-10-26",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-22",
-      "lastConfirmed": "2026-10-22"
-    },
-    "workday-santander-Req1623015": {
-      "closingDate": "2026-10-26",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-22",
-      "lastConfirmed": "2026-10-22"
     },
     "workday-santander-Req1628578": {
       "closingDate": "2026-10-27",
@@ -2972,6 +2960,48 @@
       "firstSeen": "2026-10-23",
       "lastConfirmed": "2026-10-23"
     },
+    "workday-usbank-2026-0025772": {
+      "closingDate": "2026-11-02",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-visa-REF089881W": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-visa-REF089883W": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-visa-REF089884W-1": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-visa-REF089900W-2": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-visa-REF089901W-1": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
+    "workday-visa-REF089902W-2": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-27",
+      "lastConfirmed": "2026-10-27"
+    },
     "workday-wf-R-557386": {
       "closingDate": "2026-10-27",
       "source": "workday-detail",
@@ -3071,36 +3101,40 @@
   },
   "misses": {
     "ashby-alan-142ad7db-6962-43d9-90f7-b69f0b66261f|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-alan-207a6ec4-1831-44a3-af4e-4ec42e7b7528|jsonld": {
-      "checkedAt": "2026-10-24",
+      "checkedAt": "2026-10-27",
+      "attempts": 2
+    },
+    "ashby-alan-4196504b-488f-4376-bc56-eba9889fd763|jsonld": {
+      "checkedAt": "2026-10-27",
       "attempts": 1
     },
     "ashby-alan-71fa3e9d-1f5f-4e3f-a1de-e68b3c85803a|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-alan-9c4eb7ab-2297-4981-ac31-ef57a349f9c9|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-alan-d457e0f1-2418-4759-b4ed-e41fdff50bf0|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-alan-d6503250-7e22-45da-bad7-b4c80d8e3401|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-alan-de4c30ae-698f-43e9-84d1-f458955fd671|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-ardea-partners-4d9a30ba-a359-4062-a5ae-80d51311d959|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b|jsonld": {
       "checkedAt": "2026-10-15",
@@ -3117,6 +3151,10 @@
     "ashby-cohere-8c035d3d-081d-4c8a-914a-72f4efaad254|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
+    },
+    "ashby-cohere-f3290fb2-66f1-44c7-9824-3f416f44af5a|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
     },
     "ashby-harvey-06d64648-b84b-48ae-94a2-d9c06dfdcb5d|jsonld": {
       "checkedAt": "2026-10-24",
@@ -3143,20 +3181,20 @@
       "attempts": 3
     },
     "ashby-lendable-a0ed2d2c-1c24-4d53-8ab4-af7e7ac06e20|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-lendable-a2214edc-39e3-4c70-8a09-875bb991062f|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-lendable-e001dc0b-6e0f-46a7-95ba-38a3733db2f4|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-lendable-eabb1e2a-86c3-48e6-836c-af967e0e71d2|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-modal-38888294-6bc7-4dab-b072-6d0f0c2ed79a|jsonld": {
       "checkedAt": "2026-10-15",
@@ -3223,12 +3261,12 @@
       "attempts": 1
     },
     "ashby-qonto-7503f1f7-10be-4601-9dee-327082b04cc0|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-qonto-92f42c49-04ae-460b-8c35-1654c950285d|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-ramp-a13ae586-f4cb-4385-8822-c42b9b54ed74|jsonld": {
       "checkedAt": "2026-10-15",
@@ -3255,8 +3293,8 @@
       "attempts": 4
     },
     "ashby-red-gate-2449a05b-81da-40de-b64d-3436c8ddb1df|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-replit-7c3c9d29-cec2-4367-8564-eadaed165aea|jsonld": {
       "checkedAt": "2026-10-18",
@@ -3343,12 +3381,12 @@
       "attempts": 2
     },
     "ashby-wincent-3f749456-0b82-48e0-ade8-d24bd39d22b1|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "ashby-wincent-984bf12c-8d80-431f-9789-04a9739cfc99|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-addepar1-8756273002|jsonld": {
       "checkedAt": "2026-10-26",
@@ -3359,8 +3397,8 @@
       "attempts": 2
     },
     "greenhouse-addepar1-8910404002|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-affirm-8008645003|jsonld": {
       "checkedAt": "2026-10-24",
@@ -3383,8 +3421,8 @@
       "attempts": 4
     },
     "greenhouse-affirm-8011718003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-affirm-8039471003|jsonld": {
       "checkedAt": "2026-10-25",
@@ -3463,32 +3501,32 @@
       "attempts": 3
     },
     "greenhouse-alixpartners-6254480003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-alixpartners-6574165003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-alixpartners-7452959003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-alixpartners-7537505003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-alixpartners-7809994003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-alixpartners-7810004003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-alixpartners-8016759003|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-anthropic-5425724008|jsonld": {
       "checkedAt": "2026-10-03",
@@ -3555,32 +3593,32 @@
       "attempts": 4
     },
     "greenhouse-bitpanda-4940716101|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-bitpanda-4987398101|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-bitpanda-4996280101|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-bitpanda-4999438101|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-bitpanda-4999439101|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-block-5108007008|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-block-5108009008|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-brex-8864170002|jsonld": {
       "checkedAt": "2026-10-24",
@@ -3603,8 +3641,8 @@
       "attempts": 2
     },
     "greenhouse-capco-8280810|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-carta-5640725003|jsonld": {
       "checkedAt": "2026-10-26",
@@ -3615,76 +3653,76 @@
       "attempts": 2
     },
     "greenhouse-charlesriverassociates-4467334|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-5174914|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-7894191|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8053945|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8053996|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8054054|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8064581|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8120300|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8128811|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8160288|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8186451|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8186465|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8186469|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8199212|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8212081|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8243522|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8249052|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-charlesriverassociates-8300673|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-clearstreet-8256262|jsonld": {
       "checkedAt": "2026-10-26",
@@ -3703,12 +3741,12 @@
       "attempts": 1
     },
     "greenhouse-cloudflare-8245197|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "greenhouse-cloudflare-8245211|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "greenhouse-coinbase-8168315|jsonld": {
       "checkedAt": "2026-10-21",
@@ -4007,136 +4045,136 @@
       "attempts": 2
     },
     "greenhouse-duolingo-8881612002|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-duolingo-8888721002|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-duolingo-8888848002|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4686253005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4691295005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4691298005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4702083005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4708586005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4719106005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4719118005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4719119005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4719125005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4719126005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4719134005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4719135005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4721555005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4722749005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4725689005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4730886005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4732429005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4732683005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4732697005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4732700005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4733133005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4733138005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4733877005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4733880005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4736603005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4736720005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4736954005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4741016005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4742955005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-dvtrading-4742962005|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-ebury-4990911101|jsonld": {
       "checkedAt": "2026-10-26",
@@ -4147,16 +4185,16 @@
       "attempts": 2
     },
     "greenhouse-elixirr-7950016|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-engineersgate-7946542|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-engineersgate-8317827|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-exoduspoint-8806119002|jsonld": {
       "checkedAt": "2026-10-26",
@@ -4167,16 +4205,16 @@
       "attempts": 4
     },
     "greenhouse-figma-6143238004|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-figma-6144755004|jsonld": {
       "checkedAt": "2026-09-24",
       "attempts": 3
     },
     "greenhouse-figma-6152695004|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-figma-6174190004|jsonld": {
       "checkedAt": "2026-10-21",
@@ -4187,12 +4225,12 @@
       "attempts": 4
     },
     "greenhouse-figma-6178857004|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-figma-6180005004|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-figma-6180053004|jsonld": {
       "checkedAt": "2026-10-15",
@@ -4207,8 +4245,8 @@
       "attempts": 4
     },
     "greenhouse-figma-6207801004|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "greenhouse-figma-6219995004|jsonld": {
       "checkedAt": "2026-10-23",
@@ -4238,10 +4276,6 @@
       "checkedAt": "2026-10-18",
       "attempts": 5
     },
-    "greenhouse-flexport-8172573|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
     "greenhouse-flexport-8213734|jsonld": {
       "checkedAt": "2026-10-12",
       "attempts": 4
@@ -4255,8 +4289,8 @@
       "attempts": 2
     },
     "greenhouse-flowdesk-4998666101|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-flowdesk-5016114101|jsonld": {
       "checkedAt": "2026-10-26",
@@ -4335,28 +4369,28 @@
       "attempts": 3
     },
     "greenhouse-genevatrading-5235738007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-genevatrading-5242063007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-genevatrading-5242180007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-genevatrading-5242190007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-genevatrading-5242196007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-genevatrading-5242246007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-gusto-8001931|jsonld": {
       "checkedAt": "2026-10-15",
@@ -4479,8 +4513,8 @@
       "attempts": 5
     },
     "greenhouse-imc-4939821101|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "greenhouse-imc-4939846101|jsonld": {
       "checkedAt": "2026-10-15",
@@ -4531,8 +4565,8 @@
       "attempts": 3
     },
     "greenhouse-imc-4975740101|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-imc-4975945101|jsonld": {
       "checkedAt": "2026-10-15",
@@ -4715,28 +4749,28 @@
       "attempts": 5
     },
     "greenhouse-jumptrading-8209424|jsonld": {
-      "checkedAt": "2026-10-03",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "greenhouse-keystone-7636079|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-keystone-8109232|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-keystone-8109240|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-keystone-8201221|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-keystone-8204134|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-lincolninternational-8060090|jsonld": {
       "checkedAt": "2026-10-22",
@@ -4775,8 +4809,8 @@
       "attempts": 4
     },
     "greenhouse-lincolninternational-8255813|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "greenhouse-lincolninternational-8300504|jsonld": {
       "checkedAt": "2026-10-22",
@@ -4791,56 +4825,56 @@
       "attempts": 2
     },
     "greenhouse-lyft-8767534002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8767697002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8767710002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8767715002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8767723002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8767726002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8796054002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8796124002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8797069002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8797376002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8797819002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8797837002|jsonld": {
       "checkedAt": "2026-09-15",
       "attempts": 2
     },
     "greenhouse-lyft-8797859002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8802198002|jsonld": {
       "checkedAt": "2026-10-06",
@@ -4851,8 +4885,8 @@
       "attempts": 4
     },
     "greenhouse-lyft-8802332002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-lyft-8817900002|jsonld": {
       "checkedAt": "2026-10-16",
@@ -4875,8 +4909,8 @@
       "attempts": 4
     },
     "greenhouse-mangroup-4960827101|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-mangroup-4960828101|jsonld": {
       "checkedAt": "2026-10-22",
@@ -4931,20 +4965,20 @@
       "attempts": 1
     },
     "greenhouse-marshallwace-8879188002|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-mongodb-8209134|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-mongodb-8258279|jsonld": {
       "checkedAt": "2026-10-18",
       "attempts": 3
     },
     "greenhouse-mongodb-8267099|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-monzo-8156261|jsonld": {
       "checkedAt": "2026-10-26",
@@ -5191,8 +5225,8 @@
       "attempts": 3
     },
     "greenhouse-pinterest-8244922|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "greenhouse-pinterest-8267930|jsonld": {
       "checkedAt": "2026-10-24",
@@ -5315,8 +5349,8 @@
       "attempts": 1
     },
     "greenhouse-quadraturecapital-4255974|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-quberesearchandtechnologies-8546914002|jsonld": {
       "checkedAt": "2026-10-22",
@@ -5419,7 +5453,39 @@
       "attempts": 4
     },
     "greenhouse-samsara-8319784|jsonld": {
-      "checkedAt": "2026-10-24",
+      "checkedAt": "2026-10-27",
+      "attempts": 2
+    },
+    "greenhouse-samsara-8325054|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "greenhouse-samsara-8325055|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "greenhouse-samsara-8325056|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "greenhouse-samsara-8325057|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "greenhouse-samsara-8325356|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "greenhouse-samsara-8325360|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "greenhouse-samsara-8325371|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "greenhouse-samsara-8325373|jsonld": {
+      "checkedAt": "2026-10-27",
       "attempts": 1
     },
     "greenhouse-scaleai-4730834005|jsonld": {
@@ -5471,8 +5537,8 @@
       "attempts": 4
     },
     "greenhouse-schonfeld-8171692|jsonld": {
-      "checkedAt": "2026-09-27",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "greenhouse-schonfeld-8171696|jsonld": {
       "checkedAt": "2026-10-18",
@@ -5915,32 +5981,32 @@
       "attempts": 2
     },
     "greenhouse-veritiongroupllcinternships-5260165007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-veritiongroupllcinternships-5260449007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-veritiongroupllcinternships-5260466007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-veritiongroupllcinternships-5260594007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-veritiongroupllcinternships-5260610007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-veritiongroupllcinternships-5260623007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-veritiongroupllcinternships-5264435007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-virtu-5208637002|jsonld": {
       "checkedAt": "2026-10-26",
@@ -6043,8 +6109,8 @@
       "attempts": 2
     },
     "greenhouse-williamblair-5273466007|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "greenhouse-winton-4986765101|jsonld": {
       "checkedAt": "2026-10-26",
@@ -6339,24 +6405,24 @@
       "attempts": 1
     },
     "lever-belvederetrading-34369a5c-55c0-4e9f-9d2e-4f21b9418bee|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "lever-belvederetrading-8f06f221-8777-4a4d-b035-40882db5f4a0|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "lever-belvederetrading-cbde47db-c60b-4339-a8f4-a8e4f30505ab|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "lever-belvederetrading-fb74cb4d-a250-47c7-96a5-0450095add27|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "lever-belvederetrading-fd619115-ced7-4d59-bd2b-0948b5ee5fde|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "lever-palantir-09846827-b931-4a9f-bd64-c3bb8860187b|jsonld": {
       "checkedAt": "2026-10-15",
@@ -6707,12 +6773,12 @@
       "attempts": 5
     },
     "lever-raine-7ce3c933-b860-4a6f-8c2a-a83d51608972|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "lever-raine-e07652af-67ae-4d64-a2ad-6ba4b203c132|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "lever-zopa-962f3756-6e45-480f-984c-64e024b57c4f|jsonld": {
       "checkedAt": "2026-10-23",
@@ -6734,6 +6800,10 @@
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
+    "oracle-ebqb-fa-us2-oraclecloud-com-11779|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
     "oracle-ebqb-fa-us2-oraclecloud-com-13437|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
@@ -6741,6 +6811,10 @@
     "oracle-ebqb-fa-us2-oraclecloud-com-13832|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
+    },
+    "oracle-ebqb-fa-us2-oraclecloud-com-13975|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14028|jsonld": {
       "checkedAt": "2026-10-26",
@@ -6919,8 +6993,8 @@
       "attempts": 2
     },
     "oracle-ehzq-fa-us2-oraclecloud-com-115837|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-1937|jsonld": {
       "checkedAt": "2026-10-26",
@@ -7683,8 +7757,8 @@
       "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210708872|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210723734|jsonld": {
       "checkedAt": "2026-10-14",
@@ -8471,20 +8545,20 @@
       "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210784061|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210784366|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210784369|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210784371|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210784644|jsonld": {
       "checkedAt": "2026-10-15",
@@ -8730,6 +8804,10 @@
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
+    "oracle-jpmc-fa-oraclecloud-com-210803936|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
     "talnet-blackrock-tal-net-11983|jsonld": {
       "checkedAt": "2026-10-25",
       "attempts": 3
@@ -8790,10 +8868,6 @@
       "checkedAt": "2026-10-25",
       "attempts": 1
     },
-    "talnet-morganstanley-tal-net-21494|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 2
-    },
     "talnet-morganstanley-tal-net-21495|jsonld": {
       "checkedAt": "2026-10-25",
       "attempts": 3
@@ -8839,8 +8913,8 @@
       "attempts": 1
     },
     "talnet-morganstanley-tal-net-21549|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "talnet-morganstanley-tal-net-21569|jsonld": {
       "checkedAt": "2026-10-22",
@@ -8935,12 +9009,12 @@
       "attempts": 5
     },
     "talnet-morganstanley-tal-net-21837|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "talnet-morganstanley-tal-net-21846|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "talnet-morganstanley-tal-net-21876|jsonld": {
       "checkedAt": "2026-09-24",
@@ -8999,8 +9073,8 @@
       "attempts": 5
     },
     "talnet-morganstanley-tal-net-22099|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "talnet-morganstanley-tal-net-22115|jsonld": {
       "checkedAt": "2026-10-18",
@@ -9059,8 +9133,8 @@
       "attempts": 3
     },
     "talnet-morganstanley-tal-net-22261|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "talnet-morganstanley-tal-net-22262|jsonld": {
       "checkedAt": "2026-10-24",
@@ -9097,6 +9171,10 @@
     "talnet-morganstanley-tal-net-22373|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 3
+    },
+    "talnet-morganstanley-tal-net-22410|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
     },
     "workday-accenture-13727121-1|jsonld": {
       "checkedAt": "2026-10-12",
@@ -9474,6 +9552,14 @@
       "checkedAt": "2026-10-12",
       "attempts": 4
     },
+    "workday-accenture-R00355938|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-accenture-R00355938|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
     "workday-accenture-R00355951|jsonld": {
       "checkedAt": "2026-09-24",
       "attempts": 1
@@ -9723,12 +9809,12 @@
       "attempts": 1
     },
     "workday-accenture-R00366461|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-accenture-R00366461|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-aig-JR2603617-1|jsonld": {
       "checkedAt": "2026-10-26",
@@ -9779,76 +9865,76 @@
       "attempts": 2
     },
     "workday-alantra-JR132|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR132|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR355|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR355|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR395|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR395|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR425|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR425|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR43|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR43|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR466|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR466|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR485|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR485|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR486|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR486|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR48|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-alantra-JR48|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-barclays-JR-0000070522-1|workday-detail": {
       "checkedAt": "2026-10-21",
@@ -9876,22 +9962,6 @@
     },
     "workday-barclays-JR-0000118817-1|workday-detail": {
       "checkedAt": "2026-10-21",
-      "attempts": 3
-    },
-    "workday-barclays-JR-0000122953-1|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-barclays-JR-0000122953-1|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-barclays-JR-0000122967|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-barclays-JR-0000122967|workday-detail": {
-      "checkedAt": "2026-09-11",
       "attempts": 3
     },
     "workday-barclays-JR-0000123191|jsonld": {
@@ -9990,14 +10060,6 @@
       "checkedAt": "2026-09-27",
       "attempts": 4
     },
-    "workday-barclays-JR-0000123420-1|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-barclays-JR-0000123420-1|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
     "workday-barclays-JR-0000123433-1|jsonld": {
       "checkedAt": "2026-09-27",
       "attempts": 4
@@ -10045,14 +10107,6 @@
     "workday-barclays-JR-0000123462-1|workday-detail": {
       "checkedAt": "2026-10-15",
       "attempts": 5
-    },
-    "workday-barclays-JR-0000123468-1|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-barclays-JR-0000123468-1|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
     },
     "workday-barclays-JR-0000123778|workday-detail": {
       "checkedAt": "2026-10-18",
@@ -10227,12 +10281,12 @@
       "attempts": 4
     },
     "workday-barclays-JR-0000124444|jsonld": {
-      "checkedAt": "2026-10-03",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-barclays-JR-0000124444|workday-detail": {
-      "checkedAt": "2026-10-03",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-barclays-JR-0000124446|jsonld": {
       "checkedAt": "2026-10-15",
@@ -10361,14 +10415,6 @@
     "workday-barclays-JR-0000124680|workday-detail": {
       "checkedAt": "2026-10-09",
       "attempts": 4
-    },
-    "workday-barclays-JR-0000124681|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-barclays-JR-0000124681|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
     },
     "workday-barclays-JR-0000124685|jsonld": {
       "checkedAt": "2026-10-09",
@@ -11531,12 +11577,12 @@
       "attempts": 3
     },
     "workday-citi-261000220|jsonld": {
-      "checkedAt": "2026-10-19",
-      "attempts": 2
+      "checkedAt": "2026-10-27",
+      "attempts": 3
     },
     "workday-citi-261000220|workday-detail": {
-      "checkedAt": "2026-10-19",
-      "attempts": 2
+      "checkedAt": "2026-10-27",
+      "attempts": 3
     },
     "workday-citi-261000346|jsonld": {
       "checkedAt": "2026-10-14",
@@ -11603,76 +11649,76 @@
       "attempts": 2
     },
     "workday-citi-261003288|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261003288|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261003298|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261003298|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261003301|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261003301|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261003922|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261003922|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004378|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004378|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004395|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004395|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004399-1|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004399-1|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004417|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004417|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004420-1|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-261004420-1|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-26945311|jsonld": {
       "checkedAt": "2026-10-15",
@@ -11707,20 +11753,12 @@
       "attempts": 5
     },
     "workday-citi-26951380|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-citi-26951380|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
-    },
-    "workday-citi-26969233|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 1
-    },
-    "workday-citi-26969233|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-citi-26976074-1|jsonld": {
       "checkedAt": "2026-10-26",
@@ -11922,20 +11960,20 @@
       "checkedAt": "2026-10-05",
       "attempts": 1
     },
+    "workday-citi-26986436|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-citi-26986436|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
     "workday-citi-26986450|jsonld": {
       "checkedAt": "2026-10-24",
       "attempts": 3
     },
     "workday-citi-26986450|workday-detail": {
       "checkedAt": "2026-10-24",
-      "attempts": 3
-    },
-    "workday-citi-26987141|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-citi-26987141|workday-detail": {
-      "checkedAt": "2026-09-11",
       "attempts": 3
     },
     "workday-citi-26987941|jsonld": {
@@ -12099,12 +12137,12 @@
       "attempts": 3
     },
     "workday-citi-26993561|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-citi-26993561|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-citi-26993571|jsonld": {
       "checkedAt": "2026-10-23",
@@ -12115,12 +12153,12 @@
       "attempts": 2
     },
     "workday-citi-26993595|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-citi-26993595|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-citi-26993619|jsonld": {
       "checkedAt": "2026-10-15",
@@ -12251,12 +12289,12 @@
       "attempts": 3
     },
     "workday-citi-26998300|jsonld": {
-      "checkedAt": "2026-10-19",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-26998300|workday-detail": {
-      "checkedAt": "2026-10-19",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-citi-26998927|jsonld": {
       "checkedAt": "2026-10-23",
@@ -12291,76 +12329,76 @@
       "attempts": 3
     },
     "workday-gresearch-R3679|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3679|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3682|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3682|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3686|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3686|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3691|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3691|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3746|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3746|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3759|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3759|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3760|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3760|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3773|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3773|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3795|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-gresearch-R3795|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-guidehouse-38913|jsonld": {
       "checkedAt": "2026-10-12",
@@ -12459,12 +12497,12 @@
       "attempts": 1
     },
     "workday-hl-R2525|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-hl-R2525|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-hl-R2889|jsonld": {
       "checkedAt": "2026-10-15",
@@ -12603,12 +12641,12 @@
       "attempts": 5
     },
     "workday-hl-R3561|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-hl-R3561|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-hl-R3577|jsonld": {
       "checkedAt": "2026-09-24",
@@ -12667,12 +12705,12 @@
       "attempts": 3
     },
     "workday-hl-R3651|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-hl-R3651|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-hl-R3654|jsonld": {
       "checkedAt": "2026-10-22",
@@ -12705,6 +12743,14 @@
     "workday-hl-R3671|workday-detail": {
       "checkedAt": "2026-10-26",
       "attempts": 2
+    },
+    "workday-hl-R3694|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-hl-R3694|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
     },
     "workday-huron-JR-0016124|jsonld": {
       "checkedAt": "2026-10-23",
@@ -12755,12 +12801,12 @@
       "attempts": 4
     },
     "workday-huron-JR-0016772|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-huron-JR-0016772|workday-detail": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-ing-0258428|workday-detail": {
       "checkedAt": "2026-10-15",
@@ -13538,6 +13584,14 @@
       "checkedAt": "2026-10-24",
       "attempts": 2
     },
+    "workday-ing-REQ-10123555|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10123555|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
     "workday-ing-REQ-10123573|jsonld": {
       "checkedAt": "2026-10-24",
       "attempts": 2
@@ -13657,14 +13711,6 @@
     "workday-intel-JR0286730|workday-detail": {
       "checkedAt": "2026-09-14",
       "attempts": 2
-    },
-    "workday-intel-JR0286743-1|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-intel-JR0286743-1|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
     },
     "workday-intel-JR0286825|jsonld": {
       "checkedAt": "2026-10-15",
@@ -13803,12 +13849,12 @@
       "attempts": 4
     },
     "workday-intel-JR0286916|jsonld": {
-      "checkedAt": "2026-09-30",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-intel-JR0286916|workday-detail": {
-      "checkedAt": "2026-09-30",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-intel-JR0286923|jsonld": {
       "checkedAt": "2026-10-23",
@@ -13907,12 +13953,12 @@
       "attempts": 4
     },
     "workday-intel-JR0287000|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287000|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287013|jsonld": {
       "checkedAt": "2026-10-13",
@@ -13931,20 +13977,20 @@
       "attempts": 4
     },
     "workday-intel-JR0287020|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287020|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287021|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287021|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287069|jsonld": {
       "checkedAt": "2026-09-14",
@@ -13971,12 +14017,12 @@
       "attempts": 3
     },
     "workday-intel-JR0287227|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287227|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-intel-JR0287229|jsonld": {
       "checkedAt": "2026-10-06",
@@ -14059,20 +14105,20 @@
       "attempts": 4
     },
     "workday-intel-JR0287524|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-intel-JR0287524|workday-detail": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-intel-JR0287530|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-intel-JR0287530|workday-detail": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-intel-JR0287531|jsonld": {
       "checkedAt": "2026-10-06",
@@ -14163,12 +14209,12 @@
       "attempts": 2
     },
     "workday-intel-JR0287683|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-intel-JR0287683|workday-detail": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-intel-JR0287787|jsonld": {
       "checkedAt": "2026-10-16",
@@ -14506,12 +14552,28 @@
       "checkedAt": "2026-10-23",
       "attempts": 2
     },
+    "workday-intel-JR0288513|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-intel-JR0288513|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
     "workday-intel-JR0288531|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 1
     },
     "workday-intel-JR0288531|workday-detail": {
       "checkedAt": "2026-10-26",
+      "attempts": 1
+    },
+    "workday-intel-JR0288574|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-intel-JR0288574|workday-detail": {
+      "checkedAt": "2026-10-27",
       "attempts": 1
     },
     "workday-intel-JR0288600|jsonld": {
@@ -14561,14 +14623,6 @@
     "workday-lseg-R0122875|workday-detail": {
       "checkedAt": "2026-10-26",
       "attempts": 2
-    },
-    "workday-mastercard-R-280889|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-mastercard-R-280889|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
     },
     "workday-mastercard-R-287693-1|jsonld": {
       "checkedAt": "2026-10-15",
@@ -14731,12 +14785,12 @@
       "attempts": 4
     },
     "workday-mizuho-R7442|jsonld": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-mizuho-R7442|workday-detail": {
-      "checkedAt": "2026-10-15",
-      "attempts": 3
+      "checkedAt": "2026-10-27",
+      "attempts": 4
     },
     "workday-mizuho-R7449|jsonld": {
       "checkedAt": "2026-10-22",
@@ -14906,6 +14960,14 @@
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
+    "workday-mufgub-10080193-WD|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-mufgub-10080193-WD|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
     "workday-mufgub-10080267-WD|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
@@ -14947,12 +15009,12 @@
       "attempts": 2
     },
     "workday-nasdaq-R0027154|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-nasdaq-R0027154|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-northwesternmutual-JR-45580-1|jsonld": {
       "checkedAt": "2026-09-24",
@@ -15451,20 +15513,20 @@
       "attempts": 3
     },
     "workday-nvidia-JR2023628|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023628|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023632|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023632|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023639|jsonld": {
       "checkedAt": "2026-10-19",
@@ -15483,44 +15545,44 @@
       "attempts": 2
     },
     "workday-nvidia-JR2023645|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023645|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023646|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023646|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023648|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023648|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023649-1|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023649-1|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023652|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023652|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023654|jsonld": {
       "checkedAt": "2026-10-15",
@@ -15539,12 +15601,12 @@
       "attempts": 5
     },
     "workday-nvidia-JR2023656|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023656|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023666-1|jsonld": {
       "checkedAt": "2026-10-06",
@@ -15555,52 +15617,52 @@
       "attempts": 4
     },
     "workday-nvidia-JR2023690|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023690|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023852|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023852|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023856|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023856|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023913|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023913|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023971|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2023971|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2024002|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2024002|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2024107|jsonld": {
       "checkedAt": "2026-10-15",
@@ -15699,12 +15761,12 @@
       "attempts": 3
     },
     "workday-nvidia-JR2025048|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2025048|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-nvidia-JR2025179|jsonld": {
       "checkedAt": "2026-10-21",
@@ -15721,14 +15783,6 @@
     "workday-nvidia-JR2025245|workday-detail": {
       "checkedAt": "2026-09-15",
       "attempts": 2
-    },
-    "workday-nvidia-JR2025314|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 1
-    },
-    "workday-nvidia-JR2025314|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 1
     },
     "workday-nvidia-JR2025458|jsonld": {
       "checkedAt": "2026-10-13",
@@ -15771,12 +15825,12 @@
       "attempts": 3
     },
     "workday-nvidia-JR2026052|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-nvidia-JR2026052|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-nvidia-JR2026276|jsonld": {
       "checkedAt": "2026-10-22",
@@ -16067,11 +16121,19 @@
       "attempts": 1
     },
     "workday-nvidia-JR2028499|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-nvidia-JR2028499|workday-detail": {
-      "checkedAt": "2026-10-24",
+      "checkedAt": "2026-10-27",
+      "attempts": 2
+    },
+    "workday-nvidia-JR2028512|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2028512|workday-detail": {
+      "checkedAt": "2026-10-27",
       "attempts": 1
     },
     "workday-pipersandler-R-100651|jsonld": {
@@ -16211,12 +16273,12 @@
       "attempts": 2
     },
     "workday-raymondjames-R-0012139|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-raymondjames-R-0012139|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-raymondjames-R-0012141|jsonld": {
       "checkedAt": "2026-10-14",
@@ -16418,21 +16480,29 @@
       "checkedAt": "2026-10-24",
       "attempts": 2
     },
-    "workday-rbc-R-0000187837-1|jsonld": {
-      "checkedAt": "2026-10-24",
+    "workday-raymondjames-R-0013576|jsonld": {
+      "checkedAt": "2026-10-27",
       "attempts": 1
+    },
+    "workday-raymondjames-R-0013576|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-rbc-R-0000187837-1|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-rbc-R-0000187837-1|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-rbc-R-0000188801|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-rbc-R-0000188801|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-spgi-327499-2|jsonld": {
       "checkedAt": "2026-10-26",
@@ -16539,12 +16609,12 @@
       "attempts": 2
     },
     "workday-thinkbrg-JR100948|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-thinkbrg-JR100948|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-thinkbrg-JR100949|jsonld": {
       "checkedAt": "2026-10-06",
@@ -16619,36 +16689,36 @@
       "attempts": 1
     },
     "workday-travelers-R-52299|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52299|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52303|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52303|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52306|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52306|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52317|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52317|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52377|jsonld": {
       "checkedAt": "2026-10-23",
@@ -16659,28 +16729,28 @@
       "attempts": 1
     },
     "workday-travelers-R-52378|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52378|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52457|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52457|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52458|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52458|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52460|jsonld": {
       "checkedAt": "2026-10-23",
@@ -16691,108 +16761,108 @@
       "attempts": 1
     },
     "workday-travelers-R-52588|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52588|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52591|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52591|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52592|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52592|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52702|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52702|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52734|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52734|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52830|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52830|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52831|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52831|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52955|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52955|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52956-1|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52956-1|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52958|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52958|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52959|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52959|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52960|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52960|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52961|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52961|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52962|jsonld": {
       "checkedAt": "2026-10-23",
@@ -16803,188 +16873,188 @@
       "attempts": 1
     },
     "workday-travelers-R-52963|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52963|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52965|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52965|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52966-1|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52966-1|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52967-1|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52967-1|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52968|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52968|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52969|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52969|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52970|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52970|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52971|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52971|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52972|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-52972|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53094|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53094|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53095|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53095|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53096|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53096|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53097|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53097|workday-detail": {
-      "checkedAt": "2026-10-24",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53125|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53125|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53127|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53127|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53210|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53210|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53348-1|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53348-1|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53349|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53349|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53350|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53350|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53351|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53351|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53354|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53354|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53355|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53355|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53367|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-travelers-R-53367|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 1
+      "checkedAt": "2026-10-27",
+      "attempts": 2
     },
     "workday-trinitylifesciences-JR100749|jsonld": {
       "checkedAt": "2026-10-12",
@@ -17146,14 +17216,6 @@
       "checkedAt": "2026-10-15",
       "attempts": 5
     },
-    "workday-vanguard-181969|jsonld": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
-    "workday-vanguard-181969|workday-detail": {
-      "checkedAt": "2026-09-11",
-      "attempts": 3
-    },
     "workday-vanguard-182042|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
@@ -17163,12 +17225,12 @@
       "attempts": 5
     },
     "workday-vanguard-182371-1|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-vanguard-182371-1|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-vanguard-182757|jsonld": {
       "checkedAt": "2026-10-24",
@@ -17291,12 +17353,12 @@
       "attempts": 5
     },
     "workday-visa-REF086765W|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-visa-REF086765W|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-visa-REF086769W|jsonld": {
       "checkedAt": "2026-10-26",
@@ -17355,12 +17417,12 @@
       "attempts": 5
     },
     "workday-visa-REF086785W|jsonld": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-visa-REF086785W|workday-detail": {
-      "checkedAt": "2026-10-06",
-      "attempts": 4
+      "checkedAt": "2026-10-27",
+      "attempts": 5
     },
     "workday-visa-REF086786W|jsonld": {
       "checkedAt": "2026-10-26",
@@ -17545,6 +17607,30 @@
     "workday-visa-REF089747W|workday-detail": {
       "checkedAt": "2026-10-26",
       "attempts": 2
+    },
+    "workday-visa-REF089911W|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-visa-REF089911W|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-visa-REF089913W|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-visa-REF089913W|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-visa-REF089917W|jsonld": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
+    },
+    "workday-visa-REF089917W|workday-detail": {
+      "checkedAt": "2026-10-27",
+      "attempts": 1
     },
     "workday-visa-REF93870J|jsonld": {
       "checkedAt": "2026-10-13",
