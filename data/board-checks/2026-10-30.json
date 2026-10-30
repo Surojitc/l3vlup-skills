@@ -1,0 +1,5019 @@
+{
+ "v": 1,
+ "method": "2026-10-24",
+ "fingerprint": "98d917eca505441d",
+ "date": "2026-10-30",
+ "checkedAt": "2026-10-30T13:25:56.122Z",
+ "counts": {
+  "ok": 166,
+  "partial": 3,
+  "failed": 2
+ },
+ "parked": [
+  "Bank of America",
+  "Evercore",
+  "Goldman Sachs",
+  "HSBC",
+  "Jefferies",
+  "Lazard",
+  "Moelis",
+  "Perella Weinberg Partners",
+  "Rothschild & Co",
+  "Societe Generale",
+  "UBS"
+ ],
+ "boards": {
+  "Accenture": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Consulting",
+   "cfg": "9caf9465bd",
+   "screened": 1,
+   "n": 76,
+   "roles": {
+    "AI Engineering": [
+     "workday-accenture-R00284676",
+     "workday-accenture-R00358899"
+    ],
+    "Consulting": [
+     "workday-accenture-R00212156",
+     "workday-accenture-R00236260",
+     "workday-accenture-R00279776",
+     "workday-accenture-R00336967",
+     "workday-accenture-R00342490",
+     "workday-accenture-R00349345",
+     "workday-accenture-R00350278-1",
+     "workday-accenture-R00354373",
+     "workday-accenture-R00354466",
+     "workday-accenture-R00355938",
+     "workday-accenture-R00356463",
+     "workday-accenture-R00356849",
+     "workday-accenture-R00357681",
+     "workday-accenture-R00358073",
+     "workday-accenture-R00358096-1",
+     "workday-accenture-R00359243",
+     "workday-accenture-R00361148",
+     "workday-accenture-R00362198",
+     "workday-accenture-R00364487",
+     "workday-accenture-R00366533-1",
+     "workday-accenture-R00366631-1",
+     "workday-accenture-R00367570"
+    ],
+    "Data & ML": [
+     "workday-accenture-R00329471"
+    ],
+    "Finance & Accounting": [
+     "workday-accenture-R00362240",
+     "workday-accenture-R00362259"
+    ],
+    "Operations": [
+     "workday-accenture-R00366373"
+    ],
+    "Other": [
+     "workday-accenture-13727121-1",
+     "workday-accenture-14811480",
+     "workday-accenture-14818045",
+     "workday-accenture-14835658",
+     "workday-accenture-R00235221",
+     "workday-accenture-R00278795",
+     "workday-accenture-R00279783",
+     "workday-accenture-R00290978-1",
+     "workday-accenture-R00292740",
+     "workday-accenture-R00310637",
+     "workday-accenture-R00336202",
+     "workday-accenture-R00343384",
+     "workday-accenture-R00351682-1",
+     "workday-accenture-R00353462",
+     "workday-accenture-R00355667",
+     "workday-accenture-R00356184",
+     "workday-accenture-R00356187-1",
+     "workday-accenture-R00357935",
+     "workday-accenture-R00357960",
+     "workday-accenture-R00357961",
+     "workday-accenture-R00359291",
+     "workday-accenture-R00361466",
+     "workday-accenture-R00361470",
+     "workday-accenture-R00362470",
+     "workday-accenture-R00364331",
+     "workday-accenture-R00367736",
+     "workday-accenture-R00367758"
+    ],
+    "Software Engineering": [
+     "workday-accenture-R00144534",
+     "workday-accenture-R00235738",
+     "workday-accenture-R00319644",
+     "workday-accenture-R00327505",
+     "workday-accenture-R00337268",
+     "workday-accenture-R00337269",
+     "workday-accenture-R00337270",
+     "workday-accenture-R00337274",
+     "workday-accenture-R00337277",
+     "workday-accenture-R00337282",
+     "workday-accenture-R00341607",
+     "workday-accenture-R00342918-1",
+     "workday-accenture-R00343169",
+     "workday-accenture-R00355981",
+     "workday-accenture-R00356105",
+     "workday-accenture-R00358078",
+     "workday-accenture-R00358088",
+     "workday-accenture-R00362767",
+     "workday-accenture-R00363654-1",
+     "workday-accenture-R00364621",
+     "workday-accenture-R00366461"
+    ]
+   }
+  },
+  "Addepar": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "f200dbb931",
+   "n": 3,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-addepar1-8910404002"
+    ],
+    "Other": [
+     "greenhouse-addepar1-8756273002",
+     "greenhouse-addepar1-8815241002"
+    ]
+   }
+  },
+  "Affirm": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "514742b461",
+   "n": 7,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-affirm-8008645003"
+    ],
+    "Software Engineering": [
+     "greenhouse-affirm-8008649003",
+     "greenhouse-affirm-8010617003",
+     "greenhouse-affirm-8011375003",
+     "greenhouse-affirm-8011590003",
+     "greenhouse-affirm-8011718003",
+     "greenhouse-affirm-8039471003"
+    ]
+   }
+  },
+  "AIG": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Other",
+   "cfg": "f9113b08f8",
+   "n": 29,
+   "roles": {
+    "Finance & Accounting": [
+     "workday-aig-JR2603648-1",
+     "workday-aig-JR2603725-1"
+    ],
+    "Other": [
+     "workday-aig-JR2603615-1",
+     "workday-aig-JR2603618-1",
+     "workday-aig-JR2603620-1",
+     "workday-aig-JR2603622-1",
+     "workday-aig-JR2603625-1",
+     "workday-aig-JR2603627-1",
+     "workday-aig-JR2603628-1",
+     "workday-aig-JR2603629-1",
+     "workday-aig-JR2603631-1",
+     "workday-aig-JR2603634-1",
+     "workday-aig-JR2603635-1",
+     "workday-aig-JR2603636-1",
+     "workday-aig-JR2603644-1",
+     "workday-aig-JR2603650-1",
+     "workday-aig-JR2603651-1",
+     "workday-aig-JR2603652-1",
+     "workday-aig-JR2603653-1",
+     "workday-aig-JR2603654",
+     "workday-aig-JR2603655-1",
+     "workday-aig-JR2603657-1",
+     "workday-aig-JR2603659-1",
+     "workday-aig-JR2603682-1",
+     "workday-aig-JR2603713-1",
+     "workday-aig-JR2603753-1",
+     "workday-aig-JR2603967-1",
+     "workday-aig-JR2603969-1"
+    ],
+    "Risk": [
+     "workday-aig-JR2603633-1"
+    ]
+   }
+  },
+  "Airbnb": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "b446a7f1b1",
+   "n": 1,
+   "roles": {
+    "Finance & Accounting": [
+     "greenhouse-airbnb-8285171"
+    ]
+   }
+  },
+  "Akuna Capital": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "be522a4893",
+   "n": 9,
+   "roles": {
+    "Finance & Accounting": [
+     "greenhouse-akunacapital-8109370"
+    ],
+    "Quant": [
+     "greenhouse-akunacapital-8016687",
+     "greenhouse-akunacapital-8021481",
+     "greenhouse-akunacapital-8035515",
+     "greenhouse-akunacapital-8036541",
+     "greenhouse-akunacapital-8036614",
+     "greenhouse-akunacapital-8175994"
+    ],
+    "Sales & Trading": [
+     "greenhouse-akunacapital-7773141"
+    ],
+    "Software Engineering": [
+     "greenhouse-akunacapital-8018856"
+    ]
+   }
+  },
+  "Alan": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Fintech",
+   "cfg": "8851d0ec76",
+   "n": 10,
+   "roles": {
+    "FinTech Sales": [
+     "ashby-alan-4196504b-488f-4376-bc56-eba9889fd763",
+     "ashby-alan-60c77cbe-9a21-4bb0-b182-99456e138b81"
+    ],
+    "Other": [
+     "ashby-alan-142ad7db-6962-43d9-90f7-b69f0b66261f",
+     "ashby-alan-207a6ec4-1831-44a3-af4e-4ec42e7b7528",
+     "ashby-alan-22f1cd8e-0cff-4a31-8bf6-547c0dba45a7",
+     "ashby-alan-71fa3e9d-1f5f-4e3f-a1de-e68b3c85803a",
+     "ashby-alan-9c4eb7ab-2297-4981-ac31-ef57a349f9c9",
+     "ashby-alan-d457e0f1-2418-4759-b4ed-e41fdff50bf0",
+     "ashby-alan-d6503250-7e22-45da-bad7-b4c80d8e3401"
+    ],
+    "Software Engineering": [
+     "ashby-alan-de4c30ae-698f-43e9-84d1-f458955fd671"
+    ]
+   }
+  },
+  "Alantra": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "be1cacd74e",
+   "n": 9,
+   "roles": {
+    "Asset Management": [
+     "workday-alantra-JR48"
+    ],
+    "Investment Banking": [
+     "workday-alantra-JR132",
+     "workday-alantra-JR395",
+     "workday-alantra-JR425",
+     "workday-alantra-JR466",
+     "workday-alantra-JR485",
+     "workday-alantra-JR486"
+    ],
+    "Other": [
+     "workday-alantra-JR355",
+     "workday-alantra-JR43"
+    ]
+   }
+  },
+  "AlixPartners": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Independent Advisory",
+   "cfg": "301ecacc0c",
+   "n": 7,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-alixpartners-7537505003"
+    ],
+    "Consulting": [
+     "greenhouse-alixpartners-6254480003",
+     "greenhouse-alixpartners-6574165003",
+     "greenhouse-alixpartners-7809994003"
+    ],
+    "Investment Banking": [
+     "greenhouse-alixpartners-7810004003"
+    ],
+    "Other": [
+     "greenhouse-alixpartners-7452959003",
+     "greenhouse-alixpartners-8016759003"
+    ]
+   }
+  },
+  "Anthropic": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "AI Lab",
+   "cfg": "ee7ec89db2",
+   "n": 0,
+   "roles": {}
+  },
+  "Apollo Global Management": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Megafund",
+   "cfg": "da147be0a3",
+   "n": 0,
+   "roles": {}
+  },
+  "AQR Capital Management": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "04394bf223",
+   "n": 9,
+   "roles": {
+    "AI Research": [
+     "greenhouse-aqr-8224708"
+    ],
+    "FinTech Sales": [
+     "greenhouse-aqr-7926659",
+     "greenhouse-aqr-8144359"
+    ],
+    "Hedge Fund": [
+     "greenhouse-aqr-7957728"
+    ],
+    "Other": [
+     "greenhouse-aqr-7895583",
+     "greenhouse-aqr-8156993"
+    ],
+    "Quant": [
+     "greenhouse-aqr-8122378"
+    ],
+    "Sales & Trading": [
+     "greenhouse-aqr-8156709"
+    ],
+    "Software Engineering": [
+     "greenhouse-aqr-7926647"
+    ]
+   }
+  },
+  "Ardea Partners": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Elite Boutique",
+   "cfg": "8d17369808",
+   "n": 1,
+   "roles": {
+    "Other": [
+     "ashby-ardea-partners-4d9a30ba-a359-4062-a5ae-80d51311d959"
+    ]
+   }
+  },
+  "Asana": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "ba2aa988b3",
+   "n": 0,
+   "roles": {}
+  },
+  "Barclays": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Bulge Bracket",
+   "cfg": "8092142ceb",
+   "walk": {
+    "mode": "complete",
+    "pageSize": 20,
+    "verdict": "complete",
+    "passes": [
+     {
+      "requests": 36,
+      "retries": 0,
+      "failures": 0,
+      "pages": 36,
+      "raw": 716,
+      "duplicates": 0,
+      "terminal": "reached-total",
+      "pageSize": 20,
+      "unique": 716,
+      "totalStart": 716,
+      "totalEnd": 716,
+      "moved": false,
+      "verdict": "complete"
+     }
+    ]
+   },
+   "n": 103,
+   "roles": {
+    "Compliance & Legal": [
+     "workday-barclays-JR-0000128942",
+     "workday-barclays-JR-0000129143",
+     "workday-barclays-JR-0000129163"
+    ],
+    "Corporate Banking": [
+     "workday-barclays-JR-0000123989",
+     "workday-barclays-JR-0000124027-1",
+     "workday-barclays-JR-0000124063-1",
+     "workday-barclays-JR-0000124204",
+     "workday-barclays-JR-0000124243",
+     "workday-barclays-JR-0000124255-1",
+     "workday-barclays-JR-0000124291",
+     "workday-barclays-JR-0000124379",
+     "workday-barclays-JR-0000124391",
+     "workday-barclays-JR-0000124397",
+     "workday-barclays-JR-0000124400-1",
+     "workday-barclays-JR-0000124677",
+     "workday-barclays-JR-0000125015",
+     "workday-barclays-JR-0000125017",
+     "workday-barclays-JR-0000129406",
+     "workday-barclays-JR-0000129419",
+     "workday-barclays-JR-0000129619",
+     "workday-barclays-JR-0000131878"
+    ],
+    "Data & ML": [
+     "workday-barclays-JR-0000129128"
+    ],
+    "Equity Research": [
+     "workday-barclays-JR-0000119610"
+    ],
+    "Finance & Accounting": [
+     "workday-barclays-JR-0000129135",
+     "workday-barclays-JR-0000129548",
+     "workday-barclays-JR-0000129570"
+    ],
+    "Investment Banking": [
+     "workday-barclays-JR-0000123461-1",
+     "workday-barclays-JR-0000123462-1",
+     "workday-barclays-JR-0000124409",
+     "workday-barclays-JR-0000124444",
+     "workday-barclays-JR-0000124472-1",
+     "workday-barclays-JR-0000124479",
+     "workday-barclays-JR-0000124547",
+     "workday-barclays-JR-0000124637",
+     "workday-barclays-JR-0000124702-1",
+     "workday-barclays-JR-0000124958",
+     "workday-barclays-JR-0000128135",
+     "workday-barclays-JR-0000130188",
+     "workday-barclays-JR-0000130640",
+     "workday-barclays-JR-0000130641",
+     "workday-barclays-JR-0000130642",
+     "workday-barclays-JR-0000130643",
+     "workday-barclays-JR-0000131277"
+    ],
+    "Operations": [
+     "workday-barclays-JR-0000129097-1",
+     "workday-barclays-JR-0000129111",
+     "workday-barclays-JR-0000129118",
+     "workday-barclays-JR-0000129124",
+     "workday-barclays-JR-0000131164"
+    ],
+    "Other": [
+     "workday-barclays-JR-0000124215",
+     "workday-barclays-JR-0000124708",
+     "workday-barclays-JR-0000129087",
+     "workday-barclays-JR-0000129105",
+     "workday-barclays-JR-0000129129",
+     "workday-barclays-JR-0000129140",
+     "workday-barclays-JR-0000129142",
+     "workday-barclays-JR-0000129182",
+     "workday-barclays-JR-0000129188",
+     "workday-barclays-JR-0000129194",
+     "workday-barclays-JR-0000129195",
+     "workday-barclays-JR-0000129278",
+     "workday-barclays-JR-0000129280",
+     "workday-barclays-JR-0000129556",
+     "workday-barclays-JR-0000129579",
+     "workday-barclays-JR-0000130414"
+    ],
+    "Quant": [
+     "workday-barclays-JR-0000117563",
+     "workday-barclays-JR-0000117565",
+     "workday-barclays-JR-0000124678",
+     "workday-barclays-JR-0000124685",
+     "workday-barclays-JR-0000124726",
+     "workday-barclays-JR-0000129352",
+     "workday-barclays-JR-0000129392"
+    ],
+    "Risk": [
+     "workday-barclays-JR-0000129109",
+     "workday-barclays-JR-0000129125",
+     "workday-barclays-JR-0000129138"
+    ],
+    "Sales & Trading": [
+     "workday-barclays-JR-0000117566",
+     "workday-barclays-JR-0000124716",
+     "workday-barclays-JR-0000124745-1",
+     "workday-barclays-JR-0000124757-1",
+     "workday-barclays-JR-0000124759",
+     "workday-barclays-JR-0000128131",
+     "workday-barclays-JR-0000128133",
+     "workday-barclays-JR-0000131136",
+     "workday-barclays-JR-0000134430"
+    ],
+    "Software Engineering": [
+     "workday-barclays-JR-0000129131",
+     "workday-barclays-JR-0000129173",
+     "workday-barclays-JR-0000129379",
+     "workday-barclays-JR-0000129381",
+     "workday-barclays-JR-0000129387",
+     "workday-barclays-JR-0000129431",
+     "workday-barclays-JR-0000129434",
+     "workday-barclays-JR-0000129443",
+     "workday-barclays-JR-0000129447",
+     "workday-barclays-JR-0000129498",
+     "workday-barclays-JR-0000129503",
+     "workday-barclays-JR-0000129510",
+     "workday-barclays-JR-0000131379",
+     "workday-barclays-JR-0000135782"
+    ],
+    "Wealth Management": [
+     "workday-barclays-JR-0000117561",
+     "workday-barclays-JR-0000124680",
+     "workday-barclays-JR-0000124722",
+     "workday-barclays-JR-0000125565",
+     "workday-barclays-JR-0000125604",
+     "workday-barclays-JR-0000128136"
+    ]
+   }
+  },
+  "BDO USA": {
+   "s": "partial",
+   "ats": "oracle",
+   "tier": "Other",
+   "cfg": "bf02cc82f8",
+   "why": "budget",
+   "n": 36,
+   "roles": {
+    "Finance & Accounting": [
+     "oracle-ebqb-fa-us2-oraclecloud-com-10529",
+     "oracle-ebqb-fa-us2-oraclecloud-com-11779",
+     "oracle-ebqb-fa-us2-oraclecloud-com-13832",
+     "oracle-ebqb-fa-us2-oraclecloud-com-13975",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14200",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14202",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14209",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14399",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14400",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14401",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14402",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14403"
+    ],
+    "Investment Banking": [
+     "oracle-ebqb-fa-us2-oraclecloud-com-10683",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14210"
+    ],
+    "Other": [
+     "oracle-ebqb-fa-us2-oraclecloud-com-13737",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14028",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14092",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14310",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14312",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14331",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14356",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14372",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14392",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14393",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14394",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14395",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14396",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14397",
+     "oracle-ebqb-fa-us2-oraclecloud-com-9887"
+    ],
+    "Risk": [
+     "oracle-ebqb-fa-us2-oraclecloud-com-13676",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14417",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14465",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14477"
+    ],
+    "Software Engineering": [
+     "oracle-ebqb-fa-us2-oraclecloud-com-11429",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14355",
+     "oracle-ebqb-fa-us2-oraclecloud-com-14418"
+    ]
+   }
+  },
+  "Belvedere Trading": {
+   "s": "ok",
+   "ats": "lever",
+   "tier": "Trading Tech",
+   "cfg": "63bcddd21a",
+   "n": 6,
+   "roles": {
+    "Quant": [
+     "lever-belvederetrading-337314ee-4de5-4b96-a419-1b9287a7df68",
+     "lever-belvederetrading-34369a5c-55c0-4e9f-9d2e-4f21b9418bee",
+     "lever-belvederetrading-8f06f221-8777-4a4d-b035-40882db5f4a0",
+     "lever-belvederetrading-cbde47db-c60b-4339-a8f4-a8e4f30505ab"
+    ],
+    "Sales & Trading": [
+     "lever-belvederetrading-fb74cb4d-a250-47c7-96a5-0450095add27"
+    ],
+    "Software Engineering": [
+     "lever-belvederetrading-fd619115-ced7-4d59-bd2b-0948b5ee5fde"
+    ]
+   }
+  },
+  "Berkeley Research Group": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Independent Advisory",
+   "cfg": "1d570862e7",
+   "n": 4,
+   "roles": {
+    "Investment Banking": [
+     "workday-thinkbrg-JR101035",
+     "workday-thinkbrg-JR101096"
+    ],
+    "Other": [
+     "workday-thinkbrg-JR101044",
+     "workday-thinkbrg-JR101116"
+    ]
+   }
+  },
+  "Bitpanda": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "cf81a12263",
+   "n": 5,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-bitpanda-4999438101"
+    ],
+    "Operations": [
+     "greenhouse-bitpanda-4996280101"
+    ],
+    "Other": [
+     "greenhouse-bitpanda-4999439101"
+    ],
+    "Software Engineering": [
+     "greenhouse-bitpanda-4940716101",
+     "greenhouse-bitpanda-4987398101"
+    ]
+   }
+  },
+  "BlackRock": {
+   "s": "ok",
+   "ats": "talnet",
+   "tier": "Asset Manager",
+   "cfg": "fa59e5b78e",
+   "n": 12,
+   "roles": {
+    "Other": [
+     "talnet-blackrock-tal-net-11983",
+     "talnet-blackrock-tal-net-11984",
+     "talnet-blackrock-tal-net-11985",
+     "talnet-blackrock-tal-net-11986",
+     "talnet-blackrock-tal-net-12219",
+     "talnet-blackrock-tal-net-12220",
+     "talnet-blackrock-tal-net-12222",
+     "talnet-blackrock-tal-net-12223",
+     "talnet-blackrock-tal-net-12227",
+     "talnet-blackrock-tal-net-12228",
+     "talnet-blackrock-tal-net-12229",
+     "talnet-blackrock-tal-net-12232"
+    ]
+   }
+  },
+  "Blackstone": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Megafund",
+   "cfg": "4d8ae82d66",
+   "n": 16,
+   "roles": {
+    "Other": [
+     "workday-blackstone-40716",
+     "workday-blackstone-43188",
+     "workday-blackstone-43623",
+     "workday-blackstone-43862",
+     "workday-blackstone-45297"
+    ],
+    "Private Credit": [
+     "workday-blackstone-43864"
+    ],
+    "Private Equity": [
+     "workday-blackstone-41376-1",
+     "workday-blackstone-43155",
+     "workday-blackstone-43192",
+     "workday-blackstone-43199",
+     "workday-blackstone-45106"
+    ],
+    "Quant": [
+     "workday-blackstone-43819"
+    ],
+    "Software Engineering": [
+     "workday-blackstone-45034",
+     "workday-blackstone-45358",
+     "workday-blackstone-45667"
+    ],
+    "Wealth Management": [
+     "workday-blackstone-43183"
+    ]
+   }
+  },
+  "Block": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "62bee00544",
+   "n": 2,
+   "roles": {
+    "AI Research": [
+     "greenhouse-block-5108007008",
+     "greenhouse-block-5108009008"
+    ]
+   }
+  },
+  "BMO Capital Markets": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "b4b0f106f9",
+   "n": 7,
+   "roles": {
+    "Corporate Banking": [
+     "workday-bmo-R260026697-3"
+    ],
+    "Operations": [
+     "workday-bmo-R260024334"
+    ],
+    "Risk": [
+     "workday-bmo-R260022348",
+     "workday-bmo-R260030122"
+    ],
+    "Software Engineering": [
+     "workday-bmo-R260026185",
+     "workday-bmo-R260029417"
+    ],
+    "Wealth Management": [
+     "workday-bmo-R260025472"
+    ]
+   }
+  },
+  "BNY": {
+   "s": "partial",
+   "ats": "oracle",
+   "tier": "Middle Market",
+   "cfg": "9d339b1d09",
+   "why": "budget",
+   "n": 119,
+   "roles": {
+    "Data & ML": [
+     "oracle-eofe-fa-us2-oraclecloud-com-81238",
+     "oracle-eofe-fa-us2-oraclecloud-com-81239",
+     "oracle-eofe-fa-us2-oraclecloud-com-81240",
+     "oracle-eofe-fa-us2-oraclecloud-com-81241",
+     "oracle-eofe-fa-us2-oraclecloud-com-81322",
+     "oracle-eofe-fa-us2-oraclecloud-com-82245",
+     "oracle-eofe-fa-us2-oraclecloud-com-82246",
+     "oracle-eofe-fa-us2-oraclecloud-com-82295"
+    ],
+    "Finance & Accounting": [
+     "oracle-eofe-fa-us2-oraclecloud-com-81248",
+     "oracle-eofe-fa-us2-oraclecloud-com-81256",
+     "oracle-eofe-fa-us2-oraclecloud-com-81260",
+     "oracle-eofe-fa-us2-oraclecloud-com-81262",
+     "oracle-eofe-fa-us2-oraclecloud-com-81297",
+     "oracle-eofe-fa-us2-oraclecloud-com-81330",
+     "oracle-eofe-fa-us2-oraclecloud-com-81833",
+     "oracle-eofe-fa-us2-oraclecloud-com-82153",
+     "oracle-eofe-fa-us2-oraclecloud-com-82277",
+     "oracle-eofe-fa-us2-oraclecloud-com-82279",
+     "oracle-eofe-fa-us2-oraclecloud-com-82280",
+     "oracle-eofe-fa-us2-oraclecloud-com-82281",
+     "oracle-eofe-fa-us2-oraclecloud-com-82293",
+     "oracle-eofe-fa-us2-oraclecloud-com-82294",
+     "oracle-eofe-fa-us2-oraclecloud-com-82297",
+     "oracle-eofe-fa-us2-oraclecloud-com-82415"
+    ],
+    "Other": [
+     "oracle-eofe-fa-us2-oraclecloud-com-81235",
+     "oracle-eofe-fa-us2-oraclecloud-com-81243",
+     "oracle-eofe-fa-us2-oraclecloud-com-81245",
+     "oracle-eofe-fa-us2-oraclecloud-com-81246",
+     "oracle-eofe-fa-us2-oraclecloud-com-81250",
+     "oracle-eofe-fa-us2-oraclecloud-com-81255",
+     "oracle-eofe-fa-us2-oraclecloud-com-81257",
+     "oracle-eofe-fa-us2-oraclecloud-com-81263",
+     "oracle-eofe-fa-us2-oraclecloud-com-81268",
+     "oracle-eofe-fa-us2-oraclecloud-com-81270",
+     "oracle-eofe-fa-us2-oraclecloud-com-81278",
+     "oracle-eofe-fa-us2-oraclecloud-com-81279",
+     "oracle-eofe-fa-us2-oraclecloud-com-81282",
+     "oracle-eofe-fa-us2-oraclecloud-com-81283",
+     "oracle-eofe-fa-us2-oraclecloud-com-81284",
+     "oracle-eofe-fa-us2-oraclecloud-com-81285",
+     "oracle-eofe-fa-us2-oraclecloud-com-81296",
+     "oracle-eofe-fa-us2-oraclecloud-com-81302",
+     "oracle-eofe-fa-us2-oraclecloud-com-81305",
+     "oracle-eofe-fa-us2-oraclecloud-com-81313",
+     "oracle-eofe-fa-us2-oraclecloud-com-81316",
+     "oracle-eofe-fa-us2-oraclecloud-com-81319",
+     "oracle-eofe-fa-us2-oraclecloud-com-81320",
+     "oracle-eofe-fa-us2-oraclecloud-com-81321",
+     "oracle-eofe-fa-us2-oraclecloud-com-81323",
+     "oracle-eofe-fa-us2-oraclecloud-com-81324",
+     "oracle-eofe-fa-us2-oraclecloud-com-81326",
+     "oracle-eofe-fa-us2-oraclecloud-com-81331",
+     "oracle-eofe-fa-us2-oraclecloud-com-81333",
+     "oracle-eofe-fa-us2-oraclecloud-com-81842",
+     "oracle-eofe-fa-us2-oraclecloud-com-81954",
+     "oracle-eofe-fa-us2-oraclecloud-com-81955",
+     "oracle-eofe-fa-us2-oraclecloud-com-81956",
+     "oracle-eofe-fa-us2-oraclecloud-com-82026",
+     "oracle-eofe-fa-us2-oraclecloud-com-82198",
+     "oracle-eofe-fa-us2-oraclecloud-com-82205",
+     "oracle-eofe-fa-us2-oraclecloud-com-82243",
+     "oracle-eofe-fa-us2-oraclecloud-com-82258",
+     "oracle-eofe-fa-us2-oraclecloud-com-82260",
+     "oracle-eofe-fa-us2-oraclecloud-com-82261",
+     "oracle-eofe-fa-us2-oraclecloud-com-82267",
+     "oracle-eofe-fa-us2-oraclecloud-com-82271",
+     "oracle-eofe-fa-us2-oraclecloud-com-82278",
+     "oracle-eofe-fa-us2-oraclecloud-com-82283",
+     "oracle-eofe-fa-us2-oraclecloud-com-82285",
+     "oracle-eofe-fa-us2-oraclecloud-com-82286",
+     "oracle-eofe-fa-us2-oraclecloud-com-82301",
+     "oracle-eofe-fa-us2-oraclecloud-com-82538",
+     "oracle-eofe-fa-us2-oraclecloud-com-82539",
+     "oracle-eofe-fa-us2-oraclecloud-com-82540",
+     "oracle-eofe-fa-us2-oraclecloud-com-82541",
+     "oracle-eofe-fa-us2-oraclecloud-com-82542",
+     "oracle-eofe-fa-us2-oraclecloud-com-82544",
+     "oracle-eofe-fa-us2-oraclecloud-com-82546",
+     "oracle-eofe-fa-us2-oraclecloud-com-82547",
+     "oracle-eofe-fa-us2-oraclecloud-com-82641",
+     "oracle-eofe-fa-us2-oraclecloud-com-82642",
+     "oracle-eofe-fa-us2-oraclecloud-com-82782",
+     "oracle-eofe-fa-us2-oraclecloud-com-82859",
+     "oracle-eofe-fa-us2-oraclecloud-com-82912",
+     "oracle-eofe-fa-us2-oraclecloud-com-82919",
+     "oracle-eofe-fa-us2-oraclecloud-com-83002",
+     "oracle-eofe-fa-us2-oraclecloud-com-83005",
+     "oracle-eofe-fa-us2-oraclecloud-com-83148",
+     "oracle-eofe-fa-us2-oraclecloud-com-83198",
+     "oracle-eofe-fa-us2-oraclecloud-com-83315"
+    ],
+    "Product Management": [
+     "oracle-eofe-fa-us2-oraclecloud-com-81345",
+     "oracle-eofe-fa-us2-oraclecloud-com-81922",
+     "oracle-eofe-fa-us2-oraclecloud-com-82536",
+     "oracle-eofe-fa-us2-oraclecloud-com-82537",
+     "oracle-eofe-fa-us2-oraclecloud-com-82784",
+     "oracle-eofe-fa-us2-oraclecloud-com-82911",
+     "oracle-eofe-fa-us2-oraclecloud-com-82920",
+     "oracle-eofe-fa-us2-oraclecloud-com-83098"
+    ],
+    "Risk": [
+     "oracle-eofe-fa-us2-oraclecloud-com-81271",
+     "oracle-eofe-fa-us2-oraclecloud-com-81276",
+     "oracle-eofe-fa-us2-oraclecloud-com-81277",
+     "oracle-eofe-fa-us2-oraclecloud-com-81307",
+     "oracle-eofe-fa-us2-oraclecloud-com-81310",
+     "oracle-eofe-fa-us2-oraclecloud-com-82272",
+     "oracle-eofe-fa-us2-oraclecloud-com-82273",
+     "oracle-eofe-fa-us2-oraclecloud-com-82276"
+    ],
+    "Sales & Trading": [
+     "oracle-eofe-fa-us2-oraclecloud-com-81350"
+    ],
+    "Software Engineering": [
+     "oracle-eofe-fa-us2-oraclecloud-com-81251",
+     "oracle-eofe-fa-us2-oraclecloud-com-81252",
+     "oracle-eofe-fa-us2-oraclecloud-com-81253",
+     "oracle-eofe-fa-us2-oraclecloud-com-81254",
+     "oracle-eofe-fa-us2-oraclecloud-com-81264",
+     "oracle-eofe-fa-us2-oraclecloud-com-81266",
+     "oracle-eofe-fa-us2-oraclecloud-com-81267",
+     "oracle-eofe-fa-us2-oraclecloud-com-81287",
+     "oracle-eofe-fa-us2-oraclecloud-com-81318",
+     "oracle-eofe-fa-us2-oraclecloud-com-82247",
+     "oracle-eofe-fa-us2-oraclecloud-com-82248",
+     "oracle-eofe-fa-us2-oraclecloud-com-82296"
+    ]
+   }
+  },
+  "BP": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Other",
+   "cfg": "6bfe93036f",
+   "n": 11,
+   "roles": {
+    "AI Engineering": [
+     "workday-bpinternational-RQ115463-2"
+    ],
+    "Other": [
+     "workday-bpinternational-RQ116665-1",
+     "workday-bpinternational-RQ116673-1",
+     "workday-bpinternational-RQ116674",
+     "workday-bpinternational-RQ117045-1",
+     "workday-bpinternational-RQ117653-1"
+    ],
+    "Software Engineering": [
+     "workday-bpinternational-RQ115461-2",
+     "workday-bpinternational-RQ115470-1",
+     "workday-bpinternational-RQ117046-1",
+     "workday-bpinternational-RQ117252-2",
+     "workday-bpinternational-RQ117652-1"
+    ]
+   }
+  },
+  "Brex": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "939e53f206",
+   "n": 3,
+   "roles": {
+    "Other": [
+     "greenhouse-brex-8864170002",
+     "greenhouse-brex-8864174002",
+     "greenhouse-brex-8864176002"
+    ]
+   }
+  },
+  "Bridgewater Associates": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "2ba8b44e01",
+   "n": 2,
+   "roles": {
+    "Other": [
+     "greenhouse-bridgewater89-8334259002",
+     "greenhouse-bridgewater89-8395041002"
+    ]
+   }
+  },
+  "Capco": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Consulting",
+   "cfg": "42ca444e15",
+   "n": 0,
+   "roles": {}
+  },
+  "Capital Group": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Asset Manager",
+   "cfg": "7206e00d19",
+   "n": 7,
+   "roles": {
+    "Other": [
+     "workday-capgroup-JR5917",
+     "workday-capgroup-JR5920",
+     "workday-capgroup-JR5921",
+     "workday-capgroup-JR7201",
+     "workday-capgroup-JR7204"
+    ],
+    "Sales & Trading": [
+     "workday-capgroup-JR5918",
+     "workday-capgroup-JR5922"
+    ]
+   }
+  },
+  "Capital One": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "5c217ffa84",
+   "walk": {
+    "mode": "complete",
+    "pageSize": 20,
+    "verdict": "complete",
+    "passes": [
+     {
+      "requests": 102,
+      "retries": 0,
+      "failures": 0,
+      "pages": 102,
+      "raw": 2031,
+      "duplicates": 0,
+      "terminal": "reached-total",
+      "pageSize": 20,
+      "unique": 2031,
+      "totalStart": 2031,
+      "totalEnd": 2031,
+      "moved": false,
+      "verdict": "complete"
+     }
+    ]
+   },
+   "n": 9,
+   "roles": {
+    "AI Engineering": [
+     "workday-capitalone-R249109-1",
+     "workday-capitalone-R249110-1"
+    ],
+    "AI Research": [
+     "workday-capitalone-R244323-1"
+    ],
+    "Investment Banking": [
+     "workday-capitalone-R245935-1"
+    ],
+    "Other": [
+     "workday-capitalone-R244815-1",
+     "workday-capitalone-R247470",
+     "workday-capitalone-R247472",
+     "workday-capitalone-R247476"
+    ],
+    "Software Engineering": [
+     "workday-capitalone-R1000929"
+    ]
+   }
+  },
+  "Carta": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "30f3aa8323",
+   "n": 2,
+   "roles": {
+    "Finance & Accounting": [
+     "greenhouse-carta-5640725003",
+     "greenhouse-carta-7807641003"
+    ]
+   }
+  },
+  "Charles River Associates": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Consulting",
+   "cfg": "da1517ba08",
+   "n": 18,
+   "roles": {
+    "Consulting": [
+     "greenhouse-charlesriverassociates-7894191",
+     "greenhouse-charlesriverassociates-8053945",
+     "greenhouse-charlesriverassociates-8053996",
+     "greenhouse-charlesriverassociates-8054054",
+     "greenhouse-charlesriverassociates-8064581",
+     "greenhouse-charlesriverassociates-8120300",
+     "greenhouse-charlesriverassociates-8128811",
+     "greenhouse-charlesriverassociates-8160288",
+     "greenhouse-charlesriverassociates-8186469",
+     "greenhouse-charlesriverassociates-8199212",
+     "greenhouse-charlesriverassociates-8212081",
+     "greenhouse-charlesriverassociates-8249052",
+     "greenhouse-charlesriverassociates-8300673"
+    ],
+    "Other": [
+     "greenhouse-charlesriverassociates-4467334",
+     "greenhouse-charlesriverassociates-5174914",
+     "greenhouse-charlesriverassociates-8186451",
+     "greenhouse-charlesriverassociates-8186465",
+     "greenhouse-charlesriverassociates-8243522"
+    ]
+   }
+  },
+  "Chime": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "89e086908e",
+   "n": 0,
+   "roles": {}
+  },
+  "Chubb": {
+   "s": "partial",
+   "ats": "oracle",
+   "tier": "Other",
+   "cfg": "19774678bd",
+   "why": "budget",
+   "n": 15,
+   "roles": {
+    "AI Engineering": [
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36542"
+    ],
+    "Compliance & Legal": [
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35966"
+    ],
+    "Finance & Accounting": [
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35928",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35964"
+    ],
+    "Operations": [
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36833"
+    ],
+    "Other": [
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35919",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35926",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36197",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37382",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37535",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37536",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37537",
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37538"
+    ],
+    "Risk": [
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35921"
+    ],
+    "Software Engineering": [
+     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36943"
+    ]
+   }
+  },
+  "CIBC": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "b01b05fa7c",
+   "n": 10,
+   "roles": {
+    "AI Engineering": [
+     "workday-cibc-2621440-1"
+    ],
+    "Corporate Banking": [
+     "workday-cibc-2620111-1"
+    ],
+    "Equity Research": [
+     "workday-cibc-2620147"
+    ],
+    "Other": [
+     "workday-cibc-2616392-1",
+     "workday-cibc-2620101-1",
+     "workday-cibc-2620118-1",
+     "workday-cibc-2621646-1"
+    ],
+    "Venture Capital": [
+     "workday-cibc-2620146-1"
+    ],
+    "Wealth Management": [
+     "workday-cibc-2620150-1",
+     "workday-cibc-2620154-1"
+    ]
+   }
+  },
+  "Citi": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Bulge Bracket",
+   "cfg": "143c2195fd",
+   "n": 93,
+   "roles": {
+    "Corporate Banking": [
+     "workday-citi-24801282",
+     "workday-citi-25849760",
+     "workday-citi-25909660",
+     "workday-citi-25926650",
+     "workday-citi-25926681",
+     "workday-citi-261000102",
+     "workday-citi-261000113",
+     "workday-citi-261000220",
+     "workday-citi-261002477",
+     "workday-citi-261003922",
+     "workday-citi-26982664",
+     "workday-citi-26983682",
+     "workday-citi-26983683",
+     "workday-citi-26985457",
+     "workday-citi-26985501",
+     "workday-citi-26985506",
+     "workday-citi-26992676-1",
+     "workday-citi-26992827",
+     "workday-citi-26993307",
+     "workday-citi-26993494",
+     "workday-citi-26993561",
+     "workday-citi-26993595",
+     "workday-citi-26993619",
+     "workday-citi-26993672",
+     "workday-citi-26994896",
+     "workday-citi-26994909"
+    ],
+    "Finance & Accounting": [
+     "workday-citi-24743918-1",
+     "workday-citi-25873675",
+     "workday-citi-261002816",
+     "workday-citi-26951372",
+     "workday-citi-26951376",
+     "workday-citi-26951380",
+     "workday-citi-26991713",
+     "workday-citi-26997257"
+    ],
+    "Investment Banking": [
+     "workday-citi-24802216",
+     "workday-citi-261002085",
+     "workday-citi-261002180",
+     "workday-citi-261002423",
+     "workday-citi-261003080",
+     "workday-citi-26985504",
+     "workday-citi-26993182"
+    ],
+    "Operations": [
+     "workday-citi-25843180",
+     "workday-citi-261000214",
+     "workday-citi-26994885"
+    ],
+    "Other": [
+     "workday-citi-25848278",
+     "workday-citi-25854531",
+     "workday-citi-25929484",
+     "workday-citi-26969219",
+     "workday-citi-26976074-1",
+     "workday-citi-26978889",
+     "workday-citi-26986323",
+     "workday-citi-26986436",
+     "workday-citi-26986450",
+     "workday-citi-26988474",
+     "workday-citi-26988476",
+     "workday-citi-26992587",
+     "workday-citi-26994853",
+     "workday-citi-26994961",
+     "workday-citi-26994966",
+     "workday-citi-26995475",
+     "workday-citi-26996271",
+     "workday-citi-26997955",
+     "workday-citi-26998600",
+     "workday-citi-26998601",
+     "workday-citi-26998608",
+     "workday-citi-26999554"
+    ],
+    "Quant": [
+     "workday-citi-25928747"
+    ],
+    "Risk": [
+     "workday-citi-26995422"
+    ],
+    "Sales & Trading": [
+     "workday-citi-25831823",
+     "workday-citi-25836348",
+     "workday-citi-25907844",
+     "workday-citi-25928736",
+     "workday-citi-26992518",
+     "workday-citi-26998300"
+    ],
+    "Software Engineering": [
+     "workday-citi-25855095-1",
+     "workday-citi-261002885",
+     "workday-citi-261002901",
+     "workday-citi-261002927",
+     "workday-citi-261003288",
+     "workday-citi-261003289",
+     "workday-citi-261003298",
+     "workday-citi-261003301",
+     "workday-citi-261004378",
+     "workday-citi-261004395",
+     "workday-citi-261004399-1",
+     "workday-citi-261004417",
+     "workday-citi-261004420-1",
+     "workday-citi-26999062",
+     "workday-citi-26999106",
+     "workday-citi-26999482"
+    ],
+    "Wealth Management": [
+     "workday-citi-25820546",
+     "workday-citi-26988478",
+     "workday-citi-26988484"
+    ]
+   }
+  },
+  "Clear Street": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "c3a0b1b1bc",
+   "n": 1,
+   "roles": {
+    "Other": [
+     "greenhouse-clearstreet-8256262"
+    ]
+   }
+  },
+  "Cloudflare": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "80ba42f79a",
+   "n": 6,
+   "roles": {
+    "Product Management": [
+     "greenhouse-cloudflare-8274790",
+     "greenhouse-cloudflare-8328914",
+     "greenhouse-cloudflare-8332008"
+    ],
+    "Software Engineering": [
+     "greenhouse-cloudflare-8199958",
+     "greenhouse-cloudflare-8245197",
+     "greenhouse-cloudflare-8245211"
+    ]
+   }
+  },
+  "Cohere": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "AI Lab",
+   "cfg": "6caabc9939",
+   "n": 4,
+   "roles": {
+    "AI Engineering": [
+     "ashby-cohere-36d1f52f-8270-4652-adf5-5303a0ff341b"
+    ],
+    "Operations": [
+     "ashby-cohere-f3290fb2-66f1-44c7-9824-3f416f44af5a"
+    ],
+    "Other": [
+     "ashby-cohere-73bd3e2b-6597-4124-b64b-1e5dbc32e785"
+    ],
+    "Software Engineering": [
+     "ashby-cohere-8c035d3d-081d-4c8a-914a-72f4efaad254"
+    ]
+   }
+  },
+  "Coinbase": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "5c303e2a84",
+   "n": 27,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-coinbase-8175441"
+    ],
+    "Data & ML": [
+     "greenhouse-coinbase-8175459",
+     "greenhouse-coinbase-8175462"
+    ],
+    "Finance & Accounting": [
+     "greenhouse-coinbase-8173991",
+     "greenhouse-coinbase-8175366",
+     "greenhouse-coinbase-8175432",
+     "greenhouse-coinbase-8175453",
+     "greenhouse-coinbase-8221238",
+     "greenhouse-coinbase-8221241"
+    ],
+    "FinTech Sales": [
+     "greenhouse-coinbase-8187551"
+    ],
+    "Operations": [
+     "greenhouse-coinbase-8175435",
+     "greenhouse-coinbase-8175569"
+    ],
+    "Other": [
+     "greenhouse-coinbase-8175339",
+     "greenhouse-coinbase-8175360",
+     "greenhouse-coinbase-8175363",
+     "greenhouse-coinbase-8175429",
+     "greenhouse-coinbase-8175507",
+     "greenhouse-coinbase-8175514",
+     "greenhouse-coinbase-8175517",
+     "greenhouse-coinbase-8175556"
+    ],
+    "Product Management": [
+     "greenhouse-coinbase-8168322"
+    ],
+    "Risk": [
+     "greenhouse-coinbase-8175369",
+     "greenhouse-coinbase-8175447"
+    ],
+    "Software Engineering": [
+     "greenhouse-coinbase-8168315",
+     "greenhouse-coinbase-8175471",
+     "greenhouse-coinbase-8175510",
+     "greenhouse-coinbase-8175873"
+    ]
+   }
+  },
+  "Cornerstone Research": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Consulting",
+   "cfg": "470bf87741",
+   "n": 0,
+   "roles": {}
+  },
+  "Databricks": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "85249ca8f0",
+   "n": 20,
+   "roles": {
+    "AI Research": [
+     "greenhouse-databricks-7011263002"
+    ],
+    "Data & ML": [
+     "greenhouse-databricks-6866538002"
+    ],
+    "Other": [
+     "greenhouse-databricks-8787352002",
+     "greenhouse-databricks-8843577002"
+    ],
+    "Product Management": [
+     "greenhouse-databricks-6883068002",
+     "greenhouse-databricks-7586263002",
+     "greenhouse-databricks-8133715002",
+     "greenhouse-databricks-8133727002",
+     "greenhouse-databricks-8145776002",
+     "greenhouse-databricks-8145800002",
+     "greenhouse-databricks-8863326002",
+     "greenhouse-databricks-8863328002"
+    ],
+    "Software Engineering": [
+     "greenhouse-databricks-6865687002",
+     "greenhouse-databricks-6865698002",
+     "greenhouse-databricks-6865704002",
+     "greenhouse-databricks-6866531002",
+     "greenhouse-databricks-6866534002",
+     "greenhouse-databricks-7640764002",
+     "greenhouse-databricks-8133710002",
+     "greenhouse-databricks-8847738002"
+    ]
+   }
+  },
+  "Datadog": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "0db9419d95",
+   "n": 6,
+   "roles": {
+    "Other": [
+     "greenhouse-datadog-8129799",
+     "greenhouse-datadog-8181440",
+     "greenhouse-datadog-8203657"
+    ],
+    "Software Engineering": [
+     "greenhouse-datadog-8052118",
+     "greenhouse-datadog-8114161",
+     "greenhouse-datadog-8114186"
+    ]
+   }
+  },
+  "Deliveroo": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "d97eac4bee",
+   "n": 3,
+   "roles": {
+    "Other": [
+     "greenhouse-deliveroo-8236291",
+     "greenhouse-deliveroo-8236293"
+    ],
+    "Software Engineering": [
+     "greenhouse-deliveroo-8202627"
+    ]
+   }
+  },
+  "Discord": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "17803b20f8",
+   "n": 0,
+   "roles": {}
+  },
+  "Dropbox": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "08e3c0b8cb",
+   "n": 0,
+   "roles": {}
+  },
+  "DRW": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "5382ad73f2",
+   "n": 13,
+   "roles": {
+    "AI Research": [
+     "greenhouse-drweng-7991171"
+    ],
+    "Other": [
+     "greenhouse-drweng-7957735",
+     "greenhouse-drweng-8070392"
+    ],
+    "Quant": [
+     "greenhouse-drweng-7668776",
+     "greenhouse-drweng-7818540",
+     "greenhouse-drweng-7957243",
+     "greenhouse-drweng-7957756",
+     "greenhouse-drweng-8014915"
+    ],
+    "Software Engineering": [
+     "greenhouse-drweng-7942281",
+     "greenhouse-drweng-7991196",
+     "greenhouse-drweng-7992936",
+     "greenhouse-drweng-8020364"
+    ],
+    "Venture Capital": [
+     "greenhouse-drweng-7993004"
+    ]
+   }
+  },
+  "Duolingo": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "5a73ccef17",
+   "n": 5,
+   "roles": {
+    "AI Research": [
+     "greenhouse-duolingo-8881612002"
+    ],
+    "Data & ML": [
+     "greenhouse-duolingo-8888721002",
+     "greenhouse-duolingo-8888848002"
+    ],
+    "Other": [
+     "greenhouse-duolingo-8863967002"
+    ],
+    "Product Management": [
+     "greenhouse-duolingo-8888045002"
+    ]
+   }
+  },
+  "DV Trading": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "79c7099a60",
+   "n": 30,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-dvtrading-4732429005"
+    ],
+    "Quant": [
+     "greenhouse-dvtrading-4691295005",
+     "greenhouse-dvtrading-4691298005",
+     "greenhouse-dvtrading-4702083005",
+     "greenhouse-dvtrading-4719106005",
+     "greenhouse-dvtrading-4719118005",
+     "greenhouse-dvtrading-4725689005",
+     "greenhouse-dvtrading-4733133005",
+     "greenhouse-dvtrading-4733877005",
+     "greenhouse-dvtrading-4736954005"
+    ],
+    "Sales & Trading": [
+     "greenhouse-dvtrading-4686253005",
+     "greenhouse-dvtrading-4708586005",
+     "greenhouse-dvtrading-4719134005",
+     "greenhouse-dvtrading-4719135005",
+     "greenhouse-dvtrading-4721555005",
+     "greenhouse-dvtrading-4722749005",
+     "greenhouse-dvtrading-4736720005"
+    ],
+    "Software Engineering": [
+     "greenhouse-dvtrading-4719119005",
+     "greenhouse-dvtrading-4719125005",
+     "greenhouse-dvtrading-4719126005",
+     "greenhouse-dvtrading-4730886005",
+     "greenhouse-dvtrading-4732683005",
+     "greenhouse-dvtrading-4732697005",
+     "greenhouse-dvtrading-4732700005",
+     "greenhouse-dvtrading-4733138005",
+     "greenhouse-dvtrading-4733880005",
+     "greenhouse-dvtrading-4736603005",
+     "greenhouse-dvtrading-4741016005",
+     "greenhouse-dvtrading-4742955005",
+     "greenhouse-dvtrading-4742962005"
+    ]
+   }
+  },
+  "Ebury": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "7aff2fb053",
+   "n": 3,
+   "roles": {
+    "Corporate Banking": [
+     "greenhouse-ebury-5001786101"
+    ],
+    "Finance & Accounting": [
+     "greenhouse-ebury-4990911101"
+    ],
+    "Other": [
+     "greenhouse-ebury-5017596101"
+    ]
+   }
+  },
+  "Elastic": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "f27d2337dd",
+   "n": 0,
+   "roles": {}
+  },
+  "Elixirr": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Consulting",
+   "cfg": "f661186fae",
+   "n": 1,
+   "roles": {
+    "Other": [
+     "greenhouse-elixirr-7950016"
+    ]
+   }
+  },
+  "Engineers Gate": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "4f9fea8b30",
+   "n": 2,
+   "roles": {
+    "Quant": [
+     "greenhouse-engineersgate-7946542",
+     "greenhouse-engineersgate-8328653"
+    ]
+   }
+  },
+  "ExodusPoint": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Multi-Manager",
+   "cfg": "051fc50037",
+   "n": 1,
+   "roles": {
+    "Quant": [
+     "greenhouse-exoduspoint-8806119002"
+    ]
+   }
+  },
+  "Figma": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "9817c67b76",
+   "n": 11,
+   "roles": {
+    "AI Research": [
+     "greenhouse-figma-6207801004"
+    ],
+    "Data & ML": [
+     "greenhouse-figma-6178851004",
+     "greenhouse-figma-6178857004",
+     "greenhouse-figma-6200626004"
+    ],
+    "FinTech Sales": [
+     "greenhouse-figma-6174190004"
+    ],
+    "Other": [
+     "greenhouse-figma-6180005004",
+     "greenhouse-figma-6180053004"
+    ],
+    "Software Engineering": [
+     "greenhouse-figma-6143238004",
+     "greenhouse-figma-6152695004",
+     "greenhouse-figma-6219995004",
+     "greenhouse-figma-6238015004"
+    ]
+   }
+  },
+  "Flexport": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "55d4bd0542",
+   "n": 6,
+   "roles": {
+    "FinTech Sales": [
+     "greenhouse-flexport-5850324",
+     "greenhouse-flexport-8084127"
+    ],
+    "Other": [
+     "greenhouse-flexport-8070269",
+     "greenhouse-flexport-8172300",
+     "greenhouse-flexport-8224715",
+     "greenhouse-flexport-8306094"
+    ]
+   }
+  },
+  "Flow Traders": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "12abe30bb6",
+   "n": 6,
+   "roles": {
+    "Quant": [
+     "greenhouse-flowtraders-8047166",
+     "greenhouse-flowtraders-8156203",
+     "greenhouse-flowtraders-8213037",
+     "greenhouse-flowtraders-8266897"
+    ],
+    "Sales & Trading": [
+     "greenhouse-flowtraders-8102618",
+     "greenhouse-flowtraders-8260920"
+    ]
+   }
+  },
+  "Flowdesk": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "16360cbdad",
+   "n": 1,
+   "roles": {
+    "Sales & Trading": [
+     "greenhouse-flowdesk-4998666101"
+    ]
+   }
+  },
+  "FTI Consulting": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Independent Advisory",
+   "cfg": "4e90bf496e",
+   "n": 24,
+   "roles": {
+    "Consulting": [
+     "workday-fticonsulting-JR260518-1",
+     "workday-fticonsulting-JR260528",
+     "workday-fticonsulting-JR260570",
+     "workday-fticonsulting-JR260695",
+     "workday-fticonsulting-JR260711",
+     "workday-fticonsulting-JR260723",
+     "workday-fticonsulting-JR260732",
+     "workday-fticonsulting-JR260761",
+     "workday-fticonsulting-JR260971",
+     "workday-fticonsulting-JR261182",
+     "workday-fticonsulting-JR261504"
+    ],
+    "Investment Banking": [
+     "workday-fticonsulting-JR260764",
+     "workday-fticonsulting-JR261178",
+     "workday-fticonsulting-JR261179",
+     "workday-fticonsulting-JR261462"
+    ],
+    "Other": [
+     "workday-fticonsulting-JR260639",
+     "workday-fticonsulting-JR260642",
+     "workday-fticonsulting-JR260670",
+     "workday-fticonsulting-JR260678",
+     "workday-fticonsulting-JR260741",
+     "workday-fticonsulting-JR260771",
+     "workday-fticonsulting-JR260836",
+     "workday-fticonsulting-JR261177",
+     "workday-fticonsulting-JR261408"
+    ]
+   }
+  },
+  "G-Research": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Systematic",
+   "cfg": "1bc377c529",
+   "n": 9,
+   "roles": {
+    "AI Engineering": [
+     "workday-gresearch-R3760",
+     "workday-gresearch-R3773"
+    ],
+    "AI Research": [
+     "workday-gresearch-R3682"
+    ],
+    "Data & ML": [
+     "workday-gresearch-R3679"
+    ],
+    "Operations": [
+     "workday-gresearch-R3795"
+    ],
+    "Other": [
+     "workday-gresearch-R3686",
+     "workday-gresearch-R3759"
+    ],
+    "Quant": [
+     "workday-gresearch-R3691"
+    ],
+    "Software Engineering": [
+     "workday-gresearch-R3746"
+    ]
+   }
+  },
+  "Gemini": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "917bc5b8a8",
+   "n": 6,
+   "roles": {
+    "Other": [
+     "greenhouse-gemini-8240208",
+     "greenhouse-gemini-8243097",
+     "greenhouse-gemini-8247993"
+    ],
+    "Product Management": [
+     "greenhouse-gemini-8214332"
+    ],
+    "Sales & Trading": [
+     "greenhouse-gemini-8240204"
+    ],
+    "Software Engineering": [
+     "greenhouse-gemini-8214272"
+    ]
+   }
+  },
+  "Geneva Trading": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "5a9d07a5d6",
+   "n": 5,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-genevatrading-5242180007"
+    ],
+    "Other": [
+     "greenhouse-genevatrading-5242246007"
+    ],
+    "Sales & Trading": [
+     "greenhouse-genevatrading-5235738007"
+    ],
+    "Software Engineering": [
+     "greenhouse-genevatrading-5242190007",
+     "greenhouse-genevatrading-5242196007"
+    ]
+   }
+  },
+  "GitLab": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "f482350dd5",
+   "n": 0,
+   "roles": {}
+  },
+  "Grant Thornton US": {
+   "s": "ok",
+   "ats": "oracle",
+   "tier": "Other",
+   "cfg": "57a4569231",
+   "n": 1,
+   "roles": {
+    "Risk": [
+     "oracle-ehzq-fa-us2-oraclecloud-com-115673"
+    ]
+   }
+  },
+  "GSA Capital": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "a90f625a67",
+   "n": 2,
+   "roles": {
+    "Quant": [
+     "greenhouse-gsacapital-8570661002"
+    ],
+    "Software Engineering": [
+     "greenhouse-gsacapital-8570668002"
+    ]
+   }
+  },
+  "Guggenheim Securities": {
+   "s": "failed",
+   "ats": "workday",
+   "tier": "Elite Boutique",
+   "cfg": "fe98fbfa19",
+   "n": null,
+   "reason": "every Workday request failed (5)"
+  },
+  "Guidehouse": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Consulting",
+   "cfg": "1eba66b054",
+   "n": 1,
+   "roles": {
+    "Consulting": [
+     "workday-guidehouse-43483"
+    ]
+   }
+  },
+  "Gusto": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "fb993727b1",
+   "n": 1,
+   "roles": {
+    "FinTech Sales": [
+     "greenhouse-gusto-8001931"
+    ]
+   }
+  },
+  "Harris Williams": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "05b1fcd6df",
+   "n": 0,
+   "roles": {}
+  },
+  "Harvey": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "23e25bf2e2",
+   "n": 3,
+   "roles": {
+    "Other": [
+     "ashby-harvey-a194c24f-38ee-4c7e-908b-060a16dfaa9d"
+    ],
+    "Software Engineering": [
+     "ashby-harvey-4d8dc9ba-eb86-4d88-af7d-65d2fdaf3fdc",
+     "ashby-harvey-b0996df6-6b6e-42be-a4f9-0084536068f5"
+    ]
+   }
+  },
+  "Houlihan Lokey": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "255986306c",
+   "n": 32,
+   "roles": {
+    "Investment Banking": [
+     "workday-hl-R2525",
+     "workday-hl-R2889",
+     "workday-hl-R3334",
+     "workday-hl-R3473",
+     "workday-hl-R3526",
+     "workday-hl-R3560",
+     "workday-hl-R3561",
+     "workday-hl-R3584",
+     "workday-hl-R3585",
+     "workday-hl-R3617",
+     "workday-hl-R3651",
+     "workday-hl-R3667",
+     "workday-hl-R3669",
+     "workday-hl-R3671",
+     "workday-hl-R3677",
+     "workday-hl-R3678",
+     "workday-hl-R3679",
+     "workday-hl-R3680",
+     "workday-hl-R3683",
+     "workday-hl-R3688",
+     "workday-hl-R3689",
+     "workday-hl-R3694",
+     "workday-hl-R3715"
+    ],
+    "Other": [
+     "workday-hl-R2869",
+     "workday-hl-R3621",
+     "workday-hl-R3675",
+     "workday-hl-R3676",
+     "workday-hl-R3684",
+     "workday-hl-R3685",
+     "workday-hl-R3686",
+     "workday-hl-R3690",
+     "workday-hl-R3691"
+    ]
+   }
+  },
+  "Hudson River Trading": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "b520f03875",
+   "n": 19,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-wehrtyou-8257369"
+    ],
+    "Other": [
+     "greenhouse-wehrtyou-7843354",
+     "greenhouse-wehrtyou-8047119",
+     "greenhouse-wehrtyou-8179032",
+     "greenhouse-wehrtyou-8212181",
+     "greenhouse-wehrtyou-8212741",
+     "greenhouse-wehrtyou-8268234"
+    ],
+    "Quant": [
+     "greenhouse-wehrtyou-7964062",
+     "greenhouse-wehrtyou-8052050",
+     "greenhouse-wehrtyou-8059837"
+    ],
+    "Sales & Trading": [
+     "greenhouse-wehrtyou-7900186",
+     "greenhouse-wehrtyou-8046074",
+     "greenhouse-wehrtyou-8159996",
+     "greenhouse-wehrtyou-8170975"
+    ],
+    "Software Engineering": [
+     "greenhouse-wehrtyou-7899574",
+     "greenhouse-wehrtyou-8052083",
+     "greenhouse-wehrtyou-8052122",
+     "greenhouse-wehrtyou-8167806",
+     "greenhouse-wehrtyou-8167807"
+    ]
+   }
+  },
+  "Huron Consulting Group": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Consulting",
+   "cfg": "5c1cd8f0d5",
+   "n": 3,
+   "roles": {
+    "Consulting": [
+     "workday-huron-JR-0016124"
+    ],
+    "Other": [
+     "workday-huron-JR-0016746",
+     "workday-huron-JR-0016772"
+    ]
+   }
+  },
+  "IMC Trading": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "a5a885659a",
+   "n": 35,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-imc-4962456101"
+    ],
+    "AI Research": [
+     "greenhouse-imc-4907416101",
+     "greenhouse-imc-4907430101",
+     "greenhouse-imc-4912874101",
+     "greenhouse-imc-4914883101",
+     "greenhouse-imc-4956547101",
+     "greenhouse-imc-4975945101"
+    ],
+    "Other": [
+     "greenhouse-imc-4685421101",
+     "greenhouse-imc-4940448101",
+     "greenhouse-imc-4941380101",
+     "greenhouse-imc-4960875101"
+    ],
+    "Quant": [
+     "greenhouse-imc-4823923101",
+     "greenhouse-imc-4842595101",
+     "greenhouse-imc-4892687101",
+     "greenhouse-imc-4907368101",
+     "greenhouse-imc-4907399101",
+     "greenhouse-imc-4907400101",
+     "greenhouse-imc-4912325101",
+     "greenhouse-imc-4936262101",
+     "greenhouse-imc-4939821101",
+     "greenhouse-imc-4941205101",
+     "greenhouse-imc-4941208101"
+    ],
+    "Sales & Trading": [
+     "greenhouse-imc-4667815101",
+     "greenhouse-imc-4753890101",
+     "greenhouse-imc-4939846101",
+     "greenhouse-imc-4966569101"
+    ],
+    "Software Engineering": [
+     "greenhouse-imc-4564480101",
+     "greenhouse-imc-4667814101",
+     "greenhouse-imc-4667854101",
+     "greenhouse-imc-4796143101",
+     "greenhouse-imc-4823805101",
+     "greenhouse-imc-4823924101",
+     "greenhouse-imc-4941206101",
+     "greenhouse-imc-4945420101",
+     "greenhouse-imc-4975740101"
+    ]
+   }
+  },
+  "ING": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "61fec65553",
+   "walk": {
+    "mode": "complete",
+    "pageSize": 20,
+    "verdict": "complete",
+    "passes": [
+     {
+      "requests": 35,
+      "retries": 0,
+      "failures": 0,
+      "pages": 35,
+      "raw": 695,
+      "duplicates": 0,
+      "terminal": "reached-total",
+      "pageSize": 20,
+      "unique": 695,
+      "totalStart": 695,
+      "totalEnd": 695,
+      "moved": false,
+      "verdict": "complete"
+     }
+    ]
+   },
+   "n": 65,
+   "roles": {
+    "AI Engineering": [
+     "workday-ing-REQ-10122304"
+    ],
+    "Compliance & Legal": [
+     "workday-ing-REQ-10123032",
+     "workday-ing-REQ-10123033"
+    ],
+    "Corporate Banking": [
+     "workday-ing-REQ-10119098-1",
+     "workday-ing-REQ-10119613",
+     "workday-ing-REQ-10120094",
+     "workday-ing-REQ-10120783-1",
+     "workday-ing-REQ-10122211",
+     "workday-ing-REQ-10123855",
+     "workday-ing-REQ-10123994"
+    ],
+    "Finance & Accounting": [
+     "workday-ing-REQ-10120396",
+     "workday-ing-REQ-10120673-2",
+     "workday-ing-REQ-10121730-1",
+     "workday-ing-REQ-10122129",
+     "workday-ing-REQ-10122745",
+     "workday-ing-REQ-10123860"
+    ],
+    "FinTech Sales": [
+     "workday-ing-REQ-10120029",
+     "workday-ing-REQ-10121902-1",
+     "workday-ing-REQ-10122128",
+     "workday-ing-REQ-10122484",
+     "workday-ing-REQ-10122531",
+     "workday-ing-REQ-10122791"
+    ],
+    "Hedge Fund": [
+     "workday-ing-REQ-10123353"
+    ],
+    "Investment Banking": [
+     "workday-ing-REQ-10120203-1",
+     "workday-ing-REQ-10120855-1",
+     "workday-ing-REQ-10122838",
+     "workday-ing-REQ-10123140",
+     "workday-ing-REQ-10123774"
+    ],
+    "Operations": [
+     "workday-ing-REQ-10119670",
+     "workday-ing-REQ-10123430"
+    ],
+    "Other": [
+     "workday-ing-REQ-10090756",
+     "workday-ing-REQ-10115103",
+     "workday-ing-REQ-10120994",
+     "workday-ing-REQ-10121088",
+     "workday-ing-REQ-10121185-1",
+     "workday-ing-REQ-10121282-2",
+     "workday-ing-REQ-10121394",
+     "workday-ing-REQ-10121442",
+     "workday-ing-REQ-10121657-1",
+     "workday-ing-REQ-10121761-1",
+     "workday-ing-REQ-10122234",
+     "workday-ing-REQ-10122247",
+     "workday-ing-REQ-10122343",
+     "workday-ing-REQ-10122371",
+     "workday-ing-REQ-10122467",
+     "workday-ing-REQ-10122770",
+     "workday-ing-REQ-10122855",
+     "workday-ing-REQ-10122857",
+     "workday-ing-REQ-10123178",
+     "workday-ing-REQ-10123253",
+     "workday-ing-REQ-10123520",
+     "workday-ing-REQ-10123555",
+     "workday-ing-REQ-10123573",
+     "workday-ing-REQ-10123941",
+     "workday-ing-REQ-10123963",
+     "workday-ing-REQ-10124005"
+    ],
+    "Sales & Trading": [
+     "workday-ing-REQ-10115873",
+     "workday-ing-REQ-10122759",
+     "workday-ing-REQ-10123182-1",
+     "workday-ing-REQ-10123324-1",
+     "workday-ing-REQ-10123517",
+     "workday-ing-REQ-10123790"
+    ],
+    "Software Engineering": [
+     "workday-ing-REQ-10123832"
+    ],
+    "Wealth Management": [
+     "workday-ing-REQ-10122908",
+     "workday-ing-REQ-10123726"
+    ]
+   }
+  },
+  "Instacart": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "5ce59154c5",
+   "n": 0,
+   "roles": {}
+  },
+  "Intel": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Enterprise Tech",
+   "cfg": "7fb4a92078",
+   "n": 79,
+   "roles": {
+    "AI Engineering": [
+     "workday-intel-JR0287524",
+     "workday-intel-JR0287530",
+     "workday-intel-JR0287533",
+     "workday-intel-JR0287885",
+     "workday-intel-JR0287895",
+     "workday-intel-JR0288216",
+     "workday-intel-JR0288225",
+     "workday-intel-JR0288261",
+     "workday-intel-JR0288692"
+    ],
+    "AI Research": [
+     "workday-intel-JR0286945",
+     "workday-intel-JR0287000"
+    ],
+    "Data & ML": [
+     "workday-intel-JR0288136",
+     "workday-intel-JR0288138",
+     "workday-intel-JR0288139",
+     "workday-intel-JR0288140"
+    ],
+    "Finance & Accounting": [
+     "workday-intel-JR0287470",
+     "workday-intel-JR0287472"
+    ],
+    "FinTech Sales": [
+     "workday-intel-JR0286831",
+     "workday-intel-JR0286832",
+     "workday-intel-JR0286835",
+     "workday-intel-JR0286837",
+     "workday-intel-JR0286838",
+     "workday-intel-JR0286839"
+    ],
+    "Other": [
+     "workday-intel-JR0282130",
+     "workday-intel-JR0284021",
+     "workday-intel-JR0285454",
+     "workday-intel-JR0286825",
+     "workday-intel-JR0286826",
+     "workday-intel-JR0286833",
+     "workday-intel-JR0286923",
+     "workday-intel-JR0287314",
+     "workday-intel-JR0287594",
+     "workday-intel-JR0287596",
+     "workday-intel-JR0287884",
+     "workday-intel-JR0287924",
+     "workday-intel-JR0288068",
+     "workday-intel-JR0288083",
+     "workday-intel-JR0288230",
+     "workday-intel-JR0288518",
+     "workday-intel-JR0288600"
+    ],
+    "Software Engineering": [
+     "workday-intel-JR0281401",
+     "workday-intel-JR0286502",
+     "workday-intel-JR0286828",
+     "workday-intel-JR0286830",
+     "workday-intel-JR0286834",
+     "workday-intel-JR0286836",
+     "workday-intel-JR0286916",
+     "workday-intel-JR0287020",
+     "workday-intel-JR0287021",
+     "workday-intel-JR0287022-1",
+     "workday-intel-JR0287026",
+     "workday-intel-JR0287227",
+     "workday-intel-JR0287294",
+     "workday-intel-JR0287458-1",
+     "workday-intel-JR0287651",
+     "workday-intel-JR0287835",
+     "workday-intel-JR0287836",
+     "workday-intel-JR0287893",
+     "workday-intel-JR0287894",
+     "workday-intel-JR0287897",
+     "workday-intel-JR0287914",
+     "workday-intel-JR0287933",
+     "workday-intel-JR0287934",
+     "workday-intel-JR0287941",
+     "workday-intel-JR0287943",
+     "workday-intel-JR0287950",
+     "workday-intel-JR0287951",
+     "workday-intel-JR0287977",
+     "workday-intel-JR0288073",
+     "workday-intel-JR0288074",
+     "workday-intel-JR0288076",
+     "workday-intel-JR0288193",
+     "workday-intel-JR0288205",
+     "workday-intel-JR0288207",
+     "workday-intel-JR0288209",
+     "workday-intel-JR0288210",
+     "workday-intel-JR0288213",
+     "workday-intel-JR0288221-1",
+     "workday-intel-JR0288321"
+    ]
+   }
+  },
+  "Jane Street": {
+   "s": "ok",
+   "ats": "janestreet",
+   "tier": "Prop Trading",
+   "cfg": "6baacee2f4",
+   "n": 65,
+   "roles": {
+    "AI Engineering": [
+     "janestreet-jane-street-8611307002",
+     "janestreet-jane-street-8648474002"
+    ],
+    "AI Research": [
+     "janestreet-jane-street-8384490002",
+     "janestreet-jane-street-8576928002",
+     "janestreet-jane-street-8576931002",
+     "janestreet-jane-street-8576934002",
+     "janestreet-jane-street-8594416002",
+     "janestreet-jane-street-8596771002"
+    ],
+    "Data & ML": [
+     "janestreet-jane-street-8631973002"
+    ],
+    "Equity Research": [
+     "janestreet-jane-street-8347286002"
+    ],
+    "Other": [
+     "janestreet-jane-street-5866838002",
+     "janestreet-jane-street-5869205002",
+     "janestreet-jane-street-8518854002",
+     "janestreet-jane-street-8621552002",
+     "janestreet-jane-street-8630713002",
+     "janestreet-jane-street-8827422002"
+    ],
+    "Quant": [
+     "janestreet-jane-street-8415898002",
+     "janestreet-jane-street-8474407002",
+     "janestreet-jane-street-8474416002",
+     "janestreet-jane-street-8498547002",
+     "janestreet-jane-street-8573523002",
+     "janestreet-jane-street-8573726002",
+     "janestreet-jane-street-8576270002",
+     "janestreet-jane-street-8600948002",
+     "janestreet-jane-street-8617344002",
+     "janestreet-jane-street-8623733002",
+     "janestreet-jane-street-8623868002",
+     "janestreet-jane-street-8754684002"
+    ],
+    "Sales & Trading": [
+     "janestreet-jane-street-8347385002",
+     "janestreet-jane-street-8537797002",
+     "janestreet-jane-street-8620505002",
+     "janestreet-jane-street-8621450002",
+     "janestreet-jane-street-8630687002",
+     "janestreet-jane-street-8700980002",
+     "janestreet-jane-street-8759009002",
+     "janestreet-jane-street-8782247002"
+    ],
+    "Software Engineering": [
+     "janestreet-jane-street-8589868002",
+     "janestreet-jane-street-8594541002",
+     "janestreet-jane-street-8599644002",
+     "janestreet-jane-street-8613910002",
+     "janestreet-jane-street-8617298002",
+     "janestreet-jane-street-8624440002",
+     "janestreet-jane-street-8625946002",
+     "janestreet-jane-street-8626146002",
+     "janestreet-jane-street-8626260002",
+     "janestreet-jane-street-8628843002",
+     "janestreet-jane-street-8632392002",
+     "janestreet-jane-street-8632723002",
+     "janestreet-jane-street-8635672002",
+     "janestreet-jane-street-8637960002",
+     "janestreet-jane-street-8641280002",
+     "janestreet-jane-street-8641377002",
+     "janestreet-jane-street-8643171002",
+     "janestreet-jane-street-8646746002",
+     "janestreet-jane-street-8646893002",
+     "janestreet-jane-street-8647260002",
+     "janestreet-jane-street-8651274002",
+     "janestreet-jane-street-8651286002",
+     "janestreet-jane-street-8651323002",
+     "janestreet-jane-street-8651405002",
+     "janestreet-jane-street-8693539002",
+     "janestreet-jane-street-8755768002",
+     "janestreet-jane-street-8810604002",
+     "janestreet-jane-street-8842129002",
+     "janestreet-jane-street-8842136002"
+    ]
+   }
+  },
+  "JPMorgan Chase": {
+   "s": "ok",
+   "ats": "oracle",
+   "tier": "Bulge Bracket",
+   "cfg": "969b531ef8",
+   "walk": {
+    "mode": "complete",
+    "pageSize": 200,
+    "verdict": "agreed",
+    "passes": [
+     {
+      "requests": 38,
+      "retries": 0,
+      "failures": 0,
+      "pages": 38,
+      "raw": 7259,
+      "duplicates": 1,
+      "terminal": "reached-total",
+      "pageSize": 200,
+      "unique": 7258,
+      "totalStart": 7259,
+      "totalEnd": 7259,
+      "moved": false,
+      "verdict": "unstable"
+     },
+     {
+      "requests": 50,
+      "retries": 0,
+      "failures": 0,
+      "pages": 50,
+      "raw": 7259,
+      "duplicates": 1,
+      "terminal": "reached-total",
+      "pageSize": 150,
+      "unique": 7258,
+      "totalStart": 7259,
+      "totalEnd": 7259,
+      "moved": false,
+      "verdict": "unstable"
+     }
+    ]
+   },
+   "n": 194,
+   "roles": {
+    "AI Engineering": [
+     "oracle-jpmc-fa-oraclecloud-com-210773869",
+     "oracle-jpmc-fa-oraclecloud-com-210773954",
+     "oracle-jpmc-fa-oraclecloud-com-210774745",
+     "oracle-jpmc-fa-oraclecloud-com-210774755",
+     "oracle-jpmc-fa-oraclecloud-com-210783022",
+     "oracle-jpmc-fa-oraclecloud-com-210801790",
+     "oracle-jpmc-fa-oraclecloud-com-210803983"
+    ],
+    "AI Research": [
+     "oracle-jpmc-fa-oraclecloud-com-210800354",
+     "oracle-jpmc-fa-oraclecloud-com-210800615"
+    ],
+    "Asset Management": [
+     "oracle-jpmc-fa-oraclecloud-com-210774661",
+     "oracle-jpmc-fa-oraclecloud-com-210774894",
+     "oracle-jpmc-fa-oraclecloud-com-210775278",
+     "oracle-jpmc-fa-oraclecloud-com-210775295",
+     "oracle-jpmc-fa-oraclecloud-com-210790687",
+     "oracle-jpmc-fa-oraclecloud-com-210796243"
+    ],
+    "Compliance & Legal": [
+     "oracle-jpmc-fa-oraclecloud-com-210770278"
+    ],
+    "Consulting": [
+     "oracle-jpmc-fa-oraclecloud-com-210772971"
+    ],
+    "Corporate Banking": [
+     "oracle-jpmc-fa-oraclecloud-com-210742404",
+     "oracle-jpmc-fa-oraclecloud-com-210742406",
+     "oracle-jpmc-fa-oraclecloud-com-210742431",
+     "oracle-jpmc-fa-oraclecloud-com-210742448",
+     "oracle-jpmc-fa-oraclecloud-com-210742450",
+     "oracle-jpmc-fa-oraclecloud-com-210742641",
+     "oracle-jpmc-fa-oraclecloud-com-210761711",
+     "oracle-jpmc-fa-oraclecloud-com-210761731",
+     "oracle-jpmc-fa-oraclecloud-com-210770246",
+     "oracle-jpmc-fa-oraclecloud-com-210774757",
+     "oracle-jpmc-fa-oraclecloud-com-210774762",
+     "oracle-jpmc-fa-oraclecloud-com-210774818",
+     "oracle-jpmc-fa-oraclecloud-com-210775299",
+     "oracle-jpmc-fa-oraclecloud-com-210775302",
+     "oracle-jpmc-fa-oraclecloud-com-210775312",
+     "oracle-jpmc-fa-oraclecloud-com-210775320",
+     "oracle-jpmc-fa-oraclecloud-com-210779577",
+     "oracle-jpmc-fa-oraclecloud-com-210779692",
+     "oracle-jpmc-fa-oraclecloud-com-210779707",
+     "oracle-jpmc-fa-oraclecloud-com-210783071",
+     "oracle-jpmc-fa-oraclecloud-com-210795737"
+    ],
+    "Data & ML": [
+     "oracle-jpmc-fa-oraclecloud-com-210802931"
+    ],
+    "Equity Research": [
+     "oracle-jpmc-fa-oraclecloud-com-210774659"
+    ],
+    "Finance & Accounting": [
+     "oracle-jpmc-fa-oraclecloud-com-210765276",
+     "oracle-jpmc-fa-oraclecloud-com-210765289",
+     "oracle-jpmc-fa-oraclecloud-com-210765547",
+     "oracle-jpmc-fa-oraclecloud-com-210770249",
+     "oracle-jpmc-fa-oraclecloud-com-210773378",
+     "oracle-jpmc-fa-oraclecloud-com-210774857",
+     "oracle-jpmc-fa-oraclecloud-com-210774888",
+     "oracle-jpmc-fa-oraclecloud-com-210795561"
+    ],
+    "FinTech Sales": [
+     "oracle-jpmc-fa-oraclecloud-com-210780537",
+     "oracle-jpmc-fa-oraclecloud-com-210780555",
+     "oracle-jpmc-fa-oraclecloud-com-210784872"
+    ],
+    "Investment Banking": [
+     "oracle-jpmc-fa-oraclecloud-com-210739544",
+     "oracle-jpmc-fa-oraclecloud-com-210741849",
+     "oracle-jpmc-fa-oraclecloud-com-210741865",
+     "oracle-jpmc-fa-oraclecloud-com-210741915",
+     "oracle-jpmc-fa-oraclecloud-com-210742043",
+     "oracle-jpmc-fa-oraclecloud-com-210770316",
+     "oracle-jpmc-fa-oraclecloud-com-210775710",
+     "oracle-jpmc-fa-oraclecloud-com-210775719",
+     "oracle-jpmc-fa-oraclecloud-com-210779982",
+     "oracle-jpmc-fa-oraclecloud-com-210780002",
+     "oracle-jpmc-fa-oraclecloud-com-210780014",
+     "oracle-jpmc-fa-oraclecloud-com-210780201",
+     "oracle-jpmc-fa-oraclecloud-com-210780211",
+     "oracle-jpmc-fa-oraclecloud-com-210784644",
+     "oracle-jpmc-fa-oraclecloud-com-210785427",
+     "oracle-jpmc-fa-oraclecloud-com-210796061"
+    ],
+    "Operations": [
+     "oracle-jpmc-fa-oraclecloud-com-210761713",
+     "oracle-jpmc-fa-oraclecloud-com-210765972",
+     "oracle-jpmc-fa-oraclecloud-com-210770125",
+     "oracle-jpmc-fa-oraclecloud-com-210774766",
+     "oracle-jpmc-fa-oraclecloud-com-210774793",
+     "oracle-jpmc-fa-oraclecloud-com-210791199"
+    ],
+    "Other": [
+     "oracle-jpmc-fa-oraclecloud-com-210708872",
+     "oracle-jpmc-fa-oraclecloud-com-210753819",
+     "oracle-jpmc-fa-oraclecloud-com-210754291",
+     "oracle-jpmc-fa-oraclecloud-com-210754294",
+     "oracle-jpmc-fa-oraclecloud-com-210761734",
+     "oracle-jpmc-fa-oraclecloud-com-210764343",
+     "oracle-jpmc-fa-oraclecloud-com-210764354",
+     "oracle-jpmc-fa-oraclecloud-com-210765224",
+     "oracle-jpmc-fa-oraclecloud-com-210765640",
+     "oracle-jpmc-fa-oraclecloud-com-210765753",
+     "oracle-jpmc-fa-oraclecloud-com-210765772",
+     "oracle-jpmc-fa-oraclecloud-com-210766050",
+     "oracle-jpmc-fa-oraclecloud-com-210766057",
+     "oracle-jpmc-fa-oraclecloud-com-210766058",
+     "oracle-jpmc-fa-oraclecloud-com-210766078",
+     "oracle-jpmc-fa-oraclecloud-com-210766280",
+     "oracle-jpmc-fa-oraclecloud-com-210766489",
+     "oracle-jpmc-fa-oraclecloud-com-210767069",
+     "oracle-jpmc-fa-oraclecloud-com-210768182",
+     "oracle-jpmc-fa-oraclecloud-com-210768195",
+     "oracle-jpmc-fa-oraclecloud-com-210770134",
+     "oracle-jpmc-fa-oraclecloud-com-210770287",
+     "oracle-jpmc-fa-oraclecloud-com-210773258",
+     "oracle-jpmc-fa-oraclecloud-com-210774277",
+     "oracle-jpmc-fa-oraclecloud-com-210774286",
+     "oracle-jpmc-fa-oraclecloud-com-210774321",
+     "oracle-jpmc-fa-oraclecloud-com-210774353",
+     "oracle-jpmc-fa-oraclecloud-com-210774369",
+     "oracle-jpmc-fa-oraclecloud-com-210774454",
+     "oracle-jpmc-fa-oraclecloud-com-210775228",
+     "oracle-jpmc-fa-oraclecloud-com-210775238",
+     "oracle-jpmc-fa-oraclecloud-com-210775305",
+     "oracle-jpmc-fa-oraclecloud-com-210780476",
+     "oracle-jpmc-fa-oraclecloud-com-210783234",
+     "oracle-jpmc-fa-oraclecloud-com-210783245",
+     "oracle-jpmc-fa-oraclecloud-com-210789075",
+     "oracle-jpmc-fa-oraclecloud-com-210790690",
+     "oracle-jpmc-fa-oraclecloud-com-210792106",
+     "oracle-jpmc-fa-oraclecloud-com-210793412",
+     "oracle-jpmc-fa-oraclecloud-com-210795339",
+     "oracle-jpmc-fa-oraclecloud-com-210795361",
+     "oracle-jpmc-fa-oraclecloud-com-210795382",
+     "oracle-jpmc-fa-oraclecloud-com-210795419",
+     "oracle-jpmc-fa-oraclecloud-com-210795468",
+     "oracle-jpmc-fa-oraclecloud-com-210795883",
+     "oracle-jpmc-fa-oraclecloud-com-210802372",
+     "oracle-jpmc-fa-oraclecloud-com-210803822"
+    ],
+    "Quant": [
+     "oracle-jpmc-fa-oraclecloud-com-210773978",
+     "oracle-jpmc-fa-oraclecloud-com-210774038",
+     "oracle-jpmc-fa-oraclecloud-com-210774061",
+     "oracle-jpmc-fa-oraclecloud-com-210774074",
+     "oracle-jpmc-fa-oraclecloud-com-210775780",
+     "oracle-jpmc-fa-oraclecloud-com-210776860",
+     "oracle-jpmc-fa-oraclecloud-com-210776873",
+     "oracle-jpmc-fa-oraclecloud-com-210776890",
+     "oracle-jpmc-fa-oraclecloud-com-210784061",
+     "oracle-jpmc-fa-oraclecloud-com-210784366",
+     "oracle-jpmc-fa-oraclecloud-com-210784369",
+     "oracle-jpmc-fa-oraclecloud-com-210784371",
+     "oracle-jpmc-fa-oraclecloud-com-210788659",
+     "oracle-jpmc-fa-oraclecloud-com-210792010",
+     "oracle-jpmc-fa-oraclecloud-com-210803936"
+    ],
+    "Risk": [
+     "oracle-jpmc-fa-oraclecloud-com-210690781",
+     "oracle-jpmc-fa-oraclecloud-com-210775727",
+     "oracle-jpmc-fa-oraclecloud-com-210780807"
+    ],
+    "Sales & Trading": [
+     "oracle-jpmc-fa-oraclecloud-com-210690282",
+     "oracle-jpmc-fa-oraclecloud-com-210780497",
+     "oracle-jpmc-fa-oraclecloud-com-210780517",
+     "oracle-jpmc-fa-oraclecloud-com-210786047",
+     "oracle-jpmc-fa-oraclecloud-com-210788262",
+     "oracle-jpmc-fa-oraclecloud-com-210788269",
+     "oracle-jpmc-fa-oraclecloud-com-210788358",
+     "oracle-jpmc-fa-oraclecloud-com-210802065",
+     "oracle-jpmc-fa-oraclecloud-com-210802076",
+     "oracle-jpmc-fa-oraclecloud-com-210802419",
+     "oracle-jpmc-fa-oraclecloud-com-210802421"
+    ],
+    "Software Engineering": [
+     "oracle-jpmc-fa-oraclecloud-com-210770146",
+     "oracle-jpmc-fa-oraclecloud-com-210770259",
+     "oracle-jpmc-fa-oraclecloud-com-210774102",
+     "oracle-jpmc-fa-oraclecloud-com-210774111",
+     "oracle-jpmc-fa-oraclecloud-com-210774716",
+     "oracle-jpmc-fa-oraclecloud-com-210774738",
+     "oracle-jpmc-fa-oraclecloud-com-210774781",
+     "oracle-jpmc-fa-oraclecloud-com-210774813",
+     "oracle-jpmc-fa-oraclecloud-com-210776172",
+     "oracle-jpmc-fa-oraclecloud-com-210777641",
+     "oracle-jpmc-fa-oraclecloud-com-210780870",
+     "oracle-jpmc-fa-oraclecloud-com-210795482",
+     "oracle-jpmc-fa-oraclecloud-com-210795507"
+    ],
+    "Wealth Management": [
+     "oracle-jpmc-fa-oraclecloud-com-210763421",
+     "oracle-jpmc-fa-oraclecloud-com-210763462",
+     "oracle-jpmc-fa-oraclecloud-com-210763905",
+     "oracle-jpmc-fa-oraclecloud-com-210763939",
+     "oracle-jpmc-fa-oraclecloud-com-210773401",
+     "oracle-jpmc-fa-oraclecloud-com-210773470",
+     "oracle-jpmc-fa-oraclecloud-com-210773741",
+     "oracle-jpmc-fa-oraclecloud-com-210773747",
+     "oracle-jpmc-fa-oraclecloud-com-210773761",
+     "oracle-jpmc-fa-oraclecloud-com-210773771",
+     "oracle-jpmc-fa-oraclecloud-com-210773772",
+     "oracle-jpmc-fa-oraclecloud-com-210773777",
+     "oracle-jpmc-fa-oraclecloud-com-210773783",
+     "oracle-jpmc-fa-oraclecloud-com-210773791",
+     "oracle-jpmc-fa-oraclecloud-com-210773802",
+     "oracle-jpmc-fa-oraclecloud-com-210773834",
+     "oracle-jpmc-fa-oraclecloud-com-210773855",
+     "oracle-jpmc-fa-oraclecloud-com-210773864",
+     "oracle-jpmc-fa-oraclecloud-com-210773872",
+     "oracle-jpmc-fa-oraclecloud-com-210774194",
+     "oracle-jpmc-fa-oraclecloud-com-210774210",
+     "oracle-jpmc-fa-oraclecloud-com-210774212",
+     "oracle-jpmc-fa-oraclecloud-com-210774216",
+     "oracle-jpmc-fa-oraclecloud-com-210774227",
+     "oracle-jpmc-fa-oraclecloud-com-210774235",
+     "oracle-jpmc-fa-oraclecloud-com-210774239",
+     "oracle-jpmc-fa-oraclecloud-com-210774271",
+     "oracle-jpmc-fa-oraclecloud-com-210774281",
+     "oracle-jpmc-fa-oraclecloud-com-210774295",
+     "oracle-jpmc-fa-oraclecloud-com-210777867",
+     "oracle-jpmc-fa-oraclecloud-com-210794830",
+     "oracle-jpmc-fa-oraclecloud-com-210795711"
+    ]
+   }
+  },
+  "Jump Trading": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "4172567f12",
+   "n": 39,
+   "roles": {
+    "AI Research": [
+     "greenhouse-jumptrading-7976964",
+     "greenhouse-jumptrading-7977132",
+     "greenhouse-jumptrading-8027938",
+     "greenhouse-jumptrading-8052281",
+     "greenhouse-jumptrading-8052313",
+     "greenhouse-jumptrading-8052338",
+     "greenhouse-jumptrading-8052343",
+     "greenhouse-jumptrading-8052351"
+    ],
+    "Data & ML": [
+     "greenhouse-jumptrading-8002998"
+    ],
+    "Other": [
+     "greenhouse-jumptrading-7217856",
+     "greenhouse-jumptrading-7362318"
+    ],
+    "Quant": [
+     "greenhouse-jumptrading-7848371",
+     "greenhouse-jumptrading-7982648",
+     "greenhouse-jumptrading-8010307",
+     "greenhouse-jumptrading-8027898",
+     "greenhouse-jumptrading-8027900",
+     "greenhouse-jumptrading-8027922",
+     "greenhouse-jumptrading-8027939",
+     "greenhouse-jumptrading-8027941",
+     "greenhouse-jumptrading-8049938",
+     "greenhouse-jumptrading-8050772",
+     "greenhouse-jumptrading-8050796",
+     "greenhouse-jumptrading-8050801",
+     "greenhouse-jumptrading-8059384",
+     "greenhouse-jumptrading-8209424"
+    ],
+    "Software Engineering": [
+     "greenhouse-jumptrading-7215943",
+     "greenhouse-jumptrading-7974837",
+     "greenhouse-jumptrading-7974943",
+     "greenhouse-jumptrading-8000323",
+     "greenhouse-jumptrading-8002989",
+     "greenhouse-jumptrading-8003019",
+     "greenhouse-jumptrading-8007788",
+     "greenhouse-jumptrading-8008112",
+     "greenhouse-jumptrading-8008306",
+     "greenhouse-jumptrading-8027860",
+     "greenhouse-jumptrading-8027923",
+     "greenhouse-jumptrading-8027946",
+     "greenhouse-jumptrading-8027952",
+     "greenhouse-jumptrading-8027955"
+    ]
+   }
+  },
+  "Keystone": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Consulting",
+   "cfg": "b328ecf9cc",
+   "n": 5,
+   "roles": {
+    "Consulting": [
+     "greenhouse-keystone-8109240"
+    ],
+    "Other": [
+     "greenhouse-keystone-7636079",
+     "greenhouse-keystone-8109232",
+     "greenhouse-keystone-8201221",
+     "greenhouse-keystone-8204134"
+    ]
+   }
+  },
+  "Lendable": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Fintech",
+   "cfg": "2e396638a8",
+   "n": 4,
+   "roles": {
+    "Other": [
+     "ashby-lendable-a0ed2d2c-1c24-4d53-8ab4-af7e7ac06e20",
+     "ashby-lendable-e001dc0b-6e0f-46a7-95ba-38a3733db2f4"
+    ],
+    "Risk": [
+     "ashby-lendable-a2214edc-39e3-4c70-8a09-875bb991062f",
+     "ashby-lendable-eabb1e2a-86c3-48e6-836c-af967e0e71d2"
+    ]
+   }
+  },
+  "Lincoln International": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Middle Market",
+   "cfg": "be2e4720cd",
+   "n": 9,
+   "roles": {
+    "Investment Banking": [
+     "greenhouse-lincolninternational-8060090",
+     "greenhouse-lincolninternational-8106841",
+     "greenhouse-lincolninternational-8143727",
+     "greenhouse-lincolninternational-8156630",
+     "greenhouse-lincolninternational-8156739",
+     "greenhouse-lincolninternational-8176891",
+     "greenhouse-lincolninternational-8237269",
+     "greenhouse-lincolninternational-8255813",
+     "greenhouse-lincolninternational-8324552"
+    ]
+   }
+  },
+  "Linear": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "541ec986f8",
+   "n": 0,
+   "roles": {}
+  },
+  "LionTree": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Elite Boutique",
+   "cfg": "c72b89d507",
+   "n": 2,
+   "roles": {
+    "Other": [
+     "greenhouse-liontree-5250586007",
+     "greenhouse-liontree-5254192007"
+    ]
+   }
+  },
+  "Lloyds Banking Group": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "3ed2debc33",
+   "n": 0,
+   "roles": {}
+  },
+  "LSEG": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Fintech",
+   "cfg": "9c7bcd7884",
+   "n": 2,
+   "roles": {
+    "Other": [
+     "workday-lseg-R0122875"
+    ],
+    "Software Engineering": [
+     "workday-lseg-R0122195-2"
+    ]
+   }
+  },
+  "Lyft": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "ffc8668a98",
+   "n": 19,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-lyft-8802332002",
+     "greenhouse-lyft-8817974002"
+    ],
+    "AI Research": [
+     "greenhouse-lyft-8843341002"
+    ],
+    "Data & ML": [
+     "greenhouse-lyft-8767697002",
+     "greenhouse-lyft-8767723002",
+     "greenhouse-lyft-8796124002",
+     "greenhouse-lyft-8797376002"
+    ],
+    "Other": [
+     "greenhouse-lyft-8797069002",
+     "greenhouse-lyft-8817900002"
+    ],
+    "Software Engineering": [
+     "greenhouse-lyft-8767534002",
+     "greenhouse-lyft-8767710002",
+     "greenhouse-lyft-8767715002",
+     "greenhouse-lyft-8767726002",
+     "greenhouse-lyft-8796054002",
+     "greenhouse-lyft-8797819002",
+     "greenhouse-lyft-8797859002",
+     "greenhouse-lyft-8802222002",
+     "greenhouse-lyft-8817930002",
+     "greenhouse-lyft-8862215002"
+    ]
+   }
+  },
+  "Mako": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "c927b31f61",
+   "n": 1,
+   "roles": {
+    "Software Engineering": [
+     "greenhouse-mako-8921970002"
+    ]
+   }
+  },
+  "Man Group": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "af6ccf5339",
+   "n": 5,
+   "roles": {
+    "Quant": [
+     "greenhouse-mangroup-4960827101",
+     "greenhouse-mangroup-4960828101",
+     "greenhouse-mangroup-4982410101"
+    ],
+    "Sales & Trading": [
+     "greenhouse-mangroup-5012801101"
+    ],
+    "Software Engineering": [
+     "greenhouse-mangroup-4978895101"
+    ]
+   }
+  },
+  "Marqeta": {
+   "s": "failed",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "da2e688b4d",
+   "n": null,
+   "reason": "404"
+  },
+  "Marshall Wace": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Multi-Manager",
+   "cfg": "d7499cbb29",
+   "n": 0,
+   "roles": {}
+  },
+  "Mastercard": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Fintech",
+   "cfg": "e973e42d90",
+   "n": 17,
+   "roles": {
+    "Consulting": [
+     "workday-mastercard-R-287583-2",
+     "workday-mastercard-R-287584",
+     "workday-mastercard-R-287587-2",
+     "workday-mastercard-R-287695-1",
+     "workday-mastercard-R-287716-1"
+    ],
+    "FinTech Sales": [
+     "workday-mastercard-R-287595-1",
+     "workday-mastercard-R-287596-2"
+    ],
+    "Other": [
+     "workday-mastercard-R-282264"
+    ],
+    "Product Management": [
+     "workday-mastercard-R-285384-2",
+     "workday-mastercard-R-287707-1"
+    ],
+    "Sales & Trading": [
+     "workday-mastercard-R-287598-2",
+     "workday-mastercard-R-287705-2",
+     "workday-mastercard-R-287717-2",
+     "workday-mastercard-R-291975-2",
+     "workday-mastercard-R-292561-2",
+     "workday-mastercard-R-292816-2",
+     "workday-mastercard-R-292933-2"
+    ]
+   }
+  },
+  "Millennium": {
+   "s": "ok",
+   "ats": "eightfold",
+   "tier": "Multi-Manager",
+   "cfg": "e1bc5a33da",
+   "n": 32,
+   "roles": {
+    "AI Engineering": [
+     "eightfold-campusjobs-mlp-com-755957778819",
+     "eightfold-campusjobs-mlp-com-755957778821",
+     "eightfold-campusjobs-mlp-com-755957778822",
+     "eightfold-campusjobs-mlp-com-755957778829",
+     "eightfold-campusjobs-mlp-com-755957778848",
+     "eightfold-campusjobs-mlp-com-755957778856",
+     "eightfold-campusjobs-mlp-com-755957819151",
+     "eightfold-campusjobs-mlp-com-755958163102",
+     "eightfold-campusjobs-mlp-com-755958163900"
+    ],
+    "Compliance & Legal": [
+     "eightfold-campusjobs-mlp-com-755957778878"
+    ],
+    "Finance & Accounting": [
+     "eightfold-campusjobs-mlp-com-755957778839"
+    ],
+    "Operations": [
+     "eightfold-campusjobs-mlp-com-755957778854"
+    ],
+    "Other": [
+     "eightfold-campusjobs-mlp-com-755957778830",
+     "eightfold-campusjobs-mlp-com-755957778881",
+     "eightfold-campusjobs-mlp-com-755957819772"
+    ],
+    "Quant": [
+     "eightfold-campusjobs-mlp-com-755953958409",
+     "eightfold-campusjobs-mlp-com-755957778828",
+     "eightfold-campusjobs-mlp-com-755957778835",
+     "eightfold-campusjobs-mlp-com-755957778843",
+     "eightfold-campusjobs-mlp-com-755957778850",
+     "eightfold-campusjobs-mlp-com-755957778853",
+     "eightfold-campusjobs-mlp-com-755957819517",
+     "eightfold-campusjobs-mlp-com-755957819661",
+     "eightfold-campusjobs-mlp-com-755957819689",
+     "eightfold-campusjobs-mlp-com-755957819719",
+     "eightfold-campusjobs-mlp-com-755957854172",
+     "eightfold-campusjobs-mlp-com-755957962398",
+     "eightfold-campusjobs-mlp-com-755957998254",
+     "eightfold-campusjobs-mlp-com-755958178377"
+    ],
+    "Risk": [
+     "eightfold-campusjobs-mlp-com-755957778864"
+    ],
+    "Sales & Trading": [
+     "eightfold-campusjobs-mlp-com-755959251279",
+     "eightfold-campusjobs-mlp-com-755959251354"
+    ]
+   }
+  },
+  "Mizuho": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "4b7a76150e",
+   "n": 22,
+   "roles": {
+    "Compliance & Legal": [
+     "workday-mizuho-R6814",
+     "workday-mizuho-R7482"
+    ],
+    "Investment Banking": [
+     "workday-mizuho-R6558",
+     "workday-mizuho-R7431",
+     "workday-mizuho-R7435",
+     "workday-mizuho-R7442",
+     "workday-mizuho-R7449",
+     "workday-mizuho-R7453",
+     "workday-mizuho-R7483",
+     "workday-mizuho-R7498",
+     "workday-mizuho-R7499",
+     "workday-mizuho-R7500",
+     "workday-mizuho-R7503"
+    ],
+    "Other": [
+     "workday-mizuho-R6459",
+     "workday-mizuho-R6516",
+     "workday-mizuho-R6801",
+     "workday-mizuho-R7344",
+     "workday-mizuho-R7490",
+     "workday-mizuho-R7508"
+    ],
+    "Risk": [
+     "workday-mizuho-R6933",
+     "workday-mizuho-R7474"
+    ],
+    "Software Engineering": [
+     "workday-mizuho-R6688"
+    ]
+   }
+  },
+  "Modal": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "3d7ce7448a",
+   "n": 1,
+   "roles": {
+    "AI Research": [
+     "ashby-modal-38888294-6bc7-4dab-b072-6d0f0c2ed79a"
+    ]
+   }
+  },
+  "MongoDB": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "ed3feb94f8",
+   "n": 3,
+   "roles": {
+    "Software Engineering": [
+     "greenhouse-mongodb-8209134",
+     "greenhouse-mongodb-8258279",
+     "greenhouse-mongodb-8267099"
+    ]
+   }
+  },
+  "Monzo": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "6bf1ce431f",
+   "n": 2,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-monzo-8232726"
+    ],
+    "Software Engineering": [
+     "greenhouse-monzo-8156261"
+    ]
+   }
+  },
+  "Morgan Stanley": {
+   "s": "ok",
+   "ats": "talnet",
+   "tier": "Bulge Bracket",
+   "cfg": "ed3f4bb656",
+   "n": 50,
+   "roles": {
+    "Asset Management": [
+     "talnet-morganstanley-tal-net-21771",
+     "talnet-morganstanley-tal-net-22191",
+     "talnet-morganstanley-tal-net-22231",
+     "talnet-morganstanley-tal-net-22242",
+     "talnet-morganstanley-tal-net-22261",
+     "talnet-morganstanley-tal-net-22262",
+     "talnet-morganstanley-tal-net-22272",
+     "talnet-morganstanley-tal-net-22304",
+     "talnet-morganstanley-tal-net-22345",
+     "talnet-morganstanley-tal-net-22354",
+     "talnet-morganstanley-tal-net-22355",
+     "talnet-morganstanley-tal-net-22373"
+    ],
+    "Equity Research": [
+     "talnet-morganstanley-tal-net-22213"
+    ],
+    "Finance & Accounting": [
+     "talnet-morganstanley-tal-net-21528",
+     "talnet-morganstanley-tal-net-22099"
+    ],
+    "Investment Banking": [
+     "talnet-morganstanley-tal-net-21791",
+     "talnet-morganstanley-tal-net-21828",
+     "talnet-morganstanley-tal-net-21829",
+     "talnet-morganstanley-tal-net-21837",
+     "talnet-morganstanley-tal-net-21846",
+     "talnet-morganstanley-tal-net-22001"
+    ],
+    "Operations": [
+     "talnet-morganstanley-tal-net-22238",
+     "talnet-morganstanley-tal-net-22410"
+    ],
+    "Other": [
+     "talnet-morganstanley-tal-net-21585",
+     "talnet-morganstanley-tal-net-21942",
+     "talnet-morganstanley-tal-net-22115",
+     "talnet-morganstanley-tal-net-22313"
+    ],
+    "Private Equity": [
+     "talnet-morganstanley-tal-net-22233"
+    ],
+    "Quant": [
+     "talnet-morganstanley-tal-net-21537",
+     "talnet-morganstanley-tal-net-21542",
+     "talnet-morganstanley-tal-net-21549",
+     "talnet-morganstanley-tal-net-21635",
+     "talnet-morganstanley-tal-net-21636",
+     "talnet-morganstanley-tal-net-22415",
+     "talnet-morganstanley-tal-net-22417"
+    ],
+    "Risk": [
+     "talnet-morganstanley-tal-net-22047"
+    ],
+    "Sales & Trading": [
+     "talnet-morganstanley-tal-net-21581",
+     "talnet-morganstanley-tal-net-21584",
+     "talnet-morganstanley-tal-net-21598",
+     "talnet-morganstanley-tal-net-21609",
+     "talnet-morganstanley-tal-net-21611",
+     "talnet-morganstanley-tal-net-21615",
+     "talnet-morganstanley-tal-net-21623",
+     "talnet-morganstanley-tal-net-21630",
+     "talnet-morganstanley-tal-net-22033",
+     "talnet-morganstanley-tal-net-22234",
+     "talnet-morganstanley-tal-net-22271",
+     "talnet-morganstanley-tal-net-22340"
+    ],
+    "Software Engineering": [
+     "talnet-morganstanley-tal-net-21569",
+     "talnet-morganstanley-tal-net-21945"
+    ]
+   }
+  },
+  "MUFG": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "4c39e32ca0",
+   "n": 30,
+   "roles": {
+    "Compliance & Legal": [
+     "workday-mufgub-10079446-WD-1",
+     "workday-mufgub-10079577-WD-1",
+     "workday-mufgub-10080193-WD"
+    ],
+    "Corporate Banking": [
+     "workday-mufgub-10079266-WD-1",
+     "workday-mufgub-10079444-WD-1",
+     "workday-mufgub-10079447-WD-1",
+     "workday-mufgub-10079926-WD",
+     "workday-mufgub-10079940-WD",
+     "workday-mufgub-10080073-WD"
+    ],
+    "Finance & Accounting": [
+     "workday-mufgub-10079263-WD-1"
+    ],
+    "FinTech Sales": [
+     "workday-mufgub-10079834-WD"
+    ],
+    "Investment Banking": [
+     "workday-mufgub-10079259-WD-1",
+     "workday-mufgub-10079265-WD-1",
+     "workday-mufgub-10079925-WD-1",
+     "workday-mufgub-10080029-WD"
+    ],
+    "Operations": [
+     "workday-mufgub-10079128-WD-1",
+     "workday-mufgub-10079130-WD-1",
+     "workday-mufgub-10079445-WD-2",
+     "workday-mufgub-10079449-WD-1",
+     "workday-mufgub-10079688-WD-1"
+    ],
+    "Other": [
+     "workday-mufgub-10078663-WD",
+     "workday-mufgub-10079443-WD-1",
+     "workday-mufgub-10080075-WD-1",
+     "workday-mufgub-10080267-WD"
+    ],
+    "Sales & Trading": [
+     "workday-mufgub-10076459-WD-1",
+     "workday-mufgub-10079355-WD-1",
+     "workday-mufgub-10079356-WD-1",
+     "workday-mufgub-10079448-WD-2",
+     "workday-mufgub-10080069-WD-1",
+     "workday-mufgub-10080071-WD-1"
+    ]
+   }
+  },
+  "Nasdaq": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Fintech",
+   "cfg": "ea7a7a9f9a",
+   "n": 2,
+   "roles": {
+    "FinTech Sales": [
+     "workday-nasdaq-R0027154"
+    ],
+    "Software Engineering": [
+     "workday-nasdaq-R0027232"
+    ]
+   }
+  },
+  "Nomura": {
+   "s": "ok",
+   "ats": "talnet",
+   "tier": "Bulge Bracket",
+   "cfg": "405b912a10",
+   "n": 25,
+   "roles": {
+    "Asset Management": [
+     "talnet-nomuracampus-tal-net-1570"
+    ],
+    "Finance & Accounting": [
+     "talnet-nomuracampus-tal-net-1526",
+     "talnet-nomuracampus-tal-net-1527"
+    ],
+    "Investment Banking": [
+     "talnet-nomuracampus-tal-net-1426",
+     "talnet-nomuracampus-tal-net-1427",
+     "talnet-nomuracampus-tal-net-1428",
+     "talnet-nomuracampus-tal-net-1429",
+     "talnet-nomuracampus-tal-net-1430",
+     "talnet-nomuracampus-tal-net-1431",
+     "talnet-nomuracampus-tal-net-1433",
+     "talnet-nomuracampus-tal-net-1435",
+     "talnet-nomuracampus-tal-net-1504",
+     "talnet-nomuracampus-tal-net-1505",
+     "talnet-nomuracampus-tal-net-1528",
+     "talnet-nomuracampus-tal-net-1549"
+    ],
+    "Private Credit": [
+     "talnet-nomuracampus-tal-net-1548"
+    ],
+    "Risk": [
+     "talnet-nomuracampus-tal-net-1522"
+    ],
+    "Sales & Trading": [
+     "talnet-nomuracampus-tal-net-1449",
+     "talnet-nomuracampus-tal-net-1451",
+     "talnet-nomuracampus-tal-net-1517",
+     "talnet-nomuracampus-tal-net-1518",
+     "talnet-nomuracampus-tal-net-1520",
+     "talnet-nomuracampus-tal-net-1558"
+    ],
+    "Software Engineering": [
+     "talnet-nomuracampus-tal-net-1521"
+    ],
+    "Wealth Management": [
+     "talnet-nomuracampus-tal-net-1473"
+    ]
+   }
+  },
+  "Northern Trust": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "ee8e4c96ed",
+   "n": 4,
+   "roles": {
+    "Operations": [
+     "workday-ntrs-R162381"
+    ],
+    "Other": [
+     "workday-ntrs-R162143"
+    ],
+    "Wealth Management": [
+     "workday-ntrs-R163405-2",
+     "workday-ntrs-R163721-1"
+    ]
+   }
+  },
+  "Northwestern Mutual": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Asset Manager",
+   "cfg": "05940789ea",
+   "n": 5,
+   "roles": {
+    "Finance & Accounting": [
+     "workday-northwesternmutual-JR-46265"
+    ],
+    "Operations": [
+     "workday-northwesternmutual-JR-46183",
+     "workday-northwesternmutual-JR-46300"
+    ],
+    "Other": [
+     "workday-northwesternmutual-JR-46171",
+     "workday-northwesternmutual-JR-46302"
+    ]
+   }
+  },
+  "Notion": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "e3a672bef4",
+   "n": 7,
+   "roles": {
+    "AI Engineering": [
+     "ashby-notion-85947779-6b87-466a-98bc-30a640448c28"
+    ],
+    "Other": [
+     "ashby-notion-9c2e6e72-6dc0-496c-a705-32d441fa04c7"
+    ],
+    "Software Engineering": [
+     "ashby-notion-297b4ece-765f-4eea-b1b8-46057cb6501f",
+     "ashby-notion-2b587e66-deac-421a-a824-9415ba78b5a7",
+     "ashby-notion-3fba1c39-c5cb-47d7-9ad2-1cec4d7e9d0c",
+     "ashby-notion-e32799d2-8ef8-4803-8189-c72514afa816",
+     "ashby-notion-e66c6658-9e65-4c58-8db2-844628b6e8f8"
+    ]
+   }
+  },
+  "Nubank": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "6981720c86",
+   "n": 0,
+   "roles": {}
+  },
+  "NVIDIA": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Big Tech",
+   "cfg": "ab430f5a75",
+   "n": 101,
+   "roles": {
+    "AI Engineering": [
+     "workday-nvidia-JR2023491",
+     "workday-nvidia-JR2023497-1",
+     "workday-nvidia-JR2023656",
+     "workday-nvidia-JR2024002",
+     "workday-nvidia-JR2024107",
+     "workday-nvidia-JR2027611",
+     "workday-nvidia-JR2028177",
+     "workday-nvidia-JR2028578"
+    ],
+    "AI Research": [
+     "workday-nvidia-JR2010161",
+     "workday-nvidia-JR2011473",
+     "workday-nvidia-JR2012398",
+     "workday-nvidia-JR2012698",
+     "workday-nvidia-JR2012979",
+     "workday-nvidia-JR2016035",
+     "workday-nvidia-JR2018685",
+     "workday-nvidia-JR2023646",
+     "workday-nvidia-JR2024997",
+     "workday-nvidia-JR2028039"
+    ],
+    "Other": [
+     "workday-nvidia-JR2022870",
+     "workday-nvidia-JR2023489",
+     "workday-nvidia-JR2023496",
+     "workday-nvidia-JR2023502",
+     "workday-nvidia-JR2023655",
+     "workday-nvidia-JR2023690",
+     "workday-nvidia-JR2024109",
+     "workday-nvidia-JR2024692",
+     "workday-nvidia-JR2024861",
+     "workday-nvidia-JR2025179",
+     "workday-nvidia-JR2026052",
+     "workday-nvidia-JR2026276",
+     "workday-nvidia-JR2026387-1",
+     "workday-nvidia-JR2026530",
+     "workday-nvidia-JR2026839-1",
+     "workday-nvidia-JR2027176",
+     "workday-nvidia-JR2027718",
+     "workday-nvidia-JR2028499",
+     "workday-nvidia-JR2028512"
+    ],
+    "Software Engineering": [
+     "workday-nvidia-JR2008771",
+     "workday-nvidia-JR2010391",
+     "workday-nvidia-JR2011631",
+     "workday-nvidia-JR2011879",
+     "workday-nvidia-JR2016978-1",
+     "workday-nvidia-JR2017486-1",
+     "workday-nvidia-JR2017681",
+     "workday-nvidia-JR2018659",
+     "workday-nvidia-JR2020309",
+     "workday-nvidia-JR2020837",
+     "workday-nvidia-JR2021841",
+     "workday-nvidia-JR2021878",
+     "workday-nvidia-JR2021952",
+     "workday-nvidia-JR2022102",
+     "workday-nvidia-JR2022645",
+     "workday-nvidia-JR2023398",
+     "workday-nvidia-JR2023486",
+     "workday-nvidia-JR2023487-1",
+     "workday-nvidia-JR2023492",
+     "workday-nvidia-JR2023495",
+     "workday-nvidia-JR2023499",
+     "workday-nvidia-JR2023500",
+     "workday-nvidia-JR2023501",
+     "workday-nvidia-JR2023504",
+     "workday-nvidia-JR2023508-1",
+     "workday-nvidia-JR2023566",
+     "workday-nvidia-JR2023628",
+     "workday-nvidia-JR2023632",
+     "workday-nvidia-JR2023645",
+     "workday-nvidia-JR2023648",
+     "workday-nvidia-JR2023649-1",
+     "workday-nvidia-JR2023652",
+     "workday-nvidia-JR2023654",
+     "workday-nvidia-JR2023852",
+     "workday-nvidia-JR2023856",
+     "workday-nvidia-JR2024108",
+     "workday-nvidia-JR2024111",
+     "workday-nvidia-JR2024651",
+     "workday-nvidia-JR2024713",
+     "workday-nvidia-JR2024940",
+     "workday-nvidia-JR2025048",
+     "workday-nvidia-JR2025693",
+     "workday-nvidia-JR2026277",
+     "workday-nvidia-JR2026341",
+     "workday-nvidia-JR2026343",
+     "workday-nvidia-JR2026800",
+     "workday-nvidia-JR2026861",
+     "workday-nvidia-JR2026972",
+     "workday-nvidia-JR2027335",
+     "workday-nvidia-JR2027552-1",
+     "workday-nvidia-JR2027579",
+     "workday-nvidia-JR2027612",
+     "workday-nvidia-JR2027711",
+     "workday-nvidia-JR2027719",
+     "workday-nvidia-JR2027742",
+     "workday-nvidia-JR2027839",
+     "workday-nvidia-JR2027850",
+     "workday-nvidia-JR2028384",
+     "workday-nvidia-JR2028400-1",
+     "workday-nvidia-JR2028452",
+     "workday-nvidia-JR2028456",
+     "workday-nvidia-JR2028554",
+     "workday-nvidia-JR2028607",
+     "workday-nvidia-JR2028663"
+    ]
+   }
+  },
+  "OakNorth": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Fintech",
+   "cfg": "1d7e085e1c",
+   "n": 0,
+   "roles": {}
+  },
+  "OMERS": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Asset Manager",
+   "cfg": "599fd85e96",
+   "n": 2,
+   "roles": {
+    "Hedge Fund": [
+     "workday-omers-JR-8434"
+    ],
+    "Other": [
+     "workday-omers-JR-8533"
+    ]
+   }
+  },
+  "OpenAI": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "AI Lab",
+   "cfg": "9b8db49dac",
+   "n": 0,
+   "roles": {}
+  },
+  "Optiver": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "a3fd511c8f",
+   "n": 30,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-optiverus-8633966002"
+    ],
+    "Compliance & Legal": [
+     "greenhouse-optiverus-8905975002"
+    ],
+    "Other": [
+     "greenhouse-optiverus-8616003002",
+     "greenhouse-optiverus-8700160002",
+     "greenhouse-optiverus-8713775002",
+     "greenhouse-optiverus-8732789002"
+    ],
+    "Quant": [
+     "greenhouse-optiverus-8011956002",
+     "greenhouse-optiverus-8450282002",
+     "greenhouse-optiverus-8450287002",
+     "greenhouse-optiverus-8451762002",
+     "greenhouse-optiverus-8451763002",
+     "greenhouse-optiverus-8451764002",
+     "greenhouse-optiverus-8488699002",
+     "greenhouse-optiverus-8488701002",
+     "greenhouse-optiverus-8585609002",
+     "greenhouse-optiverus-8623923002",
+     "greenhouse-optiverus-8642260002",
+     "greenhouse-optiverus-8644376002",
+     "greenhouse-optiverus-8901902002",
+     "greenhouse-optiverus-8901997002"
+    ],
+    "Risk": [
+     "greenhouse-optiverus-8699349002"
+    ],
+    "Software Engineering": [
+     "greenhouse-optiverus-8402079002",
+     "greenhouse-optiverus-8402114002",
+     "greenhouse-optiverus-8450243002",
+     "greenhouse-optiverus-8623927002",
+     "greenhouse-optiverus-8641352002",
+     "greenhouse-optiverus-8644364002",
+     "greenhouse-optiverus-8713409002",
+     "greenhouse-optiverus-8713435002",
+     "greenhouse-optiverus-8713898002"
+    ]
+   }
+  },
+  "Palantir": {
+   "s": "ok",
+   "ats": "lever",
+   "tier": "Enterprise Tech",
+   "cfg": "5528a3e9e3",
+   "n": 83,
+   "roles": {
+    "Other": [
+     "lever-palantir-1a935143-e857-480c-bc5a-ad625d754eb6",
+     "lever-palantir-25378ba0-db78-4c70-8174-a05ce514fc65",
+     "lever-palantir-32295454-6629-4f47-b11e-bbd7f5d41acb",
+     "lever-palantir-37780e70-c7af-45e1-9be7-071df201c387",
+     "lever-palantir-44129013-01e0-4699-8fc1-7a189bb37b63",
+     "lever-palantir-4c0fb3a1-8256-4d14-9a27-23727235752e",
+     "lever-palantir-5d8286d6-992a-404b-94af-99c173d40299",
+     "lever-palantir-5f7a90e7-f927-47bf-90ed-52d17c58ae02",
+     "lever-palantir-69ab7e24-8f5d-426e-84f7-6d3b2d4a7efd",
+     "lever-palantir-76161763-bafa-4ebb-a2ce-2a25e315b7d7",
+     "lever-palantir-774cf5c9-bf6a-4d77-bf60-d50ef1beb1a0",
+     "lever-palantir-8f7bbffa-92aa-4d25-9586-943b3322a27d",
+     "lever-palantir-9db71277-3a9a-481b-a2a3-25c3125b0e8a",
+     "lever-palantir-a49d4181-a289-435a-b581-7f5af0497c8e",
+     "lever-palantir-d5f11334-3a73-4094-b7e0-d05b54e475b8",
+     "lever-palantir-fa060d94-f85d-4d02-be58-b81787fe57e5"
+    ],
+    "Software Engineering": [
+     "lever-palantir-09846827-b931-4a9f-bd64-c3bb8860187b",
+     "lever-palantir-0a838e66-1ab0-4fc4-b4d3-4671c0352278",
+     "lever-palantir-0f7d1e01-1f74-4786-944d-910208d390fa",
+     "lever-palantir-15844944-fb69-4b57-9531-e988650b20c6",
+     "lever-palantir-18d901fc-93bb-4d18-9f04-c72031e20d79",
+     "lever-palantir-1b6f1d82-d459-4dea-8bc2-8d2ffe6f881a",
+     "lever-palantir-2458ba08-de79-4e8f-b553-060f9568727e",
+     "lever-palantir-26e23f5d-083b-45aa-b223-1a6e43d960bf",
+     "lever-palantir-2aa14e4f-d406-486e-9aa8-6ff3358d70a0",
+     "lever-palantir-2ad0ab10-34c3-410d-883b-8052864a95cd",
+     "lever-palantir-2e6b0ac8-83e9-4be5-a3aa-cf319f751728",
+     "lever-palantir-315f695d-04d1-4a9a-848e-cb2bec7a997e",
+     "lever-palantir-33243fb5-6907-40c7-930c-968b25d825d0",
+     "lever-palantir-341d5cae-a473-4813-9a6c-0f67fcc1b253",
+     "lever-palantir-3531977a-9b2f-40a0-a486-4eeb38e75fc1",
+     "lever-palantir-373367a9-3160-49d8-b7af-2efec062fad1",
+     "lever-palantir-373eb939-6f57-4836-8479-be79a5e07249",
+     "lever-palantir-37964982-9b4c-471e-a1d8-fb8f45d7f116",
+     "lever-palantir-395a4483-fc3d-4b77-a500-501923fd0976",
+     "lever-palantir-3ab9e715-1ea9-4c6c-ad50-7340eac14e86",
+     "lever-palantir-3db7e40a-28e0-4ad1-96c5-93de5bc96aa9",
+     "lever-palantir-3e59369e-1392-42f2-8d03-86648e87e963",
+     "lever-palantir-4abf26b4-795c-420a-bf22-1ab98db268b4",
+     "lever-palantir-4d29249a-d7e8-4c39-880d-3b35d7b2f6f6",
+     "lever-palantir-4d5a144e-87ea-45e2-a68c-3fad590629af",
+     "lever-palantir-5a28f3a5-8655-47f2-ab19-a79b8a319da8",
+     "lever-palantir-5c4c65c5-77da-4d36-856c-4ade87631019",
+     "lever-palantir-5c7bb70c-83ea-43e7-8055-0c8f319f4333",
+     "lever-palantir-655f9937-a4ce-4e7d-80e2-a6659af07329",
+     "lever-palantir-66b495eb-aaf9-4bf9-a759-41854534add7",
+     "lever-palantir-701a9307-0619-45d3-b077-cabe9897cd12",
+     "lever-palantir-75cc1c09-8ebd-44c8-b3bc-d122cd1fecb3",
+     "lever-palantir-76a60923-bb49-40f5-b061-7c7eb1299602",
+     "lever-palantir-7d69cf8a-06fd-4f05-bd84-27149db29c4d",
+     "lever-palantir-7d75bed5-45d8-4876-840a-2d92ea79c98d",
+     "lever-palantir-8bcf4f33-0a79-4248-bbfd-49ac4be9dd8e",
+     "lever-palantir-8f362a1f-1eff-4327-94c1-ff46e2101c69",
+     "lever-palantir-90329118-d9b7-4b96-acdf-13377e3196ac",
+     "lever-palantir-91117724-9389-48dc-912f-98e48d4d45d8",
+     "lever-palantir-9265acce-12cd-4179-8c50-55d15963532b",
+     "lever-palantir-94984771-0704-446c-88c6-91ce748f6d92",
+     "lever-palantir-95e0d2b0-437a-4096-a5c6-0f247f426c90",
+     "lever-palantir-a483f41b-0da9-42ea-8ed6-cbf6eb93cc6d",
+     "lever-palantir-ac0dc094-2480-43c2-8495-26ade227ff4f",
+     "lever-palantir-b229baac-494b-4a0d-9a13-2e38806e06f3",
+     "lever-palantir-b3d81928-6c26-432f-8a0a-36602c2eefcb",
+     "lever-palantir-b4aa51a2-bc43-4d67-bf55-12db7feefb3a",
+     "lever-palantir-bdcfb29f-4f27-42de-933f-7f83a359b9f0",
+     "lever-palantir-c34b424e-caf2-455a-b104-ae1096ccca29",
+     "lever-palantir-cadc0eb2-2703-43e4-8e4f-41edf5b071c6",
+     "lever-palantir-cbe90327-3e6e-451c-a54c-1d3cbcef5aeb",
+     "lever-palantir-d1ac83d0-e923-42a5-8e6d-58dd0cab25ca",
+     "lever-palantir-d372c805-d0cd-4a10-9522-fbecc78d6f3e",
+     "lever-palantir-d5486403-c050-4920-b2e0-91b69b61ebb2",
+     "lever-palantir-da774f81-c98c-4dcf-9b9c-949fd7d90a13",
+     "lever-palantir-e0010393-c300-446f-bf67-fa2ef067f16f",
+     "lever-palantir-e1a6c138-98bf-45e2-97f7-2c70371cc38a",
+     "lever-palantir-e27af7ab-41fc-40c9-b31d-02c6cb1c505c",
+     "lever-palantir-e500bcf3-19d8-4d3c-b340-4d76e4a55b40",
+     "lever-palantir-e6789b17-62fb-4226-a079-f8c17ff19e2d",
+     "lever-palantir-e6ff8bf2-135e-474d-ad37-24f490ae1dd2",
+     "lever-palantir-ef725594-42dd-4f0d-ba8e-df8179dbc6cb",
+     "lever-palantir-f17e98d0-046a-4e6e-9d65-ed0b12dd0ff7",
+     "lever-palantir-f221738b-e97c-4ce3-a12a-17ada2b855e4",
+     "lever-palantir-f362d7aa-360d-4059-ab38-f482742693b3",
+     "lever-palantir-fbca0358-083a-4222-bdbb-3bd729b48382",
+     "lever-palantir-fd3603a9-7016-45c6-9c8d-04c9279ab85e"
+    ]
+   }
+  },
+  "PDT Partners": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "537ad2ffab",
+   "n": 3,
+   "roles": {
+    "Quant": [
+     "greenhouse-pdtpartners-8263031"
+    ],
+    "Software Engineering": [
+     "greenhouse-pdtpartners-8077685",
+     "greenhouse-pdtpartners-8083292"
+    ]
+   }
+  },
+  "Perplexity": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "AI Lab",
+   "cfg": "0d2fc47840",
+   "n": 4,
+   "roles": {
+    "AI Engineering": [
+     "ashby-perplexity-71168628-1998-47d3-87a9-be7bc56a430d",
+     "ashby-perplexity-9246cf02-26fd-4ae8-90c5-639c6e85e9e2"
+    ],
+    "AI Research": [
+     "ashby-perplexity-b9e1ff15-d52a-46d5-abf0-26460f2a116c"
+    ],
+    "Software Engineering": [
+     "ashby-perplexity-be94e89b-89d5-4f2a-a58b-7929c8d97f92"
+    ]
+   }
+  },
+  "Pinterest": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "6a17d0d91e",
+   "n": 16,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-pinterest-8138080",
+     "greenhouse-pinterest-8138090",
+     "greenhouse-pinterest-8140140",
+     "greenhouse-pinterest-8140219",
+     "greenhouse-pinterest-8140363",
+     "greenhouse-pinterest-8214757",
+     "greenhouse-pinterest-8244922"
+    ],
+    "Data & ML": [
+     "greenhouse-pinterest-8138097",
+     "greenhouse-pinterest-8140169",
+     "greenhouse-pinterest-8140389"
+    ],
+    "Software Engineering": [
+     "greenhouse-pinterest-7838577",
+     "greenhouse-pinterest-7838591",
+     "greenhouse-pinterest-8138034",
+     "greenhouse-pinterest-8138039",
+     "greenhouse-pinterest-8214745",
+     "greenhouse-pinterest-8214788"
+    ]
+   }
+  },
+  "Piper Sandler": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "f59259af16",
+   "n": 15,
+   "roles": {
+    "Finance & Accounting": [
+     "workday-pipersandler-R-100674",
+     "workday-pipersandler-R-100680",
+     "workday-pipersandler-R-100682",
+     "workday-pipersandler-R-100708",
+     "workday-pipersandler-R-100734"
+    ],
+    "Investment Banking": [
+     "workday-pipersandler-R-100634",
+     "workday-pipersandler-R-100651",
+     "workday-pipersandler-R-100655",
+     "workday-pipersandler-R-100657",
+     "workday-pipersandler-R-100658",
+     "workday-pipersandler-R-100659",
+     "workday-pipersandler-R-100745",
+     "workday-pipersandler-R-100758"
+    ],
+    "Quant": [
+     "workday-pipersandler-R-100683"
+    ],
+    "Software Engineering": [
+     "workday-pipersandler-R-100717"
+    ]
+   }
+  },
+  "PJT Partners": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Elite Boutique",
+   "cfg": "7b96bc9daf",
+   "n": 0,
+   "roles": {}
+  },
+  "Point72": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Multi-Manager",
+   "cfg": "91622b6847",
+   "n": 23,
+   "roles": {
+    "AI Research": [
+     "greenhouse-point72-7302611002"
+    ],
+    "Data & ML": [
+     "greenhouse-point72-8885299002"
+    ],
+    "Other": [
+     "greenhouse-point72-8491055002",
+     "greenhouse-point72-8491138002",
+     "greenhouse-point72-8729717002",
+     "greenhouse-point72-8811167002",
+     "greenhouse-point72-8845395002",
+     "greenhouse-point72-8876354002",
+     "greenhouse-point72-8885693002",
+     "greenhouse-point72-8885715002"
+    ],
+    "Quant": [
+     "greenhouse-point72-7297642002",
+     "greenhouse-point72-7297657002",
+     "greenhouse-point72-7297666002",
+     "greenhouse-point72-7297667002",
+     "greenhouse-point72-7586061002",
+     "greenhouse-point72-7609197002",
+     "greenhouse-point72-8018862002"
+    ],
+    "Software Engineering": [
+     "greenhouse-point72-8236734002",
+     "greenhouse-point72-8885733002",
+     "greenhouse-point72-8893935002",
+     "greenhouse-point72-8893936002",
+     "greenhouse-point72-8893939002",
+     "greenhouse-point72-8893940002"
+    ]
+   }
+  },
+  "PostHog": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "5202b96769",
+   "n": 0,
+   "roles": {}
+  },
+  "Prudential Financial": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Other",
+   "cfg": "279379bf5e",
+   "n": 1,
+   "roles": {
+    "Private Equity": [
+     "workday-pru-R-124980-2"
+    ]
+   }
+  },
+  "PSP Investments": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Asset Manager",
+   "cfg": "0ccc652461",
+   "n": 4,
+   "roles": {
+    "AI Engineering": [
+     "workday-investpsp-R5003"
+    ],
+    "Hedge Fund": [
+     "workday-investpsp-R4844"
+    ],
+    "Other": [
+     "workday-investpsp-R5004",
+     "workday-investpsp-R5036"
+    ]
+   }
+  },
+  "Qonto": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Fintech",
+   "cfg": "522225f76b",
+   "n": 3,
+   "roles": {
+    "FinTech Sales": [
+     "ashby-qonto-7503f1f7-10be-4601-9dee-327082b04cc0"
+    ],
+    "Operations": [
+     "ashby-qonto-92f42c49-04ae-460b-8c35-1654c950285d"
+    ],
+    "Other": [
+     "ashby-qonto-66e3b12c-f97b-45ed-aeea-4aa4f3c244f5"
+    ]
+   }
+  },
+  "Quadrature Capital": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "b9b80ce141",
+   "n": 1,
+   "roles": {
+    "Other": [
+     "greenhouse-quadraturecapital-4255974"
+    ]
+   }
+  },
+  "Qube Research & Technologies": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "70600463ef",
+   "n": 15,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-quberesearchandtechnologies-8623972002",
+     "greenhouse-quberesearchandtechnologies-8749947002"
+    ],
+    "Other": [
+     "greenhouse-quberesearchandtechnologies-8623977002"
+    ],
+    "Quant": [
+     "greenhouse-quberesearchandtechnologies-8546914002",
+     "greenhouse-quberesearchandtechnologies-8581570002",
+     "greenhouse-quberesearchandtechnologies-8617401002",
+     "greenhouse-quberesearchandtechnologies-8773084002",
+     "greenhouse-quberesearchandtechnologies-8785833002"
+    ],
+    "Software Engineering": [
+     "greenhouse-quberesearchandtechnologies-8742098002",
+     "greenhouse-quberesearchandtechnologies-8749918002",
+     "greenhouse-quberesearchandtechnologies-8749942002",
+     "greenhouse-quberesearchandtechnologies-8773447002",
+     "greenhouse-quberesearchandtechnologies-8777760002",
+     "greenhouse-quberesearchandtechnologies-8777855002",
+     "greenhouse-quberesearchandtechnologies-8870423002"
+    ]
+   }
+  },
+  "Raine": {
+   "s": "ok",
+   "ats": "lever",
+   "tier": "Elite Boutique",
+   "cfg": "5ffd648e56",
+   "n": 2,
+   "roles": {
+    "Other": [
+     "lever-raine-7ce3c933-b860-4a6f-8c2a-a83d51608972",
+     "lever-raine-e07652af-67ae-4d64-a2ad-6ba4b203c132"
+    ]
+   }
+  },
+  "Ramp": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Fintech",
+   "cfg": "eaacb8c2ad",
+   "n": 5,
+   "roles": {
+    "AI Research": [
+     "ashby-ramp-b39ceb08-a0a7-4f8b-a760-2fb88e209956"
+    ],
+    "Software Engineering": [
+     "ashby-ramp-a13ae586-f4cb-4385-8822-c42b9b54ed74",
+     "ashby-ramp-acf6b28d-767f-483f-8ff2-114620cd7e04",
+     "ashby-ramp-b66be397-240b-41a6-9b05-493299b270a9",
+     "ashby-ramp-fcf118cc-521a-4a62-9d13-945e5b6e3cb8"
+    ]
+   }
+  },
+  "Raymond James": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "46b8ae22c1",
+   "n": 6,
+   "roles": {
+    "Investment Banking": [
+     "workday-raymondjames-R-0012139",
+     "workday-raymondjames-R-0013354",
+     "workday-raymondjames-R-0013460",
+     "workday-raymondjames-R-0013502"
+    ],
+    "Other": [
+     "workday-raymondjames-R-0013364"
+    ],
+    "Private Credit": [
+     "workday-raymondjames-R-0013576"
+    ]
+   }
+  },
+  "RBC": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "a72e4b34bb",
+   "n": 17,
+   "roles": {
+    "Asset Management": [
+     "workday-rbc-R-0000189965",
+     "workday-rbc-R-0000189977",
+     "workday-rbc-R-0000189986"
+    ],
+    "Finance & Accounting": [
+     "workday-rbc-R-0000190141-1"
+    ],
+    "Investment Banking": [
+     "workday-rbc-R-0000186008-1",
+     "workday-rbc-R-0000186213-1",
+     "workday-rbc-R-0000186214"
+    ],
+    "Other": [
+     "workday-rbc-R-0000190145-1",
+     "workday-rbc-R-0000190146-1",
+     "workday-rbc-R-0000190165",
+     "workday-rbc-R-0000191191",
+     "workday-rbc-R-0000191197-1",
+     "workday-rbc-R-0000191200-1",
+     "workday-rbc-R-0000191204-1"
+    ],
+    "Risk": [
+     "workday-rbc-R-0000187837-1"
+    ],
+    "Sales & Trading": [
+     "workday-rbc-R-0000188791",
+     "workday-rbc-R-0000188801"
+    ]
+   }
+  },
+  "Reddit": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "d37e84d57e",
+   "n": 0,
+   "roles": {}
+  },
+  "Redgate": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "99352c3213",
+   "n": 1,
+   "roles": {
+    "Software Engineering": [
+     "ashby-red-gate-2449a05b-81da-40de-b64d-3436c8ddb1df"
+    ]
+   }
+  },
+  "Replit": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "234a064e87",
+   "n": 1,
+   "roles": {
+    "Software Engineering": [
+     "ashby-replit-7c3c9d29-cec2-4367-8564-eadaed165aea"
+    ]
+   }
+  },
+  "Robinhood": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "f03b480b48",
+   "n": 3,
+   "roles": {
+    "Operations": [
+     "greenhouse-robinhood-8198241",
+     "greenhouse-robinhood-8302496"
+    ],
+    "Other": [
+     "greenhouse-robinhood-8198187"
+    ]
+   }
+  },
+  "Roblox": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Big Tech",
+   "cfg": "a014d6ba85",
+   "n": 8,
+   "roles": {
+    "AI Research": [
+     "greenhouse-roblox-8242621"
+    ],
+    "Data & ML": [
+     "greenhouse-roblox-8242619"
+    ],
+    "Other": [
+     "greenhouse-roblox-8143984"
+    ],
+    "Product Management": [
+     "greenhouse-roblox-8143976",
+     "greenhouse-roblox-8143981",
+     "greenhouse-roblox-8143982"
+    ],
+    "Software Engineering": [
+     "greenhouse-roblox-8072244",
+     "greenhouse-roblox-8072713"
+    ]
+   }
+  },
+  "S&P Global": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Fintech",
+   "cfg": "ec1d2e1d88",
+   "screened": 1,
+   "n": 14,
+   "roles": {
+    "FinTech Sales": [
+     "workday-spgi-332243-1"
+    ],
+    "Operations": [
+     "workday-spgi-331075-1"
+    ],
+    "Other": [
+     "workday-spgi-327499-2",
+     "workday-spgi-331786-1",
+     "workday-spgi-331830-1",
+     "workday-spgi-331833-1",
+     "workday-spgi-331836-1",
+     "workday-spgi-332117-2",
+     "workday-spgi-332121-1",
+     "workday-spgi-332124-1",
+     "workday-spgi-332371",
+     "workday-spgi-332373-2",
+     "workday-spgi-332377-1",
+     "workday-spgi-332381-2"
+    ]
+   }
+  },
+  "Samsara": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "11501cc02b",
+   "n": 18,
+   "roles": {
+    "FinTech Sales": [
+     "greenhouse-samsara-8094371",
+     "greenhouse-samsara-8094373",
+     "greenhouse-samsara-8099799",
+     "greenhouse-samsara-8103119",
+     "greenhouse-samsara-8319784",
+     "greenhouse-samsara-8325054",
+     "greenhouse-samsara-8325055",
+     "greenhouse-samsara-8325056",
+     "greenhouse-samsara-8325057",
+     "greenhouse-samsara-8325356",
+     "greenhouse-samsara-8325360",
+     "greenhouse-samsara-8325371",
+     "greenhouse-samsara-8325373"
+    ],
+    "Software Engineering": [
+     "greenhouse-samsara-8082091",
+     "greenhouse-samsara-8082093",
+     "greenhouse-samsara-8097345",
+     "greenhouse-samsara-8163118",
+     "greenhouse-samsara-8226602"
+    ]
+   }
+  },
+  "Santander": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "5faddb90f8",
+   "n": 5,
+   "roles": {
+    "Investment Banking": [
+     "workday-santander-Req1613138",
+     "workday-santander-Req1614797",
+     "workday-santander-Req1614802"
+    ],
+    "Other": [
+     "workday-santander-Req0843024",
+     "workday-santander-Req1629541"
+    ]
+   }
+  },
+  "Scale AI": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "AI Lab",
+   "cfg": "e1686383c3",
+   "n": 8,
+   "roles": {
+    "AI Research": [
+     "greenhouse-scaleai-4735665005"
+    ],
+    "Software Engineering": [
+     "greenhouse-scaleai-4730834005",
+     "greenhouse-scaleai-4730836005",
+     "greenhouse-scaleai-4730845005",
+     "greenhouse-scaleai-4730846005",
+     "greenhouse-scaleai-4730851005",
+     "greenhouse-scaleai-4730862005",
+     "greenhouse-scaleai-4736426005"
+    ]
+   }
+  },
+  "Schonfeld": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Multi-Manager",
+   "cfg": "12e93006a5",
+   "n": 13,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-schonfeld-8171694",
+     "greenhouse-schonfeld-8311595"
+    ],
+    "Data & ML": [
+     "greenhouse-schonfeld-8171692"
+    ],
+    "Operations": [
+     "greenhouse-schonfeld-8172070"
+    ],
+    "Other": [
+     "greenhouse-schonfeld-8171703",
+     "greenhouse-schonfeld-8172059",
+     "greenhouse-schonfeld-8174538",
+     "greenhouse-schonfeld-8324611"
+    ],
+    "Quant": [
+     "greenhouse-schonfeld-8172076",
+     "greenhouse-schonfeld-8238448",
+     "greenhouse-schonfeld-8238451",
+     "greenhouse-schonfeld-8311597"
+    ],
+    "Sales & Trading": [
+     "greenhouse-schonfeld-8220506"
+    ]
+   }
+  },
+  "Schroders": {
+   "s": "ok",
+   "ats": "oracle",
+   "tier": "Asset Manager",
+   "cfg": "24faf97377",
+   "n": 35,
+   "roles": {
+    "AI Engineering": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-2242"
+    ],
+    "Compliance & Legal": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-1977"
+    ],
+    "Data & ML": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-2224"
+    ],
+    "Finance & Accounting": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-1975",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2134",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2177"
+    ],
+    "FinTech Sales": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-1984",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2049",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2143",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2214"
+    ],
+    "Other": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-1976",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2009",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2010",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2011",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2050",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2052",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2150",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2155",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2156"
+    ],
+    "Private Equity": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-1971",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2192",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2193"
+    ],
+    "Sales & Trading": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-1937"
+    ],
+    "Wealth Management": [
+     "oracle-ekbq-fa-em2-oraclecloud-com-2163",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2164",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2202",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2203",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2204",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2205",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2227",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2229",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2230",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2231",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2233",
+     "oracle-ekbq-fa-em2-oraclecloud-com-2235"
+    ]
+   }
+  },
+  "Snowflake": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "081c9ca081",
+   "n": 6,
+   "roles": {
+    "AI Engineering": [
+     "ashby-snowflake-418a8f32-1658-47d9-9450-ed3a6e947215"
+    ],
+    "AI Research": [
+     "ashby-snowflake-1bad12df-f443-426f-9d09-e96fc780d698"
+    ],
+    "FinTech Sales": [
+     "ashby-snowflake-a4753822-7581-4cf3-8fcc-856f54d684b0",
+     "ashby-snowflake-b9bd62f1-ad91-423a-a680-cf9366960976"
+    ],
+    "Software Engineering": [
+     "ashby-snowflake-26a0ae52-97a6-4a46-9216-3c382570d89b",
+     "ashby-snowflake-ab028e3c-c1cf-4455-8915-8e4e6b0cc9e8"
+    ]
+   }
+  },
+  "SoFi": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "e6581e9722",
+   "n": 0,
+   "roles": {}
+  },
+  "Squarepoint Capital": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "3c97d1f70a",
+   "n": 15,
+   "roles": {
+    "Other": [
+     "greenhouse-squarepointcapital-8203583"
+    ],
+    "Quant": [
+     "greenhouse-squarepointcapital-239376",
+     "greenhouse-squarepointcapital-243853",
+     "greenhouse-squarepointcapital-6034466",
+     "greenhouse-squarepointcapital-6069464",
+     "greenhouse-squarepointcapital-7918610"
+    ],
+    "Sales & Trading": [
+     "greenhouse-squarepointcapital-3851879",
+     "greenhouse-squarepointcapital-6100081",
+     "greenhouse-squarepointcapital-7757021",
+     "greenhouse-squarepointcapital-8143287"
+    ],
+    "Software Engineering": [
+     "greenhouse-squarepointcapital-6040910",
+     "greenhouse-squarepointcapital-6201998",
+     "greenhouse-squarepointcapital-7231006",
+     "greenhouse-squarepointcapital-7905463",
+     "greenhouse-squarepointcapital-8045124"
+    ]
+   }
+  },
+  "State Street": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "c4eff5b4b3",
+   "n": 5,
+   "roles": {
+    "Finance & Accounting": [
+     "workday-statestreet-R-791221-1",
+     "workday-statestreet-R-800242"
+    ],
+    "Operations": [
+     "workday-statestreet-R-799807"
+    ],
+    "Other": [
+     "workday-statestreet-R-797303"
+    ],
+    "Sales & Trading": [
+     "workday-statestreet-R-800244"
+    ]
+   }
+  },
+  "StepStone Group": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Asset Manager",
+   "cfg": "3e04142a49",
+   "n": 14,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-stepstone-8096268"
+    ],
+    "Other": [
+     "greenhouse-stepstone-7964562",
+     "greenhouse-stepstone-8230931",
+     "greenhouse-stepstone-8282723"
+    ],
+    "Private Equity": [
+     "greenhouse-stepstone-8097559",
+     "greenhouse-stepstone-8097993",
+     "greenhouse-stepstone-8112319",
+     "greenhouse-stepstone-8239658",
+     "greenhouse-stepstone-8274328",
+     "greenhouse-stepstone-8282599"
+    ],
+    "Risk": [
+     "greenhouse-stepstone-8237507"
+    ],
+    "Venture Capital": [
+     "greenhouse-stepstone-8094329",
+     "greenhouse-stepstone-8094340",
+     "greenhouse-stepstone-8095092"
+    ]
+   }
+  },
+  "Stripe": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Fintech",
+   "cfg": "da2be8431a",
+   "n": 30,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-stripe-8186442",
+     "greenhouse-stripe-8194283",
+     "greenhouse-stripe-8194285",
+     "greenhouse-stripe-8194287",
+     "greenhouse-stripe-8194291"
+    ],
+    "Operations": [
+     "greenhouse-stripe-7544547",
+     "greenhouse-stripe-7718947",
+     "greenhouse-stripe-8131339"
+    ],
+    "Product Management": [
+     "greenhouse-stripe-7737124"
+    ],
+    "Software Engineering": [
+     "greenhouse-stripe-8031833",
+     "greenhouse-stripe-8097801",
+     "greenhouse-stripe-8128744",
+     "greenhouse-stripe-8128745",
+     "greenhouse-stripe-8130805",
+     "greenhouse-stripe-8130807",
+     "greenhouse-stripe-8130867",
+     "greenhouse-stripe-8130876",
+     "greenhouse-stripe-8130881",
+     "greenhouse-stripe-8130883",
+     "greenhouse-stripe-8130922",
+     "greenhouse-stripe-8130927",
+     "greenhouse-stripe-8130930",
+     "greenhouse-stripe-8157838",
+     "greenhouse-stripe-8160776",
+     "greenhouse-stripe-8186367",
+     "greenhouse-stripe-8202299",
+     "greenhouse-stripe-8212508",
+     "greenhouse-stripe-8212517",
+     "greenhouse-stripe-8241260",
+     "greenhouse-stripe-8257892"
+    ]
+   }
+  },
+  "Supabase": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "e5d0083850",
+   "n": 0,
+   "roles": {}
+  },
+  "T. Rowe Price": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Asset Manager",
+   "cfg": "2c03d1fae7",
+   "n": 1,
+   "roles": {
+    "Equity Research": [
+     "workday-troweprice-80630"
+    ]
+   }
+  },
+  "TD Bank Group": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "131f319ea5",
+   "n": 16,
+   "roles": {
+    "AI Engineering": [
+     "workday-td-1508518-1",
+     "workday-td-1513789",
+     "workday-td-1513790-1"
+    ],
+    "Corporate Banking": [
+     "workday-td-1508610",
+     "workday-td-1508612",
+     "workday-td-1508783",
+     "workday-td-1517302"
+    ],
+    "Finance & Accounting": [
+     "workday-td-1508609"
+    ],
+    "Investment Banking": [
+     "workday-td-1513793",
+     "workday-td-1514091"
+    ],
+    "Other": [
+     "workday-td-1508603",
+     "workday-td-1516177"
+    ],
+    "Software Engineering": [
+     "workday-td-1518238",
+     "workday-td-1518239",
+     "workday-td-1518241",
+     "workday-td-1518242"
+    ]
+   }
+  },
+  "Teneo": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Independent Advisory",
+   "cfg": "5b6a6d8358",
+   "n": 2,
+   "roles": {
+    "Consulting": [
+     "greenhouse-teneo-8046234003"
+    ],
+    "Other": [
+     "greenhouse-teneo-8034276003"
+    ]
+   }
+  },
+  "Tower Research Capital": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "9b3339cec1",
+   "n": 18,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-towerresearchcapital-7077280"
+    ],
+    "Other": [
+     "greenhouse-towerresearchcapital-8184771",
+     "greenhouse-towerresearchcapital-8239067"
+    ],
+    "Quant": [
+     "greenhouse-towerresearchcapital-7011493",
+     "greenhouse-towerresearchcapital-8024128",
+     "greenhouse-towerresearchcapital-8024138",
+     "greenhouse-towerresearchcapital-8037824",
+     "greenhouse-towerresearchcapital-8037860",
+     "greenhouse-towerresearchcapital-8044334",
+     "greenhouse-towerresearchcapital-8113986",
+     "greenhouse-towerresearchcapital-8138524",
+     "greenhouse-towerresearchcapital-8168634",
+     "greenhouse-towerresearchcapital-8168750"
+    ],
+    "Software Engineering": [
+     "greenhouse-towerresearchcapital-8126667",
+     "greenhouse-towerresearchcapital-8212179",
+     "greenhouse-towerresearchcapital-8245433",
+     "greenhouse-towerresearchcapital-8299894"
+    ],
+    "Venture Capital": [
+     "greenhouse-towerresearchcapital-7368106"
+    ]
+   }
+  },
+  "TPG": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Megafund",
+   "cfg": "fce7e038a7",
+   "n": 3,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-tpgcareers-8034245003"
+    ],
+    "Other": [
+     "greenhouse-tpgcareers-8036092003",
+     "greenhouse-tpgcareers-8036208003"
+    ]
+   }
+  },
+  "Trading 212": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Fintech",
+   "cfg": "f3f8a7bbe9",
+   "n": 2,
+   "roles": {
+    "Other": [
+     "ashby-trading212-4a95dcf2-673e-411c-99a4-0b9dc19cd4f0",
+     "ashby-trading212-f8d628f4-6093-48bc-942e-6057b44707fc"
+    ]
+   }
+  },
+  "Travelers": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Other",
+   "cfg": "553b017b29",
+   "n": 44,
+   "roles": {
+    "Compliance & Legal": [
+     "workday-travelers-R-52955",
+     "workday-travelers-R-52958",
+     "workday-travelers-R-52959",
+     "workday-travelers-R-52960",
+     "workday-travelers-R-52961",
+     "workday-travelers-R-52963",
+     "workday-travelers-R-52965",
+     "workday-travelers-R-52966-1",
+     "workday-travelers-R-52967-1",
+     "workday-travelers-R-52968",
+     "workday-travelers-R-52969",
+     "workday-travelers-R-52970",
+     "workday-travelers-R-52971",
+     "workday-travelers-R-52972"
+    ],
+    "Finance & Accounting": [
+     "workday-travelers-R-52378",
+     "workday-travelers-R-53350"
+    ],
+    "Operations": [
+     "workday-travelers-R-53349"
+    ],
+    "Other": [
+     "workday-travelers-R-52299",
+     "workday-travelers-R-52303",
+     "workday-travelers-R-52306",
+     "workday-travelers-R-52457",
+     "workday-travelers-R-52458",
+     "workday-travelers-R-52588",
+     "workday-travelers-R-52591",
+     "workday-travelers-R-52592",
+     "workday-travelers-R-52702",
+     "workday-travelers-R-52734",
+     "workday-travelers-R-52830",
+     "workday-travelers-R-52831",
+     "workday-travelers-R-53094",
+     "workday-travelers-R-53096",
+     "workday-travelers-R-53097",
+     "workday-travelers-R-53125",
+     "workday-travelers-R-53127",
+     "workday-travelers-R-53210",
+     "workday-travelers-R-53348-1",
+     "workday-travelers-R-53351",
+     "workday-travelers-R-53354",
+     "workday-travelers-R-53355",
+     "workday-travelers-R-53367"
+    ],
+    "Product Management": [
+     "workday-travelers-R-52317"
+    ],
+    "Risk": [
+     "workday-travelers-R-53502",
+     "workday-travelers-R-53503",
+     "workday-travelers-R-53505"
+    ]
+   }
+  },
+  "Trinity Life Sciences": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Consulting",
+   "cfg": "2fded06171",
+   "n": 12,
+   "roles": {
+    "Consulting": [
+     "workday-trinitylifesciences-JR100749",
+     "workday-trinitylifesciences-JR100751",
+     "workday-trinitylifesciences-JR100752",
+     "workday-trinitylifesciences-JR100763",
+     "workday-trinitylifesciences-JR100764-1",
+     "workday-trinitylifesciences-JR100765-1",
+     "workday-trinitylifesciences-JR100784",
+     "workday-trinitylifesciences-JR100785",
+     "workday-trinitylifesciences-JR100879"
+    ],
+    "Data & ML": [
+     "workday-trinitylifesciences-JR100881"
+    ],
+    "Other": [
+     "workday-trinitylifesciences-JR100870-1",
+     "workday-trinitylifesciences-JR100872"
+    ]
+   }
+  },
+  "Twilio": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "efdb6ae1d3",
+   "n": 0,
+   "roles": {}
+  },
+  "U.S. Bank": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "ab470a9346",
+   "n": 2,
+   "roles": {
+    "Corporate Banking": [
+     "workday-usbank-2026-0033867"
+    ],
+    "Other": [
+     "workday-usbank-2026-0025772"
+    ]
+   }
+  },
+  "Vanguard": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Asset Manager",
+   "cfg": "30d601d827",
+   "n": 16,
+   "roles": {
+    "Asset Management": [
+     "workday-vanguard-182042"
+    ],
+    "Data & ML": [
+     "workday-vanguard-181765",
+     "workday-vanguard-181766",
+     "workday-vanguard-181767"
+    ],
+    "Other": [
+     "workday-vanguard-180420",
+     "workday-vanguard-181846",
+     "workday-vanguard-182371-1",
+     "workday-vanguard-182757",
+     "workday-vanguard-182781",
+     "workday-vanguard-182782"
+    ],
+    "Risk": [
+     "workday-vanguard-181762",
+     "workday-vanguard-181764"
+    ],
+    "Software Engineering": [
+     "workday-vanguard-181788",
+     "workday-vanguard-181851",
+     "workday-vanguard-182784",
+     "workday-vanguard-182785"
+    ]
+   }
+  },
+  "Vatic Labs": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "c01e123b57",
+   "n": 0,
+   "roles": {}
+  },
+  "Vercel": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Enterprise Tech",
+   "cfg": "0be340827e",
+   "n": 2,
+   "roles": {
+    "Software Engineering": [
+     "greenhouse-vercel-6181755004",
+     "greenhouse-vercel-6181759004"
+    ]
+   }
+  },
+  "Verition Fund Management": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Multi-Manager",
+   "cfg": "22d276239e",
+   "n": 8,
+   "roles": {
+    "AI Engineering": [
+     "greenhouse-veritiongroupllcinternships-5275320007"
+    ],
+    "Other": [
+     "greenhouse-veritiongroupllcinternships-5260165007",
+     "greenhouse-veritiongroupllcinternships-5260466007",
+     "greenhouse-veritiongroupllcinternships-5260594007",
+     "greenhouse-veritiongroupllcinternships-5260610007",
+     "greenhouse-veritiongroupllcinternships-5264435007"
+    ],
+    "Software Engineering": [
+     "greenhouse-veritiongroupllcinternships-5260449007",
+     "greenhouse-veritiongroupllcinternships-5260623007"
+    ]
+   }
+  },
+  "Virtu Financial": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "d1cd3a8f31",
+   "n": 16,
+   "roles": {
+    "Other": [
+     "greenhouse-virtu-8745933002",
+     "greenhouse-virtu-8746197002"
+    ],
+    "Quant": [
+     "greenhouse-virtu-5208637002",
+     "greenhouse-virtu-7617953002",
+     "greenhouse-virtu-8142539002",
+     "greenhouse-virtu-8547254002",
+     "greenhouse-virtu-8624408002",
+     "greenhouse-virtu-8624424002",
+     "greenhouse-virtu-8631180002"
+    ],
+    "Software Engineering": [
+     "greenhouse-virtu-5513756002",
+     "greenhouse-virtu-6329460002",
+     "greenhouse-virtu-8551566002",
+     "greenhouse-virtu-8624410002",
+     "greenhouse-virtu-8638124002",
+     "greenhouse-virtu-8657286002",
+     "greenhouse-virtu-8657500002"
+    ]
+   }
+  },
+  "Visa": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Fintech",
+   "cfg": "284a7ea778",
+   "n": 44,
+   "roles": {
+    "AI Engineering": [
+     "workday-visa-REF089881W",
+     "workday-visa-REF089884W-1"
+    ],
+    "Consulting": [
+     "workday-visa-REF080346W-1",
+     "workday-visa-REF086154W",
+     "workday-visa-REF086786W",
+     "workday-visa-REF089747W",
+     "workday-visa-REF089749W-1",
+     "workday-visa-REF089900W-2",
+     "workday-visa-REF089917W"
+    ],
+    "Data & ML": [
+     "workday-visa-REF086072W",
+     "workday-visa-REF089534W",
+     "workday-visa-REF089883W"
+    ],
+    "Finance & Accounting": [
+     "workday-visa-REF088350W"
+    ],
+    "FinTech Sales": [
+     "workday-visa-REF086158W"
+    ],
+    "Other": [
+     "workday-visa-REF086153W",
+     "workday-visa-REF086155W",
+     "workday-visa-REF086159W-1",
+     "workday-visa-REF086769W",
+     "workday-visa-REF086773W",
+     "workday-visa-REF086779W",
+     "workday-visa-REF086781W",
+     "workday-visa-REF086782W",
+     "workday-visa-REF086795W",
+     "workday-visa-REF086799W",
+     "workday-visa-REF089316W-1",
+     "workday-visa-REF089901W-1",
+     "workday-visa-REF089902W-2",
+     "workday-visa-REF089903W",
+     "workday-visa-REF089905W-1",
+     "workday-visa-REF089911W",
+     "workday-visa-REF089913W"
+    ],
+    "Product Management": [
+     "workday-visa-REF089323W-1"
+    ],
+    "Software Engineering": [
+     "workday-visa-REF088379W",
+     "workday-visa-REF089737W",
+     "workday-visa-REF089778W-2",
+     "workday-visa-REF089779W",
+     "workday-visa-REF089875W",
+     "workday-visa-REF089878W",
+     "workday-visa-REF089879W",
+     "workday-visa-REF089880W",
+     "workday-visa-REF089882W",
+     "workday-visa-REF089918W",
+     "workday-visa-REF089919W",
+     "workday-visa-REF089920W-1"
+    ]
+   }
+  },
+  "Voleon": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Systematic",
+   "cfg": "1b6399d509",
+   "n": 4,
+   "roles": {
+    "Operations": [
+     "ashby-voleon-6953e829-c69d-43dc-9b39-49ab1b487b2d"
+    ],
+    "Other": [
+     "ashby-voleon-ef2b0892-1772-4240-a535-4043d66d848e"
+    ],
+    "Software Engineering": [
+     "ashby-voleon-57f1b666-2f4b-4bad-aac0-fa42a1c8fdf6",
+     "ashby-voleon-d732fd5a-ac98-4985-9e60-d1d59f02a66c"
+    ]
+   }
+  },
+  "Watershed": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Enterprise Tech",
+   "cfg": "2556d53385",
+   "n": 0,
+   "roles": {}
+  },
+  "Wellington Management": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Asset Manager",
+   "cfg": "1e6e6f6b81",
+   "n": 8,
+   "roles": {
+    "Compliance & Legal": [
+     "workday-wellington-R94938-2",
+     "workday-wellington-R94939-3",
+     "workday-wellington-R95000-2"
+    ],
+    "Other": [
+     "workday-wellington-R94061-1",
+     "workday-wellington-R94890-2",
+     "workday-wellington-R94930",
+     "workday-wellington-R94931-2",
+     "workday-wellington-R94932-2"
+    ]
+   }
+  },
+  "Wells Fargo": {
+   "s": "ok",
+   "ats": "workday",
+   "tier": "Middle Market",
+   "cfg": "6edef7106e",
+   "n": 13,
+   "roles": {
+    "Data & ML": [
+     "workday-wf-R-583066"
+    ],
+    "Investment Banking": [
+     "workday-wf-R-568617",
+     "workday-wf-R-568620",
+     "workday-wf-R-570654-1",
+     "workday-wf-R-578899",
+     "workday-wf-R-584479"
+    ],
+    "Other": [
+     "workday-wf-R-563208",
+     "workday-wf-R-571086-1",
+     "workday-wf-R-581158",
+     "workday-wf-R-581192",
+     "workday-wf-R-581463"
+    ],
+    "Sales & Trading": [
+     "workday-wf-R-570663"
+    ],
+    "Software Engineering": [
+     "workday-wf-R-583417"
+    ]
+   }
+  },
+  "William Blair": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Middle Market",
+   "cfg": "8ae4294117",
+   "n": 5,
+   "roles": {
+    "Data & ML": [
+     "greenhouse-williamblair-5242280007"
+    ],
+    "Investment Banking": [
+     "greenhouse-williamblair-5246965007"
+    ],
+    "Software Engineering": [
+     "greenhouse-williamblair-5242282007",
+     "greenhouse-williamblair-5242285007",
+     "greenhouse-williamblair-5242287007"
+    ]
+   }
+  },
+  "Wincent": {
+   "s": "ok",
+   "ats": "ashby",
+   "tier": "Trading Tech",
+   "cfg": "40cc06cf78",
+   "n": 2,
+   "roles": {
+    "Quant": [
+     "ashby-wincent-984bf12c-8d80-431f-9789-04a9739cfc99"
+    ],
+    "Sales & Trading": [
+     "ashby-wincent-3f749456-0b82-48e0-ade8-d24bd39d22b1"
+    ]
+   }
+  },
+  "Winton": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Systematic",
+   "cfg": "3d52f96ed7",
+   "n": 1,
+   "roles": {
+    "Quant": [
+     "greenhouse-winton-4986765101"
+    ]
+   }
+  },
+  "XTX Markets": {
+   "s": "ok",
+   "ats": "greenhouse",
+   "tier": "Trading Tech",
+   "cfg": "e8a5389f6c",
+   "n": 0,
+   "roles": {}
+  },
+  "Zopa": {
+   "s": "ok",
+   "ats": "lever",
+   "tier": "Fintech",
+   "cfg": "e83759639e",
+   "n": 0,
+   "roles": {}
+  }
+ }
+}
