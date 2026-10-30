@@ -133,14 +133,37 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/this-week-draft.mjs render --out "$RUNNER_TEMP/this-week"
-          mkdir -p "$RUNNER_TEMP/handoff"
-          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" data/this-week.draft.json
-          cp "$RUNNER_TEMP/this-week/this-week-draft.md" "$RUNNER_TEMP/handoff/"
           cat "$RUNNER_TEMP/this-week/this-week-draft.md" >> "$GITHUB_STEP_SUMMARY"
+      # The same handoff every collector makes: the staged list is what the
+      # publisher may commit, the gate reads it before anything leaves this
+      # job, and the archive is built from that list and nothing else.
+      - name: Stage the draft
+        run: |
+          set -euo pipefail
+          git add -A data/this-week.draft.json
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          echo "staged:"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+      - name: Check what is about to be published
+        run: |
+          set -euo pipefail
+          node scripts/validate-data-publication.mjs \
+            --producer this-week-draft \
+            --staged "$RUNNER_TEMP/staged.txt"
+      - name: Pack the handoff
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: this-week-draft
           path: ${{ runner.temp }}/handoff
+          retention-days: 30
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: this-week-report
+          path: ${{ runner.temp }}/this-week/this-week-draft.md
           retention-days: 30
       - name: Remove the identity token
         if: always()

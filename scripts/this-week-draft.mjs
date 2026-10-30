@@ -23,7 +23,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   EDITION_TOOL, HARD_STOP_USD, PROMPT_VERSION, allowedPaths, approxTokens, assembleEdition, checkDraftBudget, draftPrompt, draftUserMessage,
-  extractText, readDraft, renderReport, shortlist, sourcesOf, weekEndingFor, DraftModelError,
+  extractText, isRestricted, readDraft, renderReport, restrictedHosts, shortlist, sourcesOf, weekEndingFor, DraftModelError,
 } from '../lib/this-week-draft.mjs';
 import { MODEL_ALLOWLIST, resolveModelId } from '../lib/thesis-cost.mjs';
 
@@ -54,7 +54,9 @@ if (stage === 'fetch') {
   const list = read('shortlist.json');
   if (!list) { console.error('fetch: run shortlist first'); process.exit(2); }
   const sources = sourcesOf(list);
+  const restricted = restrictedHosts(JSON.parse(readFileSync(join(ROOT, 'lib/rights-register.json'), 'utf8')));
   for (const s of sources) {
+    if (isRestricted(s.url, restricted)) { s.fetched = false; s.error = 'restricted source: headline only, read it at the publisher'; continue; }
     try {
       const ctrl = new AbortController();
       const t = setTimeout(() => ctrl.abort(), 15_000);

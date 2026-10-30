@@ -973,6 +973,31 @@
       "attribution": "none stated",
       "notes": "NEEDS HUMAN RIGHTS REVIEW: sample the highest-traffic employers' terms and robots.txt. Parked firms (bot-check gates, Goldman Sachs' client-rendered portal, HSBC) show where the employer has not made data available.",
       "lastReviewed": "2026-10-19"
+    },
+    {
+      "id": "this-week-draft-sources",
+      "owner": "The publishers already registered for the newsflow and deal-tape feeds, and L3VLUP (its own sitemap)",
+      "source": "The pages linked from items already collected into data/newsflow.auto.json and data/deals.auto.json (at most ten a week, one request a second, 15 s timeout), and https://www.l3vlup.com/sitemap.xml",
+      "collectors": [
+        "scripts/this-week-draft.mjs"
+      ],
+      "outputs": [
+        "data/this-week.draft.json"
+      ],
+      "termsUrl": "unverified: each page is governed by its publisher's terms, registered under that publisher's feed entry; hosts whose feed entry reads businessUse restricted (Bloomberg) are never fetched and the editor sees the headline only",
+      "termsReadUrls": [],
+      "businessUse": "unverified",
+      "businessUseBasis": "Inherits each publisher's entry. The pages are read once, in the run, so that one bounded model call can draft an edition for a human editor; the editor reads every figure at the source before anything is published.",
+      "displayRights": "unverified",
+      "displayRightsBasis": "Nothing from a page is displayed. The published file carries each source's URL, publisher name, date and headline (already in the feeds) and the draft text the model wrote; the 3,200 characters of page text read in the run are held in memory and never written to the file.",
+      "derivedUseRights": "unverified",
+      "derivedUseRightsBasis": "The draft edition is a summary written for an editor's review, with every figure to be checked at its source before publication.",
+      "storageRights": "unverified",
+      "storageRightsBasis": "No page text is stored. The feed items themselves follow their own entries' retention.",
+      "redistribution": "unverified",
+      "attribution": "The draft names each source's publisher and links the page; the published edition cites its sources by URL.",
+      "lastReviewed": "2026-10-30",
+      "notes": "Reads only what the registered feeds already link. A restricted host is skipped by code (restrictedHosts in lib/this-week-draft.mjs). The site's own sitemap is L3VLUP's own property."
     }
   ],
   "prohibitedSources": [

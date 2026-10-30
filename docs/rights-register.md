@@ -62,6 +62,7 @@ US federal works (SEC, Treasury, BLS, BEA) are treated as public domain under 17
 | `ats-eightfold` | Eightfold AI | unverified | unverified | unverified | unverified | none stated |
 | `janestreet-jobs-feed` | Jane Street Group, LLC | unverified | unverified | unverified | unverified | none stated |
 | `employer-careers-pages` | Individual employers | unverified | conditional | yes | unverified | none stated |
+| `this-week-draft-sources` | The registered feed publishers, and L3VLUP's own sitemap | unverified | unverified | unverified | unverified | The draft names each publisher and links the page; restricted hosts (Bloomberg) are never fetched |
 
 Full bases, quotations, redistribution terms and notes are in the JSON.
 

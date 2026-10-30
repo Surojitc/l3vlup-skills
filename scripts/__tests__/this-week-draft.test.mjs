@@ -3,8 +3,9 @@
 // sources a model may read, the site's validation rules mirrored, the
 // assembly of a tool answer into an edition with every URL resolved from the
 // lists this code built, the budget check, and the report.
+import { readFileSync } from 'node:fs';
 import {
-  FORECAST, HARD_STOP_USD, allowedPaths, assembleEdition, canonicalLink, checkDraftBudget, dedupe, extractText, normaliseTitle, readDraft, renderReport,
+  FORECAST, isRestricted, restrictedHosts, HARD_STOP_USD, allowedPaths, assembleEdition, canonicalLink, checkDraftBudget, dedupe, extractText, normaliseTitle, readDraft, renderReport,
   shortlist, sourcesOf, validateDraft, weekEndingFor, DraftModelError, EDITION_TOOL,
 } from '../../lib/this-week-draft.mjs';
 
@@ -114,6 +115,15 @@ const good = {
   check('an unpriced model is refused rather than assumed free', checkDraftBudget({ budgetUsd: 0.5, pricing: undefined, inputTokens: 1, outputTokens: 1 }).allowed === false);
   check('a call that would exceed the budget is refused before it is made', checkDraftBudget({ budgetUsd: 0.05, pricing, inputTokens: 20_000, outputTokens: 6_000 }).allowed === false);
   check('no budget is refused', checkDraftBudget({ budgetUsd: NaN, pricing, inputTokens: 1, outputTokens: 1 }).allowed === false);
+}
+
+/* --------------------------------------------------------- restricted -- */
+{
+  const reg = JSON.parse(readFileSync(new URL('../../lib/rights-register.json', import.meta.url), 'utf8'));
+  const hosts = restrictedHosts(reg);
+  check('a restricted feed restricts its publisher\'s whole domain', hosts.has('bloomberg.com') && isRestricted('https://www.bloomberg.com/news/videos/2026-10-30/x', hosts));
+  check('an unrestricted publisher is read', !isRestricted('https://www.prnewswire.com/news-releases/x', hosts));
+  check('the register names the draft as a collector', reg.sources.some((s) => (s.collectors ?? []).includes('scripts/this-week-draft.mjs')));
 }
 
 /* ----------------------------------------------------------- report -- */
