@@ -365,6 +365,22 @@ export const CONTRACTS = {
       { path: 'data/ats-discovery.json', freshness: { cadence: 'manual' }, label: 'the discovery report', shapeOnly: true },
     ],
   },
+
+  /**
+   * this-week-draft.yml. One file, written every Thursday: the deterministic
+   * shortlist, the one model call's result (or its failure, by name) and the
+   * cartoon brief, for the editor to read on the site at /this-week/draft.
+   * Shape only: a draft is text for a person, and a week with a failed model
+   * stage still publishes, marked, so the editor sees the failure.
+   */
+  'this-week-draft': {
+    label: 'the This Week draft',
+    branch: 'automation/this-week-draft',
+    title: 'chore(editorial): This Week draft',
+    files: [
+      { path: 'data/this-week.draft.json', freshness: { cadence: 'weekly', required: true, from: 'generatedAt' }, label: 'the weekly draft', shapeOnly: true },
+    ],
+  },
 };
 
 /**
