@@ -255,3 +255,21 @@ And the rule lives in the Console, where it cannot be code-reviewed.
 it, which proves the policy we wrote down is tight. It cannot prove the Console
 holds that policy. Check that once, by hand, against the history page after the
 first dispatch.
+
+## A second rule for the weekly draft
+
+`this-week-draft.yml` (docs/this-week-draft-2026-10.md) calls the model once a
+week on the same federated identity. The rule above names the thesis pilot's
+workflow file and the `workflow_dispatch` event, so it does not match the
+draft's token and the exchange is refused: that is the rule working. The draft
+needs its own rule, identical in issuer, audience, target, workspace, scope
+and lifetime, with two claims changed:
+
+| Claim | Required value |
+|---|---|
+| `event_name` | `schedule` (and a second rule, or a second allowed value, for `workflow_dispatch`) |
+| `workflow_ref` | `Surojitc/l3vlup-skills/.github/workflows/this-week-draft.yml@refs/heads/main` |
+
+Its id goes in the repository variable `ANTHROPIC_FEDERATION_RULE_ID_THIS_WEEK`.
+The draft workflow reads that variable, never the pilot's, so a rule can be
+disabled for one without touching the other.

@@ -1,0 +1,182 @@
+# The Thursday draft of This Week.
+#
+# Three jobs with three different powers, so the one that can spend money can
+# write nothing and the one that can write can spend nothing.
+#
+#   prepare   reads the committed feeds and the candidate pages. No credential.
+#   draft     one model call under a stated budget, on a federated identity
+#             token (docs/thesis-oidc-federation.md). It cannot push.
+#   publish   the data pull request for data/this-week.draft.json, through
+#             the same publish-data.yml every collector uses.
+#
+# What it never does: send a newsletter, post anywhere, or change the site's
+# record of editions. The site shows the draft to an operator at
+# /this-week/draft; a person pastes it into data/this-week.manual.json, runs
+# the site's suite and approves it. A failed model stage still publishes the
+# deterministic shortlist, marked failed, so the editor sees the failure
+# rather than an empty week.
+#
+# Federation: Anthropic's rule must name this workflow file and both event
+# names (schedule, workflow_dispatch) for the exchange to succeed; see the
+# "A second rule for the weekly draft" section of docs/thesis-oidc-federation.md.
+name: This Week draft
+on:
+  schedule:
+    - cron: '30 6 * * 4' # Thursdays, 06:30 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Plan only: shortlist and fetch, no model called, no spend'
+        type: boolean
+        required: false
+        default: true
+      budget_usd:
+        description: 'Ceiling for the one model call, in dollars'
+        type: choice
+        required: true
+        default: '0.50'
+        options:
+          - '0.25'
+          - '0.50'
+          - '1'
+      model:
+        description: 'Model (a fixed list; the run refuses anything not on it)'
+        type: choice
+        required: true
+        default: 'claude-sonnet-5'
+        options:
+          - claude-sonnet-5
+          - claude-haiku-4-5-20251001
+permissions:
+  contents: read
+concurrency:
+  group: this-week-draft
+  cancel-in-progress: false
+jobs:
+  prepare:
+    name: Shortlist and read the sources (no credential)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.repository == 'Surojitc/l3vlup-skills'
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 20
+      - run: npm ci --no-audit --no-fund
+      - run: node scripts/__tests__/this-week-draft.test.mjs
+      - run: node scripts/this-week-draft.mjs shortlist --out "$RUNNER_TEMP/this-week"
+      - run: node scripts/this-week-draft.mjs fetch --out "$RUNNER_TEMP/this-week"
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: this-week-prepared
+          path: ${{ runner.temp }}/this-week
+          retention-days: 7
+  draft:
+    name: One model call (holds the token, writes nothing)
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 20
+      - run: npm ci --no-audit --no-fund
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: this-week-prepared
+          path: ${{ runner.temp }}/this-week
+      - name: Fetch the identity token
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        env:
+          TOKEN_FILE: ${{ runner.temp }}/anthropic-identity-token
+        run: |
+          set -euo pipefail
+          umask 077
+          curl -sS --fail-with-body \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://api.anthropic.com" \
+            | jq -er .value > "$TOKEN_FILE"
+          # The claims the federation rule matches on, never the token itself.
+          echo "repository=${GITHUB_REPOSITORY} ref=${GITHUB_REF} event=${GITHUB_EVENT_NAME} workflow_ref=${GITHUB_WORKFLOW_REF}"
+          test -s "$TOKEN_FILE" || { echo "::error::no identity token was fetched"; exit 1; }
+      - name: Draft
+        env:
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID_THIS_WEEK }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          ANTHROPIC_IDENTITY_TOKEN_FILE: ${{ runner.temp }}/anthropic-identity-token
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          BUDGET: ${{ inputs.budget_usd || '0.50' }}
+          MODEL: ${{ inputs.model || 'claude-sonnet-5' }}
+        run: |
+          set -euo pipefail
+          for name in ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN; do
+            if [ -n "${!name:-}" ]; then echo "::error::$name is set; this job runs on federation only"; exit 1; fi
+          done
+          if [ "$DRY_RUN" = "true" ]; then
+            node scripts/this-week-draft.mjs draft --out "$RUNNER_TEMP/this-week" --budget "$BUDGET" --model "$MODEL" --dry-run
+          else
+            node scripts/this-week-draft.mjs draft --out "$RUNNER_TEMP/this-week" --budget "$BUDGET" --model "$MODEL"
+          fi
+      - name: Render the draft file and the report
+        run: |
+          set -euo pipefail
+          node scripts/this-week-draft.mjs render --out "$RUNNER_TEMP/this-week"
+          cat "$RUNNER_TEMP/this-week/this-week-draft.md" >> "$GITHUB_STEP_SUMMARY"
+      # The same handoff every collector makes: the staged list is what the
+      # publisher may commit, the gate reads it before anything leaves this
+      # job, and the archive is built from that list and nothing else.
+      - name: Stage the draft
+        run: |
+          set -euo pipefail
+          git add -A data/this-week.draft.json
+          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
+          echo "staged:"
+          sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
+      - name: Check what is about to be published
+        run: |
+          set -euo pipefail
+          node scripts/validate-data-publication.mjs \
+            --producer this-week-draft \
+            --staged "$RUNNER_TEMP/staged.txt"
+      - name: Pack the handoff
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/handoff"
+          tar -cf "$RUNNER_TEMP/handoff/publishable.tar" -T "$RUNNER_TEMP/staged.txt"
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: this-week-draft
+          path: ${{ runner.temp }}/handoff
+          retention-days: 30
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: this-week-report
+          path: ${{ runner.temp }}/this-week/this-week-draft.md
+          retention-days: 30
+      - name: Remove the identity token
+        if: always()
+        run: rm -f "${RUNNER_TEMP:-/tmp}/anthropic-identity-token"
+  publish:
+    name: Publish the draft file
+    needs: draft
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/publish-data.yml
+    with:
+      producer: this-week-draft
+      artifact: this-week-draft
+      review: false
+      merge: true

@@ -146,6 +146,7 @@ eq('every workflow in the directory is read', files, [
   'publish-data.yml',
   'tests.yml',
   'thesis-pilot.yml',
+  'this-week-draft.yml',
 ]);
 const allJobs = workflows.flatMap((w) => w.jobs.map((j) => `${w.file}:${j.name}`));
 eq('every job is found, and none has been renamed out from under this test', allJobs.sort(), [
@@ -167,6 +168,9 @@ eq('every job is found, and none has been renamed out from under this test', all
   'tests.yml:test',
   'thesis-pilot.yml:extract',
   'thesis-pilot.yml:open-pull-request',
+  'this-week-draft.yml:draft',
+  'this-week-draft.yml:prepare',
+  'this-week-draft.yml:publish',
 ]);
 
 // ── 1. no workflow leaves its floor to a repository setting ──────────────
@@ -201,33 +205,38 @@ const holding = (scope) =>
     .map((j) => j.id)
     .sort();
 
-eq('exactly six jobs in this repository may open a pull request', holding('pull-requests'), [
+eq('exactly seven jobs in this repository may open a pull request', holding('pull-requests'), [
   'build-samples.yml:publish',
   'collect.yml:publish',
   'discover-ats.yml:publish',
   'letters-parse.yml:open-pull-request',
   'market-reference.yml:publish',
   'thesis-pilot.yml:open-pull-request',
+  'this-week-draft.yml:publish',
 ]);
-eq('exactly the same six may write to the repository at all', holding('contents'), [
+eq('exactly the same seven may write to the repository at all', holding('contents'), [
   'build-samples.yml:publish',
   'collect.yml:publish',
   'discover-ats.yml:publish',
   'letters-parse.yml:open-pull-request',
   'market-reference.yml:publish',
   'thesis-pilot.yml:open-pull-request',
+  'this-week-draft.yml:publish',
 ]);
 // The three that publish data do nothing themselves: they are a `uses:` and a
 // grant. A step added to one of them would be a step running with the only
 // token in the repository that can merge.
-for (const id of ['build-samples.yml:publish', 'collect.yml:publish', 'discover-ats.yml:publish', 'market-reference.yml:publish']) {
+for (const id of ['build-samples.yml:publish', 'collect.yml:publish', 'discover-ats.yml:publish', 'market-reference.yml:publish', 'this-week-draft.yml:publish']) {
   const [file, name] = id.split(':');
   const job = workflows.find((w) => w.file === file).jobs.find((j) => j.name === name);
   eq(`${id} calls the shared publisher and nothing else`, job.uses, `./.github/workflows/${REUSABLE}`);
   eq(`${id} runs no steps of its own`, job.scripts, []);
   eq(`${id} grants exactly what publication needs`, job.permissions, { contents: 'write', 'pull-requests': 'write' });
 }
-eq('only the thesis extractor may ask GitHub who it is', holding('id-token'), ['thesis-pilot.yml:extract']);
+// The two jobs that call a model on a federated identity: the thesis
+// extractor and the weekly draft (docs/this-week-draft-2026-10.md). Neither
+// can write to the repository; each has its own federation rule.
+eq('only the thesis extractor and the weekly draft may ask GitHub who it is', holding('id-token'), ['thesis-pilot.yml:extract', 'this-week-draft.yml:draft']);
 
 // ── 3. nothing that reads the outside world may open a pull request ──────
 // The jobs that fetch a careers board, a filing or a letter, and the one that
