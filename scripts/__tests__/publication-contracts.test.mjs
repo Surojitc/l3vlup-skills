@@ -57,7 +57,7 @@ const now = new Date('2026-09-20T12:00:00Z');
 const fresh = '2026-09-20T11:00:00Z';
 
 // ── 1. the table itself ──────────────────────────────────────────────────
-eq('there are five producers and no more', Object.keys(CONTRACTS).sort(), ['ats-registry', 'market-reference', 'open-data', 'this-week-draft', 'tracker']);
+eq('there are six producers and no more', Object.keys(CONTRACTS).sort(), ['ats-registry', 'fx-rates', 'market-reference', 'open-data', 'this-week-draft', 'tracker']);
 // The reference prices publish the reference file and the weekly shards and
 // nothing else: not the daily database under any name, and not another
 // producer's file.

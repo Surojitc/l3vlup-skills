@@ -227,18 +227,21 @@
     {
       "id": "ecb",
       "owner": "European Central Bank",
-      "source": "data-api.ecb.europa.eu SDMX web service (ICP HICP, FM deposit facility rate, YC AAA 10Y yield); www.ecb.europa.eu/press/calendars/mgcgc (Governing Council dates, HTML)",
+      "source": "data-api.ecb.europa.eu SDMX web service (ICP HICP, FM deposit facility rate, YC AAA 10Y yield); www.ecb.europa.eu/press/calendars/mgcgc (Governing Council dates, HTML); www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml (the euro foreign exchange reference rates, one XML file, no key)",
       "collectors": [
         "scripts/sync-macro.mjs",
-        "scripts/sync-calendar.mjs"
+        "scripts/sync-calendar.mjs",
+        "scripts/fx-rates.mjs"
       ],
       "outputs": [
         "data/macro.auto.json",
-        "data/calendar.auto.json"
+        "data/calendar.auto.json",
+        "data/fx.auto.json"
       ],
       "termsUrl": "https://www.ecb.europa.eu/services/disclaimer/html/index.en.html",
       "termsReadUrls": [
-        "https://www.ecb.europa.eu/services/disclaimer/html/index.en.html"
+        "https://www.ecb.europa.eu/services/disclaimer/html/index.en.html",
+        "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
       ],
       "businessUse": "permitted",
       "businessUseBasis": "ECB disclaimer: \"users of this website may make free use of the information obtained directly from it\"; commercial use is not prohibited (a seller of documents containing it must say it is free on the ECB site).",
@@ -250,7 +253,7 @@
       "storageRightsBasis": "Not addressed on the page read. The ECB Data Portal API terms page (data.ecb.europa.eu) returned 503 and was not read.",
       "redistribution": "Free use with source cited. Documents bearing authors' names (e.g. Working Papers) cannot be republished in another form without permission. Do not display inside another site's frame for business or promotional linking.",
       "attribution": "\"the ECB must be cited as the source.\"",
-      "notes": "Only the website disclaimer was read. The data portal may have its own terms: unverified. Series are ECB-published except YC, which is an ECB estimate from AAA euro-area bonds.",
+      "notes": "Only the website disclaimer was read. The data portal may have its own terms: unverified. Series are ECB-published except YC, which is an ECB estimate from AAA euro-area bonds. Euro foreign exchange reference rates (added 31 Oct 2026, scripts/fx-rates.mjs, weekly): free to reuse with the ECB cited as source, on the same disclaimer. The ECB's reference-rates page (read 31 Oct 2026) says the rates are published for information purposes only and that using them for transactions is strongly discouraged, so the site uses them for reference figures only (pay bands and career comparisons, rounded to the nearest five thousand) and never for a charge, a product price or a company model. The file re-bases the ECB's quotes to the US dollar (EUR = 1 / USD, GBP = GBP / USD, six decimals), which is a calculation the page states beside the rates: 'Converted ... at the European Central Bank euro reference rates of <date>'.",
       "lastReviewed": "2026-10-19"
     },
     {

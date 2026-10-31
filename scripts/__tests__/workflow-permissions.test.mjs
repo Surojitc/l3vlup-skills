@@ -141,6 +141,7 @@ eq('every workflow in the directory is read', files, [
   'build-samples.yml',
   'collect.yml',
   'discover-ats.yml',
+  'fx-rates.yml',
   'letters-parse.yml',
   'market-reference.yml',
   'publish-data.yml',
@@ -160,6 +161,8 @@ eq('every job is found, and none has been renamed out from under this test', all
   'collect.yml:publish',
   'discover-ats.yml:discover',
   'discover-ats.yml:publish',
+  'fx-rates.yml:collect',
+  'fx-rates.yml:publish',
   'letters-parse.yml:open-pull-request',
   'letters-parse.yml:parse',
   'market-reference.yml:collect',
@@ -205,19 +208,21 @@ const holding = (scope) =>
     .map((j) => j.id)
     .sort();
 
-eq('exactly seven jobs in this repository may open a pull request', holding('pull-requests'), [
+eq('exactly eight jobs in this repository may open a pull request', holding('pull-requests'), [
   'build-samples.yml:publish',
   'collect.yml:publish',
   'discover-ats.yml:publish',
+  'fx-rates.yml:publish',
   'letters-parse.yml:open-pull-request',
   'market-reference.yml:publish',
   'thesis-pilot.yml:open-pull-request',
   'this-week-draft.yml:publish',
 ]);
-eq('exactly the same seven may write to the repository at all', holding('contents'), [
+eq('exactly the same eight may write to the repository at all', holding('contents'), [
   'build-samples.yml:publish',
   'collect.yml:publish',
   'discover-ats.yml:publish',
+  'fx-rates.yml:publish',
   'letters-parse.yml:open-pull-request',
   'market-reference.yml:publish',
   'thesis-pilot.yml:open-pull-request',
@@ -226,7 +231,7 @@ eq('exactly the same seven may write to the repository at all', holding('content
 // The three that publish data do nothing themselves: they are a `uses:` and a
 // grant. A step added to one of them would be a step running with the only
 // token in the repository that can merge.
-for (const id of ['build-samples.yml:publish', 'collect.yml:publish', 'discover-ats.yml:publish', 'market-reference.yml:publish', 'this-week-draft.yml:publish']) {
+for (const id of ['build-samples.yml:publish', 'collect.yml:publish', 'discover-ats.yml:publish', 'fx-rates.yml:publish', 'market-reference.yml:publish', 'this-week-draft.yml:publish']) {
   const [file, name] = id.split(':');
   const job = workflows.find((w) => w.file === file).jobs.find((j) => j.name === name);
   eq(`${id} calls the shared publisher and nothing else`, job.uses, `./.github/workflows/${REUSABLE}`);
@@ -241,7 +246,7 @@ eq('only the thesis extractor and the weekly draft may ask GitHub who it is', ho
 // ── 3. nothing that reads the outside world may open a pull request ──────
 // The jobs that fetch a careers board, a filing or a letter, and the one that
 // calls a model. Whatever any of them reads, none can act on `main`.
-const READS_THE_WORLD = [/sync-ats\.mjs/, /discover-ats\.mjs/, /sync-calendar\.mjs/, /firecrawl/i, /anthropic/i, /thesis-extract\.mjs/, /retrieve-letters\.mjs/, /company-profile/, /sync_econ\.py/, /sync-market-reference\.mjs/];
+const READS_THE_WORLD = [/sync-ats\.mjs/, /discover-ats\.mjs/, /sync-calendar\.mjs/, /firecrawl/i, /anthropic/i, /thesis-extract\.mjs/, /retrieve-letters\.mjs/, /company-profile/, /sync_econ\.py/, /sync-market-reference\.mjs/, /fx-rates\.mjs/];
 for (const w of workflows) {
   for (const job of w.jobs) {
     const body = job.body.join('\n');
