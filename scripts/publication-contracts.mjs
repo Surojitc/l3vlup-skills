@@ -346,6 +346,41 @@ export const CONTRACTS = {
   },
 
   /**
+   * fx-rates.yml. One file, written once a week: the ECB euro reference
+   * rates re-based to the US dollar, which the site converts pay and career
+   * reference figures with (never a price, never a company model). The
+   * script has already refused anything that is not fit (lib/fx-rates.mjs:
+   * both currencies, positive finite rates, a real date no later than today
+   * and no older than ten days, no rate more than 20% from the published
+   * one); this gate holds the file to its shape again and to its stamp.
+   */
+  'fx-rates': {
+    label: 'the ECB exchange rates',
+    branch: 'automation/fx-rates',
+    title: 'chore(data): ECB exchange rates',
+    files: [
+      {
+        path: 'data/fx.auto.json',
+        // Weekly, read from the rate's own date. The ECB publishes on working
+        // days only and a Monday holiday leaves the previous Friday's rate in
+        // place, so the file is legitimately up to ten days older than the
+        // run that wrote it. 264 hours is eleven days: a week, plus the
+        // script's own ten-day limit on a rate's age, minus a day of grace
+        // that a holiday week does not need. Two missed Mondays go past it.
+        freshness: { cadence: 'weekly', required: true, from: 'asOf', maxAgeHours: 264 },
+        label: 'the exchange-rate table',
+        // USD, EUR and GBP per US dollar.
+        keyed: 'perUsd',
+        min: 3,
+        // The collector's own stamp: set by the run that wrote the file, so a
+        // leftover from an earlier run cannot be republished as this one's.
+        stamp: 'fetchedAt',
+        maxAgeHours: 48,
+      },
+    ],
+  },
+
+  /**
    * discover-ats.yml. Manual, and it only ever adds: a firm resolves to a
    * board and moves into the registry, where the daily sync polls it. A run
    * that removed entries would silently stop the tracker collecting from
