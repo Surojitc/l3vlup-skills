@@ -1,0 +1,355 @@
+{
+  "generatedAt": "2026-10-31T00:13:58.171Z",
+  "weekEnding": "2026-11-06",
+  "status": "draft",
+  "modelStage": "skipped",
+  "failure": "dry run: no model called",
+  "cost": {
+    "promptVersion": "this-week-draft-v1",
+    "model": "claude-sonnet-5",
+    "budgetUsd": 0.5,
+    "estimatedUsd": 0.083342,
+    "actualUsd": null,
+    "inputTokensApprox": 11671,
+    "hardStopUsd": 1
+  },
+  "feeds": {
+    "newsflow": "2026-10-30T11:46:03.863Z",
+    "deals": "2026-10-30T11:45:42.716Z"
+  },
+  "shortlist": {
+    "headlines": [
+      {
+        "item": {
+          "title": "Five Questions for YouTube Star Mark Rober",
+          "link": "https://www.bloomberg.com/news/videos/2026-10-30/five-questions-for-youtube-star-mark-rober",
+          "source": "Bloomberg",
+          "vertical": "hf",
+          "date": "2026-10-30T11:00:48.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent"
+      },
+      {
+        "item": {
+          "title": "Blue Owl AUM reaches $330bn as fundraising supports earnings growth",
+          "link": "https://www.privateequitywire.co.uk/blue-owl-aum-reaches-330bn-as-fundraising-supports-earnings-growth/",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-10-30T09:25:53.000Z",
+          "dealValue": "$330B",
+          "valueUsdB": 330,
+          "value": 330,
+          "alsoReportedBy": []
+        },
+        "why": "largest disclosed value ($330B)"
+      },
+      {
+        "item": {
+          "title": "Evonik rejects BASF’s sweetened €11bn takeover bid",
+          "link": "https://www.ft.com/content/dfebee73-142f-46d5-95a6-0e895c0ae551?syn-25a6b1a6=1",
+          "source": "FT",
+          "vertical": "ma",
+          "date": "2026-10-30T10:51:57.000Z",
+          "dealValue": "€11B",
+          "valueUsdB": 11,
+          "value": 11,
+          "alsoReportedBy": []
+        },
+        "why": "most recent from another area"
+      }
+    ],
+    "deals": [
+      {
+        "item": {
+          "title": "Canada commits CAD1.6bn to Cohere’s planned $5bn funding round",
+          "link": "https://www.privateequitywire.co.uk/canada-commits-cad1-6bn-to-coheres-planned-5bn-funding-round/",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-10-30T09:35:13.000Z",
+          "dealValue": "$5B",
+          "valueUsdB": 5,
+          "value": 5,
+          "alsoReportedBy": []
+        },
+        "why": "most recent with a disclosed value"
+      },
+      {
+        "item": {
+          "title": "India considers opening $180bn pension system to private markets",
+          "link": "https://www.privateequitywire.co.uk/india-considers-opening-180bn-pension-system-to-private-markets/",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-10-28T10:14:47.000Z",
+          "dealValue": "$180B",
+          "valueUsdB": 180,
+          "value": 180,
+          "alsoReportedBy": []
+        },
+        "why": "largest disclosed value ($180B)"
+      },
+      {
+        "item": {
+          "title": "Exxon Increases Stake in Mozambique Gas Project Via Eni Swap",
+          "link": "https://www.bloomberg.com/news/articles/2026-10-30/exxon-increases-stake-in-mozambique-gas-project-via-eni-swap",
+          "source": "Bloomberg",
+          "vertical": "ma",
+          "date": "2026-10-30T10:31:02.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent from another area"
+      }
+    ],
+    "moves": [
+      {
+        "item": {
+          "title": "AI Policy Fears Grip Stock, Bond Traders With Midterms Days Away",
+          "link": "https://www.bloomberg.com/news/articles/2026-10-30/ai-policy-fears-grip-stock-bond-traders-with-midterms-days-away",
+          "source": "Bloomberg",
+          "vertical": "hf",
+          "date": "2026-10-30T11:00:00.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in Hedge funds"
+      },
+      {
+        "item": {
+          "title": "Cohere anuncia una ronda de financiación para satisfacer la demanda mundial de una IA segura y soberana",
+          "link": "https://www.prnewswire.com/news-releases/cohere-anuncia-una-ronda-de-financiacion-para-satisfacer-la-demanda-mundial-de-una-ia-segura-y-soberana-302924821.html",
+          "source": "PR Newswire",
+          "vertical": "vc",
+          "date": "2026-10-30T10:42:00.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in vc"
+      },
+      {
+        "item": {
+          "title": "Partners Group US evergreen fund faces $2.2bn withdrawal requests",
+          "link": "https://www.privateequitywire.co.uk/partners-group-us-evergreen-fund-faces-2-2bn-withdrawal-requests/",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-10-30T09:33:03.000Z",
+          "dealValue": "$2.2B",
+          "valueUsdB": 2.2,
+          "value": 2.2,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in Private equity"
+      },
+      {
+        "item": {
+          "title": "NatWest posts weakest profit growth among big UK banks",
+          "link": "https://www.ft.com/content/120e7ad5-53e9-45ca-b953-6cbd264622fd?syn-25a6b1a6=1",
+          "source": "FT",
+          "vertical": "ma",
+          "date": "2026-10-30T09:20:03.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in M&A"
+      },
+      {
+        "item": {
+          "title": "Alfa Laval successfully refinances Revolving Credit Facility",
+          "link": "https://www.prnewswire.com/news-releases/alfa-laval-successfully-refinances-revolving-credit-facility-302924667.html",
+          "source": "PR Newswire",
+          "vertical": "capital-raises",
+          "date": "2026-10-30T06:44:00.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in capital-raises"
+      },
+      {
+        "item": {
+          "title": "UK Debt Chief Sees Volatility Driving Demand for Short Gilts",
+          "link": "https://www.bloomberg.com/news/articles/2026-10-30/uk-debt-chief-sees-volatility-driving-demand-for-short-gilts",
+          "source": "Bloomberg",
+          "vertical": "hf",
+          "date": "2026-10-30T10:56:57.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "next in Hedge funds"
+      },
+      {
+        "item": {
+          "title": "OpenAI-backed Thrive Holdings acquires ADT",
+          "link": "https://techcrunch.com/2026/10/29/openai-backed-thrive-holdings-acquires-adt/",
+          "source": "TechCrunch",
+          "vertical": "vc",
+          "date": "2026-10-29T19:56:19.000Z",
+          "dealValue": "$7.6B",
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": [
+            "Private Equity Wire"
+          ]
+        },
+        "why": "next in vc"
+      },
+      {
+        "item": {
+          "title": "Ares eyes record fundraising year after $31bn third-quarter haul",
+          "link": "https://www.privateequitywire.co.uk/ares-eyes-record-fundraising-year-after-31bn-third-quarter-haul/",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-10-30T09:29:04.000Z",
+          "dealValue": "$31B",
+          "valueUsdB": 31,
+          "value": 31,
+          "alsoReportedBy": []
+        },
+        "why": "next in Private equity"
+      }
+    ],
+    "counts": {
+      "newsInWindow": 134,
+      "dealsInWindow": 90,
+      "days": 7
+    }
+  },
+  "sources": [
+    {
+      "index": 0,
+      "url": "https://www.bloomberg.com/news/videos/2026-10-30/five-questions-for-youtube-star-mark-rober",
+      "name": "Bloomberg",
+      "date": "2026-10-30",
+      "title": "Five Questions for YouTube Star Mark Rober",
+      "area": "Hedge funds",
+      "dealValue": null,
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "restricted source: headline only, read it at the publisher"
+    },
+    {
+      "index": 1,
+      "url": "https://www.privateequitywire.co.uk/blue-owl-aum-reaches-330bn-as-fundraising-supports-earnings-growth/",
+      "name": "Private Equity Wire",
+      "date": "2026-10-30",
+      "title": "Blue Owl AUM reaches $330bn as fundraising supports earnings growth",
+      "area": "Private equity",
+      "dealValue": "$330B",
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "HTTP 403"
+    },
+    {
+      "index": 2,
+      "url": "https://www.ft.com/content/dfebee73-142f-46d5-95a6-0e895c0ae551?syn-25a6b1a6=1",
+      "name": "FT",
+      "date": "2026-10-30",
+      "title": "Evonik rejects BASF’s sweetened €11bn takeover bid",
+      "area": "M&A",
+      "dealValue": "€11B",
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "HTTP 403"
+    },
+    {
+      "index": 3,
+      "url": "https://www.privateequitywire.co.uk/canada-commits-cad1-6bn-to-coheres-planned-5bn-funding-round/",
+      "name": "Private Equity Wire",
+      "date": "2026-10-30",
+      "title": "Canada commits CAD1.6bn to Cohere’s planned $5bn funding round",
+      "area": "Private equity",
+      "dealValue": "$5B",
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "HTTP 403"
+    },
+    {
+      "index": 4,
+      "url": "https://www.privateequitywire.co.uk/india-considers-opening-180bn-pension-system-to-private-markets/",
+      "name": "Private Equity Wire",
+      "date": "2026-10-28",
+      "title": "India considers opening $180bn pension system to private markets",
+      "area": "Private equity",
+      "dealValue": "$180B",
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "HTTP 403"
+    },
+    {
+      "index": 5,
+      "url": "https://www.bloomberg.com/news/articles/2026-10-30/exxon-increases-stake-in-mozambique-gas-project-via-eni-swap",
+      "name": "Bloomberg",
+      "date": "2026-10-30",
+      "title": "Exxon Increases Stake in Mozambique Gas Project Via Eni Swap",
+      "area": "M&A",
+      "dealValue": null,
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "restricted source: headline only, read it at the publisher"
+    },
+    {
+      "index": 6,
+      "url": "https://www.bloomberg.com/news/articles/2026-10-30/ai-policy-fears-grip-stock-bond-traders-with-midterms-days-away",
+      "name": "Bloomberg",
+      "date": "2026-10-30",
+      "title": "AI Policy Fears Grip Stock, Bond Traders With Midterms Days Away",
+      "area": "Hedge funds",
+      "dealValue": null,
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "restricted source: headline only, read it at the publisher"
+    },
+    {
+      "index": 7,
+      "url": "https://www.prnewswire.com/news-releases/cohere-anuncia-una-ronda-de-financiacion-para-satisfacer-la-demanda-mundial-de-una-ia-segura-y-soberana-302924821.html",
+      "name": "PR Newswire",
+      "date": "2026-10-30",
+      "title": "Cohere anuncia una ronda de financiación para satisfacer la demanda mundial de una IA segura y soberana",
+      "area": "vc",
+      "dealValue": null,
+      "alsoReportedBy": [],
+      "fetched": true
+    },
+    {
+      "index": 8,
+      "url": "https://www.privateequitywire.co.uk/partners-group-us-evergreen-fund-faces-2-2bn-withdrawal-requests/",
+      "name": "Private Equity Wire",
+      "date": "2026-10-30",
+      "title": "Partners Group US evergreen fund faces $2.2bn withdrawal requests",
+      "area": "Private equity",
+      "dealValue": "$2.2B",
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "HTTP 403"
+    },
+    {
+      "index": 9,
+      "url": "https://www.ft.com/content/120e7ad5-53e9-45ca-b953-6cbd264622fd?syn-25a6b1a6=1",
+      "name": "FT",
+      "date": "2026-10-30",
+      "title": "NatWest posts weakest profit growth among big UK banks",
+      "area": "M&A",
+      "dealValue": null,
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "HTTP 403"
+    }
+  ],
+  "edition": null,
+  "cartoon": null,
+  "problems": []
+}
