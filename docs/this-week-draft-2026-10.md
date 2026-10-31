@@ -82,3 +82,22 @@ every stage but the model.
 One call a week at a stated ceiling, normally about 20,000 input tokens and
 up to 6,000 output tokens: about 7 cents on Sonnet 5, 3 cents on Haiku 4.5.
 The hard stop in code is one dollar a run.
+
+## What has been verified, and what has not
+
+The first run, by hand with `dry_run` on (31 October 2026, run 1 on `main`),
+went through all three jobs and published `data/this-week.draft.json` for the
+week ending 6 November: the shortlist and the fetched sources, with the model
+stage recorded as skipped. That proves the orchestration: the three jobs and
+their permissions, the artifact handoff, the staged list and the publication
+gate, the data pull request and its merge, and the site reading the file at
+`/this-week/draft`.
+
+It does not prove the model call. A dry run fetches no identity token and
+calls no model, so the federation exchange, the budget check against a real
+estimate, the tool-shaped answer and the validation of a drafted edition have
+run only in the suite, on a fake. The first real run, after the federation
+rule and its repository variable exist (the section above), is the test of
+those, and its report should be read before anything in it is trusted. Human
+approval before an edition is published or sent is unchanged by any of this:
+the workflow writes a draft file and nothing else.
