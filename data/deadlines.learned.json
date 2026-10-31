@@ -866,12 +866,6 @@
       "firstSeen": "2026-10-28",
       "lastConfirmed": "2026-10-28"
     },
-    "workday-barclays-JR-0000117561": {
-      "closingDate": "2026-11-01",
-      "source": "workday-detail",
-      "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-08-31"
-    },
     "workday-barclays-JR-0000117563": {
       "closingDate": "2026-12-01",
       "source": "workday-detail",
@@ -890,12 +884,6 @@
       "firstSeen": "2026-08-31",
       "lastConfirmed": "2026-08-31"
     },
-    "workday-barclays-JR-0000119610": {
-      "closingDate": "2026-11-01",
-      "source": "workday-detail",
-      "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-08-31"
-    },
     "workday-barclays-JR-0000121569": {
       "closingDate": "2026-11-13",
       "source": "workday-detail",
@@ -909,18 +897,6 @@
       "lastConfirmed": "2026-08-31"
     },
     "workday-barclays-JR-0000128133": {
-      "closingDate": "2026-11-01",
-      "source": "workday-detail",
-      "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-08-31"
-    },
-    "workday-barclays-JR-0000128135": {
-      "closingDate": "2026-11-01",
-      "source": "workday-detail",
-      "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-08-31"
-    },
-    "workday-barclays-JR-0000128136": {
       "closingDate": "2026-11-01",
       "source": "workday-detail",
       "firstSeen": "2026-08-31",
@@ -1237,12 +1213,6 @@
       "source": "workday-detail",
       "firstSeen": "2026-09-10",
       "lastConfirmed": "2026-09-27"
-    },
-    "workday-barclays-JR-0000131136": {
-      "closingDate": "2026-11-01",
-      "source": "workday-detail",
-      "firstSeen": "2026-09-04",
-      "lastConfirmed": "2026-09-04"
     },
     "workday-barclays-JR-0000131164": {
       "closingDate": "2027-01-06",
@@ -3145,6 +3115,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-26",
       "lastConfirmed": "2026-10-26"
+    },
+    "workday-statestreet-R-800620": {
+      "closingDate": "2026-11-21",
+      "source": "workday-detail",
+      "firstSeen": "2026-10-31",
+      "lastConfirmed": "2026-10-31"
     },
     "workday-sunlife-JR00127632": {
       "closingDate": "2026-11-02",
@@ -6294,6 +6270,10 @@
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
+    "greenhouse-stepstone-8282723|jsonld": {
+      "checkedAt": "2026-10-31",
+      "attempts": 1
+    },
     "greenhouse-stripe-7544547|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
@@ -7241,6 +7221,10 @@
     "lever-palantir-b4aa51a2-bc43-4d67-bf55-12db7feefb3a|jsonld": {
       "checkedAt": "2026-10-16",
       "attempts": 5
+    },
+    "lever-palantir-bd7766c4-6aea-4b37-8d47-a8864bb9bd69|jsonld": {
+      "checkedAt": "2026-10-31",
+      "attempts": 1
     },
     "lever-palantir-bdcfb29f-4f27-42de-933f-7f83a359b9f0|jsonld": {
       "checkedAt": "2026-10-15",
