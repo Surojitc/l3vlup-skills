@@ -84,6 +84,30 @@ vert('Hedge Fund Investment Analyst', 'Hedge Fund');
 vert('Investment Analyst Intern', 'Other');
 vert('Quantitative Research Analyst', 'Quant');
 
+// --- Hedge Fund is a fund seat, not a service provider's ------------------
+// Live finding (career radar, 1 November 2026): a bank's fund-services back
+// office, a risk seat whose clients are funds, a technology governance role
+// and a lender's credit book were all typed Hedge Fund on the words alone.
+const vertAt = (title, firm, want) =>
+  eq(`${title.slice(0, 44).padEnd(46)} @ ${firm.slice(0, 16).padEnd(16)} → ${want}`, inferVertical(title, { firm }), want);
+vertAt('Hedge Fund Services - Financial Reporting - Associate', 'JPMorgan Chase', 'Operations');
+vertAt('Risk Management - Commercial & Investment Bank Credit Risk Hedge Funds Associate', 'JPMorgan Chase', 'Risk');
+vertAt('Executive Director-Portfolio Management & Governance, Corporate Technology', 'JPMorgan Chase', 'Software Engineering');
+vertAt('Portfolio Management', 'Capital One', 'Other');
+vertAt('Analyst, Specialty Underwriting and Portfolio Management - FIG', 'Capital One', 'Other');
+// The same bare words at a fund, and the explicit tokens anywhere, stay Hedge Fund.
+vertAt('Portfolio Management Analyst', 'Man Group', 'Hedge Fund');
+vertAt('Summer Analyst, Long/Short Equity', 'Point72', 'Hedge Fund');
+vertAt('Multi-Strategy Summer Analyst', 'Millennium', 'Hedge Fund');
+vertAt('Hedge Fund Investment Analyst', 'JPMorgan Chase', 'Hedge Fund');
+// "Operations" is a service-provider word at a bank and an ordinary seat at a fund.
+vertAt('Hedge Fund Operations Analyst', 'Citadel', 'Hedge Fund');
+vertAt('Hedge Fund Operations Analyst', 'State Street', 'Operations');
+// A firm with no context behaves as before, and "ing" is ING, not Wellington.
+vert('Portfolio Management Summer Analyst', 'Hedge Fund');
+vertAt('Portfolio Management Intern', 'Wellington Management', 'Hedge Fund');
+vertAt('Intern, Portfolio Management', 'ING', 'Other');
+
 // --- the fallback ---------------------------------------------------------
 vert('Summer Analyst Programme 2027', 'Other');
 vert('Early Careers Opportunity', 'Other');
