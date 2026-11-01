@@ -2774,6 +2774,12 @@
       "firstSeen": "2026-11-01",
       "lastConfirmed": "2026-11-01"
     },
+    "workday-rbc-R-0000191660": {
+      "closingDate": "2026-12-31",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-01",
+      "lastConfirmed": "2026-11-01"
+    },
     "workday-rbc-R-0000191661": {
       "closingDate": "2026-12-31",
       "source": "workday-detail",
@@ -16183,12 +16189,12 @@
       "attempts": 2
     },
     "workday-intel-JR0287581-1|jsonld": {
-      "checkedAt": "2026-10-07",
-      "attempts": 2
+      "checkedAt": "2026-11-01",
+      "attempts": 3
     },
     "workday-intel-JR0287581-1|workday-detail": {
-      "checkedAt": "2026-10-07",
-      "attempts": 2
+      "checkedAt": "2026-11-01",
+      "attempts": 3
     },
     "workday-intel-JR0287583|jsonld": {
       "checkedAt": "2026-10-04",
@@ -16691,6 +16697,14 @@
       "attempts": 1
     },
     "workday-invesco-R-15875-1|workday-detail": {
+      "checkedAt": "2026-11-01",
+      "attempts": 1
+    },
+    "workday-invesco-R-15908-1|jsonld": {
+      "checkedAt": "2026-11-01",
+      "attempts": 1
+    },
+    "workday-invesco-R-15908-1|workday-detail": {
       "checkedAt": "2026-11-01",
       "attempts": 1
     },

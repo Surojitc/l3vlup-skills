@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-01T06:26:27.938Z",
-  "count": 5427,
+  "generatedAt": "2026-11-01T13:44:37.250Z",
+  "count": 5429,
   "roles": {
     "3i-intern-amsterdam": {
       "id": "workday-3i-/job/Amsterdam-Netherlands/Intern--Amsterdam_",
@@ -2180,7 +2180,7 @@
       "vertical": "Finance & Accounting",
       "programmeType": "Graduate Programme",
       "tier": "Other",
-      "location": "500 West Madison Street, Chicago, IL, USA",
+      "location": "2 Locations",
       "region": "US",
       "level": "Graduate",
       "applicationUrl": "https://aig.wd1.myworkdayjobs.com/aig/job/IL-Chicago/XMLNAME-2027-Early-Careers--Analyst--Forensic-Accounting---United-States--Dallas--TX---Chicago--IL_JR2603725-1",
@@ -2435,7 +2435,7 @@
       "vertical": "Other",
       "programmeType": "Summer Internship",
       "tier": "Other",
-      "location": "2002 Summit Boulevard NE, Atlanta, GA, USA",
+      "location": "2 Locations",
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://aig.wd1.myworkdayjobs.com/aig/job/GA-Atlanta/XMLNAME-2027-Early-Careers--Summer-Intern--Multinational---United-States--Atlanta--GA---Miami--FL_JR2603644-1",
@@ -2525,7 +2525,7 @@
       "vertical": "Other",
       "programmeType": "Summer Internship",
       "tier": "Other",
-      "location": "1271 Avenue of the Americas, New York, NY, USA",
+      "location": "12 Locations",
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://aig.wd1.myworkdayjobs.com/aig/job/NY-New-York/XMLNAME-2027-Early-Careers--Summer-Intern--Underwriting---United-States--Multiple-Locations_JR2603618-1",
@@ -36992,7 +36992,7 @@
       "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/Israel-Haifa/Software-Development-student_JR0287581-1",
       "slug": "intel-software-development-student",
       "firstSeen": "2026-09-28",
-      "lastSeen": "2026-10-07"
+      "lastSeen": "2026-11-01"
     },
     "intel-software-engineering-intern": {
       "id": "workday-intel-JR0288193",
@@ -37305,6 +37305,21 @@
       "applicationUrl": "https://invesco.wd1.myworkdayjobs.com/IVZ/job/Atlanta-Georgia/Early-Career-Intern---Human-Resources_R-15600-1",
       "slug": "invesco-early-career-intern-human-resources",
       "firstSeen": "2026-10-31",
+      "lastSeen": "2026-11-01"
+    },
+    "invesco-early-career-intern-institutional-sales-retirement-and-insurance": {
+      "id": "workday-invesco-R-15908-1",
+      "firm": "Invesco",
+      "role": "Early Career Intern - Institutional Sales (Retirement & Insurance)",
+      "vertical": "FinTech Sales",
+      "programmeType": "Summer Internship",
+      "tier": "Asset Manager",
+      "location": "Atlanta, Georgia",
+      "region": "US",
+      "level": "Internship",
+      "applicationUrl": "https://invesco.wd1.myworkdayjobs.com/IVZ/job/Atlanta-Georgia/Early-Career-Intern---Institutional-Sales--Retirement---Insurance-_R-15908-1",
+      "slug": "invesco-early-career-intern-institutional-sales-retirement-and-insurance",
+      "firstSeen": "2026-11-01",
       "lastSeen": "2026-11-01"
     },
     "invesco-early-career-intern-internal-sales": {
@@ -69893,6 +69908,22 @@
       "applicationUrl": "https://rbc.wd3.myworkdayjobs.com/RBCEARLYTALENT1/job/Houston-Texas-United-States-of-America/XMLNAME-2028-Capital-Markets--Global-Investment-Banking-Summer-Analyst_R-0000191659",
       "recommendedPrepSlug": "investment-banking-interview-prep",
       "slug": "rbc-2028-capital-markets-global-investment-banking-summer-analyst",
+      "firstSeen": "2026-11-01",
+      "lastSeen": "2026-11-01"
+    },
+    "rbc-2028-capital-markets-global-investment-banking-summer-analyst-2": {
+      "id": "workday-rbc-R-0000191660",
+      "firm": "RBC",
+      "role": "2028 Capital Markets, Global Investment Banking Summer Analyst",
+      "vertical": "Investment Banking",
+      "programmeType": "Summer Internship",
+      "tier": "Middle Market",
+      "location": "San Francisco, California, United States of America",
+      "region": "US",
+      "level": "Internship",
+      "applicationUrl": "https://rbc.wd3.myworkdayjobs.com/RBCEARLYTALENT1/job/San-Francisco-California-United-States-of-America/XMLNAME-2028-Capital-Markets--Global-Investment-Banking-Summer-Analyst_R-0000191660",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "slug": "rbc-2028-capital-markets-global-investment-banking-summer-analyst-2",
       "firstSeen": "2026-11-01",
       "lastSeen": "2026-11-01"
     },
