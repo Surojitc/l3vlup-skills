@@ -380,6 +380,77 @@ export function consultingVerdict(title, ctx = {}) {
 const AI_TOKEN =
   /machine learning|deep learning|reinforcement learning|\bml\b|\bai\b|\bai\/ml\b|\bllm\b|\bnlp\b|gen(erative )?ai|computer vision|applied research/;
 
+/**
+ * Hedge Fund is a seat at a fund, or a fund-facing investing seat, and not
+ * every title that carries the words.
+ *
+ * The live board put four kinds of row in the vertical that are not that: a
+ * bank's "Hedge Fund Services - Financial Reporting" (the administrator's
+ * back office), "Credit Risk Hedge Funds" (a risk seat whose clients are
+ * funds), "Portfolio Management & Governance, Corporate Technology" (a
+ * technology programme) and a lender's "Underwriting & Portfolio Management"
+ * (a credit book). Two rules, both small on purpose.
+ *
+ * 1. A deny list of service-provider phrasing. These phrases describe the
+ *    work of serving or controlling a fund, never of investing for one, so
+ *    they win over the hedge fund tokens. "Operations" is the one word that
+ *    is a service-provider seat at a bank and an ordinary seat at a fund
+ *    ("Operations Analyst" at Point72 is a hedge fund role), so it is denied
+ *    unless the employer is a named fund.
+ * 2. "Portfolio management" on its own is a fund seat only away from a bank,
+ *    lender or insurer. There it means the credit or loan book, and the rest
+ *    of the chain reads the title (Risk, Wealth Management, or Other, which
+ *    the sweep report shows) instead of guessing it into a fund. The explicit
+ *    tokens (hedge fund, long/short, multi-strategy) are not affected by it.
+ *
+ * Both lists are matched on the employer's name like CONSULTING_FIRMS, and for
+ * the same reason: a row can arrive from a source that never touches the
+ * registry. A firm in neither list behaves exactly as before.
+ */
+const SERVICE_PROVIDER_TITLE =
+  /fund services|fund administration|financial reporting|credit risk|\brisk\b.{0,40}hedge funds?|hedge funds?.{0,40}\brisk\b|\bgovernance\b|corporate technology/;
+const HEDGE_FUND_TOKEN = /hedge fund|long[\s\/-]?short|multi[\s-]?strategy/;
+
+const HEDGE_FUND_FIRMS = [
+  'point72', 'millennium', 'citadel', 'bridgewater', 'schonfeld', 'exodus', 'verition',
+  'marshall wace', 'man group', 'aqr', 'd. e. shaw', 'de shaw', 'two sigma', 'balyasny',
+  'elliott', 'brevan howard', 'third point', 'pershing square', 'squarepoint', 'qube research',
+];
+
+// Banks, lenders and insurers: the employers where "portfolio management" is a
+// book of loans or policies. Names are matched whole, so "ing" is ING and not
+// Wellington.
+const BANK_LENDER_INSURER_FIRMS = [
+  'jpmorgan', 'j.p. morgan', 'jp morgan', 'citi', 'citigroup', 'bank of america', 'wells fargo',
+  'goldman sachs', 'morgan stanley', 'barclays', 'hsbc', 'ubs', 'deutsche bank', 'societe generale',
+  'bnp paribas', 'rbc', 'td bank', 'bmo', 'cibc', 'scotiabank', 'ing', 'santander', 'lloyds',
+  'natwest', 'mufg', 'mizuho', 'nomura', 'bny', 'state street', 'northern trust', 'u.s. bank',
+  'pnc', 'truist', 'capital one', 'citizens', 'american express', 'synchrony', 'sofi', 'lendable',
+  'zopa', 'oaknorth', 'nubank', 'affirm', 'aig', 'the hartford', 'nationwide', 'prudential',
+  'aviva', 'manulife', 'sun life', 'allstate', 'chubb', 'travelers', 'cna financial', 'unum',
+  'transamerica', 'corebridge', 'jackson financial', 'pacific life', 'guardian life',
+  'globe life', 'assurant', 'usaa', 'nn group', 'northwestern mutual',
+];
+
+const escapeRe = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const firmMatcher = (names) => {
+  const re = new RegExp(`(?:^|[^a-z0-9])(?:${names.map(escapeRe).join('|')})(?![a-z0-9])`);
+  return (firm) => {
+    const f = String(firm || '').toLowerCase();
+    return f ? re.test(f) : false;
+  };
+};
+const isHedgeFundFirm = firmMatcher(HEDGE_FUND_FIRMS);
+const isBankLenderInsurer = firmMatcher(BANK_LENDER_INSURER_FIRMS);
+
+export function isHedgeFundSeat(t, firm) {
+  const title = String(t || '').toLowerCase();
+  if (SERVICE_PROVIDER_TITLE.test(title)) return false;
+  if (/\boperations\b/.test(title) && !isHedgeFundFirm(firm)) return false;
+  if (HEDGE_FUND_TOKEN.test(title)) return true;
+  return /portfolio management/.test(title) && !isBankLenderInsurer(firm);
+}
+
 export function inferVertical(title, ctx = {}) {
   const t = String(title || '').toLowerCase();
 
@@ -433,7 +504,7 @@ export function inferVertical(title, ctx = {}) {
   if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
   if (/venture capital|\bvc\b\s|growth equity/.test(t)) return 'Venture Capital';
   if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';
-  if (/hedge fund|long[\s\/-]?short|multi[\s-]?strategy|portfolio management/.test(t)) return 'Hedge Fund';
+  if (isHedgeFundSeat(t, ctx.firm)) return 'Hedge Fund';
   // Both of these sit above the generic 'banking' rule, which would otherwise
   // swallow them. "Private Banking" is wealth management, not a deal team —
   // caught by a test the moment the generic rule was added. And Citi files
