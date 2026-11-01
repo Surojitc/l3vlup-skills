@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-31T20:25:27.853Z",
-  "count": 5387,
+  "generatedAt": "2026-11-01T06:26:27.938Z",
+  "count": 5394,
   "roles": {
     "ashby-alan-142ad7db-6962-43d9-90f7-b69f0b66261f": {
       "slug": "alan-general-secretary-associate-intern",
@@ -11288,6 +11288,10 @@
       "slug": "morgan-stanley-2027-firm-risk-management-summer-analyst-program-singapore",
       "since": "2026-09-01"
     },
+    "talnet-morganstanley-tal-net-21477": {
+      "slug": "morgan-stanley-2027-operations-off-cycle-analyst-programme-glasgow",
+      "since": "2026-11-01"
+    },
     "talnet-morganstanley-tal-net-21480": {
       "slug": "morgan-stanley-2027-operations-industrial-placement-programme-frankfurt",
       "since": "2026-10-25"
@@ -18005,9 +18009,21 @@
       "slug": "invesco-quantitative-strategies-research-intern",
       "since": "2026-10-31"
     },
+    "workday-invesco-R-15838-1": {
+      "slug": "invesco-early-career-intern-operations-fund-reporting",
+      "since": "2026-11-01"
+    },
     "workday-invesco-R-15865-1": {
       "slug": "invesco-early-career-intern-internal-sales-global-liquidity",
       "since": "2026-10-31"
+    },
+    "workday-invesco-R-15874-1": {
+      "slug": "invesco-early-career-intern-marketing-etf",
+      "since": "2026-11-01"
+    },
+    "workday-invesco-R-15875-1": {
+      "slug": "invesco-early-career-intern-marketing-email-team",
+      "since": "2026-11-01"
     },
     "workday-investpsp-R4844": {
       "slug": "psp-investments-intern-portfolio-management-real-estate-investments-january-april-2027",
@@ -20353,6 +20369,18 @@
     "workday-rbc-R-0000191204-1": {
       "slug": "rbc-analyste-d-entreprise-rbc-amplifie-2027-montr-al-business-analyst-rbc-amplify-2027-montreal",
       "since": "2026-10-27"
+    },
+    "workday-rbc-R-0000191659": {
+      "slug": "rbc-2028-capital-markets-global-investment-banking-summer-analyst",
+      "since": "2026-11-01"
+    },
+    "workday-rbc-R-0000191661": {
+      "slug": "rbc-2028-capital-markets-global-investment-banking-summer-analyst-us",
+      "since": "2026-11-01"
+    },
+    "workday-rbc-R-0000191700": {
+      "slug": "rbc-2028-capital-markets-real-estate-capital-partners-summer-analyst",
+      "since": "2026-11-01"
     },
     "workday-robeco-R2261": {
       "slug": "robeco-super-quant-internship-2027",
