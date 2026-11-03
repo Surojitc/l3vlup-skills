@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-02T16:29:59.506Z",
-  "count": 5485,
+  "generatedAt": "2026-11-03T14:35:58.439Z",
+  "count": 5579,
   "roles": {
     "ashby-alan-042421fd-55af-40f2-85c0-20a2fb354c1e": {
       "slug": "alan-data-associate-internship-6-months-flexible-start",
@@ -100,6 +100,14 @@
       "slug": "harvey-software-engineering-intern-winter-2027",
       "since": "2026-10-03"
     },
+    "ashby-lendable-4c40812a-ffeb-45e9-b192-ef571337b2eb": {
+      "slug": "lendable-graduate-customer-operations-agent-uk",
+      "since": "2026-11-03"
+    },
+    "ashby-lendable-4c6ac55f-a41c-428a-8f7b-965b5d370114": {
+      "slug": "lendable-complaints-officer-graduate",
+      "since": "2026-11-03"
+    },
     "ashby-lendable-a0ed2d2c-1c24-4d53-8ab4-af7e7ac06e20": {
       "slug": "lendable-graduate-analyst-50-000-share-options",
       "since": "2026-10-24"
@@ -107,6 +115,10 @@
     "ashby-lendable-a2214edc-39e3-4c70-8a09-875bb991062f": {
       "slug": "lendable-credit-analyst-intern-june-2027",
       "since": "2026-10-24"
+    },
+    "ashby-lendable-ae4ae324-4ebf-4594-9db4-0bad556ae95e": {
+      "slug": "lendable-operations-investigations-graduate",
+      "since": "2026-11-03"
     },
     "ashby-lendable-e001dc0b-6e0f-46a7-95ba-38a3733db2f4": {
       "slug": "lendable-summer-intern-2027",
@@ -308,6 +320,10 @@
       "slug": "snowflake-software-engineer-intern-warsaw-security",
       "since": "2026-09-18"
     },
+    "ashby-trading212-3869cbd3-5700-4a3f-b32c-ac386518ee9a": {
+      "slug": "trading-212-graduate-trading-operations-analyst",
+      "since": "2026-11-03"
+    },
     "ashby-trading212-4a95dcf2-673e-411c-99a4-0b9dc19cd4f0": {
       "slug": "trading-212-aml-oversight-working-student",
       "since": "2026-10-23"
@@ -391,6 +407,10 @@
     "ashby-voleon-d732fd5a-ac98-4985-9e60-d1d59f02a66c": {
       "slug": "voleon-software-engineer-university-hire-2027",
       "since": "2026-10-23"
+    },
+    "ashby-voleon-e182a100-56cb-4949-9f33-3c26786b41d9": {
+      "slug": "voleon-research-intern",
+      "since": "2026-11-03"
     },
     "ashby-voleon-e5c0863d-1371-4790-a50f-b467fa544b08": {
       "slug": "voleon-senior-machine-learning-engineer-remote",
@@ -1412,9 +1432,17 @@
       "slug": "databricks-data-science-intern-2027-start",
       "since": "2026-10-23"
     },
+    "greenhouse-databricks-6866549002": {
+      "slug": "databricks-software-engineer-new-grad-2027-start-amsterdam",
+      "since": "2026-11-03"
+    },
     "greenhouse-databricks-6883068002": {
       "slug": "databricks-product-management-intern-summer-2027",
       "since": "2026-09-18"
+    },
+    "greenhouse-databricks-6886281002": {
+      "slug": "databricks-software-engineer-new-grad-2027-start-berlin",
+      "since": "2026-11-03"
     },
     "greenhouse-databricks-7011263002": {
       "slug": "databricks-phd-genai-research-scientist-intern",
@@ -1427,6 +1455,10 @@
     "greenhouse-databricks-7640764002": {
       "slug": "databricks-software-engineering-intern-2027-start-belgrade",
       "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8133691002": {
+      "slug": "databricks-software-engineer-new-grad-2027-start-aarhus",
+      "since": "2026-11-03"
     },
     "greenhouse-databricks-8133710002": {
       "slug": "databricks-software-engineering-intern-2027-start-aarhus",
@@ -1463,6 +1495,10 @@
     "greenhouse-databricks-8847738002": {
       "slug": "databricks-software-engineering-intern-2027-start-london",
       "since": "2026-10-03"
+    },
+    "greenhouse-databricks-8847747002": {
+      "slug": "databricks-software-engineer-new-grad-2027-start-london",
+      "since": "2026-11-03"
     },
     "greenhouse-databricks-8863326002": {
       "slug": "databricks-product-manager-new-grad-2026-belgrade",
@@ -1531,6 +1567,10 @@
     "greenhouse-deliveroo-8236293": {
       "slug": "deliveroo-local-marketing-intern",
       "since": "2026-10-23"
+    },
+    "greenhouse-deliveroo-8331619": {
+      "slug": "deliveroo-graduate-product-designer-2027-london",
+      "since": "2026-11-03"
     },
     "greenhouse-dropbox-8106224": {
       "slug": "dropbox-software-engineering-intern-summer-2027",
@@ -1707,6 +1747,10 @@
     "greenhouse-drweng-7942731": {
       "slug": "drw-senior-software-engineer-unified-platform-trade-management-trade-and-order-processing-platform-services-uk",
       "since": "2026-10-23"
+    },
+    "greenhouse-drweng-7943130": {
+      "slug": "drw-senior-software-engineer-platform-services",
+      "since": "2026-11-03"
     },
     "greenhouse-drweng-7957243": {
       "slug": "drw-quantitative-trading-analyst-intern-uk",
@@ -2147,6 +2191,10 @@
     "greenhouse-exoduspoint-8806119002": {
       "slug": "exoduspoint-quant-credit-intern-pa-hybrid-december-2026",
       "since": "2026-10-23"
+    },
+    "greenhouse-exoduspoint-8927873002": {
+      "slug": "exoduspoint-hong-kong-internship-rv-analyst",
+      "since": "2026-11-03"
     },
     "greenhouse-figma-6131089004": {
       "slug": "figma-software-engineer-intern-winter-2027",
@@ -3525,6 +3573,18 @@
       "slug": "lincoln-international-associate-technology-manda",
       "since": "2026-10-28"
     },
+    "greenhouse-lincolninternational-8348465": {
+      "slug": "lincoln-international-2028-summer-analyst-intern-manda",
+      "since": "2026-11-03"
+    },
+    "greenhouse-lincolninternational-8348492": {
+      "slug": "lincoln-international-2028-summer-analyst-intern-cag",
+      "since": "2026-11-03"
+    },
+    "greenhouse-lincolninternational-8348513": {
+      "slug": "lincoln-international-2028-summer-analyst-intern-pfa",
+      "since": "2026-11-03"
+    },
     "greenhouse-liontree-5153692007": {
       "slug": "liontree-capital-markets-research-associate",
       "since": "2026-10-23"
@@ -3819,6 +3879,10 @@
     "greenhouse-mangroup-5012806101": {
       "slug": "man-group-systematic-quant-intern",
       "since": "2026-10-23"
+    },
+    "greenhouse-mangroup-5012811101": {
+      "slug": "man-group-systematic-quant-intern-phd",
+      "since": "2026-11-03"
     },
     "greenhouse-mangroup-5015820101": {
       "slug": "man-group-quant-researcher-europe",
@@ -5131,6 +5195,10 @@
       "slug": "qube-research-and-technologies-quantitative-developer-production",
       "since": "2026-10-31"
     },
+    "greenhouse-quberesearchandtechnologies-8911518002": {
+      "slug": "qube-research-and-technologies-quantitative-developer-c-uk",
+      "since": "2026-11-03"
+    },
     "greenhouse-quberesearchandtechnologies-8924873002": {
       "slug": "qube-research-and-technologies-senior-quantitative-developer-python-europe",
       "since": "2026-10-30"
@@ -5904,6 +5972,10 @@
     "greenhouse-stepstone-8282723": {
       "slug": "stepstone-group-2026-client-service-solutions-junior-analyst",
       "since": "2026-10-23"
+    },
+    "greenhouse-stepstone-8346536": {
+      "slug": "stepstone-group-2026-207-data-monitoring-junior-analyst",
+      "since": "2026-11-03"
     },
     "greenhouse-stripe-7544547": {
       "slug": "stripe-operations-associate-new-grad-mexico",
@@ -6885,6 +6957,10 @@
       "slug": "william-blair-investment-banking-analyst-royalty-monetization-advisory-experienced-lateral",
       "since": "2026-10-28"
     },
+    "greenhouse-williamblair-5277692007": {
+      "slug": "william-blair-research-analyst-biotechnology",
+      "since": "2026-11-03"
+    },
     "greenhouse-winton-4725821101": {
       "slug": "winton-senior-full-stack-software-developer-post-trade",
       "since": "2026-10-23"
@@ -7656,6 +7732,10 @@
       "slug": "bdo-usa-assurance-intern-technology-risk-assurance-summer-2027-atlanta",
       "since": "2026-10-23"
     },
+    "oracle-ebqb-fa-us2-oraclecloud-com-11447": {
+      "slug": "bdo-usa-assurance-intern-summer-2027-san-francisco",
+      "since": "2026-11-03"
+    },
     "oracle-ebqb-fa-us2-oraclecloud-com-11755": {
       "slug": "bdo-usa-tax-intern-international-tax-services-summer-2027-miami",
       "since": "2026-10-23"
@@ -7860,6 +7940,22 @@
       "slug": "bdo-usa-assurance-intern-risk-advisory-services-summer-2027-miami",
       "since": "2026-10-30"
     },
+    "oracle-ebqb-fa-us2-oraclecloud-com-14600": {
+      "slug": "bdo-usa-assurance-intern-summer-2027-baltimore",
+      "since": "2026-11-03"
+    },
+    "oracle-ebqb-fa-us2-oraclecloud-com-14606": {
+      "slug": "bdo-usa-tax-intern-international-tax-services-summer-2027-nyc",
+      "since": "2026-11-03"
+    },
+    "oracle-ebqb-fa-us2-oraclecloud-com-14611": {
+      "slug": "bdo-usa-tax-intern-core-tax-services-winter-2027-miami",
+      "since": "2026-11-03"
+    },
+    "oracle-ebqb-fa-us2-oraclecloud-com-14612": {
+      "slug": "bdo-usa-tax-intern-core-tax-services-winter-2028-san-antonio",
+      "since": "2026-11-03"
+    },
     "oracle-ebqb-fa-us2-oraclecloud-com-9887": {
       "slug": "bdo-usa-assurance-intern-winter-2027-detroit",
       "since": "2026-10-23"
@@ -7867,6 +7963,10 @@
     "oracle-ehzq-fa-us2-oraclecloud-com-115673": {
       "slug": "grant-thornton-us-risk-advisory-intern-summer-2027",
       "since": "2026-10-23"
+    },
+    "oracle-ehzq-fa-us2-oraclecloud-com-115684": {
+      "slug": "grant-thornton-us-risk-advisory-intern-summer-2027-us",
+      "since": "2026-11-03"
     },
     "oracle-ehzq-fa-us2-oraclecloud-com-115837": {
       "slug": "grant-thornton-us-enterprise-assurance-services-intern-summer-2027",
@@ -9608,6 +9708,10 @@
       "slug": "jpmorgan-chase-global-investment-banking-associate-analyst-thailand",
       "since": "2026-10-12"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210766836": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-e-trading-executive-director",
+      "since": "2026-11-03"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210766897": {
       "slug": "jpmorgan-chase-2027-commercial-and-investment-bank-global-investment-banking-program-summer-analyst-tokyo",
       "since": "2026-09-27"
@@ -10973,6 +11077,10 @@
       "slug": "jpmorgan-chase-na-edg-structuring-analyst",
       "since": "2026-10-22"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210796238": {
+      "slug": "jpmorgan-chase-equity-research-analyst-global-research-center-mumbai-asia",
+      "since": "2026-11-03"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210796243": {
       "slug": "jpmorgan-chase-2027-firmwide-switzerland-working-student-asset-management-sales-support-zurich",
       "since": "2026-10-01"
@@ -11125,6 +11233,10 @@
       "slug": "jpmorgan-chase-credit-officer-lead-commercial-and-investment-bank-credit-risk-vice-president",
       "since": "2026-10-31"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210803752": {
+      "slug": "jpmorgan-chase-equity-research-asean-tmt-vice-president",
+      "since": "2026-11-03"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210803822": {
       "slug": "jpmorgan-chase-relationship-banker-alabama-campus-dr-tuscaloosa-al",
       "since": "2026-10-28"
@@ -11140,6 +11252,14 @@
     "oracle-jpmc-fa-oraclecloud-com-210804346": {
       "slug": "jpmorgan-chase-asset-management-customized-bond-portfolio-municipal-portfolio-manager-vice-president",
       "since": "2026-10-30"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210804878": {
+      "slug": "jpmorgan-chase-2027-commercial-real-estate-full-time-analyst-program-real-estate-banking-new-york",
+      "since": "2026-11-03"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210804892": {
+      "slug": "jpmorgan-chase-2027-commercial-real-estate-full-time-analyst-program-real-estate-banking-dallas-and-houston",
+      "since": "2026-11-03"
     },
     "oracle-jpmc-fa-oraclecloud-com-210805519": {
       "slug": "jpmorgan-chase-software-engineer-program-early-careers-april-2027",
@@ -11423,6 +11543,10 @@
     "talnet-morganstanley-tal-net-21549": {
       "slug": "morgan-stanley-2027-risk-management-internship-program-quantitative-budapest",
       "since": "2026-10-24"
+    },
+    "talnet-morganstanley-tal-net-21558": {
+      "slug": "morgan-stanley-2027-internal-audit-internship-program-budapest",
+      "since": "2026-11-03"
     },
     "talnet-morganstanley-tal-net-21569": {
       "slug": "morgan-stanley-2027-technology-internship-budapest",
@@ -12496,6 +12620,10 @@
       "slug": "accenture-acin-bookingandevents-intern",
       "since": "2026-10-28"
     },
+    "workday-accenture-R00368686": {
+      "slug": "accenture-ai-and-data-data-science-ml-engineering-thesis-internship",
+      "since": "2026-11-03"
+    },
     "workday-acrisure-JR114671": {
       "slug": "acrisure-international-business-development-internship",
       "since": "2026-10-31"
@@ -12832,6 +12960,10 @@
       "slug": "ardian-infrastructure-intern-november-2026-chl",
       "since": "2026-10-31"
     },
+    "workday-ardian-JR1002285": {
+      "slug": "ardian-customized-solutions-intern-march-and-july-2027-zurich-m-f",
+      "since": "2026-11-03"
+    },
     "workday-assurant-R-115522": {
       "slug": "assurant-summer-2027-underwriter-intern",
       "since": "2026-10-31"
@@ -12871,6 +13003,10 @@
     "workday-assurant-R-116065": {
       "slug": "assurant-summer-2027-intern-global-onboarding-intern",
       "since": "2026-10-31"
+    },
+    "workday-assurant-R-116111-1": {
+      "slug": "assurant-fpanda-intern",
+      "since": "2026-11-03"
     },
     "workday-athene-R253683": {
       "slug": "apollo-global-management-2026-summer-associate-treasury-and-business-management",
@@ -13016,6 +13152,10 @@
       "slug": "baird-internship-private-wealth-management-bowling-green-ky-summer-2027",
       "since": "2026-10-31"
     },
+    "workday-baird-R20261104-2": {
+      "slug": "baird-internship-private-wealth-management-cleveland-oh-summer-2027",
+      "since": "2026-11-03"
+    },
     "workday-baird-R20261107-2": {
       "slug": "baird-internship-private-wealth-management-phoenix-az-summer-2027",
       "since": "2026-10-31"
@@ -13091,6 +13231,14 @@
     "workday-baird-R20261221-2": {
       "slug": "baird-internship-private-wealth-management-wausau-wi-summer-2027",
       "since": "2026-10-31"
+    },
+    "workday-baird-R20261248-1": {
+      "slug": "baird-internship-private-wealth-management-fairfax-va-summer-2027",
+      "since": "2026-11-03"
+    },
+    "workday-baird-R20261249": {
+      "slug": "baird-internship-private-wealth-management-alexandria-va-summer-2027",
+      "since": "2026-11-03"
     },
     "workday-baird-R2026914-1": {
       "slug": "baird-internship-equity-asset-management-research-analyst-growth-team-summer-2027",
@@ -14059,9 +14207,17 @@
       "slug": "barclays-client-data-and-engineering-group-summer-internship-programme-2027-london",
       "since": "2026-10-17"
     },
+    "workday-barclays-JR-0000136150": {
+      "slug": "barclays-director-lender-coverage",
+      "since": "2026-11-03"
+    },
     "workday-barclays-JR-0000136364": {
       "slug": "barclays-corporate-development-director-risk-transfer",
       "since": "2026-10-30"
+    },
+    "workday-barclays-JR-0000136798": {
+      "slug": "barclays-relationship-director-large-corporate-business-and-professional-services-sector-client-coverage",
+      "since": "2026-11-03"
     },
     "workday-barclays-JR-0000136979-1": {
       "slug": "barclays-director-corporate-development-and-strategic-transactions-barclaycard-payments-bpl",
@@ -14070,6 +14226,10 @@
     "workday-barclays-JR-0000137731": {
       "slug": "barclays-chief-client-office-client-data-and-engineering-group-summer-internship-program-2027-new-york-city",
       "since": "2026-10-31"
+    },
+    "workday-barclays-JR-0000137789": {
+      "slug": "barclays-banking-analyst-summer-internship-program-2028-houston",
+      "since": "2026-11-03"
     },
     "workday-barings-006683-1": {
       "slug": "barings-2027-corporate-finance-and-operations-summer-internship",
@@ -14633,6 +14793,54 @@
     "workday-bmo-R260030565": {
       "slug": "bmo-capital-markets-credit-analyst-internship-chicago-il-summer-2027-10",
       "since": "2026-11-02"
+    },
+    "workday-bmo-R260030598": {
+      "slug": "bmo-capital-markets-commercial-analyst-development-program-los-angeles-ca-new-grad-2027",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030609": {
+      "slug": "bmo-capital-markets-commercial-analyst-development-program-los-angeles-ca-new-grad-2027-us",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030610": {
+      "slug": "bmo-capital-markets-commercial-analyst-development-program-los-angeles-ca-new-grad-2027-2",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030612": {
+      "slug": "bmo-capital-markets-commercial-analyst-development-program-los-angeles-ca-new-grad-2027-3",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030613": {
+      "slug": "bmo-capital-markets-commercial-analyst-development-program-los-angeles-ca-new-grad-2027-4",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030614": {
+      "slug": "bmo-capital-markets-credit-analyst-internship-los-angeles-ca-summer-2027-us",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030615": {
+      "slug": "bmo-capital-markets-credit-analyst-internship-los-angeles-ca-summer-2027-2",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030616": {
+      "slug": "bmo-capital-markets-credit-analyst-internship-los-angeles-ca-summer-2027-3",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030618": {
+      "slug": "bmo-capital-markets-credit-analyst-internship-los-angeles-ca-summer-2027-4",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030619": {
+      "slug": "bmo-capital-markets-credit-analyst-internship-los-angeles-ca-summer-2027-5",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030638": {
+      "slug": "bmo-capital-markets-credit-analyst-internship-newport-beach-ca-summer-2027-us",
+      "since": "2026-11-03"
+    },
+    "workday-bmo-R260030648": {
+      "slug": "bmo-capital-markets-commercial-analyst-development-program-los-angeles-ca-new-grad-2027-5",
+      "since": "2026-11-03"
     },
     "workday-bpinternational-RQ115461-2": {
       "slug": "bp-graduate-technology-enterprise-tech-malaysia",
@@ -15593,6 +15801,10 @@
       "slug": "citi-young-apprentice-c00-mumbai-6",
       "since": "2026-10-05"
     },
+    "workday-citi-26988220": {
+      "slug": "citi-young-apprentice-c00-mumbai-10",
+      "since": "2026-11-03"
+    },
     "workday-citi-26988474": {
       "slug": "citi-wealth-citigold-summer-analyst-hong-kong-2027",
       "since": "2026-09-18"
@@ -15620,6 +15832,10 @@
     "workday-citi-26989505": {
       "slug": "citi-young-apprentice-c00-mumbai-9",
       "since": "2026-10-17"
+    },
+    "workday-citi-26989529": {
+      "slug": "citi-young-apprentice-c00-mumbai-11",
+      "since": "2026-11-03"
     },
     "workday-citi-26990039": {
       "slug": "citi-functions-quantitative-risk-management-summer-analyst-buffalo-usa-2027",
@@ -15776,6 +15992,10 @@
     "workday-citi-26994909": {
       "slug": "citi-banking-corporate-banking-summer-analyst-dublin-ireland-2027",
       "since": "2026-10-23"
+    },
+    "workday-citi-26994910": {
+      "slug": "citi-banking-corporate-banking-placement-analyst-oslo-norway-2027",
+      "since": "2026-11-03"
     },
     "workday-citi-26994961": {
       "slug": "citi-citi-global-wealth-summer-analyst-bertrange-luxembourg-2027",
@@ -15968,6 +16188,10 @@
     "workday-fmr-2137777": {
       "slug": "fidelity-investments-communications-and-events-intern",
       "since": "2026-10-31"
+    },
+    "workday-fmr-2137916": {
+      "slug": "fidelity-investments-real-estate-internship",
+      "since": "2026-11-03"
     },
     "workday-fticonsulting-JR250SB-TEE": {
       "slug": "fti-consulting-2027-internship-risk-and-investigations-forensic-and-litigation-consulting",
@@ -16776,6 +17000,10 @@
       "slug": "houlihan-lokey-2028-investment-banking-summer-financial-analyst-class-of-2029-dallas-healthcare",
       "since": "2026-11-02"
     },
+    "workday-hl-R3732": {
+      "slug": "houlihan-lokey-2028-investment-banking-summer-associate-class-of-2028-los-angeles-business-services",
+      "since": "2026-11-03"
+    },
     "workday-hl-R3733": {
       "slug": "houlihan-lokey-2028-investment-banking-summer-financial-analyst-class-of-2029-dallas-consumer",
       "since": "2026-11-02"
@@ -16875,6 +17103,10 @@
     "workday-huron-JR-0017056": {
       "slug": "huron-consulting-group-mba-summer-associate-education-and-research-summer-2027",
       "since": "2026-11-02"
+    },
+    "workday-huron-JR-0017064": {
+      "slug": "huron-consulting-group-consulting-analyst-digital-chicago-il-march-2027-start-date",
+      "since": "2026-11-03"
     },
     "workday-ing-0258428": {
       "slug": "ing-principal-expert-insurance-business-and-portfolio-management",
@@ -17546,6 +17778,10 @@
     "workday-ing-REQ-10123889": {
       "slug": "ing-internship-corporate-finance-mid-market",
       "since": "2026-10-31"
+    },
+    "workday-ing-REQ-10123926": {
+      "slug": "ing-intern-financial-markets-client-solutions-group-csg",
+      "since": "2026-11-03"
     },
     "workday-ing-REQ-10123933-1": {
       "slug": "ing-vp-rates-trading",
@@ -18368,9 +18604,101 @@
       "slug": "julius-baer-junior-business-analyst-banking-operations-transformation-100-f-m-d-contract-through-our-external-payroll-partner-with-immediate-start-until-31-12-2027-with-possible-extension",
       "since": "2026-10-31"
     },
+    "workday-lbg-164867": {
+      "slug": "lloyds-banking-group-accountancy-graduate-apprenticeship-edinburgh",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164868": {
+      "slug": "lloyds-banking-group-accounting-and-finance-degree-apprenticeship-west-yorkshire-leeds-and-halifax",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164870": {
+      "slug": "lloyds-banking-group-accounting-and-finance-degree-apprenticeship-bristol",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164871": {
+      "slug": "lloyds-banking-group-actuarial-apprentice-bristol",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164874": {
+      "slug": "lloyds-banking-group-audit-practitioner-apprenticeship-bristol",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164875": {
+      "slug": "lloyds-banking-group-audit-practitioner-apprenticeship-edinburgh",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164877": {
+      "slug": "lloyds-banking-group-colleague-user-experience-ux-professional-degree-apprenticeship-leeds",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164878": {
+      "slug": "lloyds-banking-group-data-and-ai-apprenticeship-leeds",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164880": {
+      "slug": "lloyds-banking-group-data-and-ai-apprenticeship-edinburgh",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164882": {
+      "slug": "lloyds-banking-group-software-development-graduate-apprenticeship-edinburgh",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164894": {
+      "slug": "lloyds-banking-group-risk-apprentice-bristol",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164900": {
+      "slug": "lloyds-banking-group-risk-apprentice-edinburgh",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164903": {
+      "slug": "lloyds-banking-group-digital-and-technology-solutions-degree-apprenticeship-manchester",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164906": {
+      "slug": "lloyds-banking-group-consumer-financial-services-professional-apprentice-leeds",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164908": {
+      "slug": "lloyds-banking-group-consumer-financial-services-professional-apprentice-birmingham",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164933": {
+      "slug": "lloyds-banking-group-consumer-financial-services-professional-apprentice-bristol",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-164935": {
+      "slug": "lloyds-banking-group-consumer-financial-services-professional-apprentice-edinburgh",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-165549": {
+      "slug": "lloyds-banking-group-digital-product-manager-apprentice-edinburgh",
+      "since": "2026-11-03"
+    },
     "workday-lbg-165564": {
       "slug": "lloyds-banking-group-consumer-financial-services-professional-apprenticeship-programme-london",
       "since": "2026-10-28"
+    },
+    "workday-lbg-165590": {
+      "slug": "lloyds-banking-group-applied-data-and-ai-apprentice-bristol",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-165591": {
+      "slug": "lloyds-banking-group-applied-data-and-ai-apprentice-birmingham",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-165592": {
+      "slug": "lloyds-banking-group-applied-data-and-ai-apprentice-edinburgh",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-165649": {
+      "slug": "lloyds-banking-group-risk-apprentice-london",
+      "since": "2026-11-03"
+    },
+    "workday-lbg-165789": {
+      "slug": "lloyds-banking-group-housing-and-property-management-apprentice-manchester",
+      "since": "2026-11-03"
     },
     "workday-lgt-JR8000": {
       "slug": "lgt-apprenticeship-as-a-computer-scientist-with-a-focus-on-platform-development",
@@ -18544,6 +18872,10 @@
       "slug": "manulife-co-op-internship-2027-asia-marketing-strategy-and-business-planning-6-months",
       "since": "2026-10-31"
     },
+    "workday-manulife-JR26080059": {
+      "slug": "manulife-summer-intern-2027-global-retirement-marketing",
+      "since": "2026-11-03"
+    },
     "workday-manulife-JR26080227": {
       "slug": "manulife-winter-co-op-2027-hr-knowledge",
       "since": "2026-10-31"
@@ -18555,6 +18887,10 @@
     "workday-manulife-JR26081201": {
       "slug": "manulife-actuarial-internship-program-2027-6-5-months",
       "since": "2026-10-31"
+    },
+    "workday-manulife-JR26081244": {
+      "slug": "manulife-summer-intern-2027-brand-coordinator",
+      "since": "2026-11-03"
     },
     "workday-manulife-JR26081500": {
       "slug": "manulife-winter-co-op-2027-investment-analyst",
@@ -18583,6 +18919,10 @@
     "workday-manulife-JR26091348": {
       "slug": "manulife-operations-and-data-analyst-co-op-8-months",
       "since": "2026-10-31"
+    },
+    "workday-manulife-JR26091425": {
+      "slug": "manulife-summer-2027-intern-mortgage-operations-analyst",
+      "since": "2026-11-03"
     },
     "workday-manulife-JR26091510": {
       "slug": "manulife-co-op-internship-2027-business-and-investment-advisory-general-accounts-investment-6-months",
@@ -18912,6 +19252,10 @@
       "slug": "mizuho-financial-control-intern-summer-2027",
       "since": "2026-10-29"
     },
+    "workday-mizuho-R7520": {
+      "slug": "mizuho-summer-2027-treasury-internship",
+      "since": "2026-11-03"
+    },
     "workday-mufgub-10059036-WD": {
       "slug": "mufg-universiti-malaya-global-connect-career-fair-internship-2027",
       "since": "2026-10-23"
@@ -19100,6 +19444,10 @@
       "slug": "mufg-6-month-internship-risk-solutions-group-eu-rsg-global-markets-dec-2026-jan-2027",
       "since": "2026-11-02"
     },
+    "workday-mufgub-10080532-WD": {
+      "slug": "mufg-6-month-internship-fixed-income-credit-sales-jan-june-2027",
+      "since": "2026-11-03"
+    },
     "workday-nasdaq-R0027078": {
       "slug": "nasdaq-computer-science-co-op-student-worker",
       "since": "2026-10-23"
@@ -19243,6 +19591,10 @@
     "workday-northwesternmutual-JR-46302": {
       "slug": "northwestern-mutual-life-underwriting-intern-year-round",
       "since": "2026-10-30"
+    },
+    "workday-northwesternmutual-JR-46324": {
+      "slug": "northwestern-mutual-investment-strategy-analyst-intern-summer-2027",
+      "since": "2026-11-03"
     },
     "workday-ntrs-R162088": {
       "slug": "northern-trust-graduate-custody-client-service-representative",
@@ -19935,9 +20287,17 @@
       "slug": "nvidia-circuit-design-methodology-cad-engineer-new-college-graduate-2027",
       "since": "2026-10-29"
     },
+    "workday-nvidia-JR2028699": {
+      "slug": "nvidia-product-marketing-mba-intern-ai-infrastructure-summer-2027",
+      "since": "2026-11-03"
+    },
     "workday-nvidia-JR2028897": {
       "slug": "nvidia-formal-verification-engineer-new-college-graduate-2026",
       "since": "2026-11-02"
+    },
+    "workday-nvidia-JR2029184": {
+      "slug": "nvidia-software-engineering-intern-2027-europe",
+      "since": "2026-11-03"
     },
     "workday-omers-JR-8378": {
       "slug": "omers-student-private-equity-analyst-summer-2027-4-months",
@@ -20710,6 +21070,10 @@
       "slug": "rbc-2028-global-markets-summer-associate-equity-research",
       "since": "2026-11-02"
     },
+    "workday-rbc-R-0000191799": {
+      "slug": "rbc-2027-capital-markets-debt-capital-markets-winter-analyst-8-months",
+      "since": "2026-11-03"
+    },
     "workday-robeco-R2261": {
       "slug": "robeco-super-quant-internship-2027",
       "since": "2026-10-31"
@@ -20977,6 +21341,10 @@
     "workday-statestreet-R-800658": {
       "slug": "state-street-state-street-investment-management-index-strategy-analyst-2027-summer-internship",
       "since": "2026-11-02"
+    },
+    "workday-statestreet-R-800715": {
+      "slug": "state-street-state-street-investment-management-us-wealth-2027-summer-internship",
+      "since": "2026-11-03"
     },
     "workday-sunlife-JR00127121": {
       "slug": "sun-life-dean-connor-inclusion-scholarship-program-for-black-or-indigenous-students-summer-2027",
@@ -21558,6 +21926,10 @@
       "slug": "travelers-risk-control-intern-2",
       "since": "2026-10-30"
     },
+    "workday-travelers-R-53515": {
+      "slug": "travelers-legal-intern-16",
+      "since": "2026-11-03"
+    },
     "workday-trinitylifesciences-JR100749": {
       "slug": "trinity-life-sciences-commercial-strategy-summer-associate-waltham",
       "since": "2026-09-20"
@@ -21649,6 +22021,10 @@
     "workday-troweprice-83579": {
       "slug": "t-rowe-price-associate-sales-consultant-december-2026-and-spring-2027-graduates",
       "since": "2026-10-23"
+    },
+    "workday-troweprice-84293": {
+      "slug": "t-rowe-price-associate-sales-consultant-december-2026-and-spring-2027-graduates-us",
+      "since": "2026-11-03"
     },
     "workday-unum-834254-1": {
       "slug": "unum-unum-scholar-intern-chattanooga-tn",
