@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-03",
+  "updatedAt": "2026-11-04",
   "entries": {
     "eightfold-campusjobs-mlp-com-755953958409": {
       "closingDate": "2026-11-18",
@@ -200,65 +200,71 @@
       "firstSeen": "2026-10-17",
       "lastConfirmed": "2026-10-17"
     },
+    "eightfold-campusjobs-mlp-com-755959495059": {
+      "closingDate": "2027-05-03",
+      "source": "jsonld",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "greenhouse-duolingo-8863967002": {
       "closingDate": "2026-11-06",
       "source": "ats-field",
       "firstSeen": "2026-10-24",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-duolingo-8888045002": {
       "closingDate": "2026-11-19",
       "source": "ats-field",
       "firstSeen": "2026-10-24",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-lincolninternational-8324552": {
       "closingDate": "2026-11-11",
       "source": "prose",
       "firstSeen": "2026-10-27",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-point72-8845395002": {
       "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-09-30",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-robinhood-8198241": {
       "closingDate": "2026-12-19",
       "source": "ats-field",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-stepstone-8282599": {
       "closingDate": "2026-11-13",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-teneo-8046234003": {
       "closingDate": "2026-11-13",
       "source": "ats-field",
       "firstSeen": "2026-10-28",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-virtu-8745933002": {
       "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "greenhouse-virtu-8746197002": {
       "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-blackrock-tal-net-12223": {
       "closingDate": "2026-12-04",
       "source": "prose",
       "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-blackrock-tal-net-12229": {
       "closingDate": "2026-11-30",
@@ -276,139 +282,145 @@
       "closingDate": "2026-11-27",
       "source": "prose",
       "firstSeen": "2026-09-12",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-morganstanley-tal-net-22313": {
       "closingDate": "2026-11-30",
       "source": "prose",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1426": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1427": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1428": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1429": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1430": {
       "closingDate": "2027-05-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1431": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1433": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1435": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1449": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1451": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1504": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1505": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1517": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1518": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1520": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1521": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1522": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1548": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1549": {
       "closingDate": "2027-03-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "talnet-nomuracampus-tal-net-1558": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-20",
-      "lastConfirmed": "2026-11-03"
+      "lastConfirmed": "2026-11-04"
     },
     "workday-accenture-R00235738": {
       "closingDate": "2027-12-31",
       "source": "workday-detail",
       "firstSeen": "2026-10-12",
       "lastConfirmed": "2026-10-12"
+    },
+    "workday-accenture-R00315414": {
+      "closingDate": "2027-01-29",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-accenture-R00322620-1": {
       "closingDate": "2027-08-31",
@@ -661,6 +673,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
+    },
+    "workday-barclays-JR-0000124561": {
+      "closingDate": "2026-11-10",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-barclays-JR-0000128131": {
       "closingDate": "2026-12-01",
@@ -920,12 +938,6 @@
       "firstSeen": "2026-09-04",
       "lastConfirmed": "2026-09-04"
     },
-    "workday-barclays-JR-0000133937": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-29",
-      "lastConfirmed": "2026-10-29"
-    },
     "workday-barclays-JR-0000134320": {
       "closingDate": "2026-11-05",
       "source": "workday-detail",
@@ -939,10 +951,10 @@
       "lastConfirmed": "2026-10-29"
     },
     "workday-barclays-JR-0000135650-1": {
-      "closingDate": "2026-11-03",
+      "closingDate": "2026-11-06",
       "source": "workday-detail",
       "firstSeen": "2026-10-28",
-      "lastConfirmed": "2026-10-31"
+      "lastConfirmed": "2026-11-04"
     },
     "workday-barclays-JR-0000136150": {
       "closingDate": "2026-11-17",
@@ -950,17 +962,17 @@
       "firstSeen": "2026-11-03",
       "lastConfirmed": "2026-11-03"
     },
+    "workday-barclays-JR-0000136153": {
+      "closingDate": "2026-11-11",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-barclays-JR-0000136798": {
       "closingDate": "2026-11-17",
       "source": "workday-detail",
       "firstSeen": "2026-11-03",
       "lastConfirmed": "2026-11-03"
-    },
-    "workday-bmo-R260020285": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-02",
-      "lastConfirmed": "2026-11-02"
     },
     "workday-bmo-R260024334": {
       "closingDate": "2026-11-05",
@@ -998,11 +1010,11 @@
       "firstSeen": "2026-10-28",
       "lastConfirmed": "2026-10-28"
     },
-    "workday-bmo-R260029417": {
-      "closingDate": "2026-11-03",
+    "workday-bmo-R260027681-3": {
+      "closingDate": "2026-11-06",
       "source": "workday-detail",
-      "firstSeen": "2026-10-20",
-      "lastConfirmed": "2026-10-20"
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-bmo-R260030474": {
       "closingDate": "2026-11-04",
@@ -1178,6 +1190,18 @@
       "firstSeen": "2026-10-28",
       "lastConfirmed": "2026-10-28"
     },
+    "workday-bpinternational-RQ117874": {
+      "closingDate": "2026-12-31",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
+    "workday-bpinternational-RQ117875": {
+      "closingDate": "2026-12-31",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-capgroup-JR5917": {
       "closingDate": "2026-12-01",
       "source": "workday-detail",
@@ -1292,6 +1316,12 @@
       "firstSeen": "2026-10-28",
       "lastConfirmed": "2026-10-28"
     },
+    "workday-cibc-2620149-1": {
+      "closingDate": "2026-11-20",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-cibc-2620150-1": {
       "closingDate": "2026-11-20",
       "source": "workday-detail",
@@ -1303,6 +1333,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-28",
       "lastConfirmed": "2026-10-28"
+    },
+    "workday-cibc-2620157-1": {
+      "closingDate": "2026-11-20",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-cibc-2620159": {
       "closingDate": "2026-11-20",
@@ -1411,6 +1447,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-26",
       "lastConfirmed": "2026-10-26"
+    },
+    "workday-fticonsulting-JR260667": {
+      "closingDate": "2026-11-14",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-fticonsulting-JR260670": {
       "closingDate": "2026-11-20",
@@ -1663,12 +1705,6 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
-    },
-    "workday-guidehouse-46116-1": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-02",
-      "lastConfirmed": "2026-11-02"
     },
     "workday-hl-R2869": {
       "closingDate": "2026-11-06",
@@ -2348,17 +2384,17 @@
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
     },
+    "workday-lseg-R0119252-1": {
+      "closingDate": "2026-11-10",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-manulife-JR26080059": {
       "closingDate": "2026-11-16",
       "source": "workday-detail",
       "firstSeen": "2026-11-03",
       "lastConfirmed": "2026-11-03"
-    },
-    "workday-manulife-JR26080227": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
     },
     "workday-manulife-JR26080650": {
       "closingDate": "2026-11-09",
@@ -2396,23 +2432,17 @@
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
     },
-    "workday-manulife-JR26091348": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
-    },
     "workday-manulife-JR26091425": {
       "closingDate": "2026-11-19",
       "source": "workday-detail",
       "firstSeen": "2026-11-03",
       "lastConfirmed": "2026-11-03"
     },
-    "workday-manulife-JR26091968": {
-      "closingDate": "2026-11-03",
+    "workday-manulife-JR26091962": {
+      "closingDate": "2026-12-06",
       "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-manulife-JR26100464": {
       "closingDate": "2026-11-06",
@@ -2684,6 +2714,12 @@
       "firstSeen": "2026-10-23",
       "lastConfirmed": "2026-10-23"
     },
+    "workday-mufgub-10080537-WD": {
+      "closingDate": "2026-11-30",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-nationwide-099539": {
       "closingDate": "2026-11-16",
       "source": "workday-detail",
@@ -2704,12 +2740,6 @@
     },
     "workday-nationwide-099981": {
       "closingDate": "2026-12-04",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
-    },
-    "workday-nationwide-099989": {
-      "closingDate": "2026-11-03",
       "source": "workday-detail",
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
@@ -2774,30 +2804,6 @@
       "firstSeen": "2026-10-23",
       "lastConfirmed": "2026-10-23"
     },
-    "workday-pnc-R231582": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
-    },
-    "workday-pnc-R231583": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
-    },
-    "workday-pnc-R231648": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
-    },
-    "workday-pnc-R231649": {
-      "closingDate": "2026-11-03",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
-    },
     "workday-prudential-26060290-1": {
       "closingDate": "2026-11-06",
       "source": "workday-detail",
@@ -2827,6 +2833,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-24",
       "lastConfirmed": "2026-10-24"
+    },
+    "workday-rbc-R-0000187401-1": {
+      "closingDate": "2026-11-16",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-rbc-R-0000188791": {
       "closingDate": "2026-11-13",
@@ -3044,6 +3056,12 @@
       "firstSeen": "2026-10-29",
       "lastConfirmed": "2026-10-29"
     },
+    "workday-statestreet-R-799731": {
+      "closingDate": "2026-11-06",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-statestreet-R-799807": {
       "closingDate": "2026-11-13",
       "source": "workday-detail",
@@ -3098,6 +3116,24 @@
       "firstSeen": "2026-11-03",
       "lastConfirmed": "2026-11-03"
     },
+    "workday-statestreet-R-800751": {
+      "closingDate": "2026-11-18",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
+    "workday-statestreet-R-800754": {
+      "closingDate": "2026-11-18",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
+    "workday-statestreet-R-800756": {
+      "closingDate": "2026-11-18",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-sunlife-JR00127666-1": {
       "closingDate": "2026-11-21",
       "source": "workday-detail",
@@ -3140,11 +3176,17 @@
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
     },
-    "workday-sunlife-JR00128720": {
-      "closingDate": "2026-11-03",
+    "workday-sunlife-JR00128846-1": {
+      "closingDate": "2026-12-19",
       "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
+    "workday-sunlife-JR00128863": {
+      "closingDate": "2026-12-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-sunlife-JR00129284": {
       "closingDate": "2026-11-04",
@@ -3380,6 +3422,12 @@
       "firstSeen": "2026-10-28",
       "lastConfirmed": "2026-10-28"
     },
+    "workday-wf-R-557386": {
+      "closingDate": "2026-11-05",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
+    },
     "workday-wf-R-568617": {
       "closingDate": "2027-02-01",
       "source": "workday-detail",
@@ -3415,6 +3463,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-14",
       "lastConfirmed": "2026-10-31"
+    },
+    "workday-wf-R-581926": {
+      "closingDate": "2026-11-09",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-04",
+      "lastConfirmed": "2026-11-04"
     },
     "workday-wf-R-583066": {
       "closingDate": "2026-11-10",
@@ -3467,6 +3521,10 @@
     "ashby-alan-9c4eb7ab-2297-4981-ac31-ef57a349f9c9|jsonld": {
       "checkedAt": "2026-11-02",
       "attempts": 3
+    },
+    "ashby-alan-a725479a-de87-45d9-afe6-e3273dc6d704|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "ashby-alan-d457e0f1-2418-4759-b4ed-e41fdff50bf0|jsonld": {
       "checkedAt": "2026-11-02",
@@ -3732,6 +3790,10 @@
       "checkedAt": "2026-09-24",
       "attempts": 4
     },
+    "ashby-trading212-36a448fe-d867-4f09-88e4-67c47abc44d0|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "ashby-trading212-3869cbd3-5700-4a3f-b32c-ac386518ee9a|jsonld": {
       "checkedAt": "2026-11-03",
       "attempts": 1
@@ -3739,6 +3801,10 @@
     "ashby-trading212-4a95dcf2-673e-411c-99a4-0b9dc19cd4f0|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
+    },
+    "ashby-trading212-e03427a7-8ddb-40c3-acfd-1d6f2165c123|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "ashby-trading212-f8d628f4-6093-48bc-942e-6057b44707fc|jsonld": {
       "checkedAt": "2026-11-01",
@@ -4397,8 +4463,8 @@
       "attempts": 5
     },
     "greenhouse-datadog-8287316|jsonld": {
-      "checkedAt": "2026-10-24",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "greenhouse-deliveroo-8202627|jsonld": {
       "checkedAt": "2026-11-01",
@@ -4483,6 +4549,10 @@
     "greenhouse-duolingo-8888848002|jsonld": {
       "checkedAt": "2026-11-02",
       "attempts": 3
+    },
+    "greenhouse-duolingo-8927565002|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "greenhouse-dvtrading-4686253005|jsonld": {
       "checkedAt": "2026-11-02",
@@ -4616,6 +4686,10 @@
       "checkedAt": "2026-10-31",
       "attempts": 2
     },
+    "greenhouse-ebury-5027026101|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "greenhouse-elixirr-7950016|jsonld": {
       "checkedAt": "2026-11-02",
       "attempts": 3
@@ -4689,8 +4763,8 @@
       "attempts": 4
     },
     "greenhouse-figma-6219995004|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "greenhouse-figma-6238015004|jsonld": {
       "checkedAt": "2026-11-01",
@@ -4817,8 +4891,8 @@
       "attempts": 3
     },
     "greenhouse-genevatrading-5242063007|jsonld": {
-      "checkedAt": "2026-10-27",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "greenhouse-genevatrading-5242180007|jsonld": {
       "checkedAt": "2026-11-02",
@@ -5405,8 +5479,8 @@
       "attempts": 3
     },
     "greenhouse-mangroup-5012801101|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "greenhouse-mangroup-5012802101|jsonld": {
       "checkedAt": "2026-10-29",
@@ -5869,8 +5943,8 @@
       "attempts": 5
     },
     "greenhouse-quberesearchandtechnologies-8870423002|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "greenhouse-quberesearchandtechnologies-8926633002|jsonld": {
       "checkedAt": "2026-11-02",
@@ -6040,6 +6114,10 @@
       "checkedAt": "2026-09-27",
       "attempts": 4
     },
+    "greenhouse-schonfeld-8171776|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "greenhouse-schonfeld-8171778|jsonld": {
       "checkedAt": "2026-09-24",
       "attempts": 3
@@ -6131,6 +6209,10 @@
     "greenhouse-schonfeld-8324611|jsonld": {
       "checkedAt": "2026-10-31",
       "attempts": 2
+    },
+    "greenhouse-schonfeld-8350719|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "greenhouse-squarepointcapital-239376|jsonld": {
       "checkedAt": "2026-11-03",
@@ -6254,6 +6336,10 @@
     },
     "greenhouse-stepstone-8346536|jsonld": {
       "checkedAt": "2026-11-03",
+      "attempts": 1
+    },
+    "greenhouse-stepstone-8350072|jsonld": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "greenhouse-stripe-7544547|jsonld": {
@@ -6487,6 +6573,10 @@
     "greenhouse-tpgcareers-8036208003|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
+    },
+    "greenhouse-vaticlabs-7205954|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "greenhouse-vercel-6181755004|jsonld": {
       "checkedAt": "2026-11-01",
@@ -7524,6 +7614,10 @@
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
+    "oracle-ebqb-fa-us2-oraclecloud-com-14475|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "oracle-ebqb-fa-us2-oraclecloud-com-14476|jsonld": {
       "checkedAt": "2026-11-03",
       "attempts": 2
@@ -7546,6 +7640,10 @@
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14612|jsonld": {
       "checkedAt": "2026-11-03",
+      "attempts": 1
+    },
+    "oracle-ebqb-fa-us2-oraclecloud-com-14624|jsonld": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-9887|jsonld": {
@@ -7623,6 +7721,10 @@
     "oracle-ekbq-fa-em2-oraclecloud-com-2050|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
+    },
+    "oracle-ekbq-fa-em2-oraclecloud-com-2051|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2052|jsonld": {
       "checkedAt": "2026-11-01",
@@ -8291,6 +8393,14 @@
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37538|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
+    },
+    "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-38049|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-38295|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "oracle-icbpjb-fa-ocs-oraclecloud-com-6370|jsonld": {
       "checkedAt": "2026-11-03",
@@ -9273,8 +9383,8 @@
       "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210780807|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210780870|jsonld": {
       "checkedAt": "2026-10-22",
@@ -9582,6 +9692,10 @@
     },
     "oracle-jpmc-fa-oraclecloud-com-210805519|jsonld": {
       "checkedAt": "2026-11-02",
+      "attempts": 1
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210805837|jsonld": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "talnet-blackrock-tal-net-11983|jsonld": {
@@ -9908,6 +10022,10 @@
       "checkedAt": "2026-10-18",
       "attempts": 3
     },
+    "talnet-morganstanley-tal-net-22260|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "talnet-morganstanley-tal-net-22261|jsonld": {
       "checkedAt": "2026-10-27",
       "attempts": 4
@@ -9971,6 +10089,10 @@
     "talnet-morganstanley-tal-net-22417|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 2
+    },
+    "talnet-morganstanley-tal-net-22429|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "workday-3i-/job/Amsterdam-Netherlands/Intern--Amsterdam_|jsonld": {
       "checkedAt": "2026-11-03",
@@ -10189,20 +10311,20 @@
       "attempts": 1
     },
     "workday-accenture-14811480|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-accenture-14811480|workday-detail": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-accenture-14818045|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-accenture-14818045|workday-detail": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-accenture-14835658|jsonld": {
       "checkedAt": "2026-10-31",
@@ -10812,6 +10934,14 @@
       "checkedAt": "2026-11-01",
       "attempts": 2
     },
+    "workday-accenture-R00367336|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-accenture-R00367336|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "workday-accenture-R00367570|jsonld": {
       "checkedAt": "2026-11-02",
       "attempts": 2
@@ -11228,6 +11358,14 @@
       "checkedAt": "2026-11-03",
       "attempts": 1
     },
+    "workday-ardian-JR1002297|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-ardian-JR1002297|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "workday-assurant-R-115522|jsonld": {
       "checkedAt": "2026-11-03",
       "attempts": 2
@@ -11314,6 +11452,14 @@
     },
     "workday-assurant-R-116111-1|workday-detail": {
       "checkedAt": "2026-11-03",
+      "attempts": 1
+    },
+    "workday-athene-R255176|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-athene-R255176|workday-detail": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "workday-aviva-R-174802|jsonld": {
@@ -12689,8 +12835,8 @@
       "attempts": 2
     },
     "workday-barings-006711|workday-detail": {
-      "checkedAt": "2026-10-31",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-barings-006750-1|jsonld": {
       "checkedAt": "2026-11-03",
@@ -13117,8 +13263,8 @@
       "attempts": 2
     },
     "workday-capitalone-R1002858-1|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-capitalone-R1003046|jsonld": {
       "checkedAt": "2026-10-07",
@@ -13760,6 +13906,38 @@
       "checkedAt": "2026-11-02",
       "attempts": 3
     },
+    "workday-citi-261005182|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-261005182|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-261005873|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-261005873|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-261006351|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-261006351|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-261006458|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-261006458|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "workday-citi-26945311|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
@@ -13863,6 +14041,14 @@
     "workday-citi-26978889|workday-detail": {
       "checkedAt": "2026-10-15",
       "attempts": 5
+    },
+    "workday-citi-26980896|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-citi-26980896|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "workday-citi-26980901|jsonld": {
       "checkedAt": "2026-10-11",
@@ -14640,6 +14826,14 @@
       "checkedAt": "2026-11-03",
       "attempts": 2
     },
+    "workday-globelife-JR101609|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-globelife-JR101609|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "workday-globelife-JR101612|jsonld": {
       "checkedAt": "2026-11-03",
       "attempts": 2
@@ -14655,6 +14849,22 @@
     "workday-globelife-JR101614|workday-detail": {
       "checkedAt": "2026-11-03",
       "attempts": 2
+    },
+    "workday-globelife-JR101616|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-globelife-JR101616|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-globelife-JR101635|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-globelife-JR101635|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "workday-gresearch-R3679|jsonld": {
       "checkedAt": "2026-11-02",
@@ -14735,6 +14945,14 @@
     "workday-guardianlife-R000109979|workday-detail": {
       "checkedAt": "2026-11-03",
       "attempts": 2
+    },
+    "workday-guardianlife-R000109993|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-guardianlife-R000109993|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "workday-guardianlife-R000110019|jsonld": {
       "checkedAt": "2026-11-03",
@@ -15222,6 +15440,14 @@
     },
     "workday-hubinternational-R0039299-1|workday-detail": {
       "checkedAt": "2026-11-02",
+      "attempts": 1
+    },
+    "workday-hubinternational-R0039335|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-hubinternational-R0039335|workday-detail": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "workday-huron-JR-0016124|jsonld": {
@@ -15913,12 +16139,12 @@
       "attempts": 1
     },
     "workday-ing-REQ-10123178|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-ing-REQ-10123178|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-ing-REQ-10123196|jsonld": {
       "checkedAt": "2026-10-14",
@@ -16063,6 +16289,14 @@
     "workday-ing-REQ-10123832|workday-detail": {
       "checkedAt": "2026-10-31",
       "attempts": 2
+    },
+    "workday-ing-REQ-10123838|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10123838|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "workday-ing-REQ-10123855|jsonld": {
       "checkedAt": "2026-11-01",
@@ -16749,20 +16983,20 @@
       "attempts": 4
     },
     "workday-intel-JR0287893|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-intel-JR0287893|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-intel-JR0287894|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-intel-JR0287894|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-intel-JR0287895|jsonld": {
       "checkedAt": "2026-10-29",
@@ -16773,12 +17007,12 @@
       "attempts": 4
     },
     "workday-intel-JR0287897|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-intel-JR0287897|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-intel-JR0287914|jsonld": {
       "checkedAt": "2026-10-29",
@@ -17132,6 +17366,30 @@
       "checkedAt": "2026-11-02",
       "attempts": 1
     },
+    "workday-intel-JR0288862|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-intel-JR0288862|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-intel-JR0288868|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-intel-JR0288868|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-intel-JR0288884|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-intel-JR0288884|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "workday-invesco-R-15600-1|jsonld": {
       "checkedAt": "2026-11-03",
       "attempts": 2
@@ -17165,12 +17423,12 @@
       "attempts": 2
     },
     "workday-invesco-R-15838-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-invesco-R-15838-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-invesco-R-15865-1|jsonld": {
       "checkedAt": "2026-11-03",
@@ -17181,27 +17439,43 @@
       "attempts": 2
     },
     "workday-invesco-R-15874-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-invesco-R-15874-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-invesco-R-15875-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-invesco-R-15875-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-invesco-R-15908-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 1
+      "checkedAt": "2026-11-04",
+      "attempts": 2
     },
     "workday-invesco-R-15908-1|workday-detail": {
-      "checkedAt": "2026-11-01",
+      "checkedAt": "2026-11-04",
+      "attempts": 2
+    },
+    "workday-invesco-R-15939-1|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-invesco-R-15939-1|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-invesco-R-15968-1|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-invesco-R-15968-1|workday-detail": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "workday-investpsp-R4844|jsonld": {
@@ -17251,6 +17525,14 @@
     "workday-jackson-REQ-04032-1|workday-detail": {
       "checkedAt": "2026-11-03",
       "attempts": 2
+    },
+    "workday-jackson-REQ-04033-1|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-jackson-REQ-04033-1|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
     },
     "workday-juliusbaer-r-19706-2|jsonld": {
       "checkedAt": "2026-11-03",
@@ -19005,12 +19287,12 @@
       "attempts": 1
     },
     "workday-nvidia-JR2027552-1|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027552-1|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027579|jsonld": {
       "checkedAt": "2026-11-03",
@@ -19021,12 +19303,12 @@
       "attempts": 4
     },
     "workday-nvidia-JR2027611|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027611|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027612|jsonld": {
       "checkedAt": "2026-11-03",
@@ -19053,12 +19335,12 @@
       "attempts": 3
     },
     "workday-nvidia-JR2027719|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027719|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027742|jsonld": {
       "checkedAt": "2026-10-31",
@@ -19069,12 +19351,12 @@
       "attempts": 2
     },
     "workday-nvidia-JR2027839|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027839|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027840|jsonld": {
       "checkedAt": "2026-10-23",
@@ -19085,12 +19367,12 @@
       "attempts": 2
     },
     "workday-nvidia-JR2027850|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027850|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-nvidia-JR2027868|jsonld": {
       "checkedAt": "2026-10-24",
@@ -19157,20 +19439,20 @@
       "attempts": 2
     },
     "workday-nvidia-JR2028452|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-nvidia-JR2028452|workday-detail": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-nvidia-JR2028456|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-nvidia-JR2028456|workday-detail": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-nvidia-JR2028466|jsonld": {
       "checkedAt": "2026-11-02",
@@ -19236,12 +19518,36 @@
       "checkedAt": "2026-11-03",
       "attempts": 1
     },
+    "workday-nvidia-JR2028824|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2028824|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "workday-nvidia-JR2028897|jsonld": {
       "checkedAt": "2026-11-02",
       "attempts": 1
     },
     "workday-nvidia-JR2028897|workday-detail": {
       "checkedAt": "2026-11-02",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2029108|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2029108|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2029164|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-nvidia-JR2029164|workday-detail": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "workday-nvidia-JR2029184|jsonld": {
@@ -19828,6 +20134,14 @@
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
+    "workday-pru-R-125380-1|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-pru-R-125380-1|workday-detail": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
     "workday-prudential-25120324|jsonld": {
       "checkedAt": "2026-11-03",
       "attempts": 2
@@ -20098,6 +20412,14 @@
     },
     "workday-prudential-26100486|workday-detail": {
       "checkedAt": "2026-11-02",
+      "attempts": 1
+    },
+    "workday-prudential-26110043|jsonld": {
+      "checkedAt": "2026-11-04",
+      "attempts": 1
+    },
+    "workday-prudential-26110043|workday-detail": {
+      "checkedAt": "2026-11-04",
       "attempts": 1
     },
     "workday-raymondjames-R-0012139|jsonld": {
@@ -21501,12 +21823,12 @@
       "attempts": 3
     },
     "workday-visa-REF086153W|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-visa-REF086153W|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 3
+      "checkedAt": "2026-11-04",
+      "attempts": 4
     },
     "workday-visa-REF086154W|jsonld": {
       "checkedAt": "2026-10-29",
@@ -21557,12 +21879,12 @@
       "attempts": 5
     },
     "workday-visa-REF086769W|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-visa-REF086769W|workday-detail": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-visa-REF086773W|jsonld": {
       "checkedAt": "2026-10-18",
@@ -21589,12 +21911,12 @@
       "attempts": 5
     },
     "workday-visa-REF086779W|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-visa-REF086779W|workday-detail": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-visa-REF086781W|jsonld": {
       "checkedAt": "2026-10-15",
@@ -21621,12 +21943,12 @@
       "attempts": 5
     },
     "workday-visa-REF086786W|jsonld": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-visa-REF086786W|workday-detail": {
-      "checkedAt": "2026-10-29",
-      "attempts": 2
+      "checkedAt": "2026-11-04",
+      "attempts": 3
     },
     "workday-visa-REF086795W|jsonld": {
       "checkedAt": "2026-10-15",
