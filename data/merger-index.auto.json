@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-11T17:59:57Z",
+ "generatedAt": "2026-10-22T11:34:16Z",
  "source": "https://www.sec.gov/Archives/edgar/full-index/<year>/QTR<n>/form.idx, DEFM14A and DEFM14C and SC 13E3 rows only",
  "quarters": {
   "2010Q1": [
@@ -36451,6 +36451,14 @@
   "2026Q4": [
    {
     "form": "DEFM14A",
+    "name": "Bowhead Specialty Holdings Inc.",
+    "cik": "0002002473",
+    "filed": "2026-10-14",
+    "accession": "0001140361-26-039513",
+    "file": "edgar/data/2002473/0001140361-26-039513.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Bowman Consulting Group Ltd.",
     "cik": "0001847590",
     "filed": "2026-10-05",
@@ -36472,6 +36480,38 @@
     "filed": "2026-10-08",
     "accession": "0001104659-26-114707",
     "file": "edgar/data/1571776/0001104659-26-114707.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "EAGLE FINANCIAL SERVICES INC",
+    "cik": "0000880641",
+    "filed": "2026-10-16",
+    "accession": "0001104659-26-116463",
+    "file": "edgar/data/880641/0001104659-26-116463.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Greenbacker Renewable Energy Co LLC",
+    "cik": "0001563922",
+    "filed": "2026-10-20",
+    "accession": "0001753926-26-001969",
+    "file": "edgar/data/1563922/0001753926-26-001969.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "HeartSciences Inc.",
+    "cik": "0001468492",
+    "filed": "2026-10-19",
+    "accession": "0001213900-26-110484",
+    "file": "edgar/data/1468492/0001213900-26-110484.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "LCI INDUSTRIES",
+    "cik": "0000763744",
+    "filed": "2026-10-19",
+    "accession": "0000763744-26-000091",
+    "file": "edgar/data/763744/0000763744-26-000091.txt"
    },
    {
     "form": "DEFM14A",
@@ -36499,11 +36539,35 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Mountain Crest Acquisition Corp. V",
+    "cik": "0001859035",
+    "filed": "2026-10-20",
+    "accession": "0001829126-26-011337",
+    "file": "edgar/data/1859035/0001829126-26-011337.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "NOVAGOLD RESOURCES INC",
     "cik": "0001173420",
     "filed": "2026-10-05",
     "accession": "0001104659-26-113697",
     "file": "edgar/data/1173420/0001104659-26-113697.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Personalis, Inc.",
+    "cik": "0001527753",
+    "filed": "2026-10-21",
+    "accession": "0001193125-26-427872",
+    "file": "edgar/data/1527753/0001193125-26-427872.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "SYNAPTICS Inc",
+    "cik": "0000817720",
+    "filed": "2026-10-19",
+    "accession": "0001140361-26-039983",
+    "file": "edgar/data/817720/0001140361-26-039983.txt"
    },
    {
     "form": "DEFM14A",
@@ -36515,11 +36579,51 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Transocean Ltd.",
+    "cik": "0001451505",
+    "filed": "2026-10-14",
+    "accession": "0001104659-26-115680",
+    "file": "edgar/data/1451505/0001104659-26-115680.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Utz Brands, Inc.",
     "cik": "0001739566",
     "filed": "2026-10-02",
     "accession": "0001193125-26-411198",
     "file": "edgar/data/1739566/0001193125-26-411198.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Valaris Ltd",
+    "cik": "0000314808",
+    "filed": "2026-10-14",
+    "accession": "0001140361-26-039488",
+    "file": "edgar/data/314808/0001140361-26-039488.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Victory Capital Holdings, Inc.",
+    "cik": "0001570827",
+    "filed": "2026-10-16",
+    "accession": "0001104659-26-116412",
+    "file": "edgar/data/1570827/0001104659-26-116412.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "Baldwin Insurance Group, Inc.",
+    "cik": "0001781755",
+    "filed": "2026-10-15",
+    "accession": "0001140361-26-039675",
+    "file": "edgar/data/1781755/0001140361-26-039675.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "CEMENTOS PACASMAYO SAA",
+    "cik": "0001221029",
+    "filed": "2026-10-21",
+    "accession": "0001140361-26-040406",
+    "file": "edgar/data/1221029/0001140361-26-040406.txt"
    }
   ]
  }
