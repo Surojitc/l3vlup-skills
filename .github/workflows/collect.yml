@@ -421,8 +421,22 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          # A file the collection deleted is staged but no longer on disk, and
+          # the handoff below cannot pack what is not there: on 1 November 2026
+          # the monthly run lost its precedent, 13F and CUSIP refresh to two
+          # year files funds_history.py had retired (tar: Cannot stat). The
+          # publisher unpacks the archive and stages what it finds, so a
+          # deletion never reached main through it anyway. The list the gate
+          # judges and the archive is built from is what exists; a deletion
+          # is named here and stays on main.
+          git diff --cached --name-only --diff-filter=d > "$RUNNER_TEMP/staged.txt"
+          git diff --cached --name-only --diff-filter=D | sed 's/^/deleted here, left on main: /'
+          if [ ! -s "$RUNNER_TEMP/staged.txt" ]; then
+            echo "the collection only deleted files; there is nothing the publisher can carry"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           echo "changed=true" >> "$GITHUB_OUTPUT"
-          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
           echo "staged:"
           sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
 
