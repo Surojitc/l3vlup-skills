@@ -356,6 +356,20 @@ def finalize(row: dict) -> dict:
         row["dealValueRatio"] = round(ratio, 2)
         if ratio < 0.5 or ratio > 12:
             flag(f"equity value {eq:,.0f} vs fee-table value {dv:,.0f}", "multiples")
+    # An enterprise value at or below nil is a company whose net cash is worth
+    # more than the price: a bank's deposits read as net cash, a biotech
+    # bought for its cash. It is a true reading of the filing, but no multiple
+    # of it is a valuation, and a negative EV / revenue fell under neither
+    # bound below: in October 2026, 24 rows with no flag and no doubt carried
+    # one into the samples (iClick at -0.29x in a software screen).
+    if row.get("ev") is not None and row["ev"] <= 0:
+        flag(f"enterprise value of {row['ev']:,.1f} is not positive: net cash exceeds the price, so no multiple is a valuation", "multiples")
+    # A negative LTM revenue is a reversal or a contra line, not sales: five
+    # ok rows carried one in October 2026 (Capstone Holding -2.0, Fantex
+    # -1.5), three of them clean. No revenue multiple is drawn from it above;
+    # this says why, on the row a page displays.
+    if row.get("ltmRevenue") is not None and row["ltmRevenue"] < 0:
+        flag(f"LTM revenue of {row['ltmRevenue']:,.1f} is negative: a reversal or contra line, not sales", "multiples")
     if row.get("evLtmEbitda") is not None and not 1.0 <= row["evLtmEbitda"] <= 75:
         flag(f"EV / LTM EBITDA {row['evLtmEbitda']:.1f}x outside 1x to 75x", "multiples")
     if row.get("evLtmRev") is not None and row["evLtmRev"] > 60:
