@@ -33,6 +33,7 @@
         "scripts/sync-cusip-tickers.mjs",
         "scripts/discover-letters.mjs",
         "scripts/enumerate-letters.mjs",
+        "scripts/letters-queue.mjs",
         "skills/company-profile/build.py",
         "skills/comps-set-builder/build.py",
         "scripts/sync-market-reference.mjs"
@@ -51,6 +52,7 @@
         "data/cusip-tickers.auto.json",
         "data/letters.discovery.json",
         "data/letters.exhibits.json",
+        "data/letters.review-queue.json",
         "data/market-reference.auto.json",
         "samples/"
       ],

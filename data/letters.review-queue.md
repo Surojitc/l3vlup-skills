@@ -1,0 +1,379 @@
+# Letters review queue
+
+Generated 2026-11-07T20:44:20.267Z. 254 filing(s) from 15 approved source(s) in the window since 2024-11-07; 10 already in the site catalogue (published, held or excluded), 244 to review, 0 new since the last queue.
+
+Nothing here is published. Each entry is a filing on sec.gov, classified from its form and its documents' labels, never from its text. A record reaches the site only when a person has read the filing, written the title, why and notes from it, and added it to data/letters.catalogue.json in the site repository.
+
+| Class | High | Medium | Low | Total |
+|---|---|---|---|---|
+| Likely investor letters | 13 | 0 | 23 | 36 |
+| Presentations | 0 | 0 | 24 | 24 |
+| Proxy material | 3 | 2 | 11 | 16 |
+| Other filings | 6 | 72 | 90 | 168 |
+
+## Likely investor letters (36)
+
+### Gabelli Funds, LLC (GAMCO Investors): N-CSRS, filed 2026-09-08
+
+- Confidence: high. Period: 2026H1. Accession 0001829126-26-009842. First seen 2026-11-07.
+- Why: the semi-annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001829126-26-009842](https://www.sec.gov/Archives/edgar/data/794685/000182912626009842/0001829126-26-009842-index.htm)
+- Suggested id: `gamco-gabelli-equity-trust-h1-2026`, contentType manager-letter, containerType sec-n-csr.
+
+### Pershing Square Capital Management, L.P.: N-CSRS, filed 2026-08-21
+
+- Confidence: high. Period: 2026H1. Accession 0001193125-26-360100. First seen 2026-11-07.
+- Why: the semi-annual shareholder report of Pershing Square USA, Ltd.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001193125-26-360100](https://www.sec.gov/Archives/edgar/data/2002660/000119312526360100/0001193125-26-360100-index.htm)
+- Suggested id: `pershing-square-usa-h1-2026`, contentType manager-letter, containerType sec-n-csr.
+
+### First Pacific Advisors, LP: N-CSR, filed 2026-03-09
+
+- Confidence: high. Period: FY2025. Accession 0001104659-26-025066. First seen 2026-11-07.
+- Why: the annual shareholder report of Source Capital, Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001104659-26-025066](https://www.sec.gov/Archives/edgar/data/91847/000110465926025066/0001104659-26-025066-index.htm)
+- Suggested id: `fpa-source-capital-fy2025`, contentType manager-letter, containerType sec-n-csr.
+
+### Gabelli Funds, LLC (GAMCO Investors): N-CSR, filed 2026-03-09
+
+- Confidence: high. Period: FY2025. Accession 0001829126-26-002087. First seen 2026-11-07.
+- Why: the annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001829126-26-002087](https://www.sec.gov/Archives/edgar/data/794685/000182912626002087/0001829126-26-002087-index.htm)
+- Suggested id: `gamco-gabelli-equity-trust-fy2025`, contentType manager-letter, containerType sec-n-csr.
+
+### Starboard Value LP on TripAdvisor, Inc.: DFAN14A, filed 2026-02-17
+
+- Confidence: high. Period: 2026-02-17. Accession 0000921895-26-000436. First seen 2026-11-07.
+- Why: document 2 (DFAN14A, ex1dfan14a06297373_02172026.pdf) is labelled "LETTER TO THE ISSUER, DATED FEBRUARY 17, 2026".
+- Open first: [ex1dfan14a06297373_02172026.pdf](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000436/ex1dfan14a06297373_02172026.pdf)
+- Filing index: [0000921895-26-000436](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000436/0000921895-26-000436-index.htm)
+- Suggested id: `starboard-tripadvisor-2026-02`, contentType activist-letter, containerType sec-exhibit.
+
+### Starboard Value LP on TripAdvisor, Inc.: SCHEDULE 13D/A, filed 2026-02-17
+
+- Confidence: high. Period: 2026-02-17. Accession 0000921895-26-000479. First seen 2026-11-07.
+- Why: document 3 (EX-99.1, ex991to13da106297373_021726.pdf) is labelled "LETTER TO THE ISSUER, DATED FEBRUARY 17, 2026".
+- Open first: [ex991to13da106297373_021726.pdf](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000479/ex991to13da106297373_021726.pdf)
+- Filing index: [0000921895-26-000479](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000479/0000921895-26-000479-index.htm)
+- Suggested id: `starboard-tripadvisor-2026-02-2`, contentType activist-letter, containerType sec-exhibit.
+- Probably the same document as 0000921895-26-000436 (same subject, label and size).
+
+### First Pacific Advisors, LP: N-CSRS, filed 2025-09-08
+
+- Confidence: high. Period: 2025H1. Accession 0001104659-25-088151. First seen 2026-11-07.
+- Why: the semi-annual shareholder report of Source Capital, Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001104659-25-088151](https://www.sec.gov/Archives/edgar/data/91847/000110465925088151/0001104659-25-088151-index.htm)
+- Suggested id: `fpa-source-capital-h1-2025`, contentType manager-letter, containerType sec-n-csr.
+
+### Gabelli Funds, LLC (GAMCO Investors): N-CSRS, filed 2025-09-04
+
+- Confidence: high. Period: 2025H1. Accession 0001829126-25-007142. First seen 2026-11-07.
+- Why: the semi-annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001829126-25-007142](https://www.sec.gov/Archives/edgar/data/794685/000182912625007142/0001829126-25-007142-index.htm)
+- Suggested id: `gamco-gabelli-equity-trust-h1-2025`, contentType manager-letter, containerType sec-n-csr.
+
+### Starboard Value LP on Autodesk, Inc.: DFAN14A, filed 2025-03-26
+
+- Confidence: high. Period: 2025-03-26. Accession 0000921895-25-000885. First seen 2026-11-07.
+- Why: document 2 (DFAN14A, ex1dfan14a06297347_032625.pdf) is labelled "LETTER TO STOCKHOLDERS".
+- Open first: [ex1dfan14a06297347_032625.pdf](https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/ex1dfan14a06297347_032625.pdf)
+- Filing index: [0000921895-25-000885](https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/0000921895-25-000885-index.htm)
+- Suggested id: `starboard-autodesk-2025-03-2`, contentType activist-letter, containerType sec-exhibit.
+
+### Gabelli Funds, LLC (GAMCO Investors): N-CSR, filed 2025-03-10
+
+- Confidence: high. Period: FY2024. Accession 0001829126-25-001654. First seen 2026-11-07.
+- Why: the annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001829126-25-001654](https://www.sec.gov/Archives/edgar/data/794685/000182912625001654/0001829126-25-001654-index.htm)
+- Suggested id: `gamco-gabelli-equity-trust-fy2024`, contentType manager-letter, containerType sec-n-csr.
+
+### First Pacific Advisors, LP: N-CSR, filed 2025-03-07
+
+- Confidence: high. Period: FY2024. Accession 0001104659-25-021647. First seen 2026-11-07.
+- Why: the annual shareholder report of Source Capital, Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
+- Filing index: [0001104659-25-021647](https://www.sec.gov/Archives/edgar/data/91847/000110465925021647/0001104659-25-021647-index.htm)
+- Suggested id: `fpa-source-capital-fy2024`, contentType manager-letter, containerType sec-n-csr.
+
+### JANA Partners Management, LP on Lamb Weston Holdings, Inc.: SCHEDULE 13D/A, filed 2025-01-28
+
+- Confidence: high. Period: 2025-01-28. Accession 0000902664-25-000527. First seen 2026-11-07.
+- Why: document 2 (EX-99.4, p25-0311exhibit99_4.htm) is labelled "JANUARY 27, 2025 LETTER".
+- Open first: [p25-0311exhibit99_4.htm](https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/p25-0311exhibit99_4.htm)
+- Filing index: [0000902664-25-000527](https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/0000902664-25-000527-index.htm)
+- Suggested id: `jana-lamb-weston-2025-01`, contentType activist-letter, containerType sec-exhibit.
+
+### JANA Partners Management, LP on Lamb Weston Holdings, Inc.: SCHEDULE 13D/A, filed 2024-12-18
+
+- Confidence: high. Period: 2024-12-18. Accession 0000902664-24-006945. First seen 2026-11-07.
+- Why: document 2 (EX-99.3, p24-3516exhibit99_3.htm) is labelled "DECEMBER 16 LETTER".
+- Open first: [p24-3516exhibit99_3.htm](https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/p24-3516exhibit99_3.htm)
+- Filing index: [0000902664-24-006945](https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/0000902664-24-006945-index.htm)
+- Suggested id: `jana-lamb-weston-2024-12`, contentType activist-letter, containerType sec-exhibit.
+
+Low confidence (23): an unlabelled exhibit, judged by its size alone. Open before deciding.
+
+| Manager | Subject | Form | Filed | Exhibit | Size | Filing |
+|---|---|---|---|---|---|---|
+| Engaged Capital LLC | BLACKLINE, INC. | DFAN14A | 2026-01-27 | [ex1todfan14a09455064_012726.pdf](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000147/ex1todfan14a09455064_012726.pdf) | 74909 | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000147/0000921895-26-000147-index.htm) |
+| Third Point LLC | Soho House & Co Inc. | SCHEDULE 13D/A | 2025-08-20 | [ck0000000000-ex99_1.pdf](https://www.sec.gov/Archives/edgar/data/1040273/000095017025110438/ck0000000000-ex99_1.pdf) | 65613 | [index](https://www.sec.gov/Archives/edgar/data/1040273/000095017025110438/0000950170-25-110438-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-20 | [ex991dfan14a10168303_052025.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001599/ex991dfan14a10168303_052025.pdf) | 1573278 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001599/0000921895-25-001599-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-19 | [ex991todfan10168303_051925.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001588/ex991todfan10168303_051925.pdf) | 1414756 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001588/0000921895-25-001588-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-14 | [ex991dfan14a10168303_051425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001478/ex991dfan14a10168303_051425.pdf) | 1204182 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001478/0000921895-25-001478-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-13 | [ex991todfan10168303_051325.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001439/ex991todfan10168303_051325.pdf) | 1263506 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001439/0000921895-25-001439-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-07 | [ex991dfan14a10168303_050725.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001321/ex991dfan14a10168303_050725.pdf) | 1176344 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001321/0000921895-25-001321-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-05 | [ex991todfan10168303_05052025.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001283/ex991todfan10168303_05052025.pdf) | 1559609 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001283/0000921895-25-001283-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-01 | [ex991todfan10168303_050125.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001236/ex991todfan10168303_050125.pdf) | 342394 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001236/0000921895-25-001236-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-29 | [ex991todfan10168303_042925.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001207/ex991todfan10168303_042925.pdf) | 1660847 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001207/0000921895-25-001207-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-25 | [ex991dfan14a10168303_042525.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001167/ex991dfan14a10168303_042525.pdf) | 1856440 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001167/0000921895-25-001167-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-24 | [ex991dfan14a10168303_042425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001153/ex991dfan14a10168303_042425.pdf) | 1771247 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001153/0000921895-25-001153-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-23 | [ex991dfan14a10168303_042325.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001146/ex991dfan14a10168303_042325.pdf) | 1067737 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001146/0000921895-25-001146-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-21 | [ex991dfan14a10168303_042125.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001131/ex991dfan14a10168303_042125.pdf) | 1609530 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001131/0000921895-25-001131-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-04 | [ex991todfan10168303_040425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000986/ex991todfan10168303_040425.pdf) | 1417454 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000986/0000921895-25-000986-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-03 | [ex991dfan14a10168303_040325.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/ex991dfan14a10168303_040325.pdf) | 1735167 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/0000921895-25-000976-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-28 | [ex991dfan14a10168303_032825.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000913/ex991dfan14a10168303_032825.pdf) | 358481 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000913/0000921895-25-000913-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-27 | [ex991to10168303_032725.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000899/ex991to10168303_032725.pdf) | 1526776 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000899/0000921895-25-000899-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-26 | [ex991todfan10168303_032625.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000887/ex991todfan10168303_032625.pdf) | 349679 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000887/0000921895-25-000887-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-25 | [ex991dfan14a10168303_032525.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000878/ex991dfan14a10168303_032525.pdf) | 1172375 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000878/0000921895-25-000878-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-24 | [ex991dfan14a10168303_032425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000868/ex991dfan14a10168303_032425.pdf) | 1215625 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000868/0000921895-25-000868-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-21 | [ex991todfan10168303_032125.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000852/ex991todfan10168303_032125.pdf) | 621964 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000852/0000921895-25-000852-index.htm) |
+| Third Point LLC | Soho House & Co Inc. | SCHEDULE 13D | 2025-01-29 | [ck0001669811-ex99_4.pdf](https://www.sec.gov/Archives/edgar/data/1040273/000095017025010206/ck0001669811-ex99_4.pdf) | 187264 | [index](https://www.sec.gov/Archives/edgar/data/1040273/000095017025010206/0000950170-25-010206-index.htm) |
+
+## Presentations (24)
+
+Low confidence (24): an unlabelled exhibit, judged by its size alone. Open before deciding.
+
+| Manager | Subject | Form | Filed | Exhibit | Size | Filing |
+|---|---|---|---|---|---|---|
+| Engaged Capital LLC | BLACKLINE, INC. | DFAN14A | 2026-01-20 | [ex1todfan14a09455064_012026.pdf](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000107/ex1todfan14a09455064_012026.pdf) | 10552544 | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000107/0000921895-26-000107-index.htm) |
+| Engaged Capital LLC | BLACKLINE, INC. | DFAN14A | 2026-01-13 | [ex1todfan14a09455064_011326.pdf](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000077/ex1todfan14a09455064_011326.pdf) | 21264979 | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000077/0000921895-26-000077-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-16 | [ex991todfan10168303_051625.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001576/ex991todfan10168303_051625.pdf) | 2482032 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001576/0000921895-25-001576-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-15 | [ex991dfan14a10168303_051525.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001560/ex991dfan14a10168303_051525.pdf) | 4959333 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001560/0000921895-25-001560-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-12 | [ex991todfan10168303_051225.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001404/ex991todfan10168303_051225.pdf) | 10901911 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001404/0000921895-25-001404-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-09 | [ex991dfan14a10168303_050925.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001376/ex991dfan14a10168303_050925.pdf) | 2432911 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001376/0000921895-25-001376-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-08 | [ex991dfan14a10168303_050825.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001346/ex991dfan14a10168303_050825.pdf) | 2009252 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001346/0000921895-25-001346-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-06 | [ex991todfan10168303_050625.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001299/ex991todfan10168303_050625.pdf) | 16439858 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001299/0000921895-25-001299-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-02 | [ex991todfan10168303_050225.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001262/ex991todfan10168303_050225.pdf) | 3474746 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001262/0000921895-25-001262-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-30 | [ex991todfan10168303_043025.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001219/ex991todfan10168303_043025.pdf) | 19197832 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001219/0000921895-25-001219-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-28 | [ex991dfan14a10168303_042825.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001193/ex991dfan14a10168303_042825.pdf) | 19909588 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001193/0000921895-25-001193-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-22 | [ex991todfan10168303_042225.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001135/ex991todfan10168303_042225.pdf) | 15006958 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001135/0000921895-25-001135-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-18 | [ex991todfan10168303_041825.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001124/ex991todfan10168303_041825.pdf) | 2415587 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001124/0000921895-25-001124-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-17 | [ex991todfan10168303_041725.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001118/ex991todfan10168303_041725.pdf) | 12490425 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001118/0000921895-25-001118-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-16 | [ex991todfan10168303_041625.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001103/ex991todfan10168303_041625.pdf) | 8620960 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001103/0000921895-25-001103-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-15 | [ex991dfan14a10168303_041525.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001085/ex991dfan14a10168303_041525.pdf) | 15620894 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001085/0000921895-25-001085-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-14 | [ex991todfan10168303_041425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001075/ex991todfan10168303_041425.pdf) | 7940644 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001075/0000921895-25-001075-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-11 | [ex991dfan14a10168303_041125.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001065/ex991dfan14a10168303_041125.pdf) | 4644708 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001065/0000921895-25-001065-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-10 | [ex991dfan14a10168303b_041025.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001055/ex991dfan14a10168303b_041025.pdf) | 2915549 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001055/0000921895-25-001055-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-08 | [ex991dfan14a10168303_040825.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001022/ex991dfan14a10168303_040825.pdf) | 5087954 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001022/0000921895-25-001022-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-02 | [ex991todfan10168303_040225.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000943/ex991todfan10168303_040225.pdf) | 3443941 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000943/0000921895-25-000943-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-18 | [ex991todfan10168303_031825.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000803/ex991todfan10168303_031825.pdf) | 7910652 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000803/0000921895-25-000803-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-06 | [ex991todfan10168303_030625.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000701/ex991todfan10168303_030625.pdf) | 7034999 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000701/0000921895-25-000701-index.htm) |
+| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-04 | [ex991todfan10168003_030425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000692/ex991todfan10168003_030425.pdf) | 9794322 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000692/0000921895-25-000692-index.htm) |
+
+## Proxy material (16)
+
+| Manager | Form | Filed | Confidence | Why | Filing |
+|---|---|---|---|---|---|
+| Elliott Investment Management L.P. | DEFC14A | 2025-04-03 | high | document 1 (DEFC14A, defc14a10168303_04032025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000972/0000921895-25-000972-index.htm) |
+| Elliott Investment Management L.P. | PREC14A | 2025-03-04 | high | document 1 (PREC14A, prec14a10168303_03042025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1534701/000119380525000261/0001193805-25-000261-index.htm) |
+| Starboard Value LP | PREC14A | 2025-02-05 | high | document 1 (PREC14A, prec14a06297362_02032025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1517137/000119380525000113/0001193805-25-000113-index.htm) |
+| Starboard Value LP | DFAN14A | 2025-09-08 | medium | DFAN14A is proxy soliciting material; a letter or a deck arrives in one, but nothing here says this is one | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525002557/0000921895-25-002557-index.htm) |
+| Starboard Value LP | DFAN14A | 2025-04-14 | medium | DFAN14A is proxy soliciting material; a letter or a deck arrives in one, but nothing here says this is one | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525001074/0000921895-25-001074-index.htm) |
+| Trian Fund Management, L.P. | DFAN14A | 2026-03-24 | low | document 1 (DFAN14A, c115970_dfan14a.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326000857/0000930413-26-000857-index.htm) |
+| Trian Fund Management, L.P. | DFAN14A | 2026-03-23 | low | document 1 (DFAN14A, c115962_dfan14a.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326000844/0000930413-26-000844-index.htm) |
+| Trian Fund Management, L.P. | DFAN14A | 2026-03-20 | low | document 1 (DFAN14A, c115945_dfan14a.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326000829/0000930413-26-000829-index.htm) |
+| Trian Fund Management, L.P. | DFAN14A | 2026-03-11 | low | document 1 (DFAN14A, c115797_dfan14a.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326000725/0000930413-26-000725-index.htm) |
+| Trian Fund Management, L.P. | DFAN14A | 2026-03-11 | low | document 1 (DFAN14A, c115800_dfan14a.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326000733/0000930413-26-000733-index.htm) |
+| Engaged Capital LLC | DFAN14A | 2026-02-02 | low | document 1 (DFAN14A, dfan14a09455064_02022026.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000196/0000921895-26-000196-index.htm) |
+| Elliott Investment Management L.P. | DFAN14A | 2025-04-10 | low | document 1 (DFAN14A, dfan14a10168303_04102025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001049/0000921895-25-001049-index.htm) |
+| Elliott Investment Management L.P. | DFAN14A | 2025-04-09 | low | document 1 (DFAN14A, dfan14a10168303_04092025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001045/0000921895-25-001045-index.htm) |
+| Engaged Capital LLC | DFAN14A | 2025-03-03 | low | document 1 (DFAN14A, dfan14a09455058_03032025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525000670/0000921895-25-000670-index.htm) |
+| Starboard Value LP | DFAN14A | 2024-11-08 | low | document 1 (DFAN14A, dfan14a06297361_11082024.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189524002526/0000921895-24-002526-index.htm) |
+| Starboard Value LP | DFAN14A | 2024-11-07 | low | document 1 (DFAN14A, dfan14a06297361_11072024.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/0000921895-24-002508-index.htm) |
+
+## Other filings (168)
+
+| Manager | Form | Filed | Confidence | Why | Filing |
+|---|---|---|---|---|---|
+| Ruane, Cunniff & Goldfarb L.P. | N-CSRS | 2026-08-25 | high | the semi-annual shareholder report of Sequoia Fund, Inc. | [index](https://www.sec.gov/Archives/edgar/data/89043/000119312526364514/0001193125-26-364514-index.htm) |
+| Harris Associates L.P. | N-CSRS | 2026-05-22 | high | the semi-annual shareholder report of Harris Associates Investment Trust (Oakmark Funds) | [index](https://www.sec.gov/Archives/edgar/data/872323/000110465926065606/0001104659-26-065606-index.htm) |
+| Southeastern Asset Management, Inc. | N-CSR | 2026-03-10 | high | the annual shareholder report of Longleaf Partners Funds Trust | [index](https://www.sec.gov/Archives/edgar/data/806636/000158064226001717/0001580642-26-001717-index.htm) |
+| Harris Associates L.P. | N-CSR | 2025-12-02 | high | the annual shareholder report of Harris Associates Investment Trust (Oakmark Funds) | [index](https://www.sec.gov/Archives/edgar/data/872323/000110465925117601/0001104659-25-117601-index.htm) |
+| Southeastern Asset Management, Inc. | N-CSRS | 2025-08-29 | high | the semi-annual shareholder report of Longleaf Partners Funds Trust | [index](https://www.sec.gov/Archives/edgar/data/806636/000158064225005623/0001580642-25-005623-index.htm) |
+| Ruane, Cunniff & Goldfarb L.P. | N-CSRS | 2025-08-26 | high | the semi-annual shareholder report of Sequoia Fund, Inc. | [index](https://www.sec.gov/Archives/edgar/data/89043/000119312525188618/0001193125-25-188618-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-11-06 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1791786/000091957426007484/0000919574-26-007484-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-11-06 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000119312526451979/0001193125-26-451979-index.htm) |
+| Third Point LLC | SCHEDULE 13D/A | 2026-11-05 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1040273/000089914026001213/0000899140-26-001213-index.htm) |
+| Third Point LLC | SCHEDULE 13D | 2026-11-05 | medium | SCHEDULE 13D reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1040273/000089914026001217/0000899140-26-001217-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-11-03 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000119312526445965/0001193125-26-445965-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2026-10-16 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1529274/000090266426004202/0000902664-26-004202-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-10-06 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189526002741/0000921895-26-002741-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-09-25 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949726002605/0001539497-26-002605-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-08-24 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189526002296/0000921895-26-002296-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-06-30 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1791786/000091957426004169/0000919574-26-004169-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2026-06-30 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326002004/0000930413-26-002004-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-06-29 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949726001890/0001539497-26-001890-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2026-06-18 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326001914/0000930413-26-001914-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2026-05-14 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1274173/000119312526224634/0001193125-26-224634-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-04-17 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949726001145/0001539497-26-001145-index.htm) |
+| Third Point LLC | SCHEDULE 13D | 2026-04-14 | medium | SCHEDULE 13D reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1040273/000089914026000385/0000899140-26-000385-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2026-03-30 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1560327/000090266426001792/0000902664-26-001792-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-03-27 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/727510/000119312526129970/0001193125-26-129970-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-03-23 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000781/0000921895-26-000781-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2026-02-18 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/30697/000119312526056159/0001193125-26-056159-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-01-30 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/727510/000119312526032170/0001193125-26-032170-index.htm) |
+| Engaged Capital LLC | SCHEDULE 13D/A | 2026-01-21 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000125/0000921895-26-000125-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-01-02 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949726000002/0001539497-26-000002-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-12-29 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949725003355/0001539497-25-003355-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-11-26 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949725003071/0001539497-25-003071-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-11-13 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1320695/000090266425004916/0000902664-25-004916-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D | 2025-11-13 | medium | SCHEDULE 13D reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949725002948/0001539497-25-002948-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-11-07 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/876427/000153949725002871/0001539497-25-002871-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D | 2025-11-05 | medium | SCHEDULE 13D reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/876427/000153949725002847/0001539497-25-002847-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-10-29 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525002829/0000921895-25-002829-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-10-24 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/727510/000119312525249981/0001193125-25-249981-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-10-16 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525002752/0000921895-25-002752-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-10-14 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949725002707/0001539497-25-002707-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-09-26 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949725002517/0001539497-25-002517-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-09-26 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949725002518/0001539497-25-002518-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-09-16 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266425004097/0000902664-25-004097-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-08-15 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000110465925079362/0001104659-25-079362-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-08-15 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/885590/000153949725002158/0001539497-25-002158-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D | 2025-08-08 | medium | SCHEDULE 13D reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1791786/000090266425003448/0000902664-25-003448-index.htm) |
+| Engaged Capital LLC | SCHEDULE 13D/A | 2025-07-22 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525002014/0000921895-25-002014-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-07-22 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949725001954/0001539497-25-001954-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2025-07-08 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/30697/000095017025094459/0000950170-25-094459-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-06-26 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949725001710/0001539497-25-001710-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-06-23 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/727510/000110465925061414/0001104659-25-061414-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-06-18 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/26780/000153949725001656/0001539497-25-001656-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-06-10 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1679273/000090266425002689/0000902664-25-002689-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-05-21 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/885590/000153949725001480/0001539497-25-001480-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-05-19 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525001581/0000921895-25-001581-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2025-05-02 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1274173/000095017025062917/0000950170-25-062917-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-04-17 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949725001163/0001539497-25-001163-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-04-14 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525001070/0000921895-25-001070-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-04-01 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1679273/000090266425001645/0000902664-25-001645-index.htm) |
+| Third Point LLC | SCHEDULE 13D/A | 2025-03-26 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1040273/000089914025000470/0000899140-25-000470-index.htm) |
+| First Pacific Advisors, LP | N-CSR/A | 2025-03-26 | medium | N-CSR/A amends an earlier shareholder report of Source Capital, Inc., usually to correct it; the original filing is the one to read | [index](https://www.sec.gov/Archives/edgar/data/91847/000110465925028165/0001104659-25-028165-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-03-25 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949725001038/0001539497-25-001038-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-03-13 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1560327/000090266425001451/0000902664-25-001451-index.htm) |
+| Engaged Capital LLC | SCHEDULE 13D/A | 2025-03-03 | medium | document 2 (EX-99.1, ex991to13da209455058_030325.htm) is labelled "MARCH 3RD PRESS RELEASE" | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525000678/0000921895-25-000678-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-02-21 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266425001167/0000902664-25-001167-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-02-19 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949725000737/0001539497-25-000737-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-01-23 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/26780/000153949725000136/0001539497-25-000136-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2024-12-30 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/813762/000153949725000042/0001539497-25-000042-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2024-12-27 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1679273/000090266424007048/0000902664-24-007048-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2024-12-20 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1679273/000090266424006978/0000902664-24-006978-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2024-12-19 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/727510/000110465924130184/0001104659-24-130184-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2024-12-18 | medium | SCHEDULE 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1560327/000090266424006944/0000902664-24-006944-index.htm) |
+| Starboard Value LP | SC 13D/A | 2024-12-10 | medium | SC 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189524002922/0000921895-24-002922-index.htm) |
+| Starboard Value LP | SC 13D/A | 2024-12-09 | medium | SC 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1360604/000092189524002913/0000921895-24-002913-index.htm) |
+| Starboard Value LP | SC 13D | 2024-11-26 | medium | SC 13D reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1360604/000119380524001416/0001193805-24-001416-index.htm) |
+| Carl C. Icahn | SC 13D/A | 2024-11-20 | medium | SC 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949724002482/0001539497-24-002482-index.htm) |
+| Starboard Value LP | SC 13D/A | 2024-11-14 | medium | SC 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/934549/000092189524002743/0000921895-24-002743-index.htm) |
+| Engaged Capital LLC | SC 13D/A | 2024-11-14 | medium | SC 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/1444380/000092189524002745/0000921895-24-002745-index.htm) |
+| Carl C. Icahn | SC 13D/A | 2024-11-08 | medium | SC 13D/A reports a holding and its purpose; a letter arrives only as an exhibit, and none is identified | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465924116000/0001104659-24-116000-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2026-10-30 | low | document 2 (EX-99, p26-2109exhibit99.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1529274/000090266426004338/0000902664-26-004338-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2026-10-28 | low | document 3 (EX-99.47, c117910_ex47.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/30697/000093041326003164/0000930413-26-003164-index.htm) |
+| Sachem Head Capital Management LP | SCHEDULE 13D | 2026-10-21 | low | document 2 (EX-99, annex_a.htm) is labelled "ANNEX A" | [index](https://www.sec.gov/Archives/edgar/data/1582090/000090266426004229/0000902664-26-004229-index.htm) |
+| Third Point LLC | SCHEDULE 13D | 2026-10-15 | low | document 3 (EX-99, ex99-3.htm) is labelled "TRADING DATA" | [index](https://www.sec.gov/Archives/edgar/data/1040273/000089914026001108/0000899140-26-001108-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-10-08 | low | document 2 (EX-99, p15094850_sch-1.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/1737706/000091957426006770/0000919574-26-006770-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-09-21 | low | document 2 (EX-99, p15094850_sch1.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1737706/000091957426006414/0000919574-26-006414-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-08-20 | low | document 2 (EX-1, n2779_x402-exh1.htm) is labelled "SCHEDULE A (TRANSACTIONS)" | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949726002326/0001539497-26-002326-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D | 2026-06-29 | low | document 2 (EX-99, p26-1417ex99.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1529274/000090266426002944/0000902664-26-002944-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-06-09 | low | document 2 (EX-1, n2779_x388-exh1.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949726001705/0001539497-26-001705-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2026-06-08 | low | document 2 (EX-99.44, ef20075672_ex99-44.htm) is labelled "EXHIBIT 99.44" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036126024479/0001140361-26-024479-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-06-02 | low | document 3 (EX-2, ex2to13da506297339_060226.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000119380526000738/0001193805-26-000738-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-05-14 | low | document 2 (EX-1, n2779_x387-exh1.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949726001436/0001539497-26-001436-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2026-05-12 | low | document 2 (EX-99.1 CHARTER, p26-1194schedule_a.htm) is labelled "TRANSACTIONS IN THE SHARES OF THE ISSUER SINCE THE FILING OF THE SCHEDULE 13D" | [index](https://www.sec.gov/Archives/edgar/data/1529274/000090266426002393/0000902664-26-002393-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-05-08 | low | document 3 (EX-2, ex2to13da306297349_050826.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189526001206/0000921895-26-001206-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2026-05-08 | low | document 7 (EX-99.16, ef20072834_ex99-16.htm) is labelled "EXHIBIT 99.16" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036126020328/0001140361-26-020328-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-05-06 | low | document 3 (EX-99.2, p26-1149scheduleb.htm) is labelled "SCHEDULE B" | [index](https://www.sec.gov/Archives/edgar/data/891103/000090266426002298/0000902664-26-002298-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2026-04-29 | low | document 2 (EX-99.7, ef20071805_ex99-7.htm) is labelled "EXHIBIT 99.7" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036126017888/0001140361-26-017888-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2026-04-29 | low | document 4 (EX-99.42, ef2007180699_ex99-42.htm) is labelled "EXHIBIT 99.42" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036126017890/0001140361-26-017890-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-04-03 | low | document 2 (EX-99, schedule1.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266426001872/0000902664-26-001872-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-04-03 | low | document 2 (EX-1, ex1to13da406297373_040326.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000119380526000409/0001193805-26-000409-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D | 2026-04-01 | low | document 2 (EX-99, p26-0872schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1529274/000090266426001830/0000902664-26-001830-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-04-01 | low | document 2 (EX-1, ex1to13d706297338_040126.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1174169/000119380526000394/0001193805-26-000394-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-03-31 | low | document 5 (EX-99.7, p26-0871exhibit99_7.htm) is labelled "FORM OF CONFIRMATION" | [index](https://www.sec.gov/Archives/edgar/data/1791786/000090266426001815/0000902664-26-001815-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2026-03-24 | low | document 2 (EX-11, c115968_ex11.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041326000860/0000930413-26-000860-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-03-06 | low | document 5 (EX-99.2, ex992to13da206297373_030626.htm) is labelled "POWERS OF ATTORNEY" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000119380526000229/0001193805-26-000229-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2026-03-04 | low | document 2 (EX-99, p26-0712schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1049521/000090266426001433/0000902664-26-001433-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-02-24 | low | document 2 (EX-99.A, ormp-ex99_a.htm) is labelled "EX-99.A" | [index](https://www.sec.gov/Archives/edgar/data/921669/000119312526067602/0001193125-26-067602-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-02-23 | low | document 2 (EX-99, p26-0616schedule1.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266426001249/0000902664-26-001249-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2026-02-11 | low | document 2 (EX-99, p26-0522schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1320695/000090266426000858/0000902664-26-000858-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2026-02-02 | low | document 2 (EX-99, schedule_1.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266426000646/0000902664-26-000646-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-01-29 | low | document 2 (EX-1, n2779_x362-exh1.htm) is labelled "TRANSACTIONS IN SHARES" | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949726000218/0001539497-26-000218-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2026-01-23 | low | document 2 (EX-1, ex1to13da206297335_012326.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/84748/000119380526000065/0001193805-26-000065-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2026-01-21 | low | document 2 (EX-1, n2779_x361-exh1.htm) is labelled "TRANSACTIONS IN SHARES" | [index](https://www.sec.gov/Archives/edgar/data/921669/000153949726000113/0001539497-26-000113-index.htm) |
+| Third Point LLC | SCHEDULE 13D/A | 2026-01-13 | low | document 2 (EX-99.1, t83751980a.htm) is labelled "EXHIBIT 99.1" | [index](https://www.sec.gov/Archives/edgar/data/1040273/000089914026000044/0000899140-26-000044-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-12-31 | low | document 2 (EX-99.3, p25-2538exhibit99_3.htm) is labelled "FORM OF CONFIRMATION" | [index](https://www.sec.gov/Archives/edgar/data/1791786/000090266425005444/0000902664-25-005444-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2025-12-22 | low | document 2 (EX-11, c114731_ex-11.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1274173/000093041325003750/0000930413-25-003750-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-12-19 | low | document 2 (EX-99.39, ef20061633_ex99-39.htm) is labelled "EXHIBIT 99.39" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125046218/0001140361-25-046218-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-12-18 | low | document 2 (EX-99, p25-2624ex99.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/1737706/000090266425005353/0000902664-25-005353-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-12-16 | low | document 2 (EX-99, p25-2606schedule1.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266425005322/0000902664-25-005322-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-12-05 | low | document 2 (EX-1, ex1to13da406297352_120525.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525003291/0000921895-25-003291-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-11-10 | low | document 2 (EX-99, p25-2441schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1049521/000090266425004832/0000902664-25-004832-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-10-31 | low | document 2 (EX-1, ex1to13da106297335_103125.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/84748/000119380525001524/0001193805-25-001524-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2025-10-27 | low | document 3 (EX-8, ck0001345471-ex8.htm) is labelled "EX-8" | [index](https://www.sec.gov/Archives/edgar/data/1274173/000119312525250770/0001193125-25-250770-index.htm) |
+| Engaged Capital LLC | SCHEDULE 13D/A | 2025-10-22 | low | document 2 (EX-1, ex1to13da509455058_102225.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525002789/0000921895-25-002789-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-09-25 | low | document 2 (EX-1, ex1to13da206297371_092525.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1360604/000119380525001366/0001193805-25-001366-index.htm) |
+| Engaged Capital LLC | SCHEDULE 13D/A | 2025-09-11 | low | document 2 (EX-1, ex1to13da409455058_09112025.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525002569/0000921895-25-002569-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-09-08 | low | document 5 (EX-99.4, ex994to13da106297bill_090825.htm) is labelled "POWERS OF ATTORNEY" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525002554/0000921895-25-002554-index.htm) |
+| Starboard Value LP | SCHEDULE 13D | 2025-09-04 | low | document 3 (EX-2, ex2tosc13d06297bill_09042025.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525002532/0000921895-25-002532-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-08-20 | low | document 2 (EX-99, p25-1889schedule1.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266425003788/0000902664-25-003788-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-08-15 | low | document 2 (EX-99, p25-1854exhibit99.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1049521/000090266425003732/0000902664-25-003732-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-08-13 | low | document 2 (EX-99, p25-1847exhibit99.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1560327/000090266425003568/0000902664-25-003568-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-08-07 | low | document 2 (EX-99.38, ef20053220_ex99-38.htm) is labelled "EXHIBIT 99.38" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125029622/0001140361-25-029622-index.htm) |
+| Starboard Value LP | SCHEDULE 13D | 2025-08-06 | low | document 3 (EX-2, ex2tosc13d06297335_08062025.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/84748/000092189525002118/0000921895-25-002118-index.htm) |
+| Starboard Value LP | SCHEDULE 13D | 2025-07-03 | low | document 3 (EX-2, ex2to13d06297373_070325.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000119380525000968/0001193805-25-000968-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-07-01 | low | document 2 (EX-99, p25-1441schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1679273/000090266425002858/0000902664-25-002858-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-06-05 | low | document 2 (EX-99.5 HOLDERS RTS, p25-1336exhibit99_5.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1679273/000090266425002636/0000902664-25-002636-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-06-04 | low | document 2 (EX-99.10, tm2517065d1_ex10.htm) is labelled "EXHIBIT 10" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465925056483/0001104659-25-056483-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-05-28 | low | document 2 (EX-99.1, p25-1296schedule_1.htm) is labelled "SCHEDULE 1" | [index](https://www.sec.gov/Archives/edgar/data/1791786/000090266425002561/0000902664-25-002561-index.htm) |
+| Trian Fund Management, L.P. | SCHEDULE 13D/A | 2025-05-22 | low | document 2 (EX-1, ivz-ex1.htm) is labelled "EX-1" | [index](https://www.sec.gov/Archives/edgar/data/914208/000095017025076541/0000950170-25-076541-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-05-12 | low | document 2 (EX-99, p25-1182exhibit99.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1320695/000090266425002274/0000902664-25-002274-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-05-12 | low | document 2 (EX-1, ex1to13da506297346_051225.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000119380525000632/0001193805-25-000632-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-05-09 | low | document 2 (EX-1, ex1to13da806297285_050925.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1386278/000119380525000628/0001193805-25-000628-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-05-07 | low | document 3 (EX-99.31, ef20048474_ex99-31.htm) is labelled "EXHIBIT 99.31" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125017784/0001140361-25-017784-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-04-30 | low | document 2 (EX-99.29, ef20048143_ex99-29.htm) is labelled "EXHIBIT 99.29" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125016521/0001140361-25-016521-index.htm) |
+| Engaged Capital LLC | SCHEDULE 13D/A | 2025-04-28 | low | document 2 (EX-1, ex1to13da309455058_042825.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525001200/0000921895-25-001200-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-04-23 | low | document 2 (EX-99.A, tm2513030d1_ex99-a.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465925038162/0001104659-25-038162-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-04-21 | low | document 2 (EX-99, p25-0945schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1560327/000090266425001868/0000902664-25-001868-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-04-15 | low | document 2 (EX-99.A, tm2512420d1_ex99-a.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465925035216/0001104659-25-035216-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-04-15 | low | document 2 (EX-99.28, ef20047417_ex99-28.htm) is labelled "EXHIBIT 99.28" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125013876/0001140361-25-013876-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-04-15 | low | document 2 (EX-1, ex1to13da706297gdot_041525.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1386278/000119380525000499/0001193805-25-000499-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-04-10 | low | document 2 (EX-99, p25-0889schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1560327/000090266425001761/0000902664-25-001761-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-04-08 | low | document 2 (EX-1, ex1to13da606297dgot_040825.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1386278/000092189525001024/0000921895-25-001024-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-04-07 | low | document 2 (EX-99.(A), tm2511731d1_ex-a.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465925032748/0001104659-25-032748-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-04-07 | low | document 2 (EX-99.27, ef20046975_ex99-27.htm) is labelled "EXHIBIT 99.27" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125012557/0001140361-25-012557-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-03-24 | low | document 2 (EX-99, p25-0783schedulea.htm) is labelled "SCHEDULA A" | [index](https://www.sec.gov/Archives/edgar/data/1560327/000090266425001570/0000902664-25-001570-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-03-24 | low | document 2 (EX-1, ex1to13da106297339_032425.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525000869/0000921895-25-000869-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-03-14 | low | document 2 (EX-1, ex1to13da606297338_031425.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1174169/000092189525000778/0000921895-25-000778-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-03-12 | low | document 2 (EX-99.26, ef20045306_ex99-26.htm) is labelled "EXHIBIT 99.26" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125008430/0001140361-25-008430-index.htm) |
+| JANA Partners Management, LP | SCHEDULE 13D/A | 2025-03-07 | low | document 2 (EX-99, p25-0705schedulea.htm) is labelled "SCHEDULE A" | [index](https://www.sec.gov/Archives/edgar/data/1679273/000090266425001411/0000902664-25-001411-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-03-03 | low | document 2 (EX-99.25, ef20044788_ex99-25.htm) is labelled "EXHIBIT 99.25" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125006650/0001140361-25-006650-index.htm) |
+| Engaged Capital LLC | SCHEDULE 13D/A | 2025-02-28 | low | document 2 (EX-1, ex1to13da109455058_022825.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525000657/0000921895-25-000657-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-02-24 | low | document 2 (EX-1, ex1to13da406297346_02242025.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525000590/0000921895-25-000590-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2025-02-21 | low | document 2 (EX-99.3, tm257254-1_ex3.htm) is labelled "EXHIBIT 3" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465925016227/0001104659-25-016227-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-02-18 | low | document 2 (EX-99.23, ef20043744_ex99-23.htm) is labelled "EXHIBIT 99.23" | [index](https://www.sec.gov/Archives/edgar/data/1336528/000114036125005030/0001140361-25-005030-index.htm) |
+| Elliott Investment Management L.P. | SCHEDULE 13D/A | 2025-02-06 | low | document 2 (EX-99, p25-0441schedule1.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/92380/000090266425000734/0000902664-25-000734-index.htm) |
+| Starboard Value LP | SCHEDULE 13D/A | 2025-01-31 | low | document 2 (EX-1, ex1to13da306297346_013125.htm) is labelled "TRANSACTIONS IN THE SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525000216/0000921895-25-000216-index.htm) |
+| Starboard Value LP | SCHEDULE 13D | 2025-01-17 | low | document 3 (EX-2, ex2to13d06297339_01172025.htm) is labelled "TRANSACTIONS IN SECURITIES" | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189525000115/0000921895-25-000115-index.htm) |
+| Pershing Square Capital Management, L.P. | SCHEDULE 13D/A | 2025-01-13 | low | document 2 (EX-99.22, c111204_ex99-22.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1336528/000093041325000067/0000930413-25-000067-index.htm) |
+| Carl C. Icahn | SCHEDULE 13D/A | 2024-12-20 | low | document 2 (EX-99.9, tm2431767d1_ex9.htm) is labelled "EXHIBIT 99.9" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465924130957/0001104659-24-130957-index.htm) |
+| Carl C. Icahn | SC 13D/A | 2024-11-08 | low | document 2 (EX-99.2, tm2427894d1_ex2.htm) is labelled "EXHIBIT 2" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465924115938/0001104659-24-115938-index.htm) |
+
+## Already in the catalogue (10)
+
+| Fund | Form | Filed | Accession | Catalogue record | Status | Matched by |
+|---|---|---|---|---|---|---|
+| fpa | N-CSRS | 2026-09-08 | 0001104659-26-105793 | source-capital-h1-2026-letter | published | accession |
+| southeastern | N-CSRS | 2026-09-04 | 0001580642-26-006087 | longleaf-partners-h1-2026 | published | accession |
+| starboard-value | DFAN14A | 2026-03-11 | 0000921895-26-000666 | starboard-carmax-2026-03 | published | accession |
+| ruane-cunniff | N-CSR | 2026-02-26 | 0001193125-26-074946 | ruane-sequoia-fy2025 | published | accession |
+| harris-associates | N-CSRS | 2025-05-29 | 0001104659-25-054127 | oakmark-fund-h1-fy2025 | published | accession |
+| elliott | DFAN14A | 2025-04-09 | 0000921895-25-001028 | elliott-phillips66-2025-04 | published | accession |
+| starboard-value | DFAN14A | 2025-03-19 | 0000921895-25-000816 | starboard-autodesk-2025-03 | published | accession |
+| southeastern | N-CSR | 2025-03-11 | 0001580642-25-001664 | longleaf-partners-fy2024 | published | accession |
+| ruane-cunniff | N-CSR | 2025-03-04 | 0001193125-25-045012 | ruane-sequoia-fy2024 | published | accession |
+| harris-associates | N-CSR | 2024-12-04 | 0001104659-24-125538 | oakmark-fund-fy2024 | published | accession |
