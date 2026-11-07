@@ -344,7 +344,23 @@ def resolve_cik(entry: dict) -> tuple[str, str, str] | None:
 
 # ── submissions ──────────────────────────────────────────────────────────────
 
-def submissions(cik: str, *, quarters: int = DEFAULT_QUARTERS) -> dict:
+def reaches(sub: dict, *, quarters: int, until: str | None) -> bool:
+    """
+    Whether the filings read so far cover what the caller asked for.
+
+    Counted in distinct periods, not in filings: a manager that amends often
+    (Neuberger Berman files several 13F-HR/A a year) would otherwise reach its
+    filing count long before it reaches back the quarters that were wanted.
+    With `until`, the test is instead whether the oldest period read is on or
+    before that date, which is what a history back to a floor needs.
+    """
+    periods = {f["periodOfReport"] for f in filings_13f(sub)}
+    if until is not None:
+        return bool(periods) and min(periods) <= until
+    return len(periods) >= quarters + 2
+
+
+def submissions(cik: str, *, quarters: int = DEFAULT_QUARTERS, until: str | None = None) -> dict:
     """
     The filer's submission record, extended into EDGAR's overflow pages if needed.
 
@@ -352,10 +368,11 @@ def submissions(cik: str, *, quarters: int = DEFAULT_QUARTERS) -> dict:
     numbered files. A manager who files a lot of something else — Berkshire and its
     Forms 4, a fund family and its N-PORTs — can have its 13F history pushed out of
     the inline list entirely, so the overflow is read whenever the inline list does
-    not already reach back far enough.
+    not already reach back far enough: `quarters` distinct periods, and, with
+    `until`, back to that period end (the history collector's floor).
     """
     sub = get_json(f"https://data.sec.gov/submissions/CIK{cik}.json")
-    if len(filings_13f(sub)) >= quarters + 2:
+    if reaches(sub, quarters=quarters, until=until):
         return sub
     recent = sub.get("filings", {}).get("recent", {})
     for extra in sub.get("filings", {}).get("files", []) or []:
@@ -366,7 +383,7 @@ def submissions(cik: str, *, quarters: int = DEFAULT_QUARTERS) -> dict:
         for key, values in more.items():
             recent.setdefault(key, [])
             recent[key].extend(values)
-        if len(filings_13f(sub)) >= quarters + 2:
+        if reaches(sub, quarters=quarters, until=until):
             break
     return sub
 
