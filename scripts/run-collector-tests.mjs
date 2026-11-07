@@ -50,6 +50,7 @@ export const SUITES = [
   'publication-persistence',
   'publication-review',
   'workflow-permissions',
+  'letters-queue',
   'market-reference',
   'fx-rates',
   'rights-register',

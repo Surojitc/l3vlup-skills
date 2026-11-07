@@ -1,0 +1,796 @@
+{
+  "_comment": "Written by scripts/letters-catalogue-keys.mjs from the site repository. Ids, statuses, accessions and URLs only. Edit the site catalogue, not this file.",
+  "from": {
+    "catalogueGeneratedAt": "2026-10-08",
+    "published": 85,
+    "held": 11,
+    "excluded": 2
+  },
+  "keys": [
+    {
+      "id": "elliott-phillips66-2025-04",
+      "status": "published",
+      "accession": "0000921895-25-001028",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1534701/000092189525001028/e664374_dfan14a-phillips66.htm"
+      ]
+    },
+    {
+      "id": "starboard-autodesk-2025-03",
+      "status": "published",
+      "accession": "0000921895-25-000816",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/769397/000092189525000816/ex1todfan14a06297347_031925.pdf"
+      ]
+    },
+    {
+      "id": "starboard-carmax-2026-03",
+      "status": "published",
+      "accession": "0000921895-26-000666",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1170010/000092189526000666/ex1todfan14a06297384_031126.pdf"
+      ]
+    },
+    {
+      "id": "ruane-sequoia-fy2024",
+      "status": "published",
+      "accession": "0001193125-25-045012",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/89043/000119312525045012/d850206dncsr.htm"
+      ]
+    },
+    {
+      "id": "ruane-sequoia-fy2025",
+      "status": "published",
+      "accession": "0001193125-26-074946",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/89043/000119312526074946/d76890dncsr.htm"
+      ]
+    },
+    {
+      "id": "longleaf-partners-fy2024",
+      "status": "published",
+      "accession": "0001580642-25-001664",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/806636/000158064225001664/longleafpartners_ncsr.htm"
+      ]
+    },
+    {
+      "id": "longleaf-partners-h1-2026",
+      "status": "published",
+      "accession": "0001580642-26-006087",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/806636/000158064226006087/longleaf_ncsrs.htm"
+      ]
+    },
+    {
+      "id": "oakmark-fund-fy2024",
+      "status": "published",
+      "accession": "0001104659-24-125538",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/872323/000110465924125538/tm2426235d1_ncsr.htm"
+      ]
+    },
+    {
+      "id": "oakmark-fund-h1-fy2025",
+      "status": "published",
+      "accession": "0001104659-25-054127",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/872323/000110465925054127/tm2512387d1_ncsrs.htm"
+      ]
+    },
+    {
+      "id": "berkshire-2025-letter-greg-abel",
+      "status": "published",
+      "accession": "0001193125-26-106284",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1067983/000119312526106284/d948018dars.pdf"
+      ]
+    },
+    {
+      "id": "fairfax-2025-chairmans-letter",
+      "status": "published",
+      "accession": "0001104659-26-024673",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/915191/000110465926024673/tm261124d1_ex99-1.htm"
+      ]
+    },
+    {
+      "id": "jpmorgan-2025-letter-to-shareholders",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://jpmorganchase.com/ir/annual-report/2025/ar-ceo-letters"
+      ]
+    },
+    {
+      "id": "jpmorgan-2008-letter-to-shareholders",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/investor-relations/documents/2008-AR-Letter-to-shareholders.pdf"
+      ]
+    },
+    {
+      "id": "microsoft-fy2025-shareholder-letter",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://microsoft.com/investor/reports/ar25/index.html"
+      ]
+    },
+    {
+      "id": "amazon-2025-letter-to-shareholders",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://aboutamazon.com/news/company-news/amazon-ceo-andy-jassy-2025-letter-to-shareholders"
+      ]
+    },
+    {
+      "id": "goldman-sachs-2025-letter-to-shareholders",
+      "status": "published",
+      "accession": "0001193125-26-116310",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/886982/000119312526116310/d106738dars.pdf",
+        "https://goldmansachs.com/investor-relations/financials/current/annual-reports/2025-annual-report"
+      ]
+    },
+    {
+      "id": "blackrock-2026-chairmans-letter",
+      "status": "published",
+      "accession": "0001193125-26-119938",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/2012383/000119312526119938/d76123ddefa14a.htm"
+      ]
+    },
+    {
+      "id": "bank-of-america-2025-letter-to-shareholders",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://newsroom.bankofamerica.com/content/newsroom/stories/2026/03/a-letter-to-shareholders-from-chair-and-ceo--brian-moynihan.html"
+      ]
+    },
+    {
+      "id": "alphabet-2015-g-is-for-google",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://blog.google/alphabet/google-alphabet"
+      ]
+    },
+    {
+      "id": "meta-2021-founders-letter",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://about.fb.com/news/2021/10/founders-letter"
+      ]
+    },
+    {
+      "id": "amazon-2016-letter-day-1",
+      "status": "published",
+      "accession": "0001193125-17-120198",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1018724/000119312517120198/d373368dex991.htm"
+      ]
+    },
+    {
+      "id": "amazon-1997-letter-to-shareholders",
+      "status": "published",
+      "accession": "0001032210-01-500339",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1018724/000103221001500339/dex991.txt"
+      ]
+    },
+    {
+      "id": "google-2004-ipo-founders-letter",
+      "status": "published",
+      "accession": "0001193125-04-073639",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1288776/000119312504073639/ds1.htm"
+      ]
+    },
+    {
+      "id": "facebook-2012-ipo-letter-hacker-way",
+      "status": "published",
+      "accession": "0001193125-12-034517",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1326801/000119312512034517/d287954ds1.htm"
+      ]
+    },
+    {
+      "id": "airbnb-2020-ipo-founders-letter",
+      "status": "published",
+      "accession": "0001193125-20-294801",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1559720/000119312520294801/d81668ds1.htm"
+      ]
+    },
+    {
+      "id": "coinbase-2021-s1-founder-letter",
+      "status": "published",
+      "accession": "0001628280-21-003168",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1679788/000162828021003168/coinbaseglobalincs-1.htm"
+      ]
+    },
+    {
+      "id": "shopify-2015-f1-letter-from-tobi",
+      "status": "published",
+      "accession": "0001193125-15-129273",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1594805/000119312515129273/d863202df1.htm"
+      ]
+    },
+    {
+      "id": "zoom-2019-s1-letter-from-eric-yuan",
+      "status": "published",
+      "accession": "0001193125-19-083351",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1585521/000119312519083351/d642624ds1.htm"
+      ]
+    },
+    {
+      "id": "stripe-2025-annual-letter",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://stripe.com/annual-updates/2025"
+      ]
+    },
+    {
+      "id": "berkshire-2008-letter-financial-crisis",
+      "status": "published",
+      "accession": "0001193125-09-042455",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1067983/000119312509042455/dex991.htm"
+      ]
+    },
+    {
+      "id": "brookfield-2008-letter-to-shareholders",
+      "status": "published",
+      "accession": "0001199073-09-000098",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1001085/000119907309000098/ex99_1.htm"
+      ]
+    },
+    {
+      "id": "elliott-athenahealth-2018-05",
+      "status": "published",
+      "accession": "0000902664-18-002117",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1131096/000090266418002117/p18-1092sc13da.htm"
+      ]
+    },
+    {
+      "id": "fairfax-2008-chairmans-letter",
+      "status": "published",
+      "accession": "0000909567-09-000229",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/915191/000090956709000229/o54015aexv1.htm"
+      ]
+    },
+    {
+      "id": "markel-2025-letter-to-shareholders",
+      "status": "published",
+      "accession": "0001096343-26-000021",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1096343/000109634326000021/mkl2025shl.htm"
+      ]
+    },
+    {
+      "id": "southeastern-2013-letter-to-dell-board",
+      "status": "published",
+      "accession": "0000947871-13-000078",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/826083/000094787113000078/ss164605_sc13d.htm"
+      ]
+    },
+    {
+      "id": "starboard-darden-2014-07",
+      "status": "published",
+      "accession": "0000921895-14-001551",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/940944/000092189514001551/ex991dfan14a06297125_071514.pdf"
+      ]
+    },
+    {
+      "id": "amazon-2020-letter-differentiation-is-survival",
+      "status": "published",
+      "accession": "0001104659-21-050346",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1018724/000110465921050346/tm216818d2_ex99-1.htm"
+      ]
+    },
+    {
+      "id": "netflix-2011-q3-shareholder-letter",
+      "status": "published",
+      "accession": "0001193125-11-278716",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1065280/000119312511278716/d246709dex991.htm"
+      ]
+    },
+    {
+      "id": "netflix-2022-q1-shareholder-letter",
+      "status": "published",
+      "accession": "0001065280-22-000144",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1065280/000106528022000144/ex991_q122.htm"
+      ]
+    },
+    {
+      "id": "jpmorgan-2022-letter-to-shareholders",
+      "status": "published",
+      "accession": "0000019617-23-000286",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/19617/000001961723000286/jpmc2022ar.pdf"
+      ]
+    },
+    {
+      "id": "morgan-stanley-2024-letter-ted-pick",
+      "status": "published",
+      "accession": "0001140361-24-018317",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/895421/000114036124018317/ny20020759x4_ars.pdf"
+      ]
+    },
+    {
+      "id": "citigroup-2023-letter-jane-fraser",
+      "status": "published",
+      "accession": "0001206774-24-000274",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/831001/000120677424000274/citi428496-3_ars.pdf"
+      ]
+    },
+    {
+      "id": "wells-fargo-2025-letter-to-shareholders",
+      "status": "published",
+      "accession": "0000072971-26-000202",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/72971/000007297126000202/wfc2025annualreport-arsfil.pdf"
+      ]
+    },
+    {
+      "id": "microsoft-fy2023-shareholder-letter",
+      "status": "published",
+      "accession": "0001193125-23-259254",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/789019/000119312523259254/d506673dars.pdf"
+      ]
+    },
+    {
+      "id": "goldman-sachs-2022-letter-to-shareholders",
+      "status": "published",
+      "accession": "0001193125-23-073310",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/886982/000119312523073310/d439331dars.pdf"
+      ]
+    },
+    {
+      "id": "blackrock-2023-chairmans-letter-to-investors",
+      "status": "published",
+      "accession": "0001193125-23-101952",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1364742/000119312523101952/d366149dars.pdf"
+      ]
+    },
+    {
+      "id": "doordash-2020-s1-letter-from-tony-xu",
+      "status": "published",
+      "accession": "0001193125-20-292381",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1792789/000119312520292381/d752207ds1.htm"
+      ]
+    },
+    {
+      "id": "reddit-2024-s1-letter-from-steve-huffman",
+      "status": "published",
+      "accession": "0001628280-24-006294",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1713445/000162828024006294/reddits-1q423.htm"
+      ]
+    },
+    {
+      "id": "lyft-2019-s1-letter-from-the-co-founders",
+      "status": "published",
+      "accession": "0001193125-19-059849",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1759509/000119312519059849/d633517ds1.htm"
+      ]
+    },
+    {
+      "id": "spotify-2018-f1-letter-from-daniel-ek",
+      "status": "published",
+      "accession": "0001193125-18-063434",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1639920/000119312518063434/d494294df1.htm"
+      ]
+    },
+    {
+      "id": "atlassian-2015-f1-letter-from-the-founders",
+      "status": "published",
+      "accession": "0001047469-15-008450",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1650372/000104746915008450/a2226437zf-1.htm"
+      ]
+    },
+    {
+      "id": "twilio-2016-s1-letter-from-jeff-lawson",
+      "status": "published",
+      "accession": "0001047469-16-013448",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1447669/000104746916013448/a2227414zs-1.htm"
+      ]
+    },
+    {
+      "id": "rivian-2021-s1-letter-from-rj-scaringe",
+      "status": "published",
+      "accession": "0001193125-21-289903",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1874178/000119312521289903/d157488ds1.htm"
+      ]
+    },
+    {
+      "id": "roblox-2020-s1-letter-from-david-baszucki",
+      "status": "published",
+      "accession": "0001193125-20-298230",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1315098/000119312520298230/d87104ds1.htm"
+      ]
+    },
+    {
+      "id": "klaviyo-2023-s1-letter-from-the-co-founders",
+      "status": "published",
+      "accession": "0001628280-23-030618",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1835830/000162828023030618/klaviyoincs-1.htm"
+      ]
+    },
+    {
+      "id": "stripe-2023-annual-letter",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://stripe.com/annual-updates/2023"
+      ]
+    },
+    {
+      "id": "trian-disney-2024-03",
+      "status": "published",
+      "accession": "0000902664-24-002482",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1744489/000090266424002482/p24-1231dfan14a.htm"
+      ]
+    },
+    {
+      "id": "trian-procter-gamble-2017-07",
+      "status": "published",
+      "accession": "0000902664-17-003106",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/80424/000090266417003106/p17-1618dfan14a.htm"
+      ]
+    },
+    {
+      "id": "jana-eqt-2017-10",
+      "status": "published",
+      "accession": "0001047469-17-006378",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/33213/000104746917006378/a2233546zdfan14a.htm"
+      ]
+    },
+    {
+      "id": "sachem-head-us-foods-2022-04",
+      "status": "published",
+      "accession": "0000921895-22-001376",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1665918/000092189522001376/ex1todfan14a10692012_042622.pdf"
+      ]
+    },
+    {
+      "id": "starboard-bristol-myers-2019-02",
+      "status": "published",
+      "accession": "0000921895-19-000610",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/14272/000092189519000610/ex1todfan14a06297263_022819.pdf"
+      ]
+    },
+    {
+      "id": "elliott-cdk-global-2016-05",
+      "status": "published",
+      "accession": "0001013594-16-001033",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1609702/000101359416001033/cdkex99-050416.pdf"
+      ]
+    },
+    {
+      "id": "berkshire-2005-letter-frictional-costs",
+      "status": "published",
+      "accession": "0000950129-06-002330",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1067983/000095012906002330/a18138exv99w1.htm"
+      ]
+    },
+    {
+      "id": "berkshire-2011-letter-productive-assets",
+      "status": "published",
+      "accession": "0001193125-12-081960",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1067983/000119312512081960/d307508dex991.htm"
+      ]
+    },
+    {
+      "id": "markel-2023-letter-orange-and-blue",
+      "status": "published",
+      "accession": "0001096343-24-000042",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1096343/000109634324000042/mkl12312023_ars.pdf"
+      ]
+    },
+    {
+      "id": "fairfax-2016-chairmans-letter-hedges",
+      "status": "published",
+      "accession": "0001047469-17-001486",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/915191/000104746917001486/a2231187zex-99_1.htm"
+      ]
+    },
+    {
+      "id": "palantir-2020-s1-letter-from-alex-karp",
+      "status": "published",
+      "accession": "0001193125-20-230013",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1321655/000119312520230013/d904406ds1.htm"
+      ]
+    },
+    {
+      "id": "cloudflare-2019-s1-letter-from-the-founders",
+      "status": "published",
+      "accession": "0001193125-19-222176",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1477333/000119312519222176/d735023ds1.htm"
+      ]
+    },
+    {
+      "id": "square-2015-s1-note-from-jack-dorsey",
+      "status": "published",
+      "accession": "0001193125-15-343733",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1512673/000119312515343733/d937622ds1.htm"
+      ]
+    },
+    {
+      "id": "circle-2025-s1-founders-letter-jeremy-allaire",
+      "status": "published",
+      "accession": "0001193125-25-070481",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1876042/000119312525070481/d737521ds1.htm"
+      ]
+    },
+    {
+      "id": "capital-one-2024-letter-rich-fairbank",
+      "status": "published",
+      "accession": "0001193125-25-065538",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/927628/000119312525065538/d819004dars.pdf"
+      ]
+    },
+    {
+      "id": "nvidia-fy2026-letter-jensen-huang",
+      "status": "published",
+      "accession": "0001045810-26-000038",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1045810/000104581026000038/a2026-annualxreportxwebxfi.pdf"
+      ]
+    },
+    {
+      "id": "schwab-2025-letter-rick-wurster",
+      "status": "published",
+      "accession": "0000316709-26-000012",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/316709/000031670926000012/a2025schwabannualreport.pdf"
+      ]
+    },
+    {
+      "id": "fairfax-1985-letter-prem-watsa",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://fairfax.ca/wp-content/uploads/1985-Letter.pdf"
+      ]
+    },
+    {
+      "id": "ruane-sequoia-fy2001-letter",
+      "status": "published",
+      "accession": "0000089043-02-000001",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/89043/000008904302000001/n30d.txt"
+      ]
+    },
+    {
+      "id": "third-point-star-gas-2005-02",
+      "status": "published",
+      "accession": "0000899140-05-000128",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1002590/000089914005000128/t2774169.txt"
+      ]
+    },
+    {
+      "id": "hussman-2008-10-four-magic-words",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://hussmanfunds.com/wmc/wmc081013.htm"
+      ]
+    },
+    {
+      "id": "muddy-waters-sino-forest-2011-06",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://muddywatersresearch.com/wp-content/uploads/2011/06/MW_TRE_060211.pdf",
+        "https://muddywatersresearch.com/research/tre/initiating-coverage-treto"
+      ]
+    },
+    {
+      "id": "brookfield-2020-03-update-for-shareholders",
+      "status": "published",
+      "accession": "0001171843-20-001900",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1001085/000117184320001900/exh_992.htm"
+      ]
+    },
+    {
+      "id": "giverny-capital-2025-annual-letter",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://givernycapital.com/wp-content/uploads/2026/03/giverny-capital-annual-letter-2025-1.pdf"
+      ]
+    },
+    {
+      "id": "exor-2025-letter-to-shareholders",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://exor.com/sites/default/files/2026/page-documents/EXOR%202025%20Letter%20to%20Shareholders.pdf",
+        "https://exor.com/pages/investors-media/letter-shareholders"
+      ]
+    },
+    {
+      "id": "greenhaven-road-q2-2026-letter",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://greenhavenroad.com/s/Greenhaven-Road-Q2-2026-Final.pdf"
+      ]
+    },
+    {
+      "id": "impactive-wex-2026-04",
+      "status": "published",
+      "accession": "0000921895-26-000956",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1309108/000092189526000956/ex991dfan14a12236009_041026.pdf"
+      ]
+    },
+    {
+      "id": "hayden-capital-q2-2026-letter",
+      "status": "published",
+      "accession": null,
+      "urls": [
+        "https://content.haydencapital.com/Hayden-Capital-Quarterly-Letter-2026-Q2.pdf"
+      ]
+    },
+    {
+      "id": "source-capital-h1-2026-letter",
+      "status": "published",
+      "accession": "0001104659-26-105793",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/91847/000110465926105793/tm2622114d1_ncsrs.htm"
+      ]
+    },
+    {
+      "id": "oaktree-2003-memo-the-most-important-thing",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://oaktreecapital.com/insights/memo/the-most-important-thing"
+      ]
+    },
+    {
+      "id": "oaktree-2022-memo-sea-change",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://oaktreecapital.com/insights/memo/sea-change"
+      ]
+    },
+    {
+      "id": "oaktree-2025-memo-on-bubble-watch",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://oaktreecapital.com/insights/memo/on-bubble-watch"
+      ]
+    },
+    {
+      "id": "fundsmith-2025-annual-letter",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://fundsmith.eu/media/wddli1yq/2025-annual-letter-to-sicav-shareholders.pdf"
+      ]
+    },
+    {
+      "id": "constellation-software-2015-presidents-letter",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://csisoftware.com/wp-content/uploads/2026/04/pl_2015.pdf"
+      ]
+    },
+    {
+      "id": "berkshire-1983-letter-goodwill",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://berkshirehathaway.com/letters/1983.html"
+      ]
+    },
+    {
+      "id": "berkshire-1986-letter-owner-earnings",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://berkshirehathaway.com/letters/1986.html"
+      ]
+    },
+    {
+      "id": "berkshire-2000-letter-internet",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://berkshirehathaway.com/letters/2000pdf.pdf"
+      ]
+    },
+    {
+      "id": "berkshire-1987-letter-mr-market",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://berkshirehathaway.com/letters/1987.html"
+      ]
+    },
+    {
+      "id": "berkshire-1989-letter-mistakes",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://berkshirehathaway.com/letters/1989.html"
+      ]
+    },
+    {
+      "id": "berkshire-1992-letter-value-and-growth",
+      "status": "held",
+      "accession": null,
+      "urls": [
+        "https://berkshirehathaway.com/letters/1992.html"
+      ]
+    },
+    {
+      "id": "lvmh-2026-07-letter-to-shareholders",
+      "status": "excluded",
+      "accession": null,
+      "urls": [
+        "https://lvmh.com/static/letter-to-shareholders-july-2026"
+      ]
+    },
+    {
+      "id": "panorica",
+      "status": "excluded",
+      "accession": null,
+      "urls": []
+    }
+  ]
+}

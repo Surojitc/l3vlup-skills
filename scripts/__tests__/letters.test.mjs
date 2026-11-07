@@ -148,7 +148,7 @@ test('the committed registry has only SEC-hosted, public-record sources active',
   const registry = JSON.parse(readFileSync(join(ROOT, 'data', 'letters.sources.json'), 'utf8'));
   const { active, problems } = activeSources(registry);
   assert.deepEqual(problems, []);
-  assert.equal(active.length, 5);
+  assert.equal(active.length, 15, 'five sources from September and ten verified on 7 November 2026');
   for (const s of active) {
     assert.equal(s.discovery, 'edgar_submissions');
     assert.ok(s.forms.length > 0);

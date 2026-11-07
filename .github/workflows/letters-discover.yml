@@ -12,6 +12,14 @@ name: Letters — weekly check for new filings
 # data.sec.gov. No document is downloaded, no PDF parsed, no model called,
 # and the token can only read. The fresh report is kept as a one-week
 # artifact so the reviewer can commit it with discovery once they have read it.
+#
+# Then the review queue (scripts/letters-queue.mjs): every filing in the
+# window, classified (likely letter, presentation, proxy material, other)
+# from its form and its documents' labels, checked against the site
+# catalogue's keys (data/letters.catalogue-keys.json), with a record skeleton
+# a person finishes. It reads at most 20 filing index pages, one a second,
+# opens no document, and publishes nothing: the site's rules need a why and
+# notes a person wrote from the letter. The queue goes in the same artifact.
 
 on:
   schedule:
@@ -72,6 +80,13 @@ jobs:
             console.log(lines.join("\n"));
           ' "$RUNNER_TEMP/reviewed.json" data/letters.discovery.json "$GITHUB_STEP_SUMMARY"
 
+      # Writes into this runner's checkout only. Read-only like the step above:
+      # filing index pages on sec.gov, at most 20, one a second.
+      - name: Classify and queue for review (read-only)
+        env:
+          SEC_USER_AGENT: "${{ vars.SEC_USER_AGENT || 'L3VLUP Research (contact: suro@l3vlup.com)' }}"
+        run: node scripts/letters-queue.mjs --max-indexes 20
+
       - name: Keep the fresh report for the reviewer
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
@@ -79,5 +94,7 @@ jobs:
           path: |
             data/letters.discovery.json
             data/letters.discovery.md
+            data/letters.review-queue.json
+            data/letters.review-queue.md
           if-no-files-found: error
           retention-days: 7
