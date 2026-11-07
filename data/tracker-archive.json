@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-07T13:29:10.079Z",
-  "count": 5862,
+  "generatedAt": "2026-11-07T20:41:33.840Z",
+  "count": 5891,
   "roles": {
     "3i-intern-amsterdam": {
       "id": "workday-3i-/job/Amsterdam-Netherlands/Intern--Amsterdam_",
@@ -2859,6 +2859,22 @@
       "lastSeen": "2026-09-01",
       "slug": "akuna-capital-hardware-engineer-intern-summer-2027"
     },
+    "akuna-capital-junior-developer-c": {
+      "id": "greenhouse-akunacapital-6690496",
+      "firm": "Akuna Capital",
+      "role": "Junior Developer - C++",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Shanghai, China",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.akunacapital.com/careers/job/6690496/?gh_jid=6690496",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "akuna-capital-junior-developer-c",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "akuna-capital-junior-quantitative-developer-and-strategist": {
       "id": "greenhouse-akunacapital-8016687",
       "firm": "Akuna Capital",
@@ -4092,8 +4108,8 @@
       "vertical": "FinTech Sales",
       "programmeType": "Summer Internship",
       "tier": "Megafund",
-      "location": "Hong Kong Exchange Square",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Internship",
       "applicationUrl": "https://athene.wd5.myworkdayjobs.com/Apollo_Careers/job/Hong-Kong/Intern--ICG-Sales--6-months--LoA-_R255176",
       "slug": "apollo-global-management-intern-icg-sales-6-months-loa",
@@ -4517,6 +4533,21 @@
       "recommendedPrepSlug": "equity-research-interview-prep",
       "slug": "aqr-capital-management-managed-futures-and-commodities-research-analyst",
       "firstSeen": "2026-10-12",
+      "lastSeen": "2026-11-07"
+    },
+    "aqr-capital-management-market-risk-vice-president": {
+      "id": "greenhouse-aqr-8220146",
+      "firm": "AQR Capital Management",
+      "role": "Market Risk, Vice President",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Systematic",
+      "location": "Greenwich, CT",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://careers.aqr.com/jobs?gh_jid=8220146&gh_jid=8220146",
+      "slug": "aqr-capital-management-market-risk-vice-president",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "aqr-capital-management-portfolio-analytics-engineer-vice-president": {
@@ -24182,6 +24213,22 @@
       "firstSeen": "2026-10-23",
       "lastSeen": "2026-11-07"
     },
+    "drw-junior-fpga-engineer": {
+      "id": "greenhouse-drweng-8239996",
+      "firm": "DRW",
+      "role": "Junior FPGA Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8239996",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "drw-junior-fpga-engineer",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "drw-leadership-rotation-network-intern": {
       "id": "greenhouse-drweng-7957735",
       "firm": "DRW",
@@ -24227,6 +24274,22 @@
       "recommendedPrepSlug": "ai-engineer-interview-prep",
       "slug": "drw-machine-learning-specialist",
       "firstSeen": "2026-10-28",
+      "lastSeen": "2026-11-07"
+    },
+    "drw-options-trading-systems-engineer": {
+      "id": "greenhouse-drweng-7182464",
+      "firm": "DRW",
+      "role": "Options Trading Systems Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Experienced",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/7182464",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "drw-options-trading-systems-engineer",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "drw-otc-cryptocurrency-trader": {
@@ -24700,6 +24763,21 @@
       "recommendedPrepSlug": "ml-research-interview-prep",
       "slug": "drw-research-engineer-options-us",
       "firstSeen": "2026-10-23",
+      "lastSeen": "2026-11-07"
+    },
+    "drw-risk-manager": {
+      "id": "greenhouse-drweng-8031433",
+      "firm": "DRW",
+      "role": "Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Amsterdam",
+      "region": "Europe",
+      "level": "Experienced",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8031433",
+      "slug": "drw-risk-manager",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "drw-senior-atlassian-engineer": {
@@ -25244,6 +25322,22 @@
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "slug": "drw-trader-us",
       "firstSeen": "2026-10-23",
+      "lastSeen": "2026-11-07"
+    },
+    "drw-trading-systems-engineer-cumberland-mining": {
+      "id": "greenhouse-drweng-7614634",
+      "firm": "DRW",
+      "role": "Trading Systems Engineer, Cumberland Mining",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "London",
+      "region": "UK",
+      "level": "Experienced",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/7614634",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "drw-trading-systems-engineer-cumberland-mining",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "drw-us-equity-index-options-trader": {
@@ -25862,6 +25956,22 @@
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "dv-trading-graduate-software-engineer-dv-commodities-uk",
       "firstSeen": "2026-10-24",
+      "lastSeen": "2026-11-07"
+    },
+    "dv-trading-junior-fixed-income-relative-value-trader": {
+      "id": "greenhouse-dvtrading-4742897005",
+      "firm": "DV Trading",
+      "role": "Junior Fixed Income Relative Value Trader",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Graduate",
+      "applicationUrl": "https://job-boards.greenhouse.io/dvtrading/jobs/4742897005",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "dv-trading-junior-fixed-income-relative-value-trader",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "dv-trading-junior-quantitative-trader": {
@@ -27501,6 +27611,21 @@
       "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/8047166",
       "slug": "flow-traders-quantitative-trading-intern-summer-2027",
       "firstSeen": "2026-08-01",
+      "lastSeen": "2026-11-07"
+    },
+    "flow-traders-risk-manager": {
+      "id": "greenhouse-flowtraders-8168790",
+      "firm": "Flow Traders",
+      "role": "Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Experienced",
+      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/8168790",
+      "slug": "flow-traders-risk-manager",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "flow-traders-senior-research-engineer": {
@@ -29551,7 +29676,7 @@
       "vertical": "Risk",
       "programmeType": "Summer Internship",
       "tier": "Other",
-      "location": "MCK-Henneman Way",
+      "location": "3 Locations",
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://globelife.wd5.myworkdayjobs.com/Globe-Life-Careers/job/McKinney-TX/Vendor-Risk-Management-Intern---2027-Summer-Internship_JR101609",
@@ -30289,7 +30414,7 @@
       "vertical": "Consulting",
       "programmeType": "Graduate Programme",
       "tier": "Consulting",
-      "location": "GH Office: Charlotte, NC",
+      "location": "5 Locations",
       "region": "US",
       "level": "Graduate",
       "applicationUrl": "https://guidehouse.wd1.myworkdayjobs.com/External/job/US---NC-Charlotte/Consulting-Analyst---Health-Automation---Analytics--Provider-Advisory---Campus-2027_46423",
@@ -30334,7 +30459,7 @@
       "vertical": "Consulting",
       "programmeType": "Graduate Programme",
       "tier": "Consulting",
-      "location": "GH Office: Boston, MA",
+      "location": "10 Locations",
       "region": "US",
       "level": "Graduate",
       "applicationUrl": "https://guidehouse.wd1.myworkdayjobs.com/External/job/US---MA-Boston/Consulting-Analyst---State---Local-Government---Campus-2027_43498",
@@ -30409,7 +30534,7 @@
       "vertical": "Consulting",
       "programmeType": "Summer Internship",
       "tier": "Consulting",
-      "location": "GH Office: Arlington, VA",
+      "location": "4 Locations",
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://guidehouse.wd1.myworkdayjobs.com/External/job/US---VA-Arlington/Intern---Health-Automation---Analytics--Provider-Advisory---Campus-2027_46421",
@@ -32063,7 +32188,7 @@
       "vertical": "Other",
       "programmeType": "Summer Internship",
       "tier": "Other",
-      "location": "Culver City - CA - 600 Corporate Pointe",
+      "location": "4 Locations",
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://hubinternational.wd1.myworkdayjobs.com/HUBInternational/job/Culver-City---CA---600-Corporate-Pointe/Associate-Account-Manger--Commercial-Lines_R0038856",
@@ -32649,6 +32774,21 @@
       "firstSeen": "2026-10-23",
       "lastSeen": "2026-11-07"
     },
+    "hudson-river-trading-risk-manager-commodities": {
+      "id": "greenhouse-wehrtyou-6166737",
+      "firm": "Hudson River Trading",
+      "role": "Risk Manager - Commodities",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=6166737",
+      "slug": "hudson-river-trading-risk-manager-commodities",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "hudson-river-trading-signal-integrity-power-integrity-engineer": {
       "id": "greenhouse-wehrtyou-8159529",
       "firm": "Hudson River Trading",
@@ -32823,6 +32963,38 @@
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "slug": "hudson-river-trading-software-engineering-internship-c-or-python-summer-2027",
       "firstSeen": "2026-10-23",
+      "lastSeen": "2026-11-07"
+    },
+    "hudson-river-trading-trading-systems-engineer": {
+      "id": "greenhouse-wehrtyou-8046163",
+      "firm": "Hudson River Trading",
+      "role": "Trading Systems Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Austin, TX, United States; Boulder, Colorado, United States; Chicago, Illinois, United States; Dublin, Ireland; London, United Kingdom; New York, NY, United States; Singapore",
+      "region": "Europe",
+      "level": "Experienced",
+      "applicationUrl": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=8046163",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "hudson-river-trading-trading-systems-engineer",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
+    "hudson-river-trading-trading-systems-engineer-uk": {
+      "id": "greenhouse-wehrtyou-8210349",
+      "firm": "Hudson River Trading",
+      "role": "Trading Systems Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "London, United Kingdom",
+      "region": "UK",
+      "level": "Experienced",
+      "applicationUrl": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=8210349",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "slug": "hudson-river-trading-trading-systems-engineer-uk",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "huron-consulting-group-consulting-analyst-digital-chicago-il-march-2027-start-date": {
@@ -33306,6 +33478,21 @@
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4960875101",
       "slug": "imc-trading-eu-campus-aarhus-hackahton-imcity",
       "firstSeen": "2026-09-01",
+      "lastSeen": "2026-11-07"
+    },
+    "imc-trading-experienced-risk-manager": {
+      "id": "greenhouse-imc-4942868101",
+      "firm": "IMC Trading",
+      "role": "Experienced Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4942868101",
+      "slug": "imc-trading-experienced-risk-manager",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "imc-trading-graduate-hardware-engineer": {
@@ -34353,6 +34540,21 @@
       "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4987748101",
       "slug": "imc-trading-quantitative-researcher-us",
       "firstSeen": "2026-10-30",
+      "lastSeen": "2026-11-07"
+    },
+    "imc-trading-quantitative-risk-manager": {
+      "id": "greenhouse-imc-4986772101",
+      "firm": "IMC Trading",
+      "role": "Quantitative Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Mumbai, India",
+      "region": "Asia",
+      "level": "Experienced",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4986772101",
+      "slug": "imc-trading-quantitative-risk-manager",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "imc-trading-quantitative-trader": {
@@ -46265,6 +46467,21 @@
       "firstSeen": "2026-10-12",
       "lastSeen": "2026-10-27"
     },
+    "jpmorgan-chase-alternatives-investment-risk-asset-wealth-management-associate": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210790110",
+      "firm": "JPMorgan Chase",
+      "role": "Alternatives Investment Risk - Asset Wealth Management - Associate",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210790110",
+      "slug": "jpmorgan-chase-alternatives-investment-risk-asset-wealth-management-associate",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "jpmorgan-chase-analyst-associate-equity-research-tmt-australia": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210779935",
       "firm": "JPMorgan Chase",
@@ -46386,6 +46603,21 @@
       "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210752287",
       "slug": "jpmorgan-chase-asset-management-emap-portfolio-manager-vice-president-executive-director",
       "firstSeen": "2026-10-13",
+      "lastSeen": "2026-11-07"
+    },
+    "jpmorgan-chase-asset-management-equities-quantitative-developer-vice-president-associate": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210779070",
+      "firm": "JPMorgan Chase",
+      "role": "Asset Management- Equities Quantitative Developer - Vice President/Associate",
+      "vertical": "Quant",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210779070",
+      "slug": "jpmorgan-chase-asset-management-equities-quantitative-developer-vice-president-associate",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "jpmorgan-chase-asset-management-european-equity-research-analyst-vice-president": {
@@ -46558,6 +46790,21 @@
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "slug": "jpmorgan-chase-asset-management-investment-platform-trading-analytics-and-strategy-vice-president-associate",
       "firstSeen": "2026-11-05",
+      "lastSeen": "2026-11-07"
+    },
+    "jpmorgan-chase-asset-management-location-risk-and-investment-risk-manager-vice-president": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210781354",
+      "firm": "JPMorgan Chase",
+      "role": "Asset Management Location Risk & Investment Risk Manager - Vice President",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Taiwan",
+      "region": "Asia",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210781354",
+      "slug": "jpmorgan-chase-asset-management-location-risk-and-investment-risk-manager-vice-president",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "jpmorgan-chase-asset-management-opening-market-insights-research-analyst-associate": {
@@ -47521,6 +47768,21 @@
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "slug": "jpmorgan-chase-equities-electronic-trading-j-p-morgan-nyse-floor-broker-associate",
       "firstSeen": "2026-10-22",
+      "lastSeen": "2026-11-07"
+    },
+    "jpmorgan-chase-equities-investment-risk-asset-wealth-management-executive-director": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210783425",
+      "firm": "JPMorgan Chase",
+      "role": "Equities Investment Risk – Asset Wealth Management - Executive Director",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210783425",
+      "slug": "jpmorgan-chase-equities-investment-risk-asset-wealth-management-executive-director",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "jpmorgan-chase-equities-systematic-trading-executive-director": {
@@ -48900,6 +49162,21 @@
       "firstSeen": "2026-10-12",
       "lastSeen": "2026-11-07"
     },
+    "jpmorgan-chase-investment-risk-associate": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210775182",
+      "firm": "JPMorgan Chase",
+      "role": "Investment Risk - Associate",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210775182",
+      "slug": "jpmorgan-chase-investment-risk-associate",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "jpmorgan-chase-java-sr-lead-esoftware-engineer-equities-algo-trading-vp": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210756723",
       "firm": "JPMorgan Chase",
@@ -48932,6 +49209,22 @@
       "firstSeen": "2026-10-30",
       "lastSeen": "2026-11-07"
     },
+    "jpmorgan-chase-lead-credit-officer-asset-based-lending-commercial-and-investment-bank-vice-president-us": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210788936",
+      "firm": "JPMorgan Chase",
+      "role": "Lead Credit Officer, Asset Based Lending - Commercial & Investment Bank - Vice President",
+      "vertical": "Investment Banking",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Dallas, TX, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210788936",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "slug": "jpmorgan-chase-lead-credit-officer-asset-based-lending-commercial-and-investment-bank-vice-president-us",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "jpmorgan-chase-lead-credit-officer-corporate-and-investment-bank-credit-risk-vice-president": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210763024",
       "firm": "JPMorgan Chase",
@@ -48945,6 +49238,22 @@
       "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210763024",
       "slug": "jpmorgan-chase-lead-credit-officer-corporate-and-investment-bank-credit-risk-vice-president",
       "firstSeen": "2026-10-27",
+      "lastSeen": "2026-11-07"
+    },
+    "jpmorgan-chase-lead-credit-officer-special-credits-commercial-and-investment-bank-vice-president": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210788906",
+      "firm": "JPMorgan Chase",
+      "role": "Lead Credit Officer, Special Credits - Commercial & Investment Bank - Vice President",
+      "vertical": "Investment Banking",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Plano, TX, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210788906",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "slug": "jpmorgan-chase-lead-credit-officer-special-credits-commercial-and-investment-bank-vice-president",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "jpmorgan-chase-lead-software-engineer-python-quant-developer-quant-research": {
@@ -49089,7 +49398,7 @@
     "jpmorgan-chase-markets-commodities-systematic-trading-associate-mumbai": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210788144",
       "firm": "JPMorgan Chase",
-      "role": "Markets- Commodities Systematic Trading-Associate-Mumbai",
+      "role": "Markets- Commodities Systematic Trading-Vice President/Associate-Mumbai",
       "vertical": "Sales & Trading",
       "programmeType": "Lateral / Experienced",
       "tier": "Bulge Bracket",
@@ -49100,7 +49409,7 @@
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
       "slug": "jpmorgan-chase-markets-commodities-systematic-trading-associate-mumbai",
       "firstSeen": "2026-10-13",
-      "lastSeen": "2026-10-27"
+      "lastSeen": "2026-11-07"
     },
     "jpmorgan-chase-na-edg-structuring-analyst": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210796127",
@@ -49372,7 +49681,7 @@
       "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210760903",
       "slug": "jpmorgan-chase-quant-analytics-senior-associate-card-data-analytics",
       "firstSeen": "2026-10-12",
-      "lastSeen": "2026-11-06"
+      "lastSeen": "2026-11-07"
     },
     "jpmorgan-chase-quant-analytics-senior-associate-deposit-pricing": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210759543",
@@ -49644,6 +49953,21 @@
       "firstSeen": "2026-11-04",
       "lastSeen": "2026-11-07"
     },
+    "jpmorgan-chase-quantitative-trading-and-research-equities-systematic-trading-vice-president": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210778998",
+      "firm": "JPMorgan Chase",
+      "role": "Quantitative Trading & Research - Equities Systematic Trading - Vice President",
+      "vertical": "Quant",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai, Maharashtra, India",
+      "region": "Asia",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210778998",
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-equities-systematic-trading-vice-president",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "jpmorgan-chase-quantitative-trading-and-research-equity-derivatives-exotics-analyst": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210770118",
       "firm": "JPMorgan Chase",
@@ -49673,6 +49997,21 @@
       "slug": "jpmorgan-chase-quantitative-trading-and-research-portfolio-associate",
       "firstSeen": "2026-10-12",
       "lastSeen": "2026-10-12"
+    },
+    "jpmorgan-chase-quantitative-trading-and-research-portfolio-associate-or-vice-president": {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210776359",
+      "firm": "JPMorgan Chase",
+      "role": "Quantitative Trading & Research - Portfolio - Associate or Vice President",
+      "vertical": "Quant",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "LONDON, LONDON, United Kingdom",
+      "region": "UK",
+      "level": "Experienced",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210776359",
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-portfolio-associate-or-vice-president",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
     },
     "jpmorgan-chase-quantitative-trading-and-research-rmbs-underwriting-analyst": {
       "id": "oracle-jpmc-fa-oraclecloud-com-210756146",
@@ -63834,8 +64173,8 @@
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Big Tech",
-      "location": "Taiwan, Hsinchu",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Graduate",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Taiwan-Hsinchu/Digital-Design-Engineer--Coherent-High-Speed-Interconnect---New-College-Graduate_JR2029164",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -64828,8 +65167,8 @@
       "vertical": "AI Engineering",
       "programmeType": "Summer Internship",
       "tier": "Big Tech",
-      "location": "China, Shanghai",
-      "region": "Asia",
+      "location": "3 Locations",
+      "region": "US",
       "level": "Internship",
       "applicationUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/China-Shanghai/Reinforcement-Learning-Intern---2027_JR2029243-1",
       "recommendedPrepSlug": "ai-engineer-interview-prep",
@@ -67035,6 +67374,21 @@
       "applicationUrl": "https://www.optiver.com/join-us/jobs/8011956002/?gh_jid=8011956002",
       "slug": "optiver-quantitative-trading-internship-taiwan-2027",
       "firstSeen": "2026-10-23",
+      "lastSeen": "2026-11-07"
+    },
+    "optiver-risk-analyst": {
+      "id": "greenhouse-optiverus-8637635002",
+      "firm": "Optiver",
+      "role": "Risk Analyst",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Chicago, Illinois, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://www.optiver.com/join-us/jobs/8637635002/?gh_jid=8637635002",
+      "slug": "optiver-risk-analyst",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "optiver-senior-data-engineer": {
@@ -78478,7 +78832,7 @@
       "id": "greenhouse-schonfeld-8091369",
       "firm": "Schonfeld",
       "role": "Quantitative Risk Analyst",
-      "vertical": "Quant",
+      "vertical": "Risk",
       "programmeType": "Lateral / Experienced",
       "tier": "Multi-Manager",
       "location": "Hong Kong, Hong Kong",
@@ -78607,6 +78961,21 @@
       "applicationUrl": "https://job-boards.greenhouse.io/schonfeld/jobs/7517021",
       "slug": "schonfeld-quantitative-trading-associate",
       "firstSeen": "2026-10-12",
+      "lastSeen": "2026-11-07"
+    },
+    "schonfeld-risk-manager": {
+      "id": "greenhouse-schonfeld-7858886",
+      "firm": "Schonfeld",
+      "role": "Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Multi-Manager",
+      "location": "New York, New York, United States",
+      "region": "US",
+      "level": "Experienced",
+      "applicationUrl": "https://job-boards.greenhouse.io/schonfeld/jobs/7858886",
+      "slug": "schonfeld-risk-manager",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "schonfeld-senior-quantitative-data-engineer": {
@@ -79963,6 +80332,22 @@
       "firstSeen": "2026-10-07",
       "lastSeen": "2026-11-07"
     },
+    "squarepoint-capital-junior-commodities-fundamental-analyst": {
+      "id": "greenhouse-squarepointcapital-5929246",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Commodities Fundamental Analyst",
+      "vertical": "Hedge Fund",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "Geneva, London, Paris, Singapore",
+      "region": "Europe",
+      "level": "Graduate",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=5929246&gh_jid=5929246",
+      "recommendedPrepSlug": "hedge-fund-interview-prep",
+      "slug": "squarepoint-capital-junior-commodities-fundamental-analyst",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
     "squarepoint-capital-junior-discretionary-trader": {
       "id": "greenhouse-squarepointcapital-3851879",
       "firm": "Squarepoint Capital",
@@ -80038,6 +80423,70 @@
       "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6069464&gh_jid=6069464",
       "slug": "squarepoint-capital-junior-quant-researcher-ml-alpha-research",
       "firstSeen": "2026-10-13",
+      "lastSeen": "2026-11-07"
+    },
+    "squarepoint-capital-junior-software-developer-c": {
+      "id": "greenhouse-squarepointcapital-6040731",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer (C++)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6040731&gh_jid=6040731",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "squarepoint-capital-junior-software-developer-c",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
+    "squarepoint-capital-junior-software-developer-front-end": {
+      "id": "greenhouse-squarepointcapital-6034447",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer - Front-end",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6034447&gh_jid=6034447",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "squarepoint-capital-junior-software-developer-front-end",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
+    "squarepoint-capital-junior-software-developer-kdb-q": {
+      "id": "greenhouse-squarepointcapital-6040773",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer (KDB+/Q)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6040773&gh_jid=6040773",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "squarepoint-capital-junior-software-developer-kdb-q",
+      "firstSeen": "2026-11-07",
+      "lastSeen": "2026-11-07"
+    },
+    "squarepoint-capital-junior-software-developer-python": {
+      "id": "greenhouse-squarepointcapital-6033550",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer (Python)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6033550&gh_jid=6033550",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "slug": "squarepoint-capital-junior-software-developer-python",
+      "firstSeen": "2026-11-07",
       "lastSeen": "2026-11-07"
     },
     "squarepoint-capital-lead-software-developer-options-market-making": {
@@ -83069,7 +83518,7 @@
       "vertical": "Finance & Accounting",
       "programmeType": "Summer Internship",
       "tier": "Asset Manager",
-      "location": "Charlotte Main 8500 Carnegie Blvd",
+      "location": "3 Locations",
       "region": "US",
       "level": "Internship",
       "applicationUrl": "https://tiaa.wd1.myworkdayjobs.com/Search/job/Charlotte-NC-USA/XMLNAME-2027-Early-Talent-Internship--Internal-Audit_R261000123",
