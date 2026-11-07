@@ -186,6 +186,11 @@ eq('collections is not published', early('Collections, Fraud & Accounts Entry-Le
 eq('client services is not published', early('Client Services Associate (Entry-Level)', WB), null);
 eq('a manufacturing technician is not published', early('Early Careers Manufacturing Technician', { firm: 'Intel', ats: 'workday', tier: 'Big Tech' }), null);
 eq('an entry-level engineer is', early('Software Engineer (Entry-Level) - C++', { firm: 'Akuna Capital', ats: 'greenhouse', token: 'akunacapital', tier: 'Trading Tech' }), 'Software Engineering/Graduate');
+// Where an application is collected is not the work; a recruiter's seat still is.
+eq('a recruitment hub in the title is logistics, not the function', early('Entry Level Technology - for MANILA Recruitment Hub applications only', { firm: 'Accenture', ats: 'workday', tier: 'Consulting' }), 'Software Engineering/Graduate');
+for (const title of ['Recruiter, Early Careers', 'Early Careers Talent Acquisition Partner (12-month Contract)', 'Vice President, Early Careers Program Manager']) {
+  eq(`a recruiting seat is still refused: ${title}`, early(title, { firm: 'BNY', ats: 'workday', tier: 'Middle Market' }), null);
+}
 eq('namesNonTargetFunction reads the function', [namesNonTargetFunction('Client Services Associate'), namesNonTargetFunction('Software Engineer')], [true, false]);
 
 /* ------------------------- 5. Early career not regressed ------------------------- */
