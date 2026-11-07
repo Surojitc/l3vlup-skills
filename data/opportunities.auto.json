@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-07T13:29:10.079Z",
-  "count": 3516,
+  "generatedAt": "2026-11-07T20:41:33.840Z",
+  "count": 3518,
   "opportunities": [
     {
       "id": "greenhouse-stripe-8357739",
@@ -242,26 +242,6 @@
       "slug": "stripe-phd-data-scientist-intern"
     },
     {
-      "id": "greenhouse-stripe-8328664",
-      "firm": "Stripe",
-      "role": "PhD Machine Learning Engineer, Intern",
-      "vertical": "AI Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "Toronto",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-10-30",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8328664",
-      "recommendedPrepSlug": "ai-engineer-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-phd-machine-learning-engineer-intern-us"
-    },
-    {
       "id": "greenhouse-stripe-8328662",
       "firm": "Stripe",
       "role": "PhD Machine Learning Engineer, Intern",
@@ -282,23 +262,24 @@
       "slug": "stripe-phd-machine-learning-engineer-intern"
     },
     {
-      "id": "greenhouse-stripe-8332683",
+      "id": "greenhouse-stripe-8328664",
       "firm": "Stripe",
-      "role": "Product Design Intern",
-      "vertical": "Other",
+      "role": "PhD Machine Learning Engineer, Intern",
+      "vertical": "AI Engineering",
       "programmeType": "Summer Internship",
       "tier": "Fintech",
       "location": "Toronto",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-11-05",
+      "openingDate": "2026-10-30",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8332683",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8328664",
+      "recommendedPrepSlug": "ai-engineer-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-product-design-intern-us"
+      "slug": "stripe-phd-machine-learning-engineer-intern-us"
     },
     {
       "id": "greenhouse-stripe-8332681",
@@ -318,6 +299,25 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "stripe-product-design-intern"
+    },
+    {
+      "id": "greenhouse-stripe-8332683",
+      "firm": "Stripe",
+      "role": "Product Design Intern",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "Toronto",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-11-05",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8332683",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "stripe-product-design-intern-us"
     },
     {
       "id": "greenhouse-stripe-7737124",
@@ -400,6 +400,26 @@
       "slug": "stripe-software-engineer-early-career-immediate-start-us"
     },
     {
+      "id": "greenhouse-stripe-8130883",
+      "firm": "Stripe",
+      "role": "Software Engineer, Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-09-07",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130883",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "stripe-software-engineer-intern-asia"
+    },
+    {
       "id": "greenhouse-stripe-8130867",
       "firm": "Stripe",
       "role": "Software Engineer, Intern",
@@ -440,26 +460,6 @@
       "slug": "stripe-software-engineer-intern"
     },
     {
-      "id": "greenhouse-stripe-8130883",
-      "firm": "Stripe",
-      "role": "Software Engineer, Intern",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "Singapore",
-      "region": "Asia",
-      "level": "Internship",
-      "openingDate": "2026-09-07",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130883",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-software-engineer-intern-asia"
-    },
-    {
       "id": "greenhouse-stripe-8130807",
       "firm": "Stripe",
       "role": "Software Engineer, Intern",
@@ -478,46 +478,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "stripe-software-engineer-intern-us"
-    },
-    {
-      "id": "greenhouse-stripe-8128745",
-      "firm": "Stripe",
-      "role": "Software Engineer, Intern (Summer or Winter)",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "San Francisco, Seattle, New York City",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-08-31",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8128745",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-software-engineer-intern-summer-or-winter-us"
-    },
-    {
-      "id": "greenhouse-stripe-8097801",
-      "firm": "Stripe",
-      "role": "Software Engineer, Intern (Summer or Winter)",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "Dublin",
-      "region": "Europe",
-      "level": "Internship",
-      "openingDate": "2026-08-17",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8097801",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-software-engineer-intern-europe"
     },
     {
       "id": "greenhouse-stripe-8130805",
@@ -540,6 +500,46 @@
       "slug": "stripe-software-engineer-intern-summer-or-winter-2"
     },
     {
+      "id": "greenhouse-stripe-8097801",
+      "firm": "Stripe",
+      "role": "Software Engineer, Intern (Summer or Winter)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "Dublin",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-08-17",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8097801",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "stripe-software-engineer-intern-europe"
+    },
+    {
+      "id": "greenhouse-stripe-8128745",
+      "firm": "Stripe",
+      "role": "Software Engineer, Intern (Summer or Winter)",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "San Francisco, Seattle, New York City",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8128745",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "stripe-software-engineer-intern-summer-or-winter-us"
+    },
+    {
       "id": "greenhouse-stripe-8160776",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
@@ -560,44 +560,24 @@
       "slug": "stripe-software-engineer-new-grad-asia"
     },
     {
-      "id": "greenhouse-stripe-8130922",
+      "id": "greenhouse-stripe-8130930",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "Bucharest",
-      "region": "Europe",
+      "location": "London",
+      "region": "UK",
       "level": "Graduate",
       "openingDate": "2026-08-31",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130930",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-software-engineer-new-grad-us"
-    },
-    {
-      "id": "greenhouse-stripe-8130876",
-      "firm": "Stripe",
-      "role": "Software Engineer, New Grad",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Fintech",
-      "location": "Bangalore",
-      "region": "Asia",
-      "level": "Graduate",
-      "openingDate": "2026-10-28",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130876",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-software-engineer-new-grad-4"
+      "slug": "stripe-software-engineer-new-grad-uk"
     },
     {
       "id": "greenhouse-stripe-8157838",
@@ -640,6 +620,26 @@
       "slug": "stripe-software-engineer-new-grad-europe"
     },
     {
+      "id": "greenhouse-stripe-8130922",
+      "firm": "Stripe",
+      "role": "Software Engineer, New Grad",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Fintech",
+      "location": "Bucharest",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "stripe-software-engineer-new-grad-us"
+    },
+    {
       "id": "greenhouse-stripe-8202299",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
@@ -680,24 +680,24 @@
       "slug": "stripe-software-engineer-new-grad"
     },
     {
-      "id": "greenhouse-stripe-8130930",
+      "id": "greenhouse-stripe-8130876",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "London",
-      "region": "UK",
+      "location": "Bangalore",
+      "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2026-08-31",
+      "openingDate": "2026-10-28",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130930",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130876",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-07",
-      "slug": "stripe-software-engineer-new-grad-uk"
+      "slug": "stripe-software-engineer-new-grad-4"
     },
     {
       "id": "greenhouse-stripe-8130927",
@@ -2779,6 +2779,25 @@
       "slug": "samsara-account-development-representative-intern-atlanta-2"
     },
     {
+      "id": "greenhouse-samsara-8103119",
+      "firm": "Samsara",
+      "role": "Account Development Representative Intern - Atlanta",
+      "vertical": "FinTech Sales",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "Atlanta, Georgia, United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-08-21",
+      "status": "Open",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8103119?gh_jid=8103119",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "samsara-account-development-representative-intern-atlanta"
+    },
+    {
       "id": "greenhouse-samsara-8325057",
       "firm": "Samsara",
       "role": "Account Development Representative Intern - Atlanta",
@@ -2798,23 +2817,23 @@
       "slug": "samsara-account-development-representative-intern-atlanta-us"
     },
     {
-      "id": "greenhouse-samsara-8103119",
+      "id": "greenhouse-samsara-8099799",
       "firm": "Samsara",
-      "role": "Account Development Representative Intern - Atlanta",
+      "role": "Account Development Representative Intern - Phoenix",
       "vertical": "FinTech Sales",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
-      "location": "Atlanta, Georgia, United States",
+      "location": "Phoenix, Arizona, United States",
       "region": "US",
       "level": "Internship",
       "openingDate": "2026-08-21",
       "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8103119?gh_jid=8103119",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8099799?gh_jid=8099799",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-07",
-      "slug": "samsara-account-development-representative-intern-atlanta"
+      "slug": "samsara-account-development-representative-intern-phoenix"
     },
     {
       "id": "greenhouse-samsara-8319784",
@@ -2836,25 +2855,6 @@
       "slug": "samsara-account-development-representative-intern-phoenix-us"
     },
     {
-      "id": "greenhouse-samsara-8325371",
-      "firm": "Samsara",
-      "role": "Account Development Representative Intern - Phoenix",
-      "vertical": "FinTech Sales",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "Remote - AZ",
-      "region": "Remote",
-      "level": "Internship",
-      "openingDate": "2026-10-26",
-      "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325371?gh_jid=8325371",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "samsara-account-development-representative-intern-phoenix-3"
-    },
-    {
       "id": "greenhouse-samsara-8325056",
       "firm": "Samsara",
       "role": "Account Development Representative Intern - Phoenix",
@@ -2874,23 +2874,23 @@
       "slug": "samsara-account-development-representative-intern-phoenix-2"
     },
     {
-      "id": "greenhouse-samsara-8099799",
+      "id": "greenhouse-samsara-8325371",
       "firm": "Samsara",
       "role": "Account Development Representative Intern - Phoenix",
       "vertical": "FinTech Sales",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
-      "location": "Phoenix, Arizona, United States",
-      "region": "US",
+      "location": "Remote - AZ",
+      "region": "Remote",
       "level": "Internship",
-      "openingDate": "2026-08-21",
+      "openingDate": "2026-10-26",
       "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8099799?gh_jid=8099799",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325371?gh_jid=8325371",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-07",
-      "slug": "samsara-account-development-representative-intern-phoenix"
+      "slug": "samsara-account-development-representative-intern-phoenix-3"
     },
     {
       "id": "greenhouse-samsara-8163118",
@@ -2933,25 +2933,6 @@
       "slug": "samsara-firmware-engineer-co-op"
     },
     {
-      "id": "greenhouse-samsara-8325360",
-      "firm": "Samsara",
-      "role": "(New Grad) Account Development Representative II - Atlanta",
-      "vertical": "FinTech Sales",
-      "programmeType": "Graduate Programme",
-      "tier": "Enterprise Tech",
-      "location": "Atlanta, Georgia, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-10-26",
-      "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325360?gh_jid=8325360",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "samsara-new-grad-account-development-representative-ii-atlanta-2"
-    },
-    {
       "id": "greenhouse-samsara-8094373",
       "firm": "Samsara",
       "role": "(New Grad) Account Development Representative II - Atlanta",
@@ -2990,23 +2971,23 @@
       "slug": "samsara-new-grad-account-development-representative-ii-atlanta-us"
     },
     {
-      "id": "greenhouse-samsara-8325356",
+      "id": "greenhouse-samsara-8325360",
       "firm": "Samsara",
-      "role": "(New Grad) Account Development Representative II - Phoenix",
+      "role": "(New Grad) Account Development Representative II - Atlanta",
       "vertical": "FinTech Sales",
       "programmeType": "Graduate Programme",
       "tier": "Enterprise Tech",
-      "location": "Remote - AZ",
-      "region": "Remote",
+      "location": "Atlanta, Georgia, United States",
+      "region": "US",
       "level": "Graduate",
       "openingDate": "2026-10-26",
       "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325356?gh_jid=8325356",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325360?gh_jid=8325360",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-07",
-      "slug": "samsara-new-grad-account-development-representative-ii-phoenix-2"
+      "slug": "samsara-new-grad-account-development-representative-ii-atlanta-2"
     },
     {
       "id": "greenhouse-samsara-8325054",
@@ -3045,6 +3026,25 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "samsara-new-grad-account-development-representative-ii-phoenix"
+    },
+    {
+      "id": "greenhouse-samsara-8325356",
+      "firm": "Samsara",
+      "role": "(New Grad) Account Development Representative II - Phoenix",
+      "vertical": "FinTech Sales",
+      "programmeType": "Graduate Programme",
+      "tier": "Enterprise Tech",
+      "location": "Remote - AZ",
+      "region": "Remote",
+      "level": "Graduate",
+      "openingDate": "2026-10-26",
+      "status": "Open",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325356?gh_jid=8325356",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "samsara-new-grad-account-development-representative-ii-phoenix-2"
     },
     {
       "id": "greenhouse-samsara-8358786",
@@ -3387,26 +3387,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "modal-ml-research-intern"
-    },
-    {
-      "id": "ashby-harvey-a194c24f-38ee-4c7e-908b-060a16dfaa9d",
-      "firm": "Harvey",
-      "role": "Law School Student Ambassador",
-      "vertical": "Other",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "Remote",
-      "region": "Remote",
-      "level": "Internship",
-      "openingDate": "2026-06-25",
-      "status": "Open",
-      "applicationUrl": "https://jobs.ashbyhq.com/harvey/a194c24f-38ee-4c7e-908b-060a16dfaa9d",
-      "tags": [
-        "Auto-sourced",
-        "Legal"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "harvey-law-school-student-ambassador"
     },
     {
       "id": "greenhouse-lyft-8843341002",
@@ -5321,6 +5301,25 @@
       "slug": "imc-trading-quantitative-developer-python"
     },
     {
+      "id": "greenhouse-imc-4942868101",
+      "firm": "IMC Trading",
+      "role": "Experienced Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Chicago, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-07-31",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4942868101",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "imc-trading-experienced-risk-manager"
+    },
+    {
       "id": "greenhouse-imc-4947297101",
       "firm": "IMC Trading",
       "role": "Trader - Digital Assets",
@@ -5377,6 +5376,25 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "imc-trading-quantitative-trader"
+    },
+    {
+      "id": "greenhouse-imc-4986772101",
+      "firm": "IMC Trading",
+      "role": "Quantitative Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Mumbai, India",
+      "region": "Asia",
+      "level": "Experienced",
+      "openingDate": "2026-09-25",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4986772101",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "imc-trading-quantitative-risk-manager"
     },
     {
       "id": "greenhouse-imc-4987748101",
@@ -5958,46 +5976,6 @@
       "slug": "imc-trading-software-engineer-research-asia"
     },
     {
-      "id": "greenhouse-imc-4960533101",
-      "firm": "IMC Trading",
-      "role": "Software Engineer - AI Tooling",
-      "vertical": "AI Engineering",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Trading Tech",
-      "location": "Chicago, United States",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-11-06",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4960533101",
-      "recommendedPrepSlug": "ai-engineer-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "imc-trading-software-engineer-ai-tooling"
-    },
-    {
-      "id": "greenhouse-imc-4976923101",
-      "firm": "IMC Trading",
-      "role": "Software Engineer – BP&A",
-      "vertical": "Software Engineering",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Trading Tech",
-      "location": "Chicago, United States",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-09-15",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/imc/jobs/4976923101",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "imc-trading-software-engineer-bpanda"
-    },
-    {
       "id": "greenhouse-akunacapital-8109370",
       "firm": "Akuna Capital",
       "role": "Accounting Intern (Term-Time, Part-Time)",
@@ -6015,6 +5993,26 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "akuna-capital-accounting-intern-term-time-part-time"
+    },
+    {
+      "id": "greenhouse-akunacapital-6690496",
+      "firm": "Akuna Capital",
+      "role": "Junior Developer - C++",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Shanghai, China",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2025-03-11",
+      "status": "Open",
+      "applicationUrl": "https://www.akunacapital.com/careers/job/6690496/?gh_jid=6690496",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "akuna-capital-junior-developer-c"
     },
     {
       "id": "greenhouse-akunacapital-8016687",
@@ -7815,6 +7813,25 @@
       "slug": "flow-traders-experienced-quantitative-researcher-us"
     },
     {
+      "id": "greenhouse-flowtraders-8168790",
+      "firm": "Flow Traders",
+      "role": "Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Hong Kong",
+      "region": "Asia",
+      "level": "Experienced",
+      "openingDate": "2026-09-01",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flowtraders/jobs/8168790",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "flow-traders-risk-manager"
+    },
+    {
       "id": "greenhouse-flowtraders-8176707",
       "firm": "Flow Traders",
       "role": "Digital Assets Options Trader",
@@ -8335,8 +8352,8 @@
       "vertical": "AI Engineering",
       "programmeType": "Summer Internship",
       "tier": "Big Tech",
-      "location": "China, Shanghai",
-      "region": "Asia",
+      "location": "3 Locations",
+      "region": "US",
       "level": "Internship",
       "openingDate": "2026-11-07",
       "status": "Open",
@@ -9229,8 +9246,8 @@
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Big Tech",
-      "location": "Taiwan, Hsinchu",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Graduate",
       "openingDate": "2026-11-04",
       "status": "Open",
@@ -10909,24 +10926,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "citi-banking-debt-capital-markets-internship-s-o-paulo-brazil-2027"
-    },
-    {
-      "id": "workday-citi-26982664",
-      "firm": "Citi",
-      "role": "Corporate Banking - Summer Internship Program, Tokyo - Japan, 2027",
-      "vertical": "Corporate Banking",
-      "programmeType": "Summer Internship",
-      "tier": "Bulge Bracket",
-      "location": "Chiyoda-ku Tokyo Japan",
-      "region": "Asia",
-      "level": "Internship",
-      "status": "Open",
-      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Chiyoda-ku-Tokyo-Japan/Corporate-Banking---Summer-Internship-Program--Tokyo---Japan--2027_26982664",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "citi-corporate-banking-summer-internship-program-tokyo-japan-2027"
     },
     {
       "id": "workday-citi-261004378",
@@ -13591,26 +13590,6 @@
       "slug": "jpmorgan-chase-2027-china-seasonal-internship-program-research-and-analytics"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210764343",
-      "firm": "JPMorgan Chase",
-      "role": "Collections, Fraud & Accounts Entry-Level Specialist",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Bulge Bracket",
-      "location": "Metro Manila, National Capital Region, Philippines",
-      "region": "Asia",
-      "level": "Graduate",
-      "openingDate": "2026-06-29",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210764343",
-      "tags": [
-        "Auto-sourced",
-        "Account Service"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-collections-fraud-and-accounts-entry-level-specialist"
-    },
-    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210764354",
       "firm": "JPMorgan Chase",
       "role": "Fresh Graduates Talent Pooling — Entry Level Position",
@@ -13714,27 +13693,6 @@
       "slug": "jpmorgan-chase-global-investment-banking-mergers-and-acquisitions-associate"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210701316",
-      "firm": "JPMorgan Chase",
-      "role": "Commercial & Investment Bank Treasury - Advanced Treasury Analytics – Senior Associate",
-      "vertical": "Investment Banking",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "LONDON, LONDON, United Kingdom",
-      "region": "UK",
-      "level": "Experienced",
-      "openingDate": "2026-03-04",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210701316",
-      "recommendedPrepSlug": "investment-banking-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Treasury"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-commercial-and-investment-bank-treasury-advanced-treasury-analytics-senior-associate"
-    },
-    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210707244",
       "firm": "JPMorgan Chase",
       "role": "Quant Analytics Associate - Time Series Forecasting Strategist - Workforce Planning",
@@ -13774,27 +13732,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "jpmorgan-chase-manda-banker-analyst-associate"
-    },
-    {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210710453",
-      "firm": "JPMorgan Chase",
-      "role": "Hedge Fund Services - Financial Reporting - Associate",
-      "vertical": "Operations",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "Tampa, FL, United States",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-02-06",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210710453",
-      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Product"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-hedge-fund-services-financial-reporting-associate"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210712771",
@@ -14045,26 +13982,6 @@
       "slug": "jpmorgan-chase-investment-banking-uk-real-estate-senior-associate-london"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210751509",
-      "firm": "JPMorgan Chase",
-      "role": "Quant Model Risk Associate - Rates",
-      "vertical": "Quant",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "LONDON, United Kingdom",
-      "region": "UK",
-      "level": "Experienced",
-      "openingDate": "2026-05-22",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210751509",
-      "tags": [
-        "Auto-sourced",
-        "Associates"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-quant-model-risk-associate-rates"
-    },
-    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210756298",
       "firm": "JPMorgan Chase",
       "role": "Service Product Analytics Team - Quant Analytics Senior Associate",
@@ -14165,6 +14082,26 @@
       "slug": "jpmorgan-chase-quant-analytics-senior-associate"
     },
     {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210760903",
+      "firm": "JPMorgan Chase",
+      "role": "Quant Analytics Senior Associate - Card Data Analytics",
+      "vertical": "Quant",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Wilmington, DE, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-06-17",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210760903",
+      "tags": [
+        "Auto-sourced",
+        "Predictive Science"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-quant-analytics-senior-associate-card-data-analytics"
+    },
+    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210761775",
       "firm": "JPMorgan Chase",
       "role": "Asset Management: Opening Market Insights Research Analyst - Associate",
@@ -14247,24 +14184,24 @@
       "slug": "jpmorgan-chase-global-research-credit-research-analyst-retail-and-consumer-analyst-or-associate"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210780484",
+      "id": "oracle-jpmc-fa-oraclecloud-com-210775182",
       "firm": "JPMorgan Chase",
-      "role": "Commercial and Investment Bank Credit Risk Control Management – Associate",
+      "role": "Investment Risk - Associate",
       "vertical": "Risk",
       "programmeType": "Lateral / Experienced",
       "tier": "Bulge Bracket",
-      "location": "Mumbai, Maharashtra, India",
+      "location": "Hong Kong",
       "region": "Asia",
       "level": "Experienced",
-      "openingDate": "2026-08-21",
+      "openingDate": "2026-07-30",
       "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210780484",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210775182",
       "tags": [
         "Auto-sourced",
-        "Control Officers"
+        "Market Risk"
       ],
       "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-commercial-and-investment-bank-credit-risk-control-management-associate"
+      "slug": "jpmorgan-chase-investment-risk-associate"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210781026",
@@ -14391,6 +14328,26 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "jpmorgan-chase-us-equity-research-metals-and-mining-associate"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210790110",
+      "firm": "JPMorgan Chase",
+      "role": "Alternatives Investment Risk - Asset Wealth Management - Associate",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-09-17",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210790110",
+      "tags": [
+        "Auto-sourced",
+        "Market Risk"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-alternatives-investment-risk-asset-wealth-management-associate"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210790156",
@@ -15055,46 +15012,6 @@
       "slug": "jpmorgan-chase-equities-systematic-trading-executive-director"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210703966",
-      "firm": "JPMorgan Chase",
-      "role": "Quant Model Risk Senior Associate/Vice President - Rates",
-      "vertical": "Quant",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "LONDON, United Kingdom",
-      "region": "UK",
-      "level": "Experienced",
-      "openingDate": "2026-09-24",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210703966",
-      "tags": [
-        "Auto-sourced",
-        "Predictive Science"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-quant-model-risk-senior-associate-vice-president-rates"
-    },
-    {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210707209",
-      "firm": "JPMorgan Chase",
-      "role": "Quant Model Risk Vice President",
-      "vertical": "Quant",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "Mumbai, Maharashtra, India",
-      "region": "Asia",
-      "level": "Experienced",
-      "openingDate": "2026-02-05",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210707209",
-      "tags": [
-        "Auto-sourced",
-        "Predictive Science"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-quant-model-risk-vice-president"
-    },
-    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210708213",
       "firm": "JPMorgan Chase",
       "role": "M&A Banker - Vice President",
@@ -15258,26 +15175,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "jpmorgan-chase-global-structuring-credit-and-fund-finance-vice-president"
-    },
-    {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210736677",
-      "firm": "JPMorgan Chase",
-      "role": "Quant Model Risk Associate/Vice President - Equities",
-      "vertical": "Quant",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "LONDON, LONDON, United Kingdom",
-      "region": "UK",
-      "level": "Experienced",
-      "openingDate": "2026-09-25",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210736677",
-      "tags": [
-        "Auto-sourced",
-        "Associates"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-quant-model-risk-associate-vice-president-equities"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210736721",
@@ -15484,27 +15381,6 @@
       "slug": "jpmorgan-chase-quantitative-trading-and-research-commodities-energy-vice-president"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210756716",
-      "firm": "JPMorgan Chase",
-      "role": "Market Risk Fundamental Review of the Trading Book – Implementation & Analytics – Vice President",
-      "vertical": "Sales & Trading",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "LONDON, United Kingdom",
-      "region": "UK",
-      "level": "Experienced",
-      "openingDate": "2026-10-13",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210756716",
-      "recommendedPrepSlug": "sales-and-trading-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Market Risk"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-market-risk-fundamental-review-of-the-trading-book-implementation-and-analytics-vice-president"
-    },
-    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210756723",
       "firm": "JPMorgan Chase",
       "role": "Java Sr Lead eSoftware Engineer - Equities Algo Trading - VP",
@@ -15647,27 +15523,6 @@
       "slug": "jpmorgan-chase-quantitative-trading-and-research-e-trading-executive-director"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210767395",
-      "firm": "JPMorgan Chase",
-      "role": "Control Manager - Corporate and Investment Banking - Vice President",
-      "vertical": "Investment Banking",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "Buenos Aires, Argentina",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-10-14",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210767395",
-      "recommendedPrepSlug": "investment-banking-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Control Officers"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-control-manager-corporate-and-investment-banking-vice-president"
-    },
-    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210767556",
       "firm": "JPMorgan Chase",
       "role": "Quantitative Trading & Research - e-Trading - Executive Director",
@@ -15749,27 +15604,6 @@
       "slug": "jpmorgan-chase-asset-management-private-credit-secondaries-and-co-investments-executive-director"
     },
     {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210771836",
-      "firm": "JPMorgan Chase",
-      "role": "Commercial and Investment Bank - Treasury - Vice President",
-      "vertical": "Investment Banking",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "Singapore, Singapore",
-      "region": "Asia",
-      "level": "Experienced",
-      "openingDate": "2026-07-24",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210771836",
-      "recommendedPrepSlug": "investment-banking-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Treasury"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-commercial-and-investment-bank-treasury-vice-president"
-    },
-    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210773762",
       "firm": "JPMorgan Chase",
       "role": "Commercial & Investment Bank Finance & Risk - Program Management - Vice President",
@@ -15808,6 +15642,26 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "jpmorgan-chase-asset-management-securitized-private-credit-analyst-associate-vice-president"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210776359",
+      "firm": "JPMorgan Chase",
+      "role": "Quantitative Trading & Research - Portfolio - Associate or Vice President",
+      "vertical": "Quant",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "LONDON, LONDON, United Kingdom",
+      "region": "UK",
+      "level": "Experienced",
+      "openingDate": "2026-07-31",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210776359",
+      "tags": [
+        "Auto-sourced",
+        "Data Management"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-portfolio-associate-or-vice-president"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210777787",
@@ -15849,6 +15703,46 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "jpmorgan-chase-risk-management-leveraged-finance-investment-banking-credit-risk-healthcare-vice-president-us"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210778998",
+      "firm": "JPMorgan Chase",
+      "role": "Quantitative Trading & Research - Equities Systematic Trading - Vice President",
+      "vertical": "Quant",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai, Maharashtra, India",
+      "region": "Asia",
+      "level": "Experienced",
+      "openingDate": "2026-08-13",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210778998",
+      "tags": [
+        "Auto-sourced",
+        "Data Management"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-equities-systematic-trading-vice-president"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210779070",
+      "firm": "JPMorgan Chase",
+      "role": "Asset Management- Equities Quantitative Developer - Vice President/Associate",
+      "vertical": "Quant",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-08-11",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210779070",
+      "tags": [
+        "Auto-sourced",
+        "Portfolio Management"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-asset-management-equities-quantitative-developer-vice-president-associate"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210779124",
@@ -15934,6 +15828,46 @@
       "slug": "jpmorgan-chase-asset-management-insurance-portfolio-manager-vice-president"
     },
     {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210781354",
+      "firm": "JPMorgan Chase",
+      "role": "Asset Management Location Risk & Investment Risk Manager - Vice President",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Taiwan",
+      "region": "Asia",
+      "level": "Experienced",
+      "openingDate": "2026-08-24",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210781354",
+      "tags": [
+        "Auto-sourced",
+        "Market Risk"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-asset-management-location-risk-and-investment-risk-manager-vice-president"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210783425",
+      "firm": "JPMorgan Chase",
+      "role": "Equities Investment Risk – Asset Wealth Management - Executive Director",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210783425",
+      "tags": [
+        "Auto-sourced",
+        "Market Risk"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-equities-investment-risk-asset-wealth-management-executive-director"
+    },
+    {
       "id": "oracle-jpmc-fa-oraclecloud-com-210786014",
       "firm": "JPMorgan Chase",
       "role": "Asset Management - Investment Platform - Trading Analytics and Strategy – Vice President/ Associate",
@@ -15953,6 +15887,69 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "jpmorgan-chase-asset-management-investment-platform-trading-analytics-and-strategy-vice-president-associate"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210788144",
+      "firm": "JPMorgan Chase",
+      "role": "Markets- Commodities Systematic Trading-Vice President/Associate-Mumbai",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Mumbai, Maharashtra, India",
+      "region": "Asia",
+      "level": "Experienced",
+      "openingDate": "2026-11-02",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210788144",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Sales/Mktg Global Population"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-markets-commodities-systematic-trading-associate-mumbai"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210788906",
+      "firm": "JPMorgan Chase",
+      "role": "Lead Credit Officer, Special Credits - Commercial & Investment Bank - Vice President",
+      "vertical": "Investment Banking",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Plano, TX, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-09-08",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210788906",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Credit Risk"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-lead-credit-officer-special-credits-commercial-and-investment-bank-vice-president"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210788936",
+      "firm": "JPMorgan Chase",
+      "role": "Lead Credit Officer, Asset Based Lending - Commercial & Investment Bank - Vice President",
+      "vertical": "Investment Banking",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Dallas, TX, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-10-05",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210788936",
+      "recommendedPrepSlug": "investment-banking-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Credit Risk"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "jpmorgan-chase-lead-credit-officer-asset-based-lending-commercial-and-investment-bank-vice-president-us"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210790710",
@@ -16323,26 +16320,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "jpmorgan-chase-asset-management-fixed-income-portfolio-manager-shanghai"
-    },
-    {
-      "id": "oracle-jpmc-fa-oraclecloud-com-210702811",
-      "firm": "JPMorgan Chase",
-      "role": "Quant Model Risk Analyst",
-      "vertical": "Quant",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Bulge Bracket",
-      "location": "Mumbai, Maharashtra, India",
-      "region": "Asia",
-      "level": "Experienced",
-      "openingDate": "2026-06-23",
-      "status": "Open",
-      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210702811",
-      "tags": [
-        "Auto-sourced",
-        "Analysts"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "jpmorgan-chase-quant-model-risk-analyst"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210710028",
@@ -16745,7 +16722,7 @@
       "region": "Middle East",
       "level": "Internship",
       "closingDate": "2026-11-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers/job/Dubai-United-Arab-Emirates/Product-Management-Intern--Summer-2027---Dubai--UAE--UAE-Nationals-Preferred-_R-287599-1",
@@ -16931,7 +16908,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-11-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Northampton-Barclays-Campus-Pavilion-Drive/XMLNAME-2027-Operations-Analyst-Degree-Apprenticeship-Programme-Northampton_JR-0000129610",
@@ -16953,7 +16930,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-11-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Knutsford-Radbroke-Hall/XMLNAME-2027-Operations-Analyst-Project-Management-Degree-Apprenticeship-Programme-Knutsford_JR-0000138513",
@@ -16975,7 +16952,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-11-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Knutsford-Radbroke-Hall/XMLNAME-2027-Operations-Analyst-Data-Science-Degree-Apprenticeship-Programme-Knutsford_JR-0000129424",
@@ -19193,7 +19170,7 @@
       "region": "US",
       "level": "Experienced",
       "closingDate": "2026-11-13",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/New-York-745-7th-Avenue/Agency-CMO-Trader_JR-0000087866",
@@ -20820,7 +20797,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-15",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Toronto-ON-CAN/Technology-Research-Associate--Winter-2027--Co-op-Internship----4-months_R260024978",
@@ -20893,28 +20870,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "bmo-capital-markets-investment-team-intern-summer-2027-co-op-internship-4-months"
-    },
-    {
-      "id": "workday-wf-R-557386",
-      "firm": "Wells Fargo",
-      "role": "2027 Technology Program Intern",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Middle Market",
-      "location": "2 Locations",
-      "region": "US",
-      "level": "Internship",
-      "closingDate": "2026-11-08",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-11-05",
-      "status": "Open",
-      "applicationUrl": "https://wf.wd1.myworkdayjobs.com/wellsfargojobs/job/Bengaluru-India/XMLNAME-2027-Technology-Program-Intern_R-557386",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "wells-fargo-2027-technology-program-intern"
     },
     {
       "id": "workday-wf-R-581607",
@@ -21416,7 +21371,7 @@
       "region": "UK",
       "level": "Internship",
       "closingDate": "2026-11-13",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-05",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/FTIConsultingCareers/job/London-United-Kingdom/MBA-Intern-Business-Transformation_JR260711",
@@ -21942,7 +21897,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-16",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://mizuho.wd1.myworkdayjobs.com/mizuho_confidential/job/New-York-NY-1271-AOA6th-Ave/XMLNAME-2027-Corporate-Credit-Structuring-Intern---Real-Estate_R7533",
@@ -22039,7 +21994,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-13",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://mizuho.wd1.myworkdayjobs.com/mizuho_confidential/job/San-Francisco/XMLNAME-2028-M-A-Summer-Analyst---San-Francisco_R7500",
@@ -23953,25 +23908,6 @@
       "slug": "capital-one-sr-analyst-capital-markets-and-risk"
     },
     {
-      "id": "workday-capitalone-R1002858-1",
-      "firm": "Capital One",
-      "role": "Principal Quantitative Analyst - Model Risk Office",
-      "vertical": "Quant",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Middle Market",
-      "location": "McLean, VA",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-10-13",
-      "status": "Open",
-      "applicationUrl": "https://capitalone.wd12.myworkdayjobs.com/Capital_One/job/McLean-VA/Principal-Quantitative-Analyst---Model-Risk-Office_R1002858-1",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "capital-one-principal-quantitative-analyst-model-risk-office"
-    },
-    {
       "id": "workday-capitalone-R1003465-1",
       "firm": "Capital One",
       "role": "Principal Associate, Quantitative Analysis",
@@ -24066,25 +24002,6 @@
       "slug": "capital-one-director-quantitative-analysis-commercial-credit-modeling-team"
     },
     {
-      "id": "workday-capitalone-R999504",
-      "firm": "Capital One",
-      "role": "Director, Commercial Risk, Underwriting & Portfolio Management",
-      "vertical": "Risk",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Middle Market",
-      "location": "3 Locations",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-10-23",
-      "status": "Open",
-      "applicationUrl": "https://capitalone.wd12.myworkdayjobs.com/Capital_One/job/Richmond-VA/Director--Commercial-Risk--Underwriting---Portfolio-Management_R999504",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "capital-one-director-commercial-risk-underwriting-and-portfolio-management"
-    },
-    {
       "id": "workday-capitalone-R1001900",
       "firm": "Capital One",
       "role": "Senior Quantitative Analyst - Global Finance",
@@ -24119,25 +24036,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "capital-one-credit-analyst-i"
-    },
-    {
-      "id": "workday-capitalone-R1004721-1",
-      "firm": "Capital One",
-      "role": "Senior Manager, Emerging & B2B Risk Advisory (EBRA) Risk Strategist",
-      "vertical": "Risk",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Middle Market",
-      "location": "4 Locations",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-10-29",
-      "status": "Open",
-      "applicationUrl": "https://capitalone.wd12.myworkdayjobs.com/Capital_One/job/Richmond-VA/Senior-Manager--Emerging---B2B-Risk-Advisory--EBRA--Risk-Strategist_R1004721-1",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "capital-one-senior-manager-emerging-and-b2b-risk-advisory-ebra-risk-strategist"
     },
     {
       "id": "workday-northwesternmutual-JR-46324",
@@ -24294,10 +24192,9 @@
       "vertical": "FinTech Sales",
       "programmeType": "Summer Internship",
       "tier": "Megafund",
-      "location": "Hong Kong Exchange Square",
-      "region": "Asia",
+      "location": "2 Locations",
+      "region": "US",
       "level": "Internship",
-      "openingDate": "2026-11-05",
       "status": "Open",
       "applicationUrl": "https://athene.wd5.myworkdayjobs.com/Apollo_Careers/job/Hong-Kong/Intern--ICG-Sales--6-months--LoA-_R255176",
       "tags": [
@@ -24835,7 +24732,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-19",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://investpsp.wd3.myworkdayjobs.com/psp_careers/job/Montreal/Intern--Business-and-Technology-Governance--January---April-2027-_R5043",
@@ -30412,6 +30309,25 @@
       "slug": "aqr-capital-management-research-and-portfolio-management-engineering-vice-president"
     },
     {
+      "id": "greenhouse-aqr-8220146",
+      "firm": "AQR Capital Management",
+      "role": "Market Risk, Vice President",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Systematic",
+      "location": "Greenwich, CT",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-09-30",
+      "status": "Open",
+      "applicationUrl": "https://careers.aqr.com/jobs?gh_jid=8220146&gh_jid=8220146",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "aqr-capital-management-market-risk-vice-president"
+    },
+    {
       "id": "greenhouse-aqr-8221812",
       "firm": "AQR Capital Management",
       "role": "Discretionary Macro - Vice President",
@@ -30768,6 +30684,26 @@
       "slug": "squarepoint-capital-intern-software-developer-warsaw-2027"
     },
     {
+      "id": "greenhouse-squarepointcapital-5929246",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Commodities Fundamental Analyst",
+      "vertical": "Hedge Fund",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "Geneva, London, Paris, Singapore",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2024-05-07",
+      "status": "Open",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=5929246&gh_jid=5929246",
+      "recommendedPrepSlug": "hedge-fund-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "squarepoint-capital-junior-commodities-fundamental-analyst"
+    },
+    {
       "id": "greenhouse-squarepointcapital-3851879",
       "firm": "Squarepoint Capital",
       "role": "Junior Discretionary Trader",
@@ -30863,6 +30799,86 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "squarepoint-capital-junior-quant-researcher-ml-alpha-research"
+    },
+    {
+      "id": "greenhouse-squarepointcapital-6040731",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer (C++)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2024-06-21",
+      "status": "Open",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6040731&gh_jid=6040731",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "squarepoint-capital-junior-software-developer-c"
+    },
+    {
+      "id": "greenhouse-squarepointcapital-6034447",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer - Front-end",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2024-06-21",
+      "status": "Open",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6034447&gh_jid=6034447",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "squarepoint-capital-junior-software-developer-front-end"
+    },
+    {
+      "id": "greenhouse-squarepointcapital-6040773",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer (KDB+/Q)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2024-06-21",
+      "status": "Open",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6040773&gh_jid=6040773",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "squarepoint-capital-junior-software-developer-kdb-q"
+    },
+    {
+      "id": "greenhouse-squarepointcapital-6033550",
+      "firm": "Squarepoint Capital",
+      "role": "Junior Software Developer (Python)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Systematic",
+      "location": "London, Montreal, Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2024-06-14",
+      "status": "Open",
+      "applicationUrl": "https://www.squarepoint-capital.com/open-opportunities?id=6033550&gh_jid=6033550",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "squarepoint-capital-junior-software-developer-python"
     },
     {
       "id": "greenhouse-squarepointcapital-7757021",
@@ -33311,6 +33327,25 @@
       "slug": "schonfeld-strategist-equity-risk"
     },
     {
+      "id": "greenhouse-schonfeld-7858886",
+      "firm": "Schonfeld",
+      "role": "Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Multi-Manager",
+      "location": "New York, New York, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-05-12",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/schonfeld/jobs/7858886",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "schonfeld-risk-manager"
+    },
+    {
       "id": "greenhouse-schonfeld-8020671",
       "firm": "Schonfeld",
       "role": "Quant Strategist - Credit",
@@ -33352,7 +33387,7 @@
       "id": "greenhouse-schonfeld-8091369",
       "firm": "Schonfeld",
       "role": "Quantitative Risk Analyst",
-      "vertical": "Quant",
+      "vertical": "Risk",
       "programmeType": "Lateral / Experienced",
       "tier": "Multi-Manager",
       "location": "Hong Kong, Hong Kong",
@@ -38963,25 +38998,6 @@
       "slug": "intel-process-integration-and-yield-eng-phd-intern-2027"
     },
     {
-      "id": "workday-intel-JR0284021",
-      "firm": "Intel",
-      "role": "Early Careers Manufacturing Technician",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Enterprise Tech",
-      "location": "Ireland, Leixlip",
-      "region": "Europe",
-      "level": "Graduate",
-      "openingDate": "2026-10-08",
-      "status": "Open",
-      "applicationUrl": "https://intel.wd1.myworkdayjobs.com/External/job/Ireland-Leixlip/Manufacturing-Technician_JR0284021",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "intel-early-careers-manufacturing-technician"
-    },
-    {
       "id": "workday-intel-JR0288600",
       "firm": "Intel",
       "role": "Intel Foundry/PCC Semiconductor Manufacturing Student Technician – ICE Program",
@@ -39551,7 +39567,6 @@
       "location": "MA - Casablanca, Morocco",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-08-14",
       "status": "Open",
       "applicationUrl": "https://visa.wd5.myworkdayjobs.com/Visa_Early_Careers/job/MA---Casablanca-Morocco/VAS-Intern---Students-Graduating-Summer-2028-or-December-2027_REF086777W",
       "tags": [
@@ -39570,7 +39585,6 @@
       "location": "KZ - Almaty, Kazakhstan",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-08-13",
       "status": "Open",
       "applicationUrl": "https://visa.wd5.myworkdayjobs.com/Visa_Early_Careers/job/KZ---Almaty-Kazakhstan/Client-Services-Intern---Students-Graduating-Summer-2028-or-December-2027_REF086764W",
       "tags": [
@@ -40047,7 +40061,6 @@
       "location": "See listing",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-09-25",
       "status": "Open",
       "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Athens-Arcadias/Global-S-C-Networks-Internship-Program---Athens_R00284676",
       "recommendedPrepSlug": "ai-engineer-interview-prep",
@@ -41187,11 +41200,11 @@
       "vertical": "Consulting",
       "programmeType": "Summer Internship",
       "tier": "Consulting",
-      "location": "GH Office: Arlington, VA",
+      "location": "4 Locations",
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-17",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://guidehouse.wd1.myworkdayjobs.com/External/job/US---VA-Arlington/Intern---Health-Automation---Analytics--Provider-Advisory---Campus-2027_46421",
@@ -41208,7 +41221,7 @@
       "vertical": "Consulting",
       "programmeType": "Graduate Programme",
       "tier": "Consulting",
-      "location": "GH Office: Boston, MA",
+      "location": "10 Locations",
       "region": "US",
       "level": "Graduate",
       "openingDate": "2026-11-06",
@@ -41227,11 +41240,11 @@
       "vertical": "Consulting",
       "programmeType": "Graduate Programme",
       "tier": "Consulting",
-      "location": "GH Office: Charlotte, NC",
+      "location": "5 Locations",
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-11-17",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://guidehouse.wd1.myworkdayjobs.com/External/job/US---NC-Charlotte/Consulting-Analyst---Health-Automation---Analytics--Provider-Advisory---Campus-2027_46423",
@@ -42096,6 +42109,26 @@
       "slug": "drw-fpga-intern"
     },
     {
+      "id": "greenhouse-drweng-8239996",
+      "firm": "DRW",
+      "role": "Junior FPGA Engineer",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-09-30",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8239996",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "drw-junior-fpga-engineer"
+    },
+    {
       "id": "greenhouse-drweng-7957756",
       "firm": "DRW",
       "role": "Quantitative Research Intern",
@@ -42559,6 +42592,25 @@
       "slug": "drw-quantitative-researcher-us"
     },
     {
+      "id": "greenhouse-drweng-8031433",
+      "firm": "DRW",
+      "role": "Risk Manager",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Amsterdam",
+      "region": "Europe",
+      "level": "Experienced",
+      "openingDate": "2026-06-29",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8031433",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "drw-risk-manager"
+    },
+    {
       "id": "greenhouse-drweng-8079147",
       "firm": "DRW",
       "role": "US Equity Index Options Trader",
@@ -42955,6 +43007,26 @@
       "slug": "drw-senior-software-engineer-cumberland-options-data"
     },
     {
+      "id": "greenhouse-drweng-7182464",
+      "firm": "DRW",
+      "role": "Options Trading Systems Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Singapore",
+      "region": "Asia",
+      "level": "Experienced",
+      "openingDate": "2025-09-01",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/7182464",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "drw-options-trading-systems-engineer"
+    },
+    {
       "id": "greenhouse-drweng-7283668",
       "firm": "DRW",
       "role": "Software Engineer, Research – Cumberland Systematic",
@@ -43133,6 +43205,26 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "drw-python-software-engineer-trading-platform"
+    },
+    {
+      "id": "greenhouse-drweng-7614634",
+      "firm": "DRW",
+      "role": "Trading Systems Engineer, Cumberland Mining",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "London",
+      "region": "UK",
+      "level": "Experienced",
+      "openingDate": "2026-02-13",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/7614634",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "drw-trading-systems-engineer-cumberland-mining"
     },
     {
       "id": "greenhouse-drweng-7634122",
@@ -43413,66 +43505,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "drw-senior-software-engineer-c-algo"
-    },
-    {
-      "id": "greenhouse-drweng-8007851",
-      "firm": "DRW",
-      "role": "Software Developer",
-      "vertical": "Software Engineering",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Trading Tech",
-      "location": "London",
-      "region": "UK",
-      "level": "Experienced",
-      "openingDate": "2026-08-19",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8007851",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "drw-software-developer-uk"
-    },
-    {
-      "id": "greenhouse-drweng-8064537",
-      "firm": "DRW",
-      "role": "Software Developer",
-      "vertical": "Software Engineering",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Trading Tech",
-      "location": "Montreal",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-07-15",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8064537",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "drw-software-developer-us"
-    },
-    {
-      "id": "greenhouse-drweng-8095481",
-      "firm": "DRW",
-      "role": "Senior Software Engineer, Treasury and Reference Data (Java/Ruby/Python)",
-      "vertical": "Software Engineering",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Trading Tech",
-      "location": "Chicago",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-07-30",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8095481",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "drw-senior-software-engineer-treasury-and-reference-data-java-ruby-python"
     },
     {
       "id": "greenhouse-ebury-5027026101",
@@ -43961,6 +43993,25 @@
       "slug": "hudson-river-trading-quantitative-researcher-mid-freq"
     },
     {
+      "id": "greenhouse-wehrtyou-6166737",
+      "firm": "Hudson River Trading",
+      "role": "Risk Manager - Commodities",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2025-06-17",
+      "status": "Open",
+      "applicationUrl": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=6166737",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "hudson-river-trading-risk-manager-commodities"
+    },
+    {
       "id": "greenhouse-wehrtyou-8082962",
       "firm": "Hudson River Trading",
       "role": "Fixed Income Trader",
@@ -44281,6 +44332,26 @@
       "slug": "hudson-river-trading-ai-research-engineer-inference"
     },
     {
+      "id": "greenhouse-wehrtyou-8046163",
+      "firm": "Hudson River Trading",
+      "role": "Trading Systems Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Austin, TX, United States; Boulder, Colorado, United States; Chicago, Illinois, United States; Dublin, Ireland; London, United Kingdom; New York, NY, United States; Singapore",
+      "region": "Europe",
+      "level": "Experienced",
+      "openingDate": "2026-07-06",
+      "status": "Open",
+      "applicationUrl": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=8046163",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "hudson-river-trading-trading-systems-engineer"
+    },
+    {
       "id": "greenhouse-wehrtyou-8159529",
       "firm": "Hudson River Trading",
       "role": "Signal Integrity / Power Integrity Engineer",
@@ -44359,6 +44430,26 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "hudson-river-trading-risk-engineer"
+    },
+    {
+      "id": "greenhouse-wehrtyou-8210349",
+      "firm": "Hudson River Trading",
+      "role": "Trading Systems Engineer",
+      "vertical": "Sales & Trading",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "London, United Kingdom",
+      "region": "UK",
+      "level": "Experienced",
+      "openingDate": "2026-09-17",
+      "status": "Open",
+      "applicationUrl": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=8210349",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "hudson-river-trading-trading-systems-engineer-uk"
     },
     {
       "id": "greenhouse-wehrtyou-8234195",
@@ -46145,6 +46236,25 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "optiver-quantitative-developer-pricing-data"
+    },
+    {
+      "id": "greenhouse-optiverus-8637635002",
+      "firm": "Optiver",
+      "role": "Risk Analyst",
+      "vertical": "Risk",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "Chicago, Illinois, United States",
+      "region": "US",
+      "level": "Experienced",
+      "openingDate": "2026-09-24",
+      "status": "Open",
+      "applicationUrl": "https://www.optiver.com/join-us/jobs/8637635002/?gh_jid=8637635002",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "optiver-risk-analyst"
     },
     {
       "id": "greenhouse-optiverus-8682192002",
@@ -48054,28 +48164,6 @@
       "slug": "state-street-technology-early-career-entry-program"
     },
     {
-      "id": "workday-statestreet-R-800830",
-      "firm": "State Street",
-      "role": "ISG Operations Apprentice",
-      "vertical": "Operations",
-      "programmeType": "Graduate Programme",
-      "tier": "Middle Market",
-      "location": "Bangalore, India",
-      "region": "Asia",
-      "level": "Graduate",
-      "closingDate": "2026-11-08",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-11-05",
-      "status": "Open",
-      "applicationUrl": "https://statestreet.wd1.myworkdayjobs.com/Global/job/Bangalore-India/ISG-Operations-Apprentice_R-800830",
-      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "state-street-isg-operations-apprentice"
-    },
-    {
       "id": "workday-statestreet-R-800609-1",
       "firm": "State Street",
       "role": "Software Engineer (Cyber Security) Early Career Entry Program 2027",
@@ -48086,7 +48174,7 @@
       "region": "Europe",
       "level": "Graduate",
       "closingDate": "2026-11-20",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://statestreet.wd1.myworkdayjobs.com/Global/job/Kilkenny-Ireland/Software-Engineer--Cyber-Security--Early-Career-Entry-Program-2027_R-800609-1",
@@ -53099,25 +53187,6 @@
       "slug": "bny-2027-bny-summer-internship-program-bny-investments-pittsburgh-pa"
     },
     {
-      "id": "oracle-eofe-fa-us2-oraclecloud-com-83315",
-      "firm": "BNY",
-      "role": "Vice President, Early Careers Program Manager",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Middle Market",
-      "location": "New York, NY, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-10-27",
-      "status": "Open",
-      "applicationUrl": "https://eofe.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/BNY/job/83315",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "bny-vice-president-early-careers-program-manager"
-    },
-    {
       "id": "oracle-eofe-fa-us2-oraclecloud-com-83198",
       "firm": "BNY",
       "role": "2027 BNY Analyst Program - Client Coverage - Luxembourg - Start Date: February 2027",
@@ -58002,6 +58071,26 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "dv-trading-graduate-software-engineer-dv-commodities-uk"
+    },
+    {
+      "id": "greenhouse-dvtrading-4742897005",
+      "firm": "DV Trading",
+      "role": "Junior Fixed Income Relative Value Trader",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Chicago",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-10-12",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/dvtrading/jobs/4742897005",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-07",
+      "slug": "dv-trading-junior-fixed-income-relative-value-trader"
     },
     {
       "id": "greenhouse-dvtrading-4725689005",
@@ -63125,11 +63214,11 @@
       "vertical": "Finance & Accounting",
       "programmeType": "Summer Internship",
       "tier": "Asset Manager",
-      "location": "Charlotte Main 8500 Carnegie Blvd",
+      "location": "3 Locations",
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-11",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://tiaa.wd1.myworkdayjobs.com/Search/job/Charlotte-NC-USA/XMLNAME-2027-Early-Talent-Internship--Internal-Audit_R261000123",
@@ -63326,48 +63415,6 @@
       ],
       "lastConfirmedAt": "2026-11-07",
       "slug": "fidelity-investments-enterprise-infrastructure-and-operations-internship"
-    },
-    {
-      "id": "workday-ameriprise-3572",
-      "firm": "Ameriprise Financial",
-      "role": "Actuarial Intern",
-      "vertical": "Other",
-      "programmeType": "Summer Internship",
-      "tier": "Asset Manager",
-      "location": "Minneapolis, Minnesota",
-      "region": "US",
-      "level": "Internship",
-      "closingDate": "2026-11-13",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-10-27",
-      "status": "Open",
-      "applicationUrl": "https://ameriprise.wd5.myworkdayjobs.com/Ameriprise/job/Minneapolis-Minnesota/Actuarial-Intern_R26_3572",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "ameriprise-financial-actuarial-intern"
-    },
-    {
-      "id": "workday-ameriprise-4036-1",
-      "firm": "Ameriprise Financial",
-      "role": "Recruiter, Early Careers",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Asset Manager",
-      "location": "3 Locations",
-      "region": "US",
-      "level": "Graduate",
-      "closingDate": "2026-11-28",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-10-14",
-      "status": "Open",
-      "applicationUrl": "https://ameriprise.wd5.myworkdayjobs.com/Ameriprise/job/Minneapolis-Minnesota/Recruiter--Early-Careers_R26_4036-1",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "ameriprise-financial-recruiter-early-careers"
     },
     {
       "id": "workday-lombardodier-R0007664",
@@ -67944,25 +67991,6 @@
       "slug": "pacific-life-summer-2027-data-engineering-internship"
     },
     {
-      "id": "workday-pacificlife-R17999",
-      "firm": "Pacific Life",
-      "role": "Early Careers Talent Acquisition Partner (12-month Contract)",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Other",
-      "location": "Newport Beach CA-700",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-10-21",
-      "status": "Open",
-      "applicationUrl": "https://pacificlife.wd1.myworkdayjobs.com/PacificLifeCareers/job/Newport-Beach-CA-700/Early-Careers-Talent-Acquisition-Partner--12-month-Contract-_R17999",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-07",
-      "slug": "pacific-life-early-careers-talent-acquisition-partner-12-month-contract"
-    },
-    {
       "id": "workday-pacificlife-R17949-1",
       "firm": "Pacific Life",
       "role": "Global Rotational Program Manager, Early Careers",
@@ -68213,7 +68241,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-12",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://sunlife.wd3.myworkdayjobs.com/Campus/job/Waterloo-Ontario/Student--Associate-DevOps-Engineer--Winter-2027-_JR00127798",
@@ -68322,7 +68350,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-12",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-06",
       "status": "Open",
       "applicationUrl": "https://sunlife.wd3.myworkdayjobs.com/Campus/job/Toronto-Ontario/Student--Telephony-Analyst--Co-op--Winter-and-Summer-2027-_JR00129532",
@@ -68701,7 +68729,7 @@
       "vertical": "Other",
       "programmeType": "Summer Internship",
       "tier": "Other",
-      "location": "Culver City - CA - 600 Corporate Pointe",
+      "location": "4 Locations",
       "region": "US",
       "level": "Internship",
       "openingDate": "2026-11-06",
@@ -69386,7 +69414,7 @@
       "vertical": "Risk",
       "programmeType": "Summer Internship",
       "tier": "Other",
-      "location": "MCK-Henneman Way",
+      "location": "3 Locations",
       "region": "US",
       "level": "Internship",
       "openingDate": "2026-11-03",

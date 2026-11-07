@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-07T13:29:10.079Z",
-  "count": 5829,
+  "generatedAt": "2026-11-07T20:41:33.840Z",
+  "count": 5858,
   "roles": {
     "ashby-alan-042421fd-55af-40f2-85c0-20a2fb354c1e": {
       "slug": "alan-data-associate-internship-6-months-flexible-start",
@@ -812,6 +812,10 @@
       "slug": "akuna-capital-quantitative-trader",
       "since": "2026-10-12"
     },
+    "greenhouse-akunacapital-6690496": {
+      "slug": "akuna-capital-junior-developer-c",
+      "since": "2026-11-07"
+    },
     "greenhouse-akunacapital-6812905": {
       "slug": "akuna-capital-quant-strategist",
       "since": "2026-10-12"
@@ -1071,6 +1075,10 @@
     "greenhouse-aqr-8164315": {
       "slug": "aqr-capital-management-electronic-trader-analyst",
       "since": "2026-10-12"
+    },
+    "greenhouse-aqr-8220146": {
+      "slug": "aqr-capital-management-market-risk-vice-president",
+      "since": "2026-11-07"
     },
     "greenhouse-aqr-8221812": {
       "slug": "aqr-capital-management-discretionary-macro-vice-president",
@@ -1664,6 +1672,10 @@
       "slug": "drw-senior-software-engineer-cumberland-options-data",
       "since": "2026-10-23"
     },
+    "greenhouse-drweng-7182464": {
+      "slug": "drw-options-trading-systems-engineer",
+      "since": "2026-11-07"
+    },
     "greenhouse-drweng-7228276": {
       "slug": "drw-quantitative-researcher-equities",
       "since": "2026-10-23"
@@ -1719,6 +1731,10 @@
     "greenhouse-drweng-7545859": {
       "slug": "drw-python-software-engineer-trading-platform",
       "since": "2026-10-23"
+    },
+    "greenhouse-drweng-7614634": {
+      "slug": "drw-trading-systems-engineer-cumberland-mining",
+      "since": "2026-11-07"
     },
     "greenhouse-drweng-7634122": {
       "slug": "drw-senior-software-engineer-trading-team",
@@ -1888,6 +1904,10 @@
       "slug": "drw-quantitative-researcher-us",
       "since": "2026-10-23"
     },
+    "greenhouse-drweng-8031433": {
+      "slug": "drw-risk-manager",
+      "since": "2026-11-07"
+    },
     "greenhouse-drweng-8064537": {
       "slug": "drw-software-developer-us",
       "since": "2026-11-05"
@@ -1927,6 +1947,10 @@
     "greenhouse-drweng-8223253": {
       "slug": "drw-equity-trader",
       "since": "2026-10-23"
+    },
+    "greenhouse-drweng-8239996": {
+      "slug": "drw-junior-fpga-engineer",
+      "since": "2026-11-07"
     },
     "greenhouse-drweng-8256366": {
       "slug": "drw-quantitative-researcher-prediction-markets",
@@ -2199,6 +2223,10 @@
     "greenhouse-dvtrading-4741016005": {
       "slug": "dv-trading-database-engineer-intern-summer-2027",
       "since": "2026-10-24"
+    },
+    "greenhouse-dvtrading-4742897005": {
+      "slug": "dv-trading-junior-fixed-income-relative-value-trader",
+      "since": "2026-11-07"
     },
     "greenhouse-dvtrading-4742955005": {
       "slug": "dv-trading-graduate-software-engineer-dv-commodities-uk",
@@ -2535,6 +2563,10 @@
     "greenhouse-flowtraders-8156203": {
       "slug": "flow-traders-phd-graduate-quantitative-researcher-us",
       "since": "2026-09-24"
+    },
+    "greenhouse-flowtraders-8168790": {
+      "slug": "flow-traders-risk-manager",
+      "since": "2026-11-07"
     },
     "greenhouse-flowtraders-8176707": {
       "slug": "flow-traders-digital-assets-options-trader",
@@ -3097,6 +3129,10 @@
       "slug": "imc-trading-macro-analyst-intern",
       "since": "2026-09-18"
     },
+    "greenhouse-imc-4942868101": {
+      "slug": "imc-trading-experienced-risk-manager",
+      "since": "2026-11-07"
+    },
     "greenhouse-imc-4942958101": {
       "slug": "imc-trading-2027-quant-research-intern-bits-pilani",
       "since": "2026-08-02"
@@ -3176,6 +3212,10 @@
     "greenhouse-imc-4986491101": {
       "slug": "imc-trading-verification-engineer",
       "since": "2026-10-27"
+    },
+    "greenhouse-imc-4986772101": {
+      "slug": "imc-trading-quantitative-risk-manager",
+      "since": "2026-11-07"
     },
     "greenhouse-imc-4987743101": {
       "slug": "imc-trading-senior-trader",
@@ -4331,6 +4371,10 @@
     "greenhouse-optiverus-8633981002": {
       "slug": "optiver-senior-software-engineer-research-platform",
       "since": "2026-10-23"
+    },
+    "greenhouse-optiverus-8637635002": {
+      "slug": "optiver-risk-analyst",
+      "since": "2026-11-07"
     },
     "greenhouse-optiverus-8641352002": {
       "slug": "optiver-fpga-engineer-intern-summer-2027-austin",
@@ -5725,6 +5769,10 @@
       "slug": "schonfeld-full-stack-engineer",
       "since": "2026-10-12"
     },
+    "greenhouse-schonfeld-7858886": {
+      "slug": "schonfeld-risk-manager",
+      "since": "2026-11-07"
+    },
     "greenhouse-schonfeld-7950797": {
       "slug": "schonfeld-2026-bsc-msc-phd-quantitative-research-strat-internship",
       "since": "2026-09-18"
@@ -5989,13 +6037,33 @@
       "slug": "squarepoint-capital-software-developer-risk-reliability",
       "since": "2026-10-12"
     },
+    "greenhouse-squarepointcapital-5929246": {
+      "slug": "squarepoint-capital-junior-commodities-fundamental-analyst",
+      "since": "2026-11-07"
+    },
     "greenhouse-squarepointcapital-5986280": {
       "slug": "squarepoint-capital-software-developer-internal-compute-frameworks-rust",
       "since": "2026-10-12"
     },
+    "greenhouse-squarepointcapital-6033550": {
+      "slug": "squarepoint-capital-junior-software-developer-python",
+      "since": "2026-11-07"
+    },
+    "greenhouse-squarepointcapital-6034447": {
+      "slug": "squarepoint-capital-junior-software-developer-front-end",
+      "since": "2026-11-07"
+    },
     "greenhouse-squarepointcapital-6034466": {
       "slug": "squarepoint-capital-junior-quant-developer",
       "since": "2026-10-13"
+    },
+    "greenhouse-squarepointcapital-6040731": {
+      "slug": "squarepoint-capital-junior-software-developer-c",
+      "since": "2026-11-07"
+    },
+    "greenhouse-squarepointcapital-6040773": {
+      "slug": "squarepoint-capital-junior-software-developer-kdb-q",
+      "since": "2026-11-07"
     },
     "greenhouse-squarepointcapital-6040910": {
       "slug": "squarepoint-capital-graduate-software-developer",
@@ -6837,6 +6905,10 @@
       "slug": "hudson-river-trading-software-engineer-python",
       "since": "2026-10-23"
     },
+    "greenhouse-wehrtyou-6166737": {
+      "slug": "hudson-river-trading-risk-manager-commodities",
+      "since": "2026-11-07"
+    },
     "greenhouse-wehrtyou-6345536": {
       "slug": "hudson-river-trading-software-engineer-low-level-c-asia",
       "since": "2026-10-23"
@@ -6913,6 +6985,10 @@
       "slug": "hudson-river-trading-junior-trading-systems-engineer",
       "since": "2026-10-23"
     },
+    "greenhouse-wehrtyou-8046163": {
+      "slug": "hudson-river-trading-trading-systems-engineer",
+      "since": "2026-11-07"
+    },
     "greenhouse-wehrtyou-8047119": {
       "slug": "hudson-river-trading-campus-sourcer",
       "since": "2026-10-23"
@@ -6972,6 +7048,10 @@
     "greenhouse-wehrtyou-8179032": {
       "slug": "hudson-river-trading-campus-recruiter-uk",
       "since": "2026-10-23"
+    },
+    "greenhouse-wehrtyou-8210349": {
+      "slug": "hudson-river-trading-trading-systems-engineer-uk",
+      "since": "2026-11-07"
     },
     "greenhouse-wehrtyou-8212181": {
       "slug": "hudson-river-trading-campus-recruiter-us",
@@ -10553,6 +10633,10 @@
         "j-p-morgan-2027-asset-management-risk-summer-internship-program-london"
       ]
     },
+    "oracle-jpmc-fa-oraclecloud-com-210775182": {
+      "slug": "jpmorgan-chase-investment-risk-associate",
+      "since": "2026-11-07"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210775223": {
       "slug": "jpmorgan-chase-data-for-good-hackathon-data-and-ai-program-2027-summer-internship-united-states",
       "since": "2026-09-27"
@@ -10661,6 +10745,10 @@
       "slug": "jpmorgan-chase-investment-banking-private-capital-advisory-gp-led-secondaries-analyst",
       "since": "2026-10-15"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210776359": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-portfolio-associate-or-vice-president",
+      "since": "2026-11-07"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210776370": {
       "slug": "jpmorgan-chase-quant-modeling-lead-control-room-hyderabad",
       "since": "2026-10-13"
@@ -10727,6 +10815,14 @@
     "oracle-jpmc-fa-oraclecloud-com-210778399": {
       "slug": "jpmorgan-chase-trading-services-analyst",
       "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210778998": {
+      "slug": "jpmorgan-chase-quantitative-trading-and-research-equities-systematic-trading-vice-president",
+      "since": "2026-11-07"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210779070": {
+      "slug": "jpmorgan-chase-asset-management-equities-quantitative-developer-vice-president-associate",
+      "since": "2026-11-07"
     },
     "oracle-jpmc-fa-oraclecloud-com-210779124": {
       "slug": "jpmorgan-chase-global-banking-corporate-development-and-partnerships-vice-president",
@@ -10912,6 +11008,10 @@
       "slug": "jpmorgan-chase-asset-management-private-equity-group-information-management-and-financial-reporting-associate",
       "since": "2026-10-13"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210781354": {
+      "slug": "jpmorgan-chase-asset-management-location-risk-and-investment-risk-manager-vice-president",
+      "since": "2026-11-07"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210782515": {
       "slug": "jpmorgan-chase-payments-corporate-development-and-partnerships-associate",
       "since": "2026-10-30"
@@ -10943,6 +11043,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210783245": {
       "slug": "jpmorgan-chase-2027-financial-advisor-development-program-full-time-analyst-az",
       "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210783425": {
+      "slug": "jpmorgan-chase-equities-investment-risk-asset-wealth-management-executive-director",
+      "since": "2026-11-07"
     },
     "oracle-jpmc-fa-oraclecloud-com-210783522": {
       "slug": "jpmorgan-chase-2027-firmwide-germany-working-student-january-december-munich-all-genders",
@@ -11114,6 +11218,14 @@
       "slug": "jpmorgan-chase-trading-services-analyst-us",
       "since": "2026-10-13"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210788906": {
+      "slug": "jpmorgan-chase-lead-credit-officer-special-credits-commercial-and-investment-bank-vice-president",
+      "since": "2026-11-07"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210788936": {
+      "slug": "jpmorgan-chase-lead-credit-officer-asset-based-lending-commercial-and-investment-bank-vice-president-us",
+      "since": "2026-11-07"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210789019": {
       "slug": "jpmorgan-chase-trading-services-product-development-associate",
       "since": "2026-10-17"
@@ -11133,6 +11245,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210790087": {
       "slug": "jpmorgan-chase-us-equity-research-metals-and-mining-associate",
       "since": "2026-10-13"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210790110": {
+      "slug": "jpmorgan-chase-alternatives-investment-risk-asset-wealth-management-associate",
+      "since": "2026-11-07"
     },
     "oracle-jpmc-fa-oraclecloud-com-210790156": {
       "slug": "jpmorgan-chase-us-equity-research-smid-biotech-associate",
