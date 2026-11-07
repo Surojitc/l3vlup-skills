@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-11T17:59:57Z",
+ "generatedAt": "2026-11-07T21:16:29Z",
  "source": "https://www.sec.gov/Archives/edgar/full-index/<year>/QTR<n>/form.idx, DEFM14A and DEFM14C and SC 13E3 rows only",
  "quarters": {
   "2010Q1": [
@@ -36451,6 +36451,30 @@
   "2026Q4": [
    {
     "form": "DEFM14A",
+    "name": "BLUE RIDGE BANKSHARES, INC.",
+    "cik": "0000842717",
+    "filed": "2026-11-03",
+    "accession": "0001104659-26-121764",
+    "file": "edgar/data/842717/0001104659-26-121764.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Blue Acquisition Corp/Cayman",
+    "cik": "0002059654",
+    "filed": "2026-10-23",
+    "accession": "0001185185-26-004976",
+    "file": "edgar/data/2059654/0001185185-26-004976.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Bowhead Specialty Holdings Inc.",
+    "cik": "0002002473",
+    "filed": "2026-10-14",
+    "accession": "0001140361-26-039513",
+    "file": "edgar/data/2002473/0001140361-26-039513.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Bowman Consulting Group Ltd.",
     "cik": "0001847590",
     "filed": "2026-10-05",
@@ -36467,11 +36491,91 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Chemomab Therapeutics Ltd.",
+    "cik": "0001534248",
+    "filed": "2026-10-30",
+    "accession": "0001493152-26-049444",
+    "file": "edgar/data/1534248/0001493152-26-049444.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Cherry Hill Mortgage Investment Corp",
     "cik": "0001571776",
     "filed": "2026-10-08",
     "accession": "0001104659-26-114707",
     "file": "edgar/data/1571776/0001104659-26-114707.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Criteo S.A.",
+    "cik": "0001576427",
+    "filed": "2026-11-05",
+    "accession": "0001628280-26-070665",
+    "file": "edgar/data/1576427/0001628280-26-070665.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Crown PropTech Acquisitions",
+    "cik": "0001827899",
+    "filed": "2026-11-04",
+    "accession": "0001213900-26-116022",
+    "file": "edgar/data/1827899/0001213900-26-116022.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "DANA Inc",
+    "cik": "0000026780",
+    "filed": "2026-11-05",
+    "accession": "0001193125-26-449892",
+    "file": "edgar/data/26780/0001193125-26-449892.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Distribution Solutions Group, Inc.",
+    "cik": "0000703604",
+    "filed": "2026-10-28",
+    "accession": "0001193125-26-436088",
+    "file": "edgar/data/703604/0001193125-26-436088.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "EAGLE FINANCIAL SERVICES INC",
+    "cik": "0000880641",
+    "filed": "2026-10-16",
+    "accession": "0001104659-26-116463",
+    "file": "edgar/data/880641/0001104659-26-116463.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Greenbacker Renewable Energy Co LLC",
+    "cik": "0001563922",
+    "filed": "2026-10-20",
+    "accession": "0001753926-26-001969",
+    "file": "edgar/data/1563922/0001753926-26-001969.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "HeartSciences Inc.",
+    "cik": "0001468492",
+    "filed": "2026-10-19",
+    "accession": "0001213900-26-110484",
+    "file": "edgar/data/1468492/0001213900-26-110484.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "IMPACT BIOMEDICAL INC.",
+    "cik": "0001834105",
+    "filed": "2026-10-27",
+    "accession": "0001493152-26-048594",
+    "file": "edgar/data/1834105/0001493152-26-048594.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "LCI INDUSTRIES",
+    "cik": "0000763744",
+    "filed": "2026-10-19",
+    "accession": "0000763744-26-000091",
+    "file": "edgar/data/763744/0000763744-26-000091.txt"
    },
    {
     "form": "DEFM14A",
@@ -36491,11 +36595,27 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Mistras Group, Inc.",
+    "cik": "0001436126",
+    "filed": "2026-10-27",
+    "accession": "0001140361-26-040834",
+    "file": "edgar/data/1436126/0001140361-26-040834.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Modern Capital Funds Trust",
     "cik": "0001815608",
     "filed": "2026-10-08",
     "accession": "0001999371-26-022391",
     "file": "edgar/data/1815608/0001999371-26-022391.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Mountain Crest Acquisition Corp. V",
+    "cik": "0001859035",
+    "filed": "2026-10-20",
+    "accession": "0001829126-26-011337",
+    "file": "edgar/data/1859035/0001829126-26-011337.txt"
    },
    {
     "form": "DEFM14A",
@@ -36507,6 +36627,30 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Personalis, Inc.",
+    "cik": "0001527753",
+    "filed": "2026-10-21",
+    "accession": "0001193125-26-427872",
+    "file": "edgar/data/1527753/0001193125-26-427872.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Planet 13 Holdings Inc.",
+    "cik": "0001813452",
+    "filed": "2026-11-02",
+    "accession": "0001104659-26-121478",
+    "file": "edgar/data/1813452/0001104659-26-121478.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "SYNAPTICS Inc",
+    "cik": "0000817720",
+    "filed": "2026-10-19",
+    "accession": "0001140361-26-039983",
+    "file": "edgar/data/817720/0001140361-26-039983.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Swarmer, Inc",
     "cik": "0002092574",
     "filed": "2026-10-06",
@@ -36515,11 +36659,75 @@
    },
    {
     "form": "DEFM14A",
+    "name": "Transocean Ltd.",
+    "cik": "0001451505",
+    "filed": "2026-10-14",
+    "accession": "0001104659-26-115680",
+    "file": "edgar/data/1451505/0001104659-26-115680.txt"
+   },
+   {
+    "form": "DEFM14A",
     "name": "Utz Brands, Inc.",
     "cik": "0001739566",
     "filed": "2026-10-02",
     "accession": "0001193125-26-411198",
     "file": "edgar/data/1739566/0001193125-26-411198.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Valaris Ltd",
+    "cik": "0000314808",
+    "filed": "2026-10-14",
+    "accession": "0001140361-26-039488",
+    "file": "edgar/data/314808/0001140361-26-039488.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "Victory Capital Holdings, Inc.",
+    "cik": "0001570827",
+    "filed": "2026-10-16",
+    "accession": "0001104659-26-116412",
+    "file": "edgar/data/1570827/0001104659-26-116412.txt"
+   },
+   {
+    "form": "DEFM14A",
+    "name": "WAFD INC",
+    "cik": "0000936528",
+    "filed": "2026-11-04",
+    "accession": "0001140361-26-041902",
+    "file": "edgar/data/936528/0001140361-26-041902.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "Accelerant Holdings",
+    "cik": "0001997350",
+    "filed": "2026-10-30",
+    "accession": "0001104659-26-120740",
+    "file": "edgar/data/1997350/0001104659-26-120740.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "Baldwin Insurance Group, Inc.",
+    "cik": "0001781755",
+    "filed": "2026-10-15",
+    "accession": "0001140361-26-039675",
+    "file": "edgar/data/1781755/0001140361-26-039675.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "CEMENTOS PACASMAYO SAA",
+    "cik": "0001221029",
+    "filed": "2026-10-21",
+    "accession": "0001140361-26-040406",
+    "file": "edgar/data/1221029/0001140361-26-040406.txt"
+   },
+   {
+    "form": "SC 13E3",
+    "name": "Priority Technology Holdings, Inc.",
+    "cik": "0001653558",
+    "filed": "2026-10-30",
+    "accession": "0001213900-26-114469",
+    "file": "edgar/data/1653558/0001213900-26-114469.txt"
    }
   ]
  }
