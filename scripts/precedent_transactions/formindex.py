@@ -573,24 +573,40 @@ def _shell_price(offer) -> bool:
     return isinstance(offer, (int, float)) and (9.5 <= offer <= 10.6 or abs(offer - 11.5) < 0.005)
 
 
-def spac_check_order(rows: dict[str, dict]) -> list[str]:
+def spac_check_order(rows: dict[str, dict], today: date | None = None) -> list[str]:
     """
     The order the stale proxies are checked in, most likely de-SPAC first, so
     a run cut short by its budget has spent it where the misreadings are: a
     shell's price ($10.00 a unit, $11.50 a warrant) or a shell's name as the
-    counterparty, then the 2018-2023 boom, then the rest, newest first within
-    each. Against the 65 de-SPACs a full check of 3,399 proxies found in
-    October 2026, the first 545 checks (a 20-minute run at EDGAR's slowest)
-    reach 0 of them oldest first, 8 newest first and 45 in this order; the
-    first 1,200 reach 2, 38 and 58.
+    counterparty, then the filings of the last RECENT_MONTHS
+    (filings.recent_first), then the 2018-2023 boom, then the rest, newest
+    first within each. Against the 65 de-SPACs a full check of 3,399 proxies
+    found in October 2026, the first 545 checks (a 20-minute run at EDGAR's
+    slowest) reach 0 of them oldest first, 8 newest first and 45 with the
+    shell tier, the boom and the rest; the first 1,200 reach 2, 38 and 58.
+
+    Recency is a tier of its own after the shell tier, not a key inside each
+    tier. As a key it would change nothing: every tier is already newest
+    first, and no filing of the last two years is in the 2018-2023 tier, so
+    the recent proxies would still wait behind all 1,112 boom-year ones (the
+    October 2026 file), three runs at 545 a run. They are the deals a default
+    precedent or premiums sample is drawn from, where an undetected de-SPAC's
+    $10.00 does the most harm, and the shell tier still goes first because it
+    is where a de-SPAC is most likely whenever it was filed. The cost is one
+    run: on that file the 409 recent proxies fill the first run's budget after
+    the 167 in the shell tier, and the boom tier starts on the second.
     """
+    cutoff = filings.recent_cutoff(today)
+
     def tier(r: dict) -> int:
         acq = r.get("acquirer") or ""
         if _shell_price(r.get("offerPrice")) or (acq and (parse.shell_name(acq) or parse.shellish(acq))):
             return 0
-        if SPAC_YEARS[0] <= (r.get("filed") or "")[:4] <= SPAC_YEARS[1]:
+        if filings.is_recent(r, cutoff):
             return 1
-        return 2
+        if SPAC_YEARS[0] <= (r.get("filed") or "")[:4] <= SPAC_YEARS[1]:
+            return 2
+        return 3
 
     newest = sorted(rows, key=lambda k: rows[k].get("filed") or "", reverse=True)
     return sorted(newest, key=lambda k: tier(rows[k]))
