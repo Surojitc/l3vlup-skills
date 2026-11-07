@@ -339,8 +339,17 @@ def build_history(entry: dict, sources: list[tuple[dict, dict]], *, since: str, 
     by_period = {f["periodOfReport"]: f for f in planned}
     todo = plan_work(planned, existing)
 
+    # A quarter already on file stays unless the filings read this run cover
+    # its period and no longer list it. One older than the oldest filing read
+    # has only fallen out of the window this run happened to read (EDGAR's
+    # inline list moves on every quarter, and an overflow page can fail to
+    # load), which is no evidence it was withdrawn. On 1 November 2026 that
+    # window cost Neuberger Berman its 2013 and 2014 quarters, and deleting
+    # their files then failed the whole monthly publication.
+    oldest_read = min(by_period)
     kept = {q["periodOfReport"]: q for q in (existing or {}).get("quarters", [])
-            if q["periodOfReport"] in by_period and q["periodOfReport"] not in todo}
+            if q["periodOfReport"] >= since and q["periodOfReport"] not in todo
+            and (q["periodOfReport"] in by_period or q["periodOfReport"] < oldest_read)}
     names: dict[str, str] = dict((existing or {}).get("names", {}))
     unreadable = set((existing or {}).get("unreadable", [])) - set(todo)
 
@@ -710,7 +719,7 @@ def main() -> None:
             incomplete += 1
             continue
         try:
-            sources = [(f, sf.submissions(f["cik"], quarters=60)) for f in sf.entry_filers(entry)]
+            sources = [(f, sf.submissions(f["cik"], quarters=60, until=args.since)) for f in sf.entry_filers(entry)]
             doc, read = build_history(entry, sources, since=args.since, budget=budget, existing=existing,
                                       use_cache=not args.full, stats=stats)
         except Exception as e:
