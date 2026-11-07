@@ -188,6 +188,41 @@ check("filer change: an ordinary quarter is not marked", "filerChange" not in qs
 check("filer change: OLD reads as exited, NEW as new",
       [e[0] for e in qs["2026Q2"]["exits"]] == ["OLD"] and qs["2026Q2"]["counts"]["new"] == 1)
 
+# The window the run read moved on: the old filer's 2025 Q4 report is no
+# longer in the submissions list this run received. What is already on file
+# for it must stay, not be dropped and its year file deleted.
+narrow = [
+    (old, make_sub([("13F-HR", "2026-03-31", "2026-05-15", "O-2026Q1")])),
+    (new, make_sub([("13F-HR", "2026-06-30", "2026-08-14", "N-2026Q2"), ("13F-HR", "2026-03-31", "2026-05-15", "N-2026Q1")])),
+]
+with redirect_stdout(io.StringIO()):
+    kept_doc, kept_read = fh.build_history(entry, narrow, since="2013-06-30", budget=50, existing=doc, use_cache=False, stats=stats)
+check("window: a quarter older than every filing read is kept",
+      sorted(q["quarter"] for q in kept_doc["quarters"]) == ["2025Q4", "2026Q1", "2026Q2"] and kept_read == 0,
+      (sorted(q["quarter"] for q in kept_doc["quarters"]), kept_read))
+# Inside the window and no longer listed is different: that one goes.
+gone = [
+    (old, make_sub([("13F-HR", "2025-12-31", "2026-02-14", "O-2025Q4")])),
+    (new, make_sub([("13F-HR", "2026-06-30", "2026-08-14", "N-2026Q2")])),
+]
+with redirect_stdout(io.StringIO()):
+    gone_doc, _ = fh.build_history(entry, gone, since="2013-06-30", budget=50, existing=doc, use_cache=False, stats=stats)
+check("window: a quarter inside the filings read and not listed is dropped",
+      "2026Q1" not in {q["quarter"] for q in gone_doc["quarters"]} and "2025Q4" in {q["quarter"] for q in gone_doc["quarters"]},
+      sorted(q["quarter"] for q in gone_doc["quarters"]))
+with redirect_stdout(io.StringIO()):
+    floor_doc, _ = fh.build_history(entry, narrow, since="2026-01-01", budget=50, existing=doc, use_cache=False, stats=stats)
+check("window: a raised floor still drops what is below it",
+      sorted(q["quarter"] for q in floor_doc["quarters"]) == ["2026Q1", "2026Q2"],
+      sorted(q["quarter"] for q in floor_doc["quarters"]))
+
+# submissions(): enough is counted in periods, and with `until`, in reach.
+amended = make_sub([("13F-HR/A", "2026-06-30", "2026-09-01", "A1"), ("13F-HR/A", "2026-06-30", "2026-09-02", "A2"),
+                    ("13F-HR", "2026-06-30", "2026-08-14", "A3"), ("13F-HR", "2026-03-31", "2026-05-15", "A4")])
+check("reach: amendments do not count as extra quarters", not sf.reaches(amended, quarters=2, until=None))
+check("reach: until asks how far back, not how many",
+      sf.reaches(amended, quarters=60, until="2026-03-31") and not sf.reaches(amended, quarters=0, until="2025-12-31"))
+
 # ── 4. the files: split, read back, written only when changed ────────────────
 with tempfile.TemporaryDirectory() as tmp:
     out = Path(tmp)

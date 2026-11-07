@@ -1,0 +1,83 @@
+name: Letters — weekly check for new filings
+
+# Read-only, and it publishes nothing. Once a week it lists the SEC filings
+# that may carry a fund's own writing, for the sources approved in
+# data/letters.sources.json, and names any that the committed discovery
+# report (data/letters.discovery.json, the last one a person reviewed) does
+# not already hold. That list is the reminder: letters reach the site only
+# through a person, who reads the filing, writes the record and adds it to
+# the site's catalogue. This job never does any of that.
+#
+# One request per active source, to the filer's submissions index on
+# data.sec.gov. No document is downloaded, no PDF parsed, no model called,
+# and the token can only read. The fresh report is kept as a one-week
+# artifact so the reviewer can commit it with discovery once they have read it.
+
+on:
+  schedule:
+    - cron: '17 9 * * 2' # Tuesdays, clear of the collectors' morning
+  workflow_dispatch:
+
+concurrency:
+  group: letters-discover
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    name: List new filings (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: main
+          persist-credentials: false
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+
+      # Writes into this runner's checkout only, which is discarded with it.
+      - name: Read the approved sources
+        env:
+          SEC_USER_AGENT: "${{ vars.SEC_USER_AGENT || 'L3VLUP Research (contact: suro@l3vlup.com)' }}"
+        run: node scripts/discover-letters.mjs
+
+      - name: Name what is new since the last reviewed report
+        run: |
+          set -euo pipefail
+          git show HEAD:data/letters.discovery.json > "$RUNNER_TEMP/reviewed.json"
+          node -e '
+            const fs = require("fs");
+            const [reviewedPath, freshPath, summary] = process.argv.slice(1);
+            const reviewed = JSON.parse(fs.readFileSync(reviewedPath, "utf8"));
+            const fresh = JSON.parse(fs.readFileSync(freshPath, "utf8"));
+            const seen = new Set((reviewed.candidates || []).map((c) => c.accession));
+            const added = (fresh.candidates || []).filter((c) => !seen.has(c.accession));
+            const lines = ["## Letters: new filings since the last reviewed report", ""];
+            if (!added.length) {
+              lines.push("Nothing new. Every filing listed is already in the reviewed report.");
+            } else {
+              lines.push(`${added.length} filing(s) to read:`, "", "| Fund | Form | Filed | Filing |", "|---|---|---|---|");
+              for (const c of added) lines.push(`| ${c.fund} | ${c.form} | ${c.filingDate} | [index](${c.indexUrl}) |`);
+              lines.push("", "Read each one, add any letter to the site catalogue by hand, then commit the fresh report from this run\x27s artifact.");
+              console.log(`::notice title=Letters::${added.length} new filing(s) to review`);
+            }
+            fs.appendFileSync(summary, lines.join("\n") + "\n");
+            console.log(lines.join("\n"));
+          ' "$RUNNER_TEMP/reviewed.json" data/letters.discovery.json "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the fresh report for the reviewer
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: letters-discovery
+          path: |
+            data/letters.discovery.json
+            data/letters.discovery.md
+          if-no-files-found: error
+          retention-days: 7

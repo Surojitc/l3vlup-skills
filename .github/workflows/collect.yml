@@ -279,27 +279,30 @@ jobs:
       # cover 97.8% of the rows that had nothing.
       #
       # Runs before the holdings collector so a quarter that lands this morning
-      # is read against a map refreshed the same morning. Monthly is ample: a
-      # mapping moves when a ticker changes, and a stale map is still a correct
-      # one. Reads sec.gov and nothing else, and needs no secret.
+      # is read against a map refreshed the same morning, which is why it runs
+      # on the holdings' weekly schedule too; a run takes seconds. Reads sec.gov
+      # and nothing else, and needs no secret.
       - name: CUSIP to ticker map
-        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        if: github.event.schedule == '0 8 1 * *' || github.event.schedule == '0 7 * * 1' || github.event_name == 'workflow_dispatch'
         continue-on-error: true
         timeout-minutes: 20
         run: node scripts/sync-cusip-tickers.mjs
 
-      # Monthly with the transactions database, and for the same reason: a 13F
-      # is quarterly, filed forty-five days after the quarter end, so the four
-      # dates that matter are the middles of February, May, August and
-      # November. Reading on the first of every month catches each of those
-      # within a fortnight and spends nothing the rest of the year.
+      # Weekly on Mondays, and on the first of the month. A 13F is quarterly,
+      # due forty-five days after the quarter end, so the dates that matter are
+      # the middles of February, May, August and November, and most managers
+      # file in the last few days before them. Monthly alone meant the Q3 books
+      # due on 14 November would first be read on 1 December, a fortnight late.
+      # Weekly reads each wave within seven days and costs little the rest of
+      # the year: both collectors are incremental, so a week with no new filing
+      # reads a submissions index per manager and changes nothing.
       #
       # The universe is a curated list of about ninety-five managers in
       # data/funds.universe.json, editable without touching code. The whole
       # 13F population is nearer nine thousand filers and is mostly index
       # sleeves, which is why --universe all exists and is not the default.
       - name: Hedge fund holdings
-        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        if: github.event.schedule == '0 8 1 * *' || github.event.schedule == '0 7 * * 1' || github.event_name == 'workflow_dispatch'
         continue-on-error: true
         timeout-minutes: 90
         env:
@@ -314,7 +317,7 @@ jobs:
       # completes over several runs, newest quarters and thinnest histories
       # first; every unfinished file says what it still lacks.
       - name: Hedge fund holdings history
-        if: github.event.schedule == '0 8 1 * *' || github.event_name == 'workflow_dispatch'
+        if: github.event.schedule == '0 8 1 * *' || github.event.schedule == '0 7 * * 1' || github.event_name == 'workflow_dispatch'
         continue-on-error: true
         timeout-minutes: 120
         env:
@@ -421,8 +424,21 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          # Files only. A file a collector deleted cannot go in the archive
+          # (tar refuses a path it cannot stat), and on 1 November 2026 two
+          # deleted 13F history files failed the packing step and threw away
+          # three hours of collection. A deletion is named and not published:
+          # main keeps its copy until a person removes it.
+          git diff --cached --name-only --diff-filter=D | while IFS= read -r path; do
+            echo "::warning::$path was deleted by a collector; deletions are not published, so main keeps its copy"
+          done
+          git diff --cached --name-only --diff-filter=d > "$RUNNER_TEMP/staged.txt"
+          if [ ! -s "$RUNNER_TEMP/staged.txt" ]; then
+            echo "the collection only deleted files; there is nothing to publish"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           echo "changed=true" >> "$GITHUB_OUTPUT"
-          git diff --cached --name-only > "$RUNNER_TEMP/staged.txt"
           echo "staged:"
           sed 's/^/  /' "$RUNNER_TEMP/staged.txt"
 
