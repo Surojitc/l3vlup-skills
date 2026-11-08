@@ -17,7 +17,7 @@ looked like a manager whose last book was current.
 What is pinned here: how an amendment is applied (appended, summed, or treated
 as the whole table it plainly is), the order amendments apply in, that a merged
 prior quarter changes what reads as "new", whether a manager is current, behind
-a notice, or overdue, the user agent coming from the environment, and the
+a notice, stopped, or overdue, the user agent coming from the environment, and the
 honest counts beside the capped lists.
 
 EDGAR is replaced by a stub; nothing here touches the network.
@@ -247,6 +247,29 @@ check("status: notice names who reports the holdings",
 old_nt = [dict(nt[0], periodOfReport="2025-12-31", quarter="2025Q4")]
 check("status: an old notice before the latest report does not count",
       sf.filer_status("2026-06-30", old_nt, "2026-10-08") == {"status": "current"})
+
+# A manager an editor has found stopped filing (Scion, Eisler, Tybourne after Q3 2025)
+# reads as stopped, not overdue, and says why; nothing else about the rule moves.
+stop = {"since": "2025-12-31", "reason": "ceased", "text": "No 13F since Q3 2025.",
+        "evidence": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001649339&type=13F"}
+st = sf.filer_status("2025-09-30", [], "2026-11-08", stopped=stop)
+check("stopped: a manager that stopped filing is told apart from an overdue one",
+      st == {"status": "stopped", "period": "2025Q4", "reason": "ceased",
+             "text": "No 13F since Q3 2025.", "evidence": stop["evidence"]}, st)
+check("stopped: without the record the same manager is overdue",
+      sf.filer_status("2025-09-30", [], "2026-11-08") == {"status": "overdue", "period": "2026Q2"})
+check("stopped: a later report wins over the record",
+      sf.filer_status("2026-06-30", [], "2026-11-08", stopped=stop) == {"status": "current"})
+check("stopped: a later report that is itself behind is overdue, not stopped",
+      sf.filer_status("2025-12-31", [], "2026-11-08", stopped=stop) == {"status": "overdue", "period": "2026Q2"})
+check("stopped: a later notice wins over the record",
+      sf.filer_status("2025-09-30", [dict(nt[0])], "2026-11-08", stopped=stop)["status"] == "notice")
+check("stopped: a stop not yet due does not fire",
+      sf.filer_status("2026-06-30", [], "2026-11-08", stopped=dict(stop, since="2026-09-30")) == {"status": "current"})
+check("stopped: a well-formed record has no problems", sf.stopped_problems({"name": "X", "stopped": stop}) == [])
+check("stopped: a bad date, reason or evidence is refused",
+      len(sf.stopped_problems({"name": "X", "stopped": {"since": "2025-11-30", "reason": "gone",
+                                                         "evidence": "https://example.com"}})) == 4)
 
 # A notice, as EDGAR writes it (Pershing Square, 2026 Q2, trimmed).
 NT_XML = """<?xml version="1.0" encoding="UTF-8"?>
@@ -504,6 +527,25 @@ _, stats3, _ = run_multi([(pscm, old_sub), (big, new_sub)], tables_big)
 check("identity: an unchecked successor with a different-sized book is flagged",
       any("UNCHECKED" in s for s in stats3["filerChanges"]), stats3["filerChanges"])
 
+# A stop record contradicted by a later report reads as the filings do, and says so.
+m_stop, stats_stop, _ = run_multi([(pscm, old_sub), (psi, new_sub)], tables, today="2026-11-08",
+                                  entry={"name": "Pershing Square Capital Management LP",
+                                         "id": "pershing-square-capital-management",
+                                         "stopped": {"since": "2026-03-31", "reason": "ceased",
+                                                     "text": "x", "evidence": "https://www.sec.gov/x"}})
+check("stopped: build_manager ignores a record a later report contradicts",
+      m_stop["status"] == {"status": "current"}, m_stop["status"])
+check("stopped: and asks for the record to be removed",
+      any("remove `stopped`" in s_ for s_ in stats_stop["notCurrent"]), stats_stop["notCurrent"])
+quiet_sub = sub_of([("13F-HR", "2026-03-31", "2026-05-15", "O-Q1"), ("13F-HR", "2025-12-31", "2026-02-17", "O-Q4")])
+m_stop2, _, _ = run_multi([({"cik": old_cik}, quiet_sub)], tables, today="2026-11-08",
+                          entry={"name": "Scion Asset Management LLC", "id": "scion-asset-management",
+                                 "stopped": {"since": "2026-06-30", "reason": "ceased",
+                                             "text": "x", "evidence": "https://www.sec.gov/x"}})
+check("stopped: build_manager writes status stopped from the universe entry",
+      m_stop2["status"] == {"status": "stopped", "period": "2026Q2", "reason": "ceased",
+                            "text": "x", "evidence": "https://www.sec.gov/x"}, m_stop2["status"])
+
 # A bare cik is one filer for all time, exactly as before.
 plain = sf.entry_filers({"name": "X", "cik": "914208"})
 check("filers: a bare cik is one open filer", plain == [{"cik": "0000914208"}], plain)
@@ -534,6 +576,12 @@ check("universe: every editor's note names its quarter, its text and its evidenc
           for m_ in uni["managers"] for n in m_.get("notes", [])))
 check("universe: a successor that changed reporting entity carries evidence",
       all(f.get("evidence") for m_ in uni["managers"] for f in sf.entry_filers(m_)[1:]))
+check("universe: every stop record is well formed",
+      [p_ for m_ in uni["managers"] for p_ in sf.stopped_problems(m_)] == [])
+stopped_ids = {m_["id"] for m_ in uni["managers"] if m_.get("stopped")}
+check("universe: Eisler, Scion and Tybourne carry their stop records",
+      {"eisler-capital-management", "scion-asset-management", "tybourne-capital-management-hk"} <= stopped_ids,
+      stopped_ids)
 
 # ── 7. the user agent ────────────────────────────────────────────────────────
 check("user agent: fallback contact without the environment", "contact@l3vlup.com" in sf.UA, sf.UA)

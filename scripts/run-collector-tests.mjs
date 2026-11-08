@@ -51,6 +51,8 @@ export const SUITES = [
   'publication-review',
   'workflow-permissions',
   'letters-queue',
+  'data-health',
+  'cusip-tickers',
   'market-reference',
   'fx-rates',
   'rights-register',

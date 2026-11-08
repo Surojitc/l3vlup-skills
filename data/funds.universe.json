@@ -25,7 +25,15 @@
     "",
     "'notes' is an editor's note on a quarter that the numbers alone would mislead about, such",
     "as a change in what the report covers. Each carries the quarter, the text shown beside it,",
-    "and the filings that show it. It explains a figure; it never changes one."
+    "and the filings that show it. It explains a figure; it never changes one.",
+    "",
+    "'stopped' is for a manager that has stopped filing 13Fs, as an editor established it from",
+    "EDGAR: 'since' is the first quarter end it did not report, 'reason' is 'below-threshold'",
+    "(its own last filings show its book under the $100m line and a final report for the last",
+    "quarter it owed) or 'ceased' (no 13F-HR or 13F-NT since, from it, the managers its reports",
+    "included or any new filer, and no cause on EDGAR), 'text' says what the filings show, and",
+    "'evidence' is the sec.gov page that shows it. The collector then writes status 'stopped'",
+    "instead of 'overdue'. A later report or notice wins, and the run asks for the record to go."
   ],
   "strategies": [
     "Multistrategy",
@@ -118,6 +126,12 @@
       "cik": "0002055810",
       "edgarName": "Eisler Capital Management Ltd.",
       "match": "Eisler Capital Management Ltd.",
+      "stopped": {
+        "since": "2025-12-31",
+        "reason": "ceased",
+        "text": "Eisler's last 13F covers Q3 2025 and was filed on 13 November 2025: $22.6bn in 1,241 lines, reported for Eisler Capital Management with its UK, US and Malta advisers included. None of the four has filed a 13F or a 13F notice for any quarter since, and no other filer reports their holdings.",
+        "evidence": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002055810&type=13F&dateb=&owner=include&count=40"
+      },
       "filers": [
         {
           "cik": "0001849486",
@@ -420,7 +434,13 @@
       "strategy": "Long/short equity",
       "search": "tybourne",
       "cik": "0001553936",
-      "edgarName": "TYBOURNE CAPITAL MANAGEMENT (HK) LTD"
+      "edgarName": "TYBOURNE CAPITAL MANAGEMENT (HK) LTD",
+      "stopped": {
+        "since": "2025-12-31",
+        "reason": "below-threshold",
+        "text": "Tybourne's 13F book fell from $398m at the end of 2024 to between $24m and $35m in each quarter of 2025, under the $100m level at which a manager must file. Its report for Q3 2025 was the last it owed: it filed a final Form N-PX for the period to 30 September 2025 in February 2026 and no 13F for any quarter since.",
+        "evidence": "https://www.sec.gov/Archives/edgar/data/1553936/000155393626000002/0001553936-26-000002-index.htm"
+      }
     },
     {
       "name": "Steadfast Capital Management LP",
@@ -558,7 +578,13 @@
       "strategy": "Value / activist",
       "search": "scion asset",
       "cik": "0001649339",
-      "edgarName": "Scion Asset Management, LLC"
+      "edgarName": "Scion Asset Management, LLC",
+      "stopped": {
+        "since": "2025-12-31",
+        "reason": "ceased",
+        "text": "Scion's last 13F covers Q3 2025 and was filed on 3 November 2025: $1.4bn in eight lines, most of it put options. Neither Scion nor the two managers its reports included, Scion Asset Partners and Scion Capital Group, has filed a 13F or a 13F notice for any quarter since, and no other filer reports its holdings.",
+        "evidence": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001649339&type=13F&dateb=&owner=include&count=40"
+      }
     },
     {
       "name": "Jana Partners",
@@ -857,6 +883,13 @@
           "from": "2026-06-30",
           "evidence": "Janus Henderson was taken private on 30 June 2026; its subsidiaries' 2026 Q2 13F-NT notices name Jupiter Topco LLC, which filed 0001085146-26-000611 on time",
           "check": "2026 Q2 report 0001085146-26-000611: $245.4bn in 4,567 lines against $209.4bn in 4,333 for 2026 Q1"
+        }
+      ],
+      "notes": [
+        {
+          "quarter": "2026Q2",
+          "text": "Janus Henderson was taken private on 30 June 2026, when Jupiter Company Limited completed its acquisition of the listed group. From Q2 2026 the firm's 13F is filed by its new holding company, Jupiter Topco LLC, and the Janus Henderson advisers' notices for that quarter name it as the filer reporting their holdings. Its report includes the same 15 managers as the listed group's, so the book is the same firm's; the quarters before Q2 2026 are Janus Henderson Group's own reports.",
+          "evidence": "8-K 0001104659-26-079401 (completion, 30 June 2026); 13F-NT 0000812295-26-000012 (2026 Q2, Janus Henderson Investors US LLC); 13F-HR 0001085146-26-000611 (2026 Q2, Jupiter Topco LLC)"
         }
       ]
     },

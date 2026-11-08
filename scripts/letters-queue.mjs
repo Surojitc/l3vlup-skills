@@ -31,11 +31,12 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } fr
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { activeSources, documentUrlFrom, entityMatches, parseFilingIndex, selectCandidates, authoritativeIndexUrl } from '../lib/letters.mjs';
-import { buildQueue, indexesFromQueue, queueMarkdown } from '../lib/letters-queue.mjs';
+import { buildQueue, decisionIndex, indexesFromQueue, queueMarkdown } from '../lib/letters-queue.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'data', 'letters.sources.json');
 const KEYS = join(ROOT, 'data', 'letters.catalogue-keys.json');
+const DECISIONS_FILE = join(ROOT, 'data', 'letters.queue-decisions.json');
 const EXHIBITS = join(ROOT, 'data', 'letters.exhibits.json');
 const OUT_JSON = join(ROOT, 'data', 'letters.review-queue.json');
 const OUT_MD = join(ROOT, 'data', 'letters.review-queue.md');
@@ -98,6 +99,7 @@ async function main() {
   }
   const keys = JSON.parse(readFileSync(KEYS, 'utf8')).keys;
   const previous = existsSync(OUT_JSON) ? JSON.parse(readFileSync(OUT_JSON, 'utf8')) : null;
+  const decisions = decisionIndex(existsSync(DECISIONS_FILE) ? JSON.parse(readFileSync(DECISIONS_FILE, 'utf8')) : null);
   const now = new Date();
   const sourcesById = Object.fromEntries(active.map((s) => [s.id, s]));
 
@@ -134,7 +136,7 @@ async function main() {
   }
   // Which new indexes are worth a request: not already in the catalogue,
   // solicitations before original 13Ds before amendments, newest first.
-  const firstPass = buildQueue({ candidates, sourcesById, keys, indexes, previous, now });
+  const firstPass = buildQueue({ candidates, sourcesById, keys, indexes, previous, now, decisions });
   const rank = (f) => (/^(DFAN14A|PX14A6G)$/.test(f) ? 0 : /^(SC|SCHEDULE) 13D$/.test(f) ? 1 : /^(DEFC14A|PREC14A)$/.test(f) ? 3 : 2);
   const toRead = firstPass.entries
     .filter((e) => e.needsIndex)
@@ -155,7 +157,7 @@ async function main() {
     }
   }
 
-  const queue = buildQueue({ candidates, sourcesById, keys, indexes, previous, now });
+  const queue = buildQueue({ candidates, sourcesById, keys, indexes, previous, now, decisions });
   const report = {
     generatedAt: now.toISOString(),
     since,

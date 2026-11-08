@@ -1,8 +1,8 @@
 {
   "_comment": "Written by scripts/letters-catalogue-keys.mjs from the site repository. Ids, statuses, accessions and URLs only. Edit the site catalogue, not this file.",
   "from": {
-    "catalogueGeneratedAt": "2026-10-08",
-    "published": 85,
+    "catalogueGeneratedAt": "2026-11-08",
+    "published": 94,
     "held": 11,
     "excluded": 2
   },
@@ -688,6 +688,78 @@
       "accession": "0001104659-26-105793",
       "urls": [
         "https://sec.gov/Archives/edgar/data/91847/000110465926105793/tm2622114d1_ncsrs.htm"
+      ]
+    },
+    {
+      "id": "pershing-square-usa-h1-2026",
+      "status": "published",
+      "accession": "0001193125-26-360100",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/2002660/000119312526360100/d87027dncsrs.htm"
+      ]
+    },
+    {
+      "id": "fpa-source-capital-fy2025",
+      "status": "published",
+      "accession": "0001104659-26-025066",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/91847/000110465926025066/tm261908d1_ncsr.htm"
+      ]
+    },
+    {
+      "id": "fpa-source-capital-h1-2025",
+      "status": "published",
+      "accession": "0001104659-25-088151",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/91847/000110465925088151/tm2523304d1_ncsrs.htm"
+      ]
+    },
+    {
+      "id": "fpa-source-capital-fy2024",
+      "status": "published",
+      "accession": "0001104659-25-021647",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/91847/000110465925021647/tm255164d1_ncsr.htm"
+      ]
+    },
+    {
+      "id": "gamco-gabelli-equity-trust-fy2025",
+      "status": "published",
+      "accession": "0001829126-26-002087",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/794685/000182912626002087/gab_ncsr.htm"
+      ]
+    },
+    {
+      "id": "starboard-autodesk-2025-03-26",
+      "status": "published",
+      "accession": "0000921895-25-000885",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/769397/000092189525000885/ex1dfan14a06297347_032625.pdf"
+      ]
+    },
+    {
+      "id": "jana-lamb-weston-2024-12",
+      "status": "published",
+      "accession": "0000902664-24-006945",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1679273/000090266424006945/p24-3516exhibit99_3.htm"
+      ]
+    },
+    {
+      "id": "jana-lamb-weston-2025-01",
+      "status": "published",
+      "accession": "0000902664-25-000527",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1679273/000090266425000527/p25-0311exhibit99_4.htm"
+      ]
+    },
+    {
+      "id": "elliott-phillips66-2025-04-03",
+      "status": "published",
+      "accession": "0000921895-25-000976",
+      "urls": [
+        "https://sec.gov/Archives/edgar/data/1534701/000092189525000976/ex991dfan14a10168303_040325.pdf"
       ]
     },
     {

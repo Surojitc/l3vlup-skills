@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-11-07T20:44:20.267Z",
-  "since": "2024-11-07",
+  "generatedAt": "2026-11-08T10:43:41.176Z",
+  "since": "2024-11-08",
   "sources": 15,
   "limits": {
-    "maxIndexRequests": 20,
+    "maxIndexRequests": 0,
     "gapMs": 1000,
     "windowMonths": 24
   },
   "note": "For review only. Classified from EDGAR metadata and filing index labels; no document was opened and no text was copied. Nothing here is published: the site publishes only a record a person has written into its catalogue.",
   "catalogueKeysFrom": {
-    "catalogueGeneratedAt": "2026-10-08",
-    "published": 85,
+    "catalogueGeneratedAt": "2026-11-08",
+    "published": 94,
     "held": 11,
     "excluded": 2
   },
@@ -18,7 +18,7 @@
     {
       "id": "starboard-edgar",
       "entityName": "Starboard Value LP",
-      "inWindow": 44,
+      "inWindow": 43,
       "recentTruncated": false
     },
     {
@@ -109,22 +109,24 @@
   "requests": [],
   "stopped": null,
   "counts": {
-    "candidates": 254,
-    "entries": 244,
-    "duplicates": 10,
+    "candidates": 253,
+    "entries": 234,
+    "toReview": 209,
+    "rejected": 25,
+    "duplicates": 19,
     "newSinceLastQueue": 0,
     "needsIndex": 0,
     "byClass": {
-      "investor-letter": 36,
+      "investor-letter": 27,
       "presentation": 24,
-      "proxy-material": 16,
+      "proxy-material": 15,
       "other": 168
     },
     "byConfidence": {
       "investor-letter": {
-        "high": 13,
+        "high": 5,
         "medium": 0,
-        "low": 23
+        "low": 22
       },
       "presentation": {
         "high": 0,
@@ -134,7 +136,7 @@
       "proxy-material": {
         "high": 3,
         "medium": 2,
-        "low": 11
+        "low": 10
       },
       "other": {
         "high": 6,
@@ -170,7 +172,9 @@
       "index": null,
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Too thin to be a letter: the unsigned 'To Our Stockholders' section is a returns paragraph, two paragraphs of macro recap (Iran conflict, the new Fed chairman) and two lines naming three contributors and three detractors with no reasoning. Routine report material.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "gamco-gabelli-equity-trust-h1-2026",
         "collection": "investment",
@@ -187,221 +191,6 @@
         "filedOn": "2026-09-08",
         "form": "N-CSRS",
         "accession": "0001829126-26-009842",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "fundSlug": "gamco-investors",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one"
-        ]
-      }
-    },
-    {
-      "accession": "0001193125-26-360100",
-      "fund": "pershing-square",
-      "sourceId": "pershing-square-usa-ncsr",
-      "manager": "Pershing Square Capital Management, L.P.",
-      "form": "N-CSRS",
-      "filingDate": "2026-08-21",
-      "reportDate": "2026-06-30",
-      "period": "2026H1",
-      "subject": null,
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "the semi-annual shareholder report of Pershing Square USA, Ltd.",
-        "this registrant's report was checked to carry the manager's letter (2026-11-07)"
-      ],
-      "suggestedContentType": "manager-letter",
-      "letterDocument": null,
-      "documentUrl": "https://www.sec.gov/Archives/edgar/data/2002660/000119312526360100/d87027dncsrs.htm",
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/2002660/000119312526360100/0001193125-26-360100-index.htm",
-      "needsIndex": false,
-      "campaign": null,
-      "repeatOf": null,
-      "index": null,
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "pershing-square-usa-h1-2026",
-        "collection": "investment",
-        "contentType": "manager-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "Pershing Square Capital Management",
-        "publicationDate": "2026-08-21",
-        "reportingPeriod": "2026H1",
-        "containerType": "sec-n-csr",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/2002660/000119312526360100/d87027dncsrs.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2026-08-21",
-        "form": "N-CSRS",
-        "accession": "0001193125-26-360100",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "fundSlug": "pershing-square-capital-management",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one"
-        ]
-      }
-    },
-    {
-      "accession": "0001104659-26-025066",
-      "fund": "fpa",
-      "sourceId": "source-capital-ncsr",
-      "manager": "First Pacific Advisors, LP",
-      "form": "N-CSR",
-      "filingDate": "2026-03-09",
-      "reportDate": "2025-12-31",
-      "period": "FY2025",
-      "subject": null,
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "the annual shareholder report of Source Capital, Inc.",
-        "this registrant's report was checked to carry the manager's letter (2026-11-07)"
-      ],
-      "suggestedContentType": "manager-letter",
-      "letterDocument": null,
-      "documentUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465926025066/tm261908d1_ncsr.htm",
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465926025066/0001104659-26-025066-index.htm",
-      "needsIndex": false,
-      "campaign": null,
-      "repeatOf": null,
-      "index": null,
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "fpa-source-capital-fy2025",
-        "collection": "investment",
-        "contentType": "manager-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "FPA",
-        "publicationDate": "2026-03-09",
-        "reportingPeriod": "FY2025",
-        "containerType": "sec-n-csr",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465926025066/tm261908d1_ncsr.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2026-03-09",
-        "form": "N-CSR",
-        "accession": "0001104659-26-025066",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one"
-        ]
-      }
-    },
-    {
-      "accession": "0001829126-26-002087",
-      "fund": "gamco",
-      "sourceId": "gabelli-equity-trust-ncsr",
-      "manager": "Gabelli Funds, LLC (GAMCO Investors)",
-      "form": "N-CSR",
-      "filingDate": "2026-03-09",
-      "reportDate": "2025-12-31",
-      "period": "FY2025",
-      "subject": null,
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "the annual shareholder report of The Gabelli Equity Trust Inc.",
-        "this registrant's report was checked to carry the manager's letter (2026-11-07)"
-      ],
-      "suggestedContentType": "manager-letter",
-      "letterDocument": null,
-      "documentUrl": "https://www.sec.gov/Archives/edgar/data/794685/000182912626002087/gab_ncsr.htm",
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/794685/000182912626002087/0001829126-26-002087-index.htm",
-      "needsIndex": false,
-      "campaign": null,
-      "repeatOf": null,
-      "index": null,
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "gamco-gabelli-equity-trust-fy2025",
-        "collection": "investment",
-        "contentType": "manager-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "Gabelli Funds",
-        "publicationDate": "2026-03-09",
-        "reportingPeriod": "FY2025",
-        "containerType": "sec-n-csr",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/794685/000182912626002087/gab_ncsr.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2026-03-09",
-        "form": "N-CSR",
-        "accession": "0001829126-26-002087",
         "sourceRights": "sec-public",
         "sector": null,
         "companies": [],
@@ -491,6 +280,8 @@
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
       "status": "review",
+      "decisionReason": "Genuine Starboard letter to the Tripadvisor chairman, CEO and board dated 17 February 2026, but the PDF is set in Type 3 fonts with no Unicode mapping, so pdftotext returns no readable text and no note or quote can be checked by script. Leave for a person (OCR or a reading by hand), as the catalogue does for image-only letters.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "starboard-tripadvisor-2026-02",
         "collection": "investment",
@@ -619,7 +410,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Repeat: the Exhibit 99.1 to Starboard's Schedule 13D/A is byte-identical to the letter filed the same day on DFAN14A (0000921895-26-000436). Dedupe to that one record.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "starboard-tripadvisor-2026-02-2",
         "collection": "investment",
@@ -674,77 +467,6 @@
       }
     },
     {
-      "accession": "0001104659-25-088151",
-      "fund": "fpa",
-      "sourceId": "source-capital-ncsr",
-      "manager": "First Pacific Advisors, LP",
-      "form": "N-CSRS",
-      "filingDate": "2025-09-08",
-      "reportDate": "2025-06-30",
-      "period": "2025H1",
-      "subject": null,
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "the semi-annual shareholder report of Source Capital, Inc.",
-        "this registrant's report was checked to carry the manager's letter (2026-11-07)"
-      ],
-      "suggestedContentType": "manager-letter",
-      "letterDocument": null,
-      "documentUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465925088151/tm2523304d1_ncsrs.htm",
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465925088151/0001104659-25-088151-index.htm",
-      "needsIndex": false,
-      "campaign": null,
-      "repeatOf": null,
-      "index": null,
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "fpa-source-capital-h1-2025",
-        "collection": "investment",
-        "contentType": "manager-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "FPA",
-        "publicationDate": "2025-09-08",
-        "reportingPeriod": "2025H1",
-        "containerType": "sec-n-csr",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465925088151/tm2523304d1_ncsrs.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2025-09-08",
-        "form": "N-CSRS",
-        "accession": "0001104659-25-088151",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one"
-        ]
-      }
-    },
-    {
       "accession": "0001829126-25-007142",
       "fund": "gamco",
       "sourceId": "gabelli-equity-trust-ncsr",
@@ -770,7 +492,9 @@
       "index": null,
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Routine performance attribution, not the manager's own argument: the unsigned section is a quarter-by-quarter list of contributors and detractors with one-line price explanations, and states no view, method or thesis of the manager's.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "gamco-gabelli-equity-trust-h1-2025",
         "collection": "investment",
@@ -817,119 +541,6 @@
       }
     },
     {
-      "accession": "0000921895-25-000885",
-      "fund": "starboard-value",
-      "sourceId": "starboard-edgar",
-      "manager": "Starboard Value LP",
-      "form": "DFAN14A",
-      "filingDate": "2025-03-26",
-      "reportDate": null,
-      "period": "2025-03-26",
-      "subject": {
-        "name": "Autodesk, Inc.",
-        "cik": "0000769397"
-      },
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "document 2 (DFAN14A, ex1dfan14a06297347_032625.pdf) is labelled \"LETTER TO STOCKHOLDERS\""
-      ],
-      "suggestedContentType": "activist-letter",
-      "letterDocument": {
-        "seq": "2",
-        "type": "DFAN14A",
-        "label": "LETTER TO STOCKHOLDERS",
-        "filename": "ex1dfan14a06297347_032625.pdf",
-        "size": 1416235,
-        "url": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/ex1dfan14a06297347_032625.pdf"
-      },
-      "documentUrl": null,
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/0000921895-25-000885-index.htm",
-      "needsIndex": false,
-      "campaign": "matter:06297347",
-      "repeatOf": null,
-      "index": {
-        "indexUrl": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/0000921895-25-000885-index.htm",
-        "subject": {
-          "name": "Autodesk, Inc.",
-          "cik": "0000769397"
-        },
-        "documents": [
-          {
-            "seq": "1",
-            "type": "DFAN14A",
-            "description": "",
-            "filename": "dfan14a06297347_03262025.htm",
-            "size": 20172,
-            "url": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/dfan14a06297347_03262025.htm"
-          },
-          {
-            "seq": "2",
-            "type": "DFAN14A",
-            "description": "LETTER TO STOCKHOLDERS",
-            "filename": "ex1dfan14a06297347_032625.pdf",
-            "size": 1416235,
-            "url": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/ex1dfan14a06297347_032625.pdf"
-          }
-        ]
-      },
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "starboard-autodesk-2025-03-2",
-        "collection": "investment",
-        "contentType": "activist-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "Starboard Value",
-        "publicationDate": "2025-03-26",
-        "reportingPeriod": "2025-03-26",
-        "containerType": "sec-exhibit",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/ex1dfan14a06297347_032625.pdf",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2025-03-26",
-        "form": "DFAN14A",
-        "accession": "0000921895-25-000885",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [
-          {
-            "name": "Autodesk, Inc.",
-            "ticker": null,
-            "role": "subject"
-          }
-        ],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "fundSlug": "starboard-value",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one",
-          "reportingPeriod is the filing date: an activist letter is dated by its event, usually the date it bears",
-          "the subject company is as EDGAR names it: restore its usual capitalisation and add its ticker only where the letter states it"
-        ]
-      }
-    },
-    {
       "accession": "0001829126-25-001654",
       "fund": "gamco",
       "sourceId": "gabelli-equity-trust-ncsr",
@@ -955,7 +566,9 @@
       "index": null,
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Routine performance attribution: the unsigned section reports each of the four quarters' contributors and detractors with brief price explanations, and has no market view or statement of approach. It is a performance discussion, not a letter.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "gamco-gabelli-equity-trust-fy2024",
         "collection": "investment",
@@ -998,319 +611,6 @@
         ],
         "toCheck": [
           "publicationDate is the filing date: replace it with the date the letter bears, if it bears one"
-        ]
-      }
-    },
-    {
-      "accession": "0001104659-25-021647",
-      "fund": "fpa",
-      "sourceId": "source-capital-ncsr",
-      "manager": "First Pacific Advisors, LP",
-      "form": "N-CSR",
-      "filingDate": "2025-03-07",
-      "reportDate": "2024-12-31",
-      "period": "FY2024",
-      "subject": null,
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "the annual shareholder report of Source Capital, Inc.",
-        "this registrant's report was checked to carry the manager's letter (2026-11-07)"
-      ],
-      "suggestedContentType": "manager-letter",
-      "letterDocument": null,
-      "documentUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465925021647/tm255164d1_ncsr.htm",
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465925021647/0001104659-25-021647-index.htm",
-      "needsIndex": false,
-      "campaign": null,
-      "repeatOf": null,
-      "index": null,
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "fpa-source-capital-fy2024",
-        "collection": "investment",
-        "contentType": "manager-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "FPA",
-        "publicationDate": "2025-03-07",
-        "reportingPeriod": "FY2024",
-        "containerType": "sec-n-csr",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/91847/000110465925021647/tm255164d1_ncsr.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2025-03-07",
-        "form": "N-CSR",
-        "accession": "0001104659-25-021647",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one"
-        ]
-      }
-    },
-    {
-      "accession": "0000902664-25-000527",
-      "fund": "jana",
-      "sourceId": "jana-edgar",
-      "manager": "JANA Partners Management, LP",
-      "form": "SCHEDULE 13D/A",
-      "filingDate": "2025-01-28",
-      "reportDate": null,
-      "period": "2025-01-28",
-      "subject": {
-        "name": "Lamb Weston Holdings, Inc.",
-        "cik": "0001679273"
-      },
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "document 2 (EX-99.4, p25-0311exhibit99_4.htm) is labelled \"JANUARY 27, 2025 LETTER\""
-      ],
-      "suggestedContentType": "activist-letter",
-      "letterDocument": {
-        "seq": "2",
-        "type": "EX-99.4",
-        "label": "JANUARY 27, 2025 LETTER",
-        "filename": "p25-0311exhibit99_4.htm",
-        "size": 17979,
-        "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/p25-0311exhibit99_4.htm"
-      },
-      "documentUrl": null,
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/0000902664-25-000527-index.htm",
-      "needsIndex": false,
-      "campaign": "date:2025-01",
-      "repeatOf": null,
-      "index": {
-        "indexUrl": "https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/0000902664-25-000527-index.htm",
-        "subject": {
-          "name": "Lamb Weston Holdings, Inc.",
-          "cik": "0001679273"
-        },
-        "documents": [
-          {
-            "seq": "1",
-            "type": "SCHEDULE 13D/A",
-            "description": "",
-            "filename": "primary_doc.html",
-            "size": null,
-            "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/xslSCHEDULE_13D_X01/primary_doc.xml"
-          },
-          {
-            "seq": "1",
-            "type": "SCHEDULE 13D/A",
-            "description": "",
-            "filename": "primary_doc.xml",
-            "size": 16612,
-            "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/primary_doc.xml"
-          },
-          {
-            "seq": "2",
-            "type": "EX-99.4",
-            "description": "JANUARY 27, 2025 LETTER",
-            "filename": "p25-0311exhibit99_4.htm",
-            "size": 17979,
-            "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/p25-0311exhibit99_4.htm"
-          }
-        ]
-      },
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "jana-lamb-weston-2025-01",
-        "collection": "investment",
-        "contentType": "activist-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "JANA Partners",
-        "publicationDate": "2025-01-28",
-        "reportingPeriod": "2025-01-28",
-        "containerType": "sec-exhibit",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/p25-0311exhibit99_4.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2025-01-28",
-        "form": "SCHEDULE 13D/A",
-        "accession": "0000902664-25-000527",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [
-          {
-            "name": "Lamb Weston Holdings, Inc.",
-            "ticker": null,
-            "role": "subject"
-          }
-        ],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "fundSlug": "jana-partners",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one",
-          "reportingPeriod is the filing date: an activist letter is dated by its event, usually the date it bears",
-          "the subject company is as EDGAR names it: restore its usual capitalisation and add its ticker only where the letter states it"
-        ]
-      }
-    },
-    {
-      "accession": "0000902664-24-006945",
-      "fund": "jana",
-      "sourceId": "jana-edgar",
-      "manager": "JANA Partners Management, LP",
-      "form": "SCHEDULE 13D/A",
-      "filingDate": "2024-12-18",
-      "reportDate": null,
-      "period": "2024-12-18",
-      "subject": {
-        "name": "Lamb Weston Holdings, Inc.",
-        "cik": "0001679273"
-      },
-      "classification": "investor-letter",
-      "confidence": "high",
-      "reasons": [
-        "document 2 (EX-99.3, p24-3516exhibit99_3.htm) is labelled \"DECEMBER 16 LETTER\""
-      ],
-      "suggestedContentType": "activist-letter",
-      "letterDocument": {
-        "seq": "2",
-        "type": "EX-99.3",
-        "label": "DECEMBER 16 LETTER",
-        "filename": "p24-3516exhibit99_3.htm",
-        "size": 25819,
-        "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/p24-3516exhibit99_3.htm"
-      },
-      "documentUrl": null,
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/0000902664-24-006945-index.htm",
-      "needsIndex": false,
-      "campaign": "date:2024-12",
-      "repeatOf": null,
-      "index": {
-        "indexUrl": "https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/0000902664-24-006945-index.htm",
-        "subject": {
-          "name": "Lamb Weston Holdings, Inc.",
-          "cik": "0001679273"
-        },
-        "documents": [
-          {
-            "seq": "1",
-            "type": "SCHEDULE 13D/A",
-            "description": "",
-            "filename": "primary_doc.html",
-            "size": null,
-            "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/xslSCHEDULE_13D_X01/primary_doc.xml"
-          },
-          {
-            "seq": "1",
-            "type": "SCHEDULE 13D/A",
-            "description": "",
-            "filename": "primary_doc.xml",
-            "size": 13706,
-            "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/primary_doc.xml"
-          },
-          {
-            "seq": "2",
-            "type": "EX-99.3",
-            "description": "DECEMBER 16 LETTER",
-            "filename": "p24-3516exhibit99_3.htm",
-            "size": 25819,
-            "url": "https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/p24-3516exhibit99_3.htm"
-          }
-        ]
-      },
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "jana-lamb-weston-2024-12",
-        "collection": "investment",
-        "contentType": "activist-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "JANA Partners",
-        "publicationDate": "2024-12-18",
-        "reportingPeriod": "2024-12-18",
-        "containerType": "sec-exhibit",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/p24-3516exhibit99_3.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2024-12-18",
-        "form": "SCHEDULE 13D/A",
-        "accession": "0000902664-24-006945",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [
-          {
-            "name": "Lamb Weston Holdings, Inc.",
-            "ticker": null,
-            "role": "subject"
-          }
-        ],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "fundSlug": "jana-partners",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one",
-          "reportingPeriod is the filing date: an activist letter is dated by its event, usually the date it bears",
-          "the subject company is as EDGAR names it: restore its usual capitalisation and add its ticker only where the letter states it"
         ]
       }
     },
@@ -1375,7 +675,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not written by the manager: Exhibit 1 is a reposted third-party opinion column (an Activist Spotlight piece by Kenneth Squire of 13D Monitor about Engaged Capital and BlackLine) posted to SaveBlackLine.com; most of its text is also unreadable (custom font encoding).",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "engaged-blackline-2026-01-3",
         "collection": "investment",
@@ -1498,7 +800,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is Schedule A, a table of Third Point's purchases and sales of Soho House common stock.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "third-point-soho-house-and-2025-08",
         "collection": "investment",
@@ -1614,6 +918,8 @@
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
       "status": "review",
+      "decisionReason": "The only other genuine Elliott-campaign letter: the four nominees' (Coffman, Cornelius, Heim, Nieuwoudt) closing letter to Phillips 66 shareholders of 20 May 2025, reproduced in the press release in the DFAN14A cover document, not in the queued Exhibit 99.1 (social media posts and website materials, image-only). Distinct, but short and thin (about 500 words, no figures, no plan beyond a general call for change), so an editor should decide whether it meets the bar; if published, the source is the cover .htm and four new writers are needed.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-05-14",
         "collection": "investment",
@@ -1728,7 +1034,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a campaign email of 19 May 2025 to Streamline66.com subscribers compiling quotations from the ISS and Glass Lewis reports, plus image-only social media posts.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-05-13",
         "collection": "investment",
@@ -1843,7 +1151,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 14 May 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-05-10",
         "collection": "investment",
@@ -1958,7 +1268,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a press release of 12 May 2025 on the ISS recommendation, a presentation given via Glass Lewis, and social media and website materials; Exhibit 99.1 is image-only.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-05-9",
         "collection": "investment",
@@ -2073,7 +1385,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 7 May 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-05-5",
         "collection": "investment",
@@ -2188,7 +1502,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: the transcript of Elliott's \"How to Vote\" YouTube video (voting instructions) of 5 May 2025, plus social media posts and website materials.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-05-3",
         "collection": "investment",
@@ -2303,7 +1619,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 1 May 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-05",
         "collection": "investment",
@@ -2418,9 +1736,11 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a press release of 29 April 2025 announcing Elliott's investor presentation (\"Streamline 66: Elliott's Perspectives on Value Creation\"); Exhibit 99.1 is image-only social media and website material.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-21",
+        "id": "elliott-phillips-66-2025-04-20",
         "collection": "investment",
         "contentType": "activist-letter",
         "title": null,
@@ -2533,9 +1853,11 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 25 April 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-19",
+        "id": "elliott-phillips-66-2025-04-18",
         "collection": "investment",
         "contentType": "activist-letter",
         "title": null,
@@ -2648,9 +1970,11 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 24 April 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-18",
+        "id": "elliott-phillips-66-2025-04-17",
         "collection": "investment",
         "contentType": "activist-letter",
         "title": null,
@@ -2763,9 +2087,11 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a short statement emailed to The Deal on 23 April 2025 about the annual-election proposal, plus image-only social media posts in Exhibit 99.1.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-17",
+        "id": "elliott-phillips-66-2025-04-16",
         "collection": "investment",
         "contentType": "activist-letter",
         "title": null,
@@ -2878,9 +2204,11 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 21 April 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-15",
+        "id": "elliott-phillips-66-2025-04-14",
         "collection": "investment",
         "contentType": "activist-letter",
         "title": null,
@@ -2993,9 +2321,11 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a campaign email to stockholders of 4 April 2025, filed as an image-only Exhibit 99.1 with no readable text, following the 3 April letter.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-4",
+        "id": "elliott-phillips-66-2025-04-3",
         "collection": "investment",
         "contentType": "activist-letter",
         "title": null,
@@ -3010,121 +2340,6 @@
         "filedOn": "2025-04-04",
         "form": "DFAN14A",
         "accession": "0000921895-25-000986",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [
-          {
-            "name": "Phillips 66",
-            "ticker": null,
-            "role": "subject"
-          }
-        ],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "fundSlug": "elliott-investment-management",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one",
-          "reportingPeriod is the filing date: an activist letter is dated by its event, usually the date it bears",
-          "the subject company is as EDGAR names it: restore its usual capitalisation and add its ticker only where the letter states it"
-        ]
-      }
-    },
-    {
-      "accession": "0000921895-25-000976",
-      "fund": "elliott",
-      "sourceId": "elliott-edgar",
-      "manager": "Elliott Investment Management L.P.",
-      "form": "DFAN14A",
-      "filingDate": "2025-04-03",
-      "reportDate": null,
-      "period": "2025-04-03",
-      "subject": {
-        "name": "Phillips 66",
-        "cik": "0001534701"
-      },
-      "classification": "investor-letter",
-      "confidence": "low",
-      "reasons": [
-        "document 2 (DFAN14A, ex991dfan14a10168303_040325.pdf) is labelled \"EXHIBIT 99.1\"",
-        "a PDF this size is usually a letter",
-        "open it before deciding: the label says nothing"
-      ],
-      "suggestedContentType": "activist-letter",
-      "letterDocument": {
-        "seq": "2",
-        "type": "DFAN14A",
-        "label": "EXHIBIT 99.1",
-        "filename": "ex991dfan14a10168303_040325.pdf",
-        "size": 1735167,
-        "url": "https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/ex991dfan14a10168303_040325.pdf"
-      },
-      "documentUrl": null,
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/0000921895-25-000976-index.htm",
-      "needsIndex": false,
-      "campaign": "matter:10168303",
-      "repeatOf": null,
-      "index": {
-        "indexUrl": "https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/0000921895-25-000976-index.htm",
-        "subject": {
-          "name": "Phillips 66",
-          "cik": "0001534701"
-        },
-        "documents": [
-          {
-            "seq": "1",
-            "type": "DFAN14A",
-            "description": "",
-            "filename": "dfan14a10168303_04032025.htm",
-            "size": 60567,
-            "url": "https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/dfan14a10168303_04032025.htm"
-          },
-          {
-            "seq": "2",
-            "type": "DFAN14A",
-            "description": "EXHIBIT 99.1",
-            "filename": "ex991dfan14a10168303_040325.pdf",
-            "size": 1735167,
-            "url": "https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/ex991dfan14a10168303_040325.pdf"
-          }
-        ]
-      },
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "elliott-phillips-66-2025-04-3",
-        "collection": "investment",
-        "contentType": "activist-letter",
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "Elliott Investment Management",
-        "publicationDate": "2025-04-03",
-        "reportingPeriod": "2025-04-03",
-        "containerType": "sec-exhibit",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/ex991dfan14a10168303_040325.pdf",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2025-04-03",
-        "form": "DFAN14A",
-        "accession": "0000921895-25-000976",
         "sourceRights": "sec-public",
         "sector": null,
         "companies": [
@@ -3223,7 +2438,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a mailed campaign flyer of 28 March 2025 (\"A Shocking Lack of Ambition\") built from analyst and investor quotations, not a letter setting out an argument.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-03-10",
         "collection": "investment",
@@ -3338,7 +2555,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: social media posts, an email to stockholders and Streamline66 website materials of 27 March 2025; Exhibit 99.1 is image-only, so even the email cannot be read or checked.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-03-9",
         "collection": "investment",
@@ -3453,7 +2672,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 26 March 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-03-8",
         "collection": "investment",
@@ -3568,7 +2789,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a press release of 25 March 2025 announcing Elliott's Delaware Chancery Court complaint over the number of board seats up for election; Exhibit 99.1 is image-only website material.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-03-7",
         "collection": "investment",
@@ -3683,7 +2906,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: a mailed campaign flyer of 24 March 2025 (a short \"Dear Phillips 66 Shareholder\" mailer with a price chart and vote-the-gold-card call), plus social media posts, programmatic advertisements and Streamline66 website materials.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-03-6",
         "collection": "investment",
@@ -3798,7 +3023,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.1 is social media posts of 21 March 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "elliott-phillips-66-2025-03-5",
         "collection": "investment",
@@ -3937,7 +3164,9 @@
       },
       "alsoFiledBy": [],
       "firstSeen": "2026-11-07",
-      "status": "review",
+      "status": "rejected",
+      "decisionReason": "Not a letter: Exhibit 99.4 is Schedule A, a table of Third Point's purchases and sales of Soho House common stock.",
+      "decidedOn": "2026-11-08",
       "skeleton": {
         "id": "third-point-soho-house-and-2025-01",
         "collection": "investment",
@@ -5098,7 +4327,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-22",
+        "id": "elliott-phillips-66-2025-04-21",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -5214,7 +4443,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-20",
+        "id": "elliott-phillips-66-2025-04-19",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -5330,7 +4559,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-16",
+        "id": "elliott-phillips-66-2025-04-15",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -5446,7 +4675,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-14",
+        "id": "elliott-phillips-66-2025-04-13",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -5562,7 +4791,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-13",
+        "id": "elliott-phillips-66-2025-04-12",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -5678,7 +4907,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-12",
+        "id": "elliott-phillips-66-2025-04-11",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -5794,7 +5023,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-11",
+        "id": "elliott-phillips-66-2025-04-10",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -5910,7 +5139,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-10",
+        "id": "elliott-phillips-66-2025-04-9",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -6026,7 +5255,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-9",
+        "id": "elliott-phillips-66-2025-04-8",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -6142,7 +5371,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-8",
+        "id": "elliott-phillips-66-2025-04-7",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -6258,7 +5487,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-5",
+        "id": "elliott-phillips-66-2025-04-4",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -7994,7 +7223,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-7",
+        "id": "elliott-phillips-66-2025-04-6",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -8102,7 +7331,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "elliott-phillips-66-2025-04-6",
+        "id": "elliott-phillips-66-2025-04-5",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -8318,7 +7547,7 @@
       "firstSeen": "2026-11-07",
       "status": "review",
       "skeleton": {
-        "id": "starboard-news-2024-11-2",
+        "id": "starboard-news-2024-11",
         "collection": "investment",
         "contentType": null,
         "title": null,
@@ -8333,114 +7562,6 @@
         "filedOn": "2024-11-08",
         "form": "DFAN14A",
         "accession": "0000921895-24-002526",
-        "sourceRights": "sec-public",
-        "sector": null,
-        "companies": [
-          {
-            "name": "NEWS CORP",
-            "ticker": null,
-            "role": "subject"
-          }
-        ],
-        "topics": [],
-        "intro": null,
-        "why": null,
-        "notice": [],
-        "quote": null,
-        "grounded": false,
-        "origin": "sec-pipeline",
-        "rights": "link-only",
-        "fundSlug": "starboard-value",
-        "publishable": false,
-        "toWrite": [
-          "title",
-          "writerIds",
-          "sector",
-          "companies",
-          "topics",
-          "intro",
-          "why",
-          "notice",
-          "grounded"
-        ],
-        "toCheck": [
-          "publicationDate is the filing date: replace it with the date the letter bears, if it bears one",
-          "reportingPeriod is the filing date: an activist letter is dated by its event, usually the date it bears",
-          "contentType is left empty: nothing here says this is a letter",
-          "the subject company is as EDGAR names it: restore its usual capitalisation and add its ticker only where the letter states it"
-        ]
-      }
-    },
-    {
-      "accession": "0000921895-24-002508",
-      "fund": "starboard-value",
-      "sourceId": "starboard-edgar",
-      "manager": "Starboard Value LP",
-      "form": "DFAN14A",
-      "filingDate": "2024-11-07",
-      "reportDate": null,
-      "period": "2024-11-07",
-      "subject": {
-        "name": "NEWS CORP",
-        "cik": "0001564708"
-      },
-      "classification": "proxy-material",
-      "confidence": "low",
-      "reasons": [
-        "document 1 (DFAN14A, dfan14a06297361_11072024.htm) is unlabelled",
-        "DFAN14A is proxy soliciting material; a letter or a deck arrives in one, but nothing here says this is one",
-        "an unlabelled short document is a letter, a release or a cover: open it to tell"
-      ],
-      "suggestedContentType": null,
-      "letterDocument": {
-        "seq": "1",
-        "type": "DFAN14A",
-        "label": null,
-        "filename": "dfan14a06297361_11072024.htm",
-        "size": 28469,
-        "url": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/dfan14a06297361_11072024.htm"
-      },
-      "documentUrl": null,
-      "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/0000921895-24-002508-index.htm",
-      "needsIndex": false,
-      "campaign": "matter:06297361",
-      "repeatOf": null,
-      "index": {
-        "indexUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/0000921895-24-002508-index.htm",
-        "subject": {
-          "name": "NEWS CORP",
-          "cik": "0001564708"
-        },
-        "documents": [
-          {
-            "seq": "1",
-            "type": "DFAN14A",
-            "description": "",
-            "filename": "dfan14a06297361_11072024.htm",
-            "size": 28469,
-            "url": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/dfan14a06297361_11072024.htm"
-          }
-        ]
-      },
-      "alsoFiledBy": [],
-      "firstSeen": "2026-11-07",
-      "status": "review",
-      "skeleton": {
-        "id": "starboard-news-2024-11",
-        "collection": "investment",
-        "contentType": null,
-        "title": null,
-        "titleOrigin": "l3vlup",
-        "writerIds": [],
-        "organisation": "Starboard Value",
-        "publicationDate": "2024-11-07",
-        "reportingPeriod": "2024-11-07",
-        "containerType": "sec-proxy-material",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/dfan14a06297361_11072024.htm",
-        "sourceHost": "www.sec.gov",
-        "filedOn": "2024-11-07",
-        "form": "DFAN14A",
-        "accession": "0000921895-24-002508",
         "sourceRights": "sec-public",
         "sector": null,
         "companies": [
@@ -28622,6 +27743,15 @@
       "matchedBy": "accession"
     },
     {
+      "accession": "0001193125-26-360100",
+      "fund": "pershing-square",
+      "form": "N-CSRS",
+      "filingDate": "2026-08-21",
+      "catalogueId": "pershing-square-usa-h1-2026",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
       "accession": "0000921895-26-000666",
       "fund": "starboard-value",
       "form": "DFAN14A",
@@ -28631,11 +27761,38 @@
       "matchedBy": "accession"
     },
     {
+      "accession": "0001829126-26-002087",
+      "fund": "gamco",
+      "form": "N-CSR",
+      "filingDate": "2026-03-09",
+      "catalogueId": "gamco-gabelli-equity-trust-fy2025",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
+      "accession": "0001104659-26-025066",
+      "fund": "fpa",
+      "form": "N-CSR",
+      "filingDate": "2026-03-09",
+      "catalogueId": "fpa-source-capital-fy2025",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
       "accession": "0001193125-26-074946",
       "fund": "ruane-cunniff",
       "form": "N-CSR",
       "filingDate": "2026-02-26",
       "catalogueId": "ruane-sequoia-fy2025",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
+      "accession": "0001104659-25-088151",
+      "fund": "fpa",
+      "form": "N-CSRS",
+      "filingDate": "2025-09-08",
+      "catalogueId": "fpa-source-capital-h1-2025",
       "catalogueStatus": "published",
       "matchedBy": "accession"
     },
@@ -28658,6 +27815,24 @@
       "matchedBy": "accession"
     },
     {
+      "accession": "0000921895-25-000976",
+      "fund": "elliott",
+      "form": "DFAN14A",
+      "filingDate": "2025-04-03",
+      "catalogueId": "elliott-phillips66-2025-04-03",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
+      "accession": "0000921895-25-000885",
+      "fund": "starboard-value",
+      "form": "DFAN14A",
+      "filingDate": "2025-03-26",
+      "catalogueId": "starboard-autodesk-2025-03-26",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
       "accession": "0000921895-25-000816",
       "fund": "starboard-value",
       "form": "DFAN14A",
@@ -28676,11 +27851,38 @@
       "matchedBy": "accession"
     },
     {
+      "accession": "0001104659-25-021647",
+      "fund": "fpa",
+      "form": "N-CSR",
+      "filingDate": "2025-03-07",
+      "catalogueId": "fpa-source-capital-fy2024",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
       "accession": "0001193125-25-045012",
       "fund": "ruane-cunniff",
       "form": "N-CSR",
       "filingDate": "2025-03-04",
       "catalogueId": "ruane-sequoia-fy2024",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
+      "accession": "0000902664-25-000527",
+      "fund": "jana",
+      "form": "SCHEDULE 13D/A",
+      "filingDate": "2025-01-28",
+      "catalogueId": "jana-lamb-weston-2025-01",
+      "catalogueStatus": "published",
+      "matchedBy": "accession"
+    },
+    {
+      "accession": "0000902664-24-006945",
+      "fund": "jana",
+      "form": "SCHEDULE 13D/A",
+      "filingDate": "2024-12-18",
+      "catalogueId": "jana-lamb-weston-2024-12",
       "catalogueStatus": "published",
       "matchedBy": "accession"
     },
