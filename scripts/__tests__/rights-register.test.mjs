@@ -52,6 +52,7 @@ const FETCHES_NOTHING_EXTERNAL = {
   'scripts/precedent-seed.mjs': 'copies two precedent data files from a branch of this repository into the checkout, via git; reads nothing outside GitHub',
   'scripts/thesis-feed-check.mjs': 'validates a claims feed file on disk',
   'scripts/thesis-failure-check.mjs': 'validates a failure report file on disk',
+  'scripts/funds_explorer.py': 'derives the 13F Explorer from the 13F history, by-ticker, peer and CUSIP files already on disk; no request',
 };
 
 /*

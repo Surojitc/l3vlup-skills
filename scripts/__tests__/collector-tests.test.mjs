@@ -23,7 +23,7 @@ const eq = (name, got, want) => {
 const src = readFileSync('scripts/run-collector-tests.mjs', 'utf8');
 const listed = [...src.matchAll(/^\s+'([a-z0-9-]+)',$/gm)].map((m) => m[1]);
 eq('the runner lists suites', listed.length > 20, true);
-eq('every listed suite exists', listed.filter((n) => !existsSync(`scripts/__tests__/${n}.test.mjs`)), []);
+eq('every listed suite exists', listed.filter((n) => !existsSync(`scripts/__tests__/${n}.test.mjs`) && !existsSync(`scripts/__tests__/${n}.test.py`)), []);
 eq('no suite is listed twice', listed.filter((n, i) => listed.indexOf(n) !== i), []);
 
 const build = readFileSync('.github/workflows/build-samples.yml', 'utf8');

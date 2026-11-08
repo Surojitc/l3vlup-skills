@@ -1,0 +1,214 @@
+{
+  "_comment": [
+    "The 13F Explorer's classification, edited by hand and read by scripts/funds_explorer.py.",
+    "SECTORS are the SEC's Standard Industrial Classification (the code EDGAR assigns each registrant, read from data/peers.auto.json) grouped by published code ranges: the SEC's ten divisions, refined where a division mixes businesses a reader would not put together (semiconductors, software, pharma, devices, banks and insurance are split out). Every range is listed explicitly, ranges never overlap, and each code belongs to at most one sector. A range is 'NNNN' or 'NNNN-NNNN', inclusive.",
+    "Two carve-outs are deliberate: SIC 6324 (hospital and medical service plans: the managed-care insurers) sits in health care services, not insurance, and SIC 8731 (commercial physical and biological research, which among listed filers is mostly contract research for drug developers) sits there too.",
+    "A ticker the SEC file does not list, or lists without a code, is unclassified. A security the CUSIP map lists among its funds (data/cusip-tickers.auto.json `funds`) is the 'funds' bucket whatever its code, never spread across sectors. Ticker punctuation is normalised before any lookup: BRK.B, BRK/B and BRK-B are one symbol.",
+    "THEMES are either 'standard' (a named set of SIC codes and nothing else) or 'bespoke' (an L3VLUP definition, labelled as ours wherever it is shown: SIC codes plus an explicit, published ticker list, with one line saying what it is meant to capture). A stock may sit in several themes. Nothing else assigns a stock to a theme: no name matching, no model, no inference from a share class. A fund or ETF joins a theme only by being named in its ticker list.",
+    "Editing: add a ticker to a bespoke theme's list, or a code to its sic, and the next run of scripts/funds_explorer.py republishes data/funds/explorer/. Keep each ticker list sorted."
+  ],
+  "schema": 1,
+  "source": "SEC Standard Industrial Classification codes as assigned in EDGAR (data/peers.auto.json), grouped by the ranges below",
+  "sectors": {
+    "semiconductors": {
+      "label": "Semiconductors",
+      "sic": ["3674"]
+    },
+    "tech-hardware": {
+      "label": "Technology hardware and equipment",
+      "sic": ["3570-3579", "3660-3673", "3675-3679"]
+    },
+    "software-services": {
+      "label": "Software and IT services",
+      "sic": ["7370-7379"]
+    },
+    "communications-media": {
+      "label": "Communications and media",
+      "sic": ["2700-2799", "4800-4899", "7810-7849"]
+    },
+    "pharma-biotech": {
+      "label": "Pharmaceuticals and biotechnology",
+      "sic": ["2833-2836"]
+    },
+    "medical-devices": {
+      "label": "Medical devices and instruments",
+      "sic": ["3826", "3841-3845", "3851"]
+    },
+    "health-services": {
+      "label": "Health care services and research",
+      "sic": ["5122", "6324", "8000-8099", "8731"]
+    },
+    "banks": {
+      "label": "Banks",
+      "sic": ["6020-6036"]
+    },
+    "insurance": {
+      "label": "Insurance",
+      "sic": ["6311-6323", "6325-6411"]
+    },
+    "other-financials": {
+      "label": "Other financial services",
+      "sic": ["6000-6019", "6037-6299", "6700-6797", "6799"]
+    },
+    "real-estate": {
+      "label": "Real estate",
+      "sic": ["6500-6599", "6798"]
+    },
+    "energy": {
+      "label": "Energy",
+      "sic": ["1200-1399", "2900-2999", "3533", "4610-4619", "4922", "5171-5172"]
+    },
+    "utilities": {
+      "label": "Utilities",
+      "sic": ["4900-4921", "4923-4952", "4960-4999"]
+    },
+    "materials": {
+      "label": "Materials",
+      "sic": ["0800-0899", "1000-1199", "1400-1499", "2400-2499", "2600-2699", "2800-2832", "2837-2839", "2845-2899", "3000-3099", "3200-3399"]
+    },
+    "industrials": {
+      "label": "Industrials",
+      "sic": ["1500-1799", "3400-3532", "3534-3569", "3580-3629", "3640-3649", "3690-3710", "3717-3750", "3752-3825", "3827-3829", "4000-4609", "4620-4799", "4953-4959", "5000-5099"]
+    },
+    "business-services": {
+      "label": "Business and payment services",
+      "sic": ["7300-7369", "7380-7399", "8100-8199", "8300-8730", "8732-8999"]
+    },
+    "consumer-staples": {
+      "label": "Consumer staples",
+      "sic": ["0100-0799", "0900-0999", "2000-2199", "2840-2844", "5100-5121", "5123-5170", "5173-5199", "5331", "5399-5499", "5912"]
+    },
+    "consumer-discretionary": {
+      "label": "Consumer discretionary",
+      "sic": ["2200-2399", "2500-2599", "3100-3199", "3630-3639", "3650-3659", "3711-3716", "3751", "3852-3999", "5200-5330", "5332-5398", "5500-5911", "5913-5999", "7000-7299", "7400-7809", "7850-7999", "8200-8299"]
+    },
+    "funds": {
+      "label": "Funds and ETFs",
+      "sic": [],
+      "rule": "Securities the CUSIP map lists among its funds (data/cusip-tickers.auto.json `funds`), whatever their SIC code"
+    }
+  },
+  "themes": {
+    "semiconductors": {
+      "label": "Semiconductors",
+      "kind": "standard",
+      "definition": "SIC 3674, semiconductors and related devices.",
+      "sic": ["3674"]
+    },
+    "software": {
+      "label": "Prepackaged software",
+      "kind": "standard",
+      "definition": "SIC 7372, prepackaged software.",
+      "sic": ["7372"]
+    },
+    "internet-data": {
+      "label": "Internet, programming and data services",
+      "kind": "standard",
+      "definition": "SIC 7370 and 7374, computer programming, data processing and data preparation.",
+      "sic": ["7370", "7374"]
+    },
+    "pharma": {
+      "label": "Pharmaceutical preparations",
+      "kind": "standard",
+      "definition": "SIC 2834, pharmaceutical preparations.",
+      "sic": ["2834"]
+    },
+    "biotech": {
+      "label": "Biological products",
+      "kind": "standard",
+      "definition": "SIC 2836, biological products other than diagnostics.",
+      "sic": ["2836"]
+    },
+    "medtech": {
+      "label": "Surgical, medical and electromedical devices",
+      "kind": "standard",
+      "definition": "SIC 3841 to 3845.",
+      "sic": ["3841-3845"]
+    },
+    "managed-care": {
+      "label": "Managed care",
+      "kind": "standard",
+      "definition": "SIC 6324, hospital and medical service plans.",
+      "sic": ["6324"]
+    },
+    "banks": {
+      "label": "Commercial banks and thrifts",
+      "kind": "standard",
+      "definition": "SIC 6020 to 6036.",
+      "sic": ["6020-6036"]
+    },
+    "reits": {
+      "label": "Real estate investment trusts",
+      "kind": "standard",
+      "definition": "SIC 6798.",
+      "sic": ["6798"]
+    },
+    "oil-gas": {
+      "label": "Oil and gas",
+      "kind": "standard",
+      "definition": "SIC 1311 (crude petroleum and natural gas), 1381 to 1389 (drilling and field services) and 2911 (refining).",
+      "sic": ["1311", "1381-1389", "2911"]
+    },
+    "electric-utilities": {
+      "label": "Electric utilities",
+      "kind": "standard",
+      "definition": "SIC 4911, 4931 and 4991, electric and combined electric services and cogeneration.",
+      "sic": ["4911", "4931", "4991"]
+    },
+    "aerospace-defense": {
+      "label": "Aerospace and defence",
+      "kind": "standard",
+      "definition": "SIC 3720 to 3729 (aircraft and parts), 3760 to 3769 (missiles and space vehicles) and 3812 (search, detection and navigation systems).",
+      "sic": ["3720-3729", "3760-3769", "3812"]
+    },
+    "ai-infrastructure": {
+      "label": "AI infrastructure and semiconductors",
+      "kind": "bespoke",
+      "definition": "The chips, chipmaking tools, networking, servers, storage, optical links, power and cooling equipment, GPU clouds and data-centre space that AI computing runs on.",
+      "sic": ["3674"],
+      "tickers": ["ALAB", "AMAT", "ANET", "APH", "ASML", "CAMT", "CIEN", "CLS", "COHR", "CRDO", "CRWV", "DELL", "DLR", "ENTG", "EQIX", "HPE", "KLAC", "LITE", "LRCX", "MKSI", "NBIS", "NTAP", "ONTO", "SMCI", "SNDK", "STX", "TER", "VRT", "WDC"]
+    },
+    "cloud-software": {
+      "label": "Cloud and enterprise software",
+      "kind": "bespoke",
+      "definition": "Software sold to businesses, and the public clouds that host it: prepackaged and integrated-systems software, plus the hyperscalers and the security vendors filed under hardware codes.",
+      "sic": ["7372", "7373"],
+      "tickers": ["AMZN", "FTNT", "GOOG", "GOOGL", "PANW", "ZS"]
+    },
+    "healthcare": {
+      "label": "Healthcare: biopharma and medtech",
+      "kind": "bespoke",
+      "definition": "Companies that discover, make or test medicines and medical devices: drugmakers, biotechs, device makers, laboratory instruments and the contract researchers and diagnostics labs that serve them. Insurers and providers are not in it.",
+      "sic": ["2833-2836", "3826", "3841-3845", "3851", "8731"],
+      "tickers": ["DHR", "NTRA", "TMO"]
+    },
+    "financial-services": {
+      "label": "Financial services",
+      "kind": "bespoke",
+      "definition": "Banks, insurers, brokers, exchanges, lenders and asset managers, plus the payment networks, processors and ratings and index providers filed under service codes. Managed-care plans are not in it.",
+      "sic": ["6020-6036", "6111-6299", "6311-6323", "6325-6411"],
+      "tickers": ["FDS", "FIS", "GPN", "MA", "MCO", "MSCI", "PYPL", "SPGI", "V", "XYZ"]
+    },
+    "industrials-automation": {
+      "label": "Industrials and automation",
+      "kind": "bespoke",
+      "definition": "Machinery, electrical equipment, industrial controls and instruments, and the robots and design software that automate factories and buildings.",
+      "sic": ["3530-3569", "3580-3629", "3820-3825", "3829"],
+      "tickers": ["ADSK", "HON", "PTC", "ROP", "SYM", "ZBRA"]
+    },
+    "energy-power": {
+      "label": "Energy and power infrastructure",
+      "kind": "bespoke",
+      "definition": "Oil and gas, pipelines, utilities and nuclear fuel, and the turbines, grid equipment and contractors that generate and move electricity, including the new load from data centres.",
+      "sic": ["1311", "1381-1389", "2911", "3510-3519", "3612-3613", "4610-4619", "4911-4991"],
+      "tickers": ["BE", "CCJ", "ETN", "FIX", "GEV", "LEU", "PWR", "SMR", "VRT"]
+    },
+    "consumer-digital": {
+      "label": "Consumer and digital platforms",
+      "kind": "bespoke",
+      "definition": "The online marketplaces, apps, social networks, streaming services and games that consumers spend money and time on.",
+      "sic": ["5961"],
+      "tickers": ["ABNB", "AMZN", "APP", "BABA", "BKNG", "CART", "CPNG", "CVNA", "DASH", "DUOL", "EA", "EBAY", "ETSY", "EXPE", "GOOG", "GOOGL", "GRAB", "JD", "LYFT", "MELI", "META", "NFLX", "PDD", "PINS", "RBLX", "RDDT", "ROKU", "SE", "SHOP", "SNAP", "SPOT", "TTWO", "UBER"]
+    }
+  }
+}

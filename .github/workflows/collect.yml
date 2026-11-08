@@ -357,6 +357,21 @@ jobs:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: python3 scripts/funds_history.py --budget 1500
 
+      # The 13F Explorer's precomputed answers under data/funds/explorer:
+      # every symbol's latest picture, a cross-section per quarter for the
+      # last twelve, sector and theme aggregates and a row per manager, so
+      # the site never loops over four thousand files at request time. Reads
+      # only the files the steps above wrote (history, by-ticker, peers, the
+      # CUSIP map) and data/funds.themes.json; no SEC request, no secret. A
+      # file whose content did not change is not rewritten. Runs whether or
+      # not the history step finished, from whatever history is on disk.
+      - name: 13F Explorer
+        id: explorer
+        if: steps.thirteenf.outputs.due == 'true'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: python3 scripts/funds_explorer.py
+
       # Monthly, and monthly is the honest rate: who the SEC files under an
       # industry code changes when a company lists, deregisters or is
       # reclassified, which is a handful of names a month against roughly

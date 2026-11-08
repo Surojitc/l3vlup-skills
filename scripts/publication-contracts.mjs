@@ -262,6 +262,65 @@ export const CONTRACTS = {
         stamp: 'generatedAt',
         optional: true,
       },
+      // The 13F Explorer's precomputed answers (scripts/funds_explorer.py),
+      // built from the history, by-ticker, peer and CUSIP files straight after
+      // the history step. A file is rewritten only when its content changes,
+      // so its generatedAt dates the last change, not the last run: between
+      // filing seasons nothing changes for weeks and that is not a late
+      // collector. So the cadence is manual (never late) while the stamp still
+      // guards against a late run rolling main back (staleProblems).
+      {
+        path: 'data/funds/explorer/meta.json', freshness: { cadence: 'manual', from: 'generatedAt' },
+        label: 'the 13F Explorer\'s quarters and coverage',
+        keyed: 'quarterCoverage',
+        min: 1,
+        stamp: 'generatedAt',
+        optional: true,
+      },
+      {
+        // One row per symbol with a by-ticker file. Those files are never
+        // deleted, so the count only falls if the inputs went missing.
+        path: 'data/funds/explorer/stocks.json', freshness: { cadence: 'manual', from: 'generatedAt' },
+        label: 'the 13F Explorer\'s stock index',
+        rows: 'stocks',
+        min: 100,
+        minRatio: 0.9,
+        required: ['t', 'spark'],
+        stamp: 'generatedAt',
+        optional: true,
+      },
+      {
+        path: 'data/funds/explorer/sectors.json', freshness: { cadence: 'manual', from: 'generatedAt' },
+        label: 'the 13F Explorer\'s sectors and themes',
+        keyed: 'byQuarter',
+        min: 1,
+        stamp: 'generatedAt',
+        optional: true,
+      },
+      {
+        path: 'data/funds/explorer/managers.json', freshness: { cadence: 'manual', from: 'generatedAt' },
+        label: 'the 13F Explorer\'s manager rows',
+        rows: 'managers',
+        min: 10,
+        minRatio: 0.9,
+        required: ['id', 'q'],
+        stamp: 'generatedAt',
+        optional: true,
+      },
+      {
+        // One cross-section per quarter for the last twelve. A quarter fills
+        // as its managers file, so a row count may grow freely; halving is a
+        // broken input, not a filing season.
+        pattern: /^data\/funds\/explorer\/quarters\/\d{4}Q[1-4]\.json$/,
+        label: 'a quarter of the 13F Explorer',
+        rows: 'rows',
+        min: 1,
+        minRatio: 0.5,
+        required: ['t', 'h', 'buyers', 'sellers'],
+        optional: true,
+      },
+      // The Explorer's sector ranges and theme table, edited by hand.
+      { path: 'data/funds.themes.json', freshness: { cadence: 'manual' }, label: 'the 13F Explorer\'s theme table', shapeOnly: true, optional: true },
       // The quarterly EDGAR form index the precedent collector reads merger
       // proxies from, kept so a closed quarter is read once. Committed since
       // #29 and rewritten by every monthly run, but missing from this list,
