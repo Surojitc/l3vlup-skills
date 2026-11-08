@@ -526,6 +526,21 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
     files["managers.json"] = {"schema": SCHEMA, "generatedAt": now, "defaultQuarter": default,
                               "count": len(managers), "managers": managers}
 
+    # Each manager's quarters in one file: the reported 13F value (the
+    # denominator of a position's share of the book), the filing date, the
+    # period end and the filing on sec.gov. A stock page needs these for every
+    # holder, and reading ninety history indexes per page took fifteen seconds
+    # on a cold cache; this is one read. Row: [aumK, filed, periodOfReport,
+    # filingUrl], keyed manager then quarter.
+    files["filings.json"] = {
+        "schema": SCHEMA, "generatedAt": now,
+        "fields": ["aumK", "filed", "periodOfReport", "filingUrl"],
+        "count": len(filed),
+        "managers": {m: {q: [r.get("aumK"), r.get("filed"), r.get("periodOfReport"), r.get("filingUrl")]
+                         for q, r in sorted(qs.items())}
+                     for m, qs in sorted(filed.items())},
+    }
+
     files["meta.json"] = {
         "schema": SCHEMA, "generatedAt": now,
         "quarters": quarters, "defaultQuarter": default,

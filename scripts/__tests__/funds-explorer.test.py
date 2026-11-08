@@ -217,8 +217,8 @@ check("a bespoke theme without a published list is refused", any("theme t" in p 
 idx = [index(m, [qrec("2026Q2", "2026Q1"), qrec("2026Q1", None)]) for m in ("m0", "m1", "m2", "m3")]
 files = fe.build(indexes=idx, by_ticker=[d, d4, doc("SPY", ["m0", "m1"], {"2026Q2": [[0, 5, "h", 1]], "2026Q1": [[0, 5, "h", 1]]})],
                  peers=PEERS, cusips=CUSIPS, table=TABLE, now="2026-11-08T00:00:00Z")
-eq("one file per quarter in the window, plus the four", sorted(files),
-   ["managers.json", "meta.json", "quarters/2026Q1.json", "quarters/2026Q2.json", "sectors.json", "stocks.json"])
+eq("one file per quarter in the window, plus the five", sorted(files),
+   ["filings.json", "managers.json", "meta.json", "quarters/2026Q1.json", "quarters/2026Q2.json", "sectors.json", "stocks.json"])
 meta = files["meta.json"]
 eq("meta names the default and the splits", (meta["defaultQuarter"], meta["splits"]), ("2026Q2", {"2026Q2": [["BBB", 4, "holders"]]}))
 stocks = {s["t"]: s for s in files["stocks.json"]["stocks"]}
@@ -300,6 +300,14 @@ else:
     eq("the published theme table has no problems", fe.table_problems(table), [])
     missing = sorted({t for th in table["themes"].values() for t in th.get("tickers", [])} - {fe.norm_ticker(t) for t in stock_rows})
     eq("every ticker a bespoke theme publishes is a symbol in the Explorer", missing, [])
+    fl = json.loads((EXP / "filings.json").read_text())
+    hist = ROOT / "data" / "funds" / "history"
+    for mid in ("citadel-advisors", "neuberger-berman-group"):
+        idx = json.loads((hist / mid / "index.json").read_text())
+        want = {q["quarter"]: [q.get("aumK"), q.get("filed"), q.get("periodOfReport"), q.get("filingUrl")] for q in idx["quarters"]}
+        eq(f"filings.json carries {mid}'s every quarter as its history index states it", fl["managers"].get(mid), want)
+    size = (EXP / "filings.json").stat().st_size
+    check(f"filings.json stays under 1.5 MB, inside the data cache's entry limit ({size / 1e6:.2f} MB)", size < 1_500_000)
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)

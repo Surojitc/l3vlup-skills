@@ -298,6 +298,17 @@ export const CONTRACTS = {
         optional: true,
       },
       {
+        // Every manager's quarters in one read for the stock pages: 13F value,
+        // filing date, period end and filing link (scripts/funds_explorer.py).
+        path: 'data/funds/explorer/filings.json', freshness: { cadence: 'manual', from: 'generatedAt' },
+        label: 'the 13F Explorer\'s filings by manager',
+        keyed: 'managers',
+        min: 10,
+        neverShrinks: true,
+        stamp: 'generatedAt',
+        optional: true,
+      },
+      {
         path: 'data/funds/explorer/managers.json', freshness: { cadence: 'manual', from: 'generatedAt' },
         label: 'the 13F Explorer\'s manager rows',
         rows: 'managers',
