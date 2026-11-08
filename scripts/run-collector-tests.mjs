@@ -22,6 +22,7 @@
  */
 
 import { spawnSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 
 export const SUITES = [
   'deadline-extract',
@@ -59,12 +60,21 @@ export const SUITES = [
   'collector-tests',
   'precedent-transactions',
   'precedent-seed',
+  // A Python suite: a name with no .test.mjs beside it runs as .test.py.
+  'funds-explorer',
 ];
+
+/** The file a suite name runs, and with what: .test.mjs under node, else .test.py under python3. */
+function suiteCommand(name) {
+  const mjs = `scripts/__tests__/${name}.test.mjs`;
+  if (existsSync(mjs)) return [process.execPath, [mjs]];
+  return ['python3', [`scripts/__tests__/${name}.test.py`]];
+}
 
 const failed = [];
 for (const name of SUITES) {
-  const file = `scripts/__tests__/${name}.test.mjs`;
-  const run = spawnSync(process.execPath, [file], { encoding: 'utf8' });
+  const [cmd, args] = suiteCommand(name);
+  const run = spawnSync(cmd, args, { encoding: 'utf8' });
   const out = `${run.stdout ?? ''}${run.stderr ?? ''}`;
   if (run.status === 0) {
     console.log(`ok    ${name}`);
