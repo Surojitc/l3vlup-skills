@@ -140,6 +140,7 @@ const workflows = files.map(readWorkflow);
 eq('every workflow in the directory is read', files, [
   'build-samples.yml',
   'collect.yml',
+  'data-health.yml',
   'discover-ats.yml',
   'fx-rates.yml',
   'letters-discover.yml',
@@ -160,6 +161,7 @@ eq('every job is found, and none has been renamed out from under this test', all
   'collect.yml:health',
   'collect.yml:notify',
   'collect.yml:publish',
+  'data-health.yml:check',
   'discover-ats.yml:discover',
   'discover-ats.yml:publish',
   'fx-rates.yml:collect',

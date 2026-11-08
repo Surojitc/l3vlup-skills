@@ -1250,7 +1250,20 @@ export function contractProblems(producer, { staged, read, readPrev, existedBefo
 
   const stats = [];
   for (const spec of contract.files) {
-    if (spec.pattern) continue; // a family of files; membership is the whole check
+    if (spec.pattern && (spec.binary || spec.shapeOnly)) continue; // membership is the whole check
+    if (spec.pattern) {
+      // A family of files, judged file by file: each staged member against
+      // its own copy on main. This was `continue` until November 2026, so
+      // the rules written on these entries (a history only ever grows) were
+      // never applied; on 1 November a manager's history lost seven quarters
+      // and the gate passed it. A member new to main has nothing to shrink
+      // from, and fileProblems says so by itself.
+      for (const path of staged.filter((p) => spec.pattern.test(p))) {
+        const verdict = fileProblems({ ...spec, path, label: `${spec.label} (${path})`, optional: false }, read(path), readPrev(path), now);
+        problems.push(...verdict.problems);
+      }
+      continue;
+    }
     const isStaged = staged.includes(spec.path);
     if (!isStaged && spec.optional) continue;
     if (!isStaged && !spec.optional) {

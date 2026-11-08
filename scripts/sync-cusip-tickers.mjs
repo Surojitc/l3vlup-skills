@@ -20,7 +20,8 @@
 // mapping only moves when a ticker changes, so a monthly refresh is ample and a
 // stale file is still a correct file.
 
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { mergeTickers } from '../lib/cusip-tickers.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inflateRawSync } from 'node:zlib';
@@ -181,14 +182,24 @@ async function main() {
     console.log(`  ${period}: ${rows.toLocaleString()} rows`);
   }
 
+  // Over what is already known, never instead of it (lib/cusip-tickers.mjs).
+  let previous = null;
+  try {
+    previous = JSON.parse(readFileSync(join(ROOT, 'data', 'cusip-tickers.auto.json'), 'utf8'));
+  } catch {
+    previous = null;
+  }
+  const merged = mergeTickers(previous, { tickers, funds });
+  console.log(`kept ${merged.kept.toLocaleString()} CUSIPs this window no longer lists`);
+
   const out = {
     generatedAt: new Date().toISOString(),
     source: 'SEC fails-to-deliver data (FOIA), https://www.sec.gov/data/foiadocsfailsdatahtm',
     periods: periods.reverse(),
-    count: Object.keys(tickers).length,
+    count: Object.keys(merged.tickers).length,
     // Sorted so a refresh that changes nothing produces no diff.
-    tickers: Object.fromEntries(Object.entries(tickers).sort(([a], [b]) => a.localeCompare(b))),
-    funds: [...funds].sort(),
+    tickers: Object.fromEntries(Object.entries(merged.tickers).sort(([a], [b]) => a.localeCompare(b))),
+    funds: [...merged.funds].sort(),
   };
 
   mkdirSync(join(ROOT, 'data'), { recursive: true });

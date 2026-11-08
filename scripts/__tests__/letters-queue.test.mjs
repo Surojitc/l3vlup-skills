@@ -33,6 +33,7 @@ import {
   QUEUE_CLASSES,
   accessionFromUrl,
   buildQueue,
+  decisionIndex,
   canonicalUrl,
   catalogueKeys,
   classifyCandidate,
@@ -278,7 +279,8 @@ test('the committed keys and queue: nothing queued that the catalogue holds, not
   const idx = keyIndex(keys.keys);
   for (const e of q.entries) {
     assert.equal(findDuplicate(e, idx), null, `${e.accession} is already in the catalogue`);
-    assert.equal(e.status, 'review');
+    assert.ok(['review', 'rejected'].includes(e.status), `${e.accession} has status ${e.status}`);
+    if (e.status === 'rejected') assert.ok(e.decisionReason, `${e.accession} is rejected with no reason`);
     assert.ok(QUEUE_CLASSES.includes(e.classification));
     assert.equal(e.skeleton.publishable, false);
     assert.equal(e.skeleton.why, null);
@@ -296,6 +298,23 @@ test('the weekly workflow runs the queue, keeps it as an artifact, and can only 
   assert.match(wf, /data\/letters\.review-queue\.json/);
   assert.ok(!/:\s*write\b/.test(wf), 'no write permission anywhere in the file');
   assert.ok(!/git (push|commit)|gh pr|pull-requests/.test(wf), 'it neither commits nor opens a pull request');
+});
+
+test('a decision travels with its filing: rejected stays rejected, with its reason', () => {
+  const src = { id: 's', fund: 'f', manager: 'M', forms: ['DFAN14A'] };
+  const c = (accession) => ({ accession, fund: 'f', sourceId: 's', form: 'DFAN14A', filingDate: '2025-05-01', indexUrl: `https://www.sec.gov/Archives/edgar/data/1/${accession}-index.htm` });
+  const decisions = decisionIndex({ decisions: [
+    { accession: 'A-1', decision: 'rejected', reason: 'a press release, not a letter', decidedOn: '2026-11-08' },
+    { accession: 'A-3', decision: 'published', reason: 'not a queue state' },
+  ] });
+  const q = buildQueue({ candidates: [c('A-1'), c('A-2'), c('A-3')], sourcesById: { s: src }, keys: [], decisions });
+  const by = Object.fromEntries(q.entries.map((e) => [e.accession, e]));
+  assert.equal(by['A-1'].status, 'rejected');
+  assert.equal(by['A-1'].decisionReason, 'a press release, not a letter');
+  assert.equal(by['A-2'].status, 'review');
+  assert.equal(by['A-3'].status, 'review', 'only rejected and review are queue decisions; publication is the catalogue');
+  assert.equal(q.counts.rejected, 1);
+  assert.equal(q.counts.toReview, 2);
 });
 
 console.log(`${passed} passed`);

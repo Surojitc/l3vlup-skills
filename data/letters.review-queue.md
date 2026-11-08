@@ -1,45 +1,17 @@
 # Letters review queue
 
-Generated 2026-11-07T20:44:20.267Z. 254 filing(s) from 15 approved source(s) in the window since 2024-11-07; 10 already in the site catalogue (published, held or excluded), 244 to review, 0 new since the last queue.
+Generated 2026-11-08T10:43:41.176Z. 253 filing(s) from 15 approved source(s) in the window since 2024-11-08; 19 already in the site catalogue (published, held or excluded), 234 to review, 0 new since the last queue.
 
 Nothing here is published. Each entry is a filing on sec.gov, classified from its form and its documents' labels, never from its text. A record reaches the site only when a person has read the filing, written the title, why and notes from it, and added it to data/letters.catalogue.json in the site repository.
 
 | Class | High | Medium | Low | Total |
 |---|---|---|---|---|
-| Likely investor letters | 13 | 0 | 23 | 36 |
+| Likely investor letters | 5 | 0 | 22 | 27 |
 | Presentations | 0 | 0 | 24 | 24 |
-| Proxy material | 3 | 2 | 11 | 16 |
+| Proxy material | 3 | 2 | 10 | 15 |
 | Other filings | 6 | 72 | 90 | 168 |
 
-## Likely investor letters (36)
-
-### Gabelli Funds, LLC (GAMCO Investors): N-CSRS, filed 2026-09-08
-
-- Confidence: high. Period: 2026H1. Accession 0001829126-26-009842. First seen 2026-11-07.
-- Why: the semi-annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001829126-26-009842](https://www.sec.gov/Archives/edgar/data/794685/000182912626009842/0001829126-26-009842-index.htm)
-- Suggested id: `gamco-gabelli-equity-trust-h1-2026`, contentType manager-letter, containerType sec-n-csr.
-
-### Pershing Square Capital Management, L.P.: N-CSRS, filed 2026-08-21
-
-- Confidence: high. Period: 2026H1. Accession 0001193125-26-360100. First seen 2026-11-07.
-- Why: the semi-annual shareholder report of Pershing Square USA, Ltd.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001193125-26-360100](https://www.sec.gov/Archives/edgar/data/2002660/000119312526360100/0001193125-26-360100-index.htm)
-- Suggested id: `pershing-square-usa-h1-2026`, contentType manager-letter, containerType sec-n-csr.
-
-### First Pacific Advisors, LP: N-CSR, filed 2026-03-09
-
-- Confidence: high. Period: FY2025. Accession 0001104659-26-025066. First seen 2026-11-07.
-- Why: the annual shareholder report of Source Capital, Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001104659-26-025066](https://www.sec.gov/Archives/edgar/data/91847/000110465926025066/0001104659-26-025066-index.htm)
-- Suggested id: `fpa-source-capital-fy2025`, contentType manager-letter, containerType sec-n-csr.
-
-### Gabelli Funds, LLC (GAMCO Investors): N-CSR, filed 2026-03-09
-
-- Confidence: high. Period: FY2025. Accession 0001829126-26-002087. First seen 2026-11-07.
-- Why: the annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001829126-26-002087](https://www.sec.gov/Archives/edgar/data/794685/000182912626002087/0001829126-26-002087-index.htm)
-- Suggested id: `gamco-gabelli-equity-trust-fy2025`, contentType manager-letter, containerType sec-n-csr.
+## Likely investor letters (2)
 
 ### Starboard Value LP on TripAdvisor, Inc.: DFAN14A, filed 2026-02-17
 
@@ -49,94 +21,11 @@ Nothing here is published. Each entry is a filing on sec.gov, classified from it
 - Filing index: [0000921895-26-000436](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000436/0000921895-26-000436-index.htm)
 - Suggested id: `starboard-tripadvisor-2026-02`, contentType activist-letter, containerType sec-exhibit.
 
-### Starboard Value LP on TripAdvisor, Inc.: SCHEDULE 13D/A, filed 2026-02-17
-
-- Confidence: high. Period: 2026-02-17. Accession 0000921895-26-000479. First seen 2026-11-07.
-- Why: document 3 (EX-99.1, ex991to13da106297373_021726.pdf) is labelled "LETTER TO THE ISSUER, DATED FEBRUARY 17, 2026".
-- Open first: [ex991to13da106297373_021726.pdf](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000479/ex991to13da106297373_021726.pdf)
-- Filing index: [0000921895-26-000479](https://www.sec.gov/Archives/edgar/data/1517137/000092189526000479/0000921895-26-000479-index.htm)
-- Suggested id: `starboard-tripadvisor-2026-02-2`, contentType activist-letter, containerType sec-exhibit.
-- Probably the same document as 0000921895-26-000436 (same subject, label and size).
-
-### First Pacific Advisors, LP: N-CSRS, filed 2025-09-08
-
-- Confidence: high. Period: 2025H1. Accession 0001104659-25-088151. First seen 2026-11-07.
-- Why: the semi-annual shareholder report of Source Capital, Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001104659-25-088151](https://www.sec.gov/Archives/edgar/data/91847/000110465925088151/0001104659-25-088151-index.htm)
-- Suggested id: `fpa-source-capital-h1-2025`, contentType manager-letter, containerType sec-n-csr.
-
-### Gabelli Funds, LLC (GAMCO Investors): N-CSRS, filed 2025-09-04
-
-- Confidence: high. Period: 2025H1. Accession 0001829126-25-007142. First seen 2026-11-07.
-- Why: the semi-annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001829126-25-007142](https://www.sec.gov/Archives/edgar/data/794685/000182912625007142/0001829126-25-007142-index.htm)
-- Suggested id: `gamco-gabelli-equity-trust-h1-2025`, contentType manager-letter, containerType sec-n-csr.
-
-### Starboard Value LP on Autodesk, Inc.: DFAN14A, filed 2025-03-26
-
-- Confidence: high. Period: 2025-03-26. Accession 0000921895-25-000885. First seen 2026-11-07.
-- Why: document 2 (DFAN14A, ex1dfan14a06297347_032625.pdf) is labelled "LETTER TO STOCKHOLDERS".
-- Open first: [ex1dfan14a06297347_032625.pdf](https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/ex1dfan14a06297347_032625.pdf)
-- Filing index: [0000921895-25-000885](https://www.sec.gov/Archives/edgar/data/769397/000092189525000885/0000921895-25-000885-index.htm)
-- Suggested id: `starboard-autodesk-2025-03-2`, contentType activist-letter, containerType sec-exhibit.
-
-### Gabelli Funds, LLC (GAMCO Investors): N-CSR, filed 2025-03-10
-
-- Confidence: high. Period: FY2024. Accession 0001829126-25-001654. First seen 2026-11-07.
-- Why: the annual shareholder report of The Gabelli Equity Trust Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001829126-25-001654](https://www.sec.gov/Archives/edgar/data/794685/000182912625001654/0001829126-25-001654-index.htm)
-- Suggested id: `gamco-gabelli-equity-trust-fy2024`, contentType manager-letter, containerType sec-n-csr.
-
-### First Pacific Advisors, LP: N-CSR, filed 2025-03-07
-
-- Confidence: high. Period: FY2024. Accession 0001104659-25-021647. First seen 2026-11-07.
-- Why: the annual shareholder report of Source Capital, Inc.; this registrant's report was checked to carry the manager's letter (2026-11-07).
-- Filing index: [0001104659-25-021647](https://www.sec.gov/Archives/edgar/data/91847/000110465925021647/0001104659-25-021647-index.htm)
-- Suggested id: `fpa-source-capital-fy2024`, contentType manager-letter, containerType sec-n-csr.
-
-### JANA Partners Management, LP on Lamb Weston Holdings, Inc.: SCHEDULE 13D/A, filed 2025-01-28
-
-- Confidence: high. Period: 2025-01-28. Accession 0000902664-25-000527. First seen 2026-11-07.
-- Why: document 2 (EX-99.4, p25-0311exhibit99_4.htm) is labelled "JANUARY 27, 2025 LETTER".
-- Open first: [p25-0311exhibit99_4.htm](https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/p25-0311exhibit99_4.htm)
-- Filing index: [0000902664-25-000527](https://www.sec.gov/Archives/edgar/data/1679273/000090266425000527/0000902664-25-000527-index.htm)
-- Suggested id: `jana-lamb-weston-2025-01`, contentType activist-letter, containerType sec-exhibit.
-
-### JANA Partners Management, LP on Lamb Weston Holdings, Inc.: SCHEDULE 13D/A, filed 2024-12-18
-
-- Confidence: high. Period: 2024-12-18. Accession 0000902664-24-006945. First seen 2026-11-07.
-- Why: document 2 (EX-99.3, p24-3516exhibit99_3.htm) is labelled "DECEMBER 16 LETTER".
-- Open first: [p24-3516exhibit99_3.htm](https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/p24-3516exhibit99_3.htm)
-- Filing index: [0000902664-24-006945](https://www.sec.gov/Archives/edgar/data/1679273/000090266424006945/0000902664-24-006945-index.htm)
-- Suggested id: `jana-lamb-weston-2024-12`, contentType activist-letter, containerType sec-exhibit.
-
-Low confidence (23): an unlabelled exhibit, judged by its size alone. Open before deciding.
+Low confidence (1): an unlabelled exhibit, judged by its size alone. Open before deciding.
 
 | Manager | Subject | Form | Filed | Exhibit | Size | Filing |
 |---|---|---|---|---|---|---|
-| Engaged Capital LLC | BLACKLINE, INC. | DFAN14A | 2026-01-27 | [ex1todfan14a09455064_012726.pdf](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000147/ex1todfan14a09455064_012726.pdf) | 74909 | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189526000147/0000921895-26-000147-index.htm) |
-| Third Point LLC | Soho House & Co Inc. | SCHEDULE 13D/A | 2025-08-20 | [ck0000000000-ex99_1.pdf](https://www.sec.gov/Archives/edgar/data/1040273/000095017025110438/ck0000000000-ex99_1.pdf) | 65613 | [index](https://www.sec.gov/Archives/edgar/data/1040273/000095017025110438/0000950170-25-110438-index.htm) |
 | Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-20 | [ex991dfan14a10168303_052025.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001599/ex991dfan14a10168303_052025.pdf) | 1573278 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001599/0000921895-25-001599-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-19 | [ex991todfan10168303_051925.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001588/ex991todfan10168303_051925.pdf) | 1414756 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001588/0000921895-25-001588-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-14 | [ex991dfan14a10168303_051425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001478/ex991dfan14a10168303_051425.pdf) | 1204182 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001478/0000921895-25-001478-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-13 | [ex991todfan10168303_051325.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001439/ex991todfan10168303_051325.pdf) | 1263506 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001439/0000921895-25-001439-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-07 | [ex991dfan14a10168303_050725.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001321/ex991dfan14a10168303_050725.pdf) | 1176344 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001321/0000921895-25-001321-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-05 | [ex991todfan10168303_05052025.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001283/ex991todfan10168303_05052025.pdf) | 1559609 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001283/0000921895-25-001283-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-05-01 | [ex991todfan10168303_050125.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001236/ex991todfan10168303_050125.pdf) | 342394 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001236/0000921895-25-001236-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-29 | [ex991todfan10168303_042925.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001207/ex991todfan10168303_042925.pdf) | 1660847 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001207/0000921895-25-001207-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-25 | [ex991dfan14a10168303_042525.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001167/ex991dfan14a10168303_042525.pdf) | 1856440 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001167/0000921895-25-001167-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-24 | [ex991dfan14a10168303_042425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001153/ex991dfan14a10168303_042425.pdf) | 1771247 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001153/0000921895-25-001153-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-23 | [ex991dfan14a10168303_042325.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001146/ex991dfan14a10168303_042325.pdf) | 1067737 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001146/0000921895-25-001146-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-21 | [ex991dfan14a10168303_042125.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001131/ex991dfan14a10168303_042125.pdf) | 1609530 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001131/0000921895-25-001131-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-04 | [ex991todfan10168303_040425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000986/ex991todfan10168303_040425.pdf) | 1417454 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000986/0000921895-25-000986-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-04-03 | [ex991dfan14a10168303_040325.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/ex991dfan14a10168303_040325.pdf) | 1735167 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000976/0000921895-25-000976-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-28 | [ex991dfan14a10168303_032825.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000913/ex991dfan14a10168303_032825.pdf) | 358481 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000913/0000921895-25-000913-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-27 | [ex991to10168303_032725.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000899/ex991to10168303_032725.pdf) | 1526776 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000899/0000921895-25-000899-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-26 | [ex991todfan10168303_032625.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000887/ex991todfan10168303_032625.pdf) | 349679 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000887/0000921895-25-000887-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-25 | [ex991dfan14a10168303_032525.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000878/ex991dfan14a10168303_032525.pdf) | 1172375 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000878/0000921895-25-000878-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-24 | [ex991dfan14a10168303_032425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000868/ex991dfan14a10168303_032425.pdf) | 1215625 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000868/0000921895-25-000868-index.htm) |
-| Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-21 | [ex991todfan10168303_032125.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000852/ex991todfan10168303_032125.pdf) | 621964 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000852/0000921895-25-000852-index.htm) |
-| Third Point LLC | Soho House & Co Inc. | SCHEDULE 13D | 2025-01-29 | [ck0001669811-ex99_4.pdf](https://www.sec.gov/Archives/edgar/data/1040273/000095017025010206/ck0001669811-ex99_4.pdf) | 187264 | [index](https://www.sec.gov/Archives/edgar/data/1040273/000095017025010206/0000950170-25-010206-index.htm) |
 
 ## Presentations (24)
 
@@ -169,7 +58,7 @@ Low confidence (24): an unlabelled exhibit, judged by its size alone. Open befor
 | Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-06 | [ex991todfan10168303_030625.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000701/ex991todfan10168303_030625.pdf) | 7034999 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000701/0000921895-25-000701-index.htm) |
 | Elliott Investment Management L.P. | Phillips 66 | DFAN14A | 2025-03-04 | [ex991todfan10168003_030425.pdf](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000692/ex991todfan10168003_030425.pdf) | 9794322 | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525000692/0000921895-25-000692-index.htm) |
 
-## Proxy material (16)
+## Proxy material (15)
 
 | Manager | Form | Filed | Confidence | Why | Filing |
 |---|---|---|---|---|---|
@@ -188,7 +77,6 @@ Low confidence (24): an unlabelled exhibit, judged by its size alone. Open befor
 | Elliott Investment Management L.P. | DFAN14A | 2025-04-09 | low | document 1 (DFAN14A, dfan14a10168303_04092025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1534701/000092189525001045/0000921895-25-001045-index.htm) |
 | Engaged Capital LLC | DFAN14A | 2025-03-03 | low | document 1 (DFAN14A, dfan14a09455058_03032025.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1559771/000092189525000670/0000921895-25-000670-index.htm) |
 | Starboard Value LP | DFAN14A | 2024-11-08 | low | document 1 (DFAN14A, dfan14a06297361_11082024.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189524002526/0000921895-24-002526-index.htm) |
-| Starboard Value LP | DFAN14A | 2024-11-07 | low | document 1 (DFAN14A, dfan14a06297361_11072024.htm) is unlabelled | [index](https://www.sec.gov/Archives/edgar/data/1517137/000092189524002508/0000921895-24-002508-index.htm) |
 
 ## Other filings (168)
 
@@ -363,17 +251,26 @@ Low confidence (24): an unlabelled exhibit, judged by its size alone. Open befor
 | Carl C. Icahn | SCHEDULE 13D/A | 2024-12-20 | low | document 2 (EX-99.9, tm2431767d1_ex9.htm) is labelled "EXHIBIT 99.9" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465924130957/0001104659-24-130957-index.htm) |
 | Carl C. Icahn | SC 13D/A | 2024-11-08 | low | document 2 (EX-99.2, tm2427894d1_ex2.htm) is labelled "EXHIBIT 2" | [index](https://www.sec.gov/Archives/edgar/data/921669/000110465924115938/0001104659-24-115938-index.htm) |
 
-## Already in the catalogue (10)
+## Already in the catalogue (19)
 
 | Fund | Form | Filed | Accession | Catalogue record | Status | Matched by |
 |---|---|---|---|---|---|---|
 | fpa | N-CSRS | 2026-09-08 | 0001104659-26-105793 | source-capital-h1-2026-letter | published | accession |
 | southeastern | N-CSRS | 2026-09-04 | 0001580642-26-006087 | longleaf-partners-h1-2026 | published | accession |
+| pershing-square | N-CSRS | 2026-08-21 | 0001193125-26-360100 | pershing-square-usa-h1-2026 | published | accession |
 | starboard-value | DFAN14A | 2026-03-11 | 0000921895-26-000666 | starboard-carmax-2026-03 | published | accession |
+| gamco | N-CSR | 2026-03-09 | 0001829126-26-002087 | gamco-gabelli-equity-trust-fy2025 | published | accession |
+| fpa | N-CSR | 2026-03-09 | 0001104659-26-025066 | fpa-source-capital-fy2025 | published | accession |
 | ruane-cunniff | N-CSR | 2026-02-26 | 0001193125-26-074946 | ruane-sequoia-fy2025 | published | accession |
+| fpa | N-CSRS | 2025-09-08 | 0001104659-25-088151 | fpa-source-capital-h1-2025 | published | accession |
 | harris-associates | N-CSRS | 2025-05-29 | 0001104659-25-054127 | oakmark-fund-h1-fy2025 | published | accession |
 | elliott | DFAN14A | 2025-04-09 | 0000921895-25-001028 | elliott-phillips66-2025-04 | published | accession |
+| elliott | DFAN14A | 2025-04-03 | 0000921895-25-000976 | elliott-phillips66-2025-04-03 | published | accession |
+| starboard-value | DFAN14A | 2025-03-26 | 0000921895-25-000885 | starboard-autodesk-2025-03-26 | published | accession |
 | starboard-value | DFAN14A | 2025-03-19 | 0000921895-25-000816 | starboard-autodesk-2025-03 | published | accession |
 | southeastern | N-CSR | 2025-03-11 | 0001580642-25-001664 | longleaf-partners-fy2024 | published | accession |
+| fpa | N-CSR | 2025-03-07 | 0001104659-25-021647 | fpa-source-capital-fy2024 | published | accession |
 | ruane-cunniff | N-CSR | 2025-03-04 | 0001193125-25-045012 | ruane-sequoia-fy2024 | published | accession |
+| jana | SCHEDULE 13D/A | 2025-01-28 | 0000902664-25-000527 | jana-lamb-weston-2025-01 | published | accession |
+| jana | SCHEDULE 13D/A | 2024-12-18 | 0000902664-24-006945 | jana-lamb-weston-2024-12 | published | accession |
 | harris-associates | N-CSR | 2024-12-04 | 0001104659-24-125538 | oakmark-fund-fy2024 | published | accession |

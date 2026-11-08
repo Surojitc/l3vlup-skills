@@ -1,0 +1,51 @@
+name: Data health
+
+# Once a day, from outside every collector: is what main holds fresh, and is
+# the live site serving it? A collector checks itself inside its own run; on
+# 1 November 2026 one did three hours of work, published nothing, and the
+# site went on showing October's 13F books with nothing outside that run to
+# say so. This run fails, and GitHub tells the owner, when:
+#
+#   - any producer's source is stale, or a 13F source is degraded;
+#   - the live 13F pages serve a collection older than main's, six hours
+#     after main's copy landed.
+#
+# Read-only. It reads main and one public page, and writes only its summary.
+# The checks are scripts/data-health.mjs and lib/data-health.mjs.
+
+on:
+  schedule:
+    # Late afternoon UTC, after the morning collections have published even
+    # on the days GitHub runs them hours late.
+    - cron: '41 17 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: data-health
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check freshness and what is live
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      # Full history is not needed, but the commit of each data file is: the
+      # freshness rules read when a stampless file last landed.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: main
+          fetch-depth: 200
+          persist-credentials: false
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+
+      - name: Check
+        run: node scripts/data-health.mjs --summary "$GITHUB_STEP_SUMMARY"

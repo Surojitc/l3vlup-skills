@@ -849,14 +849,33 @@ def latest_due_period(today: str) -> str:
     return max(due).isoformat()
 
 
-def filer_status(latest_period: str, notices: list[dict], today: str) -> dict:
+#: Why a manager stopped filing, as an editor established it from EDGAR.
+#:   below-threshold  the filer's own last filings show its book under the $100m
+#:                    line and a final report for the last quarter it owed
+#:   ceased           no 13F-HR or 13F-NT for any quarter since, from the filer,
+#:                    the managers it included or any new filer; EDGAR does not
+#:                    say why (a deregistration or a return of capital is not an
+#:                    EDGAR filing), so the text says only what the filings show
+STOP_REASONS = ("below-threshold", "ceased")
+
+
+def filer_status(latest_period: str, notices: list[dict], today: str,
+                 stopped: dict | None = None) -> dict:
     """
     Whether the latest holdings report is the latest the manager owes.
 
       current   the manager has reported every quarter now due
       notice    a 13F-NT for a later quarter says another filer reports its
                 holdings; `reportedBy` names that filer when the notice does
+      stopped   an editor has established from EDGAR that the manager stopped
+                filing 13Fs (the entry's `stopped`): `period` is the first
+                quarter it did not report, with the reason, text and evidence
       overdue   a later quarter is due and nothing at all has been filed for it
+
+    `stopped` only ever replaces `overdue`. It counts while nothing has been
+    reported for its `since` quarter or later and that quarter is due; a later
+    report or notice wins, so a manager that files again reads as it files and
+    the stale record is printed for an editor to remove.
 
     Pure: the notice's cover page is read by the caller and passed in on the
     notice as `reportedBy`. The site reads this to date a page honestly instead
@@ -870,9 +889,33 @@ def filer_status(latest_period: str, notices: list[dict], today: str) -> dict:
         if n.get("reportedBy"):
             out["reportedBy"] = n["reportedBy"]
         return out
+    if stopped and latest_period < stopped["since"] <= due:
+        out = {"status": "stopped", "period": quarter_of(stopped["since"]), "reason": stopped["reason"]}
+        for k in ("text", "evidence"):
+            if stopped.get(k):
+                out[k] = stopped[k]
+        return out
     if latest_period < due:
         return {"status": "overdue", "period": quarter_of(due)}
     return {"status": "current"}
+
+
+def stopped_problems(entry: dict) -> list[str]:
+    """What is wrong with an entry's `stopped` record: a missing or malformed part."""
+    st = entry.get("stopped")
+    if not st:
+        return []
+    name = entry.get("name")
+    out = []
+    if not re.fullmatch(r"\d{4}-(03-31|06-30|09-30|12-31)", str(st.get("since", ""))):
+        out.append(f"{name}: stopped.since must be a quarter end, YYYY-MM-DD")
+    if st.get("reason") not in STOP_REASONS:
+        out.append(f"{name}: stopped.reason must be one of {', '.join(STOP_REASONS)}")
+    if not st.get("text"):
+        out.append(f"{name}: stopped needs a text")
+    if not str(st.get("evidence", "")).startswith("https://www.sec.gov/"):
+        out.append(f"{name}: stopped.evidence must be a filing on www.sec.gov")
+    return out
 
 
 # ── one manager, several filers over time ────────────────────────────────────
@@ -1239,10 +1282,16 @@ def build_manager(entry: dict, cik: str, sub: dict, quarters: int, *, use_cache:
                 other = {}
             if other:
                 n["reportedBy"] = other
+    stopped = entry.get("stopped")
     status = filer_status(
         latest["periodOfReport"], notices,
         today or datetime.now(timezone.utc).date().isoformat(),
+        stopped=stopped,
     )
+    if stopped and latest["periodOfReport"] >= stopped["since"]:
+        stats["notCurrent"].append(
+            f"{entry.get('name') or cik}: reported {latest['quarter']} after its `stopped` record "
+            f"(since {stopped['since']}); remove `stopped` from the universe entry")
     if status["status"] != "current":
         stats["notCurrent"].append(f"{entry.get('name') or cik}: {status['status']} {status.get('period', '')}")
 
@@ -1392,11 +1441,11 @@ def main() -> None:
         want = args.manager.zfill(10)
         managers = [m for m in managers if want in {f["cik"] for f in entry_filers(m)}]
 
-    problems = [msg for m in managers for msg in filer_problems(m)]
+    problems = [msg for m in managers for msg in filer_problems(m) + stopped_problems(m)]
     if problems:
         for msg in problems:
             print(f"universe: {msg}")
-        raise SystemExit("the universe's filer windows are inconsistent; fix data/funds.universe.json")
+        raise SystemExit("the universe's filer windows or stop records are inconsistent; fix data/funds.universe.json")
     if args.limit:
         managers = managers[: args.limit]
 

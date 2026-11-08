@@ -60,6 +60,7 @@ const FETCHES_NOTHING_EXTERNAL = {
  */
 const OUTBOUND_OR_PROCESSOR_ONLY = {
   'scripts/daily-post.mjs': 'posts the day\'s own data to Discord, Slack, Telegram, Bluesky and X; reads only committed files',
+  'scripts/data-health.mjs': 'reads one public page of L3VLUP\'s own site to compare with main; collects no data',
   'scripts/thesis-auth-check.mjs': 'asks the Anthropic Models API to accept the federated identity; a processor, collects no data',
 };
 

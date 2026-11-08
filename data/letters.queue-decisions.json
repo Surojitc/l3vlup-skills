@@ -1,0 +1,194 @@
+{
+  "_comment": "Decisions on filings in the letters review queue, carried into every later queue by scripts/letters-queue.mjs. rejected: read and found not to be a letter (or a repeat, or too thin), with the reason. review: a genuine letter a person must finish (no readable text, or too thin to ground). A published filing is not listed: it leaves the queue because the catalogue holds it.",
+  "decisions": [
+    {
+      "accession": "0000921895-25-000852",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 21 March 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-000868",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a mailed campaign flyer of 24 March 2025 (a short \"Dear Phillips 66 Shareholder\" mailer with a price chart and vote-the-gold-card call), plus social media posts, programmatic advertisements and Streamline66 website materials.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-000878",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a press release of 25 March 2025 announcing Elliott's Delaware Chancery Court complaint over the number of board seats up for election; Exhibit 99.1 is image-only website material.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-000887",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 26 March 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-000899",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: social media posts, an email to stockholders and Streamline66 website materials of 27 March 2025; Exhibit 99.1 is image-only, so even the email cannot be read or checked.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-000913",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a mailed campaign flyer of 28 March 2025 (\"A Shocking Lack of Ambition\") built from analyst and investor quotations, not a letter setting out an argument.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-000986",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a campaign email to stockholders of 4 April 2025, filed as an image-only Exhibit 99.1 with no readable text, following the 3 April letter.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001131",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 21 April 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001146",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a short statement emailed to The Deal on 23 April 2025 about the annual-election proposal, plus image-only social media posts in Exhibit 99.1.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001153",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 24 April 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001167",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 25 April 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001207",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a press release of 29 April 2025 announcing Elliott's investor presentation (\"Streamline 66: Elliott's Perspectives on Value Creation\"); Exhibit 99.1 is image-only social media and website material.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001236",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 1 May 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001283",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: the transcript of Elliott's \"How to Vote\" YouTube video (voting instructions) of 5 May 2025, plus social media posts and website materials.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001321",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 7 May 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001439",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a press release of 12 May 2025 on the ISS recommendation, a presentation given via Glass Lewis, and social media and website materials; Exhibit 99.1 is image-only.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001478",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is social media posts of 14 May 2025, image-only campaign material for the Phillips 66 proxy contest with no text layer; the cover document carries only boilerplate.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001588",
+      "fund": "elliott",
+      "decision": "rejected",
+      "reason": "Not a letter: a campaign email of 19 May 2025 to Streamline66.com subscribers compiling quotations from the ISS and Glass Lewis reports, plus image-only social media posts.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-25-001599",
+      "fund": "elliott",
+      "decision": "review",
+      "reason": "The only other genuine Elliott-campaign letter: the four nominees' (Coffman, Cornelius, Heim, Nieuwoudt) closing letter to Phillips 66 shareholders of 20 May 2025, reproduced in the press release in the DFAN14A cover document, not in the queued Exhibit 99.1 (social media posts and website materials, image-only). Distinct, but short and thin (about 500 words, no figures, no plan beyond a general call for change), so an editor should decide whether it meets the bar; if published, the source is the cover .htm and four new writers are needed.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-26-000147",
+      "fund": "engaged-capital",
+      "decision": "rejected",
+      "reason": "Not written by the manager: Exhibit 1 is a reposted third-party opinion column (an Activist Spotlight piece by Kenneth Squire of 13D Monitor about Engaged Capital and BlackLine) posted to SaveBlackLine.com; most of its text is also unreadable (custom font encoding).",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-26-000436",
+      "fund": "starboard-value",
+      "decision": "review",
+      "reason": "Genuine Starboard letter to the Tripadvisor chairman, CEO and board dated 17 February 2026, but the PDF is set in Type 3 fonts with no Unicode mapping, so pdftotext returns no readable text and no note or quote can be checked by script. Leave for a person (OCR or a reading by hand), as the catalogue does for image-only letters.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000921895-26-000479",
+      "fund": "starboard-value",
+      "decision": "rejected",
+      "reason": "Repeat: the Exhibit 99.1 to Starboard's Schedule 13D/A is byte-identical to the letter filed the same day on DFAN14A (0000921895-26-000436). Dedupe to that one record.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000950170-25-010206",
+      "fund": "third-point",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.4 is Schedule A, a table of Third Point's purchases and sales of Soho House common stock.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0000950170-25-110438",
+      "fund": "third-point",
+      "decision": "rejected",
+      "reason": "Not a letter: Exhibit 99.1 is Schedule A, a table of Third Point's purchases and sales of Soho House common stock.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0001829126-25-001654",
+      "fund": "gamco",
+      "decision": "rejected",
+      "reason": "Routine performance attribution: the unsigned section reports each of the four quarters' contributors and detractors with brief price explanations, and has no market view or statement of approach. It is a performance discussion, not a letter.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0001829126-25-007142",
+      "fund": "gamco",
+      "decision": "rejected",
+      "reason": "Routine performance attribution, not the manager's own argument: the unsigned section is a quarter-by-quarter list of contributors and detractors with one-line price explanations, and states no view, method or thesis of the manager's.",
+      "decidedOn": "2026-11-08"
+    },
+    {
+      "accession": "0001829126-26-009842",
+      "fund": "gamco",
+      "decision": "rejected",
+      "reason": "Too thin to be a letter: the unsigned 'To Our Stockholders' section is a returns paragraph, two paragraphs of macro recap (Iran conflict, the new Fed chairman) and two lines naming three contributors and three detractors with no reasoning. Routine report material.",
+      "decidedOn": "2026-11-08"
+    }
+  ]
+}
