@@ -357,6 +357,25 @@ jobs:
           SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
         run: python3 scripts/funds_history.py --budget 1500
 
+      # Every manager's complete 13F information table for the last four
+      # quarters (ending at the Explorer's default quarter, plus any newer one
+      # already filed), under data/funds/books/<id>/<quarter>.json. The
+      # history keeps a quarter to its largest 500 positions, and a position
+      # crossing that line reads as a new position or an exit; the Explorer's
+      # change figures are built from these instead. Same filings, amendments
+      # and reader as the history; a book is read only when its signature
+      # differs from the history's, so between filing seasons this makes no
+      # request at all. The budget is SEC requests, so a cold start spreads
+      # over several runs, and the first 403 or 429 ends the step.
+      - name: 13F complete books
+        id: books
+        if: steps.thirteenf.outputs.due == 'true'
+        continue-on-error: true
+        timeout-minutes: 60
+        env:
+          SEC_USER_AGENT: 'L3VLUP Research (contact: suro@l3vlup.com)'
+        run: python3 scripts/funds_books.py --budget 1200
+
       # The 13F Explorer's precomputed answers under data/funds/explorer:
       # every symbol's latest picture, a cross-section per quarter for the
       # last twelve, sector and theme aggregates and a row per manager, so

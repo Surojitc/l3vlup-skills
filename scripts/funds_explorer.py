@@ -18,6 +18,10 @@ the site repository; every rule below is one of its rules.
 
 What it reads, all local and all already published (no SEC request is made):
 
+- data/funds/books/<id>/<q>.json (complete books for the recent quarters,
+  used only where their signature is the history's) and
+  data/funds/securities.json (when each CUSIP was first listed);
+
 - data/funds/history/<id>/index.json (every manager-quarter's book figures and
   filing) and, for the two quarters a manager row describes, its <year>.json
   (the listed positions);
@@ -44,6 +48,23 @@ The rules it keeps
   listed a symbol in both quarters show the same split factor within 3%, the
   quarter is marked, its added and trimmed counts are not counted as buyers or
   sellers, and netShares is null.
+- Complete books first (round two). For the recent quarters
+  scripts/funds_books.py keeps every manager's whole information table under
+  data/funds/books. A comparable manager with a book for the quarter and the
+  one before is read from them: holders, value, actions (sync_funds.action_for
+  on whole share counts), exits and share changes. Anyone else is read from
+  its listed rows as before. A row is coverage 'complete' only when every
+  comparable manager was read whole, and only then is conviction given.
+- Listing status. A CUSIP first seen in any tracked book in q is a new
+  listing in q; a symbol first seen in q whose CUSIP was held before is new
+  coverage. Neither is ranked as accumulation (`rank: false`), nor is a split.
+- Price consistency. With three or more filers of a security in a quarter, a
+  line whose implied price is more than 5% from the others' median is
+  flagged: it counts in holders and value as filed and is left out of
+  netShares, conviction and split detection.
+- Breadth is buyers - sellers (new + added - trimmed - exited among the
+  comparable managers); conviction is netShares over the prior quarter's
+  comparable shares of the same managers.
 - The default quarter is the newest that at least 75% of the managers on file
   have filed, so a consensus is never read off a handful of early filers.
 - Classification comes from a SIC code or a published ticker list and nothing
@@ -65,6 +86,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from sync_funds import action_for  # noqa: E402  the history's own rule: more shares is added, fewer trimmed
 
 SCHEMA = 1
 WINDOW = 12             # quarters with a cross-section file, newest first
@@ -76,7 +99,11 @@ SPLIT_MIN_HOLDERS = 2   # one manager doubling a position is a trade, not a spli
 SPLIT_FACTORS = (2, 3, 4, 5, 10, 20)
 PRICE_FACTORS = (2, 3, 4, 5, 6, 8, 10, 15, 20, 25, 50)  # forward splits the price test looks for
 PRICE_MIN = 5            # holders in both quarters before the price test is tried
+AGG_MIN = 10             # holders in both quarters before the aggregate test is tried
+PRICE_FLAG = 0.05        # a line more than 5% from the others' median implied price
+PRICE_FLAG_MIN = 3       # priced lines in the quarter before any is flagged
 TOP_THEMES = 3
+ACTION_CODE = {"new": "n", "added": "a", "trimmed": "t", "held": "h"}
 RIGHTS = ("PUT", "CALL")
 TICKER_FILE = re.compile(r"^[A-Z0-9][A-Z0-9.\-]{0,9}$")
 QUARTER = re.compile(r"^\d{4}Q[1-4]$")
@@ -297,17 +324,110 @@ def split_test(pairs: list[tuple]) -> tuple[float, str] | None:
         if (abs(math.log(ratio / f)) <= math.log(1.15) and near >= 0.15
                 and abs(math.log(price / f)) <= math.log(band)):
             return float(f), "price"
+    if len(pairs) >= AGG_MIN:
+        # "aggregate": the holders' summed shares. Trading nets out across
+        # thirty managers far better than it does in any one median: on the
+        # complete books KLA (2026Q2) had summed shares x9.99 and Booking
+        # x24.1, while the median ratio (10.1, 21.6) sat between factors and
+        # KLA's price fell only 4.9-fold because the stock doubled through
+        # its ten-for-one. So, with at least AGG_MIN holders in both
+        # quarters: the summed-share ratio within 5% of a forward factor of
+        # three or more, the median ratio within 25% of it, at least 15% of
+        # holders within 10% of it, and the median price fallen by at least
+        # the factor over 2.5 and at most 1.4 times it. Two-for-one is left
+        # to the other tests: a stock that halved while its holders doubled
+        # down looks the same.
+        ratio = _median([a / b for a, b, _va, _vb in pairs])
+        price = _median([vb / b for _a, b, _va, vb in pairs]) / _median([va / a for a, _b, va, _vb in pairs])
+        total = sum(a for a, _b, _va, _vb in pairs) / sum(b for _a, b, _va, _vb in pairs)
+        f = min(PRICE_FACTORS, key=lambda f: abs(math.log(total / f)))
+        near = sum(1 for a, b, _va, _vb in pairs if abs(math.log(a / b / f)) <= math.log(1.10)) / len(pairs)
+        if (f >= 3 and abs(math.log(total / f)) <= math.log(1.05) and abs(math.log(ratio / f)) <= math.log(1.25)
+                and near >= 0.15 and f / 2.5 <= price <= f * 1.40):
+            return float(f), "aggregate"
     return None
 
 
-def symbol_quarter(doc: dict, q: str, comp: set[str]) -> dict:
+def price_flags(lines: dict[str, tuple[float, float]]) -> set[str]:
+    """
+    The lines whose implied price disagrees with everyone else's (round two, rule 3).
+
+    `lines` is {manager: (valueK, shares)} for every tracked manager holding
+    the security in one quarter. With three or more priced lines, a line whose
+    value over shares is more than PRICE_FLAG from the median of the OTHER
+    lines is flagged. These are the managers' own filed figures (a stale
+    price, a share count in the wrong unit); they are shown as filed and kept
+    out of share arithmetic, never corrected.
+    """
+    priced = sorted(((v / s, m) for m, (v, s) in lines.items() if v and s and v > 0 and s > 0))
+    n = len(priced)
+    if n < PRICE_FLAG_MIN:
+        return set()
+    ps = [p for p, _m in priced]
+    out = set()
+    k = n - 1  # the others
+    for i, (p, m) in enumerate(priced):
+        def at(j: int) -> float:
+            return ps[j] if j < i else ps[j + 1]
+        med = at(k // 2) if k % 2 else (at(k // 2 - 1) + at(k // 2)) / 2
+        if med > 0 and abs(p / med - 1) > PRICE_FLAG:
+            out.add(m)
+    return out
+
+
+def listing_status(q: str, first_cusip: str | None, first_ticker: str | None,
+                   prior_holders: int | None = None, holders: int | None = None) -> str | None:
+    """
+    'new-listing' when the security's CUSIP first appears in any tracked book
+    in q; 'recent-listing' when it first appeared in the quarter before;
+    'new-coverage' when the symbol first appears in q but its CUSIP was
+    held earlier (the CUSIP map learned it, or it was held only as a right or
+    below a listed line); otherwise None. Neither is ranked as accumulation.
+    """
+    if first_cusip == q:
+        return "new-listing"
+    # The quarter after a listing is still a listing's quarter, not a change
+    # of view: a spin-off traded when-issued (Versigent, VGNT, held by three
+    # managers at its first quarter end) or an IPO's first full quarter moves
+    # from a base of a few holders, so its breadth and conviction (254x for
+    # VGNT) measure the listing, not managers turning towards the stock.
+    # Only from a thin base (at most three holders, or a quarter of today's,
+    # the quarter before), so a security first seen in the window's earliest
+    # book because it sat below a listed line before is not called one.
+    if (first_cusip is not None and first_cusip == previous_quarter(q)
+            and prior_holders is not None and holders
+            and prior_holders <= max(3, holders // 4)):
+        return "recent-listing"
+    if first_ticker == q and first_cusip is not None and quarter_key(first_cusip) < quarter_key(q):
+        return "new-coverage"
+    return None
+
+
+def symbol_quarter(doc: dict, q: str, comp: set[str], *, agg: dict | None = None, paired: set[str] | None = None,
+                   whole: set[str] | None = None, flags: dict[str, set[str]] | None = None,
+                   listing: str | None = None) -> dict:
     """
     One symbol's row in quarter q, over the comparable managers `comp` only.
 
-    `doc` is a by-ticker file. Holders, value and shares are the comparable
-    managers listing it in q; the counts are their action codes; exited is
-    the comparable managers whose filing shows they left it in q.
+    `doc` is a by-ticker file: the listed rows. `agg` is {(manager, quarter):
+    {ticker: (shares, valueK)}} from the complete books, and `paired` the
+    comparable managers with a book for both q and the quarter before: for
+    those, holders, value, actions (sf.action_for on whole share counts),
+    exits and share changes come from the books, and every other manager is
+    read from its listed rows as before. `whole` is the comparable managers
+    whose listed rows are their whole book in both quarters. The row is
+    `coverage: 'complete'` only when every comparable manager is paired or
+    whole, so a manager not listing the stock is known not to hold it.
+
+    `flags` is {quarter: managers whose line fails the price test}: they count
+    in holders and value as filed and are left out of netShares, conviction
+    and split detection.
     """
+    agg = agg or {}
+    paired = paired or set()
+    whole = whole or set()
+    flags = flags or {}
+    t = doc["ticker"]
     ids = [m[0] for m in doc.get("managers", [])]
     prior = previous_quarter(q)
 
@@ -315,31 +435,50 @@ def symbol_quarter(doc: dict, q: str, comp: set[str]) -> dict:
         out = {}
         for r in doc.get("quarters", {}).get(qq, []):
             mid = ids[r[0]]
-            if mid in comp:
+            if mid in comp and mid not in paired:
                 out[mid] = (r[1], r[2], r[3] if len(r) > 3 else None)
         return out
 
     cur, before = rows(q), rows(prior)
-    exited = {ids[r[0]] for r in doc.get("exits", {}).get(q, []) if ids[r[0]] in comp}
+    exited = {ids[r[0]] for r in doc.get("exits", {}).get(q, []) if ids[r[0]] in comp and ids[r[0]] not in paired}
+    for m in paired:
+        c = agg.get((m, q), {}).get(t)
+        b = agg.get((m, prior), {}).get(t)
+        if b is not None:
+            before[m] = (b[1], "h", b[0])
+        if c is not None:
+            action = "n" if b is None else ACTION_CODE[action_for(c[0], b[0])]
+            cur[m] = (c[1], action, c[0])
+        elif b is not None:
+            exited.add(m)
+
     counts = {"new": 0, "added": 0, "trimmed": 0, "held": 0}
     code = {"n": "new", "a": "added", "t": "trimmed", "h": "held"}
     for _v, a, _s in cur.values():
         counts[code.get(a, "held")] += 1
 
-    pairs = [(cur[m][2], before[m][2], cur[m][0], before[m][0]) for m in cur if m in before]
+    flagged_now = sorted(m for m in cur if m in flags.get(q, set()))
+    out_of_shares = flags.get(q, set()) | flags.get(prior, set())
+    pairs = [(cur[m][2], before[m][2], cur[m][0], before[m][0]) for m in cur if m in before and m not in out_of_shares]
     found = split_test(pairs)
     split = found[0] if found else None
 
     # Shares bought or sold, summed over the comparable managers, only where
-    # both sides of every change are known from listed rows.
+    # both sides of every change are known: from a book, or from listed rows.
+    # A manager with a flagged line on either side is left out.
     net: float | None = 0
+    prior_shares = 0.0
     for m in comp:
+        if m in out_of_shares:
+            continue
         c, b = cur.get(m), before.get(m)
         if c is None and b is None:
             continue
         if c is not None and c[2] is None or b is not None and b[2] is None:
             net = None
             break
+        if b is not None:
+            prior_shares += b[2]
         if c is not None and b is not None:
             net += c[2] - b[2]
         elif c is not None and c[1] == "n":
@@ -352,10 +491,13 @@ def symbol_quarter(doc: dict, q: str, comp: set[str]) -> dict:
     if split is not None:
         net = None
 
+    complete = bool(comp) and all(m in paired or m in whole for m in comp)
     buyers = counts["new"] + (0 if split is not None else counts["added"])
     sellers = len(exited) + (0 if split is not None else counts["trimmed"])
+    conviction = (round(net / prior_shares, 4) if complete and split is None and net is not None and prior_shares > 0
+                  else None)
     return {
-        "t": doc["ticker"],
+        "t": t,
         "h": len(cur),
         "v": int(sum(v for v, _a, _s in cur.values())),
         "s": int(sum(s or 0 for _v, _a, s in cur.values())),
@@ -366,6 +508,16 @@ def symbol_quarter(doc: dict, q: str, comp: set[str]) -> dict:
         "netShares": None if net is None else int(net),
         "split": split,
         **({"splitTest": found[1]} if found else {}),
+        "coverage": "complete" if complete else "listed",
+        "listing": listing,
+        "priceFlags": len(flagged_now),
+        **({"flagged": flagged_now} if flagged_now else {}),
+        # Positioning, not value: managers that bought less managers that sold,
+        # among those holding it in either quarter (added and trimmed are
+        # already left out of buyers and sellers in a split quarter).
+        "breadth": buyers - sellers,
+        "conviction": conviction,
+        "rank": listing is None and split is None,
         "_holders": sorted(cur),
     }
 
@@ -393,13 +545,77 @@ def manager_weights(holdings: list, tickers: dict[str, str], clf: Classifier) ->
             {k: round(v / total, 4) for k, v in th.items() if round(v / total, 4)})
 
 
+# (ticker, quarter) -> {cusip: managers whose book lists it}, filled by
+# book_aggregates for reissued(): which CUSIP each holder held the symbol under.
+holders_of: dict[tuple[str, str], dict[str, set[str]]] = {}
+
+
+def reissued(t: str, q: str) -> bool:
+    """
+    Whether the symbol was reissued under a new CUSIP in q: a CUSIP held by
+    three or more managers the quarter before is held by none now, and a CUSIP
+    none held then is held now by at least half of the old one's holders.
+    That is a corporate action (a reverse split, a reorganisation, an
+    exchange), and the share counts either side of it are not comparable.
+    DuPont at 2026Q2 (26614N102 to 26614N201, shares a third, price three
+    times) and Honeywell (438516106 to 438516205) are the cases that led the
+    reduction table as selling before this.
+    """
+    before = holders_of.get((t, previous_quarter(q)), {})
+    now = holders_of.get((t, q), {})
+    for old, had in before.items():
+        if len(had) < 3 or old in now:
+            continue
+        for new, has in now.items():
+            if new not in before and len(has & had) >= len(had) / 2:
+                return True
+    return False
+
+
+def book_aggregates(books: dict[tuple[str, str], list], tickers: dict[str, str]) -> tuple[dict, dict, dict]:
+    """
+    The complete books by symbol, the way the by-ticker files group listed rows.
+
+    Returns ({(manager, quarter): {ticker: (shares, valueK)}}, {ticker: {cusips}},
+    {cusip: first quarter in any book}). Puts and calls are left out of the
+    symbol totals, as everywhere; every line counts towards when a CUSIP was
+    first seen.
+    """
+    agg: dict[tuple[str, str], dict[str, tuple[int, int]]] = {}
+    cusips_of: dict[str, set[str]] = {}
+    first: dict[str, str] = {}
+    holders_of.clear()
+    for (m, q), rows in books.items():
+        here: dict[str, list] = {}
+        for cusip, _cls, value_k, shares, put_call in rows:
+            if cusip not in first or quarter_key(q) < quarter_key(first[cusip]):
+                first[cusip] = q
+            if put_call:
+                continue
+            t = tickers.get(cusip)
+            if not t:
+                continue
+            a = here.setdefault(t, [0, 0])
+            a[0] += shares
+            a[1] += value_k
+            cusips_of.setdefault(t, set()).add(cusip)
+            holders_of.setdefault((t, q), {}).setdefault(cusip, set()).add(m)
+        agg[(m, q)] = {t: (a[0], a[1]) for t, a in here.items()}
+    return agg, cusips_of, first
+
+
 def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: dict, table: dict,
-          holdings: dict[tuple[str, str], list] | None = None, now: str | None = None) -> dict[str, dict]:
+          holdings: dict[tuple[str, str], list] | None = None, books: dict[tuple[str, str], list] | None = None,
+          first_seen: dict[str, str] | None = None, now: str | None = None) -> dict[str, dict]:
     """
     Every Explorer file, as {relative path: body}.
 
     `holdings` maps (manager id, quarter) to that quarter's listed positions,
     for the manager rows; only the quarters a manager row describes are needed.
+    `books` maps (manager id, quarter) to that quarter's complete information
+    table (data/funds/books rows), only where its signature is the history's.
+    `first_seen` is each CUSIP's first quarter in the listed history
+    (securities.json); the books add what sat below a listed line.
     """
     problems = table_problems(table)
     if problems:
@@ -420,13 +636,77 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
     docs = sorted((d for d in by_ticker if TICKER_FILE.match(d.get("ticker", ""))), key=lambda d: d["ticker"])
     cls_of = {d["ticker"]: clf.classify(d["ticker"]) for d in docs}
 
+    # The complete books, and who is complete in each quarter: a comparable
+    # manager with a book for the quarter and the one before (`paired`), or
+    # one whose listed rows are its whole book on both sides (`whole`).
+    books = books or {}
+    agg, book_cusips, book_first = book_aggregates(books, tickers)
+    first_seen = dict(first_seen or {})
+    for c, q in book_first.items():
+        if c not in first_seen or quarter_key(q) < quarter_key(first_seen[c]):
+            first_seen[c] = q
+    paired = {q: {m for m in comp[q] if (m, q) in books and (m, previous_quarter(q)) in books} for q in quarters}
+
+    def is_whole(m: str, q: str) -> bool:
+        r = filed.get(m, {}).get(q)
+        return bool(r) and (r.get("listed") or 0) >= (r.get("positions") or 0)
+    whole = {q: {m for m in comp[q] if is_whole(m, q) and is_whole(m, previous_quarter(q))} for q in quarters}
+    by_book: dict[str, dict[str, dict[str, tuple[int, int]]]] = {}
+    for (m, bq), a in agg.items():
+        for t, sv in a.items():
+            by_book.setdefault(t, {}).setdefault(bq, {})[m] = sv
+    flag_qs = sorted(set(quarters) | {previous_quarter(q) for q in quarters}, key=quarter_key)
+
     per_q: dict[str, list[dict]] = {q: [] for q in quarters}
+    flag_counts: dict[str, dict[str, int]] = {q: {} for q in quarters}
     for d in docs:
+        t = d["ticker"]
+        ids = [m[0] for m in d.get("managers", [])]
+        # Each manager's line in each quarter, from its book where it has one.
+        lines: dict[str, dict[str, tuple[float, float]]] = {}
+        for qq in flag_qs:
+            here = {ids[r[0]]: (r[1], r[3] if len(r) > 3 else 0) for r in d.get("quarters", {}).get(qq, [])
+                    if (ids[r[0]], qq) not in books}
+            for m, (shares, value_k) in by_book.get(t, {}).get(qq, {}).items():
+                here[m] = (value_k, shares)
+            lines[qq] = here
+        flags = {qq: price_flags(v) for qq, v in lines.items()}
+        held_in = [qq for qq, v in d.get("quarters", {}).items() if v]
+        held_in += list(by_book.get(t, {}))
+        first_ticker = min(held_in, key=quarter_key) if held_in else None
+        cs = set(d.get("cusips", [])) | book_cusips.get(t, set())
+        seen = [first_seen[c] for c in cs if c in first_seen]
+        first_cusip = min(seen, key=quarter_key) if seen else None
+        def holders_in(qq: str) -> int:
+            listed = {ids[r[0]] for r in d.get("quarters", {}).get(qq, [])}
+            return len(listed | set(by_book.get(t, {}).get(qq, {})))
+
         for q in quarters:
-            row = symbol_quarter(d, q, comp[q])
+            status = listing_status(q, first_cusip, first_ticker, holders_in(previous_quarter(q)), holders_in(q))
+            row = symbol_quarter(d, q, comp[q], agg=agg, paired=paired[q], whole=whole[q], flags=flags,
+                                 listing=status)
+            # Held by no tracked manager at the quarter end, after being held
+            # the quarter before: the security ended (an acquisition closing,
+            # a take-private, a delisting), and the exits are its holders
+            # being paid out, not managers selling. Shown, never ranked.
+            if not row["h"] and row["exited"] and row["listing"] is None:
+                row["listing"] = "ended"
+                row["rank"] = False
+            elif row["listing"] is None and reissued(t, q):
+                row["listing"] = "reissued"
+                row["rank"] = False
+                row["netShares"] = None
+                row["conviction"] = None
             if row["h"] or row["exited"]:
                 per_q[q].append(row)
+                for m in row.get("flagged", []):
+                    flag_counts[q][m] = flag_counts[q].get(m, 0) + 1
     by_sym = {q: {r["t"]: r for r in rows} for q, rows in per_q.items()}
+    for q in quarters:
+        cov[q]["managersComplete"] = len(paired[q] | whole[q])
+        cov[q]["managersWithBooks"] = len(paired[q])
+        cov[q]["rowsComplete"] = sum(1 for r in per_q[q] if r["coverage"] == "complete")
+        cov[q]["rows"] = len(per_q[q])
 
     files: dict[str, dict] = {}
     splits: dict[str, list[str]] = {}
@@ -453,6 +733,7 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
             "q": max(held, key=quarter_key) if held else None,
             "h": r["h"] if r else 0, "v": r["v"] if r else 0, "s": r["s"] if r else 0,
             "d": {k: (r[k] if r else 0) for k in ("new", "added", "trimmed", "held", "exited")},
+            "listing": r["listing"] if r else None,
             "spark": [by_sym[q][t]["h"] if t in by_sym[q] else 0 for q in spark_qs],
             "fund": c["fund"],
         })
@@ -548,6 +829,9 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
         "sparkQuarters": spark_qs,
         "splits": splits,
         "symbols": len(docs),
+        # Lines whose implied price is more than 5% from the other filers' median,
+        # by quarter and manager: shown as filed, left out of share arithmetic.
+        "priceFlags": {q: dict(sorted(v.items())) for q, v in flag_counts.items() if v},
         "notes": [
             "A 13F is a manager's long US-listed equity book at a quarter end, filed up to 45 days later: never today's portfolio, shorts, cash or performance.",
             "Changes in a quarter count only managers that filed both it and the quarter before.",
@@ -555,6 +839,10 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
             "Where 70% of the comparable holders show one split factor within 3%, the quarter is a split and its added and trimmed are not counted as buying or selling.",
             "Large books are listed to their largest 500 positions, so holder, new and exit counts are at least counts, among listed positions.",
             "The default quarter is the newest filed by at least 75% of the managers on file.",
+            "For the recent quarters every manager's complete information table is read; a row is coverage 'complete' only when every comparable manager's whole book was read in both quarters, and 'listed' rows count among listed positions only.",
+            "A security whose CUSIP first appears in any tracked book in a quarter is a new listing: its holders are allocations, not accumulation, so it is not ranked. One newly under a ticker while its CUSIP was held before is new coverage, and is not ranked either.",
+            "A line whose implied price (value over shares) is more than 5% from the median of the other filers of the security, with three or more filers, is flagged: it counts in holders and value as filed and is left out of net shares, conviction and split detection.",
+            "Breadth is new + added - trimmed - exited among comparable managers; conviction is net shares over the prior quarter's comparable shares, given only with complete coverage and no split.",
             "Sectors are SEC SIC code ranges; funds and ETFs are their own bucket; bespoke themes are L3VLUP definitions with published ticker lists.",
             "These managers are a curated universe (data/funds.universe.json), not the institutional market.",
         ],
@@ -594,9 +882,23 @@ def load_inputs(root: Path) -> dict:
         for q in want:
             yd = read_json(hist / idx["id"] / f"{q[:4]}.json", {})
             holdings[(idx["id"], q)] = (yd.get("quarters") or {}).get(q, [])
+    # The complete books (scripts/funds_books.py), each only where it was read
+    # from the filings the history chose for that quarter.
+    books: dict[tuple[str, str], list] = {}
+    for idx in indexes:
+        for q, rec in filed[idx["id"]].items():
+            if q not in quarters and q not in {previous_quarter(x) for x in quarters}:
+                continue
+            b = read_json(root / "data" / "funds" / "books" / idx["id"] / f"{q}.json")
+            if b and b.get("signature") and b.get("signature") == rec.get("signature") and isinstance(b.get("rows"), list):
+                books[(idx["id"], q)] = b["rows"]
+    sec = read_json(root / "data" / "funds" / "securities.json", {}) or {}
+    first_seen = {c: r["firstSeen"] for c, r in (sec.get("securities") or {}).items() if r.get("firstSeen")}
     return {
         "indexes": indexes,
         "by_ticker": by_ticker,
+        "books": books,
+        "first_seen": first_seen,
         "peers": read_json(root / "data" / "peers.auto.json", {}),
         "cusips": read_json(root / "data" / "cusip-tickers.auto.json", {}),
         "table": read_json(root / "data" / "funds.themes.json"),
@@ -639,6 +941,8 @@ def main(argv: list[str] | None = None) -> int:
     for q in meta["quarters"]:
         c = meta["quarterCoverage"][q]
         print(f"  {q}: filed {c['managersFiled']}, comparable {c['managersComparable']}, "
+              f"complete {c['managersComplete']} ({c['managersWithBooks']} from books), "
+              f"rows complete {c['rowsComplete']}/{c['rows']}, "
               f"unclassified {files['sectors.json']['unclassifiedValueShare'][q]:.1%}"
               f"{', splits ' + ' '.join(f'{t}x{f:g}' for t, f, _k in meta['splits'][q]) if q in meta['splits'] else ''}")
     if args.check:

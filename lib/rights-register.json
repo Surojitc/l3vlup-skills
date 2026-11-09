@@ -27,6 +27,7 @@
       "collectors": [
         "scripts/sync_funds.py",
         "scripts/funds_history.py",
+        "scripts/funds_books.py",
         "scripts/sync_peers.py",
         "scripts/sync_precedent_transactions.py",
         "scripts/sync-decks.mjs",
@@ -41,6 +42,7 @@
       "outputs": [
         "data/funds.auto.json",
         "data/funds/history/",
+        "data/funds/books/",
         "data/funds/by-ticker/",
         "data/funds/overlap/",
         "data/funds/securities.json",

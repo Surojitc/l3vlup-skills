@@ -21,11 +21,17 @@ pinned here on small hand-built books:
 - a sector or theme comes from a SIC code or a published ticker list and
   nothing else, ticker punctuation never splits one symbol in two, and funds
   are their own bucket;
-- a run that changes nothing rewrites nothing.
+- a run that changes nothing rewrites nothing;
+- round two: a row is complete only when every comparable manager's whole
+  book was read, a CUSIP first seen this quarter is a new listing and is not
+  ranked, a line priced off the other filers' median is flagged and kept out
+  of share arithmetic and split detection, and breadth and conviction are the
+  sums worked by hand.
 
 And it rebuilds NVDA, MSFT and UNH at the default quarter straight from the
-published by-ticker files and history indexes, by code written here and not
-by the module, and holds the published Explorer files to the answer.
+published by-ticker files, history indexes and complete books, by code written
+here and not by the module, and holds the published Explorer files to the
+answer, and every book to its history quarter.
 """
 
 from __future__ import annotations
@@ -173,6 +179,20 @@ halving = [(s * 2 * k, s, s * 2 * k * 6.4, s * 10) for s, k in
 eq("a stock that fell by a third while holders doubled is not a split", fe.split_test(halving), None)
 
 
+# The aggregate test (round two): a ten-for-one in a quarter the stock doubled.
+# Holders traded heavily, so few sit near ten and the price fell only five-fold,
+# but their summed shares are ten times what they were.
+klac = [(b * k, b, b * k * 30, b * 150) for b, k in
+        [(100, 3), (100, 5), (100, 7), (100, 9.8), (100, 10), (100, 10.2), (100, 11), (100, 12), (100, 13),
+         (100, 15), (100, 14), (100, 10)]]   # summed 120 = 10 times 12, median ratio 10.1, price 150 to 30
+eq("the aggregate test finds a split the holders and price tests cannot", fe.split_test(klac), (10.0, "aggregate"))
+eq("...and needs ten holders in both quarters", fe.split_test(klac[:9]), None)
+eq("...and a price that fell: the same share counts at an unchanged price are buying",
+   fe.split_test([(a, b, a * 15, b * 15) for a, b, _va, _vb in klac]), None)
+eq("...and leaves two-for-one to the other tests",
+   fe.split_test([(b * k, b, b * k * 6.67, b * 10) for b, k in [(100, x) for x in (1, 1.5, 1.8, 2, 2, 2, 2.2, 2.5, 2.5, 2.5)]]), None)
+
+
 # ── default quarter ──────────────────────────────────────────────────────────
 
 f2 = fe.filings([
@@ -242,6 +262,161 @@ with tempfile.TemporaryDirectory() as tmp:
     eq("output is compact with sorted keys", text, fe.dumps(json.loads(text)))
 
 
+# ── round two: complete books ────────────────────────────────────────────────
+#
+# Three managers whose books are larger than their listed rows (listed 5 of 8
+# positions). p1 holds CCC below its listed line in both quarters, so the
+# listed rows cannot see it; its complete book can.
+
+def bq(q, vs):
+    return qrec(q, vs, positions=8, listed=5)
+
+
+TICK = {"tickers": {"C0000000C": "CCC", "D0000000D": "DDD", "N0000000N": "NEWCO", "O0000000O": "OLDCO"}, "funds": []}
+idx3 = [index(m, [bq("2026Q2", "2026Q1"), bq("2026Q1", None)]) for m in ("p0", "p1", "p2")]
+ccc = {"ticker": "CCC", "name": "CCC", "cusips": ["C0000000C"], "managers": [["p0", "P0"]],
+       "quarters": {"2026Q1": [[0, 10, "h", 10]], "2026Q2": [[0, 15, "a", 15]]}, "exits": {}}
+BOOKS = {
+    ("p0", "2026Q1"): [["C0000000C", "COM", 10, 10, None]],
+    ("p0", "2026Q2"): [["C0000000C", "COM", 15, 15, None]],
+    ("p1", "2026Q1"): [["C0000000C", "COM", 100, 100, None], ["C0000000C", "COM", 7, 70, "CALL"]],
+    ("p1", "2026Q2"): [["C0000000C", "COM", 120, 120, None]],
+    ("p2", "2026Q1"): [["Z0000000Z", "COM", 5, 5, None]],
+    ("p2", "2026Q2"): [["Z0000000Z", "COM", 5, 5, None]],
+}
+
+
+def qrow(files, q, t):
+    return next(r for r in files[f"quarters/{q}.json"]["rows"] if r["t"] == t)
+
+
+listed_only = qrow(fe.build(indexes=idx3, by_ticker=[ccc], peers=PEERS, cusips=TICK, table=TABLE, now="x"), "2026Q2", "CCC")
+eq("without books: coverage is listed, and p1 below its line is not seen", (listed_only["coverage"], listed_only["h"]), ("listed", 1))
+eq("...and conviction is not given on listed coverage", listed_only["conviction"], None)
+full = qrow(fe.build(indexes=idx3, by_ticker=[ccc], peers=PEERS, cusips=TICK, table=TABLE, books=BOOKS, now="x"), "2026Q2", "CCC")
+eq("with every comparable manager's book: coverage is complete", full["coverage"], "complete")
+eq("...holders and value from the books, the call left out", (full["h"], full["v"], full["s"]), (2, 135, 135))
+eq("...p1's added comes from its whole share counts (100 to 120)", (full["added"], full["buyers"]), (2, 2))
+eq("...netShares is +5 (p0) +20 (p1)", full["netShares"], 25)
+eq("...and conviction is 25 over the 110 comparable shares before", full["conviction"], round(25 / 110, 4))
+part = qrow(fe.build(indexes=idx3, by_ticker=[ccc], peers=PEERS, cusips=TICK, table=TABLE,
+                     books={k: v for k, v in BOOKS.items() if k[0] != "p2"}, now="x"), "2026Q2", "CCC")
+eq("one comparable manager without a book (and not whole): coverage falls back to listed", part["coverage"], "listed")
+eq("...though the managers with books still count from them", part["h"], 2)
+whole_idx = [index("p0", [bq("2026Q2", "2026Q1"), bq("2026Q1", None)]), index("p1", [bq("2026Q2", "2026Q1"), bq("2026Q1", None)]),
+             index("p2", [qrec("2026Q2", "2026Q1"), qrec("2026Q1", None)])]
+part2 = qrow(fe.build(indexes=whole_idx, by_ticker=[ccc], peers=PEERS, cusips=TICK, table=TABLE,
+                      books={k: v for k, v in BOOKS.items() if k[0] != "p2"}, now="x"), "2026Q2", "CCC")
+eq("...but a manager whose listed rows are its whole book in both quarters counts as complete", part2["coverage"], "complete")
+one_side = qrow(fe.build(indexes=idx3, by_ticker=[ccc], peers=PEERS, cusips=TICK, table=TABLE,
+                         books={k: v for k, v in BOOKS.items() if k != ("p1", "2026Q1")}, now="x"), "2026Q2", "CCC")
+eq("a book for one side only is not used: p1 falls back to its listed rows", (one_side["coverage"], one_side["h"]), ("listed", 1))
+
+# Breadth and conviction by hand, five managers all on complete books.
+idx5 = [index(m, [bq("2026Q2", "2026Q1"), bq("2026Q1", None)]) for m in ("p0", "p1", "p2", "p3", "p4")]
+ddd = {"ticker": "DDD", "name": "DDD", "cusips": ["D0000000D"], "managers": [["p0", "P0"], ["p1", "P1"]],
+       "quarters": {"2026Q1": [[0, 100, "h", 100], [1, 200, "h", 200]], "2026Q2": [[0, 150, "a", 150], [1, 200, "h", 200]]},
+       "exits": {}}
+before5 = {"p0": 100, "p1": 200, "p2": 300, "p4": 50}
+after5 = {"p0": 150, "p1": 200, "p2": 250, "p3": 40}
+B5 = {}
+for m in ("p0", "p1", "p2", "p3", "p4"):
+    B5[(m, "2026Q1")] = [["D0000000D", "COM", before5[m], before5[m], None]] if m in before5 else [["Z0000000Z", "COM", 1, 1, None]]
+    B5[(m, "2026Q2")] = [["D0000000D", "COM", after5[m], after5[m], None]] if m in after5 else [["Z0000000Z", "COM", 1, 1, None]]
+r5b = qrow(fe.build(indexes=idx5, by_ticker=[ddd], peers=PEERS, cusips=TICK, table=TABLE, books=B5, now="x"), "2026Q2", "DDD")
+eq("by hand: p0 added, p1 held, p2 trimmed, p3 new, p4 exited",
+   (r5b["added"], r5b["held"], r5b["trimmed"], r5b["new"], r5b["exited"]), (1, 1, 1, 1, 1))
+eq("breadth = added 1 + new 1 - trimmed 1 - exited 1 = 0", r5b["breadth"], 0)
+eq("netShares = +50 + 0 - 50 + 40 - 50 = -10", r5b["netShares"], -10)
+eq("conviction = -10 / 650 prior comparable shares", r5b["conviction"], round(-10 / 650, 4))
+eq("an ordinary row is ranked", r5b["rank"], True)
+
+
+# The books themselves (scripts/funds_books.py): which quarters, what a row
+# is, and that a book whose signature is the history's is never read again.
+spec_b = importlib.util.spec_from_file_location("funds_books", ROOT / "scripts" / "funds_books.py")
+fb = importlib.util.module_from_spec(spec_b)
+spec_b.loader.exec_module(fb)
+fq = fe.filings([index(m, [qrec(q, None) for q in ("2025Q2", "2025Q3", "2025Q4", "2026Q1", "2026Q2")]
+                       + ([qrec("2026Q3", None)] if m == "a" else [])) for m in ("a", "b", "c", "d")])
+eq("books: the four quarters ending at the default, and the newer quarter already filed",
+   fb.book_quarters(fq), ["2026Q3", "2026Q2", "2026Q1", "2025Q4", "2025Q3"])
+eq("a book row: thousands rounded as the history rounds, the right moved out of the class",
+   fb.book_rows([{"cusip": "X", "class": "COM CALL", "value": 1499.0, "shares": 10},
+                 {"cusip": "X", "class": "COM", "value": 2500.0, "shares": 20}]),
+   [["X", "COM", 2, 20, None], ["X", "COM", 1, 10, "CALL"]])
+with tempfile.TemporaryDirectory() as tmp:
+    out = Path(tmp)
+    hx = [{"id": "a", "quarters": [{"quarter": "2026Q2", "periodOfReport": "2026-06-30", "signature": ["acc1", "acc2"]},
+                                   {"quarter": "2026Q1", "periodOfReport": "2026-03-31", "signature": ["acc0"]}]}]
+    (out / "a").mkdir()
+    (out / "a" / "2026Q1.json").write_text(json.dumps({"schema": 1, "signature": ["acc0"], "rows": []}))
+    (out / "a" / "2026Q2.json").write_text(json.dumps({"schema": 1, "signature": ["acc1"], "rows": []}))
+    eq("a book is read again only when its signature is not the history's (a new amendment)",
+       fb.plan(hx, out, ["2026Q2", "2026Q1"]), [("a", "2026Q2", ["acc1", "acc2"], "2026-06-30")])
+
+
+# ── round two: listing status ────────────────────────────────────────────────
+
+eq("a CUSIP first seen this quarter is a new listing", fe.listing_status("2026Q2", "2026Q2", "2026Q2"), "new-listing")
+eq("a symbol first seen this quarter whose CUSIP was held before is new coverage",
+   fe.listing_status("2026Q2", "2024Q1", "2026Q2"), "new-coverage")
+eq("an established symbol has no listing status", fe.listing_status("2026Q2", "2024Q1", "2024Q1"), None)
+eq("the quarter after a listing, from a thin base, is a recent listing, not a change of view", fe.listing_status("2026Q3", "2026Q2", "2026Q2", 3, 40), "recent-listing")
+eq("...but not from a broad base: first seen in the earliest book because it sat below a listed line", fe.listing_status("2026Q3", "2026Q2", "2026Q2", 30, 40), None)
+eq("...and the quarter after that is ordinary", fe.listing_status("2026Q4", "2026Q2", "2026Q2"), None)
+newco = {"ticker": "NEWCO", "name": "NEWCO", "cusips": ["N0000000N"], "managers": [["p0", "P0"], ["p1", "P1"]],
+         "quarters": {"2026Q2": [[0, 50, "n", 50], [1, 60, "n", 60]]}, "exits": {}}
+oldco = {"ticker": "OLDCO", "name": "OLDCO", "cusips": ["O0000000O"], "managers": [["p0", "P0"], ["p1", "P1"]],
+         "quarters": {"2026Q2": [[0, 50, "n", 50], [1, 60, "n", 60]]}, "exits": {}}
+lf = fe.build(indexes=idx3, by_ticker=[newco, oldco], peers=PEERS, cusips=TICK, table=TABLE,
+              first_seen={"N0000000N": "2026Q2", "O0000000O": "2025Q1"}, now="x")
+nr, orow = qrow(lf, "2026Q2", "NEWCO"), qrow(lf, "2026Q2", "OLDCO")
+eq("NEWCO: every holder new, first seen in any book this quarter: a new listing, not ranked",
+   (nr["listing"], nr["rank"], nr["new"], nr["breadth"]), ("new-listing", False, 2, 2))
+eq("OLDCO: first under its ticker now, its CUSIP held in 2025Q1: new coverage, not ranked",
+   (orow["listing"], orow["rank"]), ("new-coverage", False))
+eq("stocks.json carries the listing status at the default quarter",
+   {s["t"]: s["listing"] for s in lf["stocks.json"]["stocks"]}, {"NEWCO": "new-listing", "OLDCO": "new-coverage"})
+lb = fe.build(indexes=idx3, by_ticker=[newco], peers=PEERS, cusips=TICK, table=TABLE,
+              books={**BOOKS, ("p2", "2026Q1"): [["N0000000N", "COM", 1, 1, None]]}, first_seen={"N0000000N": "2026Q2"}, now="x")
+check("a CUSIP a book shows below a listed line the quarter before is not a new listing", qrow(lb, "2026Q2", "NEWCO")["listing"] != "new-listing", qrow(lb, "2026Q2", "NEWCO")["listing"])
+
+
+# ── round two: price flags ───────────────────────────────────────────────────
+
+eq("a line more than 5% from the others' median price is flagged",
+   fe.price_flags({"a": (100, 10), "b": (101, 10), "c": (99, 10), "d": (120, 10)}), {"d"})
+eq("...within 5% is not", fe.price_flags({"a": (100, 10), "b": (104, 10), "c": (99, 10)}), set())
+eq("...and nothing is flagged with fewer than three priced lines", fe.price_flags({"a": (100, 10), "b": (200, 10)}), set())
+# Six holders of SSS. Four doubled their shares on a two-for-one (price 100 to
+# 50); two report a stale count at the old price, so their line implies 100.
+mids6 = ["s0", "s1", "s2", "s3", "s4", "s5"]
+idx6 = [index(m, [qrec("2026Q2", "2026Q1"), qrec("2026Q1", None)]) for m in mids6]
+sss = {"ticker": "SSS", "name": "SSS", "cusips": ["S"], "managers": [[m, m] for m in mids6],
+       "quarters": {"2026Q1": [[i, 1000, "h", 10] for i in range(6)],
+                    "2026Q2": [[i, 1000, "a", 20] for i in range(4)] + [[4, 1000, "h", 10], [5, 1000, "h", 10]]},
+       "exits": {}}
+pf = fe.build(indexes=idx6, by_ticker=[sss], peers=PEERS, cusips=TICK, table=TABLE, now="x")
+pr = qrow(pf, "2026Q2", "SSS")
+eq("the two stale lines are flagged and named", (pr["priceFlags"], pr["flagged"]), (2, ["s4", "s5"]))
+eq("...they still count in holders and value as filed", (pr["h"], pr["v"]), (6, 6000))
+eq("...and without them every holder shows the same factor: the holders test finds the split",
+   (pr["split"], pr["splitTest"]), (2, "holders"))
+eq("meta counts flagged lines by quarter and manager", pf["meta.json"]["priceFlags"], {"2026Q2": {"s4": 1, "s5": 1}})
+# A flagged line is left out of netShares: four managers on whole books, one
+# with a stale count that would read as a sale of 90 shares.
+idx4 = [index(m, [qrec("2026Q2", "2026Q1"), qrec("2026Q1", None)]) for m in ("f0", "f1", "f2", "f3")]
+fff = {"ticker": "FFF", "name": "FFF", "cusips": ["F"], "managers": [[m, m] for m in ("f0", "f1", "f2", "f3")],
+       "quarters": {"2026Q1": [[0, 100, "h", 10], [1, 100, "h", 10], [2, 100, "h", 10], [3, 1000, "h", 100]],
+                    "2026Q2": [[0, 110, "a", 11], [1, 110, "a", 11], [2, 100, "h", 10], [3, 110, "t", 10]]},
+       "exits": {}}
+fr = qrow(fe.build(indexes=idx4, by_ticker=[fff], peers=PEERS, cusips=TICK, table=TABLE, now="x"), "2026Q2", "FFF")
+eq("f3's line implies 11 a share against 10 for the others: flagged", fr["flagged"], ["f3"])
+eq("netShares counts f0 +1, f1 +1, f2 0 and leaves f3's -90 out", fr["netShares"], 2)
+eq("...but its trim still counts among sellers", fr["sellers"], 1)
+
+
 # ── reproducibility on the real record ───────────────────────────────────────
 #
 # Rebuilt here from the published files with no help from the module: which
@@ -289,9 +464,121 @@ else:
         split = row.get("split")
         want_buyers = new + (0 if split else added)
         want_sellers = exited + (0 if split else trimmed)
-        eq(f"{sym} {dq}: holders, valueK, buyers, sellers rebuilt by hand equal the quarter file",
-           (row.get("h"), row.get("v"), row.get("buyers"), row.get("sellers")), (holders, value, want_buyers, want_sellers))
-        eq(f"{sym} {dq}: and the stock index", (stock_rows[sym]["h"], stock_rows[sym]["v"]), (holders, value))
+        # From listed rows alone, which is the answer only while no comparable
+        # manager has complete books; the rebuild from the books follows.
+        if not any((ROOT / "data" / "funds" / "books" / m / f"{dq}.json").exists() for m in comp):
+            eq(f"{sym} {dq}: holders, valueK, buyers, sellers rebuilt by hand equal the quarter file",
+               (row.get("h"), row.get("v"), row.get("buyers"), row.get("sellers")), (holders, value, want_buyers, want_sellers))
+        else:
+            check(f"{sym} {dq}: the listed rows are a floor under the complete count ({holders} listed, {row.get('h')} holders)",
+                  row.get("h", 0) >= holders)
+
+    # The same three rebuilt from the complete books, again by code written
+    # here: a comparable manager with a book on both sides (whose signature
+    # is the history's) is read from its books, anyone else from its listed
+    # rows; prices are checked against the median of the other filers.
+    BOOKS_DIR = ROOT / "data" / "funds" / "books"
+    cmap = json.loads((ROOT / "data" / "cusip-tickers.auto.json").read_text()).get("tickers", {})
+
+    def book(m, q):
+        p = BOOKS_DIR / m / f"{q}.json"
+        if not p.exists() or q not in by_mgr.get(m, {}):
+            return None
+        b = json.loads(p.read_text())
+        return b if b.get("signature") == by_mgr[m][q].get("signature") else None
+
+    def whole_listed(m, q):
+        r = by_mgr.get(m, {}).get(q)
+        return bool(r) and r["listed"] >= r["positions"]
+
+    books_seen = 0
+    for sym in ("NVDA", "MSFT", "UNH"):
+        bt = json.loads((BYT / f"{sym}.json").read_text())
+        ids = [m[0] for m in bt["managers"]]
+        listed_rows = {qq: {ids[r[0]]: (r[1], r[3], r[2]) for r in bt["quarters"].get(qq, [])} for qq in (dq, prior)}
+
+        def from_book(b):
+            v = s = 0
+            hit = False
+            for c, _cls, vk, sh, pc in b["rows"]:
+                if not pc and cmap.get(c) == sym:
+                    v, s, hit = v + vk, s + sh, True
+            return (v, s) if hit else None
+
+        def line(m, qq):
+            b = book(m, qq)
+            if b is not None:
+                return from_book(b)
+            r = listed_rows[qq].get(m)
+            return (r[0], r[1]) if r else None
+
+        def flagged(qq):
+            lines = {m: line(m, qq) for m in by_mgr}
+            px = {m: l[0] / l[1] for m, l in lines.items() if l and l[0] > 0 and l[1] > 0}
+            out = set()
+            if len(px) >= 3:
+                for m, p in px.items():
+                    others = sorted(v for k, v in px.items() if k != m)
+                    k = len(others)
+                    med = others[k // 2] if k % 2 else (others[k // 2 - 1] + others[k // 2]) / 2
+                    if abs(p / med - 1) > 0.05:
+                        out.add(m)
+            return out
+
+        fl_now, fl_before = flagged(dq), flagged(prior)
+        cur, before, exits = {}, {}, set()
+        paired_all = True
+        for m in comp:
+            if book(m, dq) is not None and book(m, prior) is not None:
+                books_seen += 1
+                c, b = from_book(book(m, dq)), from_book(book(m, prior))
+                if c:
+                    act = "n" if not b else "a" if c[1] > b[1] else "t" if c[1] < b[1] else "h"
+                    cur[m] = (c[0], c[1], act)
+                if b:
+                    before[m] = (b[0], b[1])
+                    if not c:
+                        exits.add(m)
+            else:
+                paired_all = paired_all and whole_listed(m, dq) and whole_listed(m, prior)
+                if m in listed_rows[dq]:
+                    cur[m] = listed_rows[dq][m]
+                if m in listed_rows[prior]:
+                    before[m] = listed_rows[prior][m][:2]
+                exits |= {ids[r[0]] for r in bt["exits"].get(dq, []) if ids[r[0]] == m}
+        row = rows.get(sym, {})
+        split = row.get("split")
+        n_new = sum(1 for x in cur.values() if x[2] == "n")
+        n_add = sum(1 for x in cur.values() if x[2] == "a")
+        n_trim = sum(1 for x in cur.values() if x[2] == "t")
+        buyers = n_new + (0 if split else n_add)
+        sellers = len(exits) + (0 if split else n_trim)
+        eq(f"{sym} {dq} from the books: holders, valueK, buyers, sellers, breadth",
+           (row.get("h"), row.get("v"), row.get("buyers"), row.get("sellers"), row.get("breadth")),
+           (len(cur), sum(x[0] for x in cur.values()), buyers, sellers, buyers - sellers))
+        eq(f"{sym} {dq} from the books: coverage", row.get("coverage"), "complete" if paired_all else "listed")
+        eq(f"{sym} {dq}: the flagged holders are the ones whose price is off the others' median",
+           row.get("flagged", []), sorted(m for m in cur if m in fl_now))
+        if paired_all and not split:
+            keep = [m for m in comp if m not in fl_now and m not in fl_before]
+            net = sum(cur.get(m, (0, 0))[1] - before.get(m, (0, 0))[1] for m in keep)
+            base = sum(before.get(m, (0, 0))[1] for m in keep)
+            eq(f"{sym} {dq} from the books: netShares and conviction, flagged lines left out",
+               (row.get("netShares"), row.get("conviction")), (net, round(net / base, 4) if base else None))
+        eq(f"{sym} {dq}: and the stock index", (stock_rows[sym]["h"], stock_rows[sym]["v"]), (row.get("h"), row.get("v")))
+    check("the rebuild read complete books for the comparable managers", books_seen > 0, books_seen)
+
+    # Every book on file is the quarter its history describes.
+    off = []
+    nbooks = 0
+    for p in sorted(BOOKS_DIR.glob("*/*.json")) if BOOKS_DIR.exists() else []:
+        b = json.loads(p.read_text())
+        nbooks += 1
+        h = by_mgr.get(b["id"], {}).get(b["quarter"])
+        if (not h or b["signature"] != h["signature"] or b["positions"] != h["positions"] or b["aumK"] != h["aumK"]
+                or len(b["rows"]) != b["positions"] or any(len(r) != 5 for r in b["rows"])):
+            off.append(p.name if not h else f"{b['id']}/{b['quarter']}")
+    check(f"every one of the {nbooks} books matches its history quarter's signature, positions and value", nbooks and not off, off[:5])
     size = (EXP / "stocks.json").stat().st_size
     check(f"stocks.json stays under 2 MB ({size / 1e6:.2f} MB)", size < 2_000_000)
     eq("every symbol with a by-ticker file appears in stocks.json",
@@ -308,6 +595,17 @@ else:
         eq(f"filings.json carries {mid}'s every quarter as its history index states it", fl["managers"].get(mid), want)
     size = (EXP / "filings.json").stat().st_size
     check(f"filings.json stays under 1.5 MB, inside the data cache's entry limit ({size / 1e6:.2f} MB)", size < 1_500_000)
+
+# A reissue under a new CUSIP is a corporate action, not selling (DuPont, Honeywell 2026Q2).
+fe.holders_of.clear()
+fe.holders_of[("DD", "2026Q1")] = {"OLD000001": {"a", "b", "c", "d"}}
+fe.holders_of[("DD", "2026Q2")] = {"NEW000001": {"a", "b", "c"}}
+check("a CUSIP replaced by a new one held by most of its holders is a reissue", fe.reissued("DD", "2026Q2"))
+fe.holders_of[("DD", "2026Q2")] = {"NEW000001": {"x"}}
+check("...not when the new CUSIP's holders are different managers", not fe.reissued("DD", "2026Q2"))
+fe.holders_of[("DD", "2026Q2")] = {"OLD000001": {"a"}, "NEW000001": {"a", "b", "c"}}
+check("...not while the old CUSIP is still held", not fe.reissued("DD", "2026Q2"))
+fe.holders_of.clear()
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
