@@ -234,6 +234,20 @@ export const CONTRACTS = {
         optional: true,
       },
       {
+        // Each manager's complete information table for one recent quarter
+        // (scripts/funds_books.py), the Explorer's change figures' source. A
+        // quarter's table only changes when an amendment adds to or restates
+        // it, so a book that lost rows within its quarter is refused. No
+        // floor: a filer whose whole table is under confidential treatment
+        // files an empty one (Two Sigma Advisers, 2026), and that is its book.
+        pattern: /^data\/funds\/books\/[a-z0-9-]+\/\d{4}Q[1-4]\.json$/,
+        label: 'a manager\'s complete 13F book for a quarter',
+        rows: 'rows',
+        min: 0,
+        neverShrinks: true,
+        optional: true,
+      },
+      {
         // Who held each symbol, quarter by quarter: the stock pages' half of
         // the same record. One file per symbol two or more managers listed.
         pattern: /^data\/funds\/by-ticker\/[A-Z0-9][A-Z0-9.-]{0,9}\.json$/,
