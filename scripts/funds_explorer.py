@@ -375,15 +375,29 @@ def price_flags(lines: dict[str, tuple[float, float]]) -> set[str]:
     return out
 
 
-def listing_status(q: str, first_cusip: str | None, first_ticker: str | None) -> str | None:
+def listing_status(q: str, first_cusip: str | None, first_ticker: str | None,
+                   prior_holders: int | None = None, holders: int | None = None) -> str | None:
     """
     'new-listing' when the security's CUSIP first appears in any tracked book
-    in q; 'new-coverage' when the symbol first appears in q but its CUSIP was
+    in q; 'recent-listing' when it first appeared in the quarter before;
+    'new-coverage' when the symbol first appears in q but its CUSIP was
     held earlier (the CUSIP map learned it, or it was held only as a right or
     below a listed line); otherwise None. Neither is ranked as accumulation.
     """
     if first_cusip == q:
         return "new-listing"
+    # The quarter after a listing is still a listing's quarter, not a change
+    # of view: a spin-off traded when-issued (Versigent, VGNT, held by three
+    # managers at its first quarter end) or an IPO's first full quarter moves
+    # from a base of a few holders, so its breadth and conviction (254x for
+    # VGNT) measure the listing, not managers turning towards the stock.
+    # Only from a thin base (at most three holders, or a quarter of today's,
+    # the quarter before), so a security first seen in the window's earliest
+    # book because it sat below a listed line before is not called one.
+    if (first_cusip is not None and first_cusip == previous_quarter(q)
+            and prior_holders is not None and holders
+            and prior_holders <= max(3, holders // 4)):
+        return "recent-listing"
     if first_ticker == q and first_cusip is not None and quarter_key(first_cusip) < quarter_key(q):
         return "new-coverage"
     return None
@@ -531,6 +545,33 @@ def manager_weights(holdings: list, tickers: dict[str, str], clf: Classifier) ->
             {k: round(v / total, 4) for k, v in th.items() if round(v / total, 4)})
 
 
+# (ticker, quarter) -> {cusip: managers whose book lists it}, filled by
+# book_aggregates for reissued(): which CUSIP each holder held the symbol under.
+holders_of: dict[tuple[str, str], dict[str, set[str]]] = {}
+
+
+def reissued(t: str, q: str) -> bool:
+    """
+    Whether the symbol was reissued under a new CUSIP in q: a CUSIP held by
+    three or more managers the quarter before is held by none now, and a CUSIP
+    none held then is held now by at least half of the old one's holders.
+    That is a corporate action (a reverse split, a reorganisation, an
+    exchange), and the share counts either side of it are not comparable.
+    DuPont at 2026Q2 (26614N102 to 26614N201, shares a third, price three
+    times) and Honeywell (438516106 to 438516205) are the cases that led the
+    reduction table as selling before this.
+    """
+    before = holders_of.get((t, previous_quarter(q)), {})
+    now = holders_of.get((t, q), {})
+    for old, had in before.items():
+        if len(had) < 3 or old in now:
+            continue
+        for new, has in now.items():
+            if new not in before and len(has & had) >= len(had) / 2:
+                return True
+    return False
+
+
 def book_aggregates(books: dict[tuple[str, str], list], tickers: dict[str, str]) -> tuple[dict, dict, dict]:
     """
     The complete books by symbol, the way the by-ticker files group listed rows.
@@ -543,6 +584,7 @@ def book_aggregates(books: dict[tuple[str, str], list], tickers: dict[str, str])
     agg: dict[tuple[str, str], dict[str, tuple[int, int]]] = {}
     cusips_of: dict[str, set[str]] = {}
     first: dict[str, str] = {}
+    holders_of.clear()
     for (m, q), rows in books.items():
         here: dict[str, list] = {}
         for cusip, _cls, value_k, shares, put_call in rows:
@@ -557,6 +599,7 @@ def book_aggregates(books: dict[tuple[str, str], list], tickers: dict[str, str])
             a[0] += shares
             a[1] += value_k
             cusips_of.setdefault(t, set()).add(cusip)
+            holders_of.setdefault((t, q), {}).setdefault(cusip, set()).add(m)
         agg[(m, q)] = {t: (a[0], a[1]) for t, a in here.items()}
     return agg, cusips_of, first
 
@@ -634,9 +677,26 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
         cs = set(d.get("cusips", [])) | book_cusips.get(t, set())
         seen = [first_seen[c] for c in cs if c in first_seen]
         first_cusip = min(seen, key=quarter_key) if seen else None
+        def holders_in(qq: str) -> int:
+            listed = {ids[r[0]] for r in d.get("quarters", {}).get(qq, [])}
+            return len(listed | set(by_book.get(t, {}).get(qq, {})))
+
         for q in quarters:
+            status = listing_status(q, first_cusip, first_ticker, holders_in(previous_quarter(q)), holders_in(q))
             row = symbol_quarter(d, q, comp[q], agg=agg, paired=paired[q], whole=whole[q], flags=flags,
-                                 listing=listing_status(q, first_cusip, first_ticker))
+                                 listing=status)
+            # Held by no tracked manager at the quarter end, after being held
+            # the quarter before: the security ended (an acquisition closing,
+            # a take-private, a delisting), and the exits are its holders
+            # being paid out, not managers selling. Shown, never ranked.
+            if not row["h"] and row["exited"] and row["listing"] is None:
+                row["listing"] = "ended"
+                row["rank"] = False
+            elif row["listing"] is None and reissued(t, q):
+                row["listing"] = "reissued"
+                row["rank"] = False
+                row["netShares"] = None
+                row["conviction"] = None
             if row["h"] or row["exited"]:
                 per_q[q].append(row)
                 for m in row.get("flagged", []):

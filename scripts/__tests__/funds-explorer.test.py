@@ -362,7 +362,9 @@ eq("a CUSIP first seen this quarter is a new listing", fe.listing_status("2026Q2
 eq("a symbol first seen this quarter whose CUSIP was held before is new coverage",
    fe.listing_status("2026Q2", "2024Q1", "2026Q2"), "new-coverage")
 eq("an established symbol has no listing status", fe.listing_status("2026Q2", "2024Q1", "2024Q1"), None)
-eq("...nor does a new listing in the quarter after it listed", fe.listing_status("2026Q3", "2026Q2", "2026Q2"), None)
+eq("the quarter after a listing, from a thin base, is a recent listing, not a change of view", fe.listing_status("2026Q3", "2026Q2", "2026Q2", 3, 40), "recent-listing")
+eq("...but not from a broad base: first seen in the earliest book because it sat below a listed line", fe.listing_status("2026Q3", "2026Q2", "2026Q2", 30, 40), None)
+eq("...and the quarter after that is ordinary", fe.listing_status("2026Q4", "2026Q2", "2026Q2"), None)
 newco = {"ticker": "NEWCO", "name": "NEWCO", "cusips": ["N0000000N"], "managers": [["p0", "P0"], ["p1", "P1"]],
          "quarters": {"2026Q2": [[0, 50, "n", 50], [1, 60, "n", 60]]}, "exits": {}}
 oldco = {"ticker": "OLDCO", "name": "OLDCO", "cusips": ["O0000000O"], "managers": [["p0", "P0"], ["p1", "P1"]],
@@ -378,7 +380,7 @@ eq("stocks.json carries the listing status at the default quarter",
    {s["t"]: s["listing"] for s in lf["stocks.json"]["stocks"]}, {"NEWCO": "new-listing", "OLDCO": "new-coverage"})
 lb = fe.build(indexes=idx3, by_ticker=[newco], peers=PEERS, cusips=TICK, table=TABLE,
               books={**BOOKS, ("p2", "2026Q1"): [["N0000000N", "COM", 1, 1, None]]}, first_seen={"N0000000N": "2026Q2"}, now="x")
-eq("a CUSIP a book shows below a listed line the quarter before is not a new listing", qrow(lb, "2026Q2", "NEWCO")["listing"], None)
+check("a CUSIP a book shows below a listed line the quarter before is not a new listing", qrow(lb, "2026Q2", "NEWCO")["listing"] != "new-listing", qrow(lb, "2026Q2", "NEWCO")["listing"])
 
 
 # ── round two: price flags ───────────────────────────────────────────────────
@@ -593,6 +595,17 @@ else:
         eq(f"filings.json carries {mid}'s every quarter as its history index states it", fl["managers"].get(mid), want)
     size = (EXP / "filings.json").stat().st_size
     check(f"filings.json stays under 1.5 MB, inside the data cache's entry limit ({size / 1e6:.2f} MB)", size < 1_500_000)
+
+# A reissue under a new CUSIP is a corporate action, not selling (DuPont, Honeywell 2026Q2).
+fe.holders_of.clear()
+fe.holders_of[("DD", "2026Q1")] = {"OLD000001": {"a", "b", "c", "d"}}
+fe.holders_of[("DD", "2026Q2")] = {"NEW000001": {"a", "b", "c"}}
+check("a CUSIP replaced by a new one held by most of its holders is a reissue", fe.reissued("DD", "2026Q2"))
+fe.holders_of[("DD", "2026Q2")] = {"NEW000001": {"x"}}
+check("...not when the new CUSIP's holders are different managers", not fe.reissued("DD", "2026Q2"))
+fe.holders_of[("DD", "2026Q2")] = {"OLD000001": {"a"}, "NEW000001": {"a", "b", "c"}}
+check("...not while the old CUSIP is still held", not fe.reissued("DD", "2026Q2"))
+fe.holders_of.clear()
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
