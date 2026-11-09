@@ -237,7 +237,7 @@ check("a bespoke theme without a published list is refused", any("theme t" in p 
 idx = [index(m, [qrec("2026Q2", "2026Q1"), qrec("2026Q1", None)]) for m in ("m0", "m1", "m2", "m3")]
 files = fe.build(indexes=idx, by_ticker=[d, d4, doc("SPY", ["m0", "m1"], {"2026Q2": [[0, 5, "h", 1]], "2026Q1": [[0, 5, "h", 1]]})],
                  peers=PEERS, cusips=CUSIPS, table=TABLE, now="2026-11-08T00:00:00Z")
-eq("one file per quarter in the window, plus the five", sorted(files),
+eq("one file per quarter in the window, plus the five", sorted(f for f in files if not f.startswith("holders/")),
    ["filings.json", "managers.json", "meta.json", "quarters/2026Q1.json", "quarters/2026Q2.json", "sectors.json", "stocks.json"])
 meta = files["meta.json"]
 eq("meta names the default and the splits", (meta["defaultQuarter"], meta["splits"]), ("2026Q2", {"2026Q2": [["BBB", 4, "holders"]]}))
@@ -521,10 +521,16 @@ else:
                     others = sorted(v for k, v in px.items() if k != m)
                     k = len(others)
                     med = others[k // 2] if k % 2 else (others[k // 2 - 1] + others[k // 2]) / 2
+                    # A filing the published meta names as valued at last
+                    # quarter's prices keeps its share count, and a small line
+                    # whose $1,000 rounding cannot carry 5% is not judged.
+                    if m in stale_by_q.get(qq, set()) or 0.5 / lines[m][1] > 0.05 * med:
+                        continue
                     if abs(p / med - 1) > 0.05:
                         out.add(m)
             return out
 
+        stale_by_q = {q: set(v) for q, v in json.loads((EXP / "meta.json").read_text()).get("staleValuations", {}).items()}
         fl_now, fl_before = flagged(dq), flagged(prior)
         cur, before, exits = {}, {}, set()
         paired_all = True
@@ -606,6 +612,36 @@ check("...not when the new CUSIP's holders are different managers", not fe.reiss
 fe.holders_of[("DD", "2026Q2")] = {"OLD000001": {"a"}, "NEW000001": {"a", "b", "c"}}
 check("...not while the old CUSIP is still held", not fe.reissued("DD", "2026Q2"))
 fe.holders_of.clear()
+
+# A filing valued at last quarter's prices (AllianceBernstein, Q1 and Q2 2026):
+# its lines are not flagged and its share counts are used.
+check("a stale-valued filing's line is not flagged",
+      fe.price_flags({"a": (100, 10), "b": (101, 10), "c": (99, 10), "ab": (80, 10)}, stale={"ab"}) == set())
+check("...the same line from any other filing is", fe.price_flags({"a": (100, 10), "b": (101, 10), "c": (99, 10), "ab": (80, 10)}) == {"ab"})
+check("a small line whose $1,000 rounding cannot carry its price to 5% is not flagged",
+      fe.price_flags({"a": (100, 1000), "b": (101, 1000), "c": (99, 1000), "tiny": (2, 10)}) == set())
+check("...while a large line off by the same margin is", fe.price_flags({"a": (100, 1000), "b": (101, 1000), "c": (99, 1000), "big": (200, 1000)}) == {"big"})
+_sv = {f"T{i}": {"2026Q2": {"x": (10.0 * (i + 1), 10), "y": (12.0 * (i + 1), 10), "z": (12.0 * (i + 1), 10), "w": (12.0 * (i + 1), 10)},
+                 "2026Q1": {"x": (10.0 * (i + 1), 10), "y": (10.0 * (i + 1), 10), "z": (10.0 * (i + 1), 10), "w": (10.0 * (i + 1), 10)}}
+       for i in range(25)}
+_cons = fe.consensus_prices(_sv)
+eq("a manager pricing 25 of 25 lines at last quarter's consensus is read as stale-valued",
+   fe.stale_valuations(_sv, _cons, ["2026Q2"]), {"2026Q2": {"x"}})
+
+# The stock page's holder table from complete books: every counted holder is listed.
+if (EXP / "holders").exists():
+    for _sym in ("NVDA", "MSFT", "UNH"):
+        _h = json.loads((EXP / "holders" / f"{_sym}.json").read_text())
+        _q = json.loads((EXP / "quarters" / "2026Q2.json").read_text())
+        _row = next(r for r in _q["rows"] if r["t"] == _sym)
+        eq(f"{_sym} 2026Q2: the holder lines published are the holders counted", len(_h["quarters"]["2026Q2"]["rows"]), _row["h"])
+        eq(f"{_sym} 2026Q2: and their value sums to the row's", sum(v[0] for v in _h["quarters"]["2026Q2"]["rows"].values()), _row["v"])
+with tempfile.TemporaryDirectory() as _tmp:
+    _out = Path(_tmp)
+    fe.write({"holders/ZZZ.json": {"ticker": "ZZZ", "quarters": {"2025Q4": {"rows": {"a": [1, 1, "h", 1]}, "exits": {}}}}}, _out)
+    fe.write({"holders/ZZZ.json": {"ticker": "ZZZ", "quarters": {"2026Q1": {"rows": {"a": [2, 2, "a", 1]}, "exits": {}}}}}, _out)
+    eq("a holders file keeps a quarter once the books window has moved past it",
+       sorted(json.loads((_out / "holders" / "ZZZ.json").read_text())["quarters"]), ["2025Q4", "2026Q1"])
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
