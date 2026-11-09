@@ -312,6 +312,18 @@ export const CONTRACTS = {
         optional: true,
       },
       {
+        // Each stock's complete holder lines for the quarters read from
+        // complete books (scripts/funds_explorer.py): the stock page's holder
+        // table, so a holder below a manager's 500 listed lines is shown, as
+        // it is counted. A quarter once published is kept.
+        pattern: /^data\/funds\/explorer\/holders\/[A-Z0-9][A-Z0-9.-]{0,9}\.json$/,
+        label: 'a stock\'s complete holder lines',
+        keyed: 'quarters',
+        min: 1,
+        neverShrinks: true,
+        optional: true,
+      },
+      {
         // Every manager's quarters in one read for the stock pages: 13F value,
         // filing date, period end and filing link (scripts/funds_explorer.py).
         path: 'data/funds/explorer/filings.json', freshness: { cadence: 'manual', from: 'generatedAt' },

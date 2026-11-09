@@ -348,7 +348,65 @@ def split_test(pairs: list[tuple]) -> tuple[float, str] | None:
     return None
 
 
-def price_flags(lines: dict[str, tuple[float, float]]) -> set[str]:
+STALE_MATCH = 0.02       # a line within 2% of last quarter's consensus price is priced at last quarter
+STALE_SHARE = 0.80       # of a manager-quarter's comparable lines, before the filing is read as last quarter's prices
+ROUNDING_K = 0.5         # values are filed rounded to the nearest $1,000: half of it, in $K
+
+
+def consensus_prices(lines_by_symbol: dict[str, dict[str, dict[str, tuple[float, float]]]]) -> dict[tuple[str, str], float]:
+    """(symbol, quarter) -> the median implied price ($K per share) over every line, where three or more lines are priced."""
+    out: dict[tuple[str, str], float] = {}
+    for t, by_q in lines_by_symbol.items():
+        for qq, lines in by_q.items():
+            ps = sorted(v / s for v, s in lines.values() if v and s and v > 0 and s > 0)
+            if len(ps) >= PRICE_FLAG_MIN:
+                out[(t, qq)] = _median(ps)
+    return out
+
+
+def stale_valuations(lines_by_symbol: dict, consensus: dict[tuple[str, str], float], quarters: list[str]) -> dict[str, set[str]]:
+    """
+    The manager-quarters valued at the previous quarter end's prices.
+
+    AllianceBernstein's 13F for Q1 and for Q2 2026 values every position at
+    the prices of the quarter before: in both, 99 to 100% of its lines sit
+    within 2% of the other filers' prior-quarter price, against 11% within 2%
+    of the same quarter's (its NVDA line, $16.78bn for 96.2m shares, is
+    $174.40 a share, the March close, against $200.09 for every other filer
+    at June). Its share counts are the quarter end's. So such a filing's
+    values are shown as filed, with a note, and its share counts are used:
+    excluding them, as a price flag did, dropped the largest book of its kind
+    from every net share change in two quarters for a pricing convention.
+
+    Read as stale when at least STALE_SHARE of the manager's lines that can
+    be judged both ways match last quarter's consensus within STALE_MATCH and
+    fewer than half match this quarter's within PRICE_FLAG.
+    """
+    out: dict[str, set[str]] = {}
+    for qq in quarters:
+        prev = previous_quarter(qq)
+        prior_hits: dict[str, int] = {}
+        same_hits: dict[str, int] = {}
+        judged: dict[str, int] = {}
+        for t, by_q in lines_by_symbol.items():
+            now, before = consensus.get((t, qq)), consensus.get((t, prev))
+            if not now or not before or abs(now / before - 1) <= PRICE_FLAG:
+                continue  # a price that barely moved cannot tell the two quarters apart
+            for m, (v, sh) in by_q.get(qq, {}).items():
+                if not (v and sh and v > 0 and sh > 0) or ROUNDING_K / sh > PRICE_FLAG * now:
+                    continue
+                p = v / sh
+                judged[m] = judged.get(m, 0) + 1
+                if abs(p / before - 1) <= STALE_MATCH:
+                    prior_hits[m] = prior_hits.get(m, 0) + 1
+                if abs(p / now - 1) <= PRICE_FLAG:
+                    same_hits[m] = same_hits.get(m, 0) + 1
+        out[qq] = {m for m, n in judged.items()
+                   if n >= 20 and prior_hits.get(m, 0) >= STALE_SHARE * n and same_hits.get(m, 0) < 0.5 * n}
+    return out
+
+
+def price_flags(lines: dict[str, tuple[float, float]], *, stale: set[str] | None = None) -> set[str]:
     """
     The lines whose implied price disagrees with everyone else's (round two, rule 3).
 
@@ -370,8 +428,21 @@ def price_flags(lines: dict[str, tuple[float, float]]) -> set[str]:
         def at(j: int) -> float:
             return ps[j] if j < i else ps[j + 1]
         med = at(k // 2) if k % 2 else (at(k // 2 - 1) + at(k // 2)) / 2
-        if med > 0 and abs(p / med - 1) > PRICE_FLAG:
-            out.add(m)
+        if not (med > 0 and abs(p / med - 1) > PRICE_FLAG):
+            continue
+        # Not flagged, its share count kept: a filing valued at last quarter's
+        # prices (above), or a small line whose value, filed to the nearest
+        # $1,000, cannot carry a price to 5% (462 of the unexplained 943 at Q2
+        # 2026, median value $13K). A single line at last quarter's price is
+        # NOT excused on its own: in a split quarter that is a stale share
+        # count at the old price, the opposite case, and only a whole filing
+        # priced at last quarter can tell the two apart.
+        if stale and m in stale:
+            continue
+        sh = lines[m][1]
+        if sh and ROUNDING_K / sh > PRICE_FLAG * med:
+            continue
+        out.add(m)
     return out
 
 
@@ -519,6 +590,12 @@ def symbol_quarter(doc: dict, q: str, comp: set[str], *, agg: dict | None = None
         "conviction": conviction,
         "rank": listing is None and split is None,
         "_holders": sorted(cur),
+        # Each comparable holder's line, for the stock page's holder table in
+        # a quarter read from complete books: [valueK, shares, action, shares
+        # the quarter before or None]; and the exits with their prior value.
+        "_detail": {m: [int(v), int(sh or 0), a, (int(before[m][2]) if m in before and before[m][2] is not None else None)]
+                    for m, (v, a, sh) in sorted(cur.items())},
+        "_exits": {m: int(before[m][0]) for m in sorted(exited) if m in before},
     }
 
 
@@ -659,10 +736,13 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
 
     per_q: dict[str, list[dict]] = {q: [] for q in quarters}
     flag_counts: dict[str, dict[str, int]] = {q: {} for q in quarters}
+    # Every manager's line for every symbol and quarter, from its book where it
+    # has one: first for the consensus prices and the filings valued at last
+    # quarter's prices, then for each symbol's flags.
+    all_lines: dict[str, dict[str, dict[str, tuple[float, float]]]] = {}
     for d in docs:
         t = d["ticker"]
         ids = [m[0] for m in d.get("managers", [])]
-        # Each manager's line in each quarter, from its book where it has one.
         lines: dict[str, dict[str, tuple[float, float]]] = {}
         for qq in flag_qs:
             here = {ids[r[0]]: (r[1], r[3] if len(r) > 3 else 0) for r in d.get("quarters", {}).get(qq, [])
@@ -670,7 +750,14 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
             for m, (shares, value_k) in by_book.get(t, {}).get(qq, {}).items():
                 here[m] = (value_k, shares)
             lines[qq] = here
-        flags = {qq: price_flags(v) for qq, v in lines.items()}
+        all_lines[t] = lines
+    consensus = consensus_prices(all_lines)
+    stale = stale_valuations(all_lines, consensus, flag_qs)
+    for d in docs:
+        t = d["ticker"]
+        ids = [m[0] for m in d.get("managers", [])]
+        lines = all_lines[t]
+        flags = {qq: price_flags(v, stale=stale.get(qq)) for qq, v in lines.items()}
         held_in = [qq for qq, v in d.get("quarters", {}).items() if v]
         held_in += list(by_book.get(t, {}))
         first_ticker = min(held_in, key=quarter_key) if held_in else None
@@ -772,6 +859,21 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
         agg["unclassified"] = fix(unc["unclassified"]) if unc else {"v": 0, "h": 0, "buyers": 0, "sellers": 0, "stocks": 0}
         by_quarter[q] = agg
         unclassified_share[q] = round(agg["unclassified"]["v"] / total, 4) if total else 0.0
+    # The stock page's holder table, from complete books. The by-ticker files
+    # list each manager to its largest 500 positions, so a holder below that
+    # line was missing from the table while counted in the aggregates (MSFT at
+    # Q2 2026: 60 in the table, 62 counted). For each quarter whose row was
+    # built from complete books, every comparable holder's line is published
+    # here, keyed by manager id, with the exits.
+    for q in quarters:
+        for r in per_q[q]:
+            if r.get("coverage") != "complete":
+                continue
+            rec = files.setdefault(f"holders/{r['t']}.json", {
+                "schema": SCHEMA, "generatedAt": now, "ticker": r["t"],
+                "fields": ["valueK", "shares", "action", "priorShares"], "quarters": {}})
+            rec["quarters"][q] = {"rows": r["_detail"], "exits": r["_exits"]}
+
     files["sectors.json"] = {
         "schema": SCHEMA, "generatedAt": now,
         "taxonomy": {"sectors": {k: {kk: vv for kk, vv in v.items()} for k, v in table["sectors"].items()},
@@ -832,6 +934,9 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
         # Lines whose implied price is more than 5% from the other filers' median,
         # by quarter and manager: shown as filed, left out of share arithmetic.
         "priceFlags": {q: dict(sorted(v.items())) for q, v in flag_counts.items() if v},
+        # Filings whose values are at the previous quarter end's prices: shown
+        # as filed, share counts used (stale_valuations).
+        "staleValuations": {q: sorted(v) for q, v in stale.items() if v and q in quarters},
         "notes": [
             "A 13F is a manager's long US-listed equity book at a quarter end, filed up to 45 days later: never today's portfolio, shorts, cash or performance.",
             "Changes in a quarter count only managers that filed both it and the quarter before.",
@@ -911,6 +1016,16 @@ def write(files: dict[str, dict], out: Path) -> list[str]:
     written = []
     for rel, body in sorted(files.items()):
         path = out / rel
+        # A stock's holder lines are a record: a quarter published from
+        # complete books stays when the four-quarter books window moves on
+        # (it would otherwise be refused as a shrinking history). This run's
+        # quarters replace the same quarters on file; older ones are kept.
+        if rel.startswith("holders/") and path.exists():
+            try:
+                old = json.loads(path.read_text())
+                body = {**body, "quarters": {**(old.get("quarters") or {}), **body["quarters"]}}
+            except Exception:
+                pass
         text = dumps(body)
         if path.exists() and same_content(path.read_text(), text):
             continue
