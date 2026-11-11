@@ -643,5 +643,22 @@ with tempfile.TemporaryDirectory() as _tmp:
     eq("a holders file keeps a quarter once the books window has moved past it",
        sorted(json.loads((_out / "holders" / "ZZZ.json").read_text())["quarters"]), ["2025Q4", "2026Q1"])
 
+# An acquisition closing with one stray holder left is ended, not selling (STKL, 2026Q2).
+if (EXP / "quarters" / "2026Q2.json").exists():
+    _rows = {r["t"]: r for r in json.loads((EXP / "quarters" / "2026Q2.json").read_text())["rows"]}
+    if "STKL" in _rows:
+        eq("STKL 2026Q2: one holder left after 20 exits and shares down 99.8% is ended, not ranked",
+           (_rows["STKL"]["listing"], _rows["STKL"]["rank"]), ("ended", False))
+    if "SPHR" in _rows:
+        eq("SPHR 2026Q2: a broad but partial reduction stays ranked", (_rows["SPHR"]["listing"], _rows["SPHR"]["rank"]), (None, True))
+
+# A second share class takes its issuer's SIC, by the CUSIP's six-character issuer number only.
+eq("GOOG takes GOOGL's SIC through their shared issuer number",
+   fe.issuer_sics({"GOOGL": "7370"}, {"02079K107": "GOOG", "02079K305": "GOOGL"}).get("GOOG"), "7370")
+eq("...but not when the issuer's classes disagree",
+   fe.issuer_sics({"AAA": "1000", "AAB": "2000"}, {"123456101": "AAA", "123456200": "AAB", "123456309": "AAC"}).get("AAC"), None)
+eq("...and a listed SIC is never overwritten",
+   fe.issuer_sics({"AAA": "1000", "AAB": "2000"}, {"123456101": "AAA", "123456200": "AAB"})["AAB"], "2000")
+
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
