@@ -198,6 +198,33 @@ def sic_map(peers: dict) -> dict[str, str]:
     return {t: next(iter(c)) for t, c in seen.items() if len(c) == 1}
 
 
+def issuer_sics(sics: dict[str, str], cusip_tickers: dict[str, str]) -> dict[str, str]:
+    """
+    The SIC map, with a share class the SEC's ticker file does not list
+    classified by its issuer.
+
+    The SEC's file names one ticker per company, so a second class (GOOG
+    beside GOOGL, a company's B shares) has no SIC of its own and was counted
+    as unclassified: most of the 2.7% of value at Q2 2026. A CUSIP's first six
+    characters are the issuer number, the same for every class of one issuer,
+    so a ticker with no SIC takes the SIC its issuer's other classes carry,
+    and only when they all agree. Nothing is inferred from a name.
+    """
+    by_issuer: dict[str, set[str]] = {}
+    for cusip, t in cusip_tickers.items():
+        if isinstance(cusip, str) and len(cusip) >= 6 and t:
+            by_issuer.setdefault(cusip[:6], set()).add(norm_ticker(t))
+    out = dict(sics)
+    for tickers in by_issuer.values():
+        codes = {sics[t] for t in tickers if t in sics}
+        if len(codes) != 1:
+            continue
+        code = next(iter(codes))
+        for t in tickers:
+            out.setdefault(t, code)
+    return out
+
+
 def table_problems(table: dict) -> list[str]:
     """What is wrong with a theme table, so a bad hand edit fails loudly instead of misfiling stocks."""
     out = []
@@ -700,7 +727,7 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
     now = now or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     tickers = cusips.get("tickers", {}) or {}
     funds = {norm_ticker(t) for t in cusips.get("funds", []) or []}
-    clf = Classifier(table, sic_map(peers), funds)
+    clf = Classifier(table, issuer_sics(sic_map(peers), tickers), funds)
     holdings = holdings or {}
 
     filed = filings(indexes)
@@ -776,7 +803,14 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
             # the quarter before: the security ended (an acquisition closing,
             # a take-private, a delisting), and the exits are its holders
             # being paid out, not managers selling. Shown, never ranked.
-            if not row["h"] and row["exited"] and row["listing"] is None:
+            # Also ended when a stray holder is all that is left: at least
+            # five holders exited, what remains is at most a tenth of them,
+            # and the comparable shares fell 95% or more. SunOpta (STKL) at
+            # Q2 2026, 20 exits, one remaining holder and shares down 99.8%,
+            # ranked second on reductions as selling while its sale closed.
+            residual = (row["exited"] >= 5 and row["h"] <= max(1, row["exited"] // 10)
+                        and row.get("conviction") is not None and row["conviction"] <= -0.95)
+            if (not row["h"] or residual) and row["exited"] and row["listing"] is None:
                 row["listing"] = "ended"
                 row["rank"] = False
             elif row["listing"] is None and reissued(t, q):
