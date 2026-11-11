@@ -649,6 +649,12 @@ if (EXP / "quarters" / "2026Q2.json").exists():
     if "STKL" in _rows:
         eq("STKL 2026Q2: one holder left after 20 exits and shares down 99.8% is ended, not ranked",
            (_rows["STKL"]["listing"], _rows["STKL"]["rank"]), ("ended", False))
+    if "SNBRQ" in _rows:
+        eq("SNBRQ 2026Q2: one holder of sixteen left, shares down 90.8% (a bankruptcy) is ended",
+           (_rows["SNBRQ"]["listing"], _rows["SNBRQ"]["rank"]), ("ended", False))
+    for _t in ("BOBS", "ESPR", "ASTS"):
+        if _t in _rows:
+            eq(f"{_t} 2026Q2: many exits but ten or more holders left is selling, still ranked", _rows[_t]["listing"], None)
     if "SPHR" in _rows:
         eq("SPHR 2026Q2: a broad but partial reduction stays ranked", (_rows["SPHR"]["listing"], _rows["SPHR"]["rank"]), (None, True))
 
