@@ -12,7 +12,7 @@ let r = productionLag({ main: '2026-11-07T23:32:07Z', mainCommitted: '2026-11-07
 check('live equal to main is healthy', !r.problem && !r.warning, r);
 r = productionLag({ main: '2026-11-08T16:00:00Z', mainCommitted: '2026-11-08T16:10:00Z', live: '2026-11-07T23:32:07Z', now });
 check(`a lag inside the ${LAG_HOURS}h the caches may take is not a failure`, !r.problem, r);
-r = productionLag({ main: '2026-11-08T06:00:00Z', mainCommitted: '2026-11-08T06:30:00Z', live: '2026-10-11T18:08:50Z', now });
+r = productionLag({ main: '2026-11-07T06:00:00Z', mainCommitted: '2026-11-07T06:30:00Z', live: '2026-10-11T18:08:50Z', now });
 check('the live site a month behind main, hours after it landed, fails', Boolean(r.problem), r);
 r = productionLag({ main: null, live: '2026-11-07T23:32:07Z', now });
 check('main unreadable fails', Boolean(r.problem), r);
@@ -23,8 +23,11 @@ check('under an hour apart is the same collection', !r.problem && !r.warning, r)
 
 r = productionLag({ main: '2026-11-07T23:32:07Z', mainCommitted: '2026-11-07T23:40:00Z', live: '2026-11-07', now });
 check('a page printing the same day alone matches', !r.problem && !r.warning, r);
-r = productionLag({ main: '2026-11-08T06:00:00Z', mainCommitted: '2026-11-08T06:30:00Z', live: '2026-11-06', now });
+r = productionLag({ main: '2026-11-07T06:00:00Z', mainCommitted: '2026-11-07T06:30:00Z', live: '2026-11-06', now });
 check('a page printing an earlier day, long after main landed, fails', Boolean(r.problem), r);
+
+r = productionLag({ main: '2026-11-07T22:00:00Z', mainCommitted: '2026-11-07T22:10:00Z', live: '2026-11-06', now });
+check('a page rebuilt daily, 20 hours after main landed, is not yet a failure', !r.problem, r);
 
 const f = letterFunnel(
   { entries: [{ status: 'review', classification: 'investor-letter' }, { status: 'review', classification: 'other' }, { status: 'published', classification: 'investor-letter' }, { status: 'rejected', classification: 'investor-letter' }] },
