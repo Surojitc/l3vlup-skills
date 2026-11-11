@@ -808,8 +808,12 @@ def build(*, indexes: list[dict], by_ticker: list[dict], peers: dict, cusips: di
             # and the comparable shares fell 95% or more. SunOpta (STKL) at
             # Q2 2026, 20 exits, one remaining holder and shares down 99.8%,
             # ranked second on reductions as selling while its sale closed.
+            # The holder collapse is the signal; the share fall only has to
+            # agree with it (85% or more, or unknown). Sleep Number (SNBRQ) at
+            # Q2 2026, a bankruptcy, kept one holder of sixteen, which added,
+            # so its shares fell 90.8%: it led the complete exits as selling.
             residual = (row["exited"] >= 5 and row["h"] <= max(1, row["exited"] // 10)
-                        and row.get("conviction") is not None and row["conviction"] <= -0.95)
+                        and (row.get("conviction") is None or row["conviction"] <= -0.85))
             if (not row["h"] or residual) and row["exited"] and row["listing"] is None:
                 row["listing"] = "ended"
                 row["rank"] = False
