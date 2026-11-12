@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-05T14:52:19.301Z",
-  "weekEnding": "2026-11-06",
+  "generatedAt": "2026-11-12T15:31:22.974Z",
+  "weekEnding": "2026-11-13",
   "status": "draft",
   "modelStage": "failed",
   "failure": "call_failed: Could not resolve authentication method. Expected one of apiKey, authToken, credentials, config, or profile to be set. Or for one of the \"X-Api-Key\" or \"Authorization\" headers to be explicitly omitted",
@@ -8,24 +8,24 @@
     "promptVersion": "this-week-draft-v1",
     "model": "claude-sonnet-5",
     "budgetUsd": 0.5,
-    "estimatedUsd": 0.091238,
+    "estimatedUsd": 0.09684,
     "actualUsd": null,
-    "inputTokensApprox": 15619,
+    "inputTokensApprox": 18420,
     "hardStopUsd": 1
   },
   "feeds": {
-    "newsflow": "2026-11-05T13:37:56.160Z",
-    "deals": "2026-11-05T13:37:32.122Z"
+    "newsflow": "2026-11-12T14:07:02.544Z",
+    "deals": "2026-11-12T14:06:39.280Z"
   },
   "shortlist": {
     "headlines": [
       {
         "item": {
-          "title": "Weatherford Capital Invests in Arnold Palmer Junior Golf Tour Alongside Bolt Ventures",
-          "link": "https://www.prnewswire.com/news-releases/weatherford-capital-invests-in-arnold-palmer-junior-golf-tour-alongside-bolt-ventures-302930155.html",
+          "title": "The Pacific Financial Group Taps Salesforce and Newly Acquired Contentful for a World-Class Advisor Experience",
+          "link": "https://www.prnewswire.com/news-releases/the-pacific-financial-group-taps-salesforce-and-newly-acquired-contentful-for-a-world-class-advisor-experience-302935610.html",
           "source": "PR Newswire",
-          "vertical": "vc",
-          "date": "2026-11-05T13:35:00.000Z",
+          "vertical": "ma",
+          "date": "2026-11-12T14:01:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -35,28 +35,28 @@
       },
       {
         "item": {
-          "title": "CVS Health to break up $102bn healthcare empire",
-          "link": "https://www.ft.com/content/2478a5ea-263a-4f4f-ac96-7d619fb39bb8?syn-25a6b1a6=1",
-          "source": "FT",
-          "vertical": "ma",
-          "date": "2026-11-04T17:20:02.000Z",
-          "dealValue": "$102B",
-          "valueUsdB": 102,
-          "value": 102,
+          "title": "Canada Pension plans to double hedge fund allocation to $160bn",
+          "link": "https://hedgeweek.com/news/canada-pension-plans-to-double-hedge-fund-allocation-to-160bn",
+          "source": "Hedgeweek",
+          "vertical": "hf",
+          "date": "2026-11-12T09:59:00.000Z",
+          "dealValue": "$160B",
+          "valueUsdB": 160,
+          "value": 160,
           "alsoReportedBy": []
         },
-        "why": "largest disclosed value ($102B)"
+        "why": "largest disclosed value ($160B)"
       },
       {
         "item": {
-          "title": "BofA’s Cabana Says It’s Premature to Call End to Fed’s Hiking Cycle",
-          "link": "https://www.bloomberg.com/news/videos/2026-11-05/bofa-s-cabana-premature-to-call-end-of-fed-hiking-cycle-video",
-          "source": "Bloomberg",
-          "vertical": "hf",
-          "date": "2026-11-05T13:33:57.000Z",
-          "dealValue": null,
-          "valueUsdB": null,
-          "value": null,
+          "title": "Kindo Secures $57.6 Million to Expand Enterprise Control Over AI Agent Actions and Reduce Costs",
+          "link": "https://www.prnewswire.com/news-releases/kindo-secures-57-6-million-to-expand-enterprise-control-over-ai-agent-actions-and-reduce-costs-302937058.html",
+          "source": "PR Newswire",
+          "vertical": "vc",
+          "date": "2026-11-12T14:00:00.000Z",
+          "dealValue": "$58M",
+          "valueUsdB": 0.0576,
+          "value": 0.0576,
           "alsoReportedBy": []
         },
         "why": "most recent from another area"
@@ -65,40 +65,39 @@
     "deals": [
       {
         "item": {
-          "title": "Saudi PIF secures $3bn financing backed by Italy's export credit agency",
-          "link": "https://privateequitywire.com/news/saudi-pif-secures-3bn-financing-backed-by-italys-export-credit-agency",
-          "source": "Private Equity Wire",
-          "vertical": "pe",
-          "date": "2026-11-05T10:10:07.000Z",
-          "dealValue": "$3B",
-          "valueUsdB": 3,
-          "value": 3,
+          "title": "Peak 10 Energy Announces $500 Million Acquisition Finance Facility with U.S. Bank",
+          "link": "https://www.prnewswire.com/news-releases/peak-10-energy-announces-500-million-acquisition-finance-facility-with-us-bank-302937199.html",
+          "source": "PR Newswire",
+          "date": "2026-11-12T11:40:00.000Z",
+          "dealValue": "$500M",
+          "vertical": "tape",
+          "value": 0.5,
           "alsoReportedBy": []
         },
         "why": "most recent with a disclosed value"
       },
       {
         "item": {
-          "title": "Billionaire Mark Walter has explored sale of $71bn insurer Delaware Life",
-          "link": "https://www.ft.com/content/570191b9-7910-4627-8779-6a382ef26613?syn-25a6b1a6=1",
-          "source": "FT",
-          "vertical": "ma",
-          "date": "2026-11-03T17:42:39.000Z",
-          "dealValue": "$71B",
-          "valueUsdB": 71,
-          "value": 71,
+          "title": "H.I.G. Capital Signs Definitive Agreement to Acquire Majority Stake in go asia",
+          "link": "https://www.prnewswire.com/news-releases/hig-capital-signs-definitive-agreement-to-acquire-majority-stake-in-go-asia-302935623.html",
+          "source": "PR Newswire",
+          "date": "2026-11-11T11:00:00.000Z",
+          "dealValue": "$76B",
+          "vertical": "tape",
+          "value": 76,
           "alsoReportedBy": []
         },
-        "why": "largest disclosed value ($71B)"
+        "why": "largest disclosed value ($76B)"
       },
       {
         "item": {
-          "title": "TEG To Pursue Acquisition of New 1,210-Room Hotel & Events Complex in Tashkent",
-          "link": "https://www.prnewswire.com/news-releases/teg-to-pursue-acquisition-of-new-1-210-room-hotel--events-complex-in-tashkent-302930450.html",
-          "source": "PR Newswire",
-          "date": "2026-11-05T13:30:00.000Z",
+          "title": "Metro Bank puts itself up for sale",
+          "link": "https://www.ft.com/content/68d690dc-c59a-421e-82a8-62b76c2b7a10?syn-25a6b1a6=1",
+          "source": "FT",
+          "vertical": "ma",
+          "date": "2026-11-12T12:25:46.000Z",
           "dealValue": null,
-          "vertical": "tape",
+          "valueUsdB": null,
           "value": null,
           "alsoReportedBy": []
         },
@@ -108,53 +107,39 @@
     "moves": [
       {
         "item": {
-          "title": "Fathers Beer Announces $2 Million Funding Round; Chef Robert Irvine Invests and Joins as Strategic Partner",
-          "link": "https://www.prnewswire.com/news-releases/fathers-beer-announces-2-million-funding-round-chef-robert-irvine-invests-and-joins-as-strategic-partner-302930166.html",
+          "title": "Athlete To Athlete Raises $8 Million Series A Led by Rally Ventures to Expand Youth Sports Mentorship",
+          "link": "https://www.prnewswire.com/news-releases/athlete-to-athlete-raises-8-million-series-a-led-by-rally-ventures-to-expand-youth-sports-mentorship-302935560.html",
           "source": "PR Newswire",
           "vertical": "vc",
-          "date": "2026-11-05T13:35:00.000Z",
-          "dealValue": "$2M",
-          "valueUsdB": 0.002,
-          "value": 0.002,
+          "date": "2026-11-12T14:00:00.000Z",
+          "dealValue": "$8M",
+          "valueUsdB": 0.008,
+          "value": 0.008,
           "alsoReportedBy": []
         },
         "why": "most recent in vc"
       },
       {
         "item": {
-          "title": "Lombard Systems Raises $4 Million to Standardize Financing for Tokenized Assets",
-          "link": "https://www.prnewswire.com/news-releases/lombard-systems-raises-4-million-to-standardize-financing-for-tokenized-assets-302930746.html",
+          "title": "SolaREIT Surpasses $8.5 Billion Project Value Milestone in Clean Energy Land Financing",
+          "link": "https://www.prnewswire.com/news-releases/solareit-surpasses-8-5-billion-project-value-milestone-in-clean-energy-land-financing-302936195.html",
           "source": "PR Newswire",
           "vertical": "capital-raises",
-          "date": "2026-11-05T13:30:00.000Z",
-          "dealValue": "$4M",
-          "valueUsdB": 0.004,
-          "value": 0.004,
+          "date": "2026-11-12T14:00:00.000Z",
+          "dealValue": "$8.5B",
+          "valueUsdB": 8.5,
+          "value": 8.5,
           "alsoReportedBy": []
         },
         "why": "most recent in capital-raises"
       },
       {
         "item": {
-          "title": "BOE Sees Case for Another Rate Hike If Iran War Doesn't End",
-          "link": "https://www.bloomberg.com/news/videos/2026-11-05/boe-sees-case-for-another-hike-if-iran-war-doesn-t-end-video",
-          "source": "Bloomberg",
-          "vertical": "hf",
-          "date": "2026-11-05T13:28:08.000Z",
-          "dealValue": null,
-          "valueUsdB": null,
-          "value": null,
-          "alsoReportedBy": []
-        },
-        "why": "most recent in Hedge funds"
-      },
-      {
-        "item": {
-          "title": "BRG Communications Acquires We Are HeadStart, Launches BRG HeadStart to Serve Healthcare Startups, Emerging Brands and Investors",
-          "link": "https://www.prnewswire.com/news-releases/brg-communications-acquires-we-are-headstart-launches-brg-headstart-to-serve-healthcare-startups-emerging-brands-and-investors-302930740.html",
+          "title": "Branford Castle Acquires Floratine Products Group, Marking First Platform Investment in Fund III",
+          "link": "https://www.prnewswire.com/news-releases/branford-castle-acquires-floratine-products-group-marking-first-platform-investment-in-fund-iii-302937191.html",
           "source": "PR Newswire",
           "vertical": "ma",
-          "date": "2026-11-05T13:00:00.000Z",
+          "date": "2026-11-12T14:00:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -164,11 +149,25 @@
       },
       {
         "item": {
-          "title": "BC Partners abandons LIV Golf rescue as Saudi-backed league faces liquidation",
-          "link": "https://privateequitywire.com/news/bc-partners-abandons-liv-golf-rescue-as-saudi-backed-league-faces-liquidation",
+          "title": "Oil Jumps After Trump Says US Doesn’t Need Deal With Iran",
+          "link": "https://www.bloomberg.com/news/articles/2026-11-12/oil-jumps-after-trump-says-us-doesn-t-need-deal-with-iran",
+          "source": "Bloomberg",
+          "vertical": "hf",
+          "date": "2026-11-12T13:14:35.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in Hedge funds"
+      },
+      {
+        "item": {
+          "title": "BC Partners to acquire Investcorp BDC at 10% discount to NAV",
+          "link": "https://privateequitywire.com/news/bc-partners-to-acquire-investcorp-bdc-at-10-discount-to-nav",
           "source": "Private Equity Wire",
           "vertical": "pe",
-          "date": "2026-11-05T10:12:46.000Z",
+          "date": "2026-11-12T10:00:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -178,167 +177,165 @@
       },
       {
         "item": {
-          "title": "Flashpoint Capital Announces US$141.5 million in New Fund Closures",
-          "link": "https://www.prnewswire.com/news-releases/flashpoint-capital-announces-us141-5-million-in-new-fund-closures-302928140.html",
+          "title": "CAZ Strategic Opportunities Fund Achieves $1 Billion Milestone",
+          "link": "https://www.prnewswire.com/news-releases/caz-strategic-opportunities-fund-achieves-1-billion-milestone-302937769.html",
           "source": "PR Newswire",
           "vertical": "vc",
-          "date": "2026-11-05T13:00:00.000Z",
-          "dealValue": "$142M",
-          "valueUsdB": 0.1415,
-          "value": 0.1415,
+          "date": "2026-11-12T14:00:00.000Z",
+          "dealValue": "$1B",
+          "valueUsdB": 1,
+          "value": 1,
           "alsoReportedBy": []
         },
         "why": "next in vc"
       },
       {
         "item": {
-          "title": "Breeze Airways and AIP Capital Complete Debt Financing Secured by Six Airbus A220-300 Aircraft",
-          "link": "https://www.prnewswire.com/news-releases/breeze-airways-and-aip-capital-complete-debt-financing-secured-by-six-airbus-a220-300-aircraft-302930262.html",
+          "title": "Omni Helicopters International secures R$200 million in new financing",
+          "link": "https://www.prnewswire.com/news-releases/omni-helicopters-international-secures-r200-million-in-new-financing-302937846.html",
           "source": "PR Newswire",
           "vertical": "capital-raises",
-          "date": "2026-11-05T12:30:00.000Z",
-          "dealValue": null,
-          "valueUsdB": null,
-          "value": null,
+          "date": "2026-11-12T12:52:00.000Z",
+          "dealValue": "$200M",
+          "valueUsdB": 0.2,
+          "value": 0.2,
           "alsoReportedBy": []
         },
         "why": "next in capital-raises"
       },
       {
         "item": {
-          "title": "BVK Pension Fund Raided Over US Business, Munich Prosecutors Say",
-          "link": "https://www.bloomberg.com/news/articles/2026-11-05/bvk-pension-fund-raided-over-us-business-munich-prosecutors-say",
-          "source": "Bloomberg",
-          "vertical": "hf",
-          "date": "2026-11-05T13:13:24.000Z",
+          "title": "PKF Investment Banking Closes Sale of Erie Foods International's North American Operations to Actus Nutrition",
+          "link": "https://www.prnewswire.com/news-releases/pkf-investment-banking-closes-sale-of-erie-foods-internationals-north-american-operations-to-actus-nutrition-302936108.html",
+          "source": "PR Newswire",
+          "vertical": "ma",
+          "date": "2026-11-12T13:00:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
           "alsoReportedBy": []
         },
-        "why": "next in Hedge funds"
+        "why": "next in M&A"
       }
     ],
     "counts": {
-      "newsInWindow": 123,
-      "dealsInWindow": 101,
+      "newsInWindow": 133,
+      "dealsInWindow": 100,
       "days": 7
     }
   },
   "sources": [
     {
       "index": 0,
-      "url": "https://www.prnewswire.com/news-releases/weatherford-capital-invests-in-arnold-palmer-junior-golf-tour-alongside-bolt-ventures-302930155.html",
+      "url": "https://www.prnewswire.com/news-releases/the-pacific-financial-group-taps-salesforce-and-newly-acquired-contentful-for-a-world-class-advisor-experience-302935610.html",
       "name": "PR Newswire",
-      "date": "2026-11-05",
-      "title": "Weatherford Capital Invests in Arnold Palmer Junior Golf Tour Alongside Bolt Ventures",
-      "area": "vc",
+      "date": "2026-11-12",
+      "title": "The Pacific Financial Group Taps Salesforce and Newly Acquired Contentful for a World-Class Advisor Experience",
+      "area": "M&A",
       "dealValue": null,
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 1,
-      "url": "https://www.ft.com/content/2478a5ea-263a-4f4f-ac96-7d619fb39bb8?syn-25a6b1a6=1",
-      "name": "FT",
-      "date": "2026-11-04",
-      "title": "CVS Health to break up $102bn healthcare empire",
-      "area": "M&A",
-      "dealValue": "$102B",
+      "url": "https://hedgeweek.com/news/canada-pension-plans-to-double-hedge-fund-allocation-to-160bn",
+      "name": "Hedgeweek",
+      "date": "2026-11-12",
+      "title": "Canada Pension plans to double hedge fund allocation to… | Hedgeweek",
+      "area": "Hedge funds",
+      "dealValue": "$160B",
       "alsoReportedBy": [],
-      "fetched": false,
-      "error": "HTTP 403"
+      "fetched": true
     },
     {
       "index": 2,
-      "url": "https://www.bloomberg.com/news/videos/2026-11-05/bofa-s-cabana-premature-to-call-end-of-fed-hiking-cycle-video",
-      "name": "Bloomberg",
-      "date": "2026-11-05",
-      "title": "BofA’s Cabana Says It’s Premature to Call End to Fed’s Hiking Cycle",
-      "area": "Hedge funds",
-      "dealValue": null,
+      "url": "https://www.prnewswire.com/news-releases/kindo-secures-57-6-million-to-expand-enterprise-control-over-ai-agent-actions-and-reduce-costs-302937058.html",
+      "name": "PR Newswire",
+      "date": "2026-11-12",
+      "title": "Kindo Secures $57.6 Million to Expand Enterprise Control Over AI Agent Actions and Reduce Costs",
+      "area": "vc",
+      "dealValue": "$58M",
       "alsoReportedBy": [],
-      "fetched": false,
-      "error": "restricted source: headline only, read it at the publisher"
+      "fetched": true
     },
     {
       "index": 3,
-      "url": "https://privateequitywire.com/news/saudi-pif-secures-3bn-financing-backed-by-italys-export-credit-agency",
-      "name": "Private Equity Wire",
-      "date": "2026-11-05",
-      "title": "Private Equity Wire | Saudi PIF secures $3bn financing backed by…",
-      "area": "Private equity",
-      "dealValue": "$3B",
+      "url": "https://www.prnewswire.com/news-releases/peak-10-energy-announces-500-million-acquisition-finance-facility-with-us-bank-302937199.html",
+      "name": "PR Newswire",
+      "date": "2026-11-12",
+      "title": "Peak 10 Energy Announces $500 Million Acquisition Finance Facility with U.S. Bank",
+      "area": "Deal tape",
+      "dealValue": "$500M",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 4,
-      "url": "https://www.ft.com/content/570191b9-7910-4627-8779-6a382ef26613?syn-25a6b1a6=1",
+      "url": "https://www.prnewswire.com/news-releases/hig-capital-signs-definitive-agreement-to-acquire-majority-stake-in-go-asia-302935623.html",
+      "name": "PR Newswire",
+      "date": "2026-11-11",
+      "title": "H.I.G. Capital Signs Definitive Agreement to Acquire Majority Stake in go asia",
+      "area": "Deal tape",
+      "dealValue": "$76B",
+      "alsoReportedBy": [],
+      "fetched": true
+    },
+    {
+      "index": 5,
+      "url": "https://www.ft.com/content/68d690dc-c59a-421e-82a8-62b76c2b7a10?syn-25a6b1a6=1",
       "name": "FT",
-      "date": "2026-11-03",
-      "title": "Billionaire Mark Walter has explored sale of $71bn insurer Delaware Life",
+      "date": "2026-11-12",
+      "title": "Metro Bank puts itself up for sale",
       "area": "M&A",
-      "dealValue": "$71B",
+      "dealValue": null,
       "alsoReportedBy": [],
       "fetched": false,
       "error": "HTTP 403"
     },
     {
-      "index": 5,
-      "url": "https://www.prnewswire.com/news-releases/teg-to-pursue-acquisition-of-new-1-210-room-hotel--events-complex-in-tashkent-302930450.html",
-      "name": "PR Newswire",
-      "date": "2026-11-05",
-      "title": "TEG To Pursue Acquisition of New 1,210-Room Hotel &amp; Events Complex in Tashkent",
-      "area": "Deal tape",
-      "dealValue": null,
-      "alsoReportedBy": [],
-      "fetched": true
-    },
-    {
       "index": 6,
-      "url": "https://www.prnewswire.com/news-releases/fathers-beer-announces-2-million-funding-round-chef-robert-irvine-invests-and-joins-as-strategic-partner-302930166.html",
+      "url": "https://www.prnewswire.com/news-releases/athlete-to-athlete-raises-8-million-series-a-led-by-rally-ventures-to-expand-youth-sports-mentorship-302935560.html",
       "name": "PR Newswire",
-      "date": "2026-11-05",
-      "title": "Fathers Beer Announces $2 Million Funding Round; Chef Robert Irvine Invests and Joins as Strategic Partner",
+      "date": "2026-11-12",
+      "title": "Athlete To Athlete Raises $8 Million Series A Led by Rally Ventures to Expand Youth Sports Mentorship",
       "area": "vc",
-      "dealValue": "$2M",
+      "dealValue": "$8M",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 7,
-      "url": "https://www.prnewswire.com/news-releases/lombard-systems-raises-4-million-to-standardize-financing-for-tokenized-assets-302930746.html",
+      "url": "https://www.prnewswire.com/news-releases/solareit-surpasses-8-5-billion-project-value-milestone-in-clean-energy-land-financing-302936195.html",
       "name": "PR Newswire",
-      "date": "2026-11-05",
-      "title": "Lombard Systems Raises $4 Million to Standardize Financing for Tokenized Assets",
+      "date": "2026-11-12",
+      "title": "SolaREIT Surpasses $8.5 Billion Project Value Milestone in Clean Energy Land Financing",
       "area": "capital-raises",
-      "dealValue": "$4M",
+      "dealValue": "$8.5B",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 8,
-      "url": "https://www.bloomberg.com/news/videos/2026-11-05/boe-sees-case-for-another-hike-if-iran-war-doesn-t-end-video",
+      "url": "https://www.prnewswire.com/news-releases/branford-castle-acquires-floratine-products-group-marking-first-platform-investment-in-fund-iii-302937191.html",
+      "name": "PR Newswire",
+      "date": "2026-11-12",
+      "title": "Branford Castle Acquires Floratine Products Group, Marking First Platform Investment in Fund III",
+      "area": "M&A",
+      "dealValue": null,
+      "alsoReportedBy": [],
+      "fetched": true
+    },
+    {
+      "index": 9,
+      "url": "https://www.bloomberg.com/news/articles/2026-11-12/oil-jumps-after-trump-says-us-doesn-t-need-deal-with-iran",
       "name": "Bloomberg",
-      "date": "2026-11-05",
-      "title": "BOE Sees Case for Another Rate Hike If Iran War Doesn't End",
+      "date": "2026-11-12",
+      "title": "Oil Jumps After Trump Says US Doesn’t Need Deal With Iran",
       "area": "Hedge funds",
       "dealValue": null,
       "alsoReportedBy": [],
       "fetched": false,
       "error": "restricted source: headline only, read it at the publisher"
-    },
-    {
-      "index": 9,
-      "url": "https://www.prnewswire.com/news-releases/brg-communications-acquires-we-are-headstart-launches-brg-headstart-to-serve-healthcare-startups-emerging-brands-and-investors-302930740.html",
-      "name": "PR Newswire",
-      "date": "2026-11-05",
-      "title": "BRG Communications Acquires We Are HeadStart, Launches BRG HeadStart to Serve Healthcare Startups, Emerging Brands and Investors",
-      "area": "M&A",
-      "dealValue": null,
-      "alsoReportedBy": [],
-      "fetched": true
     }
   ],
   "edition": null,
