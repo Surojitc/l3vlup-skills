@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12",
+  "updatedAt": "2026-11-13",
   "entries": {
     "eightfold-campusjobs-mlp-com-755953958409": {
       "closingDate": "2026-11-18",
@@ -176,12 +176,6 @@
       "firstSeen": "2026-11-09",
       "lastConfirmed": "2026-11-09"
     },
-    "eightfold-campusjobs-mlp-com-755958178377": {
-      "closingDate": "2027-02-17",
-      "source": "jsonld",
-      "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-08-31"
-    },
     "eightfold-campusjobs-mlp-com-755958178483": {
       "closingDate": "2027-05-08",
       "source": "jsonld",
@@ -222,37 +216,37 @@
       "closingDate": "2026-11-19",
       "source": "ats-field",
       "firstSeen": "2026-10-24",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "greenhouse-duolingo-8933791002": {
       "closingDate": "2026-12-12",
       "source": "ats-field",
       "firstSeen": "2026-11-10",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "greenhouse-point72-8845395002": {
       "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-09-30",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "greenhouse-robinhood-8198241": {
       "closingDate": "2026-12-19",
       "source": "ats-field",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "greenhouse-stepstone-8282599": {
       "closingDate": "2026-11-13",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "greenhouse-stepstone-8368989": {
       "closingDate": "2026-11-28",
       "source": "ats-field",
       "firstSeen": "2026-11-12",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "greenhouse-teneo-8046234003": {
       "closingDate": "2026-11-13",
@@ -264,25 +258,25 @@
       "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "greenhouse-virtu-8746197002": {
       "closingDate": "2026-11-15",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-blackrock-tal-net-12223": {
       "closingDate": "2026-12-04",
       "source": "prose",
       "firstSeen": "2026-08-31",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-blackrock-tal-net-12229": {
       "closingDate": "2026-11-30",
       "source": "prose",
       "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-morganstanley-tal-net-21511": {
       "closingDate": "2026-11-27",
@@ -294,55 +288,55 @@
       "closingDate": "2026-11-27",
       "source": "prose",
       "firstSeen": "2026-09-12",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-morganstanley-tal-net-22313": {
       "closingDate": "2026-11-30",
       "source": "prose",
       "firstSeen": "2026-10-16",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-morganstanley-tal-net-22357": {
       "closingDate": "2027-01-10",
       "source": "prose",
       "firstSeen": "2026-11-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-morganstanley-tal-net-22423": {
       "closingDate": "2026-12-06",
       "source": "prose",
       "firstSeen": "2026-11-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1426": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1427": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1428": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1429": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1430": {
       "closingDate": "2027-05-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1431": {
       "closingDate": "2026-12-01",
@@ -354,97 +348,97 @@
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1435": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1449": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1451": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1504": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1505": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1517": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1518": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1520": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1521": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1522": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1548": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1549": {
       "closingDate": "2027-03-01",
       "source": "ats-field",
       "firstSeen": "2026-09-05",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1558": {
       "closingDate": "2026-12-01",
       "source": "ats-field",
       "firstSeen": "2026-09-20",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1580": {
       "closingDate": "2026-12-24",
       "source": "ats-field",
       "firstSeen": "2026-11-12",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "talnet-nomuracampus-tal-net-1581": {
       "closingDate": "2026-12-24",
       "source": "ats-field",
       "firstSeen": "2026-11-12",
-      "lastConfirmed": "2026-11-12"
+      "lastConfirmed": "2026-11-13"
     },
     "workday-accenture-R00235738": {
       "closingDate": "2027-12-31",
@@ -679,6 +673,12 @@
       "source": "workday-detail",
       "firstSeen": "2026-11-04",
       "lastConfirmed": "2026-11-11"
+    },
+    "workday-barclays-JR-0000127922-1": {
+      "closingDate": "2026-11-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
     },
     "workday-barclays-JR-0000128131": {
       "closingDate": "2026-12-01",
@@ -956,6 +956,12 @@
       "firstSeen": "2026-11-09",
       "lastConfirmed": "2026-11-09"
     },
+    "workday-barclays-JR-0000133002": {
+      "closingDate": "2026-11-20",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
+    },
     "workday-barclays-JR-0000133095": {
       "closingDate": "2026-11-13",
       "source": "workday-detail",
@@ -1022,23 +1028,11 @@
       "firstSeen": "2026-11-11",
       "lastConfirmed": "2026-11-11"
     },
-    "workday-bmo-R260030662": {
-      "closingDate": "2026-11-12",
+    "workday-bmo-R260030505": {
+      "closingDate": "2026-11-14",
       "source": "workday-detail",
-      "firstSeen": "2026-11-11",
-      "lastConfirmed": "2026-11-11"
-    },
-    "workday-bmo-R260030667": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-11",
-      "lastConfirmed": "2026-11-11"
-    },
-    "workday-bmo-R260030829": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-11",
-      "lastConfirmed": "2026-11-11"
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
     },
     "workday-bmo-R260030938": {
       "closingDate": "2026-11-14",
@@ -1046,17 +1040,23 @@
       "firstSeen": "2026-11-06",
       "lastConfirmed": "2026-11-10"
     },
+    "workday-bmo-R260031068-3": {
+      "closingDate": "2026-11-22",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
+    },
     "workday-bmo-R260031222": {
       "closingDate": "2026-11-14",
       "source": "workday-detail",
       "firstSeen": "2026-11-11",
       "lastConfirmed": "2026-11-11"
     },
-    "workday-bmo-R260031280": {
-      "closingDate": "2026-11-12",
+    "workday-bmo-R260031246": {
+      "closingDate": "2026-11-14",
       "source": "workday-detail",
-      "firstSeen": "2026-11-10",
-      "lastConfirmed": "2026-11-10"
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
     },
     "workday-bmo-R260031338": {
       "closingDate": "2026-11-14",
@@ -1064,11 +1064,11 @@
       "firstSeen": "2026-11-11",
       "lastConfirmed": "2026-11-11"
     },
-    "workday-bmo-R260031421": {
-      "closingDate": "2026-11-12",
+    "workday-bmo-R260031544": {
+      "closingDate": "2026-11-17",
       "source": "workday-detail",
-      "firstSeen": "2026-11-11",
-      "lastConfirmed": "2026-11-11"
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
     },
     "workday-bpinternational-RQ115461-2": {
       "closingDate": "2027-02-28",
@@ -1328,6 +1328,12 @@
       "firstSeen": "2026-11-11",
       "lastConfirmed": "2026-11-11"
     },
+    "workday-citi-261008599": {
+      "closingDate": "2026-11-17",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
+    },
     "workday-citi-261008790": {
       "closingDate": "2026-11-20",
       "source": "workday-detail",
@@ -1364,6 +1370,12 @@
       "firstSeen": "2026-10-12",
       "lastConfirmed": "2026-10-12"
     },
+    "workday-citi-26997993": {
+      "closingDate": "2026-11-19",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
+    },
     "workday-citi-26999031": {
       "closingDate": "2026-11-13",
       "source": "workday-detail",
@@ -1375,6 +1387,18 @@
       "source": "workday-detail",
       "firstSeen": "2026-11-11",
       "lastConfirmed": "2026-11-11"
+    },
+    "workday-citi-26999062": {
+      "closingDate": "2026-11-16",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
+    },
+    "workday-citi-26999106": {
+      "closingDate": "2026-11-16",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
     },
     "workday-fticonsulting-JR250SB-TEE": {
       "closingDate": "2026-11-30",
@@ -1555,12 +1579,6 @@
       "source": "workday-detail",
       "firstSeen": "2026-10-26",
       "lastConfirmed": "2026-10-26"
-    },
-    "workday-fticonsulting-JR261203": {
-      "closingDate": "2026-12-31",
-      "source": "workday-detail",
-      "firstSeen": "2026-09-28",
-      "lastConfirmed": "2026-09-28"
     },
     "workday-fticonsulting-JR261446": {
       "closingDate": "2026-12-31",
@@ -2516,12 +2534,6 @@
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
     },
-    "workday-manulife-JR26101278": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-10",
-      "lastConfirmed": "2026-11-10"
-    },
     "workday-manulife-JR26110010": {
       "closingDate": "2026-12-31",
       "source": "workday-detail",
@@ -3110,12 +3122,6 @@
       "firstSeen": "2026-10-26",
       "lastConfirmed": "2026-10-26"
     },
-    "workday-statestreet-R-798960": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-11",
-      "lastConfirmed": "2026-11-11"
-    },
     "workday-statestreet-R-799807": {
       "closingDate": "2026-11-13",
       "source": "workday-detail",
@@ -3308,23 +3314,17 @@
       "firstSeen": "2026-11-12",
       "lastConfirmed": "2026-11-12"
     },
-    "workday-sunlife-JR00126478": {
-      "closingDate": "2026-11-12",
+    "workday-statestreet-R-801091": {
+      "closingDate": "2026-12-04",
       "source": "workday-detail",
-      "firstSeen": "2026-11-05",
-      "lastConfirmed": "2026-11-05"
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
     },
     "workday-sunlife-JR00127666-1": {
       "closingDate": "2026-11-21",
       "source": "workday-detail",
       "firstSeen": "2026-10-31",
       "lastConfirmed": "2026-10-31"
-    },
-    "workday-sunlife-JR00127798": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-07",
-      "lastConfirmed": "2026-11-07"
     },
     "workday-sunlife-JR00128150-2": {
       "closingDate": "2026-11-27",
@@ -3373,12 +3373,6 @@
       "source": "workday-detail",
       "firstSeen": "2026-11-05",
       "lastConfirmed": "2026-11-05"
-    },
-    "workday-sunlife-JR00129532": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-11-07",
-      "lastConfirmed": "2026-11-07"
     },
     "workday-sunlife-JR00129539": {
       "closingDate": "2026-11-19",
@@ -3512,18 +3506,6 @@
       "firstSeen": "2026-11-10",
       "lastConfirmed": "2026-11-10"
     },
-    "workday-trinitylifesciences-JR100870-1": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-23"
-    },
-    "workday-trinitylifesciences-JR100872": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-23",
-      "lastConfirmed": "2026-10-23"
-    },
     "workday-trinitylifesciences-JR100879": {
       "closingDate": "2026-11-17",
       "source": "workday-detail",
@@ -3542,23 +3524,23 @@
       "firstSeen": "2026-11-10",
       "lastConfirmed": "2026-11-10"
     },
-    "workday-unum-836387": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-31",
-      "lastConfirmed": "2026-10-31"
-    },
-    "workday-usbank-2026-0033867": {
-      "closingDate": "2026-11-12",
-      "source": "workday-detail",
-      "firstSeen": "2026-10-30",
-      "lastConfirmed": "2026-10-30"
-    },
     "workday-usbank-2026-0034177": {
       "closingDate": "2026-11-27",
       "source": "workday-detail",
       "firstSeen": "2026-11-06",
       "lastConfirmed": "2026-11-06"
+    },
+    "workday-visa-REF086768W-1": {
+      "closingDate": "2026-12-18",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
+    },
+    "workday-visa-REF086800W-1": {
+      "closingDate": "2026-12-18",
+      "source": "workday-detail",
+      "firstSeen": "2026-11-13",
+      "lastConfirmed": "2026-11-13"
     },
     "workday-wf-R-563208": {
       "closingDate": "2026-11-19",
@@ -3659,8 +3641,8 @@
       "attempts": 3
     },
     "ashby-alan-a725479a-de87-45d9-afe6-e3273dc6d704|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "ashby-alan-d457e0f1-2418-4759-b4ed-e41fdff50bf0|jsonld": {
       "checkedAt": "2026-11-02",
@@ -3863,16 +3845,16 @@
       "attempts": 5
     },
     "ashby-ramp-b39ceb08-a0a7-4f8b-a760-2fb88e209956|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "ashby-ramp-b66be397-240b-41a6-9b05-493299b270a9|jsonld": {
       "checkedAt": "2026-11-05",
       "attempts": 5
     },
     "ashby-ramp-fc971889-db1d-4a20-a25e-f282f9296936|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "ashby-ramp-fcf118cc-521a-4a62-9d13-945e5b6e3cb8|jsonld": {
       "checkedAt": "2026-11-05",
@@ -3914,18 +3896,6 @@
       "checkedAt": "2026-10-26",
       "attempts": 3
     },
-    "ashby-snowflake-4be290ae-dd9d-488c-9d90-56fcd69101ca|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 2
-    },
-    "ashby-snowflake-5315b6f6-2c14-4cb9-a884-c2bae69f2c69|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 2
-    },
-    "ashby-snowflake-7bd393df-67d7-4009-ba4f-1cd79a82b0be|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 2
-    },
     "ashby-snowflake-90190b16-fd27-4366-8c10-9c4896157681|jsonld": {
       "checkedAt": "2026-09-30",
       "attempts": 4
@@ -3955,44 +3925,44 @@
       "attempts": 6
     },
     "ashby-trading212-36a448fe-d867-4f09-88e4-67c47abc44d0|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "ashby-trading212-3869cbd3-5700-4a3f-b32c-ac386518ee9a|jsonld": {
       "checkedAt": "2026-11-12",
       "attempts": 3
     },
     "ashby-trading212-4a95dcf2-673e-411c-99a4-0b9dc19cd4f0|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "ashby-trading212-e03427a7-8ddb-40c3-acfd-1d6f2165c123|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "ashby-trading212-f8d628f4-6093-48bc-942e-6057b44707fc|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "ashby-voleon-57f1b666-2f4b-4bad-aac0-fa42a1c8fdf6|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "ashby-voleon-6953e829-c69d-43dc-9b39-49ab1b487b2d|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "ashby-voleon-d732fd5a-ac98-4985-9e60-d1d59f02a66c|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "ashby-voleon-e182a100-56cb-4949-9f33-3c26786b41d9|jsonld": {
       "checkedAt": "2026-11-12",
       "attempts": 3
     },
     "ashby-voleon-ef2b0892-1772-4240-a535-4043d66d848e|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "ashby-wincent-3f749456-0b82-48e0-ade8-d24bd39d22b1|jsonld": {
       "checkedAt": "2026-10-27",
@@ -4003,12 +3973,12 @@
       "attempts": 3
     },
     "greenhouse-addepar1-8756273002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-addepar1-8815241002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-addepar1-8910310002|jsonld": {
       "checkedAt": "2026-11-11",
@@ -4295,8 +4265,8 @@
       "attempts": 4
     },
     "greenhouse-brex-8935242002|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "greenhouse-brex-8936403002|jsonld": {
       "checkedAt": "2026-11-12",
@@ -4307,8 +4277,8 @@
       "attempts": 1
     },
     "greenhouse-bridgewater89-8334259002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-bridgewater89-8395041002|jsonld": {
       "checkedAt": "2026-11-01",
@@ -4327,12 +4297,12 @@
       "attempts": 2
     },
     "greenhouse-carta-5640725003|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-carta-7807641003|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-carta-8154341003|jsonld": {
       "checkedAt": "2026-11-11",
@@ -4411,8 +4381,8 @@
       "attempts": 3
     },
     "greenhouse-clearstreet-8256262|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-cloudflare-7774167|jsonld": {
       "checkedAt": "2026-10-11",
@@ -4507,20 +4477,20 @@
       "attempts": 6
     },
     "greenhouse-coinbase-8175453|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "greenhouse-coinbase-8175459|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "greenhouse-coinbase-8175462|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "greenhouse-coinbase-8175471|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "greenhouse-coinbase-8175504|jsonld": {
       "checkedAt": "2026-10-02",
@@ -4547,8 +4517,8 @@
       "attempts": 5
     },
     "greenhouse-coinbase-8175569|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "greenhouse-coinbase-8175873|jsonld": {
       "checkedAt": "2026-11-12",
@@ -4591,8 +4561,8 @@
       "attempts": 4
     },
     "greenhouse-databricks-6866538002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-databricks-6866549002|jsonld": {
       "checkedAt": "2026-11-12",
@@ -4711,16 +4681,16 @@
       "attempts": 3
     },
     "greenhouse-deliveroo-8202627|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-deliveroo-8236291|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-deliveroo-8236293|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-deliveroo-8331619|jsonld": {
       "checkedAt": "2026-11-12",
@@ -4735,52 +4705,52 @@
       "attempts": 4
     },
     "greenhouse-drweng-7668776|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-7818540|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-7942281|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-7957243|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-7957735|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-drweng-7957756|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-7991171|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-drweng-7991196|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-7992936|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-7993004|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-8014915|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-8020364|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-drweng-8070392|jsonld": {
       "checkedAt": "2026-11-01",
@@ -4803,8 +4773,8 @@
       "attempts": 3
     },
     "greenhouse-duolingo-8927565002|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "greenhouse-duolingo-8928712002|jsonld": {
       "checkedAt": "2026-11-10",
@@ -4947,8 +4917,8 @@
       "attempts": 3
     },
     "greenhouse-ebury-5027026101|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "greenhouse-ebury-5028869101|jsonld": {
       "checkedAt": "2026-11-09",
@@ -5183,12 +5153,12 @@
       "attempts": 3
     },
     "greenhouse-gsacapital-8570661002|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "greenhouse-gsacapital-8570668002|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "greenhouse-gusto-8001931|jsonld": {
       "checkedAt": "2026-11-05",
@@ -5219,8 +5189,8 @@
       "attempts": 6
     },
     "greenhouse-imc-4796143101|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-imc-4818790101|jsonld": {
       "checkedAt": "2026-10-15",
@@ -5582,6 +5552,10 @@
       "checkedAt": "2026-10-22",
       "attempts": 2
     },
+    "greenhouse-lincolninternational-8324552|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
     "greenhouse-lincolninternational-8348465|jsonld": {
       "checkedAt": "2026-11-12",
       "attempts": 3
@@ -5599,12 +5573,12 @@
       "attempts": 2
     },
     "greenhouse-liontree-5250586007|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-liontree-5254192007|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-lyft-8767534002|jsonld": {
       "checkedAt": "2026-10-27",
@@ -5710,10 +5684,6 @@
       "checkedAt": "2026-10-12",
       "attempts": 4
     },
-    "greenhouse-mangroup-4978937101|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 2
-    },
     "greenhouse-mangroup-4982410101|jsonld": {
       "checkedAt": "2026-11-05",
       "attempts": 5
@@ -5771,48 +5741,48 @@
       "attempts": 3
     },
     "greenhouse-optiverus-8011956002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8401052002|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
     "greenhouse-optiverus-8402079002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8402114002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8402215002|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
     "greenhouse-optiverus-8450243002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8450282002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8450287002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8451762002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8451763002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8451764002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8451781002|jsonld": {
       "checkedAt": "2026-10-23",
@@ -5823,8 +5793,8 @@
       "attempts": 1
     },
     "greenhouse-optiverus-8488699002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8488701002|jsonld": {
       "checkedAt": "2026-11-01",
@@ -5835,116 +5805,116 @@
       "attempts": 1
     },
     "greenhouse-optiverus-8585609002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8604760002|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
     "greenhouse-optiverus-8616003002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8623923002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8623927002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8633966002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8641352002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8642260002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8644364002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8644376002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8682750002|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
     "greenhouse-optiverus-8699349002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8700160002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8713409002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8713435002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8713775002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8713898002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8732789002|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-optiverus-8901902002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8901997002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-optiverus-8905975002|jsonld": {
       "checkedAt": "2026-11-02",
       "attempts": 2
     },
     "greenhouse-pdtpartners-8077685|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-pdtpartners-8083292|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-pdtpartners-8263031|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-pinterest-7838577|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-7838591|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8138034|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8138039|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8138049|jsonld": {
       "checkedAt": "2026-10-02",
@@ -5959,24 +5929,24 @@
       "attempts": 1
     },
     "greenhouse-pinterest-8138080|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8138090|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8138097|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8140140|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8140169|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8140210|jsonld": {
       "checkedAt": "2026-10-05",
@@ -5987,28 +5957,32 @@
       "attempts": 4
     },
     "greenhouse-pinterest-8140219|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8140363|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8140389|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8157351|jsonld": {
       "checkedAt": "2026-10-02",
       "attempts": 1
     },
     "greenhouse-pinterest-8214745|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-pinterest-8214757|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
+    },
+    "greenhouse-pinterest-8214783|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "greenhouse-pinterest-8214788|jsonld": {
       "checkedAt": "2026-10-30",
@@ -6031,8 +6005,8 @@
       "attempts": 2
     },
     "greenhouse-pinterest-8350814|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "greenhouse-point72-7297642002|jsonld": {
       "checkedAt": "2026-11-05",
@@ -6071,8 +6045,8 @@
       "attempts": 1
     },
     "greenhouse-point72-8236734002|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-point72-8491055002|jsonld": {
       "checkedAt": "2026-10-15",
@@ -6141,6 +6115,10 @@
     "greenhouse-point72-8899753002|jsonld": {
       "checkedAt": "2026-11-09",
       "attempts": 2
+    },
+    "greenhouse-point72-8929646002|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "greenhouse-point72-8932491002|jsonld": {
       "checkedAt": "2026-11-10",
@@ -6215,8 +6193,8 @@
       "attempts": 3
     },
     "greenhouse-quberesearchandtechnologies-8918722002|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "greenhouse-quberesearchandtechnologies-8926633002|jsonld": {
       "checkedAt": "2026-11-11",
@@ -6327,36 +6305,36 @@
       "attempts": 2
     },
     "greenhouse-scaleai-4730834005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4730836005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4730845005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4730846005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4730851005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4730862005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4735665005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4736426005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-scaleai-4744402005|jsonld": {
       "checkedAt": "2026-11-10",
@@ -6383,8 +6361,8 @@
       "attempts": 5
     },
     "greenhouse-schonfeld-8171776|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "greenhouse-schonfeld-8172059|jsonld": {
       "checkedAt": "2026-10-18",
@@ -6415,8 +6393,8 @@
       "attempts": 6
     },
     "greenhouse-schonfeld-8174538|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-schonfeld-8187178|jsonld": {
       "checkedAt": "2026-10-21",
@@ -6455,8 +6433,8 @@
       "attempts": 3
     },
     "greenhouse-schonfeld-8311597|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-schonfeld-8324611|jsonld": {
       "checkedAt": "2026-11-06",
@@ -6467,8 +6445,8 @@
       "attempts": 1
     },
     "greenhouse-schonfeld-8350719|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "greenhouse-schonfeld-8356741|jsonld": {
       "checkedAt": "2026-11-12",
@@ -6563,24 +6541,24 @@
       "attempts": 5
     },
     "greenhouse-stepstone-7964562|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8094329|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8094340|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8095092|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8096268|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8097265|jsonld": {
       "checkedAt": "2026-10-23",
@@ -6591,28 +6569,28 @@
       "attempts": 2
     },
     "greenhouse-stepstone-8097993|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8112319|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8230931|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-stepstone-8237507|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8239658|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8274328|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stepstone-8282723|jsonld": {
       "checkedAt": "2026-11-09",
@@ -6623,8 +6601,8 @@
       "attempts": 3
     },
     "greenhouse-stepstone-8350072|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "greenhouse-stepstone-8354259|jsonld": {
       "checkedAt": "2026-11-12",
@@ -6715,24 +6693,24 @@
       "attempts": 5
     },
     "greenhouse-stripe-8194283|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-stripe-8194285|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-stripe-8194287|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-stripe-8194291|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-stripe-8202299|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-stripe-8212508|jsonld": {
       "checkedAt": "2026-11-02",
@@ -6743,8 +6721,8 @@
       "attempts": 5
     },
     "greenhouse-stripe-8241260|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "greenhouse-stripe-8257892|jsonld": {
       "checkedAt": "2026-10-29",
@@ -6795,80 +6773,80 @@
       "attempts": 2
     },
     "greenhouse-towerresearchcapital-7011493|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-7077280|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-7368106|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8024128|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8024138|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8037824|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8037860|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8044334|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8113986|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8126667|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8138524|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8143756|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
     "greenhouse-towerresearchcapital-8168634|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8168750|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8184771|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8212179|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8239067|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8245433|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8299894|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-towerresearchcapital-8372658|jsonld": {
       "checkedAt": "2026-11-11",
@@ -6883,12 +6861,12 @@
       "attempts": 2
     },
     "greenhouse-tpgcareers-8036092003|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-tpgcareers-8036208003|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-vaticlabs-7205954|jsonld": {
       "checkedAt": "2026-11-07",
@@ -6899,8 +6877,8 @@
       "attempts": 3
     },
     "greenhouse-vercel-6181759004|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-veritiongroupllcinternships-5260165007|jsonld": {
       "checkedAt": "2026-11-02",
@@ -6935,56 +6913,56 @@
       "attempts": 3
     },
     "greenhouse-virtu-5208637002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-5513756002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-6329460002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-7617953002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-8142539002|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-virtu-8547254002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-8551566002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-8624408002|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-virtu-8624410002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-8624424002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-8631180002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-8638124002|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "greenhouse-virtu-8657286002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "greenhouse-virtu-8657500002|jsonld": {
       "checkedAt": "2026-11-07",
@@ -7039,8 +7017,8 @@
       "attempts": 2
     },
     "greenhouse-winton-4986765101|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "janestreet-jane-street-5866838002|jsonld": {
       "checkedAt": "2026-11-05",
@@ -7311,12 +7289,12 @@
       "attempts": 5
     },
     "janestreet-jane-street-8927052002|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "janestreet-jane-street-8927083002|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "lever-belvederetrading-337314ee-4de5-4b96-a419-1b9287a7df68|jsonld": {
       "checkedAt": "2026-11-03",
@@ -7507,8 +7485,8 @@
       "attempts": 6
     },
     "lever-palantir-66b495eb-aaf9-4bf9-a759-41854534add7|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "lever-palantir-69ab7e24-8f5d-426e-84f7-6d3b2d4a7efd|jsonld": {
       "checkedAt": "2026-11-01",
@@ -7599,8 +7577,8 @@
       "attempts": 6
     },
     "lever-palantir-b3d81928-6c26-432f-8a0a-36602c2eefcb|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "lever-palantir-b4aa51a2-bc43-4d67-bf55-12db7feefb3a|jsonld": {
       "checkedAt": "2026-11-06",
@@ -7727,12 +7705,12 @@
       "attempts": 1
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-10529|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-10683|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-11429|jsonld": {
       "checkedAt": "2026-11-01",
@@ -7771,12 +7749,12 @@
       "attempts": 3
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-13761|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-13832|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-13975|jsonld": {
       "checkedAt": "2026-11-05",
@@ -7847,8 +7825,8 @@
       "attempts": 3
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14210|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14289|jsonld": {
       "checkedAt": "2026-10-23",
@@ -7887,36 +7865,36 @@
       "attempts": 3
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14392|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14393|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14394|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14395|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14396|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14397|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14399|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14400|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14401|jsonld": {
       "checkedAt": "2026-11-01",
@@ -7927,16 +7905,16 @@
       "attempts": 3
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14403|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14411|jsonld": {
       "checkedAt": "2026-10-23",
       "attempts": 1
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14417|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14418|jsonld": {
       "checkedAt": "2026-11-01",
@@ -7947,12 +7925,12 @@
       "attempts": 2
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14465|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14475|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14476|jsonld": {
       "checkedAt": "2026-11-09",
@@ -7983,24 +7961,24 @@
       "attempts": 2
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14698|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14699|jsonld": {
       "checkedAt": "2026-11-10",
       "attempts": 1
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14702|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14703|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14704|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-ebqb-fa-us2-oraclecloud-com-14716|jsonld": {
       "checkedAt": "2026-11-11",
@@ -8019,12 +7997,16 @@
       "attempts": 1
     },
     "oracle-ehzq-fa-us2-oraclecloud-com-115673|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ehzq-fa-us2-oraclecloud-com-115684|jsonld": {
       "checkedAt": "2026-11-12",
       "attempts": 3
+    },
+    "oracle-ehzq-fa-us2-oraclecloud-com-115709|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "oracle-ehzq-fa-us2-oraclecloud-com-115837|jsonld": {
       "checkedAt": "2026-10-27",
@@ -8035,8 +8017,8 @@
       "attempts": 3
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-1937|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-1938|jsonld": {
       "checkedAt": "2026-10-23",
@@ -8051,60 +8033,60 @@
       "attempts": 3
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-1975|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-1976|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-1977|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-1984|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2009|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2010|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2011|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2046|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2049|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2050|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2051|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2052|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2105|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2134|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2143|jsonld": {
       "checkedAt": "2026-10-26",
@@ -8119,16 +8101,16 @@
       "attempts": 2
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2150|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2155|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2156|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2163|jsonld": {
       "checkedAt": "2026-11-01",
@@ -8139,16 +8121,16 @@
       "attempts": 3
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2177|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2192|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2193|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-ekbq-fa-em2-oraclecloud-com-2202|jsonld": {
       "checkedAt": "2026-11-01",
@@ -8223,180 +8205,180 @@
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81235|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81238|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81239|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81240|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81241|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81243|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81245|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81246|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81248|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81250|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81251|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81252|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81253|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81254|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81255|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81256|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81257|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81260|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81262|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81263|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81264|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81266|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81267|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81268|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81270|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81271|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81276|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81277|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81278|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81279|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81282|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81283|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81284|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81285|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81287|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81296|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81297|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81302|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81305|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81307|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81310|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81313|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81316|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81318|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81319|jsonld": {
       "checkedAt": "2026-10-26",
@@ -8407,36 +8389,36 @@
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81321|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81322|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81323|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81324|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81326|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81330|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81331|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81333|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81345|jsonld": {
       "checkedAt": "2026-11-01",
@@ -8447,16 +8429,16 @@
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81833|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81842|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81922|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-81954|jsonld": {
       "checkedAt": "2026-10-26",
@@ -8471,20 +8453,20 @@
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82026|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82153|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82198|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82205|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82243|jsonld": {
       "checkedAt": "2026-10-26",
@@ -8499,208 +8481,208 @@
       "attempts": 3
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82247|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82248|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82258|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82260|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82261|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82267|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82270|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82271|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82272|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82273|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82274|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82276|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82277|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82278|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82279|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82280|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82281|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82283|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82285|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82286|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82293|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82294|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82295|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82296|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82297|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82301|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82415|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82536|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82537|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82538|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82539|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82540|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82541|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82542|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82544|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82546|jsonld": {
       "checkedAt": "2026-11-01",
       "attempts": 3
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82547|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82641|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82642|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82782|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82784|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82859|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82911|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82912|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82919|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-82920|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-83002|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-83005|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-83098|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-83148|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-83198|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-eofe-fa-us2-oraclecloud-com-83315|jsonld": {
       "checkedAt": "2026-11-06",
@@ -8735,40 +8717,40 @@
       "attempts": 2
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35919|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35921|jsonld": {
-      "checkedAt": "2026-10-26",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35926|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35928|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35964|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35966|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36197|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36542|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36833|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-36943|jsonld": {
       "checkedAt": "2026-11-01",
@@ -8779,20 +8761,20 @@
       "attempts": 3
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37535|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37536|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37537|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-37538|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-38049|jsonld": {
       "checkedAt": "2026-11-07",
@@ -8831,8 +8813,8 @@
       "attempts": 2
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-38492|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-icbpjb-fa-ocs-oraclecloud-com-6370|jsonld": {
       "checkedAt": "2026-11-09",
@@ -9575,8 +9557,8 @@
       "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210774454|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "oracle-jpmc-fa-oraclecloud-com-210774659|jsonld": {
       "checkedAt": "2026-11-05",
@@ -9966,13 +9948,9 @@
       "checkedAt": "2026-11-03",
       "attempts": 4
     },
-    "oracle-jpmc-fa-oraclecloud-com-210794964|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 2
-    },
     "oracle-jpmc-fa-oraclecloud-com-210795339|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "oracle-jpmc-fa-oraclecloud-com-210795361|jsonld": {
       "checkedAt": "2026-10-22",
@@ -10043,32 +10021,32 @@
       "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210802065|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210802076|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210802372|jsonld": {
       "checkedAt": "2026-11-11",
       "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210802419|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210802421|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "oracle-jpmc-fa-oraclecloud-com-210802461|jsonld": {
       "checkedAt": "2026-11-11",
       "attempts": 3
     },
     "oracle-jpmc-fa-oraclecloud-com-210802558|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210802931|jsonld": {
       "checkedAt": "2026-10-26",
@@ -10103,20 +10081,20 @@
       "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210805976|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210805977|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210805978|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210805979|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210806333|jsonld": {
       "checkedAt": "2026-11-12",
@@ -10127,8 +10105,8 @@
       "attempts": 2
     },
     "oracle-jpmc-fa-oraclecloud-com-210807293|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "talnet-blackrock-tal-net-11983|jsonld": {
       "checkedAt": "2026-11-06",
@@ -10155,24 +10133,24 @@
       "attempts": 4
     },
     "talnet-blackrock-tal-net-12220|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "talnet-blackrock-tal-net-12222|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "talnet-blackrock-tal-net-12227|jsonld": {
       "checkedAt": "2026-11-06",
       "attempts": 6
     },
     "talnet-blackrock-tal-net-12228|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "talnet-blackrock-tal-net-12232|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "talnet-morganstanley-tal-net-21477|jsonld": {
       "checkedAt": "2026-11-01",
@@ -10247,8 +10225,8 @@
       "attempts": 5
     },
     "talnet-morganstanley-tal-net-21584|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "talnet-morganstanley-tal-net-21585|jsonld": {
       "checkedAt": "2026-11-11",
@@ -10257,10 +10235,6 @@
     "talnet-morganstanley-tal-net-21598|jsonld": {
       "checkedAt": "2026-11-09",
       "attempts": 6
-    },
-    "talnet-morganstanley-tal-net-21601|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 4
     },
     "talnet-morganstanley-tal-net-21609|jsonld": {
       "checkedAt": "2026-11-11",
@@ -10294,17 +10268,9 @@
       "checkedAt": "2026-10-23",
       "attempts": 2
     },
-    "talnet-morganstanley-tal-net-21763|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 4
-    },
     "talnet-morganstanley-tal-net-21766|jsonld": {
       "checkedAt": "2026-10-15",
       "attempts": 5
-    },
-    "talnet-morganstanley-tal-net-21769|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 4
     },
     "talnet-morganstanley-tal-net-21771|jsonld": {
       "checkedAt": "2026-10-20",
@@ -10371,16 +10337,16 @@
       "attempts": 4
     },
     "talnet-morganstanley-tal-net-21993|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "talnet-morganstanley-tal-net-21994|jsonld": {
       "checkedAt": "2026-10-20",
       "attempts": 3
     },
     "talnet-morganstanley-tal-net-22001|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "talnet-morganstanley-tal-net-22004|jsonld": {
       "checkedAt": "2026-10-12",
@@ -10451,8 +10417,8 @@
       "attempts": 3
     },
     "talnet-morganstanley-tal-net-22260|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "talnet-morganstanley-tal-net-22261|jsonld": {
       "checkedAt": "2026-10-27",
@@ -10726,14 +10692,6 @@
       "checkedAt": "2026-10-26",
       "attempts": 1
     },
-    "workday-accenture-14778770-1|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 1
-    },
-    "workday-accenture-14778770-1|workday-detail": {
-      "checkedAt": "2026-09-28",
-      "attempts": 1
-    },
     "workday-accenture-14804709|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 1
@@ -10743,12 +10701,12 @@
       "attempts": 1
     },
     "workday-accenture-14811479|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-accenture-14811479|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-accenture-14811480|jsonld": {
       "checkedAt": "2026-11-04",
@@ -10861,6 +10819,14 @@
     "workday-accenture-R00279814|workday-detail": {
       "checkedAt": "2026-10-12",
       "attempts": 4
+    },
+    "workday-accenture-R00279819|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-accenture-R00279819|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-accenture-R00279839|jsonld": {
       "checkedAt": "2026-10-12",
@@ -11071,12 +11037,12 @@
       "attempts": 5
     },
     "workday-accenture-R00355331|jsonld": {
-      "checkedAt": "2026-10-12",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-accenture-R00355331|workday-detail": {
-      "checkedAt": "2026-10-12",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-accenture-R00355667|jsonld": {
       "checkedAt": "2026-11-02",
@@ -11423,12 +11389,12 @@
       "attempts": 2
     },
     "workday-accenture-R00369378|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-accenture-R00369378|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-accenture-R00369515|jsonld": {
       "checkedAt": "2026-11-10",
@@ -11484,6 +11450,14 @@
     },
     "workday-accenture-R00371377|workday-detail": {
       "checkedAt": "2026-11-12",
+      "attempts": 1
+    },
+    "workday-accenture-R00372105|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-accenture-R00372105|workday-detail": {
+      "checkedAt": "2026-11-13",
       "attempts": 1
     },
     "workday-acrisure-JR114671|jsonld": {
@@ -11895,12 +11869,12 @@
       "attempts": 3
     },
     "workday-ardian-JR1002297|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-ardian-JR1002297|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-ardian-JR1002312|jsonld": {
       "checkedAt": "2026-11-08",
@@ -12023,12 +11997,12 @@
       "attempts": 3
     },
     "workday-athene-R255176|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-athene-R255176|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-aviva-R-174802|jsonld": {
       "checkedAt": "2026-11-03",
@@ -12446,6 +12420,22 @@
       "checkedAt": "2026-11-08",
       "attempts": 2
     },
+    "workday-baird-R20261290-1|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-baird-R20261290-1|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-baird-R20261291-1|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-baird-R20261291-1|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
     "workday-baird-R2026914-1|jsonld": {
       "checkedAt": "2026-11-09",
       "attempts": 3
@@ -12569,6 +12559,14 @@
     "workday-barclays-JR-0000116727|workday-detail": {
       "checkedAt": "2026-11-02",
       "attempts": 4
+    },
+    "workday-barclays-JR-0000118428|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-barclays-JR-0000118428|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-barclays-JR-0000118817-1|workday-detail": {
       "checkedAt": "2026-11-02",
@@ -12811,12 +12809,12 @@
       "attempts": 5
     },
     "workday-barclays-JR-0000124479|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-barclays-JR-0000124479|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-barclays-JR-0000124502|jsonld": {
       "checkedAt": "2026-10-09",
@@ -13071,12 +13069,12 @@
       "attempts": 5
     },
     "workday-barclays-JR-0000125149|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-barclays-JR-0000125149|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-barclays-JR-0000125565|jsonld": {
       "checkedAt": "2026-11-12",
@@ -13714,9 +13712,17 @@
       "checkedAt": "2026-11-09",
       "attempts": 3
     },
-    "workday-capitalone-R1005493-2|workday-detail": {
-      "checkedAt": "2026-11-10",
+    "workday-capitalone-R1005144-1|jsonld": {
+      "checkedAt": "2026-11-13",
       "attempts": 1
+    },
+    "workday-capitalone-R1005144-1|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-capitalone-R1005493-2|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-capitalone-R231624|workday-detail": {
       "checkedAt": "2026-10-21",
@@ -14319,20 +14325,20 @@
       "attempts": 3
     },
     "workday-citi-261005182|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261005182|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261005873|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261005873|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261005982|jsonld": {
       "checkedAt": "2026-11-11",
@@ -14343,28 +14349,28 @@
       "attempts": 1
     },
     "workday-citi-261006351|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261006351|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261006361|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-citi-261006361|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-citi-261006458|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261006458|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-citi-261006997|jsonld": {
       "checkedAt": "2026-11-08",
@@ -14383,20 +14389,20 @@
       "attempts": 1
     },
     "workday-citi-261007721|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-citi-261007721|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-citi-261008698|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-citi-261008698|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-citi-26945311|jsonld": {
       "checkedAt": "2026-10-15",
@@ -14895,12 +14901,12 @@
       "attempts": 4
     },
     "workday-citi-26994909|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-citi-26994909|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-citi-26994910|jsonld": {
       "checkedAt": "2026-11-12",
@@ -14981,22 +14987,6 @@
     "workday-citi-26998927|workday-detail": {
       "checkedAt": "2026-10-23",
       "attempts": 3
-    },
-    "workday-citi-26999062|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
-    },
-    "workday-citi-26999062|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
-    },
-    "workday-citi-26999106|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
-    },
-    "workday-citi-26999106|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
     },
     "workday-citi-26999482|jsonld": {
       "checkedAt": "2026-11-01",
@@ -15319,20 +15309,20 @@
       "attempts": 3
     },
     "workday-globelife-JR101616|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-globelife-JR101616|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-globelife-JR101635|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-globelife-JR101635|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-globelife-JR101665-1|jsonld": {
       "checkedAt": "2026-11-10",
@@ -15735,20 +15725,20 @@
       "attempts": 3
     },
     "workday-hl-R3669|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-hl-R3669|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-hl-R3671|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-hl-R3671|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-hl-R3694|jsonld": {
       "checkedAt": "2026-11-05",
@@ -15991,12 +15981,12 @@
       "attempts": 2
     },
     "workday-huron-JR-0017174|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-huron-JR-0017174|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-ing-0258428|workday-detail": {
       "checkedAt": "2026-10-15",
@@ -16031,12 +16021,12 @@
       "attempts": 4
     },
     "workday-ing-REQ-10115103|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-ing-REQ-10115103|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-ing-REQ-10115873|jsonld": {
       "checkedAt": "2026-11-08",
@@ -16183,12 +16173,12 @@
       "attempts": 1
     },
     "workday-ing-REQ-10121088|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-ing-REQ-10121088|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-ing-REQ-10121102|jsonld": {
       "checkedAt": "2026-10-09",
@@ -16281,14 +16271,6 @@
     "workday-ing-REQ-10122247|workday-detail": {
       "checkedAt": "2026-11-11",
       "attempts": 5
-    },
-    "workday-ing-REQ-10122299|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 1
-    },
-    "workday-ing-REQ-10122299|workday-detail": {
-      "checkedAt": "2026-09-28",
-      "attempts": 1
     },
     "workday-ing-REQ-10122304|jsonld": {
       "checkedAt": "2026-10-28",
@@ -16627,20 +16609,20 @@
       "attempts": 2
     },
     "workday-ing-REQ-10123708|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-ing-REQ-10123708|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-ing-REQ-10123726|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-ing-REQ-10123726|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-ing-REQ-10123729|jsonld": {
       "checkedAt": "2026-10-23",
@@ -16730,6 +16712,10 @@
       "checkedAt": "2026-10-29",
       "attempts": 1
     },
+    "workday-ing-REQ-10124022-1|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
     "workday-ing-REQ-10124025|workday-detail": {
       "checkedAt": "2026-11-07",
       "attempts": 3
@@ -16751,12 +16737,12 @@
       "attempts": 2
     },
     "workday-ing-REQ-10124227|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-ing-REQ-10124227|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-ing-REQ-10124291|jsonld": {
       "checkedAt": "2026-11-08",
@@ -16804,6 +16790,22 @@
     },
     "workday-ing-REQ-10124535|workday-detail": {
       "checkedAt": "2026-11-12",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10124598|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10124598|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10124661|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-ing-REQ-10124661|workday-detail": {
+      "checkedAt": "2026-11-13",
       "attempts": 1
     },
     "workday-intel-JR0281401|jsonld": {
@@ -17030,22 +17032,6 @@
       "checkedAt": "2026-10-29",
       "attempts": 5
     },
-    "workday-intel-JR0286946|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 4
-    },
-    "workday-intel-JR0286946|workday-detail": {
-      "checkedAt": "2026-09-28",
-      "attempts": 4
-    },
-    "workday-intel-JR0286955|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 4
-    },
-    "workday-intel-JR0286955|workday-detail": {
-      "checkedAt": "2026-09-28",
-      "attempts": 4
-    },
     "workday-intel-JR0287000|jsonld": {
       "checkedAt": "2026-10-27",
       "attempts": 5
@@ -17151,12 +17137,12 @@
       "attempts": 5
     },
     "workday-intel-JR0287458-1|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-intel-JR0287458-1|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-intel-JR0287470|jsonld": {
       "checkedAt": "2026-11-05",
@@ -17455,12 +17441,12 @@
       "attempts": 2
     },
     "workday-intel-JR0287933|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-intel-JR0287933|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-intel-JR0287934|jsonld": {
       "checkedAt": "2026-11-06",
@@ -17679,12 +17665,12 @@
       "attempts": 1
     },
     "workday-intel-JR0288600|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-intel-JR0288600|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-intel-JR0288633|jsonld": {
       "checkedAt": "2026-11-11",
@@ -17759,28 +17745,28 @@
       "attempts": 3
     },
     "workday-intel-JR0288862|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-intel-JR0288862|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-intel-JR0288868|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-intel-JR0288868|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-intel-JR0288884|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-intel-JR0288884|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-intel-JR0288896|jsonld": {
       "checkedAt": "2026-11-05",
@@ -17852,6 +17838,14 @@
     },
     "workday-intel-JR0289159|workday-detail": {
       "checkedAt": "2026-11-11",
+      "attempts": 1
+    },
+    "workday-intel-JR0289177|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-intel-JR0289177|workday-detail": {
+      "checkedAt": "2026-11-13",
       "attempts": 1
     },
     "workday-invesco-R-15091-1|jsonld": {
@@ -17967,20 +17961,20 @@
       "attempts": 3
     },
     "workday-invesco-R-15939-1|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-invesco-R-15939-1|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-invesco-R-15968-1|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-invesco-R-15968-1|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-invesco-R-16057-1|jsonld": {
       "checkedAt": "2026-11-11",
@@ -18039,12 +18033,12 @@
       "attempts": 3
     },
     "workday-jackson-REQ-04033-1|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-jackson-REQ-04033-1|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-juliusbaer-r-19706-2|jsonld": {
       "checkedAt": "2026-11-09",
@@ -18093,6 +18087,14 @@
     "workday-juliusbaer-r-20345-1|workday-detail": {
       "checkedAt": "2026-11-09",
       "attempts": 3
+    },
+    "workday-juliusbaer-r-20412-3|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-juliusbaer-r-20412-3|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-lgt-JR8000|jsonld": {
       "checkedAt": "2026-11-09",
@@ -18326,6 +18328,14 @@
       "checkedAt": "2026-11-09",
       "attempts": 2
     },
+    "workday-lombardodier-R0007769|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-lombardodier-R0007769|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
     "workday-lombardodier-R0007773|jsonld": {
       "checkedAt": "2026-11-12",
       "attempts": 2
@@ -18333,6 +18343,14 @@
     "workday-lombardodier-R0007773|workday-detail": {
       "checkedAt": "2026-11-12",
       "attempts": 2
+    },
+    "workday-lombardodier-R0007779|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-lombardodier-R0007779|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-lseg-R0122195-2|jsonld": {
       "checkedAt": "2026-11-01",
@@ -18343,12 +18361,12 @@
       "attempts": 3
     },
     "workday-lseg-R0122875|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-lseg-R0122875|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-lseg-R0124216|jsonld": {
       "checkedAt": "2026-11-02",
@@ -18413,14 +18431,6 @@
     "workday-mastercard-R-287721-1|workday-detail": {
       "checkedAt": "2026-10-19",
       "attempts": 4
-    },
-    "workday-mastercard-R-287722-1|jsonld": {
-      "checkedAt": "2026-09-28",
-      "attempts": 1
-    },
-    "workday-mastercard-R-287722-1|workday-detail": {
-      "checkedAt": "2026-09-28",
-      "attempts": 1
     },
     "workday-mizuho-R6459|jsonld": {
       "checkedAt": "2026-11-05",
@@ -18487,20 +18497,20 @@
       "attempts": 4
     },
     "workday-mizuho-R7431|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-mizuho-R7431|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-mizuho-R7435|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-mizuho-R7435|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 4
+      "checkedAt": "2026-11-13",
+      "attempts": 5
     },
     "workday-mizuho-R7442|jsonld": {
       "checkedAt": "2026-10-27",
@@ -18575,12 +18585,12 @@
       "attempts": 2
     },
     "workday-mufgub-10078663-WD|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10078663-WD|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10079128-WD-1|jsonld": {
       "checkedAt": "2026-11-01",
@@ -18623,28 +18633,28 @@
       "attempts": 2
     },
     "workday-mufgub-10079356-WD-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10079356-WD-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10079577-WD-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10079577-WD-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10079688-WD-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10079688-WD-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10079964-WD|jsonld": {
       "checkedAt": "2026-10-26",
@@ -18655,20 +18665,20 @@
       "attempts": 2
     },
     "workday-mufgub-10080029-WD|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10080029-WD|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10080069-WD-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10080069-WD-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10080071-WD-1|jsonld": {
       "checkedAt": "2026-11-01",
@@ -18703,12 +18713,12 @@
       "attempts": 3
     },
     "workday-mufgub-10080267-WD|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10080267-WD|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-mufgub-10080498-WD|jsonld": {
       "checkedAt": "2026-11-11",
@@ -18766,6 +18776,14 @@
       "checkedAt": "2026-10-26",
       "attempts": 2
     },
+    "workday-nasdaq-R0027134|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-nasdaq-R0027134|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
     "workday-nasdaq-R0027136|jsonld": {
       "checkedAt": "2026-10-26",
       "attempts": 2
@@ -18807,12 +18825,12 @@
       "attempts": 1
     },
     "workday-nasdaq-R0027292|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-nasdaq-R0027292|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-nasdaq-R0027297|jsonld": {
       "checkedAt": "2026-11-08",
@@ -18837,6 +18855,14 @@
     "workday-nb-R0012519|workday-detail": {
       "checkedAt": "2026-11-09",
       "attempts": 3
+    },
+    "workday-nb-R0012540|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-nb-R0012540|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-nb-R0012713|jsonld": {
       "checkedAt": "2026-11-09",
@@ -18903,12 +18929,12 @@
       "attempts": 1
     },
     "workday-ntrs-R162381|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-ntrs-R162381|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-ntrs-R163065|jsonld": {
       "checkedAt": "2026-10-31",
@@ -19551,12 +19577,12 @@
       "attempts": 6
     },
     "workday-nvidia-JR2024861|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-nvidia-JR2024861|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-nvidia-JR2024940|jsonld": {
       "checkedAt": "2026-11-03",
@@ -19719,12 +19745,12 @@
       "attempts": 4
     },
     "workday-nvidia-JR2026861|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-nvidia-JR2026861|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-nvidia-JR2026901|jsonld": {
       "checkedAt": "2026-10-28",
@@ -19775,12 +19801,12 @@
       "attempts": 1
     },
     "workday-nvidia-JR2027335|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-nvidia-JR2027335|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-nvidia-JR2027337|jsonld": {
       "checkedAt": "2026-10-16",
@@ -20047,12 +20073,12 @@
       "attempts": 3
     },
     "workday-nvidia-JR2028824|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-nvidia-JR2028824|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-nvidia-JR2028897|jsonld": {
       "checkedAt": "2026-11-02",
@@ -20079,20 +20105,20 @@
       "attempts": 2
     },
     "workday-nvidia-JR2029108|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-nvidia-JR2029108|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-nvidia-JR2029164|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-nvidia-JR2029164|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-nvidia-JR2029184|jsonld": {
       "checkedAt": "2026-11-06",
@@ -20111,12 +20137,12 @@
       "attempts": 2
     },
     "workday-nvidia-JR2029372|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-nvidia-JR2029372|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-nvidia-JR2029523-1|jsonld": {
       "checkedAt": "2026-11-11",
@@ -20599,76 +20625,76 @@
       "attempts": 1
     },
     "workday-pipersandler-R-100651|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100651|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100655|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100655|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100657|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100657|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100658|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100658|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100659|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100659|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100674|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100674|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100680|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100680|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100682|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100682|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100683|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100683|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100708|jsonld": {
       "checkedAt": "2026-11-01",
@@ -20679,12 +20705,12 @@
       "attempts": 3
     },
     "workday-pipersandler-R-100717|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100717|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100721|jsonld": {
       "checkedAt": "2026-10-26",
@@ -20695,12 +20721,12 @@
       "attempts": 2
     },
     "workday-pipersandler-R-100734|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100734|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100744-1|jsonld": {
       "checkedAt": "2026-10-26",
@@ -20711,12 +20737,12 @@
       "attempts": 2
     },
     "workday-pipersandler-R-100758|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pipersandler-R-100758|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pjtpartners-R0003456|jsonld": {
       "checkedAt": "2026-10-15",
@@ -20726,21 +20752,29 @@
       "checkedAt": "2026-10-15",
       "attempts": 5
     },
+    "workday-pnc-R178055|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-pnc-R178055|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
     "workday-pru-R-124980-2|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pru-R-124980-2|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-pru-R-125380-1|jsonld": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-pru-R-125380-1|workday-detail": {
-      "checkedAt": "2026-11-07",
-      "attempts": 2
+      "checkedAt": "2026-11-13",
+      "attempts": 3
     },
     "workday-prudential-25120324|jsonld": {
       "checkedAt": "2026-11-09",
@@ -21039,12 +21073,12 @@
       "attempts": 1
     },
     "workday-prudential-26110088|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-prudential-26110088|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-prudential-26110103|jsonld": {
       "checkedAt": "2026-11-08",
@@ -21263,12 +21297,12 @@
       "attempts": 3
     },
     "workday-spgi-327499-2|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-327499-2|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-331075-1|jsonld": {
       "checkedAt": "2026-11-06",
@@ -21295,28 +21329,28 @@
       "attempts": 1
     },
     "workday-spgi-331786-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-331786-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-331830-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-331830-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-331833-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-331833-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-331836-1|jsonld": {
       "checkedAt": "2026-11-01",
@@ -21327,20 +21361,20 @@
       "attempts": 3
     },
     "workday-spgi-332117-2|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-332117-2|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-332121-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-332121-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-332122-1|jsonld": {
       "checkedAt": "2026-10-26",
@@ -21351,12 +21385,12 @@
       "attempts": 2
     },
     "workday-spgi-332124-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-332124-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-spgi-332243-1|jsonld": {
       "checkedAt": "2026-11-06",
@@ -21381,6 +21415,14 @@
     "workday-spgi-332621-1|workday-detail": {
       "checkedAt": "2026-11-12",
       "attempts": 2
+    },
+    "workday-spgi-332648|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-spgi-332648|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-spgi-332651-1|jsonld": {
       "checkedAt": "2026-11-10",
@@ -21429,6 +21471,14 @@
     "workday-td-1517958|workday-detail": {
       "checkedAt": "2026-10-26",
       "attempts": 2
+    },
+    "workday-td-1521688|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-td-1521688|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-thehartford-R2624619-1|jsonld": {
       "checkedAt": "2026-11-03",
@@ -21565,6 +21615,14 @@
     "workday-thehartford-R2627542|workday-detail": {
       "checkedAt": "2026-11-09",
       "attempts": 3
+    },
+    "workday-thehartford-R2627805|jsonld": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
+    },
+    "workday-thehartford-R2627805|workday-detail": {
+      "checkedAt": "2026-11-13",
+      "attempts": 1
     },
     "workday-thinkbrg-JR100948|jsonld": {
       "checkedAt": "2026-10-27",
@@ -22599,20 +22657,20 @@
       "attempts": 6
     },
     "workday-visa-REF088350W|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-visa-REF088350W|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-visa-REF088379W|jsonld": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-visa-REF088379W|workday-detail": {
-      "checkedAt": "2026-10-23",
-      "attempts": 5
+      "checkedAt": "2026-11-13",
+      "attempts": 6
     },
     "workday-visa-REF089162W-1|jsonld": {
       "checkedAt": "2026-10-24",
@@ -22671,12 +22729,12 @@
       "attempts": 4
     },
     "workday-visa-REF089747W|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-visa-REF089747W|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-visa-REF089749W-1|jsonld": {
       "checkedAt": "2026-11-06",
@@ -22855,12 +22913,12 @@
       "attempts": 2
     },
     "workday-visa-REF090361W|jsonld": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-visa-REF090361W|workday-detail": {
-      "checkedAt": "2026-11-10",
-      "attempts": 1
+      "checkedAt": "2026-11-13",
+      "attempts": 2
     },
     "workday-visa-REF090466W-2|jsonld": {
       "checkedAt": "2026-11-12",
@@ -22895,20 +22953,20 @@
       "attempts": 1
     },
     "workday-wellington-R94061-1|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-wellington-R94061-1|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-wellington-R94890-2|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-wellington-R94890-2|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-wellington-R94930|jsonld": {
       "checkedAt": "2026-11-01",
@@ -22943,20 +23001,20 @@
       "attempts": 3
     },
     "workday-wellington-R94939-3|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-wellington-R94939-3|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-wellington-R95000-2|jsonld": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     },
     "workday-wellington-R95000-2|workday-detail": {
-      "checkedAt": "2026-11-01",
-      "attempts": 3
+      "checkedAt": "2026-11-13",
+      "attempts": 4
     }
   }
 }
