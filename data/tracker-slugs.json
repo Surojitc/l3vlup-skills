@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-13T14:51:53.485Z",
-  "count": 6147,
+  "generatedAt": "2026-11-14T13:45:54.533Z",
+  "count": 6160,
   "roles": {
     "ashby-alan-042421fd-55af-40f2-85c0-20a2fb354c1e": {
       "slug": "alan-data-associate-internship-6-months-flexible-start",
@@ -271,6 +271,10 @@
     "ashby-ramp-b66be397-240b-41a6-9b05-493299b270a9": {
       "slug": "ramp-software-engineering-intern-ios",
       "since": "2026-09-24"
+    },
+    "ashby-ramp-b87e898f-8d8b-447d-b3d5-9073ccf7d109": {
+      "slug": "ramp-risk-strategy-intern",
+      "since": "2026-11-14"
     },
     "ashby-ramp-fc971889-db1d-4a20-a25e-f282f9296936": {
       "slug": "ramp-university-grad-customer-experience-associate",
@@ -807,6 +811,10 @@
     "greenhouse-addepar1-8815241002": {
       "slug": "addepar-addegrad-program-2027-client-solutions-analyst-us",
       "since": "2026-10-23"
+    },
+    "greenhouse-addepar1-8910306002": {
+      "slug": "addepar-summer-2027-internship-product-analyst-navigator",
+      "since": "2026-11-14"
     },
     "greenhouse-addepar1-8910310002": {
       "slug": "addepar-portfolio-data-analyst-intern-summer-2027",
@@ -2455,6 +2463,10 @@
     "greenhouse-exoduspoint-8938482002": {
       "slug": "exoduspoint-rates-internship-hong-kong",
       "since": "2026-11-12"
+    },
+    "greenhouse-exoduspoint-8943351002": {
+      "slug": "exoduspoint-quantitative-internship-hong-kong",
+      "since": "2026-11-14"
     },
     "greenhouse-figma-6131089004": {
       "slug": "figma-software-engineer-intern-winter-2027",
@@ -5763,6 +5775,10 @@
       "slug": "robinhood-campus-operations-manager",
       "since": "2026-10-21"
     },
+    "greenhouse-robinhood-8357464": {
+      "slug": "robinhood-corporate-finance-intern-summer-2027",
+      "since": "2026-11-14"
+    },
     "greenhouse-roblox-8072244": {
       "slug": "roblox-2027-software-engineer-early-career",
       "since": "2026-09-18"
@@ -6032,6 +6048,10 @@
     "greenhouse-schonfeld-8171703": {
       "slug": "schonfeld-2027-business-analytics-intern",
       "since": "2026-09-18"
+    },
+    "greenhouse-schonfeld-8171705": {
+      "slug": "schonfeld-2027-fund-accounting-intern",
+      "since": "2026-11-14"
     },
     "greenhouse-schonfeld-8171772": {
       "slug": "schonfeld-2027-dmfi-technology-intern",
@@ -8324,6 +8344,10 @@
       "slug": "bdo-usa-tax-intern-business-incentives-group-summer-2027-atlanta",
       "since": "2026-11-11"
     },
+    "oracle-ebqb-fa-us2-oraclecloud-com-11775": {
+      "slug": "bdo-usa-tax-intern-transfer-pricing-summer-2027-atlanta",
+      "since": "2026-11-14"
+    },
     "oracle-ebqb-fa-us2-oraclecloud-com-11779": {
       "slug": "bdo-usa-tax-intern-transfer-pricing-summer-2027-detroit",
       "since": "2026-10-27"
@@ -9311,6 +9335,10 @@
     "oracle-eofe-fa-us2-oraclecloud-com-83689": {
       "slug": "bny-2027-bny-analyst-program-credit-and-lending-dublin",
       "since": "2026-11-06"
+    },
+    "oracle-eofe-fa-us2-oraclecloud-com-83756": {
+      "slug": "bny-2027-bny-summer-internship-program-client-coverage-berwyn-pa",
+      "since": "2026-11-14"
     },
     "oracle-fa-ewgu-saasfaprod1-fa-ocs-oraclecloud-com-35919": {
       "slug": "chubb-summer-placement-bermuda-claims-intern",
@@ -12160,6 +12188,10 @@
     "oracle-jpmc-fa-oraclecloud-com-210808225": {
       "slug": "jpmorgan-chase-commercial-and-investment-bank-risk-associate",
       "since": "2026-11-12"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210808726": {
+      "slug": "jpmorgan-chase-corporate-development-digital-partnerships-executive-director",
+      "since": "2026-11-14"
     },
     "oracle-jpmc-fa-oraclecloud-com-210808904": {
       "slug": "jpmorgan-chase-us-equity-research-small-and-mid-cap-industrials-analyst",
@@ -16574,6 +16606,10 @@
       "slug": "cibc-2027-summer-intern-commercial-banking",
       "since": "2026-10-28"
     },
+    "workday-cibc-2620117-1": {
+      "slug": "cibc-2027-summer-intern-commercial-real-estate-6",
+      "since": "2026-11-14"
+    },
     "workday-cibc-2620118-1": {
       "slug": "cibc-2027-summer-intern-governance-and-controls-chicago",
       "since": "2026-10-29"
@@ -20564,6 +20600,10 @@
       "slug": "manulife-graduate-recruitment-opportunities-gro-cpa-development-program-us",
       "since": "2026-11-11"
     },
+    "workday-manulife-JR26080927": {
+      "slug": "manulife-summer-intern-2027-global-wam-marketing-strategy-operations",
+      "since": "2026-11-14"
+    },
     "workday-manulife-JR26080978": {
       "slug": "manulife-summer-intern-2027-digital-marketing",
       "since": "2026-11-11"
@@ -20703,6 +20743,10 @@
     "workday-manulife-JR26100932": {
       "slug": "manulife-summer-co-op-2027-venture-capital",
       "since": "2026-10-31"
+    },
+    "workday-manulife-JR26100985": {
+      "slug": "manulife-winter-co-op-2027-us-retirement-analyst",
+      "since": "2026-11-14"
     },
     "workday-manulife-JR26101278": {
       "slug": "manulife-winter-co-op-2027-wealth-investment-office-intern",
@@ -23558,6 +23602,10 @@
       "slug": "td-bank-group-financial-planning-delivery-excellence-intern-co-op-winter-2027",
       "since": "2026-11-06"
     },
+    "workday-td-1503924-1": {
+      "slug": "td-bank-group-commercial-banking-intern-co-op-winter-2027",
+      "since": "2026-11-14"
+    },
     "workday-td-1506721": {
       "slug": "td-bank-group-job-posting-title-landh-product-management-intern-co-op-winter-2027",
       "since": "2026-10-24"
@@ -23701,6 +23749,10 @@
     "workday-td-1521688": {
       "slug": "td-bank-group-td-internship-finance-january-to-june-2027",
       "since": "2026-11-13"
+    },
+    "workday-td-1522219": {
+      "slug": "td-bank-group-intern-tds",
+      "since": "2026-11-14"
     },
     "workday-thehartford-R2624619-1": {
       "slug": "the-hartford-intern-actuarial-student-program-summer-2027",
