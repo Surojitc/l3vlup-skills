@@ -355,6 +355,57 @@ with tempfile.TemporaryDirectory() as tmp:
     eq("a book is read again only when its signature is not the history's (a new amendment)",
        fb.plan(hx, out, ["2026Q2", "2026Q1"]), [("a", "2026Q2", ["acc1", "acc2"], "2026-06-30")])
 
+# The regression of 17 November 2026: the window moved on (default 2026Q3),
+# the book for the quarter that left it stayed on disk, and the manager then
+# amended that quarter. Davidson Kempner's 2025Q3 book kept the seven
+# accessions it was read from while the history took the eighth, and every
+# collection failed its integrity check. A kept book follows its history.
+with tempfile.TemporaryDirectory() as tmp:
+    out = Path(tmp)
+    hx = [{"id": "dk", "quarters": [
+        {"quarter": "2025Q4", "periodOfReport": "2025-12-31", "signature": ["q4"]},
+        {"quarter": "2025Q3", "periodOfReport": "2025-09-30", "signature": ["q3", "q3a1", "q3a2"]},
+        {"quarter": "2025Q2", "periodOfReport": "2025-06-30", "signature": ["q2", "q2a1"]},
+        {"quarter": "2025Q1", "periodOfReport": "2025-03-31", "signature": ["q1"]}]}]
+    (out / "dk").mkdir()
+    (out / "dk" / "2025Q4.json").write_text(json.dumps({"schema": 1, "signature": ["q4"], "rows": []}))
+    (out / "dk" / "2025Q3.json").write_text(json.dumps({"schema": 1, "signature": ["q3", "q3a1"], "rows": []}))
+    (out / "dk" / "2025Q1.json").write_text(json.dumps({"schema": 1, "signature": ["q1"], "rows": []}))
+    eq("a kept book outside the window is read again when the history applies an amendment to its quarter",
+       fb.plan(hx, out, ["2025Q4"]), [("dk", "2025Q3", ["q3", "q3a1", "q3a2"], "2025-09-30")])
+    eq("...a kept book that still matches is left alone, and no book outside the window is read for the first time",
+       [t[1] for t in fb.plan(hx, out, ["2025Q4"])], ["2025Q3"])
+    (out / "dk" / "2025Q3.json").write_text(json.dumps({"schema": 1, "signature": ["q3", "q3a1", "q3a2"], "rows": []}))
+    eq("...and once read, it is never read again", fb.plan(hx, out, ["2025Q4"]), [])
+
+
+def book_mismatch(b: dict, h: dict | None) -> list[str]:
+    """Each field of a book that is not its history quarter's, with both sides, so a failure names what to look at."""
+    if not h:
+        return ["no history quarter for this book"]
+    out = []
+    if b["signature"] != h["signature"]:
+        mine, theirs = set(b["signature"]), set(h["signature"])
+        out.append(f"signature: book has {len(b['signature'])} accessions, history {len(h['signature'])}"
+                   f" (history only: {sorted(theirs - mine)}; book only: {sorted(mine - theirs)})")
+    if b["positions"] != h["positions"]:
+        out.append(f"positions: book {b['positions']}, history {h['positions']}")
+    if b["aumK"] != h["aumK"]:
+        out.append(f"aumK: book {b['aumK']}, history {h['aumK']}")
+    if len(b["rows"]) != b["positions"]:
+        out.append(f"rows: {len(b['rows'])} rows against {b['positions']} positions")
+    bad = sum(1 for r in b["rows"] if len(r) != 5)
+    if bad:
+        out.append(f"rows: {bad} not five fields wide")
+    return out
+
+
+eq("a mismatch names the fund's fields and both sides",
+   book_mismatch({"signature": ["a", "b"], "positions": 236, "aumK": 7825837, "rows": [[1, 2, 3, 4, 5]] * 236},
+                 {"signature": ["a", "b", "c"], "positions": 238, "aumK": 8229137}),
+   ["signature: book has 2 accessions, history 3 (history only: ['c']; book only: [])",
+    "positions: book 236, history 238", "aumK: book 7825837, history 8229137"])
+
 
 # ── round two: listing status ────────────────────────────────────────────────
 
@@ -581,10 +632,11 @@ else:
         b = json.loads(p.read_text())
         nbooks += 1
         h = by_mgr.get(b["id"], {}).get(b["quarter"])
-        if (not h or b["signature"] != h["signature"] or b["positions"] != h["positions"] or b["aumK"] != h["aumK"]
-                or len(b["rows"]) != b["positions"] or any(len(r) != 5 for r in b["rows"])):
-            off.append(p.name if not h else f"{b['id']}/{b['quarter']}")
-    check(f"every one of the {nbooks} books matches its history quarter's signature, positions and value", nbooks and not off, off[:5])
+        why = book_mismatch(b, h)
+        if why:
+            off.append(f"{p.parent.name}/{p.stem}: " + "; ".join(why))
+    check(f"every one of the {nbooks} books matches its history quarter's signature, positions and value",
+          nbooks and not off, " | ".join(off[:5]) if off else "")
     size = (EXP / "stocks.json").stat().st_size
     check(f"stocks.json stays under 2 MB ({size / 1e6:.2f} MB)", size < 2_000_000)
     eq("every symbol with a by-ticker file appears in stocks.json",

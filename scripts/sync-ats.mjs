@@ -67,6 +67,7 @@ import {
   recordMiss,
   serialiseLedger,
 } from '../lib/deadline-ledger.mjs';
+import { paginateSmartRecruiters, smartRecruitersToJob, smartRecruitersUrl } from '../lib/smartrecruiters.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -226,6 +227,21 @@ const STRONG_EARLY_CAREER =
  * started admitting. Fixtures, positive and negative, are in
  * scripts/__tests__/early-career-recovery.test.mjs.
  */
+/**
+ * Insight programmes that do not say "spring" (B2, 17 November 2026).
+ *
+ * EARLY_CAREER knew "spring insight" and nothing else of the kind, so GSA
+ * Capital's "General Trading & Technology Insight Programme - 2027" and AQR's
+ * "MBA Discovery - Early Engagement Program" were refused before
+ * inferProgrammeAndLevel, which already types them as Insight Program, could
+ * see them (docs/tracker-expansion-2026-10.md, proposal 1). The proposal said
+ * "insight"; a bare "insight" would also admit "Customer Insights Analyst" and
+ * "Market Insights Associate", so the word must be followed, within three
+ * words, by the kind of thing a programme is. "Discovery" likewise needs a day,
+ * week or programme, and "taster" a day or week.
+ */
+const INSIGHT_PROGRAMME =
+  /\b(?:insights?|discovery)\b(?:\s+[\w&+/-]+){0,3}?\s+(?:days?|weeks?|series|program(?:me)?s?)\b|\btaster\s+(?:days?|weeks?)\b/i;
 const FOR_EXPERIENCED = /\b(experienced\s+(?:professionals?|hires?)|experience\s+required|lateral)\b/i;
 const JUNIOR_FRONT_OFFICE = /\bjunior\s+(?:[a-z&+/-]+\s+){0,2}?(?:quant\w*|traders?|trading)\b/i;
 const CLASS_YEAR = /\b20[2-3]\d\b/;
@@ -252,7 +268,8 @@ export function earlyCareerAdmission(title) {
   if (FOR_EXPERIENCED.test(title)) return null;
   if (MANAGER.test(title) && !STRONG_EARLY_CAREER.test(title)) return null;
   const campus = (t) =>
-    EARLY_CAREER.test(t) || JUNIOR_FRONT_OFFICE.test(t) || (CLASS_YEAR.test(t) && CLASS_YEAR_CAMPUS.test(t));
+    EARLY_CAREER.test(t) || INSIGHT_PROGRAMME.test(t) || JUNIOR_FRONT_OFFICE.test(t) ||
+    (CLASS_YEAR.test(t) && CLASS_YEAR_CAMPUS.test(t));
   if (!campus(title)) return null;
   return campus(title.replace(STATED_LEVEL_ONLY, ' ')) ? 'campus' : 'stated-level';
 }
@@ -1055,7 +1072,16 @@ async function fetchLever(f) {
 // Workday search is fuzzy (matches "International" for "intern"), so we run a few
 // targeted queries, union them, and lean on the strict early-career + vertical
 // filters downstream to drop false positives. Covers banks + big enterprises.
-const WORKDAY_QUERIES = ['intern', 'graduate', 'new grad', 'summer analyst', 'apprentice'];
+// The short seasonal terms run first. On 16 November 2026, the height of the
+// spring-week season, the whole feed held two Spring Week rows and no insight
+// programme at all: "2027 Spring Insight Programme" contains none of the five
+// terms that follow, so a Workday or Oracle board never returned it to be
+// judged. Each of these returns a page or two at most, so running them first
+// costs a few requests a board and cannot be crowded out by the shared
+// per-firm budget below; everything they find still has to pass
+// isEarlyCareer and the vertical rules, as every other posting does.
+export const SEASONAL_QUERIES = ['spring', 'insight', 'placement', 'off cycle'];
+export const WORKDAY_QUERIES = [...SEASONAL_QUERIES, 'intern', 'graduate', 'new grad', 'summer analyst', 'apprentice'];
 const WORKDAY_PAGE = 20;
 const WORKDAY_MAX_PAGES_PER_QUERY = 15; // 300 postings per query, before dedupe
 const WORKDAY_MAX_POSTINGS_PER_FIRM = 600; // whole-firm budget across all queries
@@ -1208,7 +1234,7 @@ async function fetchWorkday(f, stats = newRequestStats()) {
 //      exist for, and it would have been invisible here.
 //   2. `/hcmUI/CandidateExperience/...` is the SPA, not the API. Fetching it
 //      returns HTML and no data. The API lives under `/hcmRestApi/`.
-const ORACLE_QUERIES = ['intern', 'graduate', 'summer analyst', 'apprentice', 'student'];
+export const ORACLE_QUERIES = [...SEASONAL_QUERIES, 'intern', 'graduate', 'summer analyst', 'apprentice', 'student'];
 const ORACLE_PAGE = 25;
 const ORACLE_MAX_PAGES_PER_QUERY = 8;
 const ORACLE_MAX_POSTINGS_PER_FIRM = 600;
@@ -1399,6 +1425,21 @@ async function fetchEightfold(f, stats = newRequestStats()) {
   return [...seen.values()].map((p) => eightfoldToJob(p, f));
 }
 
+/* ----------------------------- SmartRecruiters ---------------------------- */
+// The public Posting API; one request per hundred postings and no detail
+// pages. See lib/smartrecruiters.mjs for what it reads and what it refuses.
+async function fetchSmartRecruiters(f, stats = newRequestStats()) {
+  const seen = await paginateSmartRecruiters(async (offset, limit) => {
+    try {
+      return await getJson(smartRecruitersUrl(f.token, offset, limit));
+    } catch (e) {
+      stats.failures++;
+      throw e;
+    }
+  }, { stats });
+  return [...seen.values()].map((p) => smartRecruitersToJob(p, f)).filter(Boolean);
+}
+
 /* ------------------------------- Jane Street ------------------------------ */
 // No ATS at all: a public JSON file behind a client-rendered page. The level
 // lives in `availability` rather than the title, so the filtering happens in
@@ -1416,7 +1457,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet };
+const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters };
 
 /**
  * Write a file the way a consumer may read it at any moment.

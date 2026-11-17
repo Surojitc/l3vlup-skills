@@ -39,7 +39,23 @@ up with an amendment yet; the book is left alone and read on a later run.
 Incremental and bounded
 -----------------------
 A book whose signature equals the history's is never read again, so a run
-between filing seasons makes no SEC request at all. Each run spends at most
+between filing seasons makes no SEC request at all.
+
+A book kept on disk follows its history even after the window moves past it
+---------------------------------------------------------------------------
+The window moves when the Explorer's default quarter does, and the book for
+the quarter that fell out of it stays on disk: the Explorer still reads it as
+the prior side of the oldest quarter's changes, and a book is a record. But
+it used to stop being planned the moment it left the window, while the
+history kept applying amendments to that quarter. On 14 November 2026 the
+default moved to 2026Q3, taking 2025Q3 out of the window; on 16 November
+Davidson Kempner filed an appended 13F-HR/A for 2025Q3, the history took it
+(238 positions, $8.23bn), and the book stayed at the seven accessions it was
+read from (236 positions, $7.83bn). The Explorer rightly ignored the book once
+its signature differed, and every collection's integrity check failed on it.
+So a book already on disk is planned whenever its signature differs from the
+history's, in the window or not. Nothing outside the window is ever read for
+the first time, and nothing is deleted. Each run spends at most
 `--budget` requests (counted here, request by request), newest quarters first,
 so a cold start spreads over several runs. Requests keep sync_funds' gap
 (0.15 s, under seven a second), carry SEC_USER_AGENT, read the filing cache
@@ -137,15 +153,20 @@ def read_book(path: Path) -> dict | None:
 def plan(indexes: list[dict], out: Path, want: list[str]) -> list[tuple[str, str, list[str], str]]:
     """
     (manager id, quarter, the history's signature, period end) for every book
-    that is missing or whose signature no longer matches the history's.
-    Newest quarter first, then manager id.
+    in the window that is missing, and every book on disk, in the window or
+    not, whose signature no longer matches the history's (an amendment the
+    history applied after the book was read). Newest quarter first, then
+    manager id.
     """
     todo = []
     for idx in indexes:
         for q in idx.get("quarters", []):
-            if q["quarter"] not in want or not q.get("signature"):
+            if not q.get("signature"):
                 continue
-            have = read_book(out / idx["id"] / f"{q['quarter']}.json")
+            path = out / idx["id"] / f"{q['quarter']}.json"
+            if q["quarter"] not in want and not path.exists():
+                continue
+            have = read_book(path)
             if have and have.get("signature") == q["signature"]:
                 continue
             todo.append((idx["id"], q["quarter"], q["signature"], q["periodOfReport"]))
@@ -248,7 +269,10 @@ def main(argv: list[str] | None = None) -> int:
         entry = entries[mid]
         try:
             if mid not in sources:
-                sources[mid] = [(f, sf.submissions(f["cik"], quarters=args.quarters + 2))
+                # Back to the oldest period this manager has to read, which
+                # for a kept book outside the window is older than the window.
+                oldest = min(p for m, _q, _s, p in todo if m == mid)
+                sources[mid] = [(f, sf.submissions(f["cik"], quarters=args.quarters + 2, until=oldest))
                                 for f in sf.entry_filers(entry)]
             filings = [f for f in sf.quarter_filings(sources[mid]) if f["periodOfReport"] == period]
             planned = sf.plan_quarters(filings, periods={period}, use_cache=True, stats=stats)

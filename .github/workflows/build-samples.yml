@@ -94,6 +94,9 @@ jobs:
   collect:
     name: Collect and validate
     runs-on: ubuntu-latest
+    # Runs take 2 to 9 minutes; without a limit a hung board would hold the
+    # runner, and the build-samples queue behind it, for GitHub's six hours.
+    timeout-minutes: 45
     permissions:
       contents: read
     outputs:
@@ -126,9 +129,21 @@ jobs:
         # scripts/run-collector-tests.mjs. It runs every suite and names each
         # failing one as an error annotation, so a red run says which suite
         # broke rather than only "exit code 1".
-        run: node scripts/run-collector-tests.mjs
+        #
+        # `--producer tracker` leaves out only a suite whose subject is
+        # another producer's committed data (DATA_OWNERS in the runner), and
+        # names it in the log. On 17 November 2026 a stale 13F book written
+        # by the open-data run failed this step and held back the day's jobs,
+        # which this run could neither cause nor fix. That suite still runs
+        # on every branch (tests.yml) and gates the 13F data in collect.yml
+        # before it is published.
+        run: node scripts/run-collector-tests.mjs --producer tracker
 
       - name: Sync the opportunity tracker from public ATS boards
+        # Every request has its own timeout and enrichment its own 12-minute
+        # budget, so thirty minutes is only reached by something stuck; it
+        # fails the run, loudly, rather than quietly using the job's limit.
+        timeout-minutes: 30
         # No continue-on-error: the script has its own collapse guard and exits
         # non-zero rather than publishing a shrunken list over good data. Letting
         # that failure be visible is the whole point — a silent 'success' that
@@ -434,6 +449,8 @@ jobs:
         github.event.inputs.indexnow_force == 'true'
       )
     runs-on: ubuntu-latest
+    # One HTTP call; a hung one should not hold a runner.
+    timeout-minutes: 10
     permissions: {}
     steps:
       # A recrawl hint is not worth failing a data collection over, and there
@@ -486,6 +503,8 @@ jobs:
     needs: [collect, publish]
     if: always()
     runs-on: ubuntu-latest
+    # Reads outputs and prints a verdict; seconds, never minutes.
+    timeout-minutes: 10
     permissions: {}
     steps:
       # Three outcomes, and the first of them is the one this job used to get
@@ -501,7 +520,24 @@ jobs:
       #
       # Word for word what collect.yml says, because an operator reading two
       # morning emails should not have to learn two vocabularies.
+      # Its own step, so the morning's verdict below stays the same script
+      # in both producers. A dataset that failed its own checks was returned
+      # to main's copy and not published while the others went ahead; the
+      # run is still red for it. Word for word in collect.yml and
+      # build-samples.yml (workflow-permissions.test.mjs).
+      - name: Say whether a dataset was held back
+        env:
+          HELD_BACK: ${{ needs.collect.outputs.held_back }}
+        run: |
+          set -euo pipefail
+          if [ -n "${HELD_BACK:-}" ]; then
+            echo "::error::held back, not published: ${HELD_BACK}; the collect job's annotations name what failed"
+            exit 1
+          fi
+          echo "no dataset was held back"
+
       - name: Say what this morning actually was
+        if: always()
         env:
           COLLECT: ${{ needs.collect.result }}
           PUBLISH: ${{ needs.publish.result }}
