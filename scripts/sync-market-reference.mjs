@@ -42,7 +42,7 @@ import { appendFileSync, createReadStream, existsSync, mkdirSync, readFileSync, 
 import { dirname, join, resolve } from 'node:path';
 import { gunzipSync, gzipSync } from 'node:zlib';
 import { CLOSE_WINDOW_MS, IEX_ATTRIBUTION, IEX_TERMS_URL, METHODOLOGY_VERSION, QUALITY_RULES, readTopsCloses, referenceObservations } from '../lib/iex-tops.mjs';
-import { buildReference, CHANGE_WINDOWS, INDEX_ATTEMPTS, indexFailureKind, loadState, recordSourceCheck, retryDelayMs, sourceHealthReport, MIN_COVERAGE, pendingDays, pendingEvidence, pruneState, readyToPublish, recordDay, recordEvidence, recordFailure, topsDays, WINDOW_52W } from '../lib/market-reference.mjs';
+import { buildReference, CHANGE_WINDOWS, INDEX_ATTEMPTS, indexFailureKind, loadState, probeDue, recordSourceCheck, retryDelayMs, sourceHealthReport, MIN_COVERAGE, pendingDays, pendingEvidence, pruneState, readyToPublish, recordDay, recordEvidence, recordFailure, topsDays, WINDOW_52W } from '../lib/market-reference.mjs';
 import { gatherEvidence, SEC_HOSTS, tickerIndex } from '../lib/corporate-action-evidence.mjs';
 
 const INDEX_URL = 'https://iextrading.com/api/1.0/hist';
@@ -150,14 +150,14 @@ async function readIndex(opts) {
 }
 
 /** The source-health report: to the log, and to the job summary when running in Actions. */
-function reportHealth(state, opts, error = null) {
+function reportHealth(state, opts, error = null, pausedUntil = null) {
   let publishedAsOf = null;
   try {
     publishedAsOf = JSON.parse(readFileSync(resolve(opts.out), 'utf8')).asOf ?? null;
   } catch {
     // no published file
   }
-  const report = sourceHealthReport({ source: state.source, publishedAsOf });
+  const report = sourceHealthReport({ source: state.source, publishedAsOf, pausedUntil });
   console.log(report.markdown);
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, report.markdown);
   if (error) console.log(`::error title=IEX source ${state.source?.lastKind ?? 'failed'}::${error.message}. Published prices as of ${publishedAsOf ?? 'none'} are kept unchanged.`);
@@ -334,6 +334,13 @@ async function main() {
   const opts = args(process.argv.slice(2));
   const started = Date.now();
   const state = readState(opts.state);
+  // After a refusal, one check a day: the late-posting retry run does not ask again (probeDue).
+  const probe = opts.index ? { due: true } : probeDue(state.source);
+  if (!probe.due) {
+    reportHealth(state, opts, null, probe.next);
+    console.log(`::warning title=IEX source paused::the last answer was a refusal; not asked again before ${probe.next}. Published prices are kept unchanged.`);
+    return;
+  }
   let index;
   try {
     index = await readIndex(opts);

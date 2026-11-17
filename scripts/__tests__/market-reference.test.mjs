@@ -614,9 +614,17 @@ const stateFrom = (calendar, priceOf) => {
   check('it says since when, and the last good read', /Failing since: 2026-11-13/.test(r.markdown) && /Last successful read: 2026-11-13/.test(r.markdown));
   check('it says the published prices are kept, with their date', /as of 2026-11-11, kept unchanged/.test(r.markdown));
   eq("it says when the website's 7-day rule stops serving them", [r.served, r.staleAt], [true, '2026-11-18T21:00:00.000Z']);
-  check('and that a refusal is not retried and must be checked against the terms', /Not retried/.test(r.markdown) && /terms/.test(r.markdown));
+  check("and that a refusal is not retried, with IEX's stated suspension and no substitute source", /Not retried/.test(r.markdown) && /not currently available for direct download/.test(r.markdown) && /no other source is used/.test(r.markdown));
   eq('past the 7 days it says the site already treats them as stale', M.sourceHealthReport({ source: st.source, publishedAsOf: '2026-11-11', now: new Date('2026-11-19T00:00:00Z') }).served, false);
   check('a healthy run reports the source answered and nothing about failing', (() => { const h = M.sourceHealthReport({ source: back, publishedAsOf: '2026-11-17', now: new Date('2026-11-18T12:00:00Z') }); return h.ok && !/Failing since/.test(h.markdown); })());
+
+  eq('after a refusal the index is not asked again for 20 hours: one check a day',
+    [M.probeDue(st.source, new Date('2026-11-17T20:00:00Z')).due, M.probeDue(st.source, new Date('2026-11-18T15:58:00Z')).due, M.probeDue(st.source, new Date('2026-11-18T16:00:00Z')).due],
+    [false, false, true]);
+  eq('the quiet period says when the next check is', M.probeDue(st.source, new Date('2026-11-17T20:00:00Z')).next, '2026-11-18T15:59:00.000Z');
+  eq('a healthy, a transient or an unknown source is always asked',
+    [M.probeDue(back).due, M.probeDue({ lastKind: 'retry', lastFailure: '2026-11-17T19:59:00Z' }, new Date('2026-11-17T20:00:00Z')).due, M.probeDue(undefined).due], [true, true, true]);
+  check('a paused run says so in the report', /Not asked this run/.test(M.sourceHealthReport({ source: st.source, publishedAsOf: '2026-11-11', pausedUntil: '2026-11-18T15:59:00.000Z' }).markdown));
 
   const sync = readFileSync(new URL('../sync-market-reference.mjs', import.meta.url), 'utf8');
   check('the index request is unchanged: same URL, only an Accept header, no other client identity',
@@ -644,6 +652,12 @@ const stateFrom = (calendar, priceOf) => {
   check('the published file is left exactly as it was', readFileSync(out, 'utf8') === published);
   const saved = existsSync(statePath) ? JSON.parse((await import('node:zlib')).gunzipSync(readFileSync(statePath)).toString('utf8')) : null;
   check('the failure is saved in the state, so the next run knows since when', saved?.source?.lastKind === 'refused' && saved?.source?.consecutiveFailures === 1 && Boolean(saved?.source?.failingSince));
+  // The late-posting retry run, straight after: the index is not asked at all.
+  const again = spawnSync(process.execPath, ['--import', stub, new URL('../sync-market-reference.mjs', import.meta.url).pathname, '--state', statePath, '--out', out, '--history-dir', pjoin(dir, 'hist')], { encoding: 'utf8', env: { ...process.env, GITHUB_STEP_SUMMARY: summary }, cwd: dir });
+  const n2 = readFileSync(calls, 'utf8').trim().split('\n').length;
+  eq('the next run inside the quiet period: exit 0 and no further request', [again.status, n2], [0, 1]);
+  check('it reports the pause and the last good data, not a new failure', /Not asked this run/.test(again.stdout) && /as of 2026-11-11, kept unchanged/.test(again.stdout) && /::warning title=IEX source paused::/.test(again.stdout), again.stdout.slice(-400));
+  check('and still leaves the published file exactly as it was', readFileSync(out, 'utf8') === published);
   rmSync(dir, { recursive: true, force: true });
   rmSync(stateDir, { recursive: true, force: true });
 }
