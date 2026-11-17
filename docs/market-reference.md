@@ -171,3 +171,27 @@ node scripts/sync-market-reference.mjs --state /tmp/mr/state.json.gz --max-days 
 - ETF and fund splits: funds are not in SEC's company ticker map, so a fund's split stands UNRESOLVED and its 52-week figures return a year after it.
 - A split the filings state in words the reader does not know stays UNRESOLVED, never adjusted.
 - Markets outside the United States.
+
+## Source health (17 November 2026)
+
+From 13 November 2026 the IEX HIST index (`https://iextrading.com/api/1.0/hist`) answers
+HTTP 403 to the collector, which had read it daily since the backfill. Nothing on our side
+changed. IEX's September 2026 market data policy still describes IEX Historical Data as free
+"until further notice", available on its website "or its successor site(s)", and IEX's public
+site has moved to iex.io. So the legacy API path may have been retired or put behind the
+new site, but that is not confirmed.
+
+How a failure is handled now (`indexFailureKind`, `retryDelayMs`, `recordSourceCheck`,
+`sourceHealthReport` in `lib/market-reference.mjs`):
+
+- A refusal (401, 403, 451) or a missing endpoint (404, 410) is not retried. The run reports
+  it and stops, and the next scheduled run asks once more. The request is the same as before.
+  A refusal is never worked around.
+- A 429, a 5xx or a network error is retried up to four times in all, honouring `Retry-After`,
+  with a 60-second cap.
+- Every run writes a source-health report to the log and the job summary. It gives the status,
+  the date failing began, the last good read, the date of the published prices (kept unchanged),
+  and when the website's 7-day rule (`MAX_FILE_AGE_DAYS`) stops serving them.
+
+Before the collector is pointed anywhere else, the current IEX download location and the IEX
+Historical Data terms must be read and confirmed by hand. No other source is used meanwhile.

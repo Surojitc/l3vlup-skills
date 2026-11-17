@@ -38,11 +38,11 @@
  */
 
 import { spawn } from 'node:child_process';
-import { createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
+import { appendFileSync, createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { gunzipSync, gzipSync } from 'node:zlib';
 import { CLOSE_WINDOW_MS, IEX_ATTRIBUTION, IEX_TERMS_URL, METHODOLOGY_VERSION, QUALITY_RULES, readTopsCloses, referenceObservations } from '../lib/iex-tops.mjs';
-import { buildReference, CHANGE_WINDOWS, loadState, MIN_COVERAGE, pendingDays, pendingEvidence, pruneState, readyToPublish, recordDay, recordEvidence, recordFailure, topsDays, WINDOW_52W } from '../lib/market-reference.mjs';
+import { buildReference, CHANGE_WINDOWS, INDEX_ATTEMPTS, indexFailureKind, loadState, recordSourceCheck, retryDelayMs, sourceHealthReport, MIN_COVERAGE, pendingDays, pendingEvidence, pruneState, readyToPublish, recordDay, recordEvidence, recordFailure, topsDays, WINDOW_52W } from '../lib/market-reference.mjs';
 import { gatherEvidence, SEC_HOSTS, tickerIndex } from '../lib/corporate-action-evidence.mjs';
 
 const INDEX_URL = 'https://iextrading.com/api/1.0/hist';
@@ -114,18 +114,54 @@ function readState(path) {
 
 const saveState = (path, state) => writeAtomic(path, gzipSync(JSON.stringify(state)));
 
+class IndexError extends Error {
+  constructor(message, status, kind) {
+    super(message);
+    this.status = status;
+    this.kind = kind;
+  }
+}
+
+/**
+ * The HIST index, once per run. A refusal (401/403/451) or a missing endpoint
+ * (404/410) is final for this run and never retried; a 429, a 5xx or a network
+ * error is retried up to INDEX_ATTEMPTS times, honouring Retry-After
+ * (lib/market-reference.mjs, indexFailureKind and retryDelayMs). The request
+ * itself is unchanged.
+ */
 async function readIndex(opts) {
   if (opts.index) return JSON.parse(readFileSync(opts.index, 'utf8'));
   for (let attempt = 1; ; attempt += 1) {
+    let res;
     try {
-      const res = await fetch(INDEX_URL, { headers: { accept: 'application/json' } });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
+      res = await fetch(INDEX_URL, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(30_000) });
     } catch (e) {
-      if (attempt >= 4) throw new Error(`the IEX HIST index could not be read: ${e.message}`);
-      await new Promise((r) => setTimeout(r, 2000 * 2 ** attempt));
+      if (attempt >= INDEX_ATTEMPTS) throw new IndexError(`the IEX HIST index could not be read: ${e.name === 'TimeoutError' ? 'timed out' : e.message}`, null, 'retry');
+      await new Promise((r) => setTimeout(r, retryDelayMs(attempt)));
+      continue;
     }
+    if (res.ok) return res.json();
+    const kind = indexFailureKind(res.status);
+    if (kind !== 'retry' || attempt >= INDEX_ATTEMPTS) {
+      throw new IndexError(`the IEX HIST index could not be read: HTTP ${res.status}${kind === 'refused' ? ' (access refused; not retried)' : ''}`, res.status, kind);
+    }
+    await new Promise((r) => setTimeout(r, retryDelayMs(attempt, res.headers.get('retry-after'))));
   }
+}
+
+/** The source-health report: to the log, and to the job summary when running in Actions. */
+function reportHealth(state, opts, error = null) {
+  let publishedAsOf = null;
+  try {
+    publishedAsOf = JSON.parse(readFileSync(resolve(opts.out), 'utf8')).asOf ?? null;
+  } catch {
+    // no published file
+  }
+  const report = sourceHealthReport({ source: state.source, publishedAsOf });
+  console.log(report.markdown);
+  if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, report.markdown);
+  if (error) console.log(`::error title=IEX source ${state.source?.lastKind ?? 'failed'}::${error.message}. Published prices as of ${publishedAsOf ?? 'none'} are kept unchanged.`);
+  return report;
 }
 
 function openCapture(day, opts) {
@@ -298,7 +334,18 @@ async function main() {
   const opts = args(process.argv.slice(2));
   const started = Date.now();
   const state = readState(opts.state);
-  const days = topsDays(await readIndex(opts));
+  let index;
+  try {
+    index = await readIndex(opts);
+    recordSourceCheck(state, { ok: true, status: 200 });
+  } catch (e) {
+    recordSourceCheck(state, { ok: false, status: e.status ?? null, kind: e.kind ?? 'fail' });
+    if (opts.state) saveState(opts.state, state);
+    reportHealth(state, opts, e);
+    throw e;
+  }
+  reportHealth(state, opts);
+  const days = topsDays(index);
   if (!days.length) throw new Error('the IEX HIST index lists no TOPS captures');
   pruneState(state, days);
 
