@@ -49,6 +49,7 @@ export const SUITES = [
   'oracle-paginate',
   'talnet',
   'eightfold-janestreet',
+  'smartrecruiters',
   'role-retention',
   'role-screen',
   'role-duplicates',

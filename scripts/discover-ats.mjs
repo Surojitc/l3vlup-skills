@@ -68,6 +68,9 @@ async function countPostings(board) {
     const d = await res.json();
     if (Array.isArray(d)) return d.length;            // lever
     if (Array.isArray(d.jobs)) return d.jobs.length;  // greenhouse, ashby
+    // SmartRecruiters answers 200 with totalFound 0 for a company that does
+    // not exist, so an empty answer proves nothing and is not a board.
+    if (Array.isArray(d.content) && typeof d.totalFound === 'number') return d.totalFound > 0 ? d.totalFound : null;
     return null;
   } catch {
     return null;

@@ -110,5 +110,22 @@ for (const t of ['Software Engineer - Risk Technology', 'Quantitative Researcher
   ok ? pass++ : fail++;
 }
 
+// ── Insight programmes without "spring" (17 November 2026) ──────────────────
+// Real titles from docs/tracker-expansion-2026-10.md, refused until now.
+check('General Trading & Technology Insight Programme - 2027', true, 'GSA Capital');
+check('Women in Trading & Technology Insight Programme - 2027', true, 'GSA Capital');
+check('AQR MBA Discovery - Early Engagement Program', true, 'AQR');
+check('Investment Banking Insight Day 2027 - London', true);
+check('Markets Discovery Week (First-Year Students)', true);
+check('Asset Management Taster Day', true);
+// A word about insight is not a programme.
+check('Customer Insights Analyst', false, 'a job, not a programme');
+check('Market Insights Associate', false);
+check('Head of Data Insights', false, 'senior');
+check('Insights Program Manager', false, 'a manager');
+check('Market Insights Events Coordinator', false, 'events are not admitted on this word');
+check('Software Engineer, Insight Partners Portfolio Support', false, 'a firm name');
+check('Discovery Platform Engineer', false);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
