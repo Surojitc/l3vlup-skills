@@ -34,6 +34,20 @@ eq('every pushed branch runs the same list before it can merge', [/^on:\n {2}pus
 
 // Suites in the directory that no workflow runs, by the shared list or by
 // name: each is either listed here or named in a workflow that runs it.
+// A suite a producer may skip (another producer's committed data) is run by
+// the producer that owns that data, before it publishes, and by every branch.
+// Without this, --producer would be a way to stop running a check at all.
+const owners = Object.fromEntries([...src.matchAll(/^\s+'([a-z0-9-]+)': '([a-z-]+)',$/gm)].map((m) => [m[1], m[2]]));
+const OWNER_WORKFLOW = { 'open-data': '.github/workflows/collect.yml', tracker: '.github/workflows/build-samples.yml' };
+eq('the 13F data suite is owned by the open-data collection', owners['funds-explorer'], 'open-data');
+eq('every owned suite is in the shared list', Object.keys(owners).filter((n) => !listed.includes(n)), []);
+eq('every owner is a known producer', Object.values(owners).filter((o) => !OWNER_WORKFLOW[o]), []);
+eq('every owned suite gates its owner before publication', Object.entries(owners)
+  .filter(([n, o]) => !new RegExp(`scripts/__tests__/${n}\\.test\\.(py|mjs)`).test(readFileSync(OWNER_WORKFLOW[o], 'utf8')))
+  .map(([n]) => n), []);
+eq('the tracker collection scopes itself to its own data', /run: node scripts\/run-collector-tests\.mjs --producer tracker$/m.test(build), true);
+eq('and every pushed branch still runs the whole list, unscoped', /run: node scripts\/run-collector-tests\.mjs$/m.test(tests), true);
+
 const workflows = readdirSync('.github/workflows').map((f) => readFileSync(`.github/workflows/${f}`, 'utf8')).join('\n');
 const all = readdirSync('scripts/__tests__').filter((f) => f.endsWith('.test.mjs')).map((f) => f.replace(/\.test\.mjs$/, ''));
 const unrun = all.filter((n) => !listed.includes(n) && !workflows.includes(`scripts/__tests__/${n}.test.mjs`));

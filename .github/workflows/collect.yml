@@ -108,6 +108,7 @@ jobs:
       blocking: ${{ steps.freshness.outputs.blocking }}
       degraded: ${{ steps.freshness.outputs.degraded }}
       changed: ${{ steps.stage.outputs.changed }}
+      held_back: ${{ steps.thirteenf_gate.outputs.held_back }}
     steps:
       # From main as it is when this job starts, not the commit the run was
       # dispatched on. Runs queue behind each other (the concurrency group
@@ -390,6 +391,38 @@ jobs:
         continue-on-error: true
         timeout-minutes: 15
         run: python3 scripts/funds_explorer.py
+
+      # The 13F data is checked here, by the producer that wrote it, before
+      # any of it can be published: every complete book against its history
+      # quarter, the Explorer's figures rebuilt by hand, and the rest of
+      # scripts/__tests__/funds-explorer.test.py. Until 17 November 2026 this
+      # suite ran only in the tracker collection, after this run had already
+      # published, so a stale book reached main and stopped the next jobs
+      # publication instead of this one.
+      #
+      # A failure does not stop the calendar, the deal tape or the news map:
+      # every 13F file goes back to main's copy (which is what readers
+      # already have), the failure is printed with the fund, the quarter and
+      # the fields, and the `health` job below turns the run red for it. The
+      # suite is not weakened and nothing failing it is published.
+      - name: Check the 13F data before it is published
+        id: thirteenf_gate
+        if: steps.thirteenf.outputs.due == 'true'
+        run: |
+          set -uo pipefail
+          if python3 scripts/__tests__/funds-explorer.test.py > "$RUNNER_TEMP/funds-gate.log" 2>&1; then
+            tail -1 "$RUNNER_TEMP/funds-gate.log"
+            echo "result=pass" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          grep -E '^FAIL' "$RUNNER_TEMP/funds-gate.log" | while IFS= read -r line; do
+            echo "::error title=13F data held back::${line//%/%25}"
+          done
+          set -e
+          git checkout HEAD -- data/funds data/funds.auto.json
+          git clean -fdq -- data/funds
+          echo "held_back=13F holdings (data/funds, data/funds.auto.json)" >> "$GITHUB_OUTPUT"
+          echo "the 13F data failed its checks; every 13F file was returned to main's copy and will not be published"
 
       # Monthly, and monthly is the honest rate: who the SEC files under an
       # industry code changes when a company lists, deregisters or is
@@ -688,7 +721,24 @@ jobs:
       # An absent answer is not a good answer. Say which of the three
       # situations this is, and never claim the third without the evidence
       # for it.
+      # Its own step, so the morning's verdict below stays the same script
+      # in both producers. A dataset that failed its own checks was returned
+      # to main's copy and not published while the others went ahead; the
+      # run is still red for it. Word for word in collect.yml and
+      # build-samples.yml (workflow-permissions.test.mjs).
+      - name: Say whether a dataset was held back
+        env:
+          HELD_BACK: ${{ needs.collect.outputs.held_back }}
+        run: |
+          set -euo pipefail
+          if [ -n "${HELD_BACK:-}" ]; then
+            echo "::error::held back, not published: ${HELD_BACK}; the collect job's annotations name what failed"
+            exit 1
+          fi
+          echo "no dataset was held back"
+
       - name: Say what this morning actually was
+        if: always()
         env:
           COLLECT: ${{ needs.collect.result }}
           PUBLISH: ${{ needs.publish.result }}
