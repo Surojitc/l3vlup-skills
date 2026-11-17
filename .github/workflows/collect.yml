@@ -707,6 +707,8 @@ jobs:
     needs: [collect, publish]
     if: always()
     runs-on: ubuntu-latest
+    # Reads outputs and prints a verdict; seconds, never minutes.
+    timeout-minutes: 10
     permissions: {}
     steps:
       # Three outcomes, and the first of them is the one this job used to get

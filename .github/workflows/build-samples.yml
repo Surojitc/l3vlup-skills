@@ -94,6 +94,9 @@ jobs:
   collect:
     name: Collect and validate
     runs-on: ubuntu-latest
+    # Runs take 2 to 9 minutes; without a limit a hung board would hold the
+    # runner, and the build-samples queue behind it, for GitHub's six hours.
+    timeout-minutes: 45
     permissions:
       contents: read
     outputs:
@@ -137,6 +140,10 @@ jobs:
         run: node scripts/run-collector-tests.mjs --producer tracker
 
       - name: Sync the opportunity tracker from public ATS boards
+        # Every request has its own timeout and enrichment its own 12-minute
+        # budget, so thirty minutes is only reached by something stuck; it
+        # fails the run, loudly, rather than quietly using the job's limit.
+        timeout-minutes: 30
         # No continue-on-error: the script has its own collapse guard and exits
         # non-zero rather than publishing a shrunken list over good data. Letting
         # that failure be visible is the whole point — a silent 'success' that
@@ -442,6 +449,8 @@ jobs:
         github.event.inputs.indexnow_force == 'true'
       )
     runs-on: ubuntu-latest
+    # One HTTP call; a hung one should not hold a runner.
+    timeout-minutes: 10
     permissions: {}
     steps:
       # A recrawl hint is not worth failing a data collection over, and there
@@ -494,6 +503,8 @@ jobs:
     needs: [collect, publish]
     if: always()
     runs-on: ubuntu-latest
+    # Reads outputs and prints a verdict; seconds, never minutes.
+    timeout-minutes: 10
     permissions: {}
     steps:
       # Three outcomes, and the first of them is the one this job used to get
