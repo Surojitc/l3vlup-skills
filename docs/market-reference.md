@@ -171,3 +171,41 @@ node scripts/sync-market-reference.mjs --state /tmp/mr/state.json.gz --max-days 
 - ETF and fund splits: funds are not in SEC's company ticker map, so a fund's split stands UNRESOLVED and its 52-week figures return a year after it.
 - A split the filings state in words the reader does not know stays UNRESOLVED, never adjusted.
 - Markets outside the United States.
+
+## Source health (17 November 2026)
+
+**The provider has suspended direct downloads.** From 13 November 2026, 22:49 UTC, the IEX
+HIST index (`https://iextrading.com/api/1.0/hist`) answers HTTP 403. The last successful read
+was 13 November, 18:44 UTC, and the published prices are as of 11 November. Nothing on our side
+changed: the collector and workflow were last modified on 7 November. The owner checked IEX's
+own pages on 17 November:
+
+- IEX's historical-data download page ([iextrading.com/trading/market-data](https://iextrading.com/trading/market-data/))
+  states that historical PCAP data is **not currently available for direct download**.
+- IEX's market-data product page ([iex.io](https://www.iex.io/products/equities/market-data-connectivity))
+  and its September 2026 market data policy still describe IEX Historical Data as free.
+
+So this is a provider-side availability problem, not a moved address. No replacement endpoint
+has been published, and none is guessed at. IEX Market Operations has been asked whether the
+suspension is temporary, whether there is an authorised replacement and when access may resume.
+
+How the collector behaves meanwhile (`lib/market-reference.mjs`):
+
+- **Fail fast on a refusal.** A 401, 403 or 451, or a 404 or 410, is final for the run and is
+  never retried (`indexFailureKind`). A 429, a 5xx or a network error is retried up to four times
+  in all, honouring `Retry-After`, with a 60-second cap (`retryDelayMs`). The request is unchanged.
+- **One check a day while refused.** After a refusal the index is not asked again for 20 hours
+  (`probeDue`, `QUIET_HOURS`). In effect the 17:40 UTC late-posting run is skipped: it contacts
+  nothing, exits successfully with a warning and writes the health report. The morning run still
+  asks once, so a resumption is picked up the next day, and while it is refused that run stays red.
+- **Health reported every run** (`recordSourceCheck`, `sourceHealthReport`), in the log and the job
+  summary: the status, the date failures began, the last good read, the date of the published
+  prices (kept unchanged) and when the website's 7-day rule stops serving them.
+- **Nothing published is changed or removed,** and every integrity check stays as it was.
+
+On the website, `MAX_FILE_AGE_DAYS` (7) in the site's market-reference provider serves no price
+from a file more than seven days old and shows a dated "stale" note instead. With prices as of
+11 November, that happens after 18 November, 21:00 UTC.
+
+**No other source is used.** A replacement needs its licence for public display and
+redistribution verified, and the owner's approval, before any code points at it.
