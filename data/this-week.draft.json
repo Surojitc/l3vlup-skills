@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-12T15:31:22.974Z",
-  "weekEnding": "2026-11-13",
+  "generatedAt": "2026-11-19T15:59:02.416Z",
+  "weekEnding": "2026-11-20",
   "status": "draft",
   "modelStage": "failed",
   "failure": "call_failed: Could not resolve authentication method. Expected one of apiKey, authToken, credentials, config, or profile to be set. Or for one of the \"X-Api-Key\" or \"Authorization\" headers to be explicitly omitted",
@@ -8,24 +8,24 @@
     "promptVersion": "this-week-draft-v1",
     "model": "claude-sonnet-5",
     "budgetUsd": 0.5,
-    "estimatedUsd": 0.09684,
+    "estimatedUsd": 0.094242,
     "actualUsd": null,
-    "inputTokensApprox": 18420,
+    "inputTokensApprox": 17121,
     "hardStopUsd": 1
   },
   "feeds": {
-    "newsflow": "2026-11-12T14:07:02.544Z",
-    "deals": "2026-11-12T14:06:39.280Z"
+    "newsflow": "2026-11-19T14:49:00.351Z",
+    "deals": "2026-11-19T14:48:37.697Z"
   },
   "shortlist": {
     "headlines": [
       {
         "item": {
-          "title": "The Pacific Financial Group Taps Salesforce and Newly Acquired Contentful for a World-Class Advisor Experience",
-          "link": "https://www.prnewswire.com/news-releases/the-pacific-financial-group-taps-salesforce-and-newly-acquired-contentful-for-a-world-class-advisor-experience-302935610.html",
-          "source": "PR Newswire",
-          "vertical": "ma",
-          "date": "2026-11-12T14:01:00.000Z",
+          "title": "Anthropic IPO Said to Give Nothing to Most Institutional Buyers",
+          "link": "https://www.bloomberg.com/news/articles/2026-11-19/anthropic-ipo-said-to-give-nothing-to-most-institutional-buyers",
+          "source": "Bloomberg",
+          "vertical": "hf",
+          "date": "2026-11-19T14:35:54.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -35,28 +35,30 @@
       },
       {
         "item": {
-          "title": "Canada Pension plans to double hedge fund allocation to $160bn",
-          "link": "https://hedgeweek.com/news/canada-pension-plans-to-double-hedge-fund-allocation-to-160bn",
-          "source": "Hedgeweek",
-          "vertical": "hf",
-          "date": "2026-11-12T09:59:00.000Z",
-          "dealValue": "$160B",
-          "valueUsdB": 160,
-          "value": 160,
-          "alsoReportedBy": []
+          "title": "Early Anthropic investors eye $100bn-plus windfall from IPO",
+          "link": "https://privateequitywire.com/news/early-anthropic-investors-eye-100bn-plus-windfall-from-ipo",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-11-18T10:13:00.000Z",
+          "dealValue": "$100B",
+          "valueUsdB": 100,
+          "value": 100,
+          "alsoReportedBy": [
+            "Bloomberg"
+          ]
         },
-        "why": "largest disclosed value ($160B)"
+        "why": "largest disclosed value ($100B)"
       },
       {
         "item": {
-          "title": "Kindo Secures $57.6 Million to Expand Enterprise Control Over AI Agent Actions and Reduce Costs",
-          "link": "https://www.prnewswire.com/news-releases/kindo-secures-57-6-million-to-expand-enterprise-control-over-ai-agent-actions-and-reduce-costs-302937058.html",
+          "title": "Michael's Tree & Loader Service Names Pat Turley CEO, Launches National Acquisition Strategy for Tree Care Companies",
+          "link": "https://www.prnewswire.com/news-releases/michaels-tree--loader-service-names-pat-turley-ceo-launches-national-acquisition-strategy-for-tree-care-companies-302945018.html",
           "source": "PR Newswire",
-          "vertical": "vc",
-          "date": "2026-11-12T14:00:00.000Z",
-          "dealValue": "$58M",
-          "valueUsdB": 0.0576,
-          "value": 0.0576,
+          "vertical": "ma",
+          "date": "2026-11-19T14:07:00.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
           "alsoReportedBy": []
         },
         "why": "most recent from another area"
@@ -65,37 +67,38 @@
     "deals": [
       {
         "item": {
-          "title": "Peak 10 Energy Announces $500 Million Acquisition Finance Facility with U.S. Bank",
-          "link": "https://www.prnewswire.com/news-releases/peak-10-energy-announces-500-million-acquisition-finance-facility-with-us-bank-302937199.html",
+          "title": "Landmark Credit Union Completes Acquisition of American National Bank-Fox Cities",
+          "link": "https://www.prnewswire.com/news-releases/landmark-credit-union-completes-acquisition-of-american-national-bank-fox-cities-302943923.html",
           "source": "PR Newswire",
-          "date": "2026-11-12T11:40:00.000Z",
-          "dealValue": "$500M",
+          "date": "2026-11-19T14:00:00.000Z",
+          "dealValue": "$420M",
           "vertical": "tape",
-          "value": 0.5,
+          "value": 0.42,
           "alsoReportedBy": []
         },
         "why": "most recent with a disclosed value"
       },
       {
         "item": {
-          "title": "H.I.G. Capital Signs Definitive Agreement to Acquire Majority Stake in go asia",
-          "link": "https://www.prnewswire.com/news-releases/hig-capital-signs-definitive-agreement-to-acquire-majority-stake-in-go-asia-302935623.html",
-          "source": "PR Newswire",
-          "date": "2026-11-11T11:00:00.000Z",
-          "dealValue": "$76B",
-          "vertical": "tape",
-          "value": 76,
+          "title": "Anthropic raises record $81.3bn in IPO at $1.5tn valuation",
+          "link": "https://privateequitywire.com/news/anthropic-raises-record-81-3bn-in-ipo-at-1-5tn-valuation-2",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-11-19T10:19:00.000Z",
+          "dealValue": "$81.3B",
+          "valueUsdB": 81.3,
+          "value": 81.3,
           "alsoReportedBy": []
         },
-        "why": "largest disclosed value ($76B)"
+        "why": "largest disclosed value ($81.3B)"
       },
       {
         "item": {
-          "title": "Metro Bank puts itself up for sale",
-          "link": "https://www.ft.com/content/68d690dc-c59a-421e-82a8-62b76c2b7a10?syn-25a6b1a6=1",
+          "title": "UniCredit agrees deal with Berlin on Commerzbank takeover",
+          "link": "https://www.ft.com/content/0c6bb979-bc3f-4368-86fc-a0306fd52d78?syn-25a6b1a6=1",
           "source": "FT",
           "vertical": "ma",
-          "date": "2026-11-12T12:25:46.000Z",
+          "date": "2026-11-19T09:27:50.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -107,53 +110,11 @@
     "moves": [
       {
         "item": {
-          "title": "Athlete To Athlete Raises $8 Million Series A Led by Rally Ventures to Expand Youth Sports Mentorship",
-          "link": "https://www.prnewswire.com/news-releases/athlete-to-athlete-raises-8-million-series-a-led-by-rally-ventures-to-expand-youth-sports-mentorship-302935560.html",
-          "source": "PR Newswire",
-          "vertical": "vc",
-          "date": "2026-11-12T14:00:00.000Z",
-          "dealValue": "$8M",
-          "valueUsdB": 0.008,
-          "value": 0.008,
-          "alsoReportedBy": []
-        },
-        "why": "most recent in vc"
-      },
-      {
-        "item": {
-          "title": "SolaREIT Surpasses $8.5 Billion Project Value Milestone in Clean Energy Land Financing",
-          "link": "https://www.prnewswire.com/news-releases/solareit-surpasses-8-5-billion-project-value-milestone-in-clean-energy-land-financing-302936195.html",
-          "source": "PR Newswire",
-          "vertical": "capital-raises",
-          "date": "2026-11-12T14:00:00.000Z",
-          "dealValue": "$8.5B",
-          "valueUsdB": 8.5,
-          "value": 8.5,
-          "alsoReportedBy": []
-        },
-        "why": "most recent in capital-raises"
-      },
-      {
-        "item": {
-          "title": "Branford Castle Acquires Floratine Products Group, Marking First Platform Investment in Fund III",
-          "link": "https://www.prnewswire.com/news-releases/branford-castle-acquires-floratine-products-group-marking-first-platform-investment-in-fund-iii-302937191.html",
-          "source": "PR Newswire",
-          "vertical": "ma",
-          "date": "2026-11-12T14:00:00.000Z",
-          "dealValue": null,
-          "valueUsdB": null,
-          "value": null,
-          "alsoReportedBy": []
-        },
-        "why": "most recent in M&A"
-      },
-      {
-        "item": {
-          "title": "Oil Jumps After Trump Says US Doesn’t Need Deal With Iran",
-          "link": "https://www.bloomberg.com/news/articles/2026-11-12/oil-jumps-after-trump-says-us-doesn-t-need-deal-with-iran",
+          "title": "US Initial Jobless Claims Unexpectedly Rise by 1,000",
+          "link": "https://www.bloomberg.com/news/videos/2026-11-19/us-initial-jobless-claims-unexpectedly-rise-by-1-000-video",
           "source": "Bloomberg",
           "vertical": "hf",
-          "date": "2026-11-12T13:14:35.000Z",
+          "date": "2026-11-19T14:35:52.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -163,129 +124,174 @@
       },
       {
         "item": {
-          "title": "BC Partners to acquire Investcorp BDC at 10% discount to NAV",
-          "link": "https://privateequitywire.com/news/bc-partners-to-acquire-investcorp-bdc-at-10-discount-to-nav",
-          "source": "Private Equity Wire",
-          "vertical": "pe",
-          "date": "2026-11-12T10:00:00.000Z",
+          "title": "Arthur J. Gallagher & Co. Acquires AgriServ, Inc.",
+          "link": "https://www.prnewswire.com/news-releases/arthur-j-gallagher--co-acquires-agriserv-inc-302944823.html",
+          "source": "PR Newswire",
+          "vertical": "ma",
+          "date": "2026-11-19T14:01:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in M&A"
+      },
+      {
+        "item": {
+          "title": "Humyn Labs Raises USD 47M in Series A to Scale Physical AI Research and Deployment",
+          "link": "https://www.prnewswire.com/news-releases/humyn-labs-raises-usd-47m-in-series-a-to-scale-physical-ai-research-and-deployment-302944287.html",
+          "source": "PR Newswire",
+          "vertical": "vc",
+          "date": "2026-11-19T14:00:00.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in vc"
+      },
+      {
+        "item": {
+          "title": "RRJ-led consortium to buy $619m of GM3 bonds",
+          "link": "https://privateequitywire.com/news/rrj-led-consortium-to-buy-619m-of-gm3-bonds-2",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-11-19T10:20:00.000Z",
+          "dealValue": "$619M",
+          "valueUsdB": 0.619,
+          "value": 0.619,
           "alsoReportedBy": []
         },
         "why": "most recent in Private equity"
       },
       {
         "item": {
-          "title": "CAZ Strategic Opportunities Fund Achieves $1 Billion Milestone",
-          "link": "https://www.prnewswire.com/news-releases/caz-strategic-opportunities-fund-achieves-1-billion-milestone-302937769.html",
-          "source": "PR Newswire",
-          "vertical": "vc",
-          "date": "2026-11-12T14:00:00.000Z",
-          "dealValue": "$1B",
-          "valueUsdB": 1,
-          "value": 1,
-          "alsoReportedBy": []
-        },
-        "why": "next in vc"
-      },
-      {
-        "item": {
-          "title": "Omni Helicopters International secures R$200 million in new financing",
-          "link": "https://www.prnewswire.com/news-releases/omni-helicopters-international-secures-r200-million-in-new-financing-302937846.html",
+          "title": "Jeeves Announces $300M in Financing, Adding Neuberger Berman To Fuel Rapid Global Expansion",
+          "link": "https://www.prnewswire.com/news-releases/jeeves-announces-300m-in-financing-adding-neuberger-berman-to-fuel-rapid-global-expansion-302944042.html",
           "source": "PR Newswire",
           "vertical": "capital-raises",
-          "date": "2026-11-12T12:52:00.000Z",
-          "dealValue": "$200M",
-          "valueUsdB": 0.2,
-          "value": 0.2,
+          "date": "2026-11-18T16:10:00.000Z",
+          "dealValue": "$300M",
+          "valueUsdB": 0.3,
+          "value": 0.3,
           "alsoReportedBy": []
         },
-        "why": "next in capital-raises"
+        "why": "most recent in capital-raises"
       },
       {
         "item": {
-          "title": "PKF Investment Banking Closes Sale of Erie Foods International's North American Operations to Actus Nutrition",
-          "link": "https://www.prnewswire.com/news-releases/pkf-investment-banking-closes-sale-of-erie-foods-internationals-north-american-operations-to-actus-nutrition-302936108.html",
+          "title": "Kalshi, Novig Asks States to Help Bar Problem Gamblers From Prediction Markets",
+          "link": "https://www.bloomberg.com/news/articles/2026-11-19/kalshi-novig-asks-states-to-help-bar-problem-gamblers-from-prediction-markets",
+          "source": "Bloomberg",
+          "vertical": "hf",
+          "date": "2026-11-19T14:30:01.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "next in Hedge funds"
+      },
+      {
+        "item": {
+          "title": "Partners Group acquires Rawlings Sporting Goods, the leading baseball and softball equipment provider",
+          "link": "https://www.prnewswire.com/news-releases/partners-group-acquires-rawlings-sporting-goods-the-leading-baseball-and-softball-equipment-provider-302944699.html",
           "source": "PR Newswire",
           "vertical": "ma",
-          "date": "2026-11-12T13:00:00.000Z",
+          "date": "2026-11-19T14:00:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
           "alsoReportedBy": []
         },
         "why": "next in M&A"
+      },
+      {
+        "item": {
+          "title": "RealBooks Joins Embarc Collective in Newest Member Class",
+          "link": "https://www.prnewswire.com/news-releases/realbooks-joins-embarc-collective-in-newest-member-class-302944916.html",
+          "source": "PR Newswire",
+          "vertical": "vc",
+          "date": "2026-11-19T13:47:00.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "next in vc"
       }
     ],
     "counts": {
-      "newsInWindow": 133,
-      "dealsInWindow": 100,
+      "newsInWindow": 132,
+      "dealsInWindow": 107,
       "days": 7
     }
   },
   "sources": [
     {
       "index": 0,
-      "url": "https://www.prnewswire.com/news-releases/the-pacific-financial-group-taps-salesforce-and-newly-acquired-contentful-for-a-world-class-advisor-experience-302935610.html",
+      "url": "https://www.bloomberg.com/news/articles/2026-11-19/anthropic-ipo-said-to-give-nothing-to-most-institutional-buyers",
+      "name": "Bloomberg",
+      "date": "2026-11-19",
+      "title": "Anthropic IPO Said to Give Nothing to Most Institutional Buyers",
+      "area": "Hedge funds",
+      "dealValue": null,
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "restricted source: headline only, read it at the publisher"
+    },
+    {
+      "index": 1,
+      "url": "https://privateequitywire.com/news/early-anthropic-investors-eye-100bn-plus-windfall-from-ipo",
+      "name": "Private Equity Wire",
+      "date": "2026-11-18",
+      "title": "Private Equity Wire | Early Anthropic investors eye $100bn-plus…",
+      "area": "Private equity",
+      "dealValue": "$100B",
+      "alsoReportedBy": [
+        "Bloomberg"
+      ],
+      "fetched": true
+    },
+    {
+      "index": 2,
+      "url": "https://www.prnewswire.com/news-releases/michaels-tree--loader-service-names-pat-turley-ceo-launches-national-acquisition-strategy-for-tree-care-companies-302945018.html",
       "name": "PR Newswire",
-      "date": "2026-11-12",
-      "title": "The Pacific Financial Group Taps Salesforce and Newly Acquired Contentful for a World-Class Advisor Experience",
+      "date": "2026-11-19",
+      "title": "Michael&#39;s Tree &amp; Loader Service Names Pat Turley CEO, Launches National Acquisition Strategy for Tree Care Companies",
       "area": "M&A",
       "dealValue": null,
       "alsoReportedBy": [],
       "fetched": true
     },
     {
-      "index": 1,
-      "url": "https://hedgeweek.com/news/canada-pension-plans-to-double-hedge-fund-allocation-to-160bn",
-      "name": "Hedgeweek",
-      "date": "2026-11-12",
-      "title": "Canada Pension plans to double hedge fund allocation to… | Hedgeweek",
-      "area": "Hedge funds",
-      "dealValue": "$160B",
-      "alsoReportedBy": [],
-      "fetched": true
-    },
-    {
-      "index": 2,
-      "url": "https://www.prnewswire.com/news-releases/kindo-secures-57-6-million-to-expand-enterprise-control-over-ai-agent-actions-and-reduce-costs-302937058.html",
-      "name": "PR Newswire",
-      "date": "2026-11-12",
-      "title": "Kindo Secures $57.6 Million to Expand Enterprise Control Over AI Agent Actions and Reduce Costs",
-      "area": "vc",
-      "dealValue": "$58M",
-      "alsoReportedBy": [],
-      "fetched": true
-    },
-    {
       "index": 3,
-      "url": "https://www.prnewswire.com/news-releases/peak-10-energy-announces-500-million-acquisition-finance-facility-with-us-bank-302937199.html",
+      "url": "https://www.prnewswire.com/news-releases/landmark-credit-union-completes-acquisition-of-american-national-bank-fox-cities-302943923.html",
       "name": "PR Newswire",
-      "date": "2026-11-12",
-      "title": "Peak 10 Energy Announces $500 Million Acquisition Finance Facility with U.S. Bank",
+      "date": "2026-11-19",
+      "title": "Landmark Credit Union Completes Acquisition of American National Bank-Fox Cities",
       "area": "Deal tape",
-      "dealValue": "$500M",
+      "dealValue": "$420M",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 4,
-      "url": "https://www.prnewswire.com/news-releases/hig-capital-signs-definitive-agreement-to-acquire-majority-stake-in-go-asia-302935623.html",
-      "name": "PR Newswire",
-      "date": "2026-11-11",
-      "title": "H.I.G. Capital Signs Definitive Agreement to Acquire Majority Stake in go asia",
-      "area": "Deal tape",
-      "dealValue": "$76B",
+      "url": "https://privateequitywire.com/news/anthropic-raises-record-81-3bn-in-ipo-at-1-5tn-valuation-2",
+      "name": "Private Equity Wire",
+      "date": "2026-11-19",
+      "title": "Private Equity Wire | Anthropic raises record $81.3bn in IPO at…",
+      "area": "Private equity",
+      "dealValue": "$81.3B",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 5,
-      "url": "https://www.ft.com/content/68d690dc-c59a-421e-82a8-62b76c2b7a10?syn-25a6b1a6=1",
+      "url": "https://www.ft.com/content/0c6bb979-bc3f-4368-86fc-a0306fd52d78?syn-25a6b1a6=1",
       "name": "FT",
-      "date": "2026-11-12",
-      "title": "Metro Bank puts itself up for sale",
+      "date": "2026-11-19",
+      "title": "UniCredit agrees deal with Berlin on Commerzbank takeover",
       "area": "M&A",
       "dealValue": null,
       "alsoReportedBy": [],
@@ -294,48 +300,48 @@
     },
     {
       "index": 6,
-      "url": "https://www.prnewswire.com/news-releases/athlete-to-athlete-raises-8-million-series-a-led-by-rally-ventures-to-expand-youth-sports-mentorship-302935560.html",
-      "name": "PR Newswire",
-      "date": "2026-11-12",
-      "title": "Athlete To Athlete Raises $8 Million Series A Led by Rally Ventures to Expand Youth Sports Mentorship",
-      "area": "vc",
-      "dealValue": "$8M",
+      "url": "https://www.bloomberg.com/news/videos/2026-11-19/us-initial-jobless-claims-unexpectedly-rise-by-1-000-video",
+      "name": "Bloomberg",
+      "date": "2026-11-19",
+      "title": "US Initial Jobless Claims Unexpectedly Rise by 1,000",
+      "area": "Hedge funds",
+      "dealValue": null,
       "alsoReportedBy": [],
-      "fetched": true
+      "fetched": false,
+      "error": "restricted source: headline only, read it at the publisher"
     },
     {
       "index": 7,
-      "url": "https://www.prnewswire.com/news-releases/solareit-surpasses-8-5-billion-project-value-milestone-in-clean-energy-land-financing-302936195.html",
+      "url": "https://www.prnewswire.com/news-releases/arthur-j-gallagher--co-acquires-agriserv-inc-302944823.html",
       "name": "PR Newswire",
-      "date": "2026-11-12",
-      "title": "SolaREIT Surpasses $8.5 Billion Project Value Milestone in Clean Energy Land Financing",
-      "area": "capital-raises",
-      "dealValue": "$8.5B",
-      "alsoReportedBy": [],
-      "fetched": true
-    },
-    {
-      "index": 8,
-      "url": "https://www.prnewswire.com/news-releases/branford-castle-acquires-floratine-products-group-marking-first-platform-investment-in-fund-iii-302937191.html",
-      "name": "PR Newswire",
-      "date": "2026-11-12",
-      "title": "Branford Castle Acquires Floratine Products Group, Marking First Platform Investment in Fund III",
+      "date": "2026-11-19",
+      "title": "Arthur J. Gallagher &amp; Co. Acquires AgriServ, Inc.",
       "area": "M&A",
       "dealValue": null,
       "alsoReportedBy": [],
       "fetched": true
     },
     {
-      "index": 9,
-      "url": "https://www.bloomberg.com/news/articles/2026-11-12/oil-jumps-after-trump-says-us-doesn-t-need-deal-with-iran",
-      "name": "Bloomberg",
-      "date": "2026-11-12",
-      "title": "Oil Jumps After Trump Says US Doesn’t Need Deal With Iran",
-      "area": "Hedge funds",
+      "index": 8,
+      "url": "https://www.prnewswire.com/news-releases/humyn-labs-raises-usd-47m-in-series-a-to-scale-physical-ai-research-and-deployment-302944287.html",
+      "name": "PR Newswire",
+      "date": "2026-11-19",
+      "title": "Humyn Labs Raises USD 47M in Series A to Scale Physical AI Research and Deployment",
+      "area": "vc",
       "dealValue": null,
       "alsoReportedBy": [],
-      "fetched": false,
-      "error": "restricted source: headline only, read it at the publisher"
+      "fetched": true
+    },
+    {
+      "index": 9,
+      "url": "https://privateequitywire.com/news/rrj-led-consortium-to-buy-619m-of-gm3-bonds-2",
+      "name": "Private Equity Wire",
+      "date": "2026-11-19",
+      "title": "Private Equity Wire | RRJ-led consortium to buy $619m of GM3 bonds",
+      "area": "Private equity",
+      "dealValue": "$619M",
+      "alsoReportedBy": [],
+      "fetched": true
     }
   ],
   "edition": null,
