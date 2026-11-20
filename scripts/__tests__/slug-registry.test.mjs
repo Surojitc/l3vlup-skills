@@ -229,5 +229,20 @@ eq('with the records sorted by id',
     !/schedule:/.test(sync));
 }
 
+// The first-collected day travels on the row, read from the archive, and the
+// archive keeps the earliest day: a role that leaves a board and returns is
+// not new again, and a row with no slug gets no date at all.
+{
+  const { updateArchive, stampFirstSeen } = await import('../sync-ats.mjs');
+  const row = (id, slug) => ({ id, slug, firm: 'Acme', role: 'Summer Analyst', vertical: 'Investment Banking', programmeType: 'Summer Internship' });
+  const a = row('greenhouse-acme-1', 'acme-summer-analyst');
+  const first = updateArchive({}, [a], new Map([['greenhouse-acme-1', 'acme-summer-analyst']]), '2026-11-01').roles;
+  const again = updateArchive(first, [a], new Map([['greenhouse-acme-1', 'acme-summer-analyst']]), '2026-11-20').roles;
+  const rows = stampFirstSeen([row('greenhouse-acme-1', 'acme-summer-analyst'), row('greenhouse-acme-2', undefined)], again);
+  check('a returning role keeps the day it was first collected', rows[0].firstSeen === '2026-11-01', rows[0].firstSeen);
+  check('a row with no slug carries no first-seen day', !('firstSeen' in rows[1]));
+  check('a malformed archive day is not copied', !('firstSeen' in stampFirstSeen([row('x', 's')], { s: { firstSeen: 'yesterday' } })[0]));
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail === 0 ? 0 : 1);

@@ -15,7 +15,7 @@ import {
 } from '../../lib/complete-board.mjs';
 import { checkVerdict, boardRecord, newRequestStats, METHOD_FILES, firmsToCarry } from '../../lib/board-checks.mjs';
 import { retainRoles, RETENTION_DAYS } from '../../lib/role-retention.mjs';
-import { paginateOracle } from '../sync-ats.mjs';
+import { paginateOracle, workdayPageTotal } from '../sync-ats.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -430,6 +430,27 @@ async function day(fetchPage, previous) {
   eq('unstable two-pass read: partial, unstable', [d.status, d.why, d.record.walk.passes.length], ['partial', 'unstable', 2]);
   eq('...carries nothing: a role absent from both full passes is not held open', d.carried.length, 0);
   eq('...and the Pulse still excludes it (partial)', d.record.s, 'partial');
+}
+
+// Workday tenants that state the total on page one only (Ares: 230 postings,
+// `total: 0` from offset 20 on). Read literally the walk stopped at 40 and
+// called it complete; restated, it reads to the end and proves it.
+{
+  const board = Array.from({ length: 51 }, (_, i) => ({ externalPath: `/job/${i}` }));
+  let first;
+  const fetchPage = async (offset, limit) => {
+    const rows = board.slice(offset, offset + limit);
+    const stated = offset === 0 ? board.length : 0;
+    if (offset === 0) first = stated;
+    return { total: workdayPageTotal(offset, stated, rows.length, first), rows };
+  };
+  const { postings, verdict } = await walkCompleteBoard(fetchPage, { pageSize: 20, idOf: (r) => r.externalPath, retry: { delayMs: 0 } });
+  eq('a tenant stating its total on page one only is read to the end', postings.size, 51);
+  eq('and the read is proved complete', verdict, 'complete');
+  eq('a later page with postings under a total of 0 restates page one', workdayPageTotal(40, 0, 11, 51), 51);
+  eq('an empty later page under a total of 0 is taken as given', workdayPageTotal(40, 0, 0, 51), 0);
+  eq('page one is always taken as given', workdayPageTotal(0, 0, 20, undefined), 0);
+  eq('a total that really moved is taken as given', workdayPageTotal(20, 49, 20, 51), 49);
 }
 
 console.log(`\n${pass}/${pass + fail} passed`);
