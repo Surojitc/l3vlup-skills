@@ -2020,6 +2020,24 @@
       "discoveredVia": "https://job-boards.eu.greenhouse.io/raisin",
       "postingsAtDiscovery": 29,
       "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Capula Investment Management",
+      "ats": "workable",
+      "token": "capula-investment-management-ltd",
+      "tier": "Multi-Manager",
+      "discoveredVia": "https://www.capulaglobal.com/careers",
+      "discoveredAt": "2026-11-20",
+      "postingsAtDiscovery": 15
+    },
+    {
+      "firm": "Hayfin Capital Management",
+      "ats": "workable",
+      "token": "hayfin-capital-management",
+      "tier": "Asset Manager",
+      "discoveredVia": "https://hayfin.com/careers/",
+      "discoveredAt": "2026-11-20",
+      "postingsAtDiscovery": 2
     }
   ]
 }

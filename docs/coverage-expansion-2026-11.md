@@ -142,12 +142,17 @@ pages; none was taken.
 
 **Families still without a reader:**
 
-- **Workable**: Capula (`capula-investment-management-ltd`) and Hayfin link
-  Workable boards. Both are firms this tracker wants. Workable answered every
-  request from the verification container with Cloudflare's 1015 (rate
-  limited), so no board was read and no reader was written against an unread
-  shape. Next step: one read from the collection runner (a
-  `workflow_dispatch` probe), then a reader if the boards hold eligible roles.
+- **Workable** (added 20 November, later the same day): Capula
+  (`capula-investment-management-ltd`, Multi-Manager) and Hayfin
+  (`hayfin-capital-management`, Asset Manager). Workable refused the container
+  for most of the day (Cloudflare 1015); the reader was written against the
+  documented widget schema, then both boards were read live once it answered.
+  Capula: 18 entries for 15 postings, 5 early career (the 2027 technology
+  graduate programme and internship, the Capula Analyst Programme, the 2027
+  trading and research summer internship in London, New York, Singapore and
+  Hong Kong, and its Tokyo intake) and 1 experienced (credit quant analyst). Hayfin: 2 postings, 1 experienced. The live read showed a
+  multi-city role listed once per city under one shortcode; `lib/workable.mjs`
+  merges them into one job naming every city.
 - **Phenom**: Brevan Howard. **iCIMS**: Atlassian, Analysis Group, ZS,
   Exponent (and the August measurement of Stifel). **SuccessFactors**: EY.
   **Taleo**: Bridgespan. Unchanged from October: each is an HTML adapter of
