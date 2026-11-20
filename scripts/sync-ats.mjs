@@ -70,6 +70,7 @@ import {
 import { paginateSmartRecruiters, smartRecruitersToJob, smartRecruitersUrl } from '../lib/smartrecruiters.mjs';
 import { recruiteeToJobs, recruiteeUrl } from '../lib/recruitee.mjs';
 import { pinpointToJobs, pinpointUrl } from '../lib/pinpoint.mjs';
+import { workableToJobs, workableUrl } from '../lib/workable.mjs';
 import { employerListings } from '../lib/employer-listings.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -917,8 +918,8 @@ export const isExperiencedRow = (o) => EXPERIENCED_PROGRAMMES.has(o?.programmeTy
  * ask only for early-career terms, so what it returns says nothing about the
  * experienced roles on it. Adding experienced queries is phase 2.
  */
-// Recruitee and Pinpoint also serve the whole board on one request (November 2026).
-const FULL_READ_ATS = new Set(['greenhouse', 'ashby', 'lever', 'recruitee', 'pinpoint']);
+// Recruitee, Pinpoint and Workable also serve the whole board on one request (November 2026).
+const FULL_READ_ATS = new Set(['greenhouse', 'ashby', 'lever', 'recruitee', 'pinpoint', 'workable']);
 export function readsExperienced(firm) {
   if (!firm || firm.parked) return false;
   if (!FULL_READ_ATS.has(firm.ats) && firm.collect !== 'complete') return false;
@@ -1482,6 +1483,14 @@ async function fetchPinpoint(f) {
   return pinpointToJobs(await getJson(pinpointUrl(f.token)));
 }
 
+/* -------------------------------- Workable -------------------------------- */
+// The careers widget: the whole board on one request. lib/workable.mjs throws
+// on any answer that is not the widget's shape, so a rate limit or a changed
+// schema reads as a failed board, never as roles.
+async function fetchWorkable(f) {
+  return workableToJobs(await getJson(workableUrl(f.token)));
+}
+
 /* ------------------------------- Jane Street ------------------------------ */
 // No ATS at all: a public JSON file behind a client-rendered page. The level
 // lives in `availability` rather than the title, so the filtering happens in
@@ -1499,7 +1508,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, recruitee: fetchRecruitee, pinpoint: fetchPinpoint };
+export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
 
 /**
  * Write a file the way a consumer may read it at any moment.

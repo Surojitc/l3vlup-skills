@@ -51,6 +51,11 @@
       "method": "2026-10-24",
       "note": "Employer listings (lib/employer-listings.mjs) join the feed after retention; they are not board reads, every board's yield is unchanged, and the committed listings file is empty",
       "recorded": "2026-11-20"
+    },
+    "5bd2baa9f5a5d92e": {
+      "method": "2026-10-24",
+      "note": "Workable reader (lib/workable.mjs), used only by Capula's row added 20 Nov; no existing board's yield changes",
+      "recorded": "2026-11-20"
     }
   }
 }
