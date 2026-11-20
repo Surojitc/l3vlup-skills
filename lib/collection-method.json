@@ -41,6 +41,11 @@
       "method": "2026-10-24",
       "note": "Recruitee and Pinpoint readers (used only by rows added 20 Nov), firstSeen stamped on feed rows, and the Workday complete read restating page one's total when a later page answers total 0 with postings: Barclays, ING and Capital One, the only complete Workday rows before, state their total on every page (checked 20 Nov), so no existing board yields a different set",
       "recorded": "2026-11-20"
+    },
+    "32d6b54d3df5155e": {
+      "method": "2026-10-24",
+      "note": "stampFirstSeen moved above updateArchive's doc comment; no behaviour change",
+      "recorded": "2026-11-20"
     }
   }
 }

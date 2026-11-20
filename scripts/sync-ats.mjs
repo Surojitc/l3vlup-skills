@@ -1518,6 +1518,15 @@ async function writeAtomic(path, contents) {
 /** Days a departed role's page is kept before the registry forgets the URL. */
 const ARCHIVE_DAYS = 365;
 
+/** Copy each row's first-collected day from the archive onto the row, in place. */
+export function stampFirstSeen(rows, archived) {
+  for (const o of rows) {
+    const day = o.slug ? archived?.[o.slug]?.firstSeen : undefined;
+    if (typeof day === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(day)) o.firstSeen = day;
+  }
+  return rows;
+}
+
 /**
  * The record of every tracker URL this collector has published, departed roles
  * included.
@@ -1532,15 +1541,6 @@ const ARCHIVE_DAYS = 365;
  * Entries carry the durable id and the canonical slug, so a consumer can join
  * them to the registry without re-deriving anything.
  */
-/** Copy each row's first-collected day from the archive onto the row, in place. */
-export function stampFirstSeen(rows, archived) {
-  for (const o of rows) {
-    const day = o.slug ? archived?.[o.slug]?.firstSeen : undefined;
-    if (typeof day === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(day)) o.firstSeen = day;
-  }
-  return rows;
-}
-
 export function updateArchive(previous, records, slugs, day) {
   const roles = { ...previous };
   const KEEP = ['id', 'firm', 'role', 'vertical', 'programmeType', 'tier', 'division', 'location', 'region', 'level', 'applicationUrl', 'recommendedPrepSlug'];
