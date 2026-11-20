@@ -1861,6 +1861,165 @@
       "discoveredVia": "https://usaa.wd1.myworkdayjobs.com/USAAJOBSWD",
       "discoveredAt": "2026-10-30",
       "postingsAtDiscovery": 232
+    },
+    {
+      "firm": "Ares Management",
+      "ats": "workday",
+      "tenant": "aresmgmt",
+      "shard": "wd1",
+      "site": "External",
+      "tier": "Megafund",
+      "collect": "complete",
+      "discoveredVia": "https://www.ares.com/us/careers",
+      "postingsAtDiscovery": 230,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Oaktree Capital",
+      "ats": "workday",
+      "tenant": "oaktree",
+      "shard": "wd1",
+      "site": "Oaktree",
+      "tier": "Asset Manager",
+      "collect": "complete",
+      "discoveredVia": "https://www.oaktreecapital.com/careers",
+      "postingsAtDiscovery": 57,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "General Atlantic",
+      "ats": "greenhouse",
+      "token": "generalatlantic",
+      "tier": "Megafund",
+      "discoveredVia": "https://www.generalatlantic.com/careers/",
+      "postingsAtDiscovery": 12,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "PAI Partners",
+      "ats": "recruitee",
+      "token": "paipartnerssas",
+      "tier": "Megafund",
+      "discoveredVia": "https://www.paipartners.com/careers/",
+      "postingsAtDiscovery": 8,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Cinven",
+      "ats": "pinpoint",
+      "token": "cinven",
+      "tier": "Megafund",
+      "discoveredVia": "https://www.cinven.com/people/careers/",
+      "postingsAtDiscovery": 1,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Legal & General",
+      "ats": "smartrecruiters",
+      "token": "LegalAndGeneral",
+      "tier": "Asset Manager",
+      "discoveredVia": "https://jobs.smartrecruiters.com/LegalAndGeneral",
+      "postingsAtDiscovery": 40,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "WorldQuant",
+      "ats": "greenhouse",
+      "token": "worldquant",
+      "tier": "Systematic",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/worldquant",
+      "postingsAtDiscovery": 81,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "ION Group",
+      "ats": "lever",
+      "token": "ion",
+      "tier": "Trading Tech",
+      "discoveredVia": "https://jobs.lever.co/ion",
+      "postingsAtDiscovery": 99,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Kpler",
+      "ats": "lever",
+      "token": "kpler",
+      "tier": "Trading Tech",
+      "discoveredVia": "https://jobs.lever.co/kpler",
+      "postingsAtDiscovery": 111,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Roland Berger",
+      "ats": "smartrecruiters",
+      "token": "RolandBerger",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.rolandberger.com/en/Careers/",
+      "postingsAtDiscovery": 206,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "xAI",
+      "ats": "greenhouse",
+      "token": "xai",
+      "tier": "AI Lab",
+      "discoveredVia": "https://x.ai/careers",
+      "postingsAtDiscovery": 299,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Upvest",
+      "ats": "ashby",
+      "token": "upvest",
+      "tier": "Fintech",
+      "discoveredVia": "https://jobs.ashbyhq.com/upvest",
+      "postingsAtDiscovery": 29,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Moss",
+      "ats": "ashby",
+      "token": "moss",
+      "tier": "Fintech",
+      "discoveredVia": "https://jobs.ashbyhq.com/moss",
+      "postingsAtDiscovery": 31,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Column",
+      "ats": "ashby",
+      "token": "column",
+      "tier": "Fintech",
+      "discoveredVia": "https://jobs.ashbyhq.com/column",
+      "postingsAtDiscovery": 24,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Ledger",
+      "ats": "ashby",
+      "token": "ledger",
+      "tier": "Fintech",
+      "discoveredVia": "https://jobs.ashbyhq.com/ledger",
+      "postingsAtDiscovery": 17,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Airwallex",
+      "ats": "ashby",
+      "token": "airwallex",
+      "tier": "Fintech",
+      "discoveredVia": "https://jobs.ashbyhq.com/airwallex",
+      "postingsAtDiscovery": 492,
+      "discoveredAt": "2026-11-20"
+    },
+    {
+      "firm": "Raisin",
+      "ats": "greenhouse",
+      "token": "raisin",
+      "tier": "Fintech",
+      "discoveredVia": "https://job-boards.eu.greenhouse.io/raisin",
+      "postingsAtDiscovery": 29,
+      "discoveredAt": "2026-11-20"
     }
   ]
 }

@@ -36,6 +36,16 @@
       "method": "2026-10-24",
       "note": "Experienced rows at a bulge-bracket bank: an allowance of 150 chosen one row from each seniority-and-area pair in turn, instead of 60 in seat order (#152, 13 Oct). Changes which experienced rows JPMorgan Chase, Barclays and the other bulge-bracket boards yield; trading firms and every other tier unchanged. Days either side do not compare for those boards.",
       "recorded": "2026-10-24"
+    },
+    "4a0c4c284f3f8f7d": {
+      "method": "2026-10-24",
+      "note": "Recruitee and Pinpoint readers (used only by rows added 20 Nov), firstSeen stamped on feed rows, and the Workday complete read restating page one's total when a later page answers total 0 with postings: Barclays, ING and Capital One, the only complete Workday rows before, state their total on every page (checked 20 Nov), so no existing board yields a different set",
+      "recorded": "2026-11-20"
+    },
+    "32d6b54d3df5155e": {
+      "method": "2026-10-24",
+      "note": "stampFirstSeen moved above updateArchive's doc comment; no behaviour change",
+      "recorded": "2026-11-20"
     }
   }
 }

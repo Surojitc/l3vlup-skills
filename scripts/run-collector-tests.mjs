@@ -50,6 +50,7 @@ export const SUITES = [
   'talnet',
   'eightfold-janestreet',
   'smartrecruiters',
+  'recruitee-pinpoint',
   'role-retention',
   'role-screen',
   'role-duplicates',

@@ -68,6 +68,8 @@ import {
   serialiseLedger,
 } from '../lib/deadline-ledger.mjs';
 import { paginateSmartRecruiters, smartRecruitersToJob, smartRecruitersUrl } from '../lib/smartrecruiters.mjs';
+import { recruiteeToJobs, recruiteeUrl } from '../lib/recruitee.mjs';
+import { pinpointToJobs, pinpointUrl } from '../lib/pinpoint.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -912,7 +914,8 @@ export const isExperiencedRow = (o) => EXPERIENCED_PROGRAMMES.has(o?.programmeTy
  * ask only for early-career terms, so what it returns says nothing about the
  * experienced roles on it. Adding experienced queries is phase 2.
  */
-const FULL_READ_ATS = new Set(['greenhouse', 'ashby', 'lever']);
+// Recruitee and Pinpoint also serve the whole board on one request (November 2026).
+const FULL_READ_ATS = new Set(['greenhouse', 'ashby', 'lever', 'recruitee', 'pinpoint']);
 export function readsExperienced(firm) {
   if (!firm || firm.parked) return false;
   if (!FULL_READ_ATS.has(firm.ats) && firm.collect !== 'complete') return false;
@@ -1173,6 +1176,16 @@ export async function paginateWorkday(fetchPage, opts = {}) {
   return seen;
 }
 
+/**
+ * The total a Workday page states, read the way the tenant means it: a later
+ * page that returns postings under a total of 0 restates the first page's
+ * total (see the complete read in fetchWorkday). Anything else is taken as
+ * given, so a board that really moved still reads as having moved.
+ */
+export function workdayPageTotal(offset, total, rowCount, firstPageTotal) {
+  return offset > 0 && total === 0 && rowCount > 0 && typeof firstPageTotal === 'number' ? firstPageTotal : total;
+}
+
 async function fetchWorkday(f, stats = newRequestStats()) {
   // Two shapes live in the registry. Hand-added rows carry `host`; rows written
   // by scripts/discover-ats.mjs carry `tenant` + `shard` and no host at all.
@@ -1194,11 +1207,23 @@ async function fetchWorkday(f, stats = newRequestStats()) {
   // Registry `collect: "complete"`: the whole board, empty search, walked to
   // the board's own total and classified locally (lib/complete-board.mjs).
   // Workday serves at most 20 a page.
+  //
+  // Some tenants state the board's total on the first page only and answer
+  // `total: 0` on every later page while still returning postings (Ares, Blue
+  // Owl and Oaktree, read 20 November 2026; Barclays states it on every page).
+  // Read literally, 0 ends the walk at offset 40 as "reached the total", so a
+  // 230-posting board was read as 40. A later page that returns postings under
+  // a total of 0 is therefore read as restating the first page's total; a
+  // genuinely emptied board returns no postings and still ends the walk.
+  let statedTotal;
   const seen = f.collect === 'complete'
     ? (await walkCompleteBoard(
         async (offset, limit) => {
           const d = await search('', offset, limit);
-          return { total: d?.total, rows: d?.jobPostings ?? [] };
+          const rows = d?.jobPostings ?? [];
+          if (offset === 0) statedTotal = d?.total;
+          const total = workdayPageTotal(offset, d?.total, rows.length, statedTotal);
+          return { total, rows };
         },
         { pageSize: WORKDAY_PAGE, idOf: (jp) => jp?.externalPath, stats }
       )).postings
@@ -1440,6 +1465,20 @@ async function fetchSmartRecruiters(f, stats = newRequestStats()) {
   return [...seen.values()].map((p) => smartRecruitersToJob(p, f)).filter(Boolean);
 }
 
+/* ------------------------------- Recruitee -------------------------------- */
+// The careers-site API: the whole board on one request. See lib/recruitee.mjs
+// for the notices it refuses and why the registry stores the redirected name.
+async function fetchRecruitee(f) {
+  return recruiteeToJobs(await getJson(recruiteeUrl(f.token)));
+}
+
+/* -------------------------------- Pinpoint -------------------------------- */
+// The postings feed: the whole board on one request. lib/pinpoint.mjs throws
+// on the sample board an unused account serves, so that reads as a failure.
+async function fetchPinpoint(f) {
+  return pinpointToJobs(await getJson(pinpointUrl(f.token)));
+}
+
 /* ------------------------------- Jane Street ------------------------------ */
 // No ATS at all: a public JSON file behind a client-rendered page. The level
 // lives in `availability` rather than the title, so the filtering happens in
@@ -1457,7 +1496,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters };
+export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, recruitee: fetchRecruitee, pinpoint: fetchPinpoint };
 
 /**
  * Write a file the way a consumer may read it at any moment.
@@ -1478,6 +1517,15 @@ async function writeAtomic(path, contents) {
 
 /** Days a departed role's page is kept before the registry forgets the URL. */
 const ARCHIVE_DAYS = 365;
+
+/** Copy each row's first-collected day from the archive onto the row, in place. */
+export function stampFirstSeen(rows, archived) {
+  for (const o of rows) {
+    const day = o.slug ? archived?.[o.slug]?.firstSeen : undefined;
+    if (typeof day === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(day)) o.firstSeen = day;
+  }
+  return rows;
+}
 
 /**
  * The record of every tracker URL this collector has published, departed roles
@@ -2189,6 +2237,14 @@ async function main() {
   }
   const archivedBefore = Object.keys(archiveRoles).length;
   const { roles: archived, pruned: archivePruned, screened: archiveScreened } = updateArchive(archiveRoles, all, assigned, runDay);
+
+  // The day the role was first collected travels with it, so the site can say
+  // "new this week" without a second read of the archive. The archive is the
+  // only record of it (kept since 1 August 2026), and it keeps the earliest
+  // day a slug was seen, so a role that drops off a board for a day and
+  // returns is not new again. A row without a slug has no archive entry and
+  // carries no date rather than a guessed one.
+  stampFirstSeen(all, archived);
 
   await writeAtomic(
     SLUGS,
