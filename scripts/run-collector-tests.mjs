@@ -51,6 +51,7 @@ export const SUITES = [
   'eightfold-janestreet',
   'smartrecruiters',
   'recruitee-pinpoint',
+  'employer-listings',
   'role-retention',
   'role-screen',
   'role-duplicates',

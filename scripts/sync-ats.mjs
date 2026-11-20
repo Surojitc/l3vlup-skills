@@ -70,6 +70,7 @@ import {
 import { paginateSmartRecruiters, smartRecruitersToJob, smartRecruitersUrl } from '../lib/smartrecruiters.mjs';
 import { recruiteeToJobs, recruiteeUrl } from '../lib/recruitee.mjs';
 import { pinpointToJobs, pinpointUrl } from '../lib/pinpoint.mjs';
+import { employerListings } from '../lib/employer-listings.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -84,6 +85,8 @@ const BROWSER_UA =
 const LEDGER = join(ROOT, 'data/deadlines.learned.json');
 const SLUGS = join(ROOT, 'data/tracker-slugs.json');
 const ARCHIVE = join(ROOT, 'data/tracker-archive.json');
+const EMPLOYER_LISTINGS = join(ROOT, 'data/opportunities.employer.json');
+const TAXONOMY = join(ROOT, 'data/taxonomy.json');
 const TIMEOUT_MS = 12000;
 
 /**
@@ -1775,6 +1778,28 @@ async function main() {
         `(dropped after ${RETENTION_DAYS} days): ` +
         Object.entries(byFirm).map(([f, n]) => `${f} ${n}${how(f)}`).join(', ')
     );
+  }
+
+  // ---------------------------------------------------------------------
+  // Roles an employer listed with us directly (lib/employer-listings.mjs):
+  // on no public board, approved in writing, labelled and dated to expire.
+  // After collection and retention, so a board carrying the same link wins;
+  // before screening and slugs, so a listing is screened and given a
+  // permanent URL like any other row. A bad file costs the listings, never
+  // the collection.
+  // ---------------------------------------------------------------------
+  try {
+    const file = JSON.parse(await readFile(EMPLOYER_LISTINGS, 'utf8'));
+    const taxonomy = JSON.parse(await readFile(TAXONOMY, 'utf8'));
+    const { rows, skipped } = employerListings(file.listings, taxonomy, runDay, all);
+    for (const r of rows) r.lastConfirmedAt = runDay;
+    all.push(...rows);
+    if (rows.length || skipped.length) {
+      console.log(`\nemployer listings: ${rows.length} published, ${skipped.length} left out`);
+      for (const s of skipped) console.log(`  ${s.label}: ${s.reason}`);
+    }
+  } catch (e) {
+    if (e?.code !== 'ENOENT') console.log(`::warning::employer listings not read: ${String(e?.message ?? e).slice(0, 120)}`);
   }
 
   // ---------------------------------------------------------------------

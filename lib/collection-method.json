@@ -46,6 +46,11 @@
       "method": "2026-10-24",
       "note": "stampFirstSeen moved above updateArchive's doc comment; no behaviour change",
       "recorded": "2026-11-20"
+    },
+    "b4a76ed7130ba7c3": {
+      "method": "2026-10-24",
+      "note": "Employer listings (lib/employer-listings.mjs) join the feed after retention; they are not board reads, every board's yield is unchanged, and the committed listings file is empty",
+      "recorded": "2026-11-20"
     }
   }
 }

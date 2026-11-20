@@ -1,0 +1,9 @@
+{
+  "_comment": [
+    "Roles an employer listed with us directly: on no public board, so the collector cannot read them. Read by lib/employer-listings.mjs and merged into the feed by scripts/sync-ats.mjs, labelled 'Listed by the employer'.",
+    "Add an entry only after a person has verified the organisation and the employer has approved the listing in writing (L3vlup docs/employer-briefs-2026-10.md). Copy the role as approved; do not improve it.",
+    "Fields: key (lower-case, hyphens; pins the id and URL, never reuse), firm, role, vertical, programmeType, region and level (data/taxonomy.json vocabulary; programmeType may also be 'Lateral / Experienced' or 'MBA Hire'), location, applicationUrl (https, the employer's own page or a mailto-free form), approvedAt and expiresAt (YYYY-MM-DD, at most 60 days apart), optional tier, openingDate, closingDate, recommendedPrepSlug, and briefId (the employer_briefs row, for the record).",
+    "To keep a listing up, the employer confirms it again and both dates move forward. An expired entry is left out of the feed and can be deleted."
+  ],
+  "listings": []
+}
