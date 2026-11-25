@@ -2038,6 +2038,194 @@
       "discoveredVia": "https://hayfin.com/careers/",
       "discoveredAt": "2026-11-20",
       "postingsAtDiscovery": 2
+    },
+    {
+      "firm": "The Brattle Group",
+      "ats": "greenhouse",
+      "token": "thebrattlegroup",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.brattle.com/careers/",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 43
+    },
+    {
+      "firm": "Compass Lexecon",
+      "ats": "workday",
+      "tenant": "fticonsulting",
+      "shard": "wd108",
+      "site": "CompassLexeconCareers",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.compasslexecon.com/careers/",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 25
+    },
+    {
+      "firm": "Marsh McLennan",
+      "ats": "workday",
+      "tenant": "mmc",
+      "shard": "wd1",
+      "site": "MMC",
+      "tier": "Other",
+      "titleBrands": [
+        {
+          "match": "Oliver Wyman",
+          "firm": "Oliver Wyman",
+          "tier": "Consulting"
+        },
+        {
+          "match": "NERA",
+          "firm": "NERA Economic Consulting",
+          "tier": "Consulting"
+        }
+      ],
+      "discoveredVia": "https://careers.marsh.com/global/en/oliver-wyman-search",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 252,
+      "appliedFacets": {
+        "jobFamilyGroup": [
+          "840296504fcf0181b2674312de4a0685"
+        ]
+      }
+    },
+    {
+      "firm": "L.E.K. Consulting",
+      "ats": "talnet",
+      "host": "lek.tal.net",
+      "brand": "brand-2",
+      "appcentre": "appcentre-1",
+      "tier": "Consulting",
+      "discoveredVia": "https://www.lek.com/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 19
+    },
+    {
+      "firm": "Andreessen Horowitz",
+      "ats": "greenhouse",
+      "token": "a16z",
+      "tier": "Growth Equity",
+      "discoveredVia": "https://a16z.com/about/jobs/",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 21
+    },
+    {
+      "firm": "Bessemer Venture Partners",
+      "ats": "greenhouse",
+      "token": "bessemerventurepartners",
+      "tier": "Growth Equity",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/bessemerventurepartners",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 1
+    },
+    {
+      "firm": "Blue Owl",
+      "ats": "workday",
+      "tenant": "blueowl",
+      "shard": "wd1",
+      "site": "blueowl",
+      "tier": "Megafund",
+      "discoveredVia": "https://www.blueowl.com/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 51
+    },
+    {
+      "firm": "HPS Investment Partners",
+      "ats": "greenhouse",
+      "token": "hpsinvestmentpartners",
+      "tier": "Megafund",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/hpsinvestmentpartners",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 1
+    },
+    {
+      "firm": "Sixth Street",
+      "ats": "workday",
+      "tenant": "sixthstreet",
+      "shard": "wd1",
+      "site": "sixthstreetcareers",
+      "tier": "Megafund",
+      "discoveredVia": "https://sixthstreet.com/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 17
+    },
+    {
+      "firm": "ICG",
+      "ats": "workday",
+      "tenant": "icg",
+      "shard": "wd3",
+      "site": "external_careers",
+      "tier": "Mid-Market",
+      "discoveredVia": "https://www.icgam.com/people-and-careers/",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 21
+    },
+    {
+      "firm": "Hamilton Lane",
+      "ats": "workday",
+      "tenant": "hamiltonlane",
+      "shard": "wd108",
+      "site": "search",
+      "tier": "Mid-Market",
+      "discoveredVia": "https://www.hamiltonlane.com/en-us/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 44
+    },
+    {
+      "firm": "Viking Global Investors",
+      "ats": "greenhouse",
+      "token": "vikingglobalinvestors",
+      "tier": "Single-Manager",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/vikingglobalinvestors",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 3
+    },
+    {
+      "firm": "Tudor Investment Corporation",
+      "ats": "greenhouse",
+      "token": "tudorgroup",
+      "tier": "Single-Manager",
+      "discoveredVia": "https://www.tudor.com/careers/",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 5
+    },
+    {
+      "firm": "Sculptor",
+      "ats": "workday",
+      "tenant": "sculptor",
+      "shard": "wd12",
+      "site": "Sculptor_External_Career_Site",
+      "tier": "Single-Manager",
+      "discoveredVia": "https://www.sculptor.com/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 1
+    },
+    {
+      "firm": "Walleye Capital",
+      "ats": "greenhouse",
+      "token": "walleyecapital-external-students",
+      "tier": "Multi-Manager",
+      "discoveredVia": "https://www.walleyecapital.com/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 1
+    },
+    {
+      "firm": "Walleye Capital",
+      "ats": "greenhouse",
+      "token": "walleyecapital-external-fulltime",
+      "tier": "Multi-Manager",
+      "discoveredVia": "https://www.walleyecapital.com/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 13
+    },
+    {
+      "firm": "Morningstar",
+      "ats": "workday",
+      "tenant": "morningstar",
+      "shard": "wd5",
+      "site": "Morningstar",
+      "tier": "Other",
+      "discoveredVia": "https://www.morningstar.com/careers",
+      "discoveredAt": "2026-11-25",
+      "postingsAtDiscovery": 184
     }
   ]
 }

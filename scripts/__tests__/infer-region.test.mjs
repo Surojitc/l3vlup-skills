@@ -63,6 +63,12 @@ eq('Manchester with a state code is US', inferRegion('Manchester, NH'), 'US');
 eq('Cambridge with a state code is US', inferRegion('Cambridge, MA'), 'US');
 // A European city must never reach the state-code rule: DE is Delaware.
 eq('Munich is Europe, not Delaware', inferRegion('Munich, DE'), 'Europe');
+// L.E.K.'s Wroclaw office was published as US (25 November 2026): Poland was
+// known by its two largest cities only.
+eq('Wroclaw is Europe', inferRegion('Wroclaw'), 'Europe');
+eq('Wrocław with its diacritic is Europe', inferRegion('Wrocław, Poland'), 'Europe');
+eq('Gdansk is Europe', inferRegion('Gdansk'), 'Europe');
+eq('Kyiv is Europe', inferRegion('Kyiv, , Ukraine'), 'Europe');
 
 // --- the default is a guess, and it has to be counted ---
 {

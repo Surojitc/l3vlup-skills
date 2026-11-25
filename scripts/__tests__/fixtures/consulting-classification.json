@@ -202,10 +202,10 @@
       "want": "Investment Banking"
     },
     {
-      "why": "FTI corporate finance, and not Consulting, which is all this change owns. It lands in Other rather than Investment Banking because the business-transformation rule added in #51 is read before the corporate-finance rule; main classifies this title Other with no consulting rule present at all, so the gap is pre-existing and its repair belongs to that rule, not to this one.",
+      "why": "FTI files business transformation under its Corporate Finance segment, so the finance override lets the title past consultingVerdict. The business-transformation rule now answers Consulting at a consulting firm (November 2026), which is the repair this fixture said belonged to that rule; at a bank the same words stay Other.",
       "firm": "FTI Consulting",
       "title": "Intern, Business Transformation (TMT), Corporate Finance",
-      "want": "Other"
+      "want": "Consulting"
     },
     {
       "why": "restructuring at a consulting firm is still restructuring",
