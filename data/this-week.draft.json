@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-19T15:59:02.416Z",
-  "weekEnding": "2026-11-20",
+  "generatedAt": "2026-11-26T17:13:36.775Z",
+  "weekEnding": "2026-11-27",
   "status": "draft",
   "modelStage": "failed",
   "failure": "call_failed: Could not resolve authentication method. Expected one of apiKey, authToken, credentials, config, or profile to be set. Or for one of the \"X-Api-Key\" or \"Authorization\" headers to be explicitly omitted",
@@ -8,24 +8,24 @@
     "promptVersion": "this-week-draft-v1",
     "model": "claude-sonnet-5",
     "budgetUsd": 0.5,
-    "estimatedUsd": 0.094242,
+    "estimatedUsd": 0.092008,
     "actualUsd": null,
-    "inputTokensApprox": 17121,
+    "inputTokensApprox": 16004,
     "hardStopUsd": 1
   },
   "feeds": {
-    "newsflow": "2026-11-19T14:49:00.351Z",
-    "deals": "2026-11-19T14:48:37.697Z"
+    "newsflow": "2026-11-26T15:55:33.409Z",
+    "deals": "2026-11-26T15:55:09.361Z"
   },
   "shortlist": {
     "headlines": [
       {
         "item": {
-          "title": "Anthropic IPO Said to Give Nothing to Most Institutional Buyers",
-          "link": "https://www.bloomberg.com/news/articles/2026-11-19/anthropic-ipo-said-to-give-nothing-to-most-institutional-buyers",
+          "title": "What JLL Sees This Holiday Season",
+          "link": "https://www.bloomberg.com/news/videos/2026-11-26/what-jll-sees-this-holiday-season-video",
           "source": "Bloomberg",
           "vertical": "hf",
-          "date": "2026-11-19T14:35:54.000Z",
+          "date": "2026-11-26T15:25:16.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -35,27 +35,25 @@
       },
       {
         "item": {
-          "title": "Early Anthropic investors eye $100bn-plus windfall from IPO",
-          "link": "https://privateequitywire.com/news/early-anthropic-investors-eye-100bn-plus-windfall-from-ipo",
-          "source": "Private Equity Wire",
-          "vertical": "pe",
-          "date": "2026-11-18T10:13:00.000Z",
-          "dealValue": "$100B",
-          "valueUsdB": 100,
-          "value": 100,
-          "alsoReportedBy": [
-            "Bloomberg"
-          ]
+          "title": "How an ex-McKinsey partner reverse engineered a $500bn wealth manager",
+          "link": "https://www.ft.com/content/2a40938d-d3c8-47dd-a5e9-b728b685a5ed?syn-25a6b1a6=1",
+          "source": "FT",
+          "vertical": "ma",
+          "date": "2026-11-25T05:00:04.000Z",
+          "dealValue": "$500B",
+          "valueUsdB": 500,
+          "value": 500,
+          "alsoReportedBy": []
         },
-        "why": "largest disclosed value ($100B)"
+        "why": "largest disclosed value ($500B)"
       },
       {
         "item": {
-          "title": "Michael's Tree & Loader Service Names Pat Turley CEO, Launches National Acquisition Strategy for Tree Care Companies",
-          "link": "https://www.prnewswire.com/news-releases/michaels-tree--loader-service-names-pat-turley-ceo-launches-national-acquisition-strategy-for-tree-care-companies-302945018.html",
-          "source": "PR Newswire",
-          "vertical": "ma",
-          "date": "2026-11-19T14:07:00.000Z",
+          "title": "VC investors dump old funds at steep discounts to chase AI riches",
+          "link": "https://www.ft.com/content/0278cbea-a0b6-4a30-80f2-f31ac6657f11?syn-25a6b1a6=1",
+          "source": "FT",
+          "vertical": "pe",
+          "date": "2026-11-26T11:00:06.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -67,38 +65,39 @@
     "deals": [
       {
         "item": {
-          "title": "Landmark Credit Union Completes Acquisition of American National Bank-Fox Cities",
-          "link": "https://www.prnewswire.com/news-releases/landmark-credit-union-completes-acquisition-of-american-national-bank-fox-cities-302943923.html",
-          "source": "PR Newswire",
-          "date": "2026-11-19T14:00:00.000Z",
-          "dealValue": "$420M",
-          "vertical": "tape",
-          "value": 0.42,
+          "title": "Middle East private capital investment falls to $2.4bn",
+          "link": "https://privateequitywire.com/news/middle-east-private-capital-investment-falls-to-2-4bn",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-11-26T10:37:00.000Z",
+          "dealValue": "$2.4B",
+          "valueUsdB": 2.4,
+          "value": 2.4,
           "alsoReportedBy": []
         },
         "why": "most recent with a disclosed value"
       },
       {
         "item": {
-          "title": "Anthropic raises record $81.3bn in IPO at $1.5tn valuation",
-          "link": "https://privateequitywire.com/news/anthropic-raises-record-81-3bn-in-ipo-at-1-5tn-valuation-2",
+          "title": "Blackstone, Warburg Pincus and Apollo in talks to back GTCR’s $50bn Global Payments bid",
+          "link": "https://privateequitywire.com/news/blackstone-warburg-pincus-and-apollo-in-talks-to-back-gtcrs-50bn-global-payments-bid",
           "source": "Private Equity Wire",
           "vertical": "pe",
-          "date": "2026-11-19T10:19:00.000Z",
-          "dealValue": "$81.3B",
-          "valueUsdB": 81.3,
-          "value": 81.3,
+          "date": "2026-11-25T10:14:00.000Z",
+          "dealValue": "$50B",
+          "valueUsdB": 50,
+          "value": 50,
           "alsoReportedBy": []
         },
-        "why": "largest disclosed value ($81.3B)"
+        "why": "largest disclosed value ($50B)"
       },
       {
         "item": {
-          "title": "UniCredit agrees deal with Berlin on Commerzbank takeover",
-          "link": "https://www.ft.com/content/0c6bb979-bc3f-4368-86fc-a0306fd52d78?syn-25a6b1a6=1",
+          "title": "UniCredit to propose Orcel as chair of Commerzbank",
+          "link": "https://www.ft.com/content/d10e7600-2f98-42d6-8262-19f0a57d1112?syn-25a6b1a6=1",
           "source": "FT",
           "vertical": "ma",
-          "date": "2026-11-19T09:27:50.000Z",
+          "date": "2026-11-26T09:24:06.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -110,11 +109,11 @@
     "moves": [
       {
         "item": {
-          "title": "US Initial Jobless Claims Unexpectedly Rise by 1,000",
-          "link": "https://www.bloomberg.com/news/videos/2026-11-19/us-initial-jobless-claims-unexpectedly-rise-by-1-000-video",
+          "title": "BCG on What’s Keeping CEOs Up at Night",
+          "link": "https://www.bloomberg.com/news/videos/2026-11-26/bcg-on-what-s-keeping-ceos-up-at-night-video",
           "source": "Bloomberg",
           "vertical": "hf",
-          "date": "2026-11-19T14:35:52.000Z",
+          "date": "2026-11-26T15:20:01.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -124,11 +123,39 @@
       },
       {
         "item": {
-          "title": "Arthur J. Gallagher & Co. Acquires AgriServ, Inc.",
-          "link": "https://www.prnewswire.com/news-releases/arthur-j-gallagher--co-acquires-agriserv-inc-302944823.html",
+          "title": "Gordon Brothers-backed Poundland enters administration",
+          "link": "https://privateequitywire.com/news/gordon-brothers-backed-poundland-enters-administration",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-11-26T10:30:00.000Z",
+          "dealValue": null,
+          "valueUsdB": null,
+          "value": null,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in Private equity"
+      },
+      {
+        "item": {
+          "title": "XEBO.ai raises $10.5 million in Series A funding from Emirates Growth Fund",
+          "link": "https://www.prnewswire.com/news-releases/xeboai-raises-10-5-million-in-series-a-funding-from-emirates-growth-fund-302951035.html",
           "source": "PR Newswire",
+          "vertical": "vc",
+          "date": "2026-11-26T05:59:00.000Z",
+          "dealValue": "$11M",
+          "valueUsdB": 0.0105,
+          "value": 0.0105,
+          "alsoReportedBy": []
+        },
+        "why": "most recent in vc"
+      },
+      {
+        "item": {
+          "title": "The debtlike deals beating buyouts",
+          "link": "https://www.ft.com/content/0d0a770d-39d6-45cd-89e4-7877d2448cf1?syn-25a6b1a6=1",
+          "source": "FT",
           "vertical": "ma",
-          "date": "2026-11-19T14:01:00.000Z",
+          "date": "2026-11-26T05:00:29.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -138,81 +165,53 @@
       },
       {
         "item": {
-          "title": "Humyn Labs Raises USD 47M in Series A to Scale Physical AI Research and Deployment",
-          "link": "https://www.prnewswire.com/news-releases/humyn-labs-raises-usd-47m-in-series-a-to-scale-physical-ai-research-and-deployment-302944287.html",
+          "title": "CirCode Biomed Closes Series A+ Financing to Advance the World's Leading Circular RNA Therapeutics Pipeline",
+          "link": "https://www.prnewswire.com/news-releases/circode-biomed-closes-series-a-financing-to-advance-the-worlds-leading-circular-rna-therapeutics-pipeline-302950525.html",
           "source": "PR Newswire",
-          "vertical": "vc",
-          "date": "2026-11-19T14:00:00.000Z",
+          "vertical": "capital-raises",
+          "date": "2026-11-25T14:00:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
-          "alsoReportedBy": []
-        },
-        "why": "most recent in vc"
-      },
-      {
-        "item": {
-          "title": "RRJ-led consortium to buy $619m of GM3 bonds",
-          "link": "https://privateequitywire.com/news/rrj-led-consortium-to-buy-619m-of-gm3-bonds-2",
-          "source": "Private Equity Wire",
-          "vertical": "pe",
-          "date": "2026-11-19T10:20:00.000Z",
-          "dealValue": "$619M",
-          "valueUsdB": 0.619,
-          "value": 0.619,
-          "alsoReportedBy": []
-        },
-        "why": "most recent in Private equity"
-      },
-      {
-        "item": {
-          "title": "Jeeves Announces $300M in Financing, Adding Neuberger Berman To Fuel Rapid Global Expansion",
-          "link": "https://www.prnewswire.com/news-releases/jeeves-announces-300m-in-financing-adding-neuberger-berman-to-fuel-rapid-global-expansion-302944042.html",
-          "source": "PR Newswire",
-          "vertical": "capital-raises",
-          "date": "2026-11-18T16:10:00.000Z",
-          "dealValue": "$300M",
-          "valueUsdB": 0.3,
-          "value": 0.3,
           "alsoReportedBy": []
         },
         "why": "most recent in capital-raises"
       },
       {
         "item": {
-          "title": "Kalshi, Novig Asks States to Help Bar Problem Gamblers From Prediction Markets",
-          "link": "https://www.bloomberg.com/news/articles/2026-11-19/kalshi-novig-asks-states-to-help-bar-problem-gamblers-from-prediction-markets",
-          "source": "Bloomberg",
+          "title": "QRT to merge $2bn crypto hedge fund into flagship Qube strategy",
+          "link": "https://hedgeweek.com/news/qrt-to-merge-2bn-crypto-hedge-fund-into-flagship-qube-strategy",
+          "source": "Hedgeweek",
           "vertical": "hf",
-          "date": "2026-11-19T14:30:01.000Z",
-          "dealValue": null,
-          "valueUsdB": null,
-          "value": null,
+          "date": "2026-11-26T15:10:00.000Z",
+          "dealValue": "$2B",
+          "valueUsdB": 2,
+          "value": 2,
           "alsoReportedBy": []
         },
         "why": "next in Hedge funds"
       },
       {
         "item": {
-          "title": "Partners Group acquires Rawlings Sporting Goods, the leading baseball and softball equipment provider",
-          "link": "https://www.prnewswire.com/news-releases/partners-group-acquires-rawlings-sporting-goods-the-leading-baseball-and-softball-equipment-provider-302944699.html",
-          "source": "PR Newswire",
-          "vertical": "ma",
-          "date": "2026-11-19T14:00:00.000Z",
-          "dealValue": null,
-          "valueUsdB": null,
-          "value": null,
+          "title": "New York pension weighs $4bn financing backed by private credit stakes",
+          "link": "https://privateequitywire.com/news/new-york-pension-weighs-4bn-financing-backed-by-private-credit-stakes",
+          "source": "Private Equity Wire",
+          "vertical": "pe",
+          "date": "2026-11-26T10:27:00.000Z",
+          "dealValue": "$4B",
+          "valueUsdB": 4,
+          "value": 4,
           "alsoReportedBy": []
         },
-        "why": "next in M&A"
+        "why": "next in Private equity"
       },
       {
         "item": {
-          "title": "RealBooks Joins Embarc Collective in Newest Member Class",
-          "link": "https://www.prnewswire.com/news-releases/realbooks-joins-embarc-collective-in-newest-member-class-302944916.html",
+          "title": "TVM Capital Healthcare Invests in HiRO, the Global CRO Redefining Cross-Border Clinical Research, to Accelerate Southeast Asia Expansion",
+          "link": "https://www.prnewswire.com/news-releases/tvm-capital-healthcare-invests-in-hiro-the-global-cro-redefining-cross-border-clinical-research-to-accelerate-southeast-asia-expansion-302951004.html",
           "source": "PR Newswire",
           "vertical": "vc",
-          "date": "2026-11-19T13:47:00.000Z",
+          "date": "2026-11-26T03:47:00.000Z",
           "dealValue": null,
           "valueUsdB": null,
           "value": null,
@@ -222,18 +221,18 @@
       }
     ],
     "counts": {
-      "newsInWindow": 132,
-      "dealsInWindow": 107,
+      "newsInWindow": 127,
+      "dealsInWindow": 95,
       "days": 7
     }
   },
   "sources": [
     {
       "index": 0,
-      "url": "https://www.bloomberg.com/news/articles/2026-11-19/anthropic-ipo-said-to-give-nothing-to-most-institutional-buyers",
+      "url": "https://www.bloomberg.com/news/videos/2026-11-26/what-jll-sees-this-holiday-season-video",
       "name": "Bloomberg",
-      "date": "2026-11-19",
-      "title": "Anthropic IPO Said to Give Nothing to Most Institutional Buyers",
+      "date": "2026-11-26",
+      "title": "What JLL Sees This Holiday Season",
       "area": "Hedge funds",
       "dealValue": null,
       "alsoReportedBy": [],
@@ -242,56 +241,56 @@
     },
     {
       "index": 1,
-      "url": "https://privateequitywire.com/news/early-anthropic-investors-eye-100bn-plus-windfall-from-ipo",
-      "name": "Private Equity Wire",
-      "date": "2026-11-18",
-      "title": "Private Equity Wire | Early Anthropic investors eye $100bn-plus…",
-      "area": "Private equity",
-      "dealValue": "$100B",
-      "alsoReportedBy": [
-        "Bloomberg"
-      ],
-      "fetched": true
+      "url": "https://www.ft.com/content/2a40938d-d3c8-47dd-a5e9-b728b685a5ed?syn-25a6b1a6=1",
+      "name": "FT",
+      "date": "2026-11-25",
+      "title": "How an ex-McKinsey partner reverse engineered a $500bn wealth manager",
+      "area": "M&A",
+      "dealValue": "$500B",
+      "alsoReportedBy": [],
+      "fetched": false,
+      "error": "HTTP 403"
     },
     {
       "index": 2,
-      "url": "https://www.prnewswire.com/news-releases/michaels-tree--loader-service-names-pat-turley-ceo-launches-national-acquisition-strategy-for-tree-care-companies-302945018.html",
-      "name": "PR Newswire",
-      "date": "2026-11-19",
-      "title": "Michael&#39;s Tree &amp; Loader Service Names Pat Turley CEO, Launches National Acquisition Strategy for Tree Care Companies",
-      "area": "M&A",
+      "url": "https://www.ft.com/content/0278cbea-a0b6-4a30-80f2-f31ac6657f11?syn-25a6b1a6=1",
+      "name": "FT",
+      "date": "2026-11-26",
+      "title": "VC investors dump old funds at steep discounts to chase AI riches",
+      "area": "Private equity",
       "dealValue": null,
       "alsoReportedBy": [],
-      "fetched": true
+      "fetched": false,
+      "error": "HTTP 403"
     },
     {
       "index": 3,
-      "url": "https://www.prnewswire.com/news-releases/landmark-credit-union-completes-acquisition-of-american-national-bank-fox-cities-302943923.html",
-      "name": "PR Newswire",
-      "date": "2026-11-19",
-      "title": "Landmark Credit Union Completes Acquisition of American National Bank-Fox Cities",
-      "area": "Deal tape",
-      "dealValue": "$420M",
+      "url": "https://privateequitywire.com/news/middle-east-private-capital-investment-falls-to-2-4bn",
+      "name": "Private Equity Wire",
+      "date": "2026-11-26",
+      "title": "Private Equity Wire | Middle East private capital investment falls to…",
+      "area": "Private equity",
+      "dealValue": "$2.4B",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 4,
-      "url": "https://privateequitywire.com/news/anthropic-raises-record-81-3bn-in-ipo-at-1-5tn-valuation-2",
+      "url": "https://privateequitywire.com/news/blackstone-warburg-pincus-and-apollo-in-talks-to-back-gtcrs-50bn-global-payments-bid",
       "name": "Private Equity Wire",
-      "date": "2026-11-19",
-      "title": "Private Equity Wire | Anthropic raises record $81.3bn in IPO at…",
+      "date": "2026-11-25",
+      "title": "Private Equity Wire | Blackstone, Warburg Pincus and Apollo in talks…",
       "area": "Private equity",
-      "dealValue": "$81.3B",
+      "dealValue": "$50B",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 5,
-      "url": "https://www.ft.com/content/0c6bb979-bc3f-4368-86fc-a0306fd52d78?syn-25a6b1a6=1",
+      "url": "https://www.ft.com/content/d10e7600-2f98-42d6-8262-19f0a57d1112?syn-25a6b1a6=1",
       "name": "FT",
-      "date": "2026-11-19",
-      "title": "UniCredit agrees deal with Berlin on Commerzbank takeover",
+      "date": "2026-11-26",
+      "title": "UniCredit to propose Orcel as chair of Commerzbank",
       "area": "M&A",
       "dealValue": null,
       "alsoReportedBy": [],
@@ -300,10 +299,10 @@
     },
     {
       "index": 6,
-      "url": "https://www.bloomberg.com/news/videos/2026-11-19/us-initial-jobless-claims-unexpectedly-rise-by-1-000-video",
+      "url": "https://www.bloomberg.com/news/videos/2026-11-26/bcg-on-what-s-keeping-ceos-up-at-night-video",
       "name": "Bloomberg",
-      "date": "2026-11-19",
-      "title": "US Initial Jobless Claims Unexpectedly Rise by 1,000",
+      "date": "2026-11-26",
+      "title": "BCG on What’s Keeping CEOs Up at Night",
       "area": "Hedge funds",
       "dealValue": null,
       "alsoReportedBy": [],
@@ -312,36 +311,37 @@
     },
     {
       "index": 7,
-      "url": "https://www.prnewswire.com/news-releases/arthur-j-gallagher--co-acquires-agriserv-inc-302944823.html",
-      "name": "PR Newswire",
-      "date": "2026-11-19",
-      "title": "Arthur J. Gallagher &amp; Co. Acquires AgriServ, Inc.",
-      "area": "M&A",
+      "url": "https://privateequitywire.com/news/gordon-brothers-backed-poundland-enters-administration",
+      "name": "Private Equity Wire",
+      "date": "2026-11-26",
+      "title": "Private Equity Wire | Gordon Brothers-backed Poundland enters…",
+      "area": "Private equity",
       "dealValue": null,
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 8,
-      "url": "https://www.prnewswire.com/news-releases/humyn-labs-raises-usd-47m-in-series-a-to-scale-physical-ai-research-and-deployment-302944287.html",
+      "url": "https://www.prnewswire.com/news-releases/xeboai-raises-10-5-million-in-series-a-funding-from-emirates-growth-fund-302951035.html",
       "name": "PR Newswire",
-      "date": "2026-11-19",
-      "title": "Humyn Labs Raises USD 47M in Series A to Scale Physical AI Research and Deployment",
+      "date": "2026-11-26",
+      "title": "XEBO.ai raises $10.5 million in Series A funding from Emirates Growth Fund",
       "area": "vc",
-      "dealValue": null,
+      "dealValue": "$11M",
       "alsoReportedBy": [],
       "fetched": true
     },
     {
       "index": 9,
-      "url": "https://privateequitywire.com/news/rrj-led-consortium-to-buy-619m-of-gm3-bonds-2",
-      "name": "Private Equity Wire",
-      "date": "2026-11-19",
-      "title": "Private Equity Wire | RRJ-led consortium to buy $619m of GM3 bonds",
-      "area": "Private equity",
-      "dealValue": "$619M",
+      "url": "https://www.ft.com/content/0d0a770d-39d6-45cd-89e4-7877d2448cf1?syn-25a6b1a6=1",
+      "name": "FT",
+      "date": "2026-11-26",
+      "title": "The debtlike deals beating buyouts",
+      "area": "M&A",
+      "dealValue": null,
       "alsoReportedBy": [],
-      "fetched": true
+      "fetched": false,
+      "error": "HTTP 403"
     }
   ],
   "edition": null,
