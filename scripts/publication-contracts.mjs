@@ -91,8 +91,23 @@ export const CONTRACTS = {
       // favourable of several reads of one day (see immutableProblems).
       { pattern: /^data\/board-checks\/\d{4}-\d{2}-\d{2}\.json$/, label: 'the day\'s board checks', immutable: true },
       { path: 'data/deadlines.learned.json', freshness: { cadence: 'daily', from: 'updatedAt' }, label: 'the deadline ledger', shapeOnly: true },
-      { path: 'data/econ.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'the economic backdrop', shapeOnly: true },
-      { path: 'data/erp.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'equity and country risk premiums', shapeOnly: true },
+      // The collection method of every fingerprint ever run, published from
+      // lib/collection-method.json by scripts/collection-method.mjs so the
+      // site can resolve a day's method from its fingerprint, including a day
+      // collected before its fingerprint was labelled. A faithful copy: the
+      // collection-method suite holds it equal to the registry.
+      { path: 'data/collection-methods.json', freshness: { cadence: 'manual' }, label: 'the collection-method registry', shapeOnly: true, optional: true },
+      // `optional` for the gate, `required` for freshness. Both are written by
+      // continue-on-error steps beside the tracker. Until November 2026 a
+      // morning they failed was a morning nothing was published: the gate
+      // refused the whole run because the file was "missing from this run",
+      // and the day's board-check observation went with it. The IMF's API
+      // failing on 20 and 21 November cost two days of the Hiring Pulse that
+      // way (runs 44765901827, 44916246932, 44954617019). An unchanged file
+      // is main's good copy; the freshness sweep still turns the run red when
+      // it ages past its horizon, which is the right place to say so.
+      { path: 'data/econ.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'the economic backdrop', shapeOnly: true, optional: true },
+      { path: 'data/erp.auto.json', freshness: { cadence: 'daily', required: true, from: 'generatedAt' }, label: 'equity and country risk premiums', shapeOnly: true, optional: true },
       { pattern: /^samples\/[A-Za-z0-9._-]+\.xlsx$/, label: 'a sample workbook', binary: true },
     ],
   },

@@ -297,6 +297,19 @@ refuses(
   contractProblems('open-data', world({ 'data/calendar.auto.json': calendar(34, { generatedAt: '2026-09-18T10:00:00Z' }), 'data/deals.auto.json': { generatedAt: fresh, items: Array.from({ length: 80 }, () => ({ date: '2026-09-20', title: 't', link: 'https://x.invalid', source: 'w' })) } }), now),
   'old',
 );
+// 20 and 21 November 2026: the IMF's API failed, the economic backdrop's
+// continue-on-error step left main's copy in place, and the gate refused the
+// whole tracker run as "missing from this run", taking the day's board-check
+// observation with it. An unstaged backdrop or premium table is main's good
+// copy; its age is the freshness sweep's to judge, after publication.
+{
+  const trackerRun = contractProblems('tracker', world({ 'data/board-checks/2026-09-20.json': { date: '2026-09-20', boards: {} } }), now).problems;
+  eq('a tracker run whose economic backdrop step failed is not refused for it', trackerRun.filter((p) => /economic backdrop|risk premiums/.test(p)), []);
+  eq('...nor for an unchanged collection-method registry', trackerRun.filter((p) => /collection-method/.test(p)), []);
+  const econ = CONTRACTS.tracker.files.find((f) => f.path === 'data/econ.auto.json');
+  eq('...and its freshness is still required, so the run still goes red when it ages', econ.freshness.required, true);
+  eq('the tracker may publish the collection-method registry', unexpectedPaths('tracker', ['data/collection-methods.json']), []);
+}
 refuses('an unknown producer publishes nothing', contractProblems('invented', world({}), now), 'no publication contract');
 
 // ── 5. the body a reviewer reads ─────────────────────────────────────────
