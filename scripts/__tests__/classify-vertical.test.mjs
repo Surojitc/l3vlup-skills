@@ -442,5 +442,13 @@ at('Research Analyst - Biotechnology', 'William Blair', 'Middle Market', 'Equity
 at('Analyst, Private Equity Secondaries', 'Ares Management', 'Megafund', 'Private Equity');
 at('Associate, Credit, US Direct Lending', 'Ares Management', 'Megafund', 'Private Credit');
 
+// Roland Berger's corporate functions, as its own page tags them (28 November feed).
+eq('RB corporate communications is not Consulting',
+  inferVertical('Praktikum Bereich Global Corporate Communications & PR (all genders)', { firm: 'Roland Berger', tier: 'Consulting', department: 'Corporate Functions' }) === 'Consulting', false);
+eq('RB HR development is not Consulting',
+  inferVertical('Praktikant/Werkstudent Personalentwicklung (all genders)', { firm: 'Roland Berger', tier: 'Consulting', department: 'Corporate Functions' }) === 'Consulting', false);
+eq('RB consulting intern still is',
+  inferVertical('Consulting Intern AI & Data (all genders)', { firm: 'Roland Berger', tier: 'Consulting', department: 'Consulting' }), 'Consulting');
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);

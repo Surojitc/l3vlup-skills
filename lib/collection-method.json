@@ -1,6 +1,6 @@
 {
   "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
-  "current": "2026-11-27e",
+  "current": "2026-11-27f",
   "fingerprints": {
     "99b4a6dabe727975": {
       "method": "2026-09-24",
@@ -85,6 +85,11 @@
     "af567c6461a3e047": {
       "method": "2026-11-27e",
       "note": "Precision audit: buy-side research, bank leveraged finance, real estate debt, engineering and control seats at funds",
+      "recorded": "2026-11-27"
+    },
+    "63c4ec7c518effe2": {
+      "method": "2026-11-27f",
+      "note": "Precision audit and Roland Berger corporate functions",
       "recorded": "2026-11-27"
     }
   }

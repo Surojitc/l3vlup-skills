@@ -449,6 +449,10 @@ export function consultingVerdict(title, ctx = {}) {
   const t = `${String(title || '')} ${String(ctx.department || '')}`.toLowerCase();
   if (!t.trim()) return null;
 
+  // A consulting firm's own corporate functions (Roland Berger tags them
+  // "Corporate Functions" on its jobs page: HR, communications, marketing,
+  // apprenticeships) are not client work, whatever the title says.
+  if (/corporate functions/i.test(String(ctx.department || ''))) return null;
   if (NOT_CONSULTING_WORK.test(t)) return null;
   if (FINANCE_OVERRIDE.test(t)) return null;
   // At a Big Four firm "Tax Consultant" and "Audit Consultant" are grades in a
