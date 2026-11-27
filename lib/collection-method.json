@@ -1,6 +1,6 @@
 {
   "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
-  "current": "2026-11-27f",
+  "current": "2026-11-27g",
   "fingerprints": {
     "99b4a6dabe727975": {
       "method": "2026-09-24",
@@ -95,6 +95,11 @@
     "b51506933754e3c1": {
       "method": "2026-11-27f",
       "note": "Research & Ratings (pending) rule and tier",
+      "recorded": "2026-11-27"
+    },
+    "286a6ea4173f02d5": {
+      "method": "2026-11-27g",
+      "note": "Precision audit of the fund and research verticals (leveraged finance at banks, real estate debt, research titles by employer, fund support seats) and Roland Berger corporate functions, on top of 2026-11-27f. Vertical counts across this date do not compare.",
       "recorded": "2026-11-27"
     }
   }

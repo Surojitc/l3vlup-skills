@@ -453,6 +453,10 @@ export function consultingVerdict(title, ctx = {}) {
   const t = `${String(title || '')} ${String(ctx.department || '')}`.toLowerCase();
   if (!t.trim()) return null;
 
+  // A consulting firm's own corporate functions (Roland Berger tags them
+  // "Corporate Functions" on its jobs page: HR, communications, marketing,
+  // apprenticeships) are not client work, whatever the title says.
+  if (/corporate functions/i.test(String(ctx.department || ''))) return null;
   if (NOT_CONSULTING_WORK.test(t)) return null;
   if (FINANCE_OVERRIDE.test(t)) return null;
   // At a Big Four firm "Tax Consultant" and "Audit Consultant" are grades in a
@@ -573,7 +577,7 @@ const NOT_FUND_SEAT =
   // Impact and ESG research ("Y Analytics, Responsible Investing, Summer
   // Research Assistant" at TPG) is not a deal seat; it stays in Other rather
   // than being read as private equity on the word "investing".
-  /research assistant|\bimpact\b|responsible invest|\besg\b|sustainab|\brisk\b|compliance|operations|investment services|fund (accounting|administration|services)|valuation control|treasury|tax|legal|technology|engineer|developer|data (scien|engineer)|marketing|communications|recruit|talent|human resources|\bhr\b|executive assistant|administrative|investor relations|client (service|relations)/;
+  /research assistant|\bimpact\b|responsible invest|\besg\b|sustainab|\brisk\b|compliance|operations|investment services|fund (accounting|administration|services)|valuation control|treasury|tax|legal|technology|engineer|developer|data (scien|engineer)|marketing|communications|recruit|talent|human resources|\bhr\b|executive assistant|administrative|investor relations|client (service|relations|coverage)|fundraising|capital formation|oversight|professional development/;
 
 const HEDGE_FUND_TIERS = new Set(['Multi-Manager', 'Single-Manager']);
 const PRIVATE_FUND_TIERS = new Set(['Megafund', 'Mid-Market']);
@@ -648,6 +652,10 @@ export function isHedgeFundSeat(t, firm, tier) {
   const title = String(t || '').toLowerCase();
   if (SERVICE_PROVIDER_TITLE.test(title)) return false;
   if (/\boperations\b/.test(title) && !isHedgeFundFirm(firm)) return false;
+  // An engineering team named after the investing process (AQR's "Research &
+  // Portfolio Management Engineering") and a control function over it (Ares's
+  // "Portfolio Management Oversight") are not investing seats.
+  if (/engineer|developer|oversight/.test(title)) return false;
   if (HEDGE_FUND_TOKEN.test(title)) return true;
   // At an asset manager or a pension fund (PIMCO, PSP Investments) portfolio
   // management is the firm's own long-only or real-asset book, which the asset
@@ -709,14 +717,33 @@ export function inferVertical(title, ctx = {}) {
   // gap and deliberately left alone here — the title is genuinely ambiguous
   // across funds, corporates and asset managers, and guessing it into one of
   // them would be worse than leaving it visible in the Other report.
-  if (/equity research|research analyst|investment research/.test(t)) return 'Equity Research';
+  if (/equity research|research analyst|investment research/.test(t)) {
+    // The same title is a buy-side seat at a fund or an asset manager, and a deal
+    // team's analyst at an advisory boutique. Measured on the 27 November feed:
+    // ten of twenty-five Equity Research rows sampled were one of these.
+    if (/\basset (?:and wealth )?management\b/.test(t) || ctx.tier === 'Asset Manager') return 'Asset Management';
+    if (HEDGE_FUND_TIERS.has(ctx.tier) || ctx.tier === 'Systematic' || isHedgeFundFirm(ctx.firm)) return 'Hedge Fund';
+    if (/capital advisory|investment banking|\bm&a\b/.test(t)) return 'Investment Banking';
+    if (ctx.tier === 'Prop Trading' || ctx.tier === 'Trading Tech') return 'Quant';
+    // A commodity or market data firm's research desk (Kpler) is not sell-side
+    // equity research. The Research & Ratings rule, pending, places it; until
+    // then it is Other, visible in the sweep report.
+    if (ctx.tier === 'Research & Ratings' && !/equity research/.test(t)) return 'Other';
+    return 'Equity Research';
+  }
   if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
   if (/venture capital|\bvc\b\s|growth equity|venture (investing|investment|associate|analyst|fellow|scout|partner)|ventures? (fellowship|scout)/.test(t)) return 'Venture Capital';
   // A credit risk seat or a trading desk that names private credit is risk or
   // markets, not a lending seat: Santander's "Credit Risk - Leveraged Finance
   // Summer Intern" and Nomura's "Global Markets ... Private Credit Trading"
   // were both filed as private credit on the 27 November feed.
-  if (/private credit|direct lending|leveraged finance|credit investment/.test(t) && !/\brisk\b|trading|\btrader\b|global markets/.test(t)) return 'Private Credit';
+  // Leveraged finance at a bank ("Investment Banking - Leveraged Finance -
+  // Analyst" at J.P. Morgan, six rows on the 27 November feed) is the bank's
+  // underwriting desk, an investment banking seat, not a lender's.
+  const bankLevFin =
+    /leveraged finance/.test(t) && !/private credit|direct lending|credit investment/.test(t) &&
+    (/investment bank/.test(t) || LARGE_BANK_TIERS.has(ctx.tier) || isBankLenderInsurer(ctx.firm));
+  if (!bankLevFin && /private credit|direct lending|leveraged finance|credit investment/.test(t) && !/\brisk\b|trading|\btrader\b|global markets/.test(t)) return 'Private Credit';
   if (isHedgeFundSeat(t, ctx.firm, ctx.tier)) return 'Hedge Fund';
   if ((ctx.tier === 'Asset Manager' || ctx.tier === RESEARCH_RATINGS_TIER) && /portfolio (?:management|manager|analyst)/.test(t)) return 'Asset Management';
   // The fund's own investing seat, read beside the employer (fundSeatVerdict).
@@ -765,7 +792,7 @@ export function inferVertical(title, ctx = {}) {
     /real estate (?:partners|debt|acquisitions|investing|investment|fund|equity|strategies)|private investments?|principal invest/.test(core) &&
     !/investment management|fund management/.test(core)
   )
-    return 'Private Equity';
+    return /\bdebt\b|\bcredit\b|\blending\b/.test(core) ? 'Private Credit' : 'Private Equity';
   if (/property valu|real estate valu|\bvaluer\b/.test(core)) return 'Other';
   // Business transformation is consulting, even when the firm calls the
   // segment corporate finance (FTI files it under its Corporate Finance
@@ -795,7 +822,8 @@ export function inferVertical(title, ctx = {}) {
     /sales (and|&) trading|\bs&t\b|global markets|\bmarkets\b|trading|\btrader\b|securities|structuring|fixed income|equities desk/.test(t)
   )
     return 'Sales & Trading';
-  if (/asset management|investment management|fund management|\bmulti[\s-]?asset\b/.test(t)) return 'Asset Management';
+  // "Software Asset Management" (Intel) is an IT licensing seat.
+  if (/asset management|investment management|fund management|\bmulti[\s-]?asset\b/.test(t) && !/(?:software|it|hardware) asset management/.test(t)) return 'Asset Management';
   if (/corporate development/.test(t)) return 'Corporate Development';
 
   if (/product manager|product management|\bapm\b|\brpm\b|associate product/.test(t)) return 'Product Management';

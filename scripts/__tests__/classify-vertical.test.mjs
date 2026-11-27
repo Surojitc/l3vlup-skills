@@ -186,7 +186,8 @@ vert('Intern (Stagiaire) Administrative Support - Daily Banking Private Individu
 vert('INTERNSHIP - Client Relationship Officer- E Banking', 'Other');
 vert('INTERNSHIP - Real Estate Valuation Expert - Property Valuer', 'Other');
 vert('Banking – Corporate Baking, Internship, Bogotá – Colombia, 2026', 'Corporate Banking');
-vert('2027 Blackstone Real Estate Debt Strategies Summer Analyst - Private Investments & Capital Markets (London)', 'Private Equity');
+// Real estate debt is a lending seat (BREDS is Blackstone's real estate credit business).
+vert('2027 Blackstone Real Estate Debt Strategies Summer Analyst - Private Investments & Capital Markets (London)', 'Private Credit');
 vert('2027 Blackstone Real Estate Partners Summer Analyst – Acquisitions, Asset Management, Capital Markets and Core+ (London)', 'Private Equity');
 vert('Intern, Business Transformation (TMT), Corporate Finance', 'Other');
 vert('2027 Summer Internship Program - Private Client Banking Strategy, Analytics, & Sales Intern (St. Petersburg, FL)', 'Wealth Management');
@@ -415,6 +416,40 @@ eq('Class of 2026 in July 2027 is past', namesOnlyPastCycle('Analyst - Class of 
 eq('no year is never past', namesOnlyPastCycle('Summer Analyst', nov26), false);
 eq('toOpportunity drops a past-cycle posting',
   toOpportunity({ id: 'x1', title: 'Credit Summer Associate 2024, Sydney', location: 'Sydney' }, { ats: 'greenhouse', token: 't', firm: 'Bain Capital', tier: 'Private Equity' }), null);
+
+// Precision audit of 27 November: every misfile in the Hedge Fund, Private
+// Equity, Private Credit and Equity Research populations, with the reading.
+at('Research & Portfolio Management Engineering - Analyst', 'AQR Capital Management', 'Systematic', 'Software Engineering');
+at('Senior Associate, Portfolio Management Oversight', 'Ares Management', 'Megafund', 'Other');
+at('Associate, Investment Professional Development', 'Point72', 'Multi-Manager', 'Other');
+at('Investment Banking - EMEA Leveraged Finance - Analyst (German speaking) - London', 'JPMorgan Chase', 'Bulge Bracket', 'Investment Banking');
+at('CCF Client Coverage, Credit, Associate', 'TPG', 'Megafund', 'Other');
+at('2027 Blackstone Real Estate Debt Strategies Summer Analyst - Private Investments & Capital Markets (London)', 'Blackstone', 'Megafund', 'Private Credit');
+at('2027 Blackstone Real Estate Partners Summer Analyst – Acquisitions, Asset Management, Capital Markets and Core+ (London)', 'Blackstone', 'Megafund', 'Private Equity');
+at('Asset Management - Equity Research Analyst, Industrials - Associate', 'JPMorgan Chase', 'Bulge Bracket', 'Asset Management');
+at('2027 China Seasonal Internship Program - Asset Management - Research Analyst', 'JPMorgan Chase', 'Bulge Bracket', 'Asset Management');
+at('2027 MBA Summer Intern – Credit Research Analyst, US', 'PIMCO', 'Asset Manager', 'Asset Management');
+at('Credit Research Analyst, Global Macro', 'Point72', 'Multi-Manager', 'Hedge Fund');
+at('Client Investment Research Associate', 'Bridgewater Associates', 'Systematic', 'Hedge Fund');
+at('Research Analyst, Capital Advisory', 'Lincoln International', 'Middle Market', 'Investment Banking');
+at('Research Analyst (Equities)', 'IMC Trading', 'Trading Tech', 'Quant');
+// With the Research & Ratings rule (#367) in place, a data firm's research desk is that vertical.
+at('Senior Research Analyst, Gasoline', 'Kpler', 'Research & Ratings', 'Research & Ratings');
+at('Intern – Software Asset Management Analyst', 'Intel', 'Big Tech', 'Other');
+// What must not move: sell-side research and a bank's own credit research.
+at('US Equity Research - Large Cap Software - Associate', 'JPMorgan Chase', 'Bulge Bracket', 'Equity Research');
+at('Credit Research Analyst Summer Internship Program 2028 New York', 'Barclays', 'Bulge Bracket', 'Equity Research');
+at('Research Analyst - Biotechnology', 'William Blair', 'Middle Market', 'Equity Research');
+at('Analyst, Private Equity Secondaries', 'Ares Management', 'Megafund', 'Private Equity');
+at('Associate, Credit, US Direct Lending', 'Ares Management', 'Megafund', 'Private Credit');
+
+// Roland Berger's corporate functions, as its own page tags them (28 November feed).
+eq('RB corporate communications is not Consulting',
+  inferVertical('Praktikum Bereich Global Corporate Communications & PR (all genders)', { firm: 'Roland Berger', tier: 'Consulting', department: 'Corporate Functions' }) === 'Consulting', false);
+eq('RB HR development is not Consulting',
+  inferVertical('Praktikant/Werkstudent Personalentwicklung (all genders)', { firm: 'Roland Berger', tier: 'Consulting', department: 'Corporate Functions' }) === 'Consulting', false);
+eq('RB consulting intern still is',
+  inferVertical('Consulting Intern AI & Data (all genders)', { firm: 'Roland Berger', tier: 'Consulting', department: 'Consulting' }), 'Consulting');
 
 // Research & Ratings (pending): the analytical seats at a ratings, data or index
 // firm, read beside the tier only. Titles from the 27 November feed.
