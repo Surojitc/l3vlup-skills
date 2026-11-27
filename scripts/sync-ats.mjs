@@ -28,6 +28,9 @@ import {
 import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import { brandForTitle } from '../lib/title-brands.mjs';
+import { parseRolandBergerJobs, ROLAND_BERGER_JOBS_URL } from '../lib/rolandberger.mjs';
+import { avatureSearchUrl, parseAvatureSearch, isAvatureEmptyShell, AVATURE_PAGE } from '../lib/avature.mjs';
+import { successFactorsSearchUrl, parseSuccessFactorsSearch, isSuccessFactorsEmptyShell, SUCCESSFACTORS_PAGE } from '../lib/successfactors.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
@@ -369,7 +372,7 @@ const isConsultingFirm = (firm) => {
  * accounted for.
  */
 const NOT_CONSULTING_WORK =
-  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant)\b/i;
+  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant|case team assistant|team assistant|office assistant|administrative assistant|internal services|internal strategy)\b/i;
 
 /**
  * A Big Four firm's audit, tax and accounting service lines. Not consulting,
@@ -378,7 +381,8 @@ const NOT_CONSULTING_WORK =
  * Consulting Analyst" at Charles River Associates is a consulting seat), while
  * an "Audit Associate" at PwC can no longer become one on the word associate.
  */
-const SERVICE_LINE = /\b(audit|assurance|tax|accounting|bookkeeping)\b/i;
+const BIG_FOUR = /\b(deloitte|pwc|pricewaterhousecoopers|kpmg|ernst & young|\bey\b)/i;
+const SERVICE_LINE = /\b(audit|assurance|tax|accounting|bookkeeping)\b|steuer|wirtschaftspr[uü]f|fiscal|fiscalit/i;
 
 /**
  * Finance work that keeps its existing vertical even at a consulting firm.
@@ -447,6 +451,10 @@ export function consultingVerdict(title, ctx = {}) {
 
   if (NOT_CONSULTING_WORK.test(t)) return null;
   if (FINANCE_OVERRIDE.test(t)) return null;
+  // At a Big Four firm "Tax Consultant" and "Audit Consultant" are grades in a
+  // service line, not management consulting: the explicit word does not win
+  // there, as it does at Charles River Associates (Deloitte US, 27 November).
+  if (SERVICE_LINE.test(t) && BIG_FOUR.test(String(ctx.firm || ''))) return null;
   if (EXPLICIT_CONSULTING.test(t) && !FINANCIAL_CRIME.test(t)) return 'Consulting';
   // The weak readings below never apply to an audit, tax or accounting seat.
   const serviceLine = SERVICE_LINE.test(t);
@@ -558,7 +566,10 @@ const FUND_SEAT =
 // Infrastructure Specialist") and "credit" is as likely a risk seat.
 const PRIVATE_FUND_SEAT = /secondar(y|ies)|strategic partners|private markets|infrastructure|\bcredit\b/;
 const NOT_FUND_SEAT =
-  /\brisk\b|compliance|operations|investment services|fund (accounting|administration|services)|valuation control|treasury|tax|legal|technology|engineer|developer|data (scien|engineer)|marketing|communications|recruit|talent|human resources|\bhr\b|executive assistant|administrative|investor relations|client (service|relations)/;
+  // Impact and ESG research ("Y Analytics, Responsible Investing, Summer
+  // Research Assistant" at TPG) is not a deal seat; it stays in Other rather
+  // than being read as private equity on the word "investing".
+  /research assistant|\bimpact\b|responsible invest|\besg\b|sustainab|\brisk\b|compliance|operations|investment services|fund (accounting|administration|services)|valuation control|treasury|tax|legal|technology|engineer|developer|data (scien|engineer)|marketing|communications|recruit|talent|human resources|\bhr\b|executive assistant|administrative|investor relations|client (service|relations)/;
 
 const HEDGE_FUND_TIERS = new Set(['Multi-Manager', 'Single-Manager']);
 const PRIVATE_FUND_TIERS = new Set(['Megafund', 'Mid-Market']);
@@ -599,12 +610,15 @@ export function fundSeatVerdict(title, ctx = {}) {
   return null;
 }
 
-export function isHedgeFundSeat(t, firm) {
+export function isHedgeFundSeat(t, firm, tier) {
   const title = String(t || '').toLowerCase();
   if (SERVICE_PROVIDER_TITLE.test(title)) return false;
   if (/\boperations\b/.test(title) && !isHedgeFundFirm(firm)) return false;
   if (HEDGE_FUND_TOKEN.test(title)) return true;
-  return /portfolio management/.test(title) && !isBankLenderInsurer(firm);
+  // At an asset manager or a pension fund (PIMCO, PSP Investments) portfolio
+  // management is the firm's own long-only or real-asset book, which the asset
+  // management rule below reads, not a hedge fund seat.
+  return /portfolio management/.test(title) && !isBankLenderInsurer(firm) && tier !== 'Asset Manager';
 }
 
 export function inferVertical(title, ctx = {}) {
@@ -659,8 +673,13 @@ export function inferVertical(title, ctx = {}) {
   if (/equity research|research analyst|investment research/.test(t)) return 'Equity Research';
   if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
   if (/venture capital|\bvc\b\s|growth equity|venture (investing|investment|associate|analyst|fellow|scout|partner)|ventures? (fellowship|scout)/.test(t)) return 'Venture Capital';
-  if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';
-  if (isHedgeFundSeat(t, ctx.firm)) return 'Hedge Fund';
+  // A credit risk seat or a trading desk that names private credit is risk or
+  // markets, not a lending seat: Santander's "Credit Risk - Leveraged Finance
+  // Summer Intern" and Nomura's "Global Markets ... Private Credit Trading"
+  // were both filed as private credit on the 27 November feed.
+  if (/private credit|direct lending|leveraged finance|credit investment/.test(t) && !/\brisk\b|trading|\btrader\b|global markets/.test(t)) return 'Private Credit';
+  if (isHedgeFundSeat(t, ctx.firm, ctx.tier)) return 'Hedge Fund';
+  if (ctx.tier === 'Asset Manager' && /portfolio (?:management|manager|analyst)/.test(t)) return 'Asset Management';
   // The fund's own investing seat, read beside the employer (fundSeatVerdict).
   const fundSeat = fundSeatVerdict(title, ctx);
   if (fundSeat) return fundSeat;
@@ -720,6 +739,13 @@ export function inferVertical(title, ctx = {}) {
   if (insideBankingDivision && /\bmarkets\b|\bsales\b|\btrading\b|\brisk\b/.test(core)) {
     return /\brisk\b/.test(core) ? 'Risk' : 'Sales & Trading';
   }
+  // "Sales & Trading" and a bank's Global Markets division are markets seats
+  // even when the title also names Capital Markets (27 November feed: "2028
+  // Capital Markets, Global Markets Sales & Trading Summer Analyst" was filed
+  // as banking). Origination inside Global Markets is a deal seat and is left
+  // to the banking rule.
+  if (/sales\s*(?:&|and)\s*trading|\bs&t\b/.test(core) || (/global markets/.test(core) && !/origination|\becm\b|\bdcm\b|syndicate/.test(core)))
+    return 'Sales & Trading';
   if (
     /investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory|capital markets|restructuring|corporate finance|valuation|debt advisory|capital solutions|\bbanking\b/.test(core) ||
     (insideBankingDivision && !/\b(?:technology|engineer|software|operations|compliance|audit|finance|legal|hr)\b/.test(core))
@@ -1053,7 +1079,10 @@ export function toOpportunity(job, board) {
   if (extracted.rolling) tags.push('Rolling');
   const atsDate = toIsoDate(job.deadline, { allowFuture: true });
   return {
-    id: `${board.ats}-${firmKey(board)}-${job.id}`,
+    // `idAts` keeps a row's id when a board changes route: Roland Berger moved
+    // from SmartRecruiters' API to its own careers page and its rows kept the
+    // ids, and the tracker URLs pinned to them, that the API gave them.
+    id: `${board.idAts ?? board.ats}-${firmKey(board)}-${job.id}`,
     firm: firm.firm,
     role: job.title.trim(),
     vertical,
@@ -1664,12 +1693,43 @@ async function fetchSmartRecruiters(f, stats = newRequestStats()) {
   return [...seen.values()].map((p) => smartRecruitersToJob(p, f)).filter(Boolean);
 }
 
+/* ------------------------------ Roland Berger ------------------------------ */
+// The employer's own careers page, which replaced SmartRecruiters' Posting API
+// for this firm (that host's robots.txt disallows all but LinkedInBot). One
+// request, server-rendered; see lib/rolandberger.mjs.
+async function fetchRolandBerger(f) {
+  const res = await fetch(f.url || ROLAND_BERGER_JOBS_URL, {
+    headers: { 'User-Agent': BROWSER_UA },
+    redirect: 'follow',
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  });
+  if (!res.ok) throw new Error(`${res.status}`);
+  const jobs = parseRolandBergerJobs(await res.text());
+  // The page always lists well over a hundred roles. None parsed means the
+  // markup changed, which must read as a failed board and not as a firm with
+  // nothing open.
+  if (!jobs.length) throw new Error('no jobs parsed: the page has changed shape');
+  return jobs;
+}
+
 /* ------------------------------- Recruitee -------------------------------- */
 // The careers-site API: the whole board on one request. See lib/recruitee.mjs
 // for the notices it refuses and why the registry stores the redirected name.
 async function fetchRecruitee(f) {
-  return recruiteeToJobs(await getJson(recruiteeUrl(f.token)));
+  // From 10 February 2027 Recruitee answers 401 without the employer's
+  // careers-site token (lib/sources/source-terms.json). The token is the
+  // employer's to issue and is read from the environment, never the registry:
+  // RECRUITEE_TOKEN_<TOKEN>, upper-cased, non-alphanumerics as underscores.
+  const token = process.env[recruiteeTokenEnv(f.token)];
+  try {
+    return recruiteeToJobs(await getJson(recruiteeUrl(f.token), token ? { headers: { 'X-Careers-Sites-Token': token } } : undefined));
+  } catch (e) {
+    if (String(e.message) === '401') throw new Error(`401: needs a careers-site token in ${recruiteeTokenEnv(f.token)}`);
+    throw e;
+  }
 }
+
+export const recruiteeTokenEnv = (company) => `RECRUITEE_TOKEN_${String(company || '').toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`;
 
 /* -------------------------------- Pinpoint -------------------------------- */
 // The postings feed: the whole board on one request. lib/pinpoint.mjs throws
@@ -1690,6 +1750,67 @@ async function fetchWorkable(f) {
 // No ATS at all: a public JSON file behind a client-rendered page. The level
 // lives in `availability` rather than the title, so the filtering happens in
 // lib/janestreet.mjs before our own early-career rules ever see it.
+// Registry rows of the two HTML-search families name the search terms that
+// select campus roles (`queries`, default the cycle years), and a page budget
+// per firm keeps a large tenant to a bounded number of polite requests.
+const HTML_SEARCH_MAX_PAGES = 40;
+
+/**
+ * The paged HTML search both Avature and SuccessFactors serve: for each query,
+ * pages of `pageSize` until the stated total, an empty page, a page that adds
+ * nothing new (a site that ignores the offset), or the firm's page budget.
+ * One request at a time, half a second apart.
+ */
+async function walkHtmlSearch(f, stats, { url, parse, pageSize, emptyShell }) {
+  const year = new Date().getUTCFullYear();
+  const queries = f.queries ?? [String(year + 1), String(year + 2)];
+  const budget = f.maxPages ?? HTML_SEARCH_MAX_PAGES;
+  const seen = new Map();
+  let pages = 0;
+  for (const q of queries) {
+    for (let offset = 0; pages < budget; offset += pageSize) {
+      pages++;
+      stats.attempts++;
+      let page;
+      try {
+        const res = await fetch(url(f, q, offset), {
+          headers: { 'User-Agent': UA, Accept: 'text/html' },
+          redirect: 'follow',
+          signal: AbortSignal.timeout(TIMEOUT_MS),
+        });
+        if (!res.ok) throw new Error(`${res.status}`);
+        const html = await res.text();
+        // A first page that is the bare shell means the template changed: a
+        // failed board, never a firm with nothing open.
+        if (offset === 0 && seen.size === 0 && emptyShell?.(html)) throw new Error('not a results page: the template has changed shape');
+        page = parse(html, f.host);
+      } catch (e) {
+        stats.failures++;
+        if (offset === 0) throw e;
+        break;
+      }
+      const before = seen.size;
+      for (const j of page.jobs) if (!seen.has(j.id)) seen.set(j.id, j);
+      if (!page.jobs.length || seen.size === before || (page.total && offset + pageSize >= page.total)) break;
+      await new Promise((r) => setTimeout(r, 500));
+    }
+  }
+  if (pages >= budget) stats.capped = true;
+  return [...seen.values()].map((j) => (f.defaultLocation && /^multiple locations$/i.test(j.location) ? { ...j, location: f.defaultLocation } : j));
+}
+
+/* -------------------------------- Avature -------------------------------- */
+// Server-rendered search pages, ten a page (lib/avature.mjs).
+async function fetchAvature(f, stats = newRequestStats()) {
+  return walkHtmlSearch(f, stats, { url: avatureSearchUrl, parse: parseAvatureSearch, pageSize: AVATURE_PAGE, emptyShell: isAvatureEmptyShell });
+}
+
+/* ----------------------------- SuccessFactors ----------------------------- */
+// Server-rendered search pages, 25 a page (lib/successfactors.mjs).
+async function fetchSuccessFactors(f, stats = newRequestStats()) {
+  return walkHtmlSearch(f, stats, { url: successFactorsSearchUrl, parse: parseSuccessFactorsSearch, pageSize: SUCCESSFACTORS_PAGE, emptyShell: isSuccessFactorsEmptyShell });
+}
+
 async function fetchJaneStreet() {
   const feed = await getJson('https://www.janestreet.com/jobs/main.json');
   return parseJaneStreetFeed(feed);
@@ -1703,7 +1824,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
+export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, rolandberger: fetchRolandBerger, avature: fetchAvature, successfactors: fetchSuccessFactors, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
 
 /**
  * Write a file the way a consumer may read it at any moment.

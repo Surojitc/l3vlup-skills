@@ -1,0 +1,141 @@
+{
+  "_comment": "How each access method may be used, one entry per `ats` value in ats-registry.json. Hand-maintained and dated: `checked` is the day the terms and robots.txt were last read. `permitted` is true only where the provider documents public, unauthenticated reading of published postings, or the employer's own site serves them with robots.txt allowing the path read; false means the collection method is suspended and every registry row on it must be parked; 'unclear' means read today but owed a decision, which the health report names every day. `breaking` lists dated changes the provider has announced; the report warns 75 days ahead. Read by lib/source-registry.mjs. Background: L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 2.",
+  "checked": "2026-11-27",
+  "methods": {
+    "greenhouse": {
+      "endpoint": "boards-api.greenhouse.io/v1/boards/{token}/jobs",
+      "permitted": true,
+      "basis": "Job Board API documented as public; only application submission needs a key. robots.txt disallows /embed/ only.",
+      "terms": "https://developers.greenhouse.io/job-board.html",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Rate limited without a stated figure."
+    },
+    "lever": {
+      "endpoint": "api.lever.co/v0/postings/{token}",
+      "permitted": true,
+      "basis": "Postings API: published postings are public and 'may be scraped by third parties'. robots.txt asks Crawl-delay: 1.",
+      "terms": "https://github.com/lever/postings-api",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Keep at least one second between requests."
+    },
+    "ashby": {
+      "endpoint": "api.ashbyhq.com/posting-api/job-board/{token}",
+      "permitted": true,
+      "basis": "Public job posting API, no authentication documented.",
+      "terms": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "A token can belong to an unrelated company with a similar name; confirm the board names the firm."
+    },
+    "workable": {
+      "endpoint": "apply.workable.com/api/v1/widget/accounts/{token}",
+      "permitted": "unclear",
+      "basis": "Workable documents www.workable.com/api/accounts/{x} as its public endpoint; the widget path used is undocumented. apply.workable.com robots.txt allows all, with ai-train=no.",
+      "terms": "https://help.workable.com/hc/en-us/articles/115012771647",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Move to the documented endpoint."
+    },
+    "workday": {
+      "endpoint": "{tenant}.{shard}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs (POST)",
+      "permitted": "unclear",
+      "basis": "No published API. Tenant robots.txt disallows the human career paths, not /wday/cxs/. Workday's site terms prohibit scraping 'our Sites' and do not say whether customer tenants are included.",
+      "terms": "https://www.workday.com/en-us/legal/site-terms.html",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Keyword walk capped at 600 postings a firm; the list hides location on some tenants until the detail page is read."
+    },
+    "talnet": {
+      "endpoint": "{tenant}.tal.net job board page",
+      "permitted": true,
+      "basis": "The employer's public job board, server-rendered; no robots exclusion on the board paths read.",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "About half of tenants serve a bot check; those are parked, never worked around."
+    },
+    "oracle": {
+      "endpoint": "{host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions",
+      "permitted": "unclear",
+      "basis": "The public REST collection behind Oracle Recruiting Cloud's candidate site; no published terms for third-party reading found.",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Requires the expand parameter or returns no requisitions."
+    },
+    "eightfold": {
+      "endpoint": "{host}/api/apply/v2/jobs",
+      "permitted": "unclear",
+      "basis": "The endpoint behind the employer's own campus site; no published terms for third-party reading found.",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Paginates with a hard page cap."
+    },
+    "janestreet": {
+      "endpoint": "www.janestreet.com/jobs/main.json",
+      "permitted": true,
+      "basis": "The employer's own site.",
+      "attribution": "Link each role to the employer's own posting."
+    },
+    "rolandberger": {
+      "endpoint": "www.rolandberger.com/en/join/all-jobs",
+      "permitted": true,
+      "basis": "The employer's own careers page; robots.txt allows all.",
+      "attribution": "Link each role to the SmartRecruiters posting the employer's page links to.",
+      "limitations": "Roles posted only through recruitment partners do not appear."
+    },
+    "smartrecruiters": {
+      "endpoint": "api.smartrecruiters.com/v1/companies/{id}/postings",
+      "permitted": false,
+      "basis": "api.smartrecruiters.com/robots.txt disallows every crawler except LinkedInBot (read 27 November 2026). Suspended: every row on this method is parked or moved to the employer's own page.",
+      "terms": "https://developers.smartrecruiters.com/docs/posting-api",
+      "limitations": "PA Consulting (188 postings) is reachable only here and is not added."
+    },
+    "recruitee": {
+      "endpoint": "{token}.recruitee.com/api/offers/",
+      "permitted": true,
+      "basis": "Public careers-site API.",
+      "terms": "https://docs.recruitee.com/reference/authentication-1",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "From the date below every call needs the employer's careers-site token in X-Careers-Sites-Token. The collector sends it when RECRUITEE_TOKEN_<TOKEN> is set in the environment, and reports the board as needing a token when it answers 401.",
+      "breaking": [
+        {
+          "on": "2027-02-10",
+          "what": "Calls without X-Careers-Sites-Token return 401. PAI Partners stops answering unless the employer issues a token or another permitted source is found."
+        }
+      ]
+    },
+    "pinpoint": {
+      "endpoint": "{token}.pinpointhq.com/postings.json",
+      "permitted": "unclear",
+      "basis": "The JSON behind the employer's careers site; no official documentation for it found.",
+      "attribution": "Link each role to the employer's own posting."
+    },
+    "avature": {
+      "endpoint": "{host}/{locale}/careers/SearchJobs/?search={term}&jobOffset={n}",
+      "permitted": true,
+      "basis": "The employer's own Avature career site, server-rendered. robots.txt on apply.deloitte.com, bloomberg.avature.net and careers.twosigma.com allows /careers and disallows only /careers/*qtvc= (read 27 November 2026); the reader never sends qtvc.",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Ten results a page; a firm is held to 40 pages a run, half a second apart. Deloitte US lists many roles as 'Multiple Locations' (US)."
+    },
+    "taleo": {
+      "endpoint": "employer-specific Taleo site",
+      "permitted": "unclear",
+      "basis": "Parked rows only.",
+      "attribution": "Link each role to the employer's own posting."
+    },
+    "custom": {
+      "endpoint": "employer-specific",
+      "permitted": "unclear",
+      "basis": "Reviewed row by row.",
+      "attribution": "Link each role to the employer's own posting."
+    },
+    "successfactors": {
+      "endpoint": "{host}/{site}/search/?q={term}&startrow={n}",
+      "permitted": true,
+      "basis": "The employer's own SuccessFactors career site, server-rendered. robots.txt on careers.ey.com and careers.fitch.group disallows the apply, talent-community, email and /services/ paths and not the search (read 27 November 2026).",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Search is fuzzy; the early-career filter decides. 25 a page; a firm is held to 40 pages a run, half a second apart."
+    }
+  },
+  "notRead": {
+    "getro": "Venture portfolio boards (jobs.accel.com, vistaequitypartners.getro.com). Getro's terms cover 'any job board operated by Getro' and prohibit crawling or scraping. Not read without written permission from the fund or Getro.",
+    "consider": "Venture talent boards (jobs.sequoiacap.com, jobs.lsvp.com, careers.balderton.com). Consider's terms section 1.4(l) prohibit automated access without written permission, although robots.txt allows all. Not read without written permission.",
+    "linkedin": "Never read.",
+    "indeed": "Never read.",
+    "mckinsey.com": "Refuses automated requests (HTTP 503); respected.",
+    "alvarezandmarsal.com": "Refuses automated requests (HTTP 403); respected."
+  }
+}

@@ -51,9 +51,12 @@
     },
     {
       "firm": "Marqeta",
-      "ats": "greenhouse",
-      "token": "marqeta",
-      "tier": "Fintech"
+      "ats": "ashby",
+      "token": "marqeta-inc",
+      "tier": "Fintech",
+      "discoveredVia": "https://www.marqeta.com/company/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 34
     },
     {
       "firm": "Gemini",
@@ -331,10 +334,13 @@
     {
       "firm": "Guggenheim Securities",
       "ats": "workday",
-      "tenant": "guggenheiminvestment",
-      "shard": "wd5",
+      "tenant": "guggenheim",
+      "shard": "wd1",
       "site": "Guggenheim_Careers_Campus",
-      "tier": "Elite Boutique"
+      "tier": "Elite Boutique",
+      "discoveredVia": "https://www.guggenheimsecurities.com/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 4
     },
     {
       "firm": "Lloyds Banking Group",
@@ -1920,7 +1926,9 @@
       "tier": "Asset Manager",
       "discoveredVia": "https://jobs.smartrecruiters.com/LegalAndGeneral",
       "postingsAtDiscovery": 40,
-      "discoveredAt": "2026-11-20"
+      "discoveredAt": "2026-11-20",
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: api.smartrecruiters.com/robots.txt disallows every crawler except LinkedInBot. Authorised route to build: the employer's own site, careers.legalandgeneral.com, whose robots.txt allows / but disallows /jobs?* (query URLs), so a reader must use its unparameterised listing pages only."
     },
     {
       "firm": "WorldQuant",
@@ -1951,12 +1959,14 @@
     },
     {
       "firm": "Roland Berger",
-      "ats": "smartrecruiters",
+      "ats": "rolandberger",
+      "idAts": "smartrecruiters",
       "token": "RolandBerger",
+      "url": "https://www.rolandberger.com/en/join/all-jobs",
       "tier": "Consulting",
       "discoveredVia": "https://www.rolandberger.com/en/Careers/",
-      "postingsAtDiscovery": 206,
-      "discoveredAt": "2026-11-20"
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 179
     },
     {
       "firm": "xAI",
@@ -2208,15 +2218,6 @@
       "postingsAtDiscovery": 1
     },
     {
-      "firm": "Walleye Capital",
-      "ats": "greenhouse",
-      "token": "walleyecapital-external-fulltime",
-      "tier": "Multi-Manager",
-      "discoveredVia": "https://www.walleyecapital.com/careers",
-      "discoveredAt": "2026-11-25",
-      "postingsAtDiscovery": 13
-    },
-    {
       "firm": "Morningstar",
       "ats": "workday",
       "tenant": "morningstar",
@@ -2226,6 +2227,139 @@
       "discoveredVia": "https://www.morningstar.com/careers",
       "discoveredAt": "2026-11-25",
       "postingsAtDiscovery": 184
+    },
+    {
+      "firm": "EQT",
+      "ats": "greenhouse",
+      "token": "eqtpartners",
+      "tier": "Megafund",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/eqtpartners",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 15
+    },
+    {
+      "firm": "Permira",
+      "ats": "greenhouse",
+      "token": "permiraexternalprivate",
+      "tier": "Megafund",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/permiraexternalprivate",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 8
+    },
+    {
+      "firm": "PitchBook",
+      "ats": "greenhouse",
+      "token": "pitchbookdata",
+      "tier": "Other",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/pitchbookdata",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 24
+    },
+    {
+      "firm": "FactSet",
+      "ats": "workday",
+      "tenant": "factset",
+      "shard": "wd108",
+      "site": "FactSetCareers",
+      "tier": "Other",
+      "discoveredVia": "https://factset.wd108.myworkdayjobs.com/FactSetCareers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 104
+    },
+    {
+      "firm": "Frontier Economics",
+      "ats": "workday",
+      "tenant": "frontiereconomics",
+      "shard": "wd3",
+      "site": "Frontier_Economics_Careers",
+      "tier": "Consulting",
+      "discoveredVia": "https://frontiereconomics.wd3.myworkdayjobs.com/Frontier_Economics_Careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 5
+    },
+    {
+      "firm": "Golub Capital",
+      "ats": "workday",
+      "tenant": "golubcapital",
+      "shard": "wd501",
+      "site": "Golub_Capital_Careers",
+      "tier": "Mid-Market",
+      "discoveredVia": "https://golubcapital.wd501.myworkdayjobs.com/Golub_Capital_Careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 33
+    },
+    {
+      "firm": "Arrowstreet Capital",
+      "ats": "workday",
+      "tenant": "arrowstreetcapital",
+      "shard": "wd5",
+      "site": "Campus_Careers",
+      "tier": "Systematic",
+      "discoveredVia": "https://arrowstreetcapital.wd5.myworkdayjobs.com/Campus_Careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 6
+    },
+    {
+      "firm": "Deloitte",
+      "ats": "avature",
+      "host": "apply.deloitte.com",
+      "locale": "en_US",
+      "portal": "careers",
+      "queries": [
+        "2027",
+        "2028"
+      ],
+      "defaultLocation": "United States",
+      "tier": "Consulting",
+      "discoveredVia": "https://apply.deloitte.com/en_US/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 291
+    },
+    {
+      "firm": "Bloomberg",
+      "ats": "avature",
+      "host": "bloomberg.avature.net",
+      "locale": "",
+      "portal": "careers",
+      "queries": [
+        "intern",
+        "graduate",
+        "analyst"
+      ],
+      "tier": "Other",
+      "discoveredVia": "https://bloomberg.avature.net/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 184
+    },
+    {
+      "firm": "EY",
+      "ats": "successfactors",
+      "host": "careers.ey.com",
+      "site": "ey",
+      "queries": [
+        "internship",
+        "graduate",
+        "summer analyst"
+      ],
+      "tier": "Consulting",
+      "discoveredVia": "https://careers.ey.com/",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 798
+    },
+    {
+      "firm": "Fitch Ratings",
+      "ats": "successfactors",
+      "host": "careers.fitch.group",
+      "site": "",
+      "queries": [
+        "intern",
+        "graduate",
+        "analyst"
+      ],
+      "tier": "Other",
+      "discoveredVia": "https://careers.fitch.group/",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 144
     }
   ]
 }

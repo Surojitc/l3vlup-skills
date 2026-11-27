@@ -80,7 +80,12 @@
     "thesis:session": "node scripts/thesis-session.mjs",
     "thesis:wxa-eval": "node scripts/thesis-wxa-eval.mjs",
     "test:wxa": "node scripts/__tests__/thesis-wxa.test.mjs",
-    "test:thesis-reviewed": "node --test scripts/__tests__/thesis-reviewed.test.mjs"
+    "test:thesis-reviewed": "node --test scripts/__tests__/thesis-reviewed.test.mjs",
+    "test:avature": "node scripts/__tests__/avature.test.mjs",
+    "test:successfactors": "node scripts/__tests__/successfactors.test.mjs",
+    "test:rolandberger": "node scripts/__tests__/rolandberger.test.mjs",
+    "test:source-registry": "node scripts/__tests__/source-registry.test.mjs",
+    "test:title-brands": "node scripts/__tests__/title-brands.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.127.0",

@@ -1,6 +1,6 @@
 {
   "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
-  "current": "2026-11-27c",
+  "current": "2026-11-27d",
   "fingerprints": {
     "99b4a6dabe727975": {
       "method": "2026-09-24",
@@ -75,6 +75,11 @@
     "c55615f2e3007028": {
       "method": "2026-11-27c",
       "note": "First ran 27 Nov. #352 (b74dc6f37) and #355 (4dfdc58f8): fundSeatVerdict places roles at hedge fund, private equity, private credit and venture firms by title and tier; consulting rules (strategy boutiques, service lines, business transformation at a consulting firm) place roles in Consulting; isNotAPosting and namesOnlyPastCycle drop rows; titles carry a brand (brandForTitle); a country-to-region map; Workday reads send applied facets. Changes which seat a role takes and which rows a healthy board yields, so days either side do not compare. #352's own code (c89d43cc6b5ad616) never ran a collection.",
+      "recorded": "2026-11-27"
+    },
+    "9c62857ea994f966": {
+      "method": "2026-11-27d",
+      "note": "#359: SmartRecruiters suspended (Roland Berger from its own page, Legal & General parked), Avature and SuccessFactors readers (Deloitte US, Bloomberg, EY, Fitch), seven boards, Walleye full-time dropped, and classification fixes (S&T in capital markets, impact research, Big Four service lines, private credit risk and trading, portfolio management at asset managers)",
       "recorded": "2026-11-27"
     }
   }

@@ -347,6 +347,25 @@ at('Service Desk Analyst Intern – 6-Month Internship (M,F,D) - Munich Office',
 at("(2028 Bachelor's/Master's graduates) Accounting/Business/Finance Consulting Analyst/Associate Intern (Summer 2027)", 'Charles River Associates', 'Consulting', 'Consulting');
 // Asset-class words name an investing seat only at a private fund.
 at('Trading Infrastructure Specialist – Graduate Program', 'Squarepoint Capital', 'Systematic', 'Sales & Trading');
+// A case team's administrative support is not a consulting seat.
+at('Case Team Assistant', 'Roland Berger', 'Consulting', 'Other');
+// Sales & Trading inside Capital Markets is markets; origination is not.
+at('2028 Capital Markets, Global Markets Sales & Trading Summer Analyst', 'Test Bank', 'Bulge Bracket', 'Sales & Trading');
+at('2028 Capital Markets, Global Markets Origination Summer Analyst', 'Test Bank', 'Bulge Bracket', 'Investment Banking');
+// Impact research at a buyout firm is left ambiguous, not forced into PE.
+at('Y Analytics, Responsible Investing, Summer Research Assistant, Internship', 'TPG', 'Megafund', 'Other');
+// From the stratified sample of 27 November.
+at('2027 Credit Risk - Leveraged Finance Summer Intern', 'Santander', 'Bulge Bracket', 'Risk');
+at('2027 - Global Markets - Summer Internship (Securitised Products and Private Credit Trading)', 'Nomura', 'Bulge Bracket', 'Sales & Trading');
+at('2027 Blackstone Credit and Insurance, Private Credit Strategies Summer Analyst (London)', 'Blackstone', 'Megafund', 'Private Credit');
+at('2027 MBA /MFE Summer Intern – Associate, Portfolio Management', 'PIMCO', 'Asset Manager', 'Asset Management');
+at('Portfolio Management Intern', 'Man Group', 'Systematic', 'Hedge Fund');
+// From l3vlup-skills #361 (superseded): "Consultant" is a grade in Big Four
+// tax, and Internal Services is the firm's own back office (Deloitte US).
+at('Tax - Tax Consultant - Legal Business Services - Summer 2027, Winter 2028', 'Deloitte', 'Consulting', 'Compliance & Legal');
+at('Tax - Tax Delivery Consultant - International Tax/Transfer Pricing - Summer 2027', 'Deloitte', 'Consulting', 'Finance & Accounting');
+eq('Deloitte Internal Services is not Consulting', inferVertical('Internal Services - Summer Associate - Internal Strategy - Summer 2027', { firm: 'Deloitte', tier: 'Consulting' }) === 'Consulting', false);
+at('Consultative Offerings - Summer Associate - Enterprise Strategy', 'Deloitte', 'Consulting', 'Consulting');
 // Business transformation is consulting at a consulting firm and nowhere else.
 at('Business Transformation Analyst Intern', 'Barclays', 'Bulge Bracket', 'Other');
 
