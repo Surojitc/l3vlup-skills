@@ -2221,6 +2221,77 @@
       "discoveredVia": "https://www.morningstar.com/careers",
       "discoveredAt": "2026-11-25",
       "postingsAtDiscovery": 184
+    },
+    {
+      "firm": "EQT",
+      "ats": "greenhouse",
+      "token": "eqtpartners",
+      "tier": "Megafund",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/eqtpartners",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 15
+    },
+    {
+      "firm": "Permira",
+      "ats": "greenhouse",
+      "token": "permiraexternalprivate",
+      "tier": "Megafund",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/permiraexternalprivate",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 8
+    },
+    {
+      "firm": "PitchBook",
+      "ats": "greenhouse",
+      "token": "pitchbookdata",
+      "tier": "Other",
+      "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/pitchbookdata",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 24
+    },
+    {
+      "firm": "FactSet",
+      "ats": "workday",
+      "tenant": "factset",
+      "shard": "wd108",
+      "site": "FactSetCareers",
+      "tier": "Other",
+      "discoveredVia": "https://factset.wd108.myworkdayjobs.com/FactSetCareers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 104
+    },
+    {
+      "firm": "Frontier Economics",
+      "ats": "workday",
+      "tenant": "frontiereconomics",
+      "shard": "wd3",
+      "site": "Frontier_Economics_Careers",
+      "tier": "Consulting",
+      "discoveredVia": "https://frontiereconomics.wd3.myworkdayjobs.com/Frontier_Economics_Careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 5
+    },
+    {
+      "firm": "Golub Capital",
+      "ats": "workday",
+      "tenant": "golubcapital",
+      "shard": "wd501",
+      "site": "Golub_Capital_Careers",
+      "tier": "Mid-Market",
+      "discoveredVia": "https://golubcapital.wd501.myworkdayjobs.com/Golub_Capital_Careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 33
+    },
+    {
+      "firm": "Arrowstreet Capital",
+      "ats": "workday",
+      "tenant": "arrowstreetcapital",
+      "shard": "wd5",
+      "site": "Campus_Careers",
+      "tier": "Systematic",
+      "discoveredVia": "https://arrowstreetcapital.wd5.myworkdayjobs.com/Campus_Careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 6
     }
   ]
 }

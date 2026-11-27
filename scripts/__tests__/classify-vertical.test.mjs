@@ -347,6 +347,13 @@ at('Service Desk Analyst Intern – 6-Month Internship (M,F,D) - Munich Office',
 at("(2028 Bachelor's/Master's graduates) Accounting/Business/Finance Consulting Analyst/Associate Intern (Summer 2027)", 'Charles River Associates', 'Consulting', 'Consulting');
 // Asset-class words name an investing seat only at a private fund.
 at('Trading Infrastructure Specialist – Graduate Program', 'Squarepoint Capital', 'Systematic', 'Sales & Trading');
+// A case team's administrative support is not a consulting seat.
+at('Case Team Assistant', 'Roland Berger', 'Consulting', 'Other');
+// Sales & Trading inside Capital Markets is markets; origination is not.
+at('2028 Capital Markets, Global Markets Sales & Trading Summer Analyst', 'Test Bank', 'Bulge Bracket', 'Sales & Trading');
+at('2028 Capital Markets, Global Markets Origination Summer Analyst', 'Test Bank', 'Bulge Bracket', 'Investment Banking');
+// Impact research at a buyout firm is left ambiguous, not forced into PE.
+at('Y Analytics, Responsible Investing, Summer Research Assistant, Internship', 'TPG', 'Megafund', 'Other');
 // Business transformation is consulting at a consulting firm and nowhere else.
 at('Business Transformation Analyst Intern', 'Barclays', 'Bulge Bracket', 'Other');
 

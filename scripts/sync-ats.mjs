@@ -370,7 +370,7 @@ const isConsultingFirm = (firm) => {
  * accounted for.
  */
 const NOT_CONSULTING_WORK =
-  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant)\b/i;
+  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant|case team assistant|team assistant|office assistant|administrative assistant)\b/i;
 
 /**
  * A Big Four firm's audit, tax and accounting service lines. Not consulting,
@@ -559,7 +559,10 @@ const FUND_SEAT =
 // Infrastructure Specialist") and "credit" is as likely a risk seat.
 const PRIVATE_FUND_SEAT = /secondar(y|ies)|strategic partners|private markets|infrastructure|\bcredit\b/;
 const NOT_FUND_SEAT =
-  /\brisk\b|compliance|operations|investment services|fund (accounting|administration|services)|valuation control|treasury|tax|legal|technology|engineer|developer|data (scien|engineer)|marketing|communications|recruit|talent|human resources|\bhr\b|executive assistant|administrative|investor relations|client (service|relations)/;
+  // Impact and ESG research ("Y Analytics, Responsible Investing, Summer
+  // Research Assistant" at TPG) is not a deal seat; it stays in Other rather
+  // than being read as private equity on the word "investing".
+  /research assistant|\bimpact\b|responsible invest|\besg\b|sustainab|\brisk\b|compliance|operations|investment services|fund (accounting|administration|services)|valuation control|treasury|tax|legal|technology|engineer|developer|data (scien|engineer)|marketing|communications|recruit|talent|human resources|\bhr\b|executive assistant|administrative|investor relations|client (service|relations)/;
 
 const HEDGE_FUND_TIERS = new Set(['Multi-Manager', 'Single-Manager']);
 const PRIVATE_FUND_TIERS = new Set(['Megafund', 'Mid-Market']);
@@ -721,6 +724,13 @@ export function inferVertical(title, ctx = {}) {
   if (insideBankingDivision && /\bmarkets\b|\bsales\b|\btrading\b|\brisk\b/.test(core)) {
     return /\brisk\b/.test(core) ? 'Risk' : 'Sales & Trading';
   }
+  // "Sales & Trading" and a bank's Global Markets division are markets seats
+  // even when the title also names Capital Markets (27 November feed: "2028
+  // Capital Markets, Global Markets Sales & Trading Summer Analyst" was filed
+  // as banking). Origination inside Global Markets is a deal seat and is left
+  // to the banking rule.
+  if (/sales\s*(?:&|and)\s*trading|\bs&t\b/.test(core) || (/global markets/.test(core) && !/origination|\becm\b|\bdcm\b|syndicate/.test(core)))
+    return 'Sales & Trading';
   if (
     /investment bank|\bibd\b|\bm&a\b|mergers|corporate advisory|capital markets|restructuring|corporate finance|valuation|debt advisory|capital solutions|\bbanking\b/.test(core) ||
     (insideBankingDivision && !/\b(?:technology|engineer|software|operations|compliance|audit|finance|legal|hr)\b/.test(core))

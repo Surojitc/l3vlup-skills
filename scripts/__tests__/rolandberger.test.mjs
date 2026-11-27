@@ -36,6 +36,9 @@ eq('MBA internship is early', rolandBergerLevelIsEarly('consulting-mba-internshi
 eq('an MBA full-time hire is not confirmed', rolandBergerLevelIsEarly('consulting-mba-full-time-hire'), false);
 eq('graduate and experienced together is not confirmed', rolandBergerLevelIsEarly('consulting-graduate-hire consulting-experienced-hire'), false);
 eq('no level is not confirmed', rolandBergerLevelIsEarly(''), false);
+// The employer's level is overridden by a title that names seniority.
+const mis = parseRolandBergerJobs('<li data-country="germany" data-level="consulting-graduate-hire"><h1 class="headline"><a href="x">Senior Consultant for cost/value management</a></h1><p class="subline">Munich</p><a href="https://jobs.smartrecruiters.com/RolandBerger/1">Apply</a></li>');
+eq('a senior title tagged graduate-hire is not confirmed', mis[0]?.earlyCareerConfirmed, undefined);
 eq('a page with nothing on it reads as no jobs', parseRolandBergerJobs('<html></html>'), []);
 
 // The id a row gets is the one the API route gave it, so its tracker URL is unchanged.
