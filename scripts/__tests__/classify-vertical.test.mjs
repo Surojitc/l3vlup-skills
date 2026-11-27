@@ -416,5 +416,31 @@ eq('no year is never past', namesOnlyPastCycle('Summer Analyst', nov26), false);
 eq('toOpportunity drops a past-cycle posting',
   toOpportunity({ id: 'x1', title: 'Credit Summer Associate 2024, Sydney', location: 'Sydney' }, { ats: 'greenhouse', token: 't', firm: 'Bain Capital', tier: 'Private Equity' }), null);
 
+// Research & Ratings (pending): the analytical seats at a ratings, data or index
+// firm, read beside the tier only. Titles from the 27 November feed.
+const RR = 'Research & Ratings';
+at('Ratings Analytical Intern - Americas', 'S&P Global', RR, RR);
+at('CREDit Graduate Program Analyst', 'S&P Global', RR, RR);
+at('Student Worker - Credit Ratings Analyst', 'S&P Global', RR, RR);
+at('Summer Intern, Fixed Income Pricing', 'S&P Global', RR, RR);
+at('Manager Research Intern', 'Morningstar', RR, RR);
+at('Multilingual Data Analyst Intern', 'Morningstar', RR, RR);
+at('Index Analyst Graduate', 'FactSet', RR, RR);
+// The boundaries: support, sales, client service, technology, quant, equity
+// research and portfolio management keep their own readings.
+at('Ratings Operations Specialist Intern', 'S&P Global', RR, 'Operations');
+at('Summer Intern, Client Services, Equity Analytics Products', 'S&P Global', RR, 'Other');
+at('Market Intelligence Sales Associate Internship', 'S&P Global', RR, 'FinTech Sales');
+at('Commercial and CX Graduate Associate', 'S&P Global', RR, 'Other');
+at('Facilities Intern', 'Morningstar', RR, 'Other');
+at('Summer Intern, Quantitative Modeling', 'S&P Global', RR, 'Quant');
+at('Software Engineer Intern', 'Bloomberg', RR, 'Software Engineering');
+at('Research Scientist Intern, Machine Learning', 'Bloomberg', RR, 'AI Research');
+at('Equity Research Analyst Intern', 'Morningstar', RR, 'Equity Research');
+at('Portfolio Management Intern', 'Morningstar', RR, 'Asset Management');
+// Not at a ratings or data firm: the same words keep their old readings.
+at('Research Analyst Intern', 'Goldman Sachs', 'Bulge Bracket', 'Equity Research');
+at('Ratings Analyst Intern', 'Goldman Sachs', 'Bulge Bracket', 'Other');
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);

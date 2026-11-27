@@ -610,6 +610,36 @@ export function fundSeatVerdict(title, ctx = {}) {
   return null;
 }
 
+/**
+ * Research & Ratings: the analytical seats at a ratings agency, a credit
+ * research house, a market data provider or an index and analytics firm (Fitch,
+ * S&P Global, Morningstar, PitchBook, FactSet, Bloomberg). Read only beside the
+ * employer's tier, because "Associate Analyst" or "Research Analyst" means a
+ * ratings or data research seat there and something else at a bank.
+ *
+ * BOUNDARIES. Quant, AI, data science and software keep their readings, which
+ * are asked before this rule. Sales, client service, account management and
+ * consulting are not research seats. Portfolio management at the same firm
+ * (Morningstar Investment Management) is asset management. A title that says
+ * equity research keeps Equity Research. Everything here was a judgement on the
+ * 27 November feed and its fixtures are in classify-vertical.test.mjs.
+ *
+ * The vertical is pending in data/taxonomy.json: the site withholds every row
+ * carrying it until its launch gates are met (L3vlup docs/research-ratings-2026-11.md).
+ */
+const RESEARCH_RATINGS_TIER = 'Research & Ratings';
+const RESEARCH_RATINGS_SEAT =
+  /\bratings?\b|credit (?:analyst|research|analysis)|\banalyst\b|\bresearch\b|\bindex(?:es)?\b|\besg\b|sustainab|fund (?:research|analyst)|data (?:research|content|quality|collection)|\bmethodolog|surveillance|\bvaluations?\b|evaluated pricing|fixed income pricing|data analyst/;
+const NOT_RESEARCH_RATINGS_SEAT =
+  /\bsales\b|business development|account (?:manager|executive|management)|client (?:service|success|support|solutions)|customer|consult(?:ant|ing)|recruit|talent|\bhr\b|human resources|marketing|communications|\blegal\b|paralegal|compliance|finance (?:analyst|associate)|\bfp&a\b|accounting|payroll|procurement|facilities|executive assistant|\boperations analyst\b|portfolio (?:management|manager)|equity research|product (?:manager|management|owner)|engineer|developer|software|scien|machine learning|\bai\b|\bml\b|operations|\bcx\b|commercial/;
+
+export function researchRatingsVerdict(title, ctx = {}) {
+  if (ctx.tier !== RESEARCH_RATINGS_TIER) return null;
+  const t = String(title || '').toLowerCase();
+  if (!t.trim() || NOT_RESEARCH_RATINGS_SEAT.test(t)) return null;
+  return RESEARCH_RATINGS_SEAT.test(t) ? 'Research & Ratings' : null;
+}
+
 export function isHedgeFundSeat(t, firm, tier) {
   const title = String(t || '').toLowerCase();
   if (SERVICE_PROVIDER_TITLE.test(title)) return false;
@@ -618,7 +648,7 @@ export function isHedgeFundSeat(t, firm, tier) {
   // At an asset manager or a pension fund (PIMCO, PSP Investments) portfolio
   // management is the firm's own long-only or real-asset book, which the asset
   // management rule below reads, not a hedge fund seat.
-  return /portfolio management/.test(title) && !isBankLenderInsurer(firm) && tier !== 'Asset Manager';
+  return /portfolio management/.test(title) && !isBankLenderInsurer(firm) && tier !== 'Asset Manager' && tier !== RESEARCH_RATINGS_TIER;
 }
 
 export function inferVertical(title, ctx = {}) {
@@ -632,6 +662,11 @@ export function inferVertical(title, ctx = {}) {
   if (consulting) return consulting;
 
   if (/\b(quant|quantitative)\b/.test(t)) return 'Quant';
+
+  // Before the AI and data rules: at a ratings, data or index firm a "Data
+  // Analyst" is a data content seat, not data science (researchRatingsVerdict).
+  const researchRatings = researchRatingsVerdict(title, ctx);
+  if (researchRatings) return researchRatings;
 
   // AI was one bucket called 'Data & ML' carrying three different careers. On a
   // 993-row sweep it held 78 roles: 35 research, 29 applied AI engineering and
@@ -679,7 +714,7 @@ export function inferVertical(title, ctx = {}) {
   // were both filed as private credit on the 27 November feed.
   if (/private credit|direct lending|leveraged finance|credit investment/.test(t) && !/\brisk\b|trading|\btrader\b|global markets/.test(t)) return 'Private Credit';
   if (isHedgeFundSeat(t, ctx.firm, ctx.tier)) return 'Hedge Fund';
-  if (ctx.tier === 'Asset Manager' && /portfolio (?:management|manager|analyst)/.test(t)) return 'Asset Management';
+  if ((ctx.tier === 'Asset Manager' || ctx.tier === RESEARCH_RATINGS_TIER) && /portfolio (?:management|manager|analyst)/.test(t)) return 'Asset Management';
   // The fund's own investing seat, read beside the employer (fundSeatVerdict).
   const fundSeat = fundSeatVerdict(title, ctx);
   if (fundSeat) return fundSeat;
