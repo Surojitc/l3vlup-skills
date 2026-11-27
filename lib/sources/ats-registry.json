@@ -288,7 +288,9 @@
       "host": "citi.wd5.myworkdayjobs.com",
       "tenant": "citi",
       "site": "2",
-      "tier": "Bulge Bracket"
+      "tier": "Bulge Bracket",
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own citi.wd5.myworkdayjobs.com/robots.txt has \"Disallow: /2/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "JPMorgan Chase",
@@ -376,7 +378,9 @@
       "host": "bmo.wd3.myworkdayjobs.com",
       "tenant": "bmo",
       "site": "Privileged",
-      "tier": "Middle Market"
+      "tier": "Middle Market",
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own bmo.wd3.myworkdayjobs.com/robots.txt has \"Disallow: /Privileged/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "Wells Fargo",
@@ -408,7 +412,9 @@
       "host": "mizuho.wd1.myworkdayjobs.com",
       "tenant": "mizuho",
       "site": "mizuho_confidential",
-      "tier": "Middle Market"
+      "tier": "Middle Market",
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own mizuho.wd1.myworkdayjobs.com/robots.txt has \"Disallow: /Mizuho_Confidential/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "Vanguard",
@@ -787,7 +793,9 @@
       "tier": "Other",
       "discoveredVia": "https://careers.bp.com/",
       "discoveredAt": "2026-10-22",
-      "postingsAtDiscovery": 288
+      "postingsAtDiscovery": 288,
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own bpinternational.wd3.myworkdayjobs.com/robots.txt has \"Disallow: /bpCareers/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "Bridgewater Associates",
@@ -1345,7 +1353,9 @@
       "tier": "Middle Market",
       "discoveredVia": "https://jobs.rbc.com/ca/en",
       "discoveredAt": "2026-10-24",
-      "postingsAtDiscovery": 20
+      "postingsAtDiscovery": 20,
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own rbc.wd3.myworkdayjobs.com/robots.txt has \"Disallow: /RBCEARLYTALENT1/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "Redgate",
@@ -1394,7 +1404,9 @@
       "tier": "Asset Manager",
       "discoveredVia": "https://www.pimco.com/about-us/careers",
       "discoveredAt": "2026-10-30",
-      "postingsAtDiscovery": 180
+      "postingsAtDiscovery": 180,
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own pimco.wd1.myworkdayjobs.com/robots.txt has \"Disallow: /pimco-careers/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "Neuberger Berman",
@@ -1690,7 +1702,9 @@
       "tier": "Other",
       "discoveredVia": "https://pacificlife.wd1.myworkdayjobs.com/PacificLifeCareers",
       "discoveredAt": "2026-10-30",
-      "postingsAtDiscovery": 124
+      "postingsAtDiscovery": 124,
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own pacificlife.wd1.myworkdayjobs.com/robots.txt has \"Disallow: /PacificLifeCareers/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "Everest",
@@ -2095,7 +2109,9 @@
         "jobFamilyGroup": [
           "840296504fcf0181b2674312de4a0685"
         ]
-      }
+      },
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own mmc.wd1.myworkdayjobs.com/robots.txt has \"Disallow: /MMC/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "L.E.K. Consulting",
@@ -2206,7 +2222,9 @@
       "tier": "Single-Manager",
       "discoveredVia": "https://www.sculptor.com/careers",
       "discoveredAt": "2026-11-25",
-      "postingsAtDiscovery": 1
+      "postingsAtDiscovery": 1,
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: the employer's own sculptor.wd12.myworkdayjobs.com/robots.txt has \"Disallow: /Sculptor_External_Career_Site/\", the career site this row reads, and Workday's Online Terms of Service forbid bypassing robots.txt. Reading it through /wday/cxs/, a path the file does not name, would be against the employer's stated wishes. Authorised route to look at: the employer's own career domain or the job sitemap its robots.txt declares. See L3vlup docs/tracker-coverage-consulting-vc-2026-11.md, section 10."
     },
     {
       "firm": "Walleye Capital",
