@@ -2292,6 +2292,22 @@
       "discoveredVia": "https://arrowstreetcapital.wd5.myworkdayjobs.com/Campus_Careers",
       "discoveredAt": "2026-11-27",
       "postingsAtDiscovery": 6
+    },
+    {
+      "firm": "Deloitte",
+      "ats": "avature",
+      "host": "apply.deloitte.com",
+      "locale": "en_US",
+      "portal": "careers",
+      "queries": [
+        "2027",
+        "2028"
+      ],
+      "defaultLocation": "United States",
+      "tier": "Consulting",
+      "discoveredVia": "https://apply.deloitte.com/en_US/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 291
     }
   ]
 }

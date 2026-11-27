@@ -29,6 +29,7 @@ import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import { brandForTitle } from '../lib/title-brands.mjs';
 import { parseRolandBergerJobs, ROLAND_BERGER_JOBS_URL } from '../lib/rolandberger.mjs';
+import { avatureSearchUrl, parseAvatureSearch, AVATURE_PAGE } from '../lib/avature.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
@@ -370,7 +371,7 @@ const isConsultingFirm = (firm) => {
  * accounted for.
  */
 const NOT_CONSULTING_WORK =
-  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant|case team assistant|team assistant|office assistant|administrative assistant)\b/i;
+  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant|case team assistant|team assistant|office assistant|administrative assistant|internal services|internal strategy)\b/i;
 
 /**
  * A Big Four firm's audit, tax and accounting service lines. Not consulting,
@@ -379,6 +380,7 @@ const NOT_CONSULTING_WORK =
  * Consulting Analyst" at Charles River Associates is a consulting seat), while
  * an "Audit Associate" at PwC can no longer become one on the word associate.
  */
+const BIG_FOUR = /\b(deloitte|pwc|pricewaterhousecoopers|kpmg|ernst & young|\bey\b)/i;
 const SERVICE_LINE = /\b(audit|assurance|tax|accounting|bookkeeping)\b/i;
 
 /**
@@ -448,6 +450,10 @@ export function consultingVerdict(title, ctx = {}) {
 
   if (NOT_CONSULTING_WORK.test(t)) return null;
   if (FINANCE_OVERRIDE.test(t)) return null;
+  // At a Big Four firm "Tax Consultant" and "Audit Consultant" are grades in a
+  // service line, not management consulting: the explicit word does not win
+  // there, as it does at Charles River Associates (Deloitte US, 27 November).
+  if (SERVICE_LINE.test(t) && BIG_FOUR.test(String(ctx.firm || ''))) return null;
   if (EXPLICIT_CONSULTING.test(t) && !FINANCIAL_CRIME.test(t)) return 'Consulting';
   // The weak readings below never apply to an audit, tax or accounting seat.
   const serviceLine = SERVICE_LINE.test(t);
@@ -1735,6 +1741,47 @@ async function fetchWorkable(f) {
 // No ATS at all: a public JSON file behind a client-rendered page. The level
 // lives in `availability` rather than the title, so the filtering happens in
 // lib/janestreet.mjs before our own early-career rules ever see it.
+/* -------------------------------- Avature -------------------------------- */
+// Server-rendered search pages, ten a page (lib/avature.mjs). Registry rows
+// name the search terms that select campus roles (`queries`, default the cycle
+// years), and a page budget per firm keeps a large tenant to a bounded number
+// of polite requests: half a second apart, one at a time.
+const AVATURE_MAX_PAGES = 40;
+async function fetchAvature(f, stats = newRequestStats()) {
+  const year = new Date().getUTCFullYear();
+  const queries = f.queries ?? [String(year + 1), String(year + 2)];
+  const seen = new Map();
+  let pages = 0;
+  for (const q of queries) {
+    for (let offset = 0; pages < (f.maxPages ?? AVATURE_MAX_PAGES); offset += AVATURE_PAGE) {
+      pages++;
+      stats.attempts++;
+      let page;
+      try {
+        const res = await fetch(avatureSearchUrl(f, q, offset), {
+          headers: { 'User-Agent': UA, Accept: 'text/html' },
+          redirect: 'follow',
+          signal: AbortSignal.timeout(TIMEOUT_MS),
+        });
+        if (!res.ok) throw new Error(`${res.status}`);
+        page = parseAvatureSearch(await res.text());
+      } catch (e) {
+        stats.failures++;
+        if (offset === 0) throw e;
+        break;
+      }
+      const before = seen.size;
+      for (const j of page.jobs) if (!seen.has(j.id)) seen.set(j.id, j);
+      // Stop at the stated total, on an empty page, or on a page that added
+      // nothing new (a tenant that ignores the offset replays page one).
+      if (!page.jobs.length || seen.size === before || offset + AVATURE_PAGE >= page.total) break;
+      await new Promise((r) => setTimeout(r, 500));
+    }
+  }
+  if (pages >= (f.maxPages ?? AVATURE_MAX_PAGES)) stats.capped = true;
+  return [...seen.values()].map((j) => (f.defaultLocation && /^multiple locations$/i.test(j.location) ? { ...j, location: f.defaultLocation } : j));
+}
+
 async function fetchJaneStreet() {
   const feed = await getJson('https://www.janestreet.com/jobs/main.json');
   return parseJaneStreetFeed(feed);
@@ -1748,7 +1795,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, rolandberger: fetchRolandBerger, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
+export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, rolandberger: fetchRolandBerger, avature: fetchAvature, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
 
 /**
  * Write a file the way a consumer may read it at any moment.

@@ -50,6 +50,7 @@ export const SUITES = [
   'talnet',
   'title-brands',
   'rolandberger',
+  'avature',
   'source-registry',
   'eightfold-janestreet',
   'smartrecruiters',

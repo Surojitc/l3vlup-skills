@@ -90,7 +90,12 @@
       "terms": "https://docs.recruitee.com/reference/authentication-1",
       "attribution": "Link each role to the employer's own posting.",
       "limitations": "From the date below every call needs the employer's careers-site token in X-Careers-Sites-Token. The collector sends it when RECRUITEE_TOKEN_<TOKEN> is set in the environment, and reports the board as needing a token when it answers 401.",
-      "breaking": [{ "on": "2027-02-10", "what": "Calls without X-Careers-Sites-Token return 401. PAI Partners stops answering unless the employer issues a token or another permitted source is found." }]
+      "breaking": [
+        {
+          "on": "2027-02-10",
+          "what": "Calls without X-Careers-Sites-Token return 401. PAI Partners stops answering unless the employer issues a token or another permitted source is found."
+        }
+      ]
     },
     "pinpoint": {
       "endpoint": "{token}.pinpointhq.com/postings.json",
@@ -99,10 +104,11 @@
       "attribution": "Link each role to the employer's own posting."
     },
     "avature": {
-      "endpoint": "employer-specific Avature site",
-      "permitted": "unclear",
-      "basis": "The employer's public careers site; terms not reviewed for third-party reading.",
-      "attribution": "Link each role to the employer's own posting."
+      "endpoint": "{host}/{locale}/careers/SearchJobs/?search={term}&jobOffset={n}",
+      "permitted": true,
+      "basis": "The employer's own Avature career site, server-rendered. robots.txt on apply.deloitte.com, bloomberg.avature.net and careers.twosigma.com allows /careers and disallows only /careers/*qtvc= (read 27 November 2026); the reader never sends qtvc.",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Ten results a page; a firm is held to 40 pages a run, half a second apart. Deloitte US lists many roles as 'Multiple Locations' (US)."
     },
     "taleo": {
       "endpoint": "employer-specific Taleo site",
