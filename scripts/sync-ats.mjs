@@ -369,7 +369,7 @@ const isConsultingFirm = (firm) => {
  * accounted for.
  */
 const NOT_CONSULTING_WORK =
-  /\b(developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant)\b/i;
+  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant)\b/i;
 
 /**
  * A Big Four firm's audit, tax and accounting service lines. Not consulting,
@@ -840,6 +840,36 @@ const REGION_PATTERNS = [
     /united states|\busa\b|\bu\.s\b|\bus\b|america|canada|toronto|vancouver|montreal|calgary|ottawa|mexico|brazil|sao paulo|argentina|chile|colombia|new york|\bnyc\b|chicago|boston|san francisco|bay area|seattle|austin|dallas|houston|atlanta|denver|miami|philadelphia|phoenix|charlotte|jersey city|washington|los angeles|san diego|san jose|portland|minneapolis|detroit|salt lake|columbus|nashville|raleigh|pittsburgh|tampa|orlando|st\. louis|kansas city|cincinnati|cleveland|milwaukee|sacramento|las vegas|hartford|wilmington|richmond|baltimore|california|texas|florida|virginia|illinois|arizona|georgia|colorado|oregon|utah|massachusetts|new jersey|pennsylvania|north carolina|ohio|michigan|minnesota|tennessee|missouri|wisconsin|indiana|maryland|connecticut|delaware/,
   ],
 ];
+/**
+ * The region of an ISO 3166 country, where the mapping is unambiguous, else null.
+ *
+ * Workday's detail endpoint states the country as a code beside a descriptor
+ * that is often a bare city ("Milan"). The code is the better evidence. Canada
+ * and Latin America return null and fall through to inferRegion as before: the
+ * Region vocabulary has no Americas-outside-the-US value, and folding them in is
+ * a separate decision (docs/consulting-inventory-2026-09.md).
+ */
+const COUNTRY_REGION = {
+  US: 'US', GB: 'UK',
+  AE: 'Middle East', SA: 'Middle East', QA: 'Middle East', BH: 'Middle East', KW: 'Middle East', OM: 'Middle East', IL: 'Middle East',
+  SG: 'Asia', HK: 'Asia', CN: 'Asia', JP: 'Asia', KR: 'Asia', IN: 'Asia', AU: 'Asia', NZ: 'Asia', TW: 'Asia', MY: 'Asia', ID: 'Asia', PH: 'Asia', TH: 'Asia', VN: 'Asia',
+};
+const EUROPE = 'AT BE BG CH CY CZ DE DK EE ES FI FR GR HR HU IE IS IT LI LT LU LV MC MT NL NO PL PT RO RS SE SI SK UA'.split(' ');
+export function regionForCountry(code) {
+  if (!code) return null;
+  if (EUROPE.includes(code)) return 'Europe';
+  return COUNTRY_REGION[code] ?? null;
+}
+
+const COUNTRY_NAME = new Intl.DisplayNames(['en'], { type: 'region' });
+/** "Milan" and "IT" as "Milan, Italy", so the country travels with the text. */
+export function withCountry(location, code) {
+  if (!code) return location;
+  const name = COUNTRY_NAME.of(code);
+  if (!name || location.toLowerCase().includes(name.toLowerCase())) return location;
+  return `${location}, ${name}`;
+}
+
 export function inferRegion(location) {
   const l = (location || '').toLowerCase();
   for (const [region, pattern] of REGION_PATTERNS) {
@@ -950,6 +980,39 @@ export function firmKey(firm) {
   return String(raw).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+/**
+ * A title that names an event or a club rather than a job.
+ *
+ * Roland Berger's "Boost Your Consulting Skills: Graduate Consulting Club" was
+ * admitted on "Graduate" and published as a consulting graduate role. Google
+ * does not allow events as job postings, and a candidate who applies to it has
+ * applied to a club. Narrow on purpose: on the 25 November feed it matches that
+ * one row and nothing else; insight days and spring weeks are programmes with
+ * an application and stay.
+ */
+const NOT_A_POSTING = /\b(club|webinar|workshop|masterclass|open day|info(?:rmation)? session|networking event|boost your)\b/i;
+export function isNotAPosting(title) {
+  return NOT_A_POSTING.test(String(title || ''));
+}
+
+/**
+ * A title whose every cycle year is already past: a posting the employer left up.
+ *
+ * "Accenture Summer Internship Program - Consulting (Aug to Dec2024)", Bain
+ * Capital's "Credit Summer Associate 2024" and Citi's "2025 Markets Internship"
+ * were all live rows on 25 November 2026. A year counts as past when it is
+ * before the cycle a reader is applying for minus one, and the cycle rolls in
+ * July as the site's does (lib/hub-live-meta.ts): in November 2026 the cycle is
+ * 2027 and 2025 is past; in January 2027 a "Class of 2026" role is not. A title
+ * with no year, or any current or future year, is untouched.
+ */
+export function namesOnlyPastCycle(title, now = new Date()) {
+  const years = [...String(title || '').matchAll(/(?:^|\D)(20[1-3]\d)(?!\d)/g)].map((m) => Number(m[1]));
+  if (!years.length) return false;
+  const cycle = now.getUTCFullYear() + (now.getUTCMonth() + 1 >= 7 ? 1 : 0);
+  return years.every((y) => y < cycle - 1);
+}
+
 export function toOpportunity(job, board) {
   // `earlyCareerConfirmed` is set by fetchers whose source states the level in a
   // dedicated field rather than in the title. Jane Street is the case that
@@ -957,6 +1020,7 @@ export function toOpportunity(job, board) {
   // "Software Engineer", so a title-only test threw away the entire board and
   // reported the firm as having nothing open.
   if (!job.title) return null;
+  if (isNotAPosting(job.title) || namesOnlyPastCycle(job.title)) return null;
   // A board shared by several businesses names the owner in the title (see
   // lib/title-brands.mjs). The id still comes from the board, so it is stable
   // whichever brand a row is published under.
@@ -2046,7 +2110,14 @@ async function main() {
   // running is not asked a fifth time today.
   // Early-career rows are asked first, so experienced rows on a complete
   // Workday board spend only what the campus rows leave of the budget.
-  const wdEligible = all.filter((o) => o._workdayDetail && !o.closingDate && needsCheck(ledger, o.id, today, 'workday-detail'));
+  // A row whose location the list endpoint withheld ("See listing", "3
+  // Locations") is asked too, whatever its deadline, because its region is
+  // otherwise a guess: inferRegion publishes an unreadable location as US, which
+  // put 22 of Accenture's European and Canadian consulting rows on the US board.
+  const locationUnknown = (o) => !o.location || o.location === 'See listing' || /^\d+\s+Locations?$/i.test(o.location);
+  const wdEligible = all.filter(
+    (o) => o._workdayDetail && ((!o.closingDate && needsCheck(ledger, o.id, today, 'workday-detail')) || locationUnknown(o))
+  );
   const wdRows = [...wdEligible.filter((o) => !isExperiencedRow(o)), ...wdEligible.filter(isExperiencedRow)]
     .slice(0, WD_DETAIL_CAP);
   let fromWorkday = 0;
@@ -2080,9 +2151,9 @@ async function main() {
           // An exact date always beats one derived from "Posted 3 Days Ago".
           if (parsed.openingDate) o.openingDate = parsed.openingDate;
           // "3 Locations" is not a location.
-          if (parsed.location && (!o.location || /^\d+\s+Locations?$/i.test(o.location))) {
-            o.location = parsed.location;
-            o.region = inferRegion(parsed.location);
+          if (parsed.location && locationUnknown(o)) {
+            o.location = withCountry(parsed.location, parsed.countryCode);
+            o.region = regionForCountry(parsed.countryCode) ?? inferRegion(o.location);
             wdLocations++;
           }
         })

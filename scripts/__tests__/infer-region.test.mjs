@@ -7,7 +7,7 @@
  * saw that 293 of 577 US rows carried a location saying nothing US-like.
  * Bristol was on the US hub. Taipei, Aarhus, Helsinki and Budapest were too.
  */
-import { inferRegion, unmatchedLocations } from '../sync-ats.mjs';
+import { inferRegion, unmatchedLocations, regionForCountry, withCountry } from '../sync-ats.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -81,6 +81,18 @@ eq('Kyiv is Europe', inferRegion('Kyiv, , Ukraine'), 'Europe');
   eq('a placed location is not recorded', unmatchedLocations.size, 1);
   eq('a blank location is recorded under a readable key', (inferRegion(''), unmatchedLocations.has('(blank)')), true);
 }
+
+// Workday's detail states the country as a code; that beats a bare city.
+eq('IT is Europe', regionForCountry('IT'), 'Europe');
+eq('GB is UK', regionForCountry('GB'), 'UK');
+eq('AE is Middle East', regionForCountry('AE'), 'Middle East');
+eq('SG is Asia', regionForCountry('SG'), 'Asia');
+eq('US is US', regionForCountry('US'), 'US');
+eq('Canada is left to inferRegion, not folded into US', regionForCountry('CA'), null);
+eq('no code is null', regionForCountry(undefined), null);
+eq('a bare city gains its country', withCountry('Milan', 'IT'), 'Milan, Italy');
+eq('a named country is not repeated', withCountry('London, United Kingdom', 'GB'), 'London, United Kingdom');
+eq('no code leaves the text alone', withCountry('Milan', undefined), 'Milan');
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

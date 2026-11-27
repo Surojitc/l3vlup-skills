@@ -14,7 +14,7 @@
  * never inventory.
  */
 import { readFileSync } from 'node:fs';
-import { inferVertical, isEarlyCareer, toOpportunity } from '../sync-ats.mjs';
+import { inferVertical, isEarlyCareer, toOpportunity, isNotAPosting, namesOnlyPastCycle } from '../sync-ats.mjs';
 
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
@@ -367,6 +367,35 @@ prep('Software Engineer Intern', 'software-engineering-interview-prep');
 prep('Quantitative Researcher Intern', undefined);
 prep('Wealth Management Internship', undefined);
 prep('Summer Analyst Programme 2027', undefined);
+
+// --- Consulting launch review, 26 November 2026 ---------------------------
+// Three live rows the hand review found in Consulting that are not consulting.
+// "Execution consulting" at a bank is an algorithmic-trading sales seat, and a
+// "Sales Consultant" at an asset manager sells funds.
+eq('JPMorgan algo execution consulting VP is not Consulting',
+  inferVertical('Algorithmic Trading - Execution Consulting - Vice President', { firm: 'JPMorgan Chase' }) !== 'Consulting', true);
+eq('T. Rowe Price Associate Sales Consultant is not Consulting',
+  inferVertical('Associate Sales Consultant (December 2026 & Spring 2027 Graduates)', { firm: 'T. Rowe Price' }) !== 'Consulting', true);
+// The rule stays narrow: real consulting titles at the same kinds of firm hold.
+vertAt('Visa Consulting & Analytics (VCA) Intern', 'Visa', 'Consulting');
+vertAt('Associate Consultant Intern, Summer 2027', 'Mastercard', 'Consulting');
+
+// A club or an event is not a posting; insight programmes still are.
+eq('a graduate consulting club is not a posting', isNotAPosting('Boost Your Consulting Skills: Graduate Consulting Club x Roland Berger'), true);
+eq('an insight day is still a posting', isNotAPosting('Spring Insight Day 2027'), false);
+eq('a workshop is not a posting', isNotAPosting('Case Interview Workshop for Students'), true);
+
+// A title whose every year is a past cycle is a posting left up.
+const nov26 = new Date('2026-11-26T12:00:00Z');
+eq('2024 internship in Nov 2026 is past', namesOnlyPastCycle('Accenture Summer Internship Program - Consulting (Aug to Dec2024)', nov26), true);
+eq('2025 programme in Nov 2026 is past', namesOnlyPastCycle('2025 Markets Internship Colombia', nov26), true);
+eq('2027 programme in Nov 2026 is current', namesOnlyPastCycle('2027 Summer Analyst', nov26), false);
+eq('"2026/2027 grads" is current', namesOnlyPastCycle('Electronic Trading Support Engineer - 2026/2027 Grads', nov26), false);
+eq('Class of 2026 in January 2027 is still current', namesOnlyPastCycle('Analyst - Class of 2026', new Date('2027-01-15T12:00:00Z')), false);
+eq('Class of 2026 in July 2027 is past', namesOnlyPastCycle('Analyst - Class of 2026', new Date('2027-07-02T12:00:00Z')), true);
+eq('no year is never past', namesOnlyPastCycle('Summer Analyst', nov26), false);
+eq('toOpportunity drops a past-cycle posting',
+  toOpportunity({ id: 'x1', title: 'Credit Summer Associate 2024, Sydney', location: 'Sydney' }, { ats: 'greenhouse', token: 't', firm: 'Bain Capital', tier: 'Private Equity' }), null);
 
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);
