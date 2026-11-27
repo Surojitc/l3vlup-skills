@@ -2652,7 +2652,13 @@ async function main() {
     OUT,
     JSON.stringify({ generatedAt: stamp, count: all.length, opportunities: all }, null, 2) + '\n'
   );
-  await writeDescriptions(all);
+  // A failure here must never cost the day's feed: the descriptions are an
+  // addition beside it, and the site shows none it cannot read.
+  try {
+    await writeDescriptions(all);
+  } catch (err) {
+    console.warn(`  !! descriptions not written: ${err instanceof Error ? err.message : err}`);
+  }
   const xpPublished = all.filter(isExperiencedRow).length;
   console.log(
     `\n${all.length - xpPublished} early-career roles and ${xpPublished} experienced ` +
