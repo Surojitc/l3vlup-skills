@@ -2308,6 +2308,22 @@
       "discoveredVia": "https://apply.deloitte.com/en_US/careers",
       "discoveredAt": "2026-11-27",
       "postingsAtDiscovery": 291
+    },
+    {
+      "firm": "Bloomberg",
+      "ats": "avature",
+      "host": "bloomberg.avature.net",
+      "locale": "",
+      "portal": "careers",
+      "queries": [
+        "intern",
+        "graduate",
+        "analyst"
+      ],
+      "tier": "Other",
+      "discoveredVia": "https://bloomberg.avature.net/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 184
     }
   ]
 }

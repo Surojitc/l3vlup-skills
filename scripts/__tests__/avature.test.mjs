@@ -30,6 +30,14 @@ eq('titles are trimmed', page.jobs.every((j) => j.title === j.title.trim() && j.
 eq('the location is the last subtitle span', page.jobs.every((j) => j.location.length > 0), true);
 eq('an empty page reads as nothing', parseAvatureSearch('<html></html>'), { total: 0, jobs: [] });
 
+// Bloomberg's markup: class before href, a classed location span, no total.
+const bb = parseAvatureSearch(`<article class="article article--result" id="article--1"><h3><a class="link" href="https://bloomberg.avature.net/careers/JobDetail/2027-London-Summer-Internship-Client-Financial-Services/45689">
+  2027 London Summer Internship -Client Financial Services
+</a></h3><div class="article__header__text__subtitle"><span class="list-item-location">London, United Kingdom</span></div></article>`);
+eq('a Bloomberg card is read', bb.jobs.map((j) => [j.id, j.title, j.location]), [['45689', '2027 London Summer Internship -Client Financial Services', 'London, United Kingdom']]);
+eq('a tenant without a total reads as zero, and pagination stops on a page with nothing new', bb.total, 0);
+eq('a tenant with no locale has no empty path segment', avatureSearchUrl({ host: 'bloomberg.avature.net', locale: '', portal: 'careers' }, 'intern'), 'https://bloomberg.avature.net/careers/SearchJobs/?search=intern&jobOffset=0');
+
 // The Big Four rule.
 eq('a Deloitte tax consultant is not Consulting', inferVertical('Tax - Tax Consultant - Japanese Services Group - Summer 2027', { firm: 'Deloitte' }) === 'Consulting', false);
 eq('an audit associate at PwC is not Consulting', inferVertical('Audit Associate - Summer 2027', { firm: 'PwC' }) === 'Consulting', false);
