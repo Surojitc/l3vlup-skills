@@ -39,7 +39,8 @@ eq('and another', inferRegion('Malvern, PA'), 'US');
 // not match "\bin\b". These are the reason the codes require a leading comma.
 eq('a bare state code in prose does not match', inferRegion('MA - Casablanca, Morocco'), 'US');
 eq('Bengaluru is Asia, not US via "in"', inferRegion('Bengaluru, India'), 'Asia');
-eq('Ontario is not matched as "on"', inferRegion('Toronto'), 'US');
+// Toronto was US until 27 November 2026, when Canada became a region.
+eq('Toronto is Canada', inferRegion('Toronto'), 'Canada');
 
 // --- substring collisions, all of which shipped in the first version ---
 
@@ -88,11 +89,35 @@ eq('GB is UK', regionForCountry('GB'), 'UK');
 eq('AE is Middle East', regionForCountry('AE'), 'Middle East');
 eq('SG is Asia', regionForCountry('SG'), 'Asia');
 eq('US is US', regionForCountry('US'), 'US');
-eq('Canada is left to inferRegion, not folded into US', regionForCountry('CA'), null);
+eq('Canada is its own region', regionForCountry('CA'), 'Canada');
+eq('Brazil is Latin America', regionForCountry('BR'), 'Latin America');
+eq('Mexico is Latin America', regionForCountry('MX'), 'Latin America');
 eq('no code is null', regionForCountry(undefined), null);
 eq('a bare city gains its country', withCountry('Milan', 'IT'), 'Milan, Italy');
 eq('a named country is not repeated', withCountry('London, United Kingdom', 'GB'), 'London, United Kingdom');
 eq('no code leaves the text alone', withCountry('Milan', undefined), 'Milan');
 
+
+// Canada and Latin America (27 November 2026). The rows below are the forms
+// they took on the published feed, all of them filed as US before.
+for (const loc of ['Montreal', 'Toronto, Canada', 'Toronto, ON, CAN', 'Toronto, Ontario', 'Toronto, ON, Canada', 'Mississauga Ontario Canada', 'Toronto, Bay Wellington Tower L47', 'Vancouver, BC', 'Calgary, AB', 'Montréal, QC, Canada']) {
+  eq(`${loc} is Canada`, inferRegion(loc), 'Canada');
+}
+for (const loc of ['Mexico', 'Mexico City, Mexico', 'Sao Paulo Sao Paulo Brazil', 'São Paulo, São Paulo, Brazil', 'Argentina', 'Costa Rica, San Jose', 'Bogota Colombia', 'Santiago, Chile', 'Lima, Peru']) {
+  eq(`${loc} is Latin America`, inferRegion(loc), 'Latin America');
+}
+// Neighbours that must not move.
+eq('New Mexico stays US', inferRegion('Albuquerque, New Mexico'), 'US');
+eq('Santa Fe, NM stays US', inferRegion('Santa Fe, NM'), 'US');
+eq('San Jose, CA stays US (Costa Rica is named when meant)', inferRegion('San Jose, CA'), 'US');
+eq('Ontario, CA (California) stays US', inferRegion('Ontario, CA'), 'US');
+eq('Washington, D.C. stays US', inferRegion('Washington, D.C.'), 'US');
+eq('Indianapolis is still not Naples', inferRegion('Indianapolis, IN'), 'US');
+eq('"America" in a firm or desk name is still US', inferRegion('Bank of America Tower, New York'), 'US');
+// Places the US default used to take.
+eq('Knutsford (Barclays, Radbroke Hall) is UK', inferRegion('Knutsford, Radbroke Hall'), 'UK');
+eq('Northampton (Barclays campus) is UK', inferRegion('Northampton, Barclays Campus, Pavilion Drive'), 'UK');
+eq('Pisa is Europe', inferRegion('Pisa'), 'Europe');
+eq('Putrajaya is Asia', inferRegion('PERSIARAN IRC 2, IOI RESORT CITY IOI CITY TOWER ONE:PUTRAJAYA'), 'Asia');
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
