@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-27T13:47:20.197Z",
-  "count": 7062,
+  "generatedAt": "2026-11-27T16:56:49.165Z",
+  "count": 7072,
   "roles": {
     "ashby-airwallex-39651124-122a-4033-91a2-af2687b83441": {
       "slug": "airwallex-software-engineer-intern-jan-to-jun-2027",
@@ -1552,6 +1552,10 @@
       "slug": "charles-river-associates-2028-bachelor-s-master-s-graduates-economics-consulting-analyst-associate-intern-summer-2027-us",
       "since": "2026-11-25"
     },
+    "greenhouse-charlesriverassociates-8420886": {
+      "slug": "charles-river-associates-intern-european-competition-practice-europe",
+      "since": "2026-11-27"
+    },
     "greenhouse-clearstreet-8256262": {
       "slug": "clear-street-co-op-program-computer-science",
       "since": "2026-10-23"
@@ -2279,6 +2283,10 @@
     "greenhouse-drweng-8141687": {
       "slug": "drw-quantitative-researcher-futures",
       "since": "2026-10-23"
+    },
+    "greenhouse-drweng-8156100": {
+      "slug": "drw-senior-software-engineer-unified-platform-platform-services",
+      "since": "2026-11-27"
     },
     "greenhouse-drweng-8207750": {
       "slug": "drw-floor-trader",
@@ -8804,6 +8812,10 @@
       "slug": "ion-group-senior-ios-swift-developer-noida",
       "since": "2026-11-22"
     },
+    "lever-ion-e7d01fda-c1d4-4202-b567-0e4379edd9e7": {
+      "slug": "ion-group-finance-analyst-2027-leadership-development-program-ion-group-india",
+      "since": "2026-11-27"
+    },
     "lever-ion-e973fefd-7180-4da9-a323-c212fc98cc05": {
       "slug": "ion-group-software-developer-2027-leadership-development-program-woking",
       "since": "2026-11-22"
@@ -13397,6 +13409,22 @@
       "slug": "jpmorgan-chase-2027-chase-leadership-development-program-full-time-analyst-winter-cohort-consumer-and-community-banking-consumer-bank-financial-product-focused-ny-metro-and-columbus",
       "since": "2026-11-23"
     },
+    "oracle-jpmc-fa-oraclecloud-com-210810553": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-finance-part-time-3",
+      "since": "2026-11-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210810563": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-front-office-part-time-us",
+      "since": "2026-11-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210810797": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-technology-part-time-4",
+      "since": "2026-11-27"
+    },
+    "oracle-jpmc-fa-oraclecloud-com-210810807": {
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-legal-part-time-3",
+      "since": "2026-11-27"
+    },
     "oracle-jpmc-fa-oraclecloud-com-210810890": {
       "slug": "jpmorgan-chase-risk-management-credit-officer-lead-leveraged-finance-credit-risk-technology-media-telecommunications-vice-president",
       "since": "2026-11-23"
@@ -15083,6 +15111,10 @@
     "workday-accenture-R00366461": {
       "slug": "accenture-internship-engineering-intern-supply-chain",
       "since": "2026-10-24"
+    },
+    "workday-accenture-R00366491": {
+      "slug": "accenture-internship-digital-product-strategy",
+      "since": "2026-11-27"
     },
     "workday-accenture-R00366533-1": {
       "slug": "accenture-song-service-advisory-intern-february-2027",
@@ -16970,6 +17002,10 @@
     "workday-barclays-JR-0000132046-1": {
       "slug": "barclays-relationship-director-global-corporates-coverage-southeast-asia-vp",
       "since": "2026-10-12"
+    },
+    "workday-barclays-JR-0000132166": {
+      "slug": "barclays-equity-research-analyst-avp",
+      "since": "2026-11-27"
     },
     "workday-barclays-JR-0000132232-1": {
       "slug": "barclays-credit-analyst",
@@ -28369,6 +28405,10 @@
     "workday-visa-REF090169W": {
       "slug": "visa-consulting-and-analytics-graduate-4",
       "since": "2026-11-05"
+    },
+    "workday-visa-REF090172W-1": {
+      "slug": "visa-consulting-and-analytics-student-worker-part-time",
+      "since": "2026-11-27"
     },
     "workday-visa-REF090361W": {
       "slug": "visa-consulting-and-analytics-graduate-us",

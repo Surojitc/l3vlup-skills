@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-27T13:47:20.197Z",
-  "count": 3662,
+  "generatedAt": "2026-11-27T16:56:49.165Z",
+  "count": 3666,
   "opportunities": [
     {
       "id": "greenhouse-stripe-8194291",
@@ -108,27 +108,6 @@
       "firstSeen": "2026-09-24"
     },
     {
-      "id": "greenhouse-stripe-8333074",
-      "firm": "Stripe",
-      "role": "Master's Machine Learning Engineer, Intern",
-      "vertical": "AI Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "San Francisco, New York City, Seattle",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-10-30",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8333074",
-      "recommendedPrepSlug": "ai-engineer-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-master-s-machine-learning-engineer-intern",
-      "firstSeen": "2026-10-31"
-    },
-    {
       "id": "greenhouse-stripe-8333122",
       "firm": "Stripe",
       "role": "Master's Machine Learning Engineer, Intern",
@@ -147,6 +126,27 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "stripe-master-s-machine-learning-engineer-intern-us",
+      "firstSeen": "2026-10-31"
+    },
+    {
+      "id": "greenhouse-stripe-8333074",
+      "firm": "Stripe",
+      "role": "Master's Machine Learning Engineer, Intern",
+      "vertical": "AI Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "San Francisco, New York City, Seattle",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-10-30",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8333074",
+      "recommendedPrepSlug": "ai-engineer-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "stripe-master-s-machine-learning-engineer-intern",
       "firstSeen": "2026-10-31"
     },
     {
@@ -171,27 +171,6 @@
       "firstSeen": "2026-09-01"
     },
     {
-      "id": "greenhouse-stripe-8194285",
-      "firm": "Stripe",
-      "role": "PhD Data Scientist, Intern",
-      "vertical": "Data & ML",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "Toronto",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-10-01",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8194285",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-phd-data-scientist-intern-us",
-      "firstSeen": "2026-10-02"
-    },
-    {
       "id": "greenhouse-stripe-8194283",
       "firm": "Stripe",
       "role": "PhD Data Scientist, Intern",
@@ -213,25 +192,25 @@
       "firstSeen": "2026-10-02"
     },
     {
-      "id": "greenhouse-stripe-8328662",
+      "id": "greenhouse-stripe-8194285",
       "firm": "Stripe",
-      "role": "PhD Machine Learning Engineer, Intern",
-      "vertical": "AI Engineering",
+      "role": "PhD Data Scientist, Intern",
+      "vertical": "Data & ML",
       "programmeType": "Summer Internship",
       "tier": "Fintech",
-      "location": "San Francisco, New York City, Seattle",
+      "location": "Toronto",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-10-30",
+      "openingDate": "2026-10-01",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8328662",
-      "recommendedPrepSlug": "ai-engineer-interview-prep",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8194285",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-phd-machine-learning-engineer-intern",
-      "firstSeen": "2026-10-31"
+      "slug": "stripe-phd-data-scientist-intern-us",
+      "firstSeen": "2026-10-02"
     },
     {
       "id": "greenhouse-stripe-8328664",
@@ -255,24 +234,25 @@
       "firstSeen": "2026-10-31"
     },
     {
-      "id": "greenhouse-stripe-8332681",
+      "id": "greenhouse-stripe-8328662",
       "firm": "Stripe",
-      "role": "Product Design Intern",
-      "vertical": "Other",
+      "role": "PhD Machine Learning Engineer, Intern",
+      "vertical": "AI Engineering",
       "programmeType": "Summer Internship",
       "tier": "Fintech",
-      "location": "San Francisco, Seattle, New York City",
+      "location": "San Francisco, New York City, Seattle",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-11-05",
+      "openingDate": "2026-10-30",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8332681",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8328662",
+      "recommendedPrepSlug": "ai-engineer-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-product-design-intern",
-      "firstSeen": "2026-11-06"
+      "slug": "stripe-phd-machine-learning-engineer-intern",
+      "firstSeen": "2026-10-31"
     },
     {
       "id": "greenhouse-stripe-8332683",
@@ -292,6 +272,26 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "stripe-product-design-intern-us",
+      "firstSeen": "2026-11-06"
+    },
+    {
+      "id": "greenhouse-stripe-8332681",
+      "firm": "Stripe",
+      "role": "Product Design Intern",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "San Francisco, Seattle, New York City",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-11-05",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8332681",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "stripe-product-design-intern",
       "firstSeen": "2026-11-06"
     },
     {
@@ -358,27 +358,6 @@
       "firstSeen": "2026-09-18"
     },
     {
-      "id": "greenhouse-stripe-8130867",
-      "firm": "Stripe",
-      "role": "Software Engineer, Intern",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "London",
-      "region": "UK",
-      "level": "Internship",
-      "openingDate": "2026-08-31",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130867",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-software-engineer-intern-uk",
-      "firstSeen": "2026-09-01"
-    },
-    {
       "id": "greenhouse-stripe-8130883",
       "firm": "Stripe",
       "role": "Software Engineer, Intern",
@@ -398,6 +377,27 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "stripe-software-engineer-intern-asia",
       "firstSeen": "2026-09-18"
+    },
+    {
+      "id": "greenhouse-stripe-8130867",
+      "firm": "Stripe",
+      "role": "Software Engineer, Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "London",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130867",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "stripe-software-engineer-intern-uk",
+      "firstSeen": "2026-09-01"
     },
     {
       "id": "greenhouse-stripe-8130807",
@@ -484,24 +484,24 @@
       "firstSeen": "2026-08-19"
     },
     {
-      "id": "greenhouse-stripe-8130930",
+      "id": "greenhouse-stripe-8128744",
       "firm": "Stripe",
       "role": "Software Engineer, New Grad",
       "vertical": "Software Engineering",
       "programmeType": "Graduate Programme",
       "tier": "Fintech",
-      "location": "London",
-      "region": "UK",
+      "location": "San Francisco, Seattle, New York",
+      "region": "US",
       "level": "Graduate",
       "openingDate": "2026-08-31",
       "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130930",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8128744",
       "recommendedPrepSlug": "software-engineering-interview-prep",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-software-engineer-new-grad-uk",
+      "slug": "stripe-software-engineer-new-grad",
       "firstSeen": "2026-09-01"
     },
     {
@@ -524,6 +524,48 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "stripe-software-engineer-new-grad-3",
       "firstSeen": "2026-10-23"
+    },
+    {
+      "id": "greenhouse-stripe-8130930",
+      "firm": "Stripe",
+      "role": "Software Engineer, New Grad",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Fintech",
+      "location": "London",
+      "region": "UK",
+      "level": "Graduate",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130930",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "stripe-software-engineer-new-grad-uk",
+      "firstSeen": "2026-09-01"
+    },
+    {
+      "id": "greenhouse-stripe-8130922",
+      "firm": "Stripe",
+      "role": "Software Engineer, New Grad",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Fintech",
+      "location": "Bucharest",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-08-31",
+      "status": "Open",
+      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "stripe-software-engineer-new-grad-us",
+      "firstSeen": "2026-09-01"
     },
     {
       "id": "greenhouse-stripe-8130881",
@@ -565,48 +607,6 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "stripe-software-engineer-new-grad-2",
-      "firstSeen": "2026-09-01"
-    },
-    {
-      "id": "greenhouse-stripe-8128744",
-      "firm": "Stripe",
-      "role": "Software Engineer, New Grad",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Fintech",
-      "location": "San Francisco, Seattle, New York",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-08-31",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8128744",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-software-engineer-new-grad",
-      "firstSeen": "2026-09-01"
-    },
-    {
-      "id": "greenhouse-stripe-8130922",
-      "firm": "Stripe",
-      "role": "Software Engineer, New Grad",
-      "vertical": "Software Engineering",
-      "programmeType": "Graduate Programme",
-      "tier": "Fintech",
-      "location": "Bucharest",
-      "region": "Europe",
-      "level": "Graduate",
-      "openingDate": "2026-08-31",
-      "status": "Open",
-      "applicationUrl": "https://stripe.com/jobs/search?gh_jid=8130922",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "stripe-software-engineer-new-grad-us",
       "firstSeen": "2026-09-01"
     },
     {
@@ -2663,6 +2663,27 @@
       "firstSeen": "2026-11-22"
     },
     {
+      "id": "greenhouse-datadog-8114161",
+      "firm": "Datadog",
+      "role": "Software Engineering Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Enterprise Tech",
+      "location": "Madrid, Spain",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-09-08",
+      "status": "Open",
+      "applicationUrl": "https://careers.datadoghq.com/detail/8114161/?gh_jid=8114161",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "datadog-software-engineering-intern",
+      "firstSeen": "2026-09-18"
+    },
+    {
       "id": "greenhouse-datadog-8114186",
       "firm": "Datadog",
       "role": "Software Engineering Intern",
@@ -2684,25 +2705,24 @@
       "firstSeen": "2026-09-18"
     },
     {
-      "id": "greenhouse-datadog-8114161",
-      "firm": "Datadog",
-      "role": "Software Engineering Intern",
-      "vertical": "Software Engineering",
+      "id": "greenhouse-samsara-8325373",
+      "firm": "Samsara",
+      "role": "Account Development Representative Intern - Atlanta",
+      "vertical": "FinTech Sales",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
-      "location": "Madrid, Spain",
-      "region": "Europe",
+      "location": "Atlanta, Georgia, United States",
+      "region": "US",
       "level": "Internship",
-      "openingDate": "2026-09-08",
+      "openingDate": "2026-10-26",
       "status": "Open",
-      "applicationUrl": "https://careers.datadoghq.com/detail/8114161/?gh_jid=8114161",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325373?gh_jid=8325373",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "datadog-software-engineering-intern",
-      "firstSeen": "2026-09-18"
+      "slug": "samsara-account-development-representative-intern-atlanta-2",
+      "firstSeen": "2026-10-27"
     },
     {
       "id": "greenhouse-samsara-8103119",
@@ -2745,23 +2765,23 @@
       "firstSeen": "2026-10-27"
     },
     {
-      "id": "greenhouse-samsara-8325373",
+      "id": "greenhouse-samsara-8325056",
       "firm": "Samsara",
-      "role": "Account Development Representative Intern - Atlanta",
+      "role": "Account Development Representative Intern - Phoenix",
       "vertical": "FinTech Sales",
       "programmeType": "Summer Internship",
       "tier": "Enterprise Tech",
-      "location": "Atlanta, Georgia, United States",
+      "location": "Phoenix, Arizona, United States",
       "region": "US",
       "level": "Internship",
       "openingDate": "2026-10-26",
       "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325373?gh_jid=8325373",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325056?gh_jid=8325056",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "samsara-account-development-representative-intern-atlanta-2",
+      "slug": "samsara-account-development-representative-intern-phoenix-2",
       "firstSeen": "2026-10-27"
     },
     {
@@ -2783,26 +2803,6 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "samsara-account-development-representative-intern-phoenix-us",
       "firstSeen": "2026-10-24"
-    },
-    {
-      "id": "greenhouse-samsara-8325056",
-      "firm": "Samsara",
-      "role": "Account Development Representative Intern - Phoenix",
-      "vertical": "FinTech Sales",
-      "programmeType": "Summer Internship",
-      "tier": "Enterprise Tech",
-      "location": "Phoenix, Arizona, United States",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-10-26",
-      "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325056?gh_jid=8325056",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "samsara-account-development-representative-intern-phoenix-2",
-      "firstSeen": "2026-10-27"
     },
     {
       "id": "greenhouse-samsara-8325371",
@@ -2926,7 +2926,7 @@
       "firstSeen": "2026-09-01"
     },
     {
-      "id": "greenhouse-samsara-8325054",
+      "id": "greenhouse-samsara-8094371",
       "firm": "Samsara",
       "role": "(New Grad) Account Development Representative II - Phoenix",
       "vertical": "FinTech Sales",
@@ -2935,15 +2935,15 @@
       "location": "Phoenix, Arizona, United States",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2026-10-26",
+      "openingDate": "2026-08-21",
       "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325054?gh_jid=8325054",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8094371?gh_jid=8094371",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "samsara-new-grad-account-development-representative-ii-phoenix-us",
-      "firstSeen": "2026-10-27"
+      "slug": "samsara-new-grad-account-development-representative-ii-phoenix",
+      "firstSeen": "2026-09-01"
     },
     {
       "id": "greenhouse-samsara-8325356",
@@ -2966,7 +2966,7 @@
       "firstSeen": "2026-10-27"
     },
     {
-      "id": "greenhouse-samsara-8094371",
+      "id": "greenhouse-samsara-8325054",
       "firm": "Samsara",
       "role": "(New Grad) Account Development Representative II - Phoenix",
       "vertical": "FinTech Sales",
@@ -2975,15 +2975,15 @@
       "location": "Phoenix, Arizona, United States",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2026-08-21",
+      "openingDate": "2026-10-26",
       "status": "Open",
-      "applicationUrl": "https://www.samsara.com/company/careers/roles/8094371?gh_jid=8094371",
+      "applicationUrl": "https://www.samsara.com/company/careers/roles/8325054?gh_jid=8325054",
       "tags": [
         "Auto-sourced"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "samsara-new-grad-account-development-representative-ii-phoenix",
-      "firstSeen": "2026-09-01"
+      "slug": "samsara-new-grad-account-development-representative-ii-phoenix-us",
+      "firstSeen": "2026-10-27"
     },
     {
       "id": "greenhouse-samsara-8214590",
@@ -3069,6 +3069,26 @@
       "firstSeen": "2026-09-01"
     },
     {
+      "id": "greenhouse-flexport-8353044",
+      "firm": "Flexport",
+      "role": "Rotational Development Program",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Enterprise Tech",
+      "location": "Atlanta, Georgia, United States; Dallas, Texas, United States",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-11-04",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8353044",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "flexport-rotational-development-program-2",
+      "firstSeen": "2026-11-05"
+    },
+    {
       "id": "greenhouse-flexport-8224715",
       "firm": "Flexport",
       "role": "Rotational Development Program",
@@ -3107,26 +3127,6 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "flexport-rotational-development-program",
       "firstSeen": "2026-09-18"
-    },
-    {
-      "id": "greenhouse-flexport-8353044",
-      "firm": "Flexport",
-      "role": "Rotational Development Program",
-      "vertical": "Other",
-      "programmeType": "Graduate Programme",
-      "tier": "Enterprise Tech",
-      "location": "Atlanta, Georgia, United States; Dallas, Texas, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-11-04",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/flexport/jobs/8353044",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "flexport-rotational-development-program-2",
-      "firstSeen": "2026-11-05"
     },
     {
       "id": "greenhouse-flexport-8084127",
@@ -11807,7 +11807,6 @@
       "location": "Irving Texas United States",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-10-15",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Irving-Texas-United-States/Functions---Internal-Audit--Summer-Analyst--Dallas---USA--2027_26951372",
       "tags": [
@@ -11847,7 +11846,6 @@
       "location": "Sao Paulo Sao Paulo Brazil",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-07-15",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Sao-Paulo-Sao-Paulo-Brazil/Estgio-Exclusivo-PCD---Markets--Internship--So-Paulo---Brazil--2026_26977986",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
@@ -12463,28 +12461,6 @@
       "firstSeen": "2026-11-10"
     },
     {
-      "id": "workday-citi-26985506",
-      "firm": "Citi",
-      "role": "Banking - Commercial Banking, Summer Analyst, Taiwan – APAC, 2027",
-      "vertical": "Corporate Banking",
-      "programmeType": "Summer Internship",
-      "tier": "Bulge Bracket",
-      "location": "Taipei Taipei City Taiwan",
-      "region": "Asia",
-      "level": "Internship",
-      "closingDate": "2026-11-27",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-11-27",
-      "status": "Open",
-      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taipei-Taipei-City-Taiwan/Banking---Commercial-Banking--Summer-Analyst--Taiwan---APAC--2027_26985506",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "citi-banking-commercial-banking-summer-analyst-taiwan-apac-2027",
-      "firstSeen": "2026-09-01"
-    },
-    {
       "id": "workday-citi-26983682",
       "firm": "Citi",
       "role": "Banking - Commercial Banking, Summer Analyst, China – APAC, 2027",
@@ -12579,51 +12555,6 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "citi-banking-corporate-banking-summer-analyst-china-apac-2027",
       "firstSeen": "2026-09-01"
-    },
-    {
-      "id": "workday-citi-26985501",
-      "firm": "Citi",
-      "role": "Banking - Corporate Banking, Summer Analyst, Taiwan – APAC, 2027",
-      "vertical": "Corporate Banking",
-      "programmeType": "Summer Internship",
-      "tier": "Bulge Bracket",
-      "location": "Taipei Taipei City Taiwan",
-      "region": "Asia",
-      "level": "Internship",
-      "closingDate": "2026-11-27",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-11-27",
-      "status": "Open",
-      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taipei-Taipei-City-Taiwan/Banking---Corporate-Banking--Summer-Analyst--Taiwan---APAC--2027_26985501",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "citi-banking-corporate-banking-summer-analyst-taiwan-apac-2027",
-      "firstSeen": "2026-09-01"
-    },
-    {
-      "id": "workday-citi-26985504",
-      "firm": "Citi",
-      "role": "Banking - Investment Banking, Summer Analyst, Taiwan – APAC, 2027",
-      "vertical": "Investment Banking",
-      "programmeType": "Summer Internship",
-      "tier": "Bulge Bracket",
-      "location": "Taipei Taipei City Taiwan",
-      "region": "Asia",
-      "level": "Internship",
-      "closingDate": "2026-11-27",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-11-27",
-      "status": "Open",
-      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Taipei-Taipei-City-Taiwan/Banking---Investment-Banking--Summer-Analyst--Taiwan---APAC--2027_26985504",
-      "recommendedPrepSlug": "investment-banking-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "citi-banking-investment-banking-summer-analyst-taiwan-apac-2027",
-      "firstSeen": "2026-08-18"
     },
     {
       "id": "workday-citi-26993182",
@@ -12789,6 +12720,67 @@
       "firstSeen": "2026-10-28"
     },
     {
+      "id": "workday-citi-26999482",
+      "firm": "Citi",
+      "role": "Technology, Cyber Security, Summer Analyst, Irving - USA, 2027",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Irving Texas United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-11-19",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Irving-Texas-United-States/Technology--Cyber-Security--Summer-Analyst--Irving---USA--2027_26999482",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "citi-technology-cyber-security-summer-analyst-irving-usa-2027",
+      "firstSeen": "2026-10-29"
+    },
+    {
+      "id": "workday-citi-261004418",
+      "firm": "Citi",
+      "role": "Technology, Application Development, Summer Analyst, Jacksonville - USA, 2027",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Jacksonville Florida United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-11-19",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Jacksonville-Florida-United-States/Technology--Application-Development--Summer-Analyst--Jacksonville---USA--2027_261004418",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "citi-technology-application-development-summer-analyst-jacksonville-usa-2027",
+      "firstSeen": "2026-11-16"
+    },
+    {
+      "id": "workday-citi-26985455",
+      "firm": "Citi",
+      "role": "Banking - Commercial Banking, Summer Analyst, Hong Kong – APAC, 2027",
+      "vertical": "Corporate Banking",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "Kowloon Hong Kong",
+      "region": "Asia",
+      "level": "Internship",
+      "status": "Open",
+      "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Kowloon--Hong-Kong/Banking---Commercial-Banking--Summer-Analyst--Hong-Kong---APAC--2027_26985455",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "citi-banking-commercial-banking-summer-analyst-hong-kong-apac-2027",
+      "firstSeen": "2026-09-01"
+    },
+    {
       "id": "workday-citi-26984011",
       "firm": "Citi",
       "role": "Young Apprentice - C00 - PUNE",
@@ -12799,7 +12791,7 @@
       "region": "Asia",
       "level": "Graduate",
       "closingDate": "2026-11-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://citi.wd5.myworkdayjobs.com/2/job/Pune-Maharashtra-India/Young-Apprentice---C00---PUNE_26984011",
@@ -12848,6 +12840,113 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "citi-citi-india-apprenticeship-program-treasury-and-trade-solutions",
       "firstSeen": "2026-09-01"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210806549",
+      "firm": "JPMorgan Chase",
+      "role": "2027 Applied AI - HR CDAO - Summer Associate",
+      "vertical": "AI Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Bulge Bracket",
+      "location": "New York, NY, United States",
+      "region": "US",
+      "level": "Internship",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210806549",
+      "recommendedPrepSlug": "ai-engineer-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Predictive Science"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "jpmorgan-chase-2027-applied-ai-hr-cdao-summer-associate",
+      "firstSeen": "2026-11-23"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210810553",
+      "firm": "JPMorgan Chase",
+      "role": "Drive the Future Program for Students - Finance (Part-time)",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mexico",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210810553",
+      "tags": [
+        "Auto-sourced",
+        "Seasonal Employee"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-finance-part-time-3",
+      "firstSeen": "2026-11-27"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210810563",
+      "firm": "JPMorgan Chase",
+      "role": "Drive the Future Program for Students - Front Office (Part-time)",
+      "vertical": "Other",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mexico",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210810563",
+      "tags": [
+        "Auto-sourced",
+        "Seasonal Employee"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-front-office-part-time-us",
+      "firstSeen": "2026-11-27"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210810797",
+      "firm": "JPMorgan Chase",
+      "role": "Drive the Future Program for Students - Technology (Part time)",
+      "vertical": "Software Engineering",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mexico",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210810797",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Administration"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-technology-part-time-4",
+      "firstSeen": "2026-11-27"
+    },
+    {
+      "id": "oracle-jpmc-fa-oraclecloud-com-210810807",
+      "firm": "JPMorgan Chase",
+      "role": "Drive the Future Program for Students - Legal (Part-time)",
+      "vertical": "Compliance & Legal",
+      "programmeType": "Graduate Programme",
+      "tier": "Bulge Bracket",
+      "location": "Mexico",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210810807",
+      "tags": [
+        "Auto-sourced",
+        "Administration"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "jpmorgan-chase-drive-the-future-program-for-students-legal-part-time-3",
+      "firstSeen": "2026-11-27"
     },
     {
       "id": "oracle-jpmc-fa-oraclecloud-com-210773747",
@@ -18765,29 +18864,6 @@
       "firstSeen": "2026-09-18"
     },
     {
-      "id": "workday-barclays-JR-0000131136",
-      "firm": "Barclays",
-      "role": "Sales, Trading and Structuring Graduate Programme 2028 Tokyo",
-      "vertical": "Sales & Trading",
-      "programmeType": "Graduate Programme",
-      "tier": "Bulge Bracket",
-      "location": "Tokyo, Roppongi Hills Mori Tower",
-      "region": "Asia",
-      "level": "Graduate",
-      "closingDate": "2026-11-28",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-11-02",
-      "status": "Open",
-      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Tokyo-Roppongi-Hills-Mori-Tower/Sales--Trading-and-Structuring-Graduate-Programme-2028-Tokyo_JR-0000131136",
-      "recommendedPrepSlug": "sales-and-trading-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "barclays-sales-trading-and-structuring-graduate-programme-2028-tokyo",
-      "firstSeen": "2026-09-18"
-    },
-    {
       "id": "workday-barclays-JR-0000129619",
       "firm": "Barclays",
       "role": "2027 Business Banking Apprenticeship Programme Manchester",
@@ -19075,7 +19151,6 @@
       "location": "Frankfurt, Taunus Turm",
       "region": "Europe",
       "level": "Graduate",
-      "openingDate": "2026-09-03",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Frankfurt-Taunus-Turm/Sales--Trading-and-Structuring-Graduate-Programme-2027-Frankfurt_JR-0000124745-1",
       "recommendedPrepSlug": "sales-and-trading-interview-prep",
@@ -19580,6 +19655,29 @@
       "firstSeen": "2026-10-12"
     },
     {
+      "id": "workday-barclays-JR-0000130486",
+      "firm": "Barclays",
+      "role": "Equity Research Biopharmaceuticals VP",
+      "vertical": "Equity Research",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "New York, 745 7th Avenue",
+      "region": "US",
+      "level": "Experienced",
+      "closingDate": "2026-12-05",
+      "deadlineSource": "workday-detail",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/New-York-745-7th-Avenue/Equity-Research-Biopharmaceuticals-VP_JR-0000130486",
+      "recommendedPrepSlug": "equity-research-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "barclays-equity-research-biopharmaceuticals-vp",
+      "firstSeen": "2026-10-12"
+    },
+    {
       "id": "workday-barclays-JR-0000130497",
       "firm": "Barclays",
       "role": "Equity Derivatives Quantitative Analyst - Vice President",
@@ -19622,6 +19720,29 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "barclays-director-agency-mbs-market-risk",
       "firstSeen": "2026-11-19"
+    },
+    {
+      "id": "workday-barclays-JR-0000132166",
+      "firm": "Barclays",
+      "role": "Equity Research Analyst/AVP",
+      "vertical": "Equity Research",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Bulge Bracket",
+      "location": "Canary Wharf, 1 Churchill Place",
+      "region": "UK",
+      "level": "Experienced",
+      "closingDate": "2026-12-04",
+      "deadlineSource": "workday-detail",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Canary-Wharf-1-Churchill-Place/Equity-Research-Analyst-AVP_JR-0000132166",
+      "recommendedPrepSlug": "equity-research-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "barclays-equity-research-analyst-avp",
+      "firstSeen": "2026-11-27"
     },
     {
       "id": "workday-barclays-JR-0000133095",
@@ -19849,7 +19970,6 @@
       "location": "Gemini Building A, Prague",
       "region": "Europe",
       "level": "Experienced",
-      "openingDate": "2026-10-15",
       "status": "Open",
       "applicationUrl": "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/Gemini-Building-A-Prague/Quantitative-Developer_JR-0000135313-1",
       "tags": [
@@ -21430,7 +21550,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Toronto-ON-CAN/Agile-Center-of-Excellence--Summer-2027--Co-op-Internship----4-Months_R260031148-3",
@@ -21452,7 +21572,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Toronto-ON-CAN/Business-Analyst--Summer-2027--Co-op-Internship----4-Months_R260031168-3",
@@ -21474,7 +21594,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Toronto-ON-CAN/Product-Associate--Summer-2027--Co-op-Internship----4-Months_R260031145-2",
@@ -21496,7 +21616,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-11-29",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-26",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Toronto-ON-CAN/Personal---Business-Banking-Development-Program--New-Graduate-_R260023537",
@@ -21606,7 +21726,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Vancouver-BC-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031135",
@@ -21628,7 +21748,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Coquitlam-BC-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031136-3",
@@ -21650,7 +21770,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Victoria-BC-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031137",
@@ -21672,7 +21792,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Vancouver-BC-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031142",
@@ -21694,7 +21814,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Edmonton-AB-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031128",
@@ -21716,7 +21836,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Calgary-AB-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031131",
@@ -21738,7 +21858,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Saskatoon-SK-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031132",
@@ -21760,7 +21880,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Winnipeg-MB-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031133-3",
@@ -21782,7 +21902,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-27",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://bmo.wd3.myworkdayjobs.com/Privileged/job/Toronto-ON-CAN/Personal-Banking-Associate--Summer-2027--Co-op-Internship----4-months_R260031144",
@@ -22139,7 +22259,6 @@
       "location": "London",
       "region": "UK",
       "level": "Internship",
-      "openingDate": "2026-09-04",
       "status": "Open",
       "applicationUrl": "https://blackstone.wd1.myworkdayjobs.com/Blackstone_Campus_Careers/job/London/XMLNAME-2027-Blackstone-Strategic-Partners-Off-Cycle-Intern--London-_45297",
       "recommendedPrepSlug": "private-equity-interview-prep",
@@ -22459,7 +22578,6 @@
       "location": "New York, NY (1271 AOA/6th Ave)",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-02-27",
       "status": "Open",
       "applicationUrl": "https://mizuho.wd1.myworkdayjobs.com/mizuho_confidential/job/New-York-NY-1271-AOA6th-Ave/XMLNAME-2026-Corporate-Communications---Marketing-Summer-Internship_R6801",
       "tags": [
@@ -29045,6 +29163,29 @@
       "firstSeen": "2026-09-01"
     },
     {
+      "id": "eightfold-campusjobs-mlp-com-755957819689",
+      "firm": "Millennium",
+      "role": "2027 Quantitative Developer Intern, Tel Aviv",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "Tel Aviv, Israel",
+      "region": "Middle East",
+      "level": "Internship",
+      "closingDate": "2027-01-31",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-28",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957819689",
+      "tags": [
+        "Auto-sourced",
+        "Trading"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "millennium-2027-quantitative-developer-intern-tel-aviv",
+      "firstSeen": "2026-09-01"
+    },
+    {
       "id": "eightfold-campusjobs-mlp-com-755957819151",
       "firm": "Millennium",
       "role": "2027 Applied AI Engineer Intern, Dublin",
@@ -29115,26 +29256,27 @@
       "firstSeen": "2026-09-01"
     },
     {
-      "id": "eightfold-campusjobs-mlp-com-755957819689",
+      "id": "eightfold-campusjobs-mlp-com-755957778819",
       "firm": "Millennium",
-      "role": "2027 Quantitative Developer Intern, Tel Aviv",
-      "vertical": "Quant",
+      "role": "2027 Applied AI Engineer Intern, Singapore",
+      "vertical": "AI Engineering",
       "programmeType": "Summer Internship",
       "tier": "Multi-Manager",
-      "location": "Tel Aviv, Israel",
-      "region": "Middle East",
+      "location": "Singapore, Singapore",
+      "region": "Asia",
       "level": "Internship",
       "closingDate": "2027-01-31",
       "deadlineSource": "ledger",
-      "openingDate": "2026-07-28",
+      "openingDate": "2026-07-27",
       "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957819689",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778819",
+      "recommendedPrepSlug": "ai-engineer-interview-prep",
       "tags": [
         "Auto-sourced",
-        "Trading"
+        "Information Technology"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "millennium-2027-quantitative-developer-intern-tel-aviv",
+      "slug": "millennium-2027-applied-ai-engineer-intern-singapore",
       "firstSeen": "2026-09-01"
     },
     {
@@ -29186,27 +29328,50 @@
       "firstSeen": "2026-09-01"
     },
     {
-      "id": "eightfold-campusjobs-mlp-com-755957778819",
+      "id": "eightfold-campusjobs-mlp-com-755957778856",
       "firm": "Millennium",
-      "role": "2027 Applied AI Engineer Intern, Singapore",
+      "role": "2027 Applied AI Engineer Intern, Tel Aviv",
       "vertical": "AI Engineering",
       "programmeType": "Summer Internship",
       "tier": "Multi-Manager",
-      "location": "Singapore, Singapore",
-      "region": "Asia",
+      "location": "Tel Aviv, Israel",
+      "region": "Middle East",
       "level": "Internship",
       "closingDate": "2027-01-31",
       "deadlineSource": "ledger",
       "openingDate": "2026-07-27",
       "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778819",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778856",
       "recommendedPrepSlug": "ai-engineer-interview-prep",
       "tags": [
         "Auto-sourced",
-        "Information Technology"
+        "Trading"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "millennium-2027-applied-ai-engineer-intern-singapore",
+      "slug": "millennium-2027-applied-ai-engineer-intern-tel-aviv",
+      "firstSeen": "2026-09-01"
+    },
+    {
+      "id": "eightfold-campusjobs-mlp-com-755957778881",
+      "firm": "Millennium",
+      "role": "2027 Marketing and Communications Intern, London",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "London, London, United Kingdom",
+      "region": "UK",
+      "level": "Internship",
+      "closingDate": "2027-02-01",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-07-27",
+      "status": "Open",
+      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778881",
+      "tags": [
+        "Auto-sourced",
+        "Branding & Communications"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "millennium-2027-marketing-and-communications-intern-london",
       "firstSeen": "2026-09-01"
     },
     {
@@ -29303,30 +29468,6 @@
       "firstSeen": "2026-09-01"
     },
     {
-      "id": "eightfold-campusjobs-mlp-com-755957778856",
-      "firm": "Millennium",
-      "role": "2027 Applied AI Engineer Intern, Tel Aviv",
-      "vertical": "AI Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "Tel Aviv, Israel",
-      "region": "Middle East",
-      "level": "Internship",
-      "closingDate": "2027-01-31",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778856",
-      "recommendedPrepSlug": "ai-engineer-interview-prep",
-      "tags": [
-        "Auto-sourced",
-        "Trading"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "millennium-2027-applied-ai-engineer-intern-tel-aviv",
-      "firstSeen": "2026-09-01"
-    },
-    {
       "id": "eightfold-campusjobs-mlp-com-755957778864",
       "firm": "Millennium",
       "role": "2027 Market Risk Intern, London",
@@ -29347,29 +29488,6 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "millennium-2027-market-risk-intern-london",
-      "firstSeen": "2026-09-01"
-    },
-    {
-      "id": "eightfold-campusjobs-mlp-com-755957778881",
-      "firm": "Millennium",
-      "role": "2027 Marketing and Communications Intern, London",
-      "vertical": "Other",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "London, London, United Kingdom",
-      "region": "UK",
-      "level": "Internship",
-      "closingDate": "2027-02-01",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-07-27",
-      "status": "Open",
-      "applicationUrl": "https://mlp.eightfold.ai/careers/job/755957778881",
-      "tags": [
-        "Auto-sourced",
-        "Branding & Communications"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "millennium-2027-marketing-and-communications-intern-london",
       "firstSeen": "2026-09-01"
     },
     {
@@ -33935,27 +34053,6 @@
       "firstSeen": "2026-09-30"
     },
     {
-      "id": "greenhouse-schonfeld-8346891",
-      "firm": "Schonfeld",
-      "role": "2027 Software Engineering Intern",
-      "vertical": "Software Engineering",
-      "programmeType": "Summer Internship",
-      "tier": "Multi-Manager",
-      "location": "Hong Kong, Hong Kong",
-      "region": "Asia",
-      "level": "Internship",
-      "openingDate": "2026-11-11",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/schonfeld/jobs/8346891",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "schonfeld-2027-software-engineering-intern-asia",
-      "firstSeen": "2026-11-12"
-    },
-    {
       "id": "greenhouse-schonfeld-8356747",
       "firm": "Schonfeld",
       "role": "2027 Software Engineering Intern",
@@ -33974,6 +34071,27 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "schonfeld-2027-software-engineering-intern-2",
+      "firstSeen": "2026-11-12"
+    },
+    {
+      "id": "greenhouse-schonfeld-8346891",
+      "firm": "Schonfeld",
+      "role": "2027 Software Engineering Intern",
+      "vertical": "Software Engineering",
+      "programmeType": "Summer Internship",
+      "tier": "Multi-Manager",
+      "location": "Hong Kong, Hong Kong",
+      "region": "Asia",
+      "level": "Internship",
+      "openingDate": "2026-11-11",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/schonfeld/jobs/8346891",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "schonfeld-2027-software-engineering-intern-asia",
       "firstSeen": "2026-11-12"
     },
     {
@@ -34257,27 +34375,6 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "schonfeld-full-stack-engineer",
-      "firstSeen": "2026-10-12"
-    },
-    {
-      "id": "greenhouse-schonfeld-7958235",
-      "firm": "Schonfeld",
-      "role": "Software Engineer - Business Analytics",
-      "vertical": "Software Engineering",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Multi-Manager",
-      "location": "New York, New York, United States",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-05-29",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/schonfeld/jobs/7958235",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "schonfeld-software-engineer-business-analytics",
       "firstSeen": "2026-10-12"
     },
     {
@@ -34707,26 +34804,6 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "man-group-quant-researcher-multi-strat",
       "firstSeen": "2026-10-26"
-    },
-    {
-      "id": "greenhouse-mangroup-5011857101",
-      "firm": "Man Group",
-      "role": "Quant - Macro Trend",
-      "vertical": "Quant",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Systematic",
-      "location": "London",
-      "region": "UK",
-      "level": "Experienced",
-      "openingDate": "2026-10-22",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.eu.greenhouse.io/mangroup/jobs/5011857101",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "man-group-quant-macro-trend",
-      "firstSeen": "2026-10-22"
     },
     {
       "id": "greenhouse-mangroup-5039963101",
@@ -39961,6 +40038,26 @@
       "firstSeen": "2026-10-23"
     },
     {
+      "id": "workday-visa-REF090172W-1",
+      "firm": "Visa",
+      "role": "Consulting & Analytics Student Worker (Part time)",
+      "vertical": "Consulting",
+      "programmeType": "Summer Internship",
+      "tier": "Fintech",
+      "location": "DK - Copenhagen, Denmark",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://visa.wd5.myworkdayjobs.com/Visa_Early_Careers/job/DK---Copenhagen-Denmark/Consulting---Analytics-Student-Worker--Part-time-_REF090172W-1",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "visa-consulting-and-analytics-student-worker-part-time",
+      "firstSeen": "2026-11-27"
+    },
+    {
       "id": "workday-visa-REF086080W",
       "firm": "Visa",
       "role": "Data Science Graduate",
@@ -40603,7 +40700,6 @@
       "location": "MA - Casablanca, Morocco",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-08-18",
       "status": "Open",
       "applicationUrl": "https://visa.wd5.myworkdayjobs.com/Visa_Early_Careers/job/MA---Casablanca-Morocco/Marketing-Services-Intern---Students-Graduating-Summer-2028-or-December-2027_REF086803W",
       "tags": [
@@ -40623,7 +40719,6 @@
       "location": "UA - Kyiv, Ukraine",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-08-18",
       "status": "Open",
       "applicationUrl": "https://visa.wd5.myworkdayjobs.com/Visa_Early_Careers/job/UA---Kyiv-Ukraine/Marketing-Services-Intern---Students-Graduating-Summer-2028-or-December-2027_REF086805W",
       "tags": [
@@ -40643,7 +40738,6 @@
       "location": "AZ - Baku, Azerbaijan",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-08-14",
       "status": "Open",
       "applicationUrl": "https://visa.wd5.myworkdayjobs.com/Visa_Early_Careers/job/AZ---Baku-Azerbaijan/Issuing-VAS-Intern---Students-Graduating-Summer-2028-or-December-2027_REF086776W",
       "tags": [
@@ -40670,26 +40764,6 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "visa-vca-intern-students-graduating-summer-2028-or-december-2027-us",
-      "firstSeen": "2026-09-01"
-    },
-    {
-      "id": "workday-visa-REF086798W",
-      "firm": "Visa",
-      "role": "Marketing Intern - Students Graduating Summer 2028 or December 2027",
-      "vertical": "Other",
-      "programmeType": "Summer Internship",
-      "tier": "Fintech",
-      "location": "MA - Casablanca, Morocco",
-      "region": "US",
-      "level": "Internship",
-      "openingDate": "2026-08-14",
-      "status": "Open",
-      "applicationUrl": "https://visa.wd5.myworkdayjobs.com/Visa_Early_Careers/job/MA---Casablanca-Morocco/Marketing-Intern---Students-Graduating-Summer-2028-or-December-2027_REF086798W",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "visa-marketing-intern-students-graduating-summer-2028-or-december-2027",
       "firstSeen": "2026-09-01"
     },
     {
@@ -40929,7 +41003,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2026-12-11",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Helsinki/Accenture-Spring-Internship-2027--Song_R00374838",
@@ -40951,7 +41025,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2026-12-11",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Helsinki/Accenture-Spring-Internship-2027--Digital-Core_R00375344",
@@ -40973,7 +41047,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2026-12-11",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Helsinki/Accenture-Spring-Internship-2027--Industry---Enterprise_R00374229",
@@ -41246,26 +41320,6 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "accenture-intern-human-resources-partner-hrp-m-rida",
       "firstSeen": "2026-10-28"
-    },
-    {
-      "id": "workday-accenture-R00357681",
-      "firm": "Accenture",
-      "role": "Internship - Management Consulting Intern -Song Services - As of February 2027",
-      "vertical": "Consulting",
-      "programmeType": "Summer Internship",
-      "tier": "Consulting",
-      "location": "Brussels, Picard 11, Belgium",
-      "region": "Europe",
-      "level": "Internship",
-      "openingDate": "2026-11-26",
-      "status": "Open",
-      "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Brussels/Internship---Management-Consulting-Intern--Song-Services---As-of-February-2027_R00357681",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "accenture-internship-management-consulting-intern-song-services-as-of-february-2027",
-      "firstSeen": "2026-09-20"
     },
     {
       "id": "workday-accenture-R00355938",
@@ -41568,6 +41622,26 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "accenture-technology-resources-thesis-internship",
       "firstSeen": "2026-10-17"
+    },
+    {
+      "id": "workday-accenture-R00366491",
+      "firm": "Accenture",
+      "role": "Internship – Digital Product Strategy",
+      "vertical": "Consulting",
+      "programmeType": "Summer Internship",
+      "tier": "Consulting",
+      "location": "Amsterdam, Gustav Mahlerplein 90, Netherlands",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-10-27",
+      "status": "Open",
+      "applicationUrl": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers/job/Amsterdam/Internship---Digital-Product-Strategy_R00366491",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "accenture-internship-digital-product-strategy",
+      "firstSeen": "2026-11-27"
     },
     {
       "id": "workday-accenture-R00337268",
@@ -43237,26 +43311,6 @@
       "firstSeen": "2026-11-24"
     },
     {
-      "id": "greenhouse-carta-5640725003",
-      "firm": "Carta",
-      "role": "Finance and Equity Analyst - Rotational Program",
-      "vertical": "Finance & Accounting",
-      "programmeType": "Graduate Programme",
-      "tier": "Fintech",
-      "location": "Sandy, UT",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2023-06-08",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/carta/jobs/5640725003",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "carta-finance-and-equity-analyst-rotational-program",
-      "firstSeen": "2026-10-23"
-    },
-    {
       "id": "greenhouse-carta-7807641003",
       "firm": "Carta",
       "role": "Finance and Equity Analyst - Rotational Program",
@@ -43274,6 +43328,26 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "carta-finance-and-equity-analyst-rotational-program-us",
+      "firstSeen": "2026-10-23"
+    },
+    {
+      "id": "greenhouse-carta-5640725003",
+      "firm": "Carta",
+      "role": "Finance and Equity Analyst - Rotational Program",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Graduate Programme",
+      "tier": "Fintech",
+      "location": "Sandy, UT",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2023-06-08",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/carta/jobs/5640725003",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "carta-finance-and-equity-analyst-rotational-program",
       "firstSeen": "2026-10-23"
     },
     {
@@ -43399,26 +43473,6 @@
       "firstSeen": "2026-10-23"
     },
     {
-      "id": "greenhouse-drweng-7957756",
-      "firm": "DRW",
-      "role": "Quantitative Research Intern",
-      "vertical": "Quant",
-      "programmeType": "Summer Internship",
-      "tier": "Trading Tech",
-      "location": "London",
-      "region": "UK",
-      "level": "Internship",
-      "openingDate": "2026-07-13",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/7957756",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "drw-quantitative-research-intern-uk",
-      "firstSeen": "2026-10-23"
-    },
-    {
       "id": "greenhouse-drweng-7818540",
       "firm": "DRW",
       "role": "Quantitative Research Intern",
@@ -43436,6 +43490,26 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "drw-quantitative-research-intern",
+      "firstSeen": "2026-10-23"
+    },
+    {
+      "id": "greenhouse-drweng-7957756",
+      "firm": "DRW",
+      "role": "Quantitative Research Intern",
+      "vertical": "Quant",
+      "programmeType": "Summer Internship",
+      "tier": "Trading Tech",
+      "location": "London",
+      "region": "UK",
+      "level": "Internship",
+      "openingDate": "2026-07-13",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/7957756",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "drw-quantitative-research-intern-uk",
       "firstSeen": "2026-10-23"
     },
     {
@@ -44722,27 +44796,6 @@
       "firstSeen": "2026-11-04"
     },
     {
-      "id": "greenhouse-drweng-8064537",
-      "firm": "DRW",
-      "role": "Software Developer",
-      "vertical": "Software Engineering",
-      "programmeType": "Lateral / Experienced",
-      "tier": "Trading Tech",
-      "location": "Montreal",
-      "region": "US",
-      "level": "Experienced",
-      "openingDate": "2026-07-15",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8064537",
-      "recommendedPrepSlug": "software-engineering-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "drw-software-developer-us",
-      "firstSeen": "2026-11-05"
-    },
-    {
       "id": "greenhouse-drweng-8103440",
       "firm": "DRW",
       "role": "Developer Experience Engineer",
@@ -44782,6 +44835,27 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "drw-software-engineer-commodities-data-team",
+      "firstSeen": "2026-11-27"
+    },
+    {
+      "id": "greenhouse-drweng-8156100",
+      "firm": "DRW",
+      "role": "Senior Software Engineer, Unified Platform - Platform Services",
+      "vertical": "Software Engineering",
+      "programmeType": "Lateral / Experienced",
+      "tier": "Trading Tech",
+      "location": "London",
+      "region": "UK",
+      "level": "Experienced",
+      "openingDate": "2026-11-03",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/drweng/jobs/8156100",
+      "recommendedPrepSlug": "software-engineering-interview-prep",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "drw-senior-software-engineer-unified-platform-platform-services",
       "firstSeen": "2026-11-27"
     },
     {
@@ -45828,7 +45902,7 @@
       "level": "Internship",
       "closingDate": "2026-11-29",
       "deadlineSource": "ledger",
-      "openingDate": "2026-11-26",
+      "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://mufgub.wd3.myworkdayjobs.com/MUFG-Careers/job/London/XMLNAME-2027-MUFG-UK-Summer-Analyst-Programme--Japanese-Corporate-Banking_10079266-WD-1",
       "tags": [
@@ -45850,6 +45924,7 @@
       "level": "Internship",
       "closingDate": "2026-11-29",
       "deadlineSource": "ledger",
+      "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://mufgub.wd3.myworkdayjobs.com/MUFG-Careers/job/London/XMLNAME-2027-MUFG-UK-Summer-Analyst-Programme--Internal-Audit_10079263-WD-1",
       "tags": [
@@ -46046,27 +46121,6 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "mufg-6-month-internship-fixed-income-credit-sales-jan-june-2027",
       "firstSeen": "2026-11-03"
-    },
-    {
-      "id": "workday-mufgub-10080585-WD",
-      "firm": "MUFG",
-      "role": "6-month Internship – Global Corporate & Investment Banking Analyst - Coverage, Large French Groups – January 2027",
-      "vertical": "Investment Banking",
-      "programmeType": "Summer Internship",
-      "tier": "Middle Market",
-      "location": "Paris",
-      "region": "Europe",
-      "level": "Internship",
-      "openingDate": "2026-11-04",
-      "status": "Open",
-      "applicationUrl": "https://mufgub.wd3.myworkdayjobs.com/MUFG-Careers/job/Paris/XMLNAME-6-month-Internship---Global-Corporate---Investment-Banking-Analyst---Coverage--Large-French-Groups---January-2027_10080585-WD",
-      "recommendedPrepSlug": "investment-banking-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "mufg-6-month-internship-global-corporate-and-investment-banking-analyst-coverage-large-french-groups-january-2027",
-      "firstSeen": "2026-11-05"
     },
     {
       "id": "workday-mufgub-10080619-WD",
@@ -48461,7 +48515,9 @@
       "location": "Chicago, IL, United States",
       "region": "US",
       "level": "Internship",
-      "openingDate": "2026-11-24",
+      "closingDate": "2026-11-28",
+      "deadlineSource": "workday-detail",
+      "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://pipersandler.wd501.myworkdayjobs.com/Piper_Sandler_Careers/job/Chicago-IL/Campus-Recruiting---2027-Investment-Banking-Summer-Associate---Healthcare-Services---IT_R-100809",
       "recommendedPrepSlug": "investment-banking-interview-prep",
@@ -48836,7 +48892,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-12-04",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://spgi.wd5.myworkdayjobs.com/SPGI_Careers/job/Ahmedabad-Gujarat/Apprentice--Capital-Markets-Client-Support_333054-1",
@@ -50210,7 +50266,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-04",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-18",
       "status": "Open",
       "applicationUrl": "https://statestreet.wd1.myworkdayjobs.com/Global/job/Burlington-Massachusetts/Agentic-AI-Engineering--Technology-Intern---Full-time-Internship--Jan---June-2027-_R-801277",
@@ -58669,27 +58725,6 @@
       "firstSeen": "2026-10-24"
     },
     {
-      "id": "greenhouse-charlesriverassociates-8053945",
-      "firm": "Charles River Associates",
-      "role": "(2027 Bachelor's/Master's graduates) Cyber & Forensic Technology Consulting Analyst/Associate",
-      "vertical": "Consulting",
-      "programmeType": "Graduate Programme",
-      "tier": "Consulting",
-      "location": "Boston, MA, United States; Chicago, IL, United States; Dallas, Texas, United States; New York, NY, United States; Washington, DC, United States",
-      "region": "US",
-      "level": "Graduate",
-      "openingDate": "2026-07-14",
-      "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/charlesriverassociates/jobs/8053945",
-      "tags": [
-        "Auto-sourced",
-        "Rolling"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "charles-river-associates-2027-bachelor-s-master-s-graduates-cyber-and-forensic-technology-consulting-analyst-associate",
-      "firstSeen": "2026-10-24"
-    },
-    {
       "id": "greenhouse-charlesriverassociates-8064581",
       "firm": "Charles River Associates",
       "role": "(2027 Bachelor's/Master's graduates) Cyber & Forensic Technology Consulting Analyst/Associate",
@@ -58711,24 +58746,24 @@
       "firstSeen": "2026-10-24"
     },
     {
-      "id": "greenhouse-charlesriverassociates-7894191",
+      "id": "greenhouse-charlesriverassociates-8053945",
       "firm": "Charles River Associates",
-      "role": "(2027 Bachelor's/Master's graduates) Economics Consulting Analyst/Associate",
+      "role": "(2027 Bachelor's/Master's graduates) Cyber & Forensic Technology Consulting Analyst/Associate",
       "vertical": "Consulting",
       "programmeType": "Graduate Programme",
       "tier": "Consulting",
-      "location": "Boston, MA, United States; Oakland, CA, United States; Tallahassee, FL, United States; Washington, DC, United States",
+      "location": "Boston, MA, United States; Chicago, IL, United States; Dallas, Texas, United States; New York, NY, United States; Washington, DC, United States",
       "region": "US",
       "level": "Graduate",
-      "openingDate": "2026-05-22",
+      "openingDate": "2026-07-14",
       "status": "Open",
-      "applicationUrl": "https://job-boards.greenhouse.io/charlesriverassociates/jobs/7894191",
+      "applicationUrl": "https://job-boards.greenhouse.io/charlesriverassociates/jobs/8053945",
       "tags": [
         "Auto-sourced",
         "Rolling"
       ],
       "lastConfirmedAt": "2026-11-27",
-      "slug": "charles-river-associates-2027-bachelor-s-master-s-graduates-economics-consulting-analyst-associate",
+      "slug": "charles-river-associates-2027-bachelor-s-master-s-graduates-cyber-and-forensic-technology-consulting-analyst-associate",
       "firstSeen": "2026-10-24"
     },
     {
@@ -58751,6 +58786,27 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "charles-river-associates-2027-bachelor-s-master-s-graduates-economics-consulting-analyst-associate-us",
       "firstSeen": "2026-11-25"
+    },
+    {
+      "id": "greenhouse-charlesriverassociates-7894191",
+      "firm": "Charles River Associates",
+      "role": "(2027 Bachelor's/Master's graduates) Economics Consulting Analyst/Associate",
+      "vertical": "Consulting",
+      "programmeType": "Graduate Programme",
+      "tier": "Consulting",
+      "location": "Boston, MA, United States; Oakland, CA, United States; Tallahassee, FL, United States; Washington, DC, United States",
+      "region": "US",
+      "level": "Graduate",
+      "openingDate": "2026-05-22",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/charlesriverassociates/jobs/7894191",
+      "tags": [
+        "Auto-sourced",
+        "Rolling"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "charles-river-associates-2027-bachelor-s-master-s-graduates-economics-consulting-analyst-associate",
+      "firstSeen": "2026-10-24"
     },
     {
       "id": "greenhouse-charlesriverassociates-8053996",
@@ -58958,6 +59014,27 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "charles-river-associates-intern-european-competition-practice",
       "firstSeen": "2026-10-24"
+    },
+    {
+      "id": "greenhouse-charlesriverassociates-8420886",
+      "firm": "Charles River Associates",
+      "role": "Intern (European Competition practice)",
+      "vertical": "Consulting",
+      "programmeType": "Summer Internship",
+      "tier": "Consulting",
+      "location": "Paris, France",
+      "region": "Europe",
+      "level": "Internship",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://job-boards.greenhouse.io/charlesriverassociates/jobs/8420886",
+      "tags": [
+        "Auto-sourced",
+        "Rolling"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "charles-river-associates-intern-european-competition-practice-europe",
+      "firstSeen": "2026-11-27"
     },
     {
       "id": "greenhouse-charlesriverassociates-5174914",
@@ -60529,26 +60606,6 @@
       "firstSeen": "2026-10-24"
     },
     {
-      "id": "workday-gresearch-R3795",
-      "firm": "G-Research",
-      "role": "Security Operations Placement Year",
-      "vertical": "Operations",
-      "programmeType": "Graduate Programme",
-      "tier": "Systematic",
-      "location": "London, UK",
-      "region": "UK",
-      "level": "Graduate",
-      "status": "Open",
-      "applicationUrl": "https://gresearch.wd103.myworkdayjobs.com/G-Research/job/London-UK/Security-Operations-Placement-Year_R3795",
-      "recommendedPrepSlug": "bizops-strategy-operations-interview-prep",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "g-research-security-operations-placement-year",
-      "firstSeen": "2026-10-24"
-    },
-    {
       "id": "workday-gresearch-R3760",
       "firm": "G-Research",
       "role": "Graduate Machine Learning Engineer",
@@ -61948,6 +62005,28 @@
       ],
       "lastConfirmedAt": "2026-11-27",
       "slug": "verition-fund-management-2027-technology-internship-us",
+      "firstSeen": "2026-10-24"
+    },
+    {
+      "id": "ashby-wincent-3f749456-0b82-48e0-ade8-d24bd39d22b1",
+      "firm": "Wincent",
+      "role": "Junior Trading Operations Specialist",
+      "vertical": "Sales & Trading",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Bratislava",
+      "region": "Europe",
+      "level": "Graduate",
+      "openingDate": "2026-11-27",
+      "status": "Open",
+      "applicationUrl": "https://jobs.ashbyhq.com/wincent/3f749456-0b82-48e0-ade8-d24bd39d22b1",
+      "recommendedPrepSlug": "sales-and-trading-interview-prep",
+      "tags": [
+        "Auto-sourced",
+        "Business Operations"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "wincent-junior-trading-operations-specialist",
       "firstSeen": "2026-10-24"
     },
     {
@@ -67207,7 +67286,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-11-29",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-27",
       "status": "Open",
       "applicationUrl": "https://prudential.wd3.myworkdayjobs.com/prudential/job/Jakarta-Prudential-Syariah/Talent-Acquisition---Employer-Branding-Intern_26110409",
@@ -67852,28 +67931,6 @@
       "firstSeen": "2026-11-26"
     },
     {
-      "id": "workday-manulife-JR26091962",
-      "firm": "Manulife",
-      "role": "Summer Intern 2027 - Commercial Mortgage",
-      "vertical": "Other",
-      "programmeType": "Summer Internship",
-      "tier": "Other",
-      "location": "Montreal, Quebec",
-      "region": "US",
-      "level": "Internship",
-      "closingDate": "2026-12-06",
-      "deadlineSource": "ledger",
-      "openingDate": "2026-11-03",
-      "status": "Open",
-      "applicationUrl": "https://manulife.wd3.myworkdayjobs.com/MFCJH_Jobs/job/Montreal-Quebec/Summer-Intern-2027---Commercial-Mortgage_JR26091962",
-      "tags": [
-        "Auto-sourced"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "manulife-summer-intern-2027-commercial-mortgage",
-      "firstSeen": "2026-11-04"
-    },
-    {
       "id": "workday-manulife-JR26111403",
       "firm": "Manulife",
       "role": "Operations Intern",
@@ -67984,6 +68041,28 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "manulife-digital-business-and-genai-intern-bancassurance",
       "firstSeen": "2026-11-02"
+    },
+    {
+      "id": "workday-manulife-JR26091962",
+      "firm": "Manulife",
+      "role": "Summer Intern 2027 - Commercial Mortgage",
+      "vertical": "Other",
+      "programmeType": "Summer Internship",
+      "tier": "Other",
+      "location": "Montreal, Quebec",
+      "region": "US",
+      "level": "Internship",
+      "closingDate": "2026-12-06",
+      "deadlineSource": "ledger",
+      "openingDate": "2026-11-03",
+      "status": "Open",
+      "applicationUrl": "https://manulife.wd3.myworkdayjobs.com/MFCJH_Jobs/job/Montreal-Quebec/Summer-Intern-2027---Commercial-Mortgage_JR26091962",
+      "tags": [
+        "Auto-sourced"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "manulife-summer-intern-2027-commercial-mortgage",
+      "firstSeen": "2026-11-04"
     },
     {
       "id": "workday-manulife-JR26111297",
@@ -68761,7 +68840,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-04",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-26",
       "status": "Open",
       "applicationUrl": "https://sunlife.wd3.myworkdayjobs.com/Campus/job/Sun-Life-Toronto-One-York/Student--Strategy---Transformation--Winter-2027-_JR00130091",
@@ -68827,7 +68906,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-04",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-26",
       "status": "Open",
       "applicationUrl": "https://sunlife.wd3.myworkdayjobs.com/Campus/job/Montreal-Quebec/Student--AdminPlus--Winter-2027-_JR00130050",
@@ -69631,7 +69710,7 @@
       "vertical": "Other",
       "programmeType": "Summer Internship",
       "tier": "Other",
-      "location": "2 Locations",
+      "location": "Atlanta, United States",
       "region": "US",
       "level": "Internship",
       "openingDate": "2026-10-28",
@@ -69970,7 +70049,6 @@
       "location": "Mumbai, India",
       "region": "Asia",
       "level": "Experienced",
-      "openingDate": "2026-11-24",
       "status": "Open",
       "applicationUrl": "https://aresmgmt.wd1.myworkdayjobs.com/External/job/Mumbai-India/Analyst--Portfolio-Management-US-Direct-Lending_R8809",
       "tags": [
@@ -70366,27 +70444,6 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "legal-and-general-graduate-medical-underwriting-cardiff-2027-uk",
       "firstSeen": "2026-11-26"
-    },
-    {
-      "id": "smartrecruiters-legalandgeneral-744000162495277",
-      "firm": "Legal & General",
-      "role": "Graduate - Asset Management - Operations - Cardiff - 2027",
-      "vertical": "Asset Management",
-      "programmeType": "Graduate Programme",
-      "tier": "Asset Manager",
-      "location": "Cardiff, Wales, United Kingdom",
-      "region": "UK",
-      "level": "Graduate",
-      "openingDate": "2026-11-19",
-      "status": "Open",
-      "applicationUrl": "https://jobs.smartrecruiters.com/LegalAndGeneral/744000162495277",
-      "tags": [
-        "Auto-sourced",
-        "FUTURE TALENT - 000734"
-      ],
-      "lastConfirmedAt": "2026-11-27",
-      "slug": "legal-and-general-graduate-asset-management-operations-cardiff-2027",
-      "firstSeen": "2026-11-22"
     },
     {
       "id": "smartrecruiters-legalandgeneral-744000161281699",
@@ -71674,6 +71731,27 @@
       "lastConfirmedAt": "2026-11-27",
       "slug": "ion-group-data-engineer-analyst-graduate-development-program",
       "firstSeen": "2026-11-22"
+    },
+    {
+      "id": "lever-ion-e7d01fda-c1d4-4202-b567-0e4379edd9e7",
+      "firm": "ION Group",
+      "role": "Finance Analyst, 2027 Leadership Development Program, ION Group, India",
+      "vertical": "Finance & Accounting",
+      "programmeType": "Graduate Programme",
+      "tier": "Trading Tech",
+      "location": "Noida",
+      "region": "Asia",
+      "level": "Graduate",
+      "openingDate": "2026-11-25",
+      "status": "Open",
+      "applicationUrl": "https://jobs.lever.co/ion/e7d01fda-c1d4-4202-b567-0e4379edd9e7",
+      "tags": [
+        "Auto-sourced",
+        "Leadership Development Program"
+      ],
+      "lastConfirmedAt": "2026-11-27",
+      "slug": "ion-group-finance-analyst-2027-leadership-development-program-ion-group-india",
+      "firstSeen": "2026-11-27"
     },
     {
       "id": "lever-ion-3bc8d3d8-b422-4a2b-8b2d-554eb3a91b49",
@@ -74201,8 +74279,7 @@
       "region": "UK",
       "level": "Internship",
       "closingDate": "2027-04-25",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-23",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/London-United-Kingdom/Intern---Energy-Practice---London_JR261417",
       "tags": [
@@ -74223,8 +74300,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-04-04",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-22",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Paris-France/Intern---Energy-Practice---Paris_JR261413",
       "tags": [
@@ -74245,7 +74321,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-03-31",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Paris-France/Intern---Competition-Practice---Paris_JR261357",
@@ -74267,7 +74343,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-02-14",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Milan-Italy/Intern---Competition-Practice---Milan_JR261355",
@@ -74289,7 +74365,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-02-26",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Madrid-Spain/Intern---Competition-Practice---Madrid_JR261344",
@@ -74311,7 +74387,7 @@
       "region": "UK",
       "level": "Internship",
       "closingDate": "2027-01-29",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/London-United-Kingdom/Summer-Intern---Competition-Practice---London_JR261342",
@@ -74333,7 +74409,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-03-31",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Dusseldorf-Germany/Intern---Competition-Practice---Dsseldorf_JR261312",
@@ -74355,7 +74431,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-01-29",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Brussels-Belgium/Intern---Competition-Practice---Brussels_JR261310",
@@ -74377,7 +74453,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-03-31",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-04",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Berlin-Germany/Intern---Competition-Practice---Berlin_JR261308",
@@ -74399,8 +74475,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-08-27",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-21",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Berlin-Germany/Intern---Energy-Practice---Berlin_JR260415",
       "tags": [
@@ -74421,8 +74496,7 @@
       "region": "Asia",
       "level": "Graduate",
       "closingDate": "2027-08-27",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-04",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Beijing-China/Analyst---Beijing---Q3-2026_JR260964",
       "tags": [
@@ -74443,8 +74517,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-08-27",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-03",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://fticonsulting.wd108.myworkdayjobs.com/CompassLexeconCareers/job/Helsinki-Finland/Intern---Energy-Practice---Helsinki_JR260519",
       "tags": [
@@ -74465,7 +74538,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-11-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-28",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Charlotte---North-Tryon/Marsh-People-and-Investments-Health-and-Benefits-Summer-Internship--Charlotte--College-Program-2027_R_371063",
@@ -74487,7 +74560,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-16",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-16",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Nashville---West-End/Marsh-People-and-Investments-Health-and-Benefits-Summer-Internship--Nashville--College-Program-2027_R_371344",
@@ -74509,7 +74582,7 @@
       "region": "US",
       "level": "Graduate",
       "closingDate": "2026-12-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-28",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Louisville---West-Market/Marsh-People-and-Investments-Executive-Rewards-Analyst--Louisville--College-Program-2027_R_360893",
@@ -74531,7 +74604,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-26",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-10-28",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Louisville---West-Market/Marsh-People-and-Investments-Executive-Rewards-Internship--Louisville--College-Program-2027_R_371091",
@@ -74553,7 +74626,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-16",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-16",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Louisville---West-Market/Health-and-Benefits-Summer-Intern--Louisville-KY--College-Program-2027_R_372414",
@@ -74575,7 +74648,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2027-01-22",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-24",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Dallas---Main/Workforce-and-Rewards-Executive-Compensation-Summer-Intern---Dallas---College-Program-2027_R_373840-1",
@@ -74597,7 +74670,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-19",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-19",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Atlanta---Lenox/Workforce-and-Rewards-Summer-Intern--Atlanta-GA--College-Program-2027_R_370714",
@@ -74619,7 +74692,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-15",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-13",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/New-York---1166/Workforce-and-Rewards-Summer-Associate--MBA-or-Masters-Track---New-York--MBA-Program-2027_R_372752",
@@ -74641,7 +74714,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-20",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-20",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Boston---High-St/Workforce-and-Rewards-Summer-Associate--MBA-or-Masters-Track---Boston--MBA-Program-2027_R_373574",
@@ -74663,8 +74736,7 @@
       "region": "US",
       "level": "Internship",
       "closingDate": "2026-12-07",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-09-08",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Los-Angeles---West-5th/Career-Consulting-Summer-Associate--MBA-or-Master-s-Track----Los-Angeles---MBA-Program-2027_R_365103-1",
       "tags": [
@@ -74784,7 +74856,6 @@
       "location": "Newcastle - Bank",
       "region": "UK",
       "level": "Graduate",
-      "openingDate": "2026-10-19",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Newcastle---Bank/Oliver-Wyman---Data---Analytics-Apprenticeship-2027---Newcastle_R_369738-1",
       "tags": [
@@ -74804,7 +74875,6 @@
       "location": "Newcastle - Bank",
       "region": "UK",
       "level": "Internship",
-      "openingDate": "2026-09-07",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Newcastle---Bank/Oliver-Wyman---Data---Analytics-Summer-Internship-2027---Newcastle_R_364984-1",
       "tags": [
@@ -74825,7 +74895,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-11-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-26",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Mumbai---Hiranandani/Intern---Risk-Consulting_R_372790",
@@ -74847,7 +74917,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2026-11-28",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-26",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Mumbai---Hiranandani/Intern---Risk-Consulting_R_372789",
@@ -74868,7 +74938,6 @@
       "location": "Taipei - Minquan East",
       "region": "Asia",
       "level": "Internship",
-      "openingDate": "2026-06-08",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Taipei---Minquan-East/Actuarial-Intern--Taiwan-_R_348518",
       "tags": [
@@ -74888,7 +74957,6 @@
       "location": "Paris - Euler",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-08-28",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Paris---Euler/Oliver-Wyman---Intern---Paris_R_363855",
       "tags": [
@@ -74928,7 +74996,6 @@
       "location": "Paris - Euler",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2025-02-07",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Paris---Euler/Oliver-Wyman---Intern---Operations---Paris--France-_R_295551",
       "tags": [
@@ -74948,7 +75015,6 @@
       "location": "Tokyo - Akasaka",
       "region": "Asia",
       "level": "Internship",
-      "openingDate": "2026-10-23",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Tokyo---Akasaka/Oliver-Wyman---Summer-Intern--2027----Tokyo_R_358233",
       "tags": [
@@ -74988,7 +75054,6 @@
       "location": "Brussels - Herrmann Debroux",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-09-15",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Brussels---Herrmann-Debroux/Oliver-Wyman--Intern-Consultant---Brussels--Belgium-_R_365977-1",
       "tags": [
@@ -75048,7 +75113,6 @@
       "location": "Amsterdam - Strawinskylaan 381",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-09-02",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Amsterdam---Strawinskylaan-381/Oliver-Wyman---Data---Analytics-Intern-Analyst----Amsterdam_R_364450-2",
       "tags": [
@@ -75068,7 +75132,6 @@
       "location": "Milan - Broletto",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-07-14",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Milan---Broletto/Oliver-Wyman---Consultant-Intern--M-F-D----Italy_R_358729",
       "tags": [
@@ -75148,7 +75211,6 @@
       "location": "Munich - Müllerstrasse",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-09-23",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Munich---Mllerstrasse/Oliver-Wyman---OPS-Specialist-Intern--m-f-d-_R_366282-1",
       "tags": [
@@ -75168,7 +75230,6 @@
       "location": "London - St. Botolph",
       "region": "UK",
       "level": "Internship",
-      "openingDate": "2026-10-26",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/London---St-Botolph/NERA-Summer-Intern-2027---London_R_363208",
       "tags": [
@@ -75208,7 +75269,6 @@
       "location": "Milan - Broletto",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-09-02",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Milan---Broletto/Oliver-Wyman---Data---Analytics-Internship---Italy_R_364432",
       "tags": [
@@ -75228,7 +75288,6 @@
       "location": "London - Baker",
       "region": "UK",
       "level": "Internship",
-      "openingDate": "2026-09-04",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/London---Baker/Oliver-Wyman---Summer-Internship-2027---London_R_363389-1",
       "tags": [
@@ -75269,8 +75328,7 @@
       "region": "Europe",
       "level": "Internship",
       "closingDate": "2027-12-31",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-04-30",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Zurich---Lowenstrasse/Oliver-Wyman---Core-Consulting-Group---Intern---m-f-d----Zurich_R_326808-1",
       "tags": [
@@ -75290,7 +75348,6 @@
       "location": "Berlin - Mittelstrasse",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-09-25",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Berlin---Mittelstrasse/Oliver-Wyman---Data---Analytics-Consulting---Intern--m-f-d----Berlin_R_366549-1",
       "tags": [
@@ -75430,7 +75487,6 @@
       "location": "Tokyo - Akasaka",
       "region": "Asia",
       "level": "Graduate",
-      "openingDate": "2026-09-29",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Tokyo---Akasaka/Oliver-Wyman---Entry-level-Consultant--July-2027----Tokyo_R_359137",
       "tags": [
@@ -75471,8 +75527,7 @@
       "region": "Europe",
       "level": "Graduate",
       "closingDate": "2027-12-31",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-04-30",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://mmc.wd1.myworkdayjobs.com/MMC/job/Zurich---Lowenstrasse/Oliver-Wyman---Core-Consulting-Group---Entry-level-Consultant--m-f-d----Zurich_R_326812",
       "tags": [
@@ -75945,8 +76000,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2027-02-28",
-      "deadlineSource": "workday-detail",
-      "openingDate": "2026-10-23",
+      "deadlineSource": "ledger",
       "status": "Open",
       "applicationUrl": "https://morningstar.wd5.myworkdayjobs.com/Morningstar/job/Shenzhen/Facilities-Intern_REQ-058276",
       "tags": [
@@ -75967,7 +76021,7 @@
       "region": "Asia",
       "level": "Internship",
       "closingDate": "2027-01-31",
-      "deadlineSource": "workday-detail",
+      "deadlineSource": "ledger",
       "openingDate": "2026-11-13",
       "status": "Open",
       "applicationUrl": "https://morningstar.wd5.myworkdayjobs.com/Morningstar/job/Hong-Kong/Manager-Research-Intern_REQ-059194",
@@ -75988,7 +76042,6 @@
       "location": "Madrid",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-10-23",
       "status": "Open",
       "applicationUrl": "https://morningstar.wd5.myworkdayjobs.com/Morningstar/job/Madrid/Multilingual-Data-Analyst-Intern_REQ-049644-1",
       "recommendedPrepSlug": "software-engineering-interview-prep",
@@ -76009,7 +76062,6 @@
       "location": "Madrid",
       "region": "Europe",
       "level": "Internship",
-      "openingDate": "2026-10-23",
       "status": "Open",
       "applicationUrl": "https://morningstar.wd5.myworkdayjobs.com/Morningstar/job/Madrid/Data-Analyst-Intern_REQ-058468",
       "recommendedPrepSlug": "software-engineering-interview-prep",
