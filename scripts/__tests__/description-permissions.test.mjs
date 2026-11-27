@@ -46,7 +46,13 @@ const files = P.descriptionFiles(captured, [rec()], NOW);
 const entries = Object.entries(files).filter(([k]) => k !== 'index.json').flatMap(([, v]) => Object.keys(v));
 eq('only the permitted employer is published', entries, ['greenhouse-jumptrading-1']);
 eq('each entry names its permission', Object.values(files).find((v) => v['greenhouse-jumptrading-1'])['greenhouse-jumptrading-1'].permission, 'perm-2026-12-jump-trading');
-eq('the manifest carries the active permissions, with no evidence or contact', files['index.json'].permissions, [{ id: 'perm-2026-12-jump-trading', employer: 'Jump Trading', systems: ['greenhouse'], attribution: 'employer-name-and-link', granted: '2026-12-01', expires: '2027-12-01' }]);
+eq('the manifest carries the active permissions, with no evidence or contact', files['index.json'].permissions, [{ id: 'perm-2026-12-jump-trading', employer: 'Jump Trading', systems: ['greenhouse'], attribution: 'employer-name-and-link', granted: '2026-12-01', expires: '2027-12-01', withdrawn: null }]);
+const w = rec({ withdrawn: '2027-01-10' });
+eq('a withdrawn grant stays in the manifest, marked, for thirty days', P.manifestPermissions([w], new Date('2027-02-01T00:00:00Z')).map((p) => p.withdrawn), ['2027-01-10']);
+eq('  then leaves it', P.manifestPermissions([w], new Date('2027-02-15T00:00:00Z')), []);
+eq('  and publishes nothing meanwhile', Object.keys(P.descriptionFiles(captured, [w], new Date('2027-01-20T00:00:00Z'))), ['index.json']);
+eq('an expired grant stays for thirty days after expiry', P.manifestPermissions([rec()], new Date('2027-12-20T00:00:00Z')).length, 1);
+eq('a grant not yet in force is not announced', P.manifestPermissions([rec({ granted: '2027-03-01', expires: '2028-02-01' })], NOW), []);
 const none = P.descriptionFiles(captured, [], NOW);
 eq('no permission: an empty manifest and no shard', [Object.keys(none), none['index.json'].shards, none['index.json'].permissions], [['index.json'], [], []]);
 
