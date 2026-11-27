@@ -104,6 +104,7 @@ jobs:
       degraded: ${{ steps.freshness.outputs.degraded }}
       changed: ${{ steps.stage.outputs.changed }}
       tracker: ${{ steps.stage.outputs.tracker }}
+      board_checks: ${{ steps.boardchecks.outputs.board_checks }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
@@ -157,6 +158,16 @@ jobs:
         run: |
           set -o pipefail
           node scripts/sync-ats.mjs 2>&1 | tee "$RUNNER_TEMP/collector.log"
+
+      # The collection-method registry, published beside the board checks as
+      # data/collection-methods.json so the site resolves every day's method
+      # from its fingerprint, including a day collected before its
+      # fingerprint was labelled (day files are never rewritten). A faithful
+      # copy of lib/collection-method.json; it changes only when a label
+      # does, so on most mornings this stages nothing. See
+      # lib/collection-methods.mjs.
+      - name: Publish the collection-method registry
+        run: node scripts/collection-method.mjs --publish
 
       - name: Sync the economic backdrop
         continue-on-error: true
@@ -244,6 +255,23 @@ jobs:
           set -euo pipefail
           node scripts/check-freshness.mjs \
             --producer tracker \
+            --summary "$GITHUB_STEP_SUMMARY" \
+            --output "$GITHUB_OUTPUT"
+
+      # Whether the Hiring Pulse's record is whole: no day missing, every
+      # fingerprint labelled (the code that just ran included) and the
+      # registry published, the record fresh, and no collapse in the boards
+      # read completely. Never fails here, for the same reason as the sweep
+      # above: today's checks publish first, and the `board-checks` job turns
+      # the run red after. lib/board-check-health.mjs has the rules and the
+      # thresholds.
+      - name: Check the board-check record
+        id: boardchecks
+        run: |
+          set -euo pipefail
+          node scripts/check-board-checks.mjs \
+            --running \
+            --through today \
             --summary "$GITHUB_STEP_SUMMARY" \
             --output "$GITHUB_OUTPUT"
 
@@ -487,6 +515,43 @@ jobs:
             *)   echo "::warning::unexpected response $code; the site's 20:00 cron will retry" ;;
           esac
 
+
+  # The Hiring Pulse's record, judged after publication like the sources
+  # below and for the same reason: a day with a problem is still a day, and
+  # it is recorded first. A missing day, an unlabelled fingerprint, a stale
+  # record or a collapse in coverage each costs comparisons for good, because
+  # day files are never rewritten, so each fails the run and GitHub tells the
+  # owner. The collect job's annotations name the problem.
+  board-checks:
+    name: Board-check record
+    needs: [collect, publish]
+    if: always()
+    runs-on: ubuntu-latest
+    # Reads one output; seconds.
+    timeout-minutes: 10
+    permissions: {}
+    steps:
+      - name: Say whether the record is whole
+        env:
+          COLLECT: ${{ needs.collect.result }}
+          BOARD_CHECKS: ${{ needs.collect.outputs.board_checks }}
+        run: |
+          set -euo pipefail
+          # The collection did not finish: Source health fails the run and
+          # says so, and today's file was not published either way.
+          if [ "${COLLECT:-}" != "success" ]; then
+            echo "the collection did not finish (${COLLECT:-unknown}); Source health reports it"
+            exit 0
+          fi
+          if [ "${BOARD_CHECKS:-}" = "problems" ]; then
+            echo "::error::the board-check record is not whole; see this run's summary and the collect job's annotations"
+            exit 1
+          fi
+          if [ "${BOARD_CHECKS:-}" != "ok" ]; then
+            echo "::error::the collection finished but the board-check record was not checked"
+            exit 1
+          fi
+          echo "the board-check record is whole"
 
   # The run's conclusion, set after publication rather than before it.
   #

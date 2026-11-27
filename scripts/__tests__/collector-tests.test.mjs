@@ -48,6 +48,14 @@ eq('every owned suite gates its owner before publication', Object.entries(owners
 eq('the tracker collection scopes itself to its own data', /run: node scripts\/run-collector-tests\.mjs --producer tracker$/m.test(build), true);
 eq('and every pushed branch still runs the whole list, unscoped', /run: node scripts\/run-collector-tests\.mjs$/m.test(tests), true);
 
+// A suite that gates a change but not a collection (BRANCH_ONLY) is skipped
+// by the collection only because the collection reports the same condition
+// through a script of its own. That script has to be in the collection.
+const branchOnly = Object.fromEntries([...src.matchAll(/^\s+'([a-z0-9-]+)': '(scripts\/[a-z0-9./-]+)',$/gm)].map((m) => [m[1], m[2]]));
+eq('the unlabelled-method suite gates every branch and reports through the board-check record in the collection', branchOnly, { 'collection-method': 'scripts/check-board-checks.mjs' });
+eq('every branch-only suite is in the shared list', Object.keys(branchOnly).filter((n) => !listed.includes(n)), []);
+eq('every branch-only suite\'s stand-in runs in the tracker collection', Object.values(branchOnly).filter((p) => !build.includes(`node ${p}`)), []);
+
 const workflows = readdirSync('.github/workflows').map((f) => readFileSync(`.github/workflows/${f}`, 'utf8')).join('\n');
 const all = readdirSync('scripts/__tests__').filter((f) => f.endsWith('.test.mjs')).map((f) => f.replace(/\.test\.mjs$/, ''));
 const unrun = all.filter((n) => !listed.includes(n) && !workflows.includes(`scripts/__tests__/${n}.test.mjs`));

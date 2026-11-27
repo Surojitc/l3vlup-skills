@@ -1,0 +1,76 @@
+{
+  "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
+  "current": "2026-11-27b",
+  "fingerprints": {
+    "99b4a6dabe727975": {
+      "method": "2026-09-24",
+      "note": "First recorded method: board checks with request accounting, budget and ceiling partials, and per-board configuration hashes",
+      "recorded": "2026-09-24"
+    },
+    "284c3170f994573f": {
+      "method": "2026-09-25",
+      "note": "Non-role records screened out of the feed (information sessions, networking events and similar; lib/role-screen.mjs) and requisition labels cleaned off titles; duplicate groups reported only. Removes rows a healthy board yields, so days either side do not compare (l3vlup-skills#71)",
+      "recorded": "2026-09-25"
+    },
+    "14478f67929b3e92": {
+      "method": "2026-09-25a",
+      "note": "Board-check records describe exactly what the feed publishes: rows the non-role screen drops are counted as screened, not kept, and every row takes its final published seat (IMC networking event, 25 Sep). Changes counts for boards with screened rows.",
+      "recorded": "2026-09-25"
+    },
+    "e9140383e5cacc68": {
+      "method": "2026-09-27",
+      "note": "Complete-board collection for boards flagged collect: complete in the registry (JPMorgan Chase, Barclays, ING, Capital One): the whole board read with an empty search to its own stated total and classified locally. ok only when one pass is strictly complete, or two passes of different page sizes agree exactly (lib/complete-board.mjs); otherwise partial, why unstable. Keyword paginators: the replay stop is per query, not per firm, so an overlapping later query is no longer cut short and recorded finished; one bounded retry per page. Changes which roles those four boards yield and can change what other Workday and Oracle boards yield; days either side do not compare.",
+      "recorded": "2026-09-27"
+    },
+    "b2179b8069398d72": {
+      "method": "2026-09-27",
+      "note": "Complete-board reads only: a 30 s page timeout and two retries after 5 s then 15 s (was 12 s and one retry after 1.5 s), and a read that stops part way (failures, budget, replay) carries the previously published roles it did not reach, marked Unconfirmed, to the tracker, never into its roles. Same method: every read the previous code called ok is ok with the identical role set (differential run, 3,000 simulated boards), the ok rules are unchanged, and carried ids are never counted; the Hiring Pulse output is byte-identical with and without them. What changes is that some reads that used to stop now finish, and what a stopped read shows the tracker.",
+      "recorded": "2026-09-28"
+    },
+    "1f6ffc688825f937": {
+      "method": "2026-09-27",
+      "note": "Experienced and lateral rows (lib/seniority.mjs) from boards already read in full at finance and trading firms, published as programmeType 'Lateral / Experienced' or 'MBA Hire', level Experienced. Same method for board checks: every record's n, roles, status and carried ids are computed from early-career rows only, exactly as before (toOpportunity is unchanged; a differential run over the 16 finance boards read on 12 October gave identical early-career rows), so the Hiring Pulse compares across the change. Experienced rows reach the feed and the history snapshot's ids, never a board record, the collapse guard or the snapshot's count.",
+      "recorded": "2026-10-12"
+    },
+    "98d917eca505441d": {
+      "method": "2026-10-24",
+      "note": "Experienced rows at a bulge-bracket bank: an allowance of 150 chosen one row from each seniority-and-area pair in turn, instead of 60 in seat order (#152, 13 Oct). Changes which experienced rows JPMorgan Chase, Barclays and the other bulge-bracket boards yield; trading firms and every other tier unchanged. Days either side do not compare for those boards.",
+      "recorded": "2026-10-24"
+    },
+    "4a0c4c284f3f8f7d": {
+      "method": "2026-11-27b",
+      "note": "Recruitee and Pinpoint readers (used only by rows added 20 Nov), firstSeen stamped on feed rows, and the Workday complete read restating page one's total when a later page answers total 0 with postings: Barclays, ING and Capital One, the only complete Workday rows before, state their total on every page (checked 20 Nov), so no existing board yields a different set. Corrected 2026-11-27: same method as f392f299234b1241, its predecessor, which was unlabelled when this was recorded, so --same-method took the then current label 2026-10-24 (98d917eca505441d, #152) across three changes that alter what is counted (#255, #276, #330). The judgement above is against f392's code and stands; the label is f392's.",
+      "recorded": "2026-11-20"
+    },
+    "32d6b54d3df5155e": {
+      "method": "2026-11-27b",
+      "note": "stampFirstSeen moved above updateArchive's doc comment; no behaviour change. Corrected 2026-11-27: same method as f392f299234b1241, its predecessor, which was unlabelled when this was recorded, so --same-method took the then current label 2026-10-24 (98d917eca505441d, #152) across three changes that alter what is counted (#255, #276, #330). The judgement above is against f392's code and stands; the label is f392's.",
+      "recorded": "2026-11-20"
+    },
+    "b4a76ed7130ba7c3": {
+      "method": "2026-11-27b",
+      "note": "Employer listings (lib/employer-listings.mjs) join the feed after retention; they are not board reads, every board's yield is unchanged, and the committed listings file is empty. Corrected 2026-11-27: same method as f392f299234b1241, its predecessor, which was unlabelled when this was recorded, so --same-method took the then current label 2026-10-24 (98d917eca505441d, #152) across three changes that alter what is counted (#255, #276, #330). The judgement above is against f392's code and stands; the label is f392's.",
+      "recorded": "2026-11-20"
+    },
+    "5bd2baa9f5a5d92e": {
+      "method": "2026-11-27b",
+      "note": "Workable reader (lib/workable.mjs), used only by Capula's row added 20 Nov; no existing board's yield changes. Corrected 2026-11-27: same method as f392f299234b1241, its predecessor, which was unlabelled when this was recorded, so --same-method took the then current label 2026-10-24 (98d917eca505441d, #152) across three changes that alter what is counted (#255, #276, #330). The judgement above is against f392's code and stands; the label is f392's.",
+      "recorded": "2026-11-20"
+    },
+    "948bc8e930f7addf": {
+      "method": "2026-11-27",
+      "note": "Ran 2 to 7 Nov unlabelled. #255 (91fba4d27, 1 Nov): inferVertical asks isHedgeFundSeat, so service-provider phrasing and bare 'portfolio management' at a bank, lender or insurer no longer read as Hedge Fund. Board records group roles by seat, so this moves rows between seats: across 1 to 2 Nov three published roles left Hedge Fund for Other (ING 'Intern, Portfolio Management', Nationwide 'Summer 2027 Commercial Lines Portfolio Management Intern', The Hartford 'Intern, Investment Portfolio Management') with no change in hiring, in a segment of 12 to 17 live roles. Days either side do not compare.",
+      "recorded": "2026-11-27"
+    },
+    "f964b51f52d9b1cf": {
+      "method": "2026-11-27a",
+      "note": "Ran 8 to 16 Nov unlabelled. #276 (37b157885, 7 Nov): toOpportunity admits a 'Junior ...' seat at a trading or quant firm as early career (juniorSeatAtTradingFirm) and refuses a title whose only early-career evidence is a stated level unless it names a covered seat. Changes n and roles: on 8 Nov eight long-posted roles entered the early-career feed for the first time under the new rule (Akuna 'Junior Developer - C++', posted Mar 2025; five Squarepoint junior seats posted 2024; DRW 'Junior FPGA Engineer'; DV Trading 'Junior Fixed Income Relative Value Trader'). Days either side do not compare.",
+      "recorded": "2026-11-27"
+    },
+    "f392f299234b1241": {
+      "method": "2026-11-27b",
+      "note": "Ran 18 and 19 Nov unlabelled. #330 (1cb5c633e, 17 Nov): SEASONAL_QUERIES (spring, insight, placement, off cycle) run first on every Workday and Oracle board, INSIGHT_PROGRAMME admits insight and discovery programmes as early career, and a SmartRecruiters reader (no registry row used it). Changes n and roles: on 18 Nov 25 Workday and Oracle roles posted before 15 Nov appeared for the first time, reached by the seasonal queries (Citi 14, NVIDIA 3, Houlihan Lokey 2, Travelers 2, Accenture, MUFG, TD, Chubb), and five rows passed only the new insight rule (Nomura, BP, MUFG, GSA Capital twice). Days either side do not compare.",
+      "recorded": "2026-11-27"
+    }
+  }
+}

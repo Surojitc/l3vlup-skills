@@ -46,6 +46,8 @@ const FETCHES_NOTHING_EXTERNAL = {
   'scripts/validate-data-publication.mjs': 'publication gate: checks the files about to be committed',
   'scripts/validate-archive-members.mjs': 'publication gate: checks archive files on disk',
   'scripts/check-freshness.mjs': 'publication gate: compares file dates on disk',
+  'scripts/check-board-checks.mjs': 'checks the board-check day files and the collection-method registry on disk',
+  'scripts/collection-method.mjs': 'copies lib/collection-method.json to data/collection-methods.json on disk',
   'scripts/keep-published-observations.mjs': 'publication gate: merges against the previously committed files via git',
   'scripts/publication-target.mjs': 'prints which files a producer may publish',
   'scripts/check-publication-branch.mjs': 'publication gate: reads the commit list of an open data pull request from a local file',
