@@ -1950,6 +1950,17 @@
       "discoveredAt": "2026-11-20"
     },
     {
+      "firm": "Deloitte",
+      "ats": "avature",
+      "host": "apply.deloitte.com",
+      "country": "US",
+      "queries": ["intern", "summer", "campus", "entry level", "analyst"],
+      "tier": "Consulting",
+      "discoveredVia": "https://www2.deloitte.com/us/en/careers/students.html",
+      "discoveredAt": "2026-11-27",
+      "note": "Deloitte US's career site on Avature. Audit, tax and internal services seats are placed by the title classifier like any other row; only consulting and advisory seats reach the Consulting vertical."
+    },
+    {
       "firm": "Roland Berger",
       "ats": "smartrecruiters",
       "token": "RolandBerger",

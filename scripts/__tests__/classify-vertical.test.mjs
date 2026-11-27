@@ -345,6 +345,12 @@ at('German-Speaking Executive Assistant (EA) (m/f/d) – Fixed-Term', 'L.E.K. Co
 at('Service Desk Analyst Intern – 6-Month Internship (M,F,D) - Munich Office', 'L.E.K. Consulting', 'Consulting', 'Other');
 // Saying "consulting" outright still wins over the service-line exclusion.
 at("(2028 Bachelor's/Master's graduates) Accounting/Business/Finance Consulting Analyst/Associate Intern (Summer 2027)", 'Charles River Associates', 'Consulting', 'Consulting');
+// "Consultant" is a grade in Big Four tax, and Internal Services is the firm's
+// own back office: neither is a consulting seat (Deloitte US, 27 November 2026).
+at('Tax - Tax Consultant - Legal Business Services - Summer 2027, Winter 2028', 'Deloitte', 'Consulting', 'Compliance & Legal');
+at('Tax - Tax Delivery Consultant - International Tax/Transfer Pricing - Summer 2027', 'Deloitte', 'Consulting', 'Finance & Accounting');
+eq('Deloitte Internal Services is not Consulting', inferVertical('Internal Services - Summer Associate - Internal Strategy - Summer 2027', { firm: 'Deloitte', tier: 'Consulting' }) === 'Consulting', false);
+at('Consultative Offerings - Summer Associate - Enterprise Strategy', 'Deloitte', 'Consulting', 'Consulting');
 // Asset-class words name an investing seat only at a private fund.
 at('Trading Infrastructure Specialist – Graduate Program', 'Squarepoint Capital', 'Systematic', 'Sales & Trading');
 // Business transformation is consulting at a consulting firm and nowhere else.

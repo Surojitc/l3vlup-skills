@@ -27,6 +27,7 @@ import {
 } from '../lib/deadline-extract.mjs';
 import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
+import { avatureSearchUrl, isAvatureEmptyShell, parseAvatureResults } from '../lib/avature.mjs';
 import { brandForTitle } from '../lib/title-brands.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
@@ -369,7 +370,7 @@ const isConsultingFirm = (firm) => {
  * accounted for.
  */
 const NOT_CONSULTING_WORK =
-  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant)\b/i;
+  /\b(algorithmic trading|execution consult\w*|electronic trading|sales consultant|internal services|developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant)\b/i;
 
 /**
  * A Big Four firm's audit, tax and accounting service lines. Not consulting,
@@ -447,9 +448,15 @@ export function consultingVerdict(title, ctx = {}) {
 
   if (NOT_CONSULTING_WORK.test(t)) return null;
   if (FINANCE_OVERRIDE.test(t)) return null;
-  if (EXPLICIT_CONSULTING.test(t) && !FINANCIAL_CRIME.test(t)) return 'Consulting';
   // The weak readings below never apply to an audit, tax or accounting seat.
   const serviceLine = SERVICE_LINE.test(t);
+  // At the Big Four "Consultant" is a grade in tax and audit as well as in
+  // consulting: Deloitte's "Tax - Tax Consultant - Legal Business Services" is
+  // a tax seat. A service-line title is consulting only when it names the
+  // practice ("consulting"), as Charles River Associates' "Accounting/Business/
+  // Finance Consulting Analyst" does, never on the grade alone.
+  if (serviceLine && !/\bconsulting\b/.test(t)) return null;
+  if (EXPLICIT_CONSULTING.test(t) && !FINANCIAL_CRIME.test(t)) return 'Consulting';
   if (isConsultingFirm(ctx.firm) && (EXPLICIT_CONSULTING.test(t) || (!serviceLine && CONSULTING_AT_CONSULTING_FIRM.test(t)))) return 'Consulting';
   if (isStrategyBoutique(ctx.firm) && !serviceLine && PROGRAMME_ONLY.test(t)) return 'Consulting';
   return null;
@@ -1695,6 +1702,41 @@ async function fetchJaneStreet() {
   return parseJaneStreetFeed(feed);
 }
 
+/* --------------------------------- Avature -------------------------------- */
+// Deloitte US. No API: the search page, ten results a request, read by
+// lib/avature.mjs. Each keyword in the registry row is searched to the end of
+// its results, paced and capped, and rows are merged by job id. A board whose
+// country is known (`country` on the row) carries it onto "Multiple Locations".
+const AVATURE_PAGE_CAP = 60;
+const AVATURE_PAUSE_MS = 250;
+const AVATURE_DEFAULT_QUERIES = ['intern', 'summer', 'campus', 'entry level', 'analyst'];
+
+async function fetchAvature(f, stats = newRequestStats()) {
+  const byId = new Map();
+  for (const q of f.queries ?? AVATURE_DEFAULT_QUERIES) {
+    for (let page = 0, offset = 0; page < AVATURE_PAGE_CAP; page++, offset += 10) {
+      const url = avatureSearchUrl(f.host, q, offset, f.locale);
+      stats.attempts++;
+      const res = await fetch(url, { headers: { 'User-Agent': BROWSER_UA }, signal: AbortSignal.timeout(TIMEOUT_MS) });
+      if (!res.ok) throw new Error(`${res.status}`);
+      const html = await res.text();
+      // The first page of the first query must look like a results page: a
+      // changed template parsed naively is zero rows, which would read as a
+      // firm with nothing open.
+      if (page === 0 && byId.size === 0 && isAvatureEmptyShell(html)) throw new Error('not a results page');
+      const { total, rows } = parseAvatureResults(html);
+      for (const r of rows) {
+        if (!byId.has(r.id)) {
+          byId.set(r.id, { id: r.id, title: r.title, location: withCountry(r.location || 'Multiple Locations', f.country), url: r.url, description: '' });
+        }
+      }
+      if (!rows.length || total === null || offset + 10 >= total) break;
+      await new Promise((r) => setTimeout(r, AVATURE_PAUSE_MS));
+    }
+  }
+  return [...byId.values()];
+}
+
 /* --------------------------------- iCIMS --------------------------------- */
 // Deliberately absent. Probed 2026-08-31: Stifel returns 110 postings of which
 // exactly one is early-career, Affinius 12 and Oak Hill 2 with none, and SIG's
@@ -1703,7 +1745,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
+export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable, avature: fetchAvature };
 
 /**
  * Write a file the way a consumer may read it at any moment.
