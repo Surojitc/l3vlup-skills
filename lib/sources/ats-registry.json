@@ -959,7 +959,7 @@
       "tenant": "spgi",
       "shard": "wd5",
       "site": "SPGI_Careers",
-      "tier": "Fintech",
+      "tier": "Research & Ratings",
       "discoveredVia": "https://careers.spglobal.com/",
       "discoveredAt": "2026-10-22",
       "postingsAtDiscovery": 303
@@ -2241,7 +2241,7 @@
       "tenant": "morningstar",
       "shard": "wd5",
       "site": "Morningstar",
-      "tier": "Other",
+      "tier": "Research & Ratings",
       "discoveredVia": "https://www.morningstar.com/careers",
       "discoveredAt": "2026-11-25",
       "postingsAtDiscovery": 184
@@ -2268,7 +2268,7 @@
       "firm": "PitchBook",
       "ats": "greenhouse",
       "token": "pitchbookdata",
-      "tier": "Other",
+      "tier": "Research & Ratings",
       "discoveredVia": "https://boards-api.greenhouse.io/v1/boards/pitchbookdata",
       "discoveredAt": "2026-11-27",
       "postingsAtDiscovery": 24
@@ -2279,7 +2279,7 @@
       "tenant": "factset",
       "shard": "wd108",
       "site": "FactSetCareers",
-      "tier": "Other",
+      "tier": "Research & Ratings",
       "discoveredVia": "https://factset.wd108.myworkdayjobs.com/FactSetCareers",
       "discoveredAt": "2026-11-27",
       "postingsAtDiscovery": 104
@@ -2344,7 +2344,7 @@
         "graduate",
         "analyst"
       ],
-      "tier": "Other",
+      "tier": "Research & Ratings",
       "discoveredVia": "https://bloomberg.avature.net/careers",
       "discoveredAt": "2026-11-27",
       "postingsAtDiscovery": 184
@@ -2374,7 +2374,7 @@
         "graduate",
         "analyst"
       ],
-      "tier": "Other",
+      "tier": "Research & Ratings",
       "discoveredVia": "https://careers.fitch.group/",
       "discoveredAt": "2026-11-27",
       "postingsAtDiscovery": 144
