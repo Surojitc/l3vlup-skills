@@ -28,6 +28,7 @@ import {
 import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import { brandForTitle } from '../lib/title-brands.mjs';
+import { parseRolandBergerJobs, ROLAND_BERGER_JOBS_URL } from '../lib/rolandberger.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
@@ -1053,7 +1054,10 @@ export function toOpportunity(job, board) {
   if (extracted.rolling) tags.push('Rolling');
   const atsDate = toIsoDate(job.deadline, { allowFuture: true });
   return {
-    id: `${board.ats}-${firmKey(board)}-${job.id}`,
+    // `idAts` keeps a row's id when a board changes route: Roland Berger moved
+    // from SmartRecruiters' API to its own careers page and its rows kept the
+    // ids, and the tracker URLs pinned to them, that the API gave them.
+    id: `${board.idAts ?? board.ats}-${firmKey(board)}-${job.id}`,
     firm: firm.firm,
     role: job.title.trim(),
     vertical,
@@ -1664,12 +1668,43 @@ async function fetchSmartRecruiters(f, stats = newRequestStats()) {
   return [...seen.values()].map((p) => smartRecruitersToJob(p, f)).filter(Boolean);
 }
 
+/* ------------------------------ Roland Berger ------------------------------ */
+// The employer's own careers page, which replaced SmartRecruiters' Posting API
+// for this firm (that host's robots.txt disallows all but LinkedInBot). One
+// request, server-rendered; see lib/rolandberger.mjs.
+async function fetchRolandBerger(f) {
+  const res = await fetch(f.url || ROLAND_BERGER_JOBS_URL, {
+    headers: { 'User-Agent': BROWSER_UA },
+    redirect: 'follow',
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  });
+  if (!res.ok) throw new Error(`${res.status}`);
+  const jobs = parseRolandBergerJobs(await res.text());
+  // The page always lists well over a hundred roles. None parsed means the
+  // markup changed, which must read as a failed board and not as a firm with
+  // nothing open.
+  if (!jobs.length) throw new Error('no jobs parsed: the page has changed shape');
+  return jobs;
+}
+
 /* ------------------------------- Recruitee -------------------------------- */
 // The careers-site API: the whole board on one request. See lib/recruitee.mjs
 // for the notices it refuses and why the registry stores the redirected name.
 async function fetchRecruitee(f) {
-  return recruiteeToJobs(await getJson(recruiteeUrl(f.token)));
+  // From 10 February 2027 Recruitee answers 401 without the employer's
+  // careers-site token (lib/sources/source-terms.json). The token is the
+  // employer's to issue and is read from the environment, never the registry:
+  // RECRUITEE_TOKEN_<TOKEN>, upper-cased, non-alphanumerics as underscores.
+  const token = process.env[recruiteeTokenEnv(f.token)];
+  try {
+    return recruiteeToJobs(await getJson(recruiteeUrl(f.token), token ? { headers: { 'X-Careers-Sites-Token': token } } : undefined));
+  } catch (e) {
+    if (String(e.message) === '401') throw new Error(`401: needs a careers-site token in ${recruiteeTokenEnv(f.token)}`);
+    throw e;
+  }
 }
+
+export const recruiteeTokenEnv = (company) => `RECRUITEE_TOKEN_${String(company || '').toUpperCase().replace(/[^A-Z0-9]+/g, '_')}`;
 
 /* -------------------------------- Pinpoint -------------------------------- */
 // The postings feed: the whole board on one request. lib/pinpoint.mjs throws
@@ -1703,7 +1738,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
+export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, rolandberger: fetchRolandBerger, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
 
 /**
  * Write a file the way a consumer may read it at any moment.

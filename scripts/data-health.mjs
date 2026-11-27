@@ -29,6 +29,8 @@ import { appendFileSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { CONTRACTS, freshnessReport } from './publication-contracts.mjs';
 import { productionLag, letterFunnel } from '../lib/data-health.mjs';
+import { readdirSync } from 'node:fs';
+import { buildSourceRegistry, sourceAlerts } from '../lib/source-registry.mjs';
 
 const argv = process.argv.slice(2);
 const arg = (name) => {
@@ -94,7 +96,27 @@ lines.push('', `13F on main: ${funds?.generatedAt ?? 'unreadable'} · live: ${li
 if (lag.problem) failures.push(lag.problem);
 else if (lag.warning) warnings.push(lag.warning);
 
-// 3. The letters funnel, for the record.
+// 3. Every tracker source: may it be read, did it answer, is anything coming.
+// lib/source-registry.mjs. Reading a source its terms forbid fails the run;
+// everything else is named so it is seen, without turning the run red daily.
+{
+  const registry = read('lib/sources/ats-registry.json')?.firms ?? [];
+  const terms = read('lib/sources/source-terms.json') ?? {};
+  let files = [];
+  try {
+    files = readdirSync('data/board-checks').filter((f) => f.endsWith('.json')).sort().slice(-14);
+  } catch {
+    warnings.push('data/board-checks is unreadable, so no tracker source could be checked');
+  }
+  const checks = files.map((f) => read(`data/board-checks/${f}`)).filter(Boolean);
+  const records = buildSourceRegistry(registry, terms, checks);
+  const alerts = sourceAlerts(records, { today: new Date().toISOString().slice(0, 10) });
+  const active = records.filter((r) => r.active);
+  lines.push('', `Tracker sources: ${active.length} active, ${records.length - active.length} parked · ${alerts.filter((a) => a.level === 'problem').length} problems, ${alerts.filter((a) => a.level === 'warning').length} warnings`);
+  for (const a of alerts) (a.kind === 'not-permitted' ? failures : warnings).push(`tracker source, ${a.kind}: ${a.message}`);
+}
+
+// 4. The letters funnel, for the record.
 const funnel = letterFunnel(read('data/letters.review-queue.json'), read('data/letters.catalogue-keys.json'));
 lines.push('', `Letters: ${funnel.published} published · ${funnel.queued} in the review queue (${funnel.likely} likely letters) · ${funnel.decided} decided`);
 

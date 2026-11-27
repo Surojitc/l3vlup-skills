@@ -49,6 +49,8 @@ export const SUITES = [
   'oracle-paginate',
   'talnet',
   'title-brands',
+  'rolandberger',
+  'source-registry',
   'eightfold-janestreet',
   'smartrecruiters',
   'recruitee-pinpoint',

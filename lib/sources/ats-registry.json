@@ -1920,7 +1920,9 @@
       "tier": "Asset Manager",
       "discoveredVia": "https://jobs.smartrecruiters.com/LegalAndGeneral",
       "postingsAtDiscovery": 40,
-      "discoveredAt": "2026-11-20"
+      "discoveredAt": "2026-11-20",
+      "parked": true,
+      "parkedReason": "Suspended 27 November 2026: api.smartrecruiters.com/robots.txt disallows every crawler except LinkedInBot. Authorised route to build: the employer's own site, careers.legalandgeneral.com, whose robots.txt allows / but disallows /jobs?* (query URLs), so a reader must use its unparameterised listing pages only."
     },
     {
       "firm": "WorldQuant",
@@ -1951,12 +1953,14 @@
     },
     {
       "firm": "Roland Berger",
-      "ats": "smartrecruiters",
+      "ats": "rolandberger",
+      "idAts": "smartrecruiters",
       "token": "RolandBerger",
+      "url": "https://www.rolandberger.com/en/join/all-jobs",
       "tier": "Consulting",
       "discoveredVia": "https://www.rolandberger.com/en/Careers/",
-      "postingsAtDiscovery": 206,
-      "discoveredAt": "2026-11-20"
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 179
     },
     {
       "firm": "xAI",
@@ -2206,15 +2210,6 @@
       "discoveredVia": "https://www.walleyecapital.com/careers",
       "discoveredAt": "2026-11-25",
       "postingsAtDiscovery": 1
-    },
-    {
-      "firm": "Walleye Capital",
-      "ats": "greenhouse",
-      "token": "walleyecapital-external-fulltime",
-      "tier": "Multi-Manager",
-      "discoveredVia": "https://www.walleyecapital.com/careers",
-      "discoveredAt": "2026-11-25",
-      "postingsAtDiscovery": 13
     },
     {
       "firm": "Morningstar",
