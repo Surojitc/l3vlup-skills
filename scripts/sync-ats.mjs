@@ -609,12 +609,15 @@ export function fundSeatVerdict(title, ctx = {}) {
   return null;
 }
 
-export function isHedgeFundSeat(t, firm) {
+export function isHedgeFundSeat(t, firm, tier) {
   const title = String(t || '').toLowerCase();
   if (SERVICE_PROVIDER_TITLE.test(title)) return false;
   if (/\boperations\b/.test(title) && !isHedgeFundFirm(firm)) return false;
   if (HEDGE_FUND_TOKEN.test(title)) return true;
-  return /portfolio management/.test(title) && !isBankLenderInsurer(firm);
+  // At an asset manager or a pension fund (PIMCO, PSP Investments) portfolio
+  // management is the firm's own long-only or real-asset book, which the asset
+  // management rule below reads, not a hedge fund seat.
+  return /portfolio management/.test(title) && !isBankLenderInsurer(firm) && tier !== 'Asset Manager';
 }
 
 export function inferVertical(title, ctx = {}) {
@@ -669,8 +672,13 @@ export function inferVertical(title, ctx = {}) {
   if (/equity research|research analyst|investment research/.test(t)) return 'Equity Research';
   if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
   if (/venture capital|\bvc\b\s|growth equity|venture (investing|investment|associate|analyst|fellow|scout|partner)|ventures? (fellowship|scout)/.test(t)) return 'Venture Capital';
-  if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';
-  if (isHedgeFundSeat(t, ctx.firm)) return 'Hedge Fund';
+  // A credit risk seat or a trading desk that names private credit is risk or
+  // markets, not a lending seat: Santander's "Credit Risk - Leveraged Finance
+  // Summer Intern" and Nomura's "Global Markets ... Private Credit Trading"
+  // were both filed as private credit on the 27 November feed.
+  if (/private credit|direct lending|leveraged finance|credit investment/.test(t) && !/\brisk\b|trading|\btrader\b|global markets/.test(t)) return 'Private Credit';
+  if (isHedgeFundSeat(t, ctx.firm, ctx.tier)) return 'Hedge Fund';
+  if (ctx.tier === 'Asset Manager' && /portfolio (?:management|manager|analyst)/.test(t)) return 'Asset Management';
   // The fund's own investing seat, read beside the employer (fundSeatVerdict).
   const fundSeat = fundSeatVerdict(title, ctx);
   if (fundSeat) return fundSeat;

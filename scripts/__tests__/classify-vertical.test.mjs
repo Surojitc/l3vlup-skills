@@ -354,6 +354,12 @@ at('2028 Capital Markets, Global Markets Sales & Trading Summer Analyst', 'Test 
 at('2028 Capital Markets, Global Markets Origination Summer Analyst', 'Test Bank', 'Bulge Bracket', 'Investment Banking');
 // Impact research at a buyout firm is left ambiguous, not forced into PE.
 at('Y Analytics, Responsible Investing, Summer Research Assistant, Internship', 'TPG', 'Megafund', 'Other');
+// From the stratified sample of 27 November.
+at('2027 Credit Risk - Leveraged Finance Summer Intern', 'Santander', 'Bulge Bracket', 'Risk');
+at('2027 - Global Markets - Summer Internship (Securitised Products and Private Credit Trading)', 'Nomura', 'Bulge Bracket', 'Sales & Trading');
+at('2027 Blackstone Credit and Insurance, Private Credit Strategies Summer Analyst (London)', 'Blackstone', 'Megafund', 'Private Credit');
+at('2027 MBA /MFE Summer Intern – Associate, Portfolio Management', 'PIMCO', 'Asset Manager', 'Asset Management');
+at('Portfolio Management Intern', 'Man Group', 'Systematic', 'Hedge Fund');
 // Business transformation is consulting at a consulting firm and nowhere else.
 at('Business Transformation Analyst Intern', 'Barclays', 'Bulge Bracket', 'Other');
 
