@@ -1,6 +1,6 @@
 {
   "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
-  "current": "2026-11-27e",
+  "current": "2026-11-27f",
   "fingerprints": {
     "99b4a6dabe727975": {
       "method": "2026-09-24",
@@ -82,9 +82,19 @@
       "note": "#359: SmartRecruiters suspended (Roland Berger from its own page, Legal & General parked), Avature and SuccessFactors readers (Deloitte US, Bloomberg, EY, Fitch), seven boards, Walleye full-time dropped, and classification fixes (S&T in capital markets, impact research, Big Four service lines, private credit risk and trading, portfolio management at asset managers)",
       "recorded": "2026-11-27"
     },
-    "acc4c5724fd2590f": {
+    "7defa6c4cd51e58b": {
       "method": "2026-11-27e",
-      "note": "Research & Ratings (pending): analytical seats at ratings, data and index firms read beside the new tier; S&P Global, Morningstar, PitchBook, FactSet, Fitch and Bloomberg retiered",
+      "note": "Regions: Canada and Latin America are regions of their own (103 and 51 rows were filed as US on 27 November 2026); UK, European and Asian towns the US default took (Knutsford, Northampton, Pisa, Putrajaya) placed. By-region counts across this date do not compare.",
+      "recorded": "2026-11-27"
+    },
+    "b44679e483cc9efa": {
+      "method": "2026-11-27e",
+      "note": "Descriptions written beside the feed for permitted employers only; collection and classification unchanged from 2026-11-27e.",
+      "recorded": "2026-11-27"
+    },
+    "b51506933754e3c1": {
+      "method": "2026-11-27f",
+      "note": "Research & Ratings (pending) rule and tier",
       "recorded": "2026-11-27"
     }
   }
