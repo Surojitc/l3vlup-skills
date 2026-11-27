@@ -297,6 +297,59 @@ for (const f of FIXTURES.duplicates ?? []) {
   eq(`duplicates: ${f.titles.length} titles stay ${f.distinct} rows`, new Set(f.titles).size, f.distinct);
 }
 
+// --- fund seats and venture, read beside the employer (November 2026) ------
+// Real titles from the live feed and the boards added on 25 November 2026.
+// Every one of the positives landed in Other before fundSeatVerdict existed.
+const at = (title, firm, tier, want) =>
+  eq(`${title.slice(0, 44).padEnd(46)} @ ${`${firm}/${tier}`.slice(0, 24).padEnd(24)} → ${want}`, inferVertical(title, { firm, tier }), want);
+at('2027 Summer Internship - Sector Analyst, Proprietary Research', 'Point72', 'Multi-Manager', 'Hedge Fund');
+at('2028 Point72 Academy Investment Analyst Summer Internship Program - US', 'Point72', 'Multi-Manager', 'Hedge Fund');
+at('2027 Sector Specialist Intern, Tokyo', 'Millennium', 'Multi-Manager', 'Hedge Fund');
+at('Public Equity Investment Intern - Summer 2027', 'Viking Global Investors', 'Single-Manager', 'Hedge Fund');
+at('Private Equity Investment Intern - Summer 2027', 'Viking Global Investors', 'Single-Manager', 'Private Equity');
+at('2027 Blackstone Credit & Insurance Summer Analyst, Tokyo', 'Blackstone', 'Megafund', 'Private Credit');
+at('2027 Blackstone Strategic Partners Off Cycle Intern (London)', 'Blackstone', 'Megafund', 'Private Equity');
+at('Investment Analyst Intern', 'Andreessen Horowitz', 'Growth Equity', 'Venture Capital');
+at('Platform Associate, Summer 2027', 'Index Ventures', 'Growth Equity', 'Venture Capital');
+at('Venture Investment Intern', 'Some Corporate', 'Other', 'Venture Capital');
+// The negatives: a fund's own support seats, and the same words elsewhere.
+at('2027 Summer Internship - Investment Services', 'Point72', 'Multi-Manager', 'Other');
+at('2027 Marketing and Communications Intern, London', 'Millennium', 'Multi-Manager', 'Other');
+at('Campus Recruitment Specialist', 'Squarepoint Capital', 'Systematic', 'Other');
+at('Senior Fund Accounting Analyst Intern', 'Sixth Street', 'Megafund', 'Finance & Accounting');
+at('Investment Analyst Intern', 'Aviva', 'Other', 'Other');
+at('Software Engineer Intern', 'Andreessen Horowitz', 'Growth Equity', 'Software Engineering');
+at('Executive Assistant Intern', 'Andreessen Horowitz', 'Growth Equity', 'Other');
+at('Credit Risk Summer Analyst', 'Blackstone', 'Megafund', 'Risk');
+// "accel" is matched whole: Accelerate is not Accel.
+at('Investment Analyst Intern', 'Accelerate Diagnostics', 'Other', 'Other');
+
+// --- consulting entry seats at the boutiques added in November 2026 -------
+at('2027 Research Analyst - Competition - London', 'The Brattle Group', 'Consulting', 'Consulting');
+at('Intern - Competition Economics', 'Berkeley Research Group', 'Independent Advisory', 'Consulting');
+at('Summer Economist- 2027', 'Berkeley Research Group', 'Independent Advisory', 'Consulting');
+at('London Office - Summer Associate 2027', 'L.E.K. Consulting', 'Consulting', 'Consulting');
+at('Munich Office - Associate (m/f/d) (Entry level position) - Start October 2027', 'L.E.K. Consulting', 'Consulting', 'Consulting');
+at('MBA Summer Associate, Education & Research - Summer 2027', 'Huron Consulting Group', 'Consulting', 'Consulting');
+at('NERA Summer Internship 2027 - London', 'NERA Economic Consulting', 'Consulting', 'Consulting');
+at('Intern | Competition Practice | Paris', 'Compass Lexecon', 'Consulting', 'Consulting');
+// The same bare programme at Accenture stays where it was: its board is mostly
+// delivery and back office, which is why the boutique rule leaves it out.
+at('Accenture Spring Internship 2027', 'Accenture', 'Consulting', 'Other');
+at('2027 Oliver Wyman – Intern Consultant - Spanish speaker (m/f/d) – Madrid', 'Oliver Wyman', 'Consulting', 'Consulting');
+// A Big Four audit or tax associate is not a consulting seat, and a support
+// seat at a strategy firm is not either.
+at('Audit Associate - Graduate 2027', 'PwC', 'Consulting', 'Finance & Accounting');
+at('Tax Associate Intern', 'PwC', 'Consulting', 'Finance & Accounting');
+at('German-Speaking Executive Assistant (EA) (m/f/d) – Fixed-Term', 'L.E.K. Consulting', 'Consulting', 'Other');
+at('Service Desk Analyst Intern – 6-Month Internship (M,F,D) - Munich Office', 'L.E.K. Consulting', 'Consulting', 'Other');
+// Saying "consulting" outright still wins over the service-line exclusion.
+at("(2028 Bachelor's/Master's graduates) Accounting/Business/Finance Consulting Analyst/Associate Intern (Summer 2027)", 'Charles River Associates', 'Consulting', 'Consulting');
+// Asset-class words name an investing seat only at a private fund.
+at('Trading Infrastructure Specialist – Graduate Program', 'Squarepoint Capital', 'Systematic', 'Sales & Trading');
+// Business transformation is consulting at a consulting firm and nowhere else.
+at('Business Transformation Analyst Intern', 'Barclays', 'Bulge Bracket', 'Other');
+
 // sales & trading rows pointed nowhere while their prep pages sat written and
 // unlinked. These assert the wiring, not the pages.
 const prep = (title, want) => {

@@ -91,5 +91,37 @@ eq('non-string input', parseTalnetDeadline(undefined, { now: NOW }), undefined);
 // The real markup has it inside an attribute, not as visible text.
 eq('found inside an attribute', parseTalnetDeadline('<meta content="Deadline: 30/09/2026, 23:55" />', { now: NOW }), '2026-09-30');
 
+// --- the card layout (L.E.K., read 25 November 2026) ----------------------
+// The same board rendered as cards: the link in an <h3>, the location in a
+// labelled div, and no </tr> anywhere. The table pattern matches none of it.
+eq('appcentre is overridable', talnetBoardUrl('lek.tal.net', 'brand-2', 'appcentre-1'),
+   'https://lek.tal.net/vx/lang-en-GB/mobile-0/appcentre-1/brand-2/candidate/jobboard/vacancy/1/adv/');
+const CARDS = `
+<ul>
+<li class="candidate-opp-tile" data-oppid="4139" data-title="Madrid Office - Generalist Associate Intern (m/f/d) - March 2027 (6 months)">
+  <div class="candidate-opp-row">
+    <h3 class="candidate-opp-field-2">
+      <a class="subject" href="https://lek.tal.net/vx/lang-en-GB/mobile-0/appcentre-1/brand-2/candidate/so/pm/1/pl/1/opp/4139-Madrid-Office-Generalist-Associate-Intern-m-f-d-March-2027-6-months/en-GB">
+        Madrid Office - Generalist Associate Intern (m/f/d) - March 2027 (6 months)                    </a>
+    </h3>
+    <div class="candidate-opp-field-3"><span class="candidate-opp-field-label">Location:</span> Madrid</div>    <div class="candidate-opp-field-4"><span class="candidate-opp-field-label">Closing Date:</span> 27 Nov 2026 23:55 GMT</div>
+  </div>
+</li>
+<li class="candidate-opp-tile" data-oppid="4120" data-title="London Office - Summer Associate 2027">
+  <div class="candidate-opp-row">
+    <h3 class="candidate-opp-field-2">
+      <a class="subject" href="https://lek.tal.net/vx/lang-en-GB/mobile-0/appcentre-1/brand-2/candidate/so/pm/1/pl/1/opp/4120-London-Office-Summer-Associate-2027/en-GB">
+        London Office - Summer Associate 2027      </a>
+    </h3>
+    <div class="candidate-opp-field-3"><span class="candidate-opp-field-label">Location:</span> London</div>
+  </div>
+</li>
+</ul>`;
+const cards = parseTalnetBoard(CARDS);
+eq('both cards read', cards.map((c) => c.id), ['4139', '4120']);
+eq('a card title is trimmed', cards[1].title, 'London Office - Summer Associate 2027');
+eq('a card location comes from its own labelled div', cards.map((c) => c.location), ['Madrid', 'London']);
+eq('the card layout is not a gate', isTalnetGate(CARDS.repeat(20)), false);
+
 console.log(`\n${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);

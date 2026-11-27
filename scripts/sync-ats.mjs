@@ -27,6 +27,7 @@ import {
 } from '../lib/deadline-extract.mjs';
 import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
+import { brandForTitle } from '../lib/title-brands.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
@@ -327,7 +328,33 @@ const CONSULTING_FIRMS = [
   'bridgespan', 'dalberg', 'pa consulting', 'newton europe', 'capgemini invent',
   'west monroe', 'slalom', 'thoughtworks', 'publicis sapient', 'infosys consulting',
   'fti consulting', 'berkeley research group', 'exponent',
+  // Added with the boards that brought them (docs in l3vlup:
+  // docs/tracker-coverage-consulting-vc-2026-11.md). NERA is named in full
+  // because a bare "nera" is a substring of "general".
+  'nera economic consulting', 'brattle group', 'pa consulting',
 ];
+
+/**
+ * Strategy and economic consultancies that sell nothing but consulting.
+ *
+ * At these firms a title that names only a programme ("NERA Summer Internship
+ * 2027 - London", "Intern | Competition Practice | Paris") can only be a
+ * consulting seat, because there is no delivery centre or back office large
+ * enough to post a campus programme of its own. Accenture and the Big Four are
+ * deliberately absent: their bare "Spring Internship" could be anything, and
+ * the step 3 sweep showed most of it was not consulting.
+ */
+const STRATEGY_BOUTIQUES = [
+  'mckinsey', 'boston consulting', 'bain & company', 'bain and company', 'oliver wyman', 'kearney',
+  'roland berger', 'l.e.k', 'lek consulting', 'oc&c', 'occ strategy', 'simon-kucher', 'arthur d. little',
+  'nera economic consulting', 'brattle group', 'compass lexecon', 'cornerstone research', 'analysis group',
+  'charles river associates', 'keystone strategy', 'frontier economics',
+];
+const isStrategyBoutique = (firm) => {
+  const f = String(firm || '').toLowerCase();
+  return f ? STRATEGY_BOUTIQUES.some((c) => f.includes(c)) : false;
+};
+const PROGRAMME_ONLY = /\b(intern|internship|summer|graduate|analyst|consultant|praktikum|praktikant)\b/i;
 
 const isConsultingFirm = (firm) => {
   const f = String(firm || '').toLowerCase();
@@ -342,7 +369,16 @@ const isConsultingFirm = (firm) => {
  * accounted for.
  */
 const NOT_CONSULTING_WORK =
-  /\b(developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students)\b/i;
+  /\b(developer|engineer|engineering|administrator|devops|cloudops|mlops|sre\b|test automation|tester|qa\b|abap|salesforce|java|angular|python|node\.?js|\.net|linux|windows|backend|back-end|frontend|front-end|full[\s-]?stack|firmware|receptionist|workplace support|business support|facilities|procure[\s-]to[\s-]pay|processor|payroll|customer service|customer support|service desk|help ?desk|trust (and|&) safety|insurance operations|claims|collections|content moderation|graphic design|industrial design|ux\b|ui\b|marketing|seo\b|copywrit|part[\s-]?time for students|executive assistant)\b/i;
+
+/**
+ * A Big Four firm's audit, tax and accounting service lines. Not consulting,
+ * but read only before the employer-gated rules below: a title that says
+ * "consulting" outright keeps its reading ("Accounting/Business/Finance
+ * Consulting Analyst" at Charles River Associates is a consulting seat), while
+ * an "Audit Associate" at PwC can no longer become one on the word associate.
+ */
+const SERVICE_LINE = /\b(audit|assurance|tax|accounting|bookkeeping)\b/i;
 
 /**
  * Finance work that keeps its existing vertical even at a consulting firm.
@@ -366,7 +402,16 @@ const EXPLICIT_CONSULTING =
  * is the job. The employer gate is what separates them.
  */
 const CONSULTING_AT_CONSULTING_FIRM =
-  /\b(business analyst|strategy|transformation|commercial strategy|insights|advisory|\bvap\b|value,? access|market access|operations improvement|performance improvement|public sector|life sciences|economic analysis|associate consultant)\b/i;
+  /\b(business analyst|strategy|transformation|commercial strategy|insights|advisory|\bvap\b|value,? access|market access|operations improvement|performance improvement|public sector|life sciences|economic analysis|associate consultant|econom(?:ist|ics)|research analyst|research associate|summer associate|summer consultant|generalist|associate)\b/i;
+// The last six are the entry seats of the economic and strategy boutiques the
+// November boards brought in, all read off live titles on 25 November 2026:
+// Brattle and Cornerstone hire "Research Analysts", BRG and NERA hire into
+// "Competition Economics" and as "Summer Economists", L.E.K. names its seat
+// "Associate" ("Munich Office - Associate (Entry level position)"), and Huron
+// and Keystone run MBA "Summer Associate" programmes. A bare "associate" is
+// safe only because the exclusions above run first: audit, tax and accounting
+// associates at a Big Four firm, and every technology and support seat, are
+// refused before this list is read.
 
 /**
  * Financial-crime work, which is a bank's own compliance function and a
@@ -403,7 +448,10 @@ export function consultingVerdict(title, ctx = {}) {
   if (NOT_CONSULTING_WORK.test(t)) return null;
   if (FINANCE_OVERRIDE.test(t)) return null;
   if (EXPLICIT_CONSULTING.test(t) && !FINANCIAL_CRIME.test(t)) return 'Consulting';
-  if (isConsultingFirm(ctx.firm) && (EXPLICIT_CONSULTING.test(t) || CONSULTING_AT_CONSULTING_FIRM.test(t))) return 'Consulting';
+  // The weak readings below never apply to an audit, tax or accounting seat.
+  const serviceLine = SERVICE_LINE.test(t);
+  if (isConsultingFirm(ctx.firm) && (EXPLICIT_CONSULTING.test(t) || (!serviceLine && CONSULTING_AT_CONSULTING_FIRM.test(t)))) return 'Consulting';
+  if (isStrategyBoutique(ctx.firm) && !serviceLine && PROGRAMME_ONLY.test(t)) return 'Consulting';
   return null;
 }
 
@@ -456,6 +504,8 @@ const HEDGE_FUND_FIRMS = [
   'point72', 'millennium', 'citadel', 'bridgewater', 'schonfeld', 'exodus', 'verition',
   'marshall wace', 'man group', 'aqr', 'd. e. shaw', 'de shaw', 'two sigma', 'balyasny',
   'elliott', 'brevan howard', 'third point', 'pershing square', 'squarepoint', 'qube research',
+  'viking global', 'tudor', 'walleye', 'sculptor', 'davidson kempner', 'coatue', 'lone pine',
+  'tiger global', 'citadel', 'balyasny', 'eisler', 'hudson bay', 'capula', 'exoduspoint',
 ];
 
 // Banks, lenders and insurers: the employers where "portfolio management" is a
@@ -483,6 +533,71 @@ const firmMatcher = (names) => {
 };
 const isHedgeFundFirm = firmMatcher(HEDGE_FUND_FIRMS);
 const isBankLenderInsurer = firmMatcher(BANK_LENDER_INSURER_FIRMS);
+
+/**
+ * The investing seat at a fund, named the way funds name it rather than with
+ * the words "hedge fund" or "private equity".
+ *
+ * WHY. Hedge funds, private equity and venture are the three thinnest verticals
+ * on the tracker (3, 6 and 5 rows on the September copy), and a large part of
+ * the reason is not missing boards but titles: Point72 posts "Sector Analyst,
+ * Proprietary Research" and "Point72 Academy Investment Analyst", Blackstone
+ * posts "Blackstone Credit & Insurance Summer Analyst", Viking posts "Public
+ * Equity Investment Intern". None carries a token the title rules read, so all
+ * of them fell to Other. Read beside the employer they are unambiguous.
+ *
+ * Employer-gated, like Consulting, because the same words at a bank or an
+ * insurer describe a different job: "Investment Analyst" at an insurer is a
+ * treasury seat. A firm qualifies by the registry tier it was added under, or
+ * by name for rows that arrive without one.
+ */
+const FUND_SEAT =
+  /sector (analyst|specialist)|fundamental (research|researcher|analyst|equit)|investment (analyst|associate|intern|internship|team|professional|program|programme)|investing|\binvestor\b|academy|public equit|long[\s-]?only|equity analyst|macro (analyst|research)|\beconomist\b|portfolio (analyst|manager)|deal team/;
+// Asset classes that name an investing seat only at a private fund. At a hedge
+// fund "infrastructure" is a technology team (Squarepoint's "Trading
+// Infrastructure Specialist") and "credit" is as likely a risk seat.
+const PRIVATE_FUND_SEAT = /secondar(y|ies)|strategic partners|private markets|infrastructure|\bcredit\b/;
+const NOT_FUND_SEAT =
+  /\brisk\b|compliance|operations|investment services|fund (accounting|administration|services)|valuation control|treasury|tax|legal|technology|engineer|developer|data (scien|engineer)|marketing|communications|recruit|talent|human resources|\bhr\b|executive assistant|administrative|investor relations|client (service|relations)/;
+
+const HEDGE_FUND_TIERS = new Set(['Multi-Manager', 'Single-Manager']);
+const PRIVATE_FUND_TIERS = new Set(['Megafund', 'Mid-Market']);
+
+/**
+ * Venture firms, for the same reason. A venture fund's entry seats are "Investment
+ * Analyst", "Platform Associate" and "Scout", and only the employer says they are
+ * venture. 'accel' and 'index ventures' are matched whole, so Accelerate and an
+ * index provider are not caught.
+ */
+const VENTURE_FIRMS = [
+  'andreessen horowitz', 'a16z', 'sequoia capital', 'index ventures', 'accel', 'balderton',
+  'atomico', 'general catalyst', 'bessemer venture partners', 'lightspeed venture partners',
+  'insight partners', 'kleiner perkins', 'greylock', 'founders fund', 'khosla ventures',
+  'northzone', 'creandum', 'localglobe', 'seedcamp', 'octopus ventures', 'notion capital',
+  'eqt ventures', 'felix capital', 'hv capital', 'point nine', 'lakestar', 'speedinvest',
+];
+const isVentureFirm = firmMatcher(VENTURE_FIRMS);
+const VENTURE_SEAT =
+  /invest(ing|ment|or)|platform|portfolio|deal ?flow|sourcing|\bassociate\b|\banalyst\b|scout|fellow/;
+
+/**
+ * 'Hedge Fund', 'Private Equity', 'Private Credit', 'Venture Capital', or null.
+ * Asked after the title rules, so a title that names its vertical keeps it.
+ */
+export function fundSeatVerdict(title, ctx = {}) {
+  const t = String(title || '').toLowerCase();
+  if (!t.trim()) return null;
+  const tier = ctx.tier || '';
+  if ((isVentureFirm(ctx.firm) || tier === 'Growth Equity') && VENTURE_SEAT.test(t) && !NOT_FUND_SEAT.test(t)) {
+    return 'Venture Capital';
+  }
+  if (NOT_FUND_SEAT.test(t)) return null;
+  if (PRIVATE_FUND_TIERS.has(tier) && (FUND_SEAT.test(t) || PRIVATE_FUND_SEAT.test(t))) {
+    return /\bcredit\b/.test(t) ? 'Private Credit' : 'Private Equity';
+  }
+  if (FUND_SEAT.test(t) && (HEDGE_FUND_TIERS.has(tier) || isHedgeFundFirm(ctx.firm))) return 'Hedge Fund';
+  return null;
+}
 
 export function isHedgeFundSeat(t, firm) {
   const title = String(t || '').toLowerCase();
@@ -543,9 +658,12 @@ export function inferVertical(title, ctx = {}) {
   // them would be worse than leaving it visible in the Other report.
   if (/equity research|research analyst|investment research/.test(t)) return 'Equity Research';
   if (/private equity|\bbuyout\b/.test(t)) return 'Private Equity';
-  if (/venture capital|\bvc\b\s|growth equity/.test(t)) return 'Venture Capital';
+  if (/venture capital|\bvc\b\s|growth equity|venture (investing|investment|associate|analyst|fellow|scout|partner)|ventures? (fellowship|scout)/.test(t)) return 'Venture Capital';
   if (/private credit|direct lending|leveraged finance|credit investment/.test(t)) return 'Private Credit';
   if (isHedgeFundSeat(t, ctx.firm)) return 'Hedge Fund';
+  // The fund's own investing seat, read beside the employer (fundSeatVerdict).
+  const fundSeat = fundSeatVerdict(title, ctx);
+  if (fundSeat) return fundSeat;
   // Both of these sit above the generic 'banking' rule, which would otherwise
   // swallow them. "Private Banking" is wealth management, not a deal team —
   // caught by a test the moment the generic rule was added. And Citi files
@@ -592,8 +710,11 @@ export function inferVertical(title, ctx = {}) {
     return 'Private Equity';
   if (/property valu|real estate valu|\bvaluer\b/.test(core)) return 'Other';
   // Business transformation is consulting, even when the firm calls the
-  // segment corporate finance; the consulting vertical is a separate proposal.
-  if (/business transformation/.test(core)) return 'Other';
+  // segment corporate finance (FTI files it under its Corporate Finance
+  // segment, which is why consultingVerdict's finance override let it pass).
+  // Only at a consulting firm: a bank's own "Business Transformation Analyst"
+  // is an internal change seat and stays Other, as before.
+  if (/business transformation/.test(core)) return isConsultingFirm(ctx.firm) ? 'Consulting' : 'Other';
   // With the division prefix gone, a markets or sales seat inside the
   // investment bank reads as what it is.
   if (insideBankingDivision && /\bmarkets\b|\bsales\b|\btrading\b|\brisk\b/.test(core)) {
@@ -687,7 +808,7 @@ const REGION_PATTERNS = [
   ['Remote', /\bremote\b|work from home|virtual/],
   [
     'Europe',
-    /\beurope\b|\bemea\b|dublin|ireland|amsterdam|netherlands|rotterdam|paris|france|berlin|münchen|munich|frankfurt|hamburg|germany|madrid|barcelona|spain|zurich|geneva|basel|switzerland|stockholm|sweden|milan|rome|italy|lisbon|porto|portugal|warsaw|krakow|poland|copenhagen|denmark|aarhus|helsinki|finland|oslo|norway|vienna|austria|brussels|bruxelles|belgium|prague|czech|budapest|hungary|bucharest|romania|sofia|bulgaria|athens|greece|luxembourg|malta|zagreb|croatia|vilnius|lithuania|riga|latvia|tallinn|estonia|bratislava|slovakia|ljubljana|slovenia|reykjavik|iceland/,
+    /\beurope\b|\bemea\b|dublin|ireland|amsterdam|netherlands|rotterdam|paris|france|berlin|münchen|munich|frankfurt|hamburg|germany|madrid|barcelona|spain|zurich|geneva|basel|switzerland|stockholm|sweden|milan|rome|italy|lisbon|porto|portugal|warsaw|krakow|kraków|wroclaw|wrocław|gdansk|gdańsk|poznan|poznań|lodz|łódź|katowice|poland|copenhagen|denmark|aarhus|helsinki|finland|oslo|norway|vienna|austria|brussels|bruxelles|belgium|prague|czech|budapest|hungary|bucharest|romania|sofia|bulgaria|athens|greece|luxembourg|malta|zagreb|croatia|vilnius|lithuania|riga|latvia|tallinn|estonia|bratislava|slovakia|ljubljana|slovenia|reykjavik|iceland|kyiv|kiev|ukraine|belgrade|serbia/,
   ],
   [
     'Asia',
@@ -829,13 +950,17 @@ export function firmKey(firm) {
   return String(raw).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-export function toOpportunity(job, firm) {
+export function toOpportunity(job, board) {
   // `earlyCareerConfirmed` is set by fetchers whose source states the level in a
   // dedicated field rather than in the title. Jane Street is the case that
   // forced it: `availability` says "Summer Internship" while the title says
   // "Software Engineer", so a title-only test threw away the entire board and
   // reported the firm as having nothing open.
   if (!job.title) return null;
+  // A board shared by several businesses names the owner in the title (see
+  // lib/title-brands.mjs). The id still comes from the board, so it is stable
+  // whichever brand a row is published under.
+  const firm = { ...board, ...brandForTitle(job.title, board) };
   const admission = job.earlyCareerConfirmed ? 'campus' : earlyCareerAdmission(job.title);
   // A "Junior …" seat at a trading or quant firm is early career when the
   // rest of the title is a seat the experienced classifier would take there
@@ -845,6 +970,7 @@ export function toOpportunity(job, firm) {
   // No null check: inferVertical always classifies, falling back to 'Other'.
   const inferred = inferVertical(job.title, {
     firm: firm.firm,
+    tier: firm.tier,
     department: job.department,
     location: job.location,
   });
@@ -863,7 +989,7 @@ export function toOpportunity(job, firm) {
   if (extracted.rolling) tags.push('Rolling');
   const atsDate = toIsoDate(job.deadline, { allowFuture: true });
   return {
-    id: `${firm.ats}-${firmKey(firm)}-${job.id}`,
+    id: `${board.ats}-${firmKey(board)}-${job.id}`,
     firm: firm.firm,
     role: job.title.trim(),
     vertical,
@@ -936,21 +1062,22 @@ export function readsExperienced(firm) {
  * application URL from the ATS. Only the four fields that describe the seat
  * are replaced.
  */
-export function toExperiencedOpportunity(job, firm) {
+export function toExperiencedOpportunity(job, board) {
   if (!job?.title || job.earlyCareerConfirmed || isEarlyCareer(job.title)) return null;
-  if (!readsExperienced(firm)) return null;
+  if (!readsExperienced(board)) return null;
+  const firm = { ...board, ...brandForTitle(job.title, board) };
   const seat = classifySeniority(job.title, {
     department: job.department,
     firmType: firmTypeForTier(firm.tier),
   });
   if (!seat) return null;
   const vertical = experiencedVertical(
-    inferVertical(job.title, { firm: firm.firm, department: job.department, location: job.location }),
+    inferVertical(job.title, { firm: firm.firm, tier: firm.tier, department: job.department, location: job.location }),
     seat,
     firm.tier
   );
   if (!vertical) return null;
-  const row = toOpportunity({ ...job, earlyCareerConfirmed: true }, firm);
+  const row = toOpportunity({ ...job, earlyCareerConfirmed: true }, board);
   if (!row) return null;
   row.vertical = vertical;
   row.programmeType = experiencedProgrammeType(seat);
@@ -1206,7 +1333,11 @@ async function fetchWorkday(f, stats = newRequestStats()) {
     getJson(`https://${host}/wday/cxs/${f.tenant}/${f.site}/jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ limit, offset, searchText }),
+      // Registry `appliedFacets`: a board shared by several businesses can be
+      // narrowed to one of them by Workday's own facet, as the site's filter
+      // would. Marsh McLennan's board is read through its Consulting job family
+      // only (Oliver Wyman, NERA and Mercer), not its insurance broking.
+      body: JSON.stringify({ appliedFacets: f.appliedFacets ?? {}, limit, offset, searchText }),
     }, timeout);
   // Registry `collect: "complete"`: the whole board, empty search, walked to
   // the board's own total and classified locally (lib/complete-board.mjs).
@@ -1400,7 +1531,7 @@ async function fetchOracle(f, stats = newRequestStats()) {
 const TALNET_POOL = 6;
 
 async function fetchTalnet(f) {
-  const url = talnetBoardUrl(f.host, f.brand);
+  const url = talnetBoardUrl(f.host, f.brand, f.appcentre);
   if (!url) return [];
   const res = await fetch(url, { headers: { 'User-Agent': BROWSER_UA }, signal: AbortSignal.timeout(TIMEOUT_MS) });
   if (!res.ok) throw new Error(`${res.status}`);

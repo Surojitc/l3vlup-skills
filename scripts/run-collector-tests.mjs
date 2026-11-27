@@ -48,6 +48,7 @@ export const SUITES = [
   'deadline-ledger',
   'oracle-paginate',
   'talnet',
+  'title-brands',
   'eightfold-janestreet',
   'smartrecruiters',
   'recruitee-pinpoint',
