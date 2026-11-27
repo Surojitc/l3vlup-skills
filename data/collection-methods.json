@@ -1,6 +1,6 @@
 {
   "_comment": "Every collector fingerprint ever run, mapped by a person to a collection method. Written by scripts/collection-method.mjs; see lib/board-checks.mjs for why.",
-  "current": "2026-11-27b",
+  "current": "2026-11-27c",
   "fingerprints": {
     "99b4a6dabe727975": {
       "method": "2026-09-24",
@@ -70,6 +70,11 @@
     "f392f299234b1241": {
       "method": "2026-11-27b",
       "note": "Ran 18 and 19 Nov unlabelled. #330 (1cb5c633e, 17 Nov): SEASONAL_QUERIES (spring, insight, placement, off cycle) run first on every Workday and Oracle board, INSIGHT_PROGRAMME admits insight and discovery programmes as early career, and a SmartRecruiters reader (no registry row used it). Changes n and roles: on 18 Nov 25 Workday and Oracle roles posted before 15 Nov appeared for the first time, reached by the seasonal queries (Citi 14, NVIDIA 3, Houlihan Lokey 2, Travelers 2, Accenture, MUFG, TD, Chubb), and five rows passed only the new insight rule (Nomura, BP, MUFG, GSA Capital twice). Days either side do not compare.",
+      "recorded": "2026-11-27"
+    },
+    "c55615f2e3007028": {
+      "method": "2026-11-27c",
+      "note": "First ran 27 Nov. #352 (b74dc6f37) and #355 (4dfdc58f8): fundSeatVerdict places roles at hedge fund, private equity, private credit and venture firms by title and tier; consulting rules (strategy boutiques, service lines, business transformation at a consulting firm) place roles in Consulting; isNotAPosting and namesOnlyPastCycle drop rows; titles carry a brand (brandForTitle); a country-to-region map; Workday reads send applied facets. Changes which seat a role takes and which rows a healthy board yields, so days either side do not compare. #352's own code (c89d43cc6b5ad616) never ran a collection.",
       "recorded": "2026-11-27"
     }
   }
