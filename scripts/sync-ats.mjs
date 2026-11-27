@@ -18,7 +18,7 @@
  * Run locally: npm run sync:ats
  */
 
-import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rename, readdir, rm } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import {
   extractDeadline,
@@ -29,6 +29,7 @@ import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import { brandForTitle } from '../lib/title-brands.mjs';
 import { parseRolandBergerJobs, ROLAND_BERGER_JOBS_URL } from '../lib/rolandberger.mjs';
+import { descriptionFiles, permissionFor } from '../lib/description-permissions.mjs';
 import { avatureSearchUrl, parseAvatureSearch, isAvatureEmptyShell, AVATURE_PAGE } from '../lib/avature.mjs';
 import { successFactorsSearchUrl, parseSuccessFactorsSearch, isSuccessFactorsEmptyShell, SUCCESSFACTORS_PAGE } from '../lib/successfactors.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
@@ -82,6 +83,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'lib/sources/ats-registry.json');
 const OUT = join(ROOT, 'data/opportunities.auto.json');
+const DESCRIPTIONS_DIR = join(ROOT, 'data/job-descriptions');
+const DESCRIPTION_PERMISSIONS = JSON.parse(readFileSync(join(ROOT, 'lib/sources/description-permissions.json'), 'utf8')).permissions ?? [];
+const capturedDescriptions = [];
 const UA = 'Mozilla/5.0 (compatible; L3vlupTracker/1.0; +https://l3vlup.com)';
 // tal.net's front end is rendered for browsers and returns an interstitial to
 // anything it does not recognise. Used only for that family.
@@ -834,11 +838,11 @@ const REGION_PATTERNS = [
   ['Remote', /\bremote\b|work from home|virtual/],
   [
     'Europe',
-    /\beurope\b|\bemea\b|dublin|ireland|amsterdam|netherlands|rotterdam|paris|france|berlin|münchen|munich|frankfurt|hamburg|germany|madrid|barcelona|spain|zurich|geneva|basel|switzerland|stockholm|sweden|milan|rome|italy|lisbon|porto|portugal|warsaw|krakow|kraków|wroclaw|wrocław|gdansk|gdańsk|poznan|poznań|lodz|łódź|katowice|poland|copenhagen|denmark|aarhus|helsinki|finland|oslo|norway|vienna|austria|brussels|bruxelles|belgium|prague|czech|budapest|hungary|bucharest|romania|sofia|bulgaria|athens|greece|luxembourg|malta|zagreb|croatia|vilnius|lithuania|riga|latvia|tallinn|estonia|bratislava|slovakia|ljubljana|slovenia|reykjavik|iceland|kyiv|kiev|ukraine|belgrade|serbia/,
+    /\beurope\b|\bemea\b|dublin|ireland|amsterdam|netherlands|rotterdam|paris|france|berlin|münchen|munich|frankfurt|hamburg|germany|madrid|barcelona|spain|zurich|geneva|basel|switzerland|stockholm|sweden|milan|rome|italy|lisbon|porto|portugal|warsaw|krakow|kraków|wroclaw|wrocław|gdansk|gdańsk|poznan|poznań|lodz|łódź|katowice|poland|copenhagen|denmark|aarhus|helsinki|finland|oslo|norway|vienna|austria|brussels|bruxelles|belgium|prague|czech|budapest|hungary|bucharest|romania|sofia|bulgaria|athens|greece|luxembourg|malta|zagreb|croatia|vilnius|lithuania|riga|latvia|tallinn|estonia|bratislava|slovakia|ljubljana|slovenia|reykjavik|iceland|kyiv|kiev|ukraine|belgrade|serbia|\bpisa\b|turin|torino|florence|firenze|bologna|naples|\bnapoli\b|genoa|genova|lyon|marseille|toulouse|lille|nantes|bordeaux|cologne|köln|stuttgart|düsseldorf|dusseldorf|leipzig|dresden|hanover|hannover|nuremberg|nürnberg|valencia|seville|sevilla|bilbao|malaga|málaga|antwerp|ghent|gothenburg|göteborg|malmö|malmo|tampere|espoo|cork|galway|limerick|utrecht|eindhoven|the hague|den haag|lausanne|lugano|graz|salzburg|brno|cluj|timisoara|timișoara|thessaloniki/,
   ],
   [
     'Asia',
-    /\basia\b|\bapac\b|singapore|hong kong|tokyo|osaka|japan|bangalore|bengaluru|mumbai|hyderabad|pune|chennai|gurgaon|gurugram|noida|\bdelhi\b|\bindia\b|shanghai|beijing|shenzhen|\bchina\b|taiwan|taipei|hsinchu|seoul|korea|sydney|melbourne|brisbane|perth|australia|auckland|new zealand|kuala lumpur|malaysia|jakarta|indonesia|bangkok|thailand|manila|philippines|hanoi|ho chi minh|vietnam/,
+    /\basia\b|\bapac\b|singapore|hong kong|tokyo|osaka|japan|bangalore|bengaluru|mumbai|hyderabad|pune|chennai|gurgaon|gurugram|noida|\bdelhi\b|\bindia\b|shanghai|beijing|shenzhen|\bchina\b|taiwan|taipei|hsinchu|seoul|korea|sydney|melbourne|brisbane|perth|australia|auckland|new zealand|kuala lumpur|malaysia|jakarta|indonesia|bangkok|thailand|manila|philippines|hanoi|ho chi minh|vietnam|putrajaya|cyberjaya|penang|cebu|chengdu|guangzhou|hangzhou|suzhou|dalian|kolkata|ahmedabad|coimbatore|jaipur|chandigarh|nagoya|fukuoka|yokohama|busan|canberra|adelaide|christchurch/,
   ],
   [
     'Middle East',
@@ -846,7 +850,18 @@ const REGION_PATTERNS = [
   ],
   [
     'UK',
-    /london|united kingdom|\buk\b|\bu\.k\b|england|scotland|(?<!new south )\bwales\b|northern ireland|edinburgh|glasgow|cardiff|belfast|canary wharf|milton keynes/,
+    /london|united kingdom|\buk\b|\bu\.k\b|england|scotland|(?<!new south )\bwales\b|northern ireland|edinburgh|glasgow|cardiff|belfast|canary wharf|milton keynes|knutsford|northampton|radbroke|bournemouth|leicester|coventry|swindon|guildford|basingstoke|southampton|aberdeen|dundee|swansea|peterborough|watford|st albans|wolverhampton|warrington|salford/,
+  ],
+  // Canada and Latin America before the US state codes, which would otherwise
+  // read a province code ("Toronto, ON") as nothing or a state. A province
+  // code alone is never enough: a Canadian city or the country must be named.
+  [
+    'Canada',
+    /\bcanada\b|,\s*can$|toronto|mississauga|markham|brampton|oakville|kitchener|montr[eé]al|qu[eé]bec|vancouver|burnaby|calgary|edmonton|ottawa|winnipeg|halifax,? ns|saskatoon|ontario,? canada|british columbia|\balberta\b|nova scotia|manitoba|saskatchewan/,
+  ],
+  [
+    'Latin America',
+    /(?<!new )\bm[eé]xico\b|mexico city|monterrey|guadalajara|\bbrazil\b|\bbrasil\b|s[aã]o paulo|rio de janeiro|belo horizonte|curitiba|argentina|buenos aires|\bchile\b|santiago,? (chile|cl)|colombia|bogot[aá]|medell[ií]n|\bperu\b|lima,? (peru|pe)|costa rica|panam[aá]|uruguay|montevideo|guatemala|dominican republic|ecuador|\blatam\b|latin america/,
   ],
   // A two-letter code after a comma is a strong US signal and beats the bare
   // city names below. A bare code would read "in" out of "Bengaluru, India"
@@ -863,20 +878,22 @@ const REGION_PATTERNS = [
   ],
   [
     'US',
-    /united states|\busa\b|\bu\.s\b|\bus\b|america|canada|toronto|vancouver|montreal|calgary|ottawa|mexico|brazil|sao paulo|argentina|chile|colombia|new york|\bnyc\b|chicago|boston|san francisco|bay area|seattle|austin|dallas|houston|atlanta|denver|miami|philadelphia|phoenix|charlotte|jersey city|washington|los angeles|san diego|san jose|portland|minneapolis|detroit|salt lake|columbus|nashville|raleigh|pittsburgh|tampa|orlando|st\. louis|kansas city|cincinnati|cleveland|milwaukee|sacramento|las vegas|hartford|wilmington|richmond|baltimore|california|texas|florida|virginia|illinois|arizona|georgia|colorado|oregon|utah|massachusetts|new jersey|pennsylvania|north carolina|ohio|michigan|minnesota|tennessee|missouri|wisconsin|indiana|maryland|connecticut|delaware/,
+    /united states|\busa\b|\bu\.s\b|\bus\b|\bamerica\b|new mexico|new york|\bnyc\b|chicago|boston|san francisco|bay area|seattle|austin|dallas|houston|atlanta|denver|miami|philadelphia|phoenix|charlotte|jersey city|washington|los angeles|san diego|san jose|portland|minneapolis|detroit|salt lake|columbus|nashville|raleigh|pittsburgh|tampa|orlando|st\. louis|kansas city|cincinnati|cleveland|milwaukee|sacramento|las vegas|hartford|wilmington|richmond|baltimore|california|texas|florida|virginia|illinois|arizona|georgia|colorado|oregon|utah|massachusetts|new jersey|pennsylvania|north carolina|ohio|michigan|minnesota|tennessee|missouri|wisconsin|indiana|maryland|connecticut|delaware/,
   ],
 ];
 /**
  * The region of an ISO 3166 country, where the mapping is unambiguous, else null.
  *
  * Workday's detail endpoint states the country as a code beside a descriptor
- * that is often a bare city ("Milan"). The code is the better evidence. Canada
- * and Latin America return null and fall through to inferRegion as before: the
- * Region vocabulary has no Americas-outside-the-US value, and folding them in is
- * a separate decision (docs/consulting-inventory-2026-09.md).
+ * that is often a bare city ("Milan"). The code is the better evidence.
+ * Canada and Latin America are regions of their own since 27 November 2026:
+ * until then they fell through to the US, which put 103 Canadian and 51 Latin
+ * American rows on the US board and hubs.
  */
 const COUNTRY_REGION = {
-  US: 'US', GB: 'UK',
+  US: 'US', GB: 'UK', CA: 'Canada',
+  MX: 'Latin America', BR: 'Latin America', AR: 'Latin America', CL: 'Latin America', CO: 'Latin America', PE: 'Latin America',
+  CR: 'Latin America', PA: 'Latin America', UY: 'Latin America', GT: 'Latin America', DO: 'Latin America', EC: 'Latin America',
   AE: 'Middle East', SA: 'Middle East', QA: 'Middle East', BH: 'Middle East', KW: 'Middle East', OM: 'Middle East', IL: 'Middle East',
   SG: 'Asia', HK: 'Asia', CN: 'Asia', JP: 'Asia', KR: 'Asia', IN: 'Asia', AU: 'Asia', NZ: 'Asia', TW: 'Asia', MY: 'Asia', ID: 'Asia', PH: 'Asia', TH: 'Asia', VN: 'Asia',
 };
@@ -1837,6 +1854,26 @@ export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever:
  * staged and pushed together, so a run that dies between them publishes none of
  * them rather than a feed whose slugs have no registry behind them.
  */
+/**
+ * The permitted descriptions, beside the feed (the contract in L3VLUP
+ * lib/job-descriptions.ts): an index carrying the active permissions, and one
+ * shard per FNV-1a byte. Stale shards are removed, so a permission that lapses
+ * or is withdrawn takes its text off the site on the next run. Only rows still
+ * in the feed are written.
+ */
+async function writeDescriptions(published) {
+  const live = new Set(published.map((o) => o.id));
+  const files = descriptionFiles(capturedDescriptions.filter((c) => live.has(c.id)), DESCRIPTION_PERMISSIONS, new Date());
+  await mkdir(DESCRIPTIONS_DIR, { recursive: true });
+  const keep = new Set(Object.keys(files));
+  for (const name of await readdir(DESCRIPTIONS_DIR).catch(() => [])) {
+    if (name.endsWith('.json') && !keep.has(name)) await rm(join(DESCRIPTIONS_DIR, name));
+  }
+  for (const [name, body] of Object.entries(files)) await writeAtomic(join(DESCRIPTIONS_DIR, name), JSON.stringify(body) + '\n');
+  const n = Object.values(files).reduce((sum, f) => sum + (f.shards ? 0 : Object.keys(f).length), 0);
+  console.log(`descriptions: ${n} published under ${files['index.json'].permissions.length} employer permission(s) → ${DESCRIPTIONS_DIR}`);
+}
+
 async function writeAtomic(path, contents) {
   const temp = `${path}.tmp`;
   await writeFile(temp, contents);
@@ -1979,7 +2016,15 @@ async function main() {
     const results = await Promise.allSettled(
       batch.map(async (f, k) => {
         const raw = await FETCHERS[f.ats](f, batchStats[k]);
-        const opps = raw.map((j) => toOpportunity(j, f)).filter(Boolean);
+        const pairs = raw.map((j) => [j, toOpportunity(j, f)]);
+        const opps = pairs.map(([, o]) => o).filter(Boolean);
+        // The employer's own description, kept only where the employer has
+        // given written permission to republish it (lib/sources/description-
+        // permissions.json). The readers already fetch the text; nothing extra
+        // is requested, and nothing is kept for anyone else.
+        if (permissionFor(DESCRIPTION_PERMISSIONS, f.firm, f.ats)) {
+          for (const [j, o] of pairs) if (o && j.description) capturedDescriptions.push({ id: o.id, employer: o.firm, system: f.ats, sourceUrl: j.url || o.applicationUrl, html: j.description });
+        }
         // Experienced rows, only from postings the line above refused, and
         // kept apart from `opps` all the way through: the ceiling, the board
         // check and the empty-board report below read early-career rows only.
@@ -2620,6 +2665,13 @@ async function main() {
     OUT,
     JSON.stringify({ generatedAt: stamp, count: all.length, opportunities: all }, null, 2) + '\n'
   );
+  // A failure here must never cost the day's feed: the descriptions are an
+  // addition beside it, and the site shows none it cannot read.
+  try {
+    await writeDescriptions(all);
+  } catch (err) {
+    console.warn(`  !! descriptions not written: ${err instanceof Error ? err.message : err}`);
+  }
   const xpPublished = all.filter(isExperiencedRow).length;
   console.log(
     `\n${all.length - xpPublished} early-career roles and ${xpPublished} experienced ` +

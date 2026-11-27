@@ -91,6 +91,12 @@ export const CONTRACTS = {
       // favourable of several reads of one day (see immutableProblems).
       { pattern: /^data\/board-checks\/\d{4}-\d{2}-\d{2}\.json$/, label: 'the day\'s board checks', immutable: true },
       { path: 'data/deadlines.learned.json', freshness: { cadence: 'daily', from: 'updatedAt' }, label: 'the deadline ledger', shapeOnly: true },
+      // Employer descriptions, published only under an employer's written
+      // permission (lib/sources/description-permissions.json). The index is
+      // written every run, empty while no permission exists; shards appear
+      // and disappear with the permissions.
+      { path: 'data/job-descriptions/index.json', freshness: { cadence: 'daily', from: 'generatedAt' }, label: 'the description manifest', shapeOnly: true, optional: true },
+      { pattern: /^data\/job-descriptions\/[0-9a-f]{2}\.json$/, label: 'a description shard', optional: true },
       // The collection method of every fingerprint ever run, published from
       // lib/collection-method.json by scripts/collection-method.mjs so the
       // site can resolve a day's method from its fingerprint, including a day

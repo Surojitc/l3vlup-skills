@@ -54,6 +54,7 @@ export const SUITES = [
   'successfactors',
   'source-registry',
   'restricted-hosts',
+  'description-permissions',
   'eightfold-janestreet',
   'smartrecruiters',
   'recruitee-pinpoint',
