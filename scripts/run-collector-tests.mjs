@@ -66,6 +66,8 @@ export const SUITES = [
   'experienced-quality',
   'role-telemetry',
   'board-checks',
+  'collection-method',
+  'board-check-health',
   'complete-board',
   'ats-discover',
   'slug-registry',
@@ -96,10 +98,27 @@ export const DATA_OWNERS = {
   'funds-explorer': 'open-data',
 };
 
-/** The suites a producer's collection gates on: all of them, less another producer's data checks. */
+/**
+ * Suites that gate a change, not a collection: each is run on every pushed
+ * branch and skipped, by name, by a collection run, because the collection
+ * reports the same condition after its read without withholding the day.
+ *
+ * collection-method fails when the code on disk is an unlabelled collection
+ * method. Until November 2026 it was in no list at all, and three unlabelled
+ * fingerprints ran for seventeen days. On a branch it must fail. Inside the
+ * morning's collection, failing it here would stop the read and cost the day
+ * its board-check file, which is the one thing that can never be recovered;
+ * so there the collection runs, labels the day `unacknowledged:<fp>`, and
+ * scripts/check-board-checks.mjs turns the run red after publication.
+ */
+export const BRANCH_ONLY = {
+  'collection-method': 'scripts/check-board-checks.mjs',
+};
+
+/** The suites a producer's collection gates on: all of them, less another producer's data checks and the branch-only ones. */
 export function suitesFor(producer) {
   if (!producer) return { run: SUITES, skipped: [] };
-  const skipped = SUITES.filter((n) => DATA_OWNERS[n] && DATA_OWNERS[n] !== producer);
+  const skipped = SUITES.filter((n) => (DATA_OWNERS[n] && DATA_OWNERS[n] !== producer) || BRANCH_ONLY[n]);
   return { run: SUITES.filter((n) => !skipped.includes(n)), skipped };
 }
 
@@ -118,7 +137,8 @@ if (at > -1 && !producer) {
 }
 const { run: suites, skipped } = suitesFor(producer);
 for (const name of skipped) {
-  console.log(`skip  ${name} (checks ${DATA_OWNERS[name]}'s committed data; gated where that data is collected)`);
+  if (BRANCH_ONLY[name]) console.log(`skip  ${name} (gates a change on every branch; this run reports it through ${BRANCH_ONLY[name]})`);
+  else console.log(`skip  ${name} (checks ${DATA_OWNERS[name]}'s committed data; gated where that data is collected)`);
 }
 
 const failed = [];

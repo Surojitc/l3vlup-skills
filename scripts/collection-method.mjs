@@ -6,6 +6,16 @@
  *   node scripts/collection-method.mjs --new-method --note "Workday budget raised to 900"
  *   node scripts/collection-method.mjs --same-method --note "comment-only edit to the region table"
  *
+ * A fingerprint that already ran, unlabelled, and is no longer the code on disk:
+ *
+ *   node scripts/collection-method.mjs --fingerprint 948bc8e930f7addf --new-method --note "..."
+ *   node scripts/collection-method.mjs --fingerprint 32d6b54d3df5155e --same-as f392f299234b1241 --note "..."
+ *   node scripts/collection-method.mjs --fingerprint 32d6b54d3df5155e --same-as f392f299234b1241 --correct --note "..."
+ *
+ * And the published copy alone (the tracker collection runs this every day):
+ *
+ *   node scripts/collection-method.mjs --publish
+ *
  * The collector fingerprints its method-sensitive files at run time
  * (lib/board-checks.mjs METHOD_FILES) and records the label a person gave
  * that fingerprint here, in lib/collection-method.json. Every edit to one of
@@ -16,17 +26,33 @@
  *                  Days either side of it are not compared.
  *   --same-method  it cannot (a comment, a log line, a refactor that moves no
  *                  role). The new fingerprint keeps the current label.
+ *   --same-as <fp> it cannot, compared with the fingerprint named, whose
+ *                  label it takes. For labelling history, where "the current
+ *                  label" is not the predecessor's.
+ *
+ * `--correct` replaces a label already recorded, appending the correction to
+ * its note. It exists because a `--same-method` taken while the predecessor
+ * was unlabelled inherits whatever `current` happened to be, not the
+ * predecessor's method (four fingerprints recorded on 20 November 2026).
+ *
+ * Every write also writes data/collection-methods.json, the copy of the
+ * registry the site reads (lib/collection-methods.mjs says why), so the two
+ * cannot be committed apart.
  *
  * Either way the decision and its note sit in the diff for a reviewer. Until
  * it is made, the day's checks are labelled `unacknowledged:<fingerprint>` and
- * compare with nothing, and scripts/__tests__/collection-method.test.mjs fails.
+ * compare with nothing, scripts/__tests__/collection-method.test.mjs fails on
+ * every pushed branch (tests.yml), and the collection's board-check record
+ * (scripts/check-board-checks.mjs) turns the run red.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { METHOD_FILES, methodFingerprint } from '../lib/board-checks.mjs';
+import { PUBLISHED_PATH, REGISTRY_PATH, acknowledge, publishedRegistry, serialiseRegistry } from '../lib/collection-methods.mjs';
 
 const ROOT = new URL('../', import.meta.url).pathname;
-const RECORD = join(ROOT, 'lib/collection-method.json');
+const RECORD = join(ROOT, REGISTRY_PATH);
+const PUBLISHED = join(ROOT, PUBLISHED_PATH);
 
 const args = process.argv.slice(2);
 const flag = (n) => args.includes(`--${n}`);
@@ -36,38 +62,54 @@ const value = (n) => {
 };
 
 const record = JSON.parse(readFileSync(RECORD, 'utf8'));
-const fingerprint = methodFingerprint((f) => readFileSync(join(ROOT, f), 'utf8'));
-const known = record.fingerprints[fingerprint];
+const running = methodFingerprint((f) => readFileSync(join(ROOT, f), 'utf8'));
 
-if (!flag('new-method') && !flag('same-method')) {
-  console.log(`fingerprint ${fingerprint} over ${METHOD_FILES.join(', ')}`);
+const publish = (r) => writeFileSync(PUBLISHED, publishedRegistry(r));
+
+if (flag('publish')) {
+  publish(record);
+  console.log(`published ${REGISTRY_PATH} as ${PUBLISHED_PATH} (${Object.keys(record.fingerprints).length} fingerprints, current ${record.current})`);
+  process.exit();
+}
+
+const modes = ['new-method', 'same-method'].filter(flag);
+if (value('same-as')) modes.push('same-as');
+if (modes.length === 0) {
+  const known = record.fingerprints[running];
+  console.log(`fingerprint ${running} over ${METHOD_FILES.join(', ')}`);
   if (known) {
     console.log(`acknowledged: method ${known.method} (${known.note})`);
   } else {
-    console.log(`NOT acknowledged. Current method is ${record.current}. Re-run with --new-method or --same-method, and --note.`);
+    console.log(`NOT acknowledged. Current method is ${record.current}. Re-run with --new-method, --same-method or --same-as <fp>, and --note.`);
     process.exitCode = 1;
   }
   process.exit();
 }
-
-const note = value('note');
-if (!note || note.length < 8) {
-  console.error('--note is required: say what changed, in words a reviewer can check against the diff');
+if (modes.length > 1) {
+  console.error(`choose one of --new-method, --same-method, --same-as (got ${modes.join(', ')})`);
   process.exit(2);
 }
-if (known) {
-  console.log(`already acknowledged as ${known.method}; nothing to do`);
+
+const fingerprint = value('fingerprint') ?? running;
+let result;
+try {
+  result = acknowledge(record, {
+    fingerprint,
+    currentFingerprint: running,
+    mode: { 'new-method': 'new', 'same-method': 'same', 'same-as': 'same-as' }[modes[0]],
+    sameAs: value('same-as'),
+    note: value('note'),
+    correct: flag('correct'),
+    today: new Date().toISOString().slice(0, 10),
+  });
+} catch (e) {
+  console.error(e.message);
+  process.exit(2);
+}
+if (!result.changed) {
+  console.log(`${fingerprint} is already acknowledged as ${result.entry.method}; nothing to do (--correct replaces a label)`);
   process.exit();
 }
-
-let method = record.current;
-if (flag('new-method')) {
-  const today = new Date().toISOString().slice(0, 10);
-  const taken = new Set(Object.values(record.fingerprints).map((e) => e.method));
-  method = today;
-  for (let i = 0; taken.has(method); i += 1) method = `${today}${String.fromCharCode(97 + i)}`;
-  record.current = method;
-}
-record.fingerprints[fingerprint] = { method, note, recorded: new Date().toISOString().slice(0, 10) };
-writeFileSync(RECORD, JSON.stringify(record, null, 2) + '\n');
-console.log(`recorded ${fingerprint} as method ${method}`);
+writeFileSync(RECORD, serialiseRegistry(result.record));
+publish(result.record);
+console.log(`recorded ${fingerprint} as method ${result.entry.method}; current is ${result.record.current}; ${PUBLISHED_PATH} rewritten`);

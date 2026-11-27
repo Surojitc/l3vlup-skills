@@ -38,6 +38,10 @@ eq('a Bloomberg card is read', bb.jobs.map((j) => [j.id, j.title, j.location]), 
 eq('a tenant without a total reads as zero, and pagination stops on a page with nothing new', bb.total, 0);
 eq('a tenant with no locale has no empty path segment', avatureSearchUrl({ host: 'bloomberg.avature.net', locale: '', portal: 'careers' }, 'intern'), 'https://bloomberg.avature.net/careers/SearchJobs/?search=intern&jobOffset=0');
 
+const { isAvatureEmptyShell } = await import('../../lib/avature.mjs');
+eq('a bare shell is recognised as one', isAvatureEmptyShell('<html><body>Careers</body></html>'), true);
+eq('a results page is not a shell', isAvatureEmptyShell(html), false);
+
 // The Big Four rule.
 eq('a Deloitte tax consultant is not Consulting', inferVertical('Tax - Tax Consultant - Japanese Services Group - Summer 2027', { firm: 'Deloitte' }) === 'Consulting', false);
 eq('an audit associate at PwC is not Consulting', inferVertical('Audit Associate - Summer 2027', { firm: 'PwC' }) === 'Consulting', false);

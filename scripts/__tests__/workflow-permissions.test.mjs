@@ -153,6 +153,7 @@ eq('every workflow in the directory is read', files, [
 ]);
 const allJobs = workflows.flatMap((w) => w.jobs.map((j) => `${w.file}:${j.name}`));
 eq('every job is found, and none has been renamed out from under this test', allJobs.sort(), [
+  'build-samples.yml:board-checks',
   'build-samples.yml:collect',
   'build-samples.yml:health',
   'build-samples.yml:notify',
@@ -778,6 +779,31 @@ for (const file of ['discover-ats.yml', 'publish-data.yml']) {
   const degraded = run({ COLLECT: 'success', PUBLISH: 'success', BLOCKING: 'false', DEGRADED: 'true' });
   check(`${file}: a degraded optional source is a warning, not a failure`, /::warning::/.test(degraded.out));
   }
+}
+
+// The Hiring Pulse's record. Judged after publication, so a day with a
+// problem is still recorded, and red when the record is not whole: an absent
+// verdict from a collection that finished is not an all-clear either.
+{
+  const w = workflows.find((x) => x.file === 'build-samples.yml');
+  const job = w.jobs.find((j) => j.name === 'board-checks');
+  eq('build-samples.yml:board-checks holds no token at all', job.permissions, {});
+  check('build-samples.yml:board-checks runs after publication, whatever happened', /needs: \[collect, publish\]/.test(job.body.join('\n')) && /if: always\(\)/.test(job.body.join('\n')));
+  check('the collect job checks the record and hands the verdict on', /node scripts\/check-board-checks\.mjs[\s\\]*--running[\s\\]*--through today/.test(w.text) && /board_checks: \$\{\{ steps\.boardchecks\.outputs\.board_checks \}\}/.test(w.text));
+  check('the collect job publishes the collection-method registry', /run: node scripts\/collection-method\.mjs --publish/.test(w.text));
+  const script = join(mkdtempSync(join(tmpdir(), 'board-checks-')), 'board-checks.sh');
+  writeFileSync(script, job.scripts.join('\n'));
+  const run = (env) => {
+    try {
+      return { code: 0, out: execFileSync('bash', [script], { env: { PATH: process.env.PATH, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
+    } catch (err) {
+      return { code: err.status ?? -1, out: `${err.stdout ?? ''}${err.stderr ?? ''}` };
+    }
+  };
+  eq('a whole record passes', run({ COLLECT: 'success', BOARD_CHECKS: 'ok' }).code, 0);
+  eq('a record with a problem fails the run', run({ COLLECT: 'success', BOARD_CHECKS: 'problems' }).code, 1);
+  eq('a finished collection that wrote no verdict fails the run', run({ COLLECT: 'success', BOARD_CHECKS: '' }).code, 1);
+  eq('a collection that did not finish is left to Source health', run({ COLLECT: 'failure', BOARD_CHECKS: '' }).code, 0);
 }
 
 // And the two say it the same way. An operator reading two morning emails

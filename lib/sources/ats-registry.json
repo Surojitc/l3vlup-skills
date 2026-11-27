@@ -51,9 +51,12 @@
     },
     {
       "firm": "Marqeta",
-      "ats": "greenhouse",
-      "token": "marqeta",
-      "tier": "Fintech"
+      "ats": "ashby",
+      "token": "marqeta-inc",
+      "tier": "Fintech",
+      "discoveredVia": "https://www.marqeta.com/company/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 34
     },
     {
       "firm": "Gemini",
@@ -331,10 +334,13 @@
     {
       "firm": "Guggenheim Securities",
       "ats": "workday",
-      "tenant": "guggenheiminvestment",
-      "shard": "wd5",
+      "tenant": "guggenheim",
+      "shard": "wd1",
       "site": "Guggenheim_Careers_Campus",
-      "tier": "Elite Boutique"
+      "tier": "Elite Boutique",
+      "discoveredVia": "https://www.guggenheimsecurities.com/careers",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 4
     },
     {
       "firm": "Lloyds Banking Group",

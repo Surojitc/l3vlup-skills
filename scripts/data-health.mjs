@@ -19,7 +19,11 @@
  * - a 13F source degraded or stale;
  * - the live 13F page serving a collection older than `main`'s by more than
  *   LAG_HOURS, once `main`'s copy has been there longer than the site's two
- *   hourly caches need to pick it up.
+ *   hourly caches need to pick it up;
+ * - the Hiring Pulse's board-check record not whole through yesterday: a day
+ *   missing, a fingerprint unlabelled, the registry unpublished, the record
+ *   stale or a collapse in coverage (lib/board-check-health.mjs). Yesterday,
+ *   because this runs before GitHub has always started today's collection.
  *
  * Degraded sources elsewhere are named as warnings. It reads `main` and one
  * public page, and writes only the job summary.
@@ -31,6 +35,8 @@ import { CONTRACTS, freshnessReport } from './publication-contracts.mjs';
 import { productionLag, letterFunnel } from '../lib/data-health.mjs';
 import { readdirSync } from 'node:fs';
 import { buildSourceRegistry, sourceAlerts } from '../lib/source-registry.mjs';
+import { boardCheckHealth } from '../lib/board-check-health.mjs';
+import { readRecord, resolveThrough } from './check-board-checks.mjs';
 
 const argv = process.argv.slice(2);
 const arg = (name) => {
@@ -96,7 +102,13 @@ lines.push('', `13F on main: ${funds?.generatedAt ?? 'unreadable'} · live: ${li
 if (lag.problem) failures.push(lag.problem);
 else if (lag.warning) warnings.push(lag.warning);
 
-// 3. Every tracker source: may it be read, did it answer, is anything coming.
+// 3. The Hiring Pulse's board-check record, as main holds it.
+const pulse = boardCheckHealth({ ...readRecord(process.cwd()), through: resolveThrough('yesterday'), now: new Date() });
+lines.push('', `Board checks: newest ${pulse.latest ?? 'none'} (${pulse.ageHours ?? '?'}h)` +
+  (pulse.coverage ? ` · ${pulse.coverage.ok} boards read completely, trailing median ${pulse.coverage.median ?? 'n/a'}` : ''));
+for (const p of pulse.problems) failures.push(`board checks: ${p.code}: ${p.detail}`);
+
+// 4. Every tracker source: may it be read, did it answer, is anything coming.
 // lib/source-registry.mjs. Reading a source its terms forbid fails the run;
 // everything else is named so it is seen, without turning the run red daily.
 {
@@ -116,7 +128,7 @@ else if (lag.warning) warnings.push(lag.warning);
   for (const a of alerts) (a.kind === 'not-permitted' ? failures : warnings).push(`tracker source, ${a.kind}: ${a.message}`);
 }
 
-// 4. The letters funnel, for the record.
+// 5. The letters funnel, for the record.
 const funnel = letterFunnel(read('data/letters.review-queue.json'), read('data/letters.catalogue-keys.json'));
 lines.push('', `Letters: ${funnel.published} published · ${funnel.queued} in the review queue (${funnel.likely} likely letters) · ${funnel.decided} decided`);
 

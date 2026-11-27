@@ -29,8 +29,8 @@ import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import { brandForTitle } from '../lib/title-brands.mjs';
 import { parseRolandBergerJobs, ROLAND_BERGER_JOBS_URL } from '../lib/rolandberger.mjs';
-import { avatureSearchUrl, parseAvatureSearch, AVATURE_PAGE } from '../lib/avature.mjs';
-import { successFactorsSearchUrl, parseSuccessFactorsSearch, SUCCESSFACTORS_PAGE } from '../lib/successfactors.mjs';
+import { avatureSearchUrl, parseAvatureSearch, isAvatureEmptyShell, AVATURE_PAGE } from '../lib/avature.mjs';
+import { successFactorsSearchUrl, parseSuccessFactorsSearch, isSuccessFactorsEmptyShell, SUCCESSFACTORS_PAGE } from '../lib/successfactors.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
@@ -1761,7 +1761,7 @@ const HTML_SEARCH_MAX_PAGES = 40;
  * nothing new (a site that ignores the offset), or the firm's page budget.
  * One request at a time, half a second apart.
  */
-async function walkHtmlSearch(f, stats, { url, parse, pageSize }) {
+async function walkHtmlSearch(f, stats, { url, parse, pageSize, emptyShell }) {
   const year = new Date().getUTCFullYear();
   const queries = f.queries ?? [String(year + 1), String(year + 2)];
   const budget = f.maxPages ?? HTML_SEARCH_MAX_PAGES;
@@ -1779,7 +1779,11 @@ async function walkHtmlSearch(f, stats, { url, parse, pageSize }) {
           signal: AbortSignal.timeout(TIMEOUT_MS),
         });
         if (!res.ok) throw new Error(`${res.status}`);
-        page = parse(await res.text(), f.host);
+        const html = await res.text();
+        // A first page that is the bare shell means the template changed: a
+        // failed board, never a firm with nothing open.
+        if (offset === 0 && seen.size === 0 && emptyShell?.(html)) throw new Error('not a results page: the template has changed shape');
+        page = parse(html, f.host);
       } catch (e) {
         stats.failures++;
         if (offset === 0) throw e;
@@ -1798,13 +1802,13 @@ async function walkHtmlSearch(f, stats, { url, parse, pageSize }) {
 /* -------------------------------- Avature -------------------------------- */
 // Server-rendered search pages, ten a page (lib/avature.mjs).
 async function fetchAvature(f, stats = newRequestStats()) {
-  return walkHtmlSearch(f, stats, { url: avatureSearchUrl, parse: parseAvatureSearch, pageSize: AVATURE_PAGE });
+  return walkHtmlSearch(f, stats, { url: avatureSearchUrl, parse: parseAvatureSearch, pageSize: AVATURE_PAGE, emptyShell: isAvatureEmptyShell });
 }
 
 /* ----------------------------- SuccessFactors ----------------------------- */
 // Server-rendered search pages, 25 a page (lib/successfactors.mjs).
 async function fetchSuccessFactors(f, stats = newRequestStats()) {
-  return walkHtmlSearch(f, stats, { url: successFactorsSearchUrl, parse: parseSuccessFactorsSearch, pageSize: SUCCESSFACTORS_PAGE });
+  return walkHtmlSearch(f, stats, { url: successFactorsSearchUrl, parse: parseSuccessFactorsSearch, pageSize: SUCCESSFACTORS_PAGE, emptyShell: isSuccessFactorsEmptyShell });
 }
 
 async function fetchJaneStreet() {
