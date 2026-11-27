@@ -18,7 +18,7 @@
  * Run locally: npm run sync:ats
  */
 
-import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rename, readdir, rm } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import {
   extractDeadline,
@@ -29,6 +29,7 @@ import { detailUrl, parseWorkdayDetail } from '../lib/workday-detail.mjs';
 import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } from '../lib/talnet.mjs';
 import { brandForTitle } from '../lib/title-brands.mjs';
 import { parseRolandBergerJobs, ROLAND_BERGER_JOBS_URL } from '../lib/rolandberger.mjs';
+import { descriptionFiles, permissionFor } from '../lib/description-permissions.mjs';
 import { avatureSearchUrl, parseAvatureSearch, isAvatureEmptyShell, AVATURE_PAGE } from '../lib/avature.mjs';
 import { successFactorsSearchUrl, parseSuccessFactorsSearch, isSuccessFactorsEmptyShell, SUCCESSFACTORS_PAGE } from '../lib/successfactors.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
@@ -82,6 +83,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = join(ROOT, 'lib/sources/ats-registry.json');
 const OUT = join(ROOT, 'data/opportunities.auto.json');
+const DESCRIPTIONS_DIR = join(ROOT, 'data/job-descriptions');
+const DESCRIPTION_PERMISSIONS = JSON.parse(readFileSync(join(ROOT, 'lib/sources/description-permissions.json'), 'utf8')).permissions ?? [];
+const capturedDescriptions = [];
 const UA = 'Mozilla/5.0 (compatible; L3vlupTracker/1.0; +https://l3vlup.com)';
 // tal.net's front end is rendered for browsers and returns an interstitial to
 // anything it does not recognise. Used only for that family.
@@ -1837,6 +1841,26 @@ export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever:
  * staged and pushed together, so a run that dies between them publishes none of
  * them rather than a feed whose slugs have no registry behind them.
  */
+/**
+ * The permitted descriptions, beside the feed (the contract in L3VLUP
+ * lib/job-descriptions.ts): an index carrying the active permissions, and one
+ * shard per FNV-1a byte. Stale shards are removed, so a permission that lapses
+ * or is withdrawn takes its text off the site on the next run. Only rows still
+ * in the feed are written.
+ */
+async function writeDescriptions(published) {
+  const live = new Set(published.map((o) => o.id));
+  const files = descriptionFiles(capturedDescriptions.filter((c) => live.has(c.id)), DESCRIPTION_PERMISSIONS, new Date());
+  await mkdir(DESCRIPTIONS_DIR, { recursive: true });
+  const keep = new Set(Object.keys(files));
+  for (const name of await readdir(DESCRIPTIONS_DIR).catch(() => [])) {
+    if (name.endsWith('.json') && !keep.has(name)) await rm(join(DESCRIPTIONS_DIR, name));
+  }
+  for (const [name, body] of Object.entries(files)) await writeAtomic(join(DESCRIPTIONS_DIR, name), JSON.stringify(body) + '\n');
+  const n = Object.values(files).reduce((sum, f) => sum + (f.shards ? 0 : Object.keys(f).length), 0);
+  console.log(`descriptions: ${n} published under ${files['index.json'].permissions.length} employer permission(s) → ${DESCRIPTIONS_DIR}`);
+}
+
 async function writeAtomic(path, contents) {
   const temp = `${path}.tmp`;
   await writeFile(temp, contents);
@@ -1979,7 +2003,15 @@ async function main() {
     const results = await Promise.allSettled(
       batch.map(async (f, k) => {
         const raw = await FETCHERS[f.ats](f, batchStats[k]);
-        const opps = raw.map((j) => toOpportunity(j, f)).filter(Boolean);
+        const pairs = raw.map((j) => [j, toOpportunity(j, f)]);
+        const opps = pairs.map(([, o]) => o).filter(Boolean);
+        // The employer's own description, kept only where the employer has
+        // given written permission to republish it (lib/sources/description-
+        // permissions.json). The readers already fetch the text; nothing extra
+        // is requested, and nothing is kept for anyone else.
+        if (permissionFor(DESCRIPTION_PERMISSIONS, f.firm, f.ats)) {
+          for (const [j, o] of pairs) if (o && j.description) capturedDescriptions.push({ id: o.id, employer: o.firm, system: f.ats, sourceUrl: j.url || o.applicationUrl, html: j.description });
+        }
         // Experienced rows, only from postings the line above refused, and
         // kept apart from `opps` all the way through: the ceiling, the board
         // check and the empty-board report below read early-career rows only.
@@ -2620,6 +2652,7 @@ async function main() {
     OUT,
     JSON.stringify({ generatedAt: stamp, count: all.length, opportunities: all }, null, 2) + '\n'
   );
+  await writeDescriptions(all);
   const xpPublished = all.filter(isExperiencedRow).length;
   console.log(
     `\n${all.length - xpPublished} early-career roles and ${xpPublished} experienced ` +
