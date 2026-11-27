@@ -53,6 +53,7 @@ export const SUITES = [
   'avature',
   'successfactors',
   'source-registry',
+  'description-permissions',
   'eightfold-janestreet',
   'smartrecruiters',
   'recruitee-pinpoint',
