@@ -260,6 +260,19 @@ a value that looks real but was invented is worse than a missing one. Series mer
 point-by-point across runs, so history accumulates and a failing source leaves the
 previous data intact rather than blanking a chart.
 
+**Before any automated request to a new host.** Collector readers are governed by
+`lib/sources/source-terms.json`. Anything else that fetches (a research agent, an audit,
+a one-off script) checks the host first:
+
+```bash
+node lib/restricted-hosts.mjs https://jobs.example.vc/jobs
+```
+
+It exits 3 for a host whose terms or robots.txt exclude automated reading (Getro and
+Consider boards, SmartRecruiters, aggregators, employers that refuse automated
+requests), and 2 for one owed a decision (Workday). Do not request either, not even
+robots.txt, until a recorded permission changes the entry.
+
 ---
 
 ## Running the collectors

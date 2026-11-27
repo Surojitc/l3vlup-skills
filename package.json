@@ -85,6 +85,7 @@
     "test:successfactors": "node scripts/__tests__/successfactors.test.mjs",
     "test:rolandberger": "node scripts/__tests__/rolandberger.test.mjs",
     "test:source-registry": "node scripts/__tests__/source-registry.test.mjs",
+    "test:restricted-hosts": "node scripts/__tests__/restricted-hosts.test.mjs",
     "test:title-brands": "node scripts/__tests__/title-brands.test.mjs"
   },
   "dependencies": {
