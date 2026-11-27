@@ -30,6 +30,7 @@ import { isTalnetGate, parseTalnetBoard, parseTalnetDeadline, talnetBoardUrl } f
 import { brandForTitle } from '../lib/title-brands.mjs';
 import { parseRolandBergerJobs, ROLAND_BERGER_JOBS_URL } from '../lib/rolandberger.mjs';
 import { avatureSearchUrl, parseAvatureSearch, AVATURE_PAGE } from '../lib/avature.mjs';
+import { successFactorsSearchUrl, parseSuccessFactorsSearch, SUCCESSFACTORS_PAGE } from '../lib/successfactors.mjs';
 import { eightfoldToJob, eightfoldUrl, paginateEightfold } from '../lib/eightfold.mjs';
 import { parseJaneStreetFeed } from '../lib/janestreet.mjs';
 import { RETENTION_DAYS, retainRoles } from '../lib/role-retention.mjs';
@@ -381,7 +382,7 @@ const NOT_CONSULTING_WORK =
  * an "Audit Associate" at PwC can no longer become one on the word associate.
  */
 const BIG_FOUR = /\b(deloitte|pwc|pricewaterhousecoopers|kpmg|ernst & young|\bey\b)/i;
-const SERVICE_LINE = /\b(audit|assurance|tax|accounting|bookkeeping)\b/i;
+const SERVICE_LINE = /\b(audit|assurance|tax|accounting|bookkeeping)\b|steuer|wirtschaftspr[uü]f|fiscal|fiscalit/i;
 
 /**
  * Finance work that keeps its existing vertical even at a consulting firm.
@@ -1749,30 +1750,36 @@ async function fetchWorkable(f) {
 // No ATS at all: a public JSON file behind a client-rendered page. The level
 // lives in `availability` rather than the title, so the filtering happens in
 // lib/janestreet.mjs before our own early-career rules ever see it.
-/* -------------------------------- Avature -------------------------------- */
-// Server-rendered search pages, ten a page (lib/avature.mjs). Registry rows
-// name the search terms that select campus roles (`queries`, default the cycle
-// years), and a page budget per firm keeps a large tenant to a bounded number
-// of polite requests: half a second apart, one at a time.
-const AVATURE_MAX_PAGES = 40;
-async function fetchAvature(f, stats = newRequestStats()) {
+// Registry rows of the two HTML-search families name the search terms that
+// select campus roles (`queries`, default the cycle years), and a page budget
+// per firm keeps a large tenant to a bounded number of polite requests.
+const HTML_SEARCH_MAX_PAGES = 40;
+
+/**
+ * The paged HTML search both Avature and SuccessFactors serve: for each query,
+ * pages of `pageSize` until the stated total, an empty page, a page that adds
+ * nothing new (a site that ignores the offset), or the firm's page budget.
+ * One request at a time, half a second apart.
+ */
+async function walkHtmlSearch(f, stats, { url, parse, pageSize }) {
   const year = new Date().getUTCFullYear();
   const queries = f.queries ?? [String(year + 1), String(year + 2)];
+  const budget = f.maxPages ?? HTML_SEARCH_MAX_PAGES;
   const seen = new Map();
   let pages = 0;
   for (const q of queries) {
-    for (let offset = 0; pages < (f.maxPages ?? AVATURE_MAX_PAGES); offset += AVATURE_PAGE) {
+    for (let offset = 0; pages < budget; offset += pageSize) {
       pages++;
       stats.attempts++;
       let page;
       try {
-        const res = await fetch(avatureSearchUrl(f, q, offset), {
+        const res = await fetch(url(f, q, offset), {
           headers: { 'User-Agent': UA, Accept: 'text/html' },
           redirect: 'follow',
           signal: AbortSignal.timeout(TIMEOUT_MS),
         });
         if (!res.ok) throw new Error(`${res.status}`);
-        page = parseAvatureSearch(await res.text());
+        page = parse(await res.text(), f.host);
       } catch (e) {
         stats.failures++;
         if (offset === 0) throw e;
@@ -1780,14 +1787,24 @@ async function fetchAvature(f, stats = newRequestStats()) {
       }
       const before = seen.size;
       for (const j of page.jobs) if (!seen.has(j.id)) seen.set(j.id, j);
-      // Stop at the stated total, on an empty page, or on a page that added
-      // nothing new (a tenant that ignores the offset replays page one).
-      if (!page.jobs.length || seen.size === before || offset + AVATURE_PAGE >= page.total) break;
+      if (!page.jobs.length || seen.size === before || (page.total && offset + pageSize >= page.total)) break;
       await new Promise((r) => setTimeout(r, 500));
     }
   }
-  if (pages >= (f.maxPages ?? AVATURE_MAX_PAGES)) stats.capped = true;
+  if (pages >= budget) stats.capped = true;
   return [...seen.values()].map((j) => (f.defaultLocation && /^multiple locations$/i.test(j.location) ? { ...j, location: f.defaultLocation } : j));
+}
+
+/* -------------------------------- Avature -------------------------------- */
+// Server-rendered search pages, ten a page (lib/avature.mjs).
+async function fetchAvature(f, stats = newRequestStats()) {
+  return walkHtmlSearch(f, stats, { url: avatureSearchUrl, parse: parseAvatureSearch, pageSize: AVATURE_PAGE });
+}
+
+/* ----------------------------- SuccessFactors ----------------------------- */
+// Server-rendered search pages, 25 a page (lib/successfactors.mjs).
+async function fetchSuccessFactors(f, stats = newRequestStats()) {
+  return walkHtmlSearch(f, stats, { url: successFactorsSearchUrl, parse: parseSuccessFactorsSearch, pageSize: SUCCESSFACTORS_PAGE });
 }
 
 async function fetchJaneStreet() {
@@ -1803,7 +1820,7 @@ async function fetchJaneStreet() {
 // for roughly one role. Recorded here so the next person can see it was
 // measured rather than missed.
 
-export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, rolandberger: fetchRolandBerger, avature: fetchAvature, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
+export const FETCHERS = { greenhouse: fetchGreenhouse, ashby: fetchAshby, lever: fetchLever, workday: fetchWorkday, oracle: fetchOracle, talnet: fetchTalnet, eightfold: fetchEightfold, janestreet: fetchJaneStreet, smartrecruiters: fetchSmartRecruiters, rolandberger: fetchRolandBerger, avature: fetchAvature, successfactors: fetchSuccessFactors, recruitee: fetchRecruitee, pinpoint: fetchPinpoint, workable: fetchWorkable };
 
 /**
  * Write a file the way a consumer may read it at any moment.

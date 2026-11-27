@@ -51,6 +51,7 @@ export const SUITES = [
   'title-brands',
   'rolandberger',
   'avature',
+  'successfactors',
   'source-registry',
   'eightfold-janestreet',
   'smartrecruiters',

@@ -121,6 +121,13 @@
       "permitted": "unclear",
       "basis": "Reviewed row by row.",
       "attribution": "Link each role to the employer's own posting."
+    },
+    "successfactors": {
+      "endpoint": "{host}/{site}/search/?q={term}&startrow={n}",
+      "permitted": true,
+      "basis": "The employer's own SuccessFactors career site, server-rendered. robots.txt on careers.ey.com and careers.fitch.group disallows the apply, talent-community, email and /services/ paths and not the search (read 27 November 2026).",
+      "attribution": "Link each role to the employer's own posting.",
+      "limitations": "Search is fuzzy; the early-career filter decides. 25 a page; a firm is held to 40 pages a run, half a second apart."
     }
   },
   "notRead": {

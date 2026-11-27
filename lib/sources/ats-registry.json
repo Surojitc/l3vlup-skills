@@ -2324,6 +2324,36 @@
       "discoveredVia": "https://bloomberg.avature.net/careers",
       "discoveredAt": "2026-11-27",
       "postingsAtDiscovery": 184
+    },
+    {
+      "firm": "EY",
+      "ats": "successfactors",
+      "host": "careers.ey.com",
+      "site": "ey",
+      "queries": [
+        "internship",
+        "graduate",
+        "summer analyst"
+      ],
+      "tier": "Consulting",
+      "discoveredVia": "https://careers.ey.com/",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 798
+    },
+    {
+      "firm": "Fitch Ratings",
+      "ats": "successfactors",
+      "host": "careers.fitch.group",
+      "site": "",
+      "queries": [
+        "intern",
+        "graduate",
+        "analyst"
+      ],
+      "tier": "Other",
+      "discoveredVia": "https://careers.fitch.group/",
+      "discoveredAt": "2026-11-27",
+      "postingsAtDiscovery": 144
     }
   ]
 }
